@@ -30,6 +30,7 @@
         {
             button1 = new Button();
             button2 = new Button();
+            treeView1 = new TreeView();
             SuspendLayout();
             // 
             // button1
@@ -50,11 +51,19 @@
             button2.Text = "helooo";
             button2.UseVisualStyleBackColor = true;
             // 
+            // treeView1
+            // 
+            treeView1.Location = new Point(25, 50);
+            treeView1.Name = "treeView1";
+            treeView1.Size = new Size(182, 146);
+            treeView1.TabIndex = 2;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(treeView1);
             Controls.Add(button2);
             Controls.Add(button1);
             Name = "Form1";
@@ -66,5 +75,6 @@
 
         private Button button1;
         private Button button2;
+        private TreeView treeView1;
     }
 }
