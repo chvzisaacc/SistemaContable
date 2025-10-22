@@ -33,6 +33,7 @@
             treeView1 = new TreeView();
             btnSalir = new Button();
             button1 = new Button();
+            checkBox1 = new CheckBox();
             SuspendLayout();
             // 
             // btn1
@@ -52,7 +53,7 @@
             button2.Name = "button2";
             button2.Size = new Size(353, 73);
             button2.TabIndex = 1;
-            button2.Text = "Isaacasdasduestoasdasd";
+            button2.Text = "ISAAC SELLACO";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
@@ -85,11 +86,22 @@
             button1.Text = "Quesito_rico";
             button1.UseVisualStyleBackColor = true;
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(522, 69);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(101, 24);
+            checkBox1.TabIndex = 5;
+            checkBox1.Text = "checkBox1";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(678, 385);
+            Controls.Add(checkBox1);
             Controls.Add(button1);
             Controls.Add(btnSalir);
             Controls.Add(treeView1);
@@ -99,6 +111,7 @@
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -108,5 +121,6 @@
         private TreeView treeView1;
         private Button btnSalir;
         private Button button1;
+        private CheckBox checkBox1;
     }
 }
