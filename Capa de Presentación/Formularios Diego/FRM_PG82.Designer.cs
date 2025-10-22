@@ -1,6 +1,6 @@
 ﻿namespace Capa_de_Presentación.Formularios_Diego
 {
-    partial class FRM_PG77
+    partial class FRM_PG82
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG77));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG82));
             panel1 = new Panel();
             panel2 = new Panel();
             textBox2 = new TextBox();
@@ -46,15 +46,27 @@
             pictureBox1 = new PictureBox();
             panel5 = new Panel();
             panel3 = new Panel();
+            comboBox2 = new ComboBox();
+            comboBox3 = new ComboBox();
+            pictureBox3 = new PictureBox();
+            textBox3 = new TextBox();
+            comboBox4 = new ComboBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(comboBox4);
+            panel1.Controls.Add(textBox3);
+            panel1.Controls.Add(pictureBox3);
+            panel1.Controls.Add(comboBox3);
+            panel1.Controls.Add(comboBox2);
+            panel1.Controls.Add(panel3);
             panel1.Controls.Add(panel2);
             panel1.Controls.Add(panel4);
             panel1.Controls.Add(label5);
@@ -64,10 +76,10 @@
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(panel5);
-            panel1.Location = new Point(35, 21);
+            panel1.Location = new Point(29, 21);
             panel1.Name = "panel1";
             panel1.Size = new Size(845, 496);
-            panel1.TabIndex = 0;
+            panel1.TabIndex = 1;
             // 
             // panel2
             // 
@@ -79,7 +91,7 @@
             panel2.Controls.Add(label6);
             panel2.Location = new Point(194, 209);
             panel2.Name = "panel2";
-            panel2.Size = new Size(406, 232);
+            panel2.Size = new Size(0, 0);
             panel2.TabIndex = 8;
             // 
             // textBox2
@@ -135,7 +147,6 @@
             comboBox1.Size = new Size(205, 33);
             comboBox1.TabIndex = 11;
             comboBox1.Text = "      Cuentas";
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // label6
             // 
@@ -183,7 +194,6 @@
             label3.Size = new Size(85, 31);
             label3.TabIndex = 3;
             label3.Text = "Gastos";
-            label3.Click += label3_Click;
             // 
             // label2
             // 
@@ -214,62 +224,124 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
             // 
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(43, 56, 143);
             panel5.Location = new Point(191, 206);
             panel5.Name = "panel5";
-            panel5.Size = new Size(412, 238);
+            panel5.Size = new Size(0, 0);
             panel5.TabIndex = 9;
             // 
             // panel3
             // 
+            panel3.BackColor = Color.FromArgb(43, 56, 143);
             panel3.Enabled = false;
-            panel3.Location = new Point(35, 193);
+            panel3.Location = new Point(0, 173);
             panel3.Name = "panel3";
             panel3.Size = new Size(845, 3);
-            panel3.TabIndex = 7;
+            panel3.TabIndex = 8;
             panel3.Paint += panel3_Paint;
             // 
-            // FRM_PG77
+            // comboBox2
+            // 
+            comboBox2.BackColor = Color.FromArgb(251, 203, 51);
+            comboBox2.FlatStyle = FlatStyle.Flat;
+            comboBox2.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Location = new Point(42, 215);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(205, 33);
+            comboBox2.TabIndex = 12;
+            comboBox2.Text = "            Cuentas";
+            // 
+            // comboBox3
+            // 
+            comboBox3.BackColor = Color.FromArgb(251, 203, 51);
+            comboBox3.FlatStyle = FlatStyle.Flat;
+            comboBox3.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            comboBox3.FormattingEnabled = true;
+            comboBox3.Location = new Point(42, 297);
+            comboBox3.Name = "comboBox3";
+            comboBox3.Size = new Size(205, 33);
+            comboBox3.TabIndex = 13;
+            comboBox3.Text = " Intereses Bancarios";
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
+            pictureBox3.Location = new Point(20, 358);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(269, 82);
+            pictureBox3.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBox3.TabIndex = 14;
+            pictureBox3.TabStop = false;
+            pictureBox3.Click += pictureBox3_Click;
+            // 
+            // textBox3
+            // 
+            textBox3.BackColor = Color.FromArgb(251, 203, 51);
+            textBox3.BorderStyle = BorderStyle.None;
+            textBox3.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox3.Location = new Point(146, 382);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(45, 31);
+            textBox3.TabIndex = 15;
+            textBox3.Text = "CD";
+            // 
+            // comboBox4
+            // 
+            comboBox4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            comboBox4.FormattingEnabled = true;
+            comboBox4.Items.AddRange(new object[] { "Agregar saldo", "Transferencia entre cuentas", "Agregar cuenta bancaria", "Retirar dinero" });
+            comboBox4.Location = new Point(495, 228);
+            comboBox4.Name = "comboBox4";
+            comboBox4.Size = new Size(151, 36);
+            comboBox4.TabIndex = 16;
+            comboBox4.Text = "     Acciones";
+            // 
+            // FRM_PG82
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(907, 548);
-            Controls.Add(panel3);
             Controls.Add(panel1);
-            Name = "FRM_PG77";
-            Text = "FRM_PG77";
+            Name = "FRM_PG82";
+            Text = "FRM_PG82";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Panel panel1;
-        private PictureBox pictureBox1;
-        private Label label1;
-        private Label label3;
-        private Label label2;
-        private Label label5;
-        private Label label4;
-        private Panel panel3;
         private Panel panel2;
+        private TextBox textBox2;
+        private PictureBox pictureBox2;
         private TextBox textBox1;
         private Label label7;
         private ComboBox comboBox1;
         private Label label6;
         private Panel panel4;
+        private Label label5;
+        private Label label4;
+        private Label label3;
+        private Label label2;
+        private Label label1;
+        private PictureBox pictureBox1;
         private Panel panel5;
-        private PictureBox pictureBox2;
-        private TextBox textBox2;
+        private Panel panel3;
+        private ComboBox comboBox3;
+        private ComboBox comboBox2;
+        private PictureBox pictureBox3;
+        private TextBox textBox3;
+        private ComboBox comboBox4;
     }
 }
