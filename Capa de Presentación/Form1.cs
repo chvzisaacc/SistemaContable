@@ -21,5 +21,10 @@ namespace Capa_de_Presentación
         {
 
         }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            
+        }
     }
 }

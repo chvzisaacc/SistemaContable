@@ -32,57 +32,70 @@
             button2 = new Button();
             treeView1 = new TreeView();
             btnSalir = new Button();
+            button1 = new Button();
             SuspendLayout();
             // 
             // btn1
             // 
-            btn1.Location = new Point(447, 168);
-            btn1.Margin = new Padding(2, 2, 2, 2);
+            btn1.Location = new Point(511, 224);
+            btn1.Margin = new Padding(2, 3, 2, 3);
             btn1.Name = "btn1";
-            btn1.Size = new Size(75, 27);
+            btn1.Size = new Size(86, 36);
             btn1.TabIndex = 0;
             btn1.Text = "button1";
             btn1.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            button2.Location = new Point(117, 168);
-            button2.Margin = new Padding(2, 2, 2, 2);
+            button2.Location = new Point(134, 224);
+            button2.Margin = new Padding(2, 3, 2, 3);
             button2.Name = "button2";
-            button2.Size = new Size(309, 55);
+            button2.Size = new Size(353, 73);
             button2.TabIndex = 1;
-            button2.Text = "helio";
+            button2.Text = "Isaacasdasduesto";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
             // treeView1
             // 
-            treeView1.Location = new Point(213, 65);
-            treeView1.Margin = new Padding(2, 2, 2, 2);
+            treeView1.Location = new Point(243, 87);
+            treeView1.Margin = new Padding(2, 3, 2, 3);
             treeView1.Name = "treeView1";
-            treeView1.Size = new Size(129, 89);
+            treeView1.Size = new Size(147, 117);
             treeView1.TabIndex = 2;
+            treeView1.AfterSelect += treeView1_AfterSelect;
             // 
             // btnSalir
             // 
-            btnSalir.Location = new Point(447, 200);
+            btnSalir.Location = new Point(511, 267);
+            btnSalir.Margin = new Padding(3, 4, 3, 4);
             btnSalir.Name = "btnSalir";
-            btnSalir.Size = new Size(75, 23);
+            btnSalir.Size = new Size(86, 31);
             btnSalir.TabIndex = 3;
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = true;
             btnSalir.Click += button3_Click;
             // 
+            // button1
+            // 
+            button1.Location = new Point(514, 159);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 4;
+            button1.Text = "Quesito_rico";
+            button1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(560, 270);
+            ClientSize = new Size(678, 385);
+            Controls.Add(button1);
             Controls.Add(btnSalir);
             Controls.Add(treeView1);
             Controls.Add(button2);
             Controls.Add(btn1);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2, 3, 2, 3);
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);
@@ -94,5 +107,6 @@
         private Button button2;
         private TreeView treeView1;
         private Button btnSalir;
+        private Button button1;
     }
 }
