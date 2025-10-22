@@ -4,12 +4,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.14.36603.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa de Presentación", "Capa de Presentación\Capa de Presentación.csproj", "{D76D8993-6EB9-48C2-9B64-6B371B60B07C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{182A002F-A02E-4324-8143-B31B6A0268C0} = {182A002F-A02E-4324-8143-B31B6A0268C0}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa de procesamiento de datos", "Capa de procesamiento de datos\Capa de procesamiento de datos.csproj", "{182A002F-A02E-4324-8143-B31B6A0268C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa de acceso de datos", "Capa de acceso de datos\Capa de acceso de datos.csproj", "{726B9336-11A8-4B06-AD4F-3376E43C0783}"
+	ProjectSection(ProjectDependencies) = postProject
+		{182A002F-A02E-4324-8143-B31B6A0268C0} = {182A002F-A02E-4324-8143-B31B6A0268C0}
+		{D76D8993-6EB9-48C2-9B64-6B371B60B07C} = {D76D8993-6EB9-48C2-9B64-6B371B60B07C}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa de historial", "Capa de historial\Capa de historial.csproj", "{1CF2AC64-F398-4755-BEFC-B4F103E36E07}"
+	ProjectSection(ProjectDependencies) = postProject
+		{182A002F-A02E-4324-8143-B31B6A0268C0} = {182A002F-A02E-4324-8143-B31B6A0268C0}
+		{726B9336-11A8-4B06-AD4F-3376E43C0783} = {726B9336-11A8-4B06-AD4F-3376E43C0783}
+		{D76D8993-6EB9-48C2-9B64-6B371B60B07C} = {D76D8993-6EB9-48C2-9B64-6B371B60B07C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
