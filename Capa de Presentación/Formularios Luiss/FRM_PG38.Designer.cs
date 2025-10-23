@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG38));
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            pictureBox3 = new PictureBox();
             label1 = new Label();
             btnVolver = new Button();
             comboBox1 = new ComboBox();
@@ -46,10 +47,9 @@
             cmbParroquia = new ComboBox();
             lblConsulte = new Label();
             lblTitulo = new Label();
-            pictureBox3 = new PictureBox();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvBitacora).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvBitacora).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -73,13 +73,23 @@
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
+            pictureBox3.Location = new Point(39, 0);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(131, 122);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 9;
+            pictureBox3.TabStop = false;
+            // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(215, 26);
+            label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(204, 30);
             label1.Name = "label1";
-            label1.Size = new Size(182, 30);
+            label1.Size = new Size(219, 32);
             label1.TabIndex = 8;
             label1.Text = "ADMINISTRADOR";
             label1.Click += label1_Click_1;
@@ -125,19 +135,19 @@
             // dgvBitacora
             // 
             dgvBitacora.BackgroundColor = SystemColors.ControlLightLight;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(141, 215, 247);
-            dataGridViewCellStyle1.Font = new Font("Times New Roman", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvBitacora.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(0, 113, 187);
+            dataGridViewCellStyle2.Font = new Font("Times New Roman", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.Window;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvBitacora.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvBitacora.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvBitacora.Columns.AddRange(new DataGridViewColumn[] { cTarea, cModulo, cRealizadopor, cFecha, cHora, cDescripcion });
             dgvBitacora.EnableHeadersVisualStyles = false;
             dgvBitacora.GridColor = SystemColors.MenuText;
-            dgvBitacora.Location = new Point(59, 210);
+            dgvBitacora.Location = new Point(59, 220);
             dgvBitacora.Name = "dgvBitacora";
             dgvBitacora.Size = new Size(944, 392);
             dgvBitacora.TabIndex = 4;
@@ -206,10 +216,10 @@
             // lblConsulte
             // 
             lblConsulte.AutoSize = true;
-            lblConsulte.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblConsulte.Location = new Point(59, 158);
+            lblConsulte.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblConsulte.Location = new Point(59, 173);
             lblConsulte.Name = "lblConsulte";
-            lblConsulte.Size = new Size(714, 30);
+            lblConsulte.Size = new Size(752, 30);
             lblConsulte.TabIndex = 1;
             lblConsulte.Text = "Consulte en cualquier momento que hizo cada encargado de las parroquias";
             lblConsulte.Click += lblConsulte_Click;
@@ -217,23 +227,13 @@
             // lblTitulo
             // 
             lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTitulo.Location = new Point(59, 115);
+            lblTitulo.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitulo.Location = new Point(59, 125);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(704, 30);
+            lblTitulo.Size = new Size(745, 30);
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "BITACORA DEL SISTEMA, CADA ACCIÓN DEL SISTEMA REGISTRADA AQUÍ";
             lblTitulo.Click += lblTitulo_Click;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(39, 0);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(131, 122);
-            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox3.TabIndex = 9;
-            pictureBox3.TabStop = false;
             // 
             // FRM_PG38
             // 
@@ -247,8 +247,8 @@
             Load += FRM_PG38_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvBitacora).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvBitacora).EndInit();
             ResumeLayout(false);
         }
 

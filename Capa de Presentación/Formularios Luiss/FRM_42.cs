@@ -19,7 +19,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Botón de menú presionado");
+            FRM_SERVICIOS popup = new FRM_SERVICIOS();
+            var buttonScreenPosition = pictureBox1.PointToScreen(Point.Empty);
+            popup.StartPosition = FormStartPosition.Manual;
+            popup.Location = new Point(buttonScreenPosition.X, buttonScreenPosition.Y + pictureBox1.Height);
+            popup.ShowDialog();
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -39,10 +43,32 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            Pen miPluma = new Pen(Color.SkyBlue, 2);
-            e.Graphics.DrawLine(miPluma, 0, panel1.Height / 2, panel1.Width, panel1.Height / 2);
+
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            FRM_CERRARSESION popup = new FRM_CERRARSESION();
+            var buttonScreenPosition = pictureBox2.PointToScreen(Point.Empty);
+            popup.StartPosition = FormStartPosition.Manual;
+            popup.Location = new Point(buttonScreenPosition.X, buttonScreenPosition.Y + pictureBox2.Height);
+            popup.ShowDialog();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
