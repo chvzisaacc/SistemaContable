@@ -17,6 +17,20 @@ namespace Capa_de_Presentación.Formularios_Luiss
             InitializeComponent();
         }
 
+        //Método para mostrar el panel seleccionado y ocultar los demás
+        private void MostrarPanel(Panel panelActivo)
+        {
+            // Oculta todos los paneles
+            panelIngresos.Visible = false;
+            panelGastos.Visible = false;
+            panelCajaChica.Visible = false;
+            panelBancos.Visible = false;
+            // Muestra solo el panel seleccionado}
+            pibImage.Visible = true;
+            lblNoSeleccionado.Visible = true;
+            panelActivo.Visible = true;
+        }
+
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             FRM_SERVICIOS popup = new FRM_SERVICIOS();
@@ -46,11 +60,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             FRM_CERRARSESION popup = new FRM_CERRARSESION();
@@ -67,7 +76,40 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button3_Click(object sender, EventArgs e)
         {
+            MostrarPanel(panelBancos);
+            pibImage.Visible = false;
+            lblNoSeleccionado.Visible = false;
+        }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnIngresos_Click(object sender, EventArgs e)
+        {
+            MostrarPanel(panelIngresos);
+            pibImage.Visible = false;
+            lblNoSeleccionado.Visible = false;
+        }
+
+        private void btnGastos_Click(object sender, EventArgs e)
+        {
+            MostrarPanel(panelGastos);
+            pibImage.Visible = false;
+            lblNoSeleccionado.Visible = false;
+        }
+
+        private void btnCajaChica_Click(object sender, EventArgs e)
+        {
+            MostrarPanel(panelCajaChica);
+            pibImage.Visible = false;
+            lblNoSeleccionado.Visible = false;
+        }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
