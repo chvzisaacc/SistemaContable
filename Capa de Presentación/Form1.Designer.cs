@@ -38,20 +38,20 @@
             // 
             // btn1
             // 
-            btn1.Location = new Point(639, 280);
-            btn1.Margin = new Padding(2, 4, 2, 4);
+            btn1.Location = new Point(511, 224);
+            btn1.Margin = new Padding(2, 3, 2, 3);
             btn1.Name = "btn1";
-            btn1.Size = new Size(108, 45);
+            btn1.Size = new Size(86, 36);
             btn1.TabIndex = 0;
             btn1.Text = "button1";
             btn1.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            button2.Location = new Point(168, 280);
-            button2.Margin = new Padding(2, 4, 2, 4);
+            button2.Location = new Point(134, 224);
+            button2.Margin = new Padding(2, 3, 2, 3);
             button2.Name = "button2";
-            button2.Size = new Size(441, 91);
+            button2.Size = new Size(353, 73);
             button2.TabIndex = 1;
             button2.Text = "IISAAACADADASDtoBALEADAAAAAAAAAAAAAAAAAAAA";
             button2.UseVisualStyleBackColor = true;
@@ -59,19 +59,19 @@
             // 
             // treeView1
             // 
-            treeView1.Location = new Point(304, 109);
-            treeView1.Margin = new Padding(2, 4, 2, 4);
+            treeView1.Location = new Point(243, 87);
+            treeView1.Margin = new Padding(2, 3, 2, 3);
             treeView1.Name = "treeView1";
-            treeView1.Size = new Size(183, 145);
+            treeView1.Size = new Size(147, 117);
             treeView1.TabIndex = 2;
             treeView1.AfterSelect += treeView1_AfterSelect;
             // 
             // btnSalir
             // 
-            btnSalir.Location = new Point(639, 334);
-            btnSalir.Margin = new Padding(4, 5, 4, 5);
+            btnSalir.Location = new Point(511, 267);
+            btnSalir.Margin = new Padding(3, 4, 3, 4);
             btnSalir.Name = "btnSalir";
-            btnSalir.Size = new Size(108, 39);
+            btnSalir.Size = new Size(86, 31);
             btnSalir.TabIndex = 3;
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = true;
@@ -79,10 +79,9 @@
             // 
             // button1
             // 
-            button1.Location = new Point(642, 199);
-            button1.Margin = new Padding(4, 4, 4, 4);
+            button1.Location = new Point(514, 159);
             button1.Name = "button1";
-            button1.Size = new Size(118, 36);
+            button1.Size = new Size(94, 29);
             button1.TabIndex = 4;
             button1.Text = "Quesito_rico";
             button1.UseVisualStyleBackColor = true;
@@ -90,26 +89,25 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(652, 86);
-            checkBox1.Margin = new Padding(4, 4, 4, 4);
+            checkBox1.Location = new Point(522, 69);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(121, 29);
+            checkBox1.Size = new Size(101, 24);
             checkBox1.TabIndex = 5;
             checkBox1.Text = "checkBox1";
             checkBox1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(848, 481);
+            ClientSize = new Size(1902, 1033);
             Controls.Add(checkBox1);
             Controls.Add(button1);
             Controls.Add(btnSalir);
             Controls.Add(treeView1);
             Controls.Add(button2);
             Controls.Add(btn1);
-            Margin = new Padding(2, 4, 2, 4);
+            Margin = new Padding(2, 3, 2, 3);
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);
