@@ -33,6 +33,7 @@
             label2 = new Label();
             textBox2 = new TextBox();
             button1 = new Button();
+            label3 = new Label();
             SuspendLayout();
             // 
             // textBox1
@@ -84,8 +85,9 @@
             // 
             // button1
             // 
-            button1.BackColor = SystemColors.GradientInactiveCaption;
+            button1.BackColor = Color.FromArgb(43, 56, 143);
             button1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.ForeColor = Color.Transparent;
             button1.Location = new Point(271, 400);
             button1.Name = "button1";
             button1.Size = new Size(265, 71);
@@ -94,12 +96,27 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.Transparent;
+            label3.Location = new Point(296, 474);
+            label3.Name = "label3";
+            label3.Size = new Size(213, 23);
+            label3.TabIndex = 5;
+            label3.Text = "¿Olvidaste tu contraseña?";
+            label3.TextAlign = ContentAlignment.TopRight;
+            label3.Click += label3_Click;
+            // 
             // FRM_PG1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Imagen_de_WhatsApp_2025_10_21_a_las_22_22_16_14a2ddba;
-            ClientSize = new Size(1279, 719);
+            ClientSize = new Size(1282, 719);
+            Controls.Add(label3);
             Controls.Add(button1);
             Controls.Add(label2);
             Controls.Add(textBox2);
@@ -119,5 +136,6 @@
         private Label label2;
         private TextBox textBox2;
         private Button button1;
+        private Label label3;
     }
 }
