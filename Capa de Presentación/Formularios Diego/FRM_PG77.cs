@@ -41,5 +41,10 @@ namespace Capa_de_Presentación.Formularios_Diego
         {
 
         }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
