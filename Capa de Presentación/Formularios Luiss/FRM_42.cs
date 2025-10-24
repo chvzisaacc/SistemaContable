@@ -95,21 +95,40 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void btnGastos_Click(object sender, EventArgs e)
         {
-            MostrarPanel(panelGastos);
+            MostrarPanel(panelGastos2);
             pibImage.Visible = false;
             lblNoSeleccionado.Visible = false;
         }
 
         private void btnCajaChica_Click(object sender, EventArgs e)
         {
-            MostrarPanel(panelCajaChica);
+            MostrarPanel(panelCajaChica2);
             pibImage.Visible = false;
             lblNoSeleccionado.Visible = false;
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDetalle_Click(object sender, EventArgs e)
+        {
+            using (var frm = new FRM_PG69()) // tu formulario emergente
+            {
+                frm.StartPosition = FormStartPosition.CenterParent;
+                frm.ShowDialog(this); // bloquea la ventana principal hasta cerrar
+            }
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }
