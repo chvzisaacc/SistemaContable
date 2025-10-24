@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Capa_de_acceso_de_datos;
 
 
 namespace Capa_de_Presentación.Formularios_Ewin
@@ -46,6 +47,38 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            string correo = txtCorreo.Text.Trim();
+
+            if (string.IsNullOrEmpty(correo))
+            {
+                MessageBox.Show("Por favor ingrese su correo electrónico.");
+                return;
+            }
+
+            ClsAccionesDB acciones = new ClsAccionesDB();
+            int usuarioId = acciones.ObtenerUsuarioIdPorCorreo(correo);
+
+            if (usuarioId == 0)
+            {
+                MessageBox.Show("Este correo no está registrado.");
+                return;
+            }
+
+            var sistema = new Capa_de_acceso_de_datos.CORREO.Sistema();
+
+            string codigo = sistema.GenerarCodigo();
+            acciones.GuardarCodigoRecuperacion(usuarioId, codigo);
+            sistema.EnviarCodigoVerificacion(correo, codigo);
+
+            MessageBox.Show("Se ha enviado un código de verificación a su correo.");
+
+            FRM_PG3 objingresar = new FRM_PG3(usuarioId);
+            objingresar.Show();
+            this.Hide();
         }
     }
 }

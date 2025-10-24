@@ -18,6 +18,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         public FRM_PG1()
         {
             InitializeComponent();
+            //this.FormClosing += FRM_PG1_FormClosing;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -38,7 +39,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void label3_Click(object sender, EventArgs e)
         {
-
+            FRM_PG2 objrecu = new FRM_PG2();
+            objrecu.Show();
+            this.Hide();
         }
 
         private void txtUsuario_Click(object sender, EventArgs e)

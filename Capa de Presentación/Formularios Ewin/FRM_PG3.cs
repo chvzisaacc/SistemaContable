@@ -13,7 +13,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 {
     public partial class FRM_PG3 : Form
     {
-        public FRM_PG3()
+        public FRM_PG3(int usuarioId)
         {
             InitializeComponent();
         }

@@ -30,7 +30,7 @@
         {
             panel1 = new Panel();
             panel2 = new Panel();
-            textBox1 = new TextBox();
+            txtCorreo = new TextBox();
             button1 = new Button();
             label3 = new Label();
             label2 = new Label();
@@ -55,7 +55,7 @@
             // 
             panel2.BackColor = Color.White;
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(textBox1);
+            panel2.Controls.Add(txtCorreo);
             panel2.Controls.Add(button1);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(label2);
@@ -67,14 +67,14 @@
             panel2.Size = new Size(620, 550);
             panel2.TabIndex = 0;
             // 
-            // textBox1
+            // txtCorreo
             // 
-            textBox1.Location = new Point(70, 194);
-            textBox1.Margin = new Padding(4);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(495, 31);
-            textBox1.TabIndex = 2;
-            textBox1.TextChanged += textBox1_TextChanged;
+            txtCorreo.Location = new Point(70, 194);
+            txtCorreo.Margin = new Padding(4);
+            txtCorreo.Name = "txtCorreo";
+            txtCorreo.Size = new Size(495, 31);
+            txtCorreo.TabIndex = 2;
+            txtCorreo.TextChanged += textBox1_TextChanged;
             // 
             // button1
             // 
@@ -90,6 +90,7 @@
             button1.Text = "Restablecer Contraseña";
             button1.UseVisualStyleBackColor = false;
             button1.UseWaitCursor = true;
+            button1.Click += button1_Click_1;
             // 
             // label3
             // 
@@ -147,7 +148,7 @@
 
         private Panel panel1;
         private Panel panel2;
-        private TextBox textBox1;
+        private TextBox txtCorreo;
         private Label label2;
         private Label label1;
         private Label label3;
