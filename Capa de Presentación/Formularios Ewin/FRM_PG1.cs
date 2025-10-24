@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using capa_de_acceso_de_datos;
+//using capa_de_acceso_de_datos;
 
 
 namespace Capa_de_Presentación.Formularios_Ewin

@@ -15,21 +15,49 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_42()
         {
             InitializeComponent();
+            // Agrega los paneles secundarios dentro del panel contenedor
+            panelContenedor.Controls.Add(panelGastos2);
+            panelContenedor.Controls.Add(panelCajaChica2);
+            panelContenedor.Controls.Add(panelBancos2);
+            panelContenedor.Controls.Add(panelIngresos);
+
+            // Opcional: muestra uno por defecto
+            MostrarSoloEstePanel(panelIngresos);
         }
 
-        //Método para mostrar el panel seleccionado y ocultar los demás
-        private void MostrarPanel(Panel panelActivo)
+        private void MostrarSoloEstePanel(Panel panelAMostrar)
         {
-            // Oculta todos los paneles
-            panelIngresos.Visible = false;
-            panelGastos.Visible = false;
-            panelCajaChica.Visible = false;
-            panelBancos.Visible = false;
-            // Muestra solo el panel seleccionado}
-            pibImage.Visible = true;
-            lblNoSeleccionado.Visible = true;
-            panelActivo.Visible = true;
+            foreach (Control ctrl in panelContenedor.Controls)
+            {
+                if (ctrl is Panel)
+                    ctrl.Visible = false;
+            }
+            panelAMostrar.Visible = true;
+            panelAMostrar.BringToFront();
         }
+
+        private void btnIngresos_Click(object sender, EventArgs e)
+        {
+            MostrarSoloEstePanel(panelIngresos);
+        }
+
+        private void btnGastos_Click(object sender, EventArgs e)
+        {
+            MostrarSoloEstePanel(panelGastos2);
+        }
+
+        private void btnCajaChica_Click(object sender, EventArgs e)
+        {
+            MostrarSoloEstePanel(panelCajaChica2);
+        }
+
+        private void btnBancos_Click(object sender, EventArgs e)
+        {
+            MostrarSoloEstePanel(panelBancos2);
+        }
+
+
+
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -74,39 +102,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            MostrarPanel(panelBancos);
-            pibImage.Visible = false;
-            lblNoSeleccionado.Visible = false;
-        }
+      
 
         private void button2_Click(object sender, EventArgs e)
         {
 
         }
-
-        private void btnIngresos_Click(object sender, EventArgs e)
-        {
-            MostrarPanel(panelIngresos);
-            pibImage.Visible = false;
-            lblNoSeleccionado.Visible = false;
-        }
-
-        private void btnGastos_Click(object sender, EventArgs e)
-        {
-            MostrarPanel(panelGastos2);
-            pibImage.Visible = false;
-            lblNoSeleccionado.Visible = false;
-        }
-
-        private void btnCajaChica_Click(object sender, EventArgs e)
-        {
-            MostrarPanel(panelCajaChica2);
-            pibImage.Visible = false;
-            lblNoSeleccionado.Visible = false;
-        }
-
+ 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
 
