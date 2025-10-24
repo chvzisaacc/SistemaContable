@@ -48,5 +48,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             ClsVerificarCod verificador = new ClsVerificarCod();
             verificador.ProcesarCodigoRecuperacion(_usuarioId, codigo, this);
         }
+
+        private void txt1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

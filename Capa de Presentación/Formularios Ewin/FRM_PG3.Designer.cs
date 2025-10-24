@@ -156,6 +156,7 @@
             txt1.Name = "txt1";
             txt1.Size = new Size(76, 87);
             txt1.TabIndex = 7;
+            txt1.TextChanged += txt1_TextChanged;
             // 
             // label1
             // 
