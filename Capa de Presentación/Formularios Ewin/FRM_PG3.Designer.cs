@@ -30,16 +30,16 @@
         {
             panel1 = new Panel();
             panel2 = new Panel();
-            button1 = new Button();
-            label1 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
-            textBox4 = new TextBox();
-            textBox5 = new TextBox();
-            textBox6 = new TextBox();
-            textBox7 = new TextBox();
             textBox8 = new TextBox();
+            textBox7 = new TextBox();
+            textBox6 = new TextBox();
+            textBox5 = new TextBox();
+            textBox4 = new TextBox();
+            textBox3 = new TextBox();
+            textBox2 = new TextBox();
+            textBox1 = new TextBox();
+            label1 = new Label();
+            button1 = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -49,10 +49,10 @@
             panel1.BackColor = Color.Yellow;
             panel1.BorderStyle = BorderStyle.Fixed3D;
             panel1.Controls.Add(panel2);
-            panel1.Enabled = false;
-            panel1.Location = new Point(141, 174);
+            panel1.Location = new Point(176, 218);
+            panel1.Margin = new Padding(4, 4, 4, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1014, 346);
+            panel1.Size = new Size(1266, 432);
             panel1.TabIndex = 1;
             // 
             // panel2
@@ -69,12 +69,105 @@
             panel2.Controls.Add(textBox1);
             panel2.Controls.Add(label1);
             panel2.Controls.Add(button1);
-            panel2.Location = new Point(3, 3);
+            panel2.Location = new Point(4, 4);
+            panel2.Margin = new Padding(4, 4, 4, 4);
             panel2.Name = "panel2";
             panel2.RightToLeft = RightToLeft.No;
-            panel2.Size = new Size(1004, 334);
+            panel2.Size = new Size(1254, 417);
             panel2.TabIndex = 0;
             panel2.Paint += panel2_Paint;
+            // 
+            // textBox8
+            // 
+            textBox8.BorderStyle = BorderStyle.FixedSingle;
+            textBox8.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox8.Location = new Point(774, 131);
+            textBox8.Margin = new Padding(4, 4, 4, 4);
+            textBox8.Name = "textBox8";
+            textBox8.Size = new Size(76, 87);
+            textBox8.TabIndex = 14;
+            // 
+            // textBox7
+            // 
+            textBox7.BorderStyle = BorderStyle.FixedSingle;
+            textBox7.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox7.Location = new Point(914, 131);
+            textBox7.Margin = new Padding(4, 4, 4, 4);
+            textBox7.Name = "textBox7";
+            textBox7.Size = new Size(76, 87);
+            textBox7.TabIndex = 13;
+            // 
+            // textBox6
+            // 
+            textBox6.BorderStyle = BorderStyle.FixedSingle;
+            textBox6.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox6.Location = new Point(1058, 131);
+            textBox6.Margin = new Padding(4, 4, 4, 4);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(76, 87);
+            textBox6.TabIndex = 12;
+            // 
+            // textBox5
+            // 
+            textBox5.BorderStyle = BorderStyle.FixedSingle;
+            textBox5.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox5.Location = new Point(266, 131);
+            textBox5.Margin = new Padding(4, 4, 4, 4);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(76, 87);
+            textBox5.TabIndex = 11;
+            // 
+            // textBox4
+            // 
+            textBox4.BorderStyle = BorderStyle.FixedSingle;
+            textBox4.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox4.Location = new Point(396, 131);
+            textBox4.Margin = new Padding(4, 4, 4, 4);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(76, 87);
+            textBox4.TabIndex = 10;
+            // 
+            // textBox3
+            // 
+            textBox3.BorderStyle = BorderStyle.FixedSingle;
+            textBox3.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox3.Location = new Point(528, 131);
+            textBox3.Margin = new Padding(4, 4, 4, 4);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(76, 87);
+            textBox3.TabIndex = 9;
+            // 
+            // textBox2
+            // 
+            textBox2.BorderStyle = BorderStyle.FixedSingle;
+            textBox2.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox2.Location = new Point(651, 131);
+            textBox2.Margin = new Padding(4, 4, 4, 4);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(76, 87);
+            textBox2.TabIndex = 8;
+            // 
+            // textBox1
+            // 
+            textBox1.BorderStyle = BorderStyle.FixedSingle;
+            textBox1.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            textBox1.Location = new Point(135, 131);
+            textBox1.Margin = new Padding(4, 4, 4, 4);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(76, 87);
+            textBox1.TabIndex = 7;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(135, 11);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(976, 45);
+            label1.TabIndex = 6;
+            label1.Text = " Ingrese el codigo de 8 dígitos enviado a su correo electrónico";
+            label1.TextAlign = ContentAlignment.TopCenter;
             // 
             // button1
             // 
@@ -82,104 +175,24 @@
             button1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
             button1.ImageAlign = ContentAlignment.TopCenter;
-            button1.Location = new Point(348, 251);
+            button1.Location = new Point(435, 314);
+            button1.Margin = new Padding(4, 4, 4, 4);
             button1.Name = "button1";
-            button1.Size = new Size(358, 59);
+            button1.Size = new Size(448, 74);
             button1.TabIndex = 5;
             button1.Text = "Restablecer Contraseña";
             button1.UseVisualStyleBackColor = false;
             button1.UseWaitCursor = true;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(108, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(828, 38);
-            label1.TabIndex = 6;
-            label1.Text = " Ingrese el codigo de 8 dígitos enviado a su correo electrónico";
-            label1.TextAlign = ContentAlignment.TopCenter;
-            // 
-            // textBox1
-            // 
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(108, 105);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(61, 74);
-            textBox1.TabIndex = 7;
-            // 
-            // textBox2
-            // 
-            textBox2.BorderStyle = BorderStyle.FixedSingle;
-            textBox2.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox2.Location = new Point(521, 105);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(61, 74);
-            textBox2.TabIndex = 8;
-            // 
-            // textBox3
-            // 
-            textBox3.BorderStyle = BorderStyle.FixedSingle;
-            textBox3.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox3.Location = new Point(422, 105);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(61, 74);
-            textBox3.TabIndex = 9;
-            // 
-            // textBox4
-            // 
-            textBox4.BorderStyle = BorderStyle.FixedSingle;
-            textBox4.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox4.Location = new Point(317, 105);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(61, 74);
-            textBox4.TabIndex = 10;
-            // 
-            // textBox5
-            // 
-            textBox5.BorderStyle = BorderStyle.FixedSingle;
-            textBox5.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox5.Location = new Point(213, 105);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(61, 74);
-            textBox5.TabIndex = 11;
-            // 
-            // textBox6
-            // 
-            textBox6.BorderStyle = BorderStyle.FixedSingle;
-            textBox6.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox6.Location = new Point(846, 105);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(61, 74);
-            textBox6.TabIndex = 12;
-            // 
-            // textBox7
-            // 
-            textBox7.BorderStyle = BorderStyle.FixedSingle;
-            textBox7.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox7.Location = new Point(731, 105);
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(61, 74);
-            textBox7.TabIndex = 13;
-            // 
-            // textBox8
-            // 
-            textBox8.BorderStyle = BorderStyle.FixedSingle;
-            textBox8.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox8.Location = new Point(619, 105);
-            textBox8.Name = "textBox8";
-            textBox8.Size = new Size(61, 74);
-            textBox8.TabIndex = 14;
-            // 
             // FRM_PG3
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Imagen_de_WhatsApp_2025_10_22_a_las_17_39_32_e87a041a;
-            ClientSize = new Size(1282, 719);
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(1602, 899);
             Controls.Add(panel1);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "FRM_PG3";
             Text = "FRM_PG3";
             panel1.ResumeLayout(false);

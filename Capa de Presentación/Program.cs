@@ -1,3 +1,5 @@
+using Capa_de_Presentación.Formularios_Ewin;
+
 namespace Capa_de_Presentación
 {
     internal static class Program
@@ -11,7 +13,7 @@ namespace Capa_de_Presentación
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new FRM_PG1());
         }
     }
 }

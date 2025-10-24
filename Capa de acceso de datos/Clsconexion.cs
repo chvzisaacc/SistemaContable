@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Data;
 
 
-namespace PRUEBA_LOGIN
+namespace Capa_de_acceso_de_datos
 {
     public class Clsconexion
     {
@@ -48,6 +48,7 @@ namespace PRUEBA_LOGIN
                 throw new Exception("Error al cerrar la conexión: " + ex.Message, ex);
             }
         }
-        
+
     }
 }
+

@@ -46,10 +46,10 @@
             panel1.BackColor = Color.Yellow;
             panel1.BorderStyle = BorderStyle.Fixed3D;
             panel1.Controls.Add(panel2);
-            panel1.Enabled = false;
-            panel1.Location = new Point(397, 130);
+            panel1.Location = new Point(496, 162);
+            panel1.Margin = new Padding(4, 4, 4, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(647, 323);
+            panel1.Size = new Size(808, 403);
             panel1.TabIndex = 1;
             // 
             // panel2
@@ -63,10 +63,11 @@
             panel2.Controls.Add(textBox1);
             panel2.Controls.Add(label2);
             panel2.Controls.Add(label1);
-            panel2.Location = new Point(3, 3);
+            panel2.Location = new Point(4, 4);
+            panel2.Margin = new Padding(4, 4, 4, 4);
             panel2.Name = "panel2";
             panel2.RightToLeft = RightToLeft.No;
-            panel2.Size = new Size(637, 313);
+            panel2.Size = new Size(796, 391);
             panel2.TabIndex = 0;
             // 
             // button2
@@ -75,9 +76,10 @@
             button2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button2.ForeColor = Color.White;
             button2.ImageAlign = ContentAlignment.TopCenter;
-            button2.Location = new Point(380, 143);
+            button2.Location = new Point(475, 179);
+            button2.Margin = new Padding(4, 4, 4, 4);
             button2.Name = "button2";
-            button2.Size = new Size(227, 39);
+            button2.Size = new Size(284, 49);
             button2.TabIndex = 7;
             button2.Text = "Confirmar";
             button2.UseVisualStyleBackColor = false;
@@ -86,17 +88,19 @@
             // textBox2
             // 
             textBox2.BorderStyle = BorderStyle.FixedSingle;
-            textBox2.Location = new Point(56, 217);
+            textBox2.Location = new Point(70, 271);
+            textBox2.Margin = new Padding(4, 4, 4, 4);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(309, 27);
+            textBox2.Size = new Size(386, 31);
             textBox2.TabIndex = 6;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(65, 194);
+            label3.Location = new Point(81, 242);
+            label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(151, 20);
+            label3.Size = new Size(182, 25);
             label3.TabIndex = 5;
             label3.Text = "Confirmar contraseña";
             // 
@@ -106,9 +110,10 @@
             button1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
             button1.ImageAlign = ContentAlignment.TopCenter;
-            button1.Location = new Point(380, 205);
+            button1.Location = new Point(475, 256);
+            button1.Margin = new Padding(4, 4, 4, 4);
             button1.Name = "button1";
-            button1.Size = new Size(227, 39);
+            button1.Size = new Size(284, 49);
             button1.TabIndex = 4;
             button1.Text = "Cancelar";
             button1.UseVisualStyleBackColor = false;
@@ -117,17 +122,19 @@
             // textBox1
             // 
             textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Location = new Point(56, 155);
+            textBox1.Location = new Point(70, 194);
+            textBox1.Margin = new Padding(4, 4, 4, 4);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(309, 27);
+            textBox1.Size = new Size(386, 31);
             textBox1.TabIndex = 2;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(65, 132);
+            label2.Location = new Point(81, 165);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(127, 20);
+            label2.Size = new Size(153, 25);
             label2.TabIndex = 1;
             label2.Text = "Nueva contraseña";
             label2.Click += label2_Click;
@@ -136,20 +143,23 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(163, 34);
+            label1.Location = new Point(204, 42);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(321, 38);
+            label1.Size = new Size(384, 45);
             label1.TabIndex = 0;
             label1.Text = "Restablecer Contraseña";
             label1.TextAlign = ContentAlignment.TopCenter;
             // 
             // FRM_PG4
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Imagen_de_WhatsApp_2025_10_22_a_las_17_39_32_e87a041a;
-            ClientSize = new Size(1282, 719);
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(1602, 899);
             Controls.Add(panel1);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "FRM_PG4";
             Text = "FRM_PG4";
             panel1.ResumeLayout(false);

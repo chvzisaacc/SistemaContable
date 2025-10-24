@@ -28,69 +28,47 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
-            label1 = new Label();
-            label2 = new Label();
-            textBox2 = new TextBox();
+            txtUsuario = new TextBox();
+            txtContraseña = new TextBox();
             button1 = new Button();
             label3 = new Label();
             SuspendLayout();
             // 
-            // textBox1
+            // txtUsuario
             // 
-            textBox1.BackColor = SystemColors.GradientInactiveCaption;
-            textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(223, 234);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(450, 34);
-            textBox1.TabIndex = 0;
-            textBox1.Visible = false;
+            txtUsuario.BackColor = Color.White;
+            txtUsuario.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtUsuario.Location = new Point(254, 296);
+            txtUsuario.Margin = new Padding(4);
+            txtUsuario.Name = "txtUsuario";
+            txtUsuario.Size = new Size(517, 39);
+            txtUsuario.TabIndex = 0;
+            txtUsuario.Text = "Usuario";
+            txtUsuario.Click += txtUsuario_Click;
+            txtUsuario.Leave += txtUsuario_Leave;
             // 
-            // label1
+            // txtContraseña
             // 
-            label1.AutoSize = true;
-            label1.BackColor = SystemColors.GradientInactiveCaption;
-            label1.BorderStyle = BorderStyle.Fixed3D;
-            label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(59, 234);
-            label1.Name = "label1";
-            label1.Size = new Size(105, 33);
-            label1.TabIndex = 1;
-            label1.Text = "Usuario:";
-            label1.Visible = false;
-            label1.Click += label1_Click;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.BackColor = SystemColors.GradientInactiveCaption;
-            label2.BorderStyle = BorderStyle.Fixed3D;
-            label2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(59, 288);
-            label2.Name = "label2";
-            label2.Size = new Size(142, 33);
-            label2.TabIndex = 3;
-            label2.Text = "Contraseña:";
-            label2.Visible = false;
-            // 
-            // textBox2
-            // 
-            textBox2.BackColor = SystemColors.GradientInactiveCaption;
-            textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox2.Location = new Point(223, 285);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(450, 34);
-            textBox2.TabIndex = 2;
-            textBox2.Visible = false;
+            txtContraseña.BackColor = Color.White;
+            txtContraseña.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtContraseña.Location = new Point(254, 371);
+            txtContraseña.Margin = new Padding(4);
+            txtContraseña.Name = "txtContraseña";
+            txtContraseña.Size = new Size(517, 39);
+            txtContraseña.TabIndex = 2;
+            txtContraseña.Text = "Contraseña";
+            txtContraseña.Click += txtContraseña_Click;
+            txtContraseña.Leave += txtContraseña_Leave;
             // 
             // button1
             // 
             button1.BackColor = Color.FromArgb(43, 56, 143);
             button1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.Transparent;
-            button1.Location = new Point(271, 400);
+            button1.Location = new Point(339, 500);
+            button1.Margin = new Padding(4);
             button1.Name = "button1";
-            button1.Size = new Size(265, 71);
+            button1.Size = new Size(331, 89);
             button1.TabIndex = 4;
             button1.Text = "Iniciar Sesión";
             button1.UseVisualStyleBackColor = false;
@@ -102,9 +80,10 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Transparent;
-            label3.Location = new Point(296, 474);
+            label3.Location = new Point(370, 592);
+            label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(213, 23);
+            label3.Size = new Size(265, 30);
             label3.TabIndex = 5;
             label3.Text = "¿Olvidaste tu contraseña?";
             label3.TextAlign = ContentAlignment.TopRight;
@@ -112,16 +91,16 @@
             // 
             // FRM_PG1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Imagen_de_WhatsApp_2025_10_21_a_las_22_22_16_14a2ddba;
-            ClientSize = new Size(1282, 719);
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(1602, 899);
+            Controls.Add(txtContraseña);
+            Controls.Add(txtUsuario);
             Controls.Add(label3);
             Controls.Add(button1);
-            Controls.Add(label2);
-            Controls.Add(textBox2);
-            Controls.Add(label1);
-            Controls.Add(textBox1);
+            Margin = new Padding(4);
             Name = "FRM_PG1";
             Text = "FRM_PG1";
             Load += FRM_PG1_Load;
@@ -131,10 +110,8 @@
 
         #endregion
 
-        private TextBox textBox1;
-        private Label label1;
-        private Label label2;
-        private TextBox textBox2;
+        private TextBox txtUsuario;
+        private TextBox txtContraseña;
         private Button button1;
         private Label label3;
     }
