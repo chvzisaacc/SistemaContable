@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CAPAS;
+using Capa_de_Presentación.CLASES;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,19 +10,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Capa_de_acceso_de_datos;
-using Capa_de_Presentación.CAPAS;
 
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
     public partial class FRM_PG1 : Form
     {
+        ClsCerrar cerrar = new ClsCerrar();
         public FRM_PG1()
         {
             InitializeComponent();
-            //this.FormClosing += FRM_PG1_FormClosing;
+            this.FormClosing += cerrar.CerrarApp;
         }
+
 
         private void label1_Click(object sender, EventArgs e)
         {
