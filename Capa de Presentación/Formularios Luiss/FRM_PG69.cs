@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
-    public partial class FRM_PG49 : Form
+    public partial class FRM_PG69 : Form
     {
-        public FRM_PG49()
+        public FRM_PG69()
         {
             InitializeComponent();
         }
 
-        private void label8_Click(object sender, EventArgs e)
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
