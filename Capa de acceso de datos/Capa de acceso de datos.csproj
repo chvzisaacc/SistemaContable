@@ -11,8 +11,4 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Capa de procesamiento de datos\Capa de procesamiento de datos.csproj" />
-  </ItemGroup>
-
 </Project>
