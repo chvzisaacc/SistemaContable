@@ -1,5 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.Formularios_Ewin;
+using Capa_de_Presentación.Formularios_Luiss;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
-
-namespace Capa_de_Presentación
+namespace Capa_de_Presentación.CAPAS
 {
     public class ClsRecuperacion
     {
@@ -40,7 +39,7 @@ namespace Capa_de_Presentación
                 }
                 else if (rol == 2 || rol == 3)
                 {
-                    SACERDOTE empleado = new SACERDOTE();
+                    FRM_42 empleado = new FRM_42();
                     empleado.Show();
                     formularioActual.Hide();
                 }
@@ -50,7 +49,7 @@ namespace Capa_de_Presentación
                 MessageBox.Show(ex.Message);
             }
         }
-    }
+    
 
         public void ProcesarCodigoRecuperacion(int usuarioId, string codigo, Form formularioActual)
         {

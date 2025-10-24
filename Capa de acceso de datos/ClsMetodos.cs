@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
+
 namespace Capa_de_acceso_de_datos
 {
     public class ClsMetodos:ClsAccionesDB
@@ -27,6 +27,4 @@ namespace Capa_de_acceso_de_datos
             }
         }
     }
-
-    
 }
