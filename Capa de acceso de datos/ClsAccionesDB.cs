@@ -5,10 +5,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Capa_de_acceso_de_datos
 {
-    public class ClsAccionesDB:Clsconexion
+    public class ClsAccionesDB : Clsconexion
     {
         public int ValidarCredenciales(string usuario, string contraseña)
         {
@@ -144,5 +145,6 @@ namespace Capa_de_acceso_de_datos
 
             return resultado;
         }
+
     }
 }
