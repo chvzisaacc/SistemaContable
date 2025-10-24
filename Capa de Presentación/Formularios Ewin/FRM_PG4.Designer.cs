@@ -47,7 +47,7 @@
             panel1.BorderStyle = BorderStyle.Fixed3D;
             panel1.Controls.Add(panel2);
             panel1.Location = new Point(496, 162);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(808, 403);
             panel1.TabIndex = 1;
@@ -64,7 +64,7 @@
             panel2.Controls.Add(label2);
             panel2.Controls.Add(label1);
             panel2.Location = new Point(4, 4);
-            panel2.Margin = new Padding(4, 4, 4, 4);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
             panel2.RightToLeft = RightToLeft.No;
             panel2.Size = new Size(796, 391);
@@ -77,7 +77,7 @@
             button2.ForeColor = Color.White;
             button2.ImageAlign = ContentAlignment.TopCenter;
             button2.Location = new Point(475, 179);
-            button2.Margin = new Padding(4, 4, 4, 4);
+            button2.Margin = new Padding(4);
             button2.Name = "button2";
             button2.Size = new Size(284, 49);
             button2.TabIndex = 7;
@@ -89,7 +89,7 @@
             // 
             textBox2.BorderStyle = BorderStyle.FixedSingle;
             textBox2.Location = new Point(70, 271);
-            textBox2.Margin = new Padding(4, 4, 4, 4);
+            textBox2.Margin = new Padding(4);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(386, 31);
             textBox2.TabIndex = 6;
@@ -111,7 +111,7 @@
             button1.ForeColor = Color.White;
             button1.ImageAlign = ContentAlignment.TopCenter;
             button1.Location = new Point(475, 256);
-            button1.Margin = new Padding(4, 4, 4, 4);
+            button1.Margin = new Padding(4);
             button1.Name = "button1";
             button1.Size = new Size(284, 49);
             button1.TabIndex = 4;
@@ -123,7 +123,7 @@
             // 
             textBox1.BorderStyle = BorderStyle.FixedSingle;
             textBox1.Location = new Point(70, 194);
-            textBox1.Margin = new Padding(4, 4, 4, 4);
+            textBox1.Margin = new Padding(4);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(386, 31);
             textBox1.TabIndex = 2;
@@ -159,9 +159,10 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1602, 899);
             Controls.Add(panel1);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "FRM_PG4";
             Text = "FRM_PG4";
+            Load += FRM_PG4_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();

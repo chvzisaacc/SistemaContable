@@ -283,6 +283,7 @@
             Margin = new Padding(4);
             Name = "FRM_PG8";
             Text = "FRM_PG8";
+            Load += FRM_PG8_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel6.ResumeLayout(false);

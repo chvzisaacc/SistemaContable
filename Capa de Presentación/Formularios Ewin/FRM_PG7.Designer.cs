@@ -69,7 +69,7 @@
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(25, 18);
-            pictureBox1.Margin = new Padding(4, 4, 4, 4);
+            pictureBox1.Margin = new Padding(4);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(121, 110);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -112,7 +112,7 @@
             // panel4
             // 
             panel4.Location = new Point(219, 240);
-            panel4.Margin = new Padding(4, 4, 4, 4);
+            panel4.Margin = new Padding(4);
             panel4.Name = "panel4";
             panel4.Size = new Size(0, 0);
             panel4.TabIndex = 7;
@@ -122,7 +122,7 @@
             panel3.BackColor = Color.FromArgb(43, 56, 143);
             panel3.Enabled = false;
             panel3.Location = new Point(0, 216);
-            panel3.Margin = new Padding(4, 4, 4, 4);
+            panel3.Margin = new Padding(4);
             panel3.Name = "panel3";
             panel3.Size = new Size(1056, 4);
             panel3.TabIndex = 10;
@@ -132,7 +132,7 @@
             panel2.BackColor = Color.FromArgb(43, 56, 143);
             panel2.Enabled = false;
             panel2.Location = new Point(516, 216);
-            panel2.Margin = new Padding(4, 4, 4, 4);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
             panel2.Size = new Size(1056, 4);
             panel2.TabIndex = 11;
@@ -141,7 +141,7 @@
             // 
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
             pictureBox4.Location = new Point(1441, 22);
-            pictureBox4.Margin = new Padding(4, 4, 4, 4);
+            pictureBox4.Margin = new Padding(4);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Size = new Size(95, 88);
             pictureBox4.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -165,7 +165,7 @@
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
             pictureBox3.Location = new Point(1325, 31);
-            pictureBox3.Margin = new Padding(4, 4, 4, 4);
+            pictureBox3.Margin = new Padding(4);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new Size(96, 82);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
@@ -234,7 +234,7 @@
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox2.Location = new Point(1295, 541);
-            textBox2.Margin = new Padding(4, 4, 4, 4);
+            textBox2.Margin = new Padding(4);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(224, 37);
             textBox2.TabIndex = 26;
@@ -245,7 +245,7 @@
             textBox7.BorderStyle = BorderStyle.None;
             textBox7.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox7.Location = new Point(1295, 381);
-            textBox7.Margin = new Padding(4, 4, 4, 4);
+            textBox7.Margin = new Padding(4);
             textBox7.Name = "textBox7";
             textBox7.Size = new Size(224, 37);
             textBox7.TabIndex = 31;
@@ -256,7 +256,7 @@
             textBox8.BorderStyle = BorderStyle.None;
             textBox8.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox8.Location = new Point(1295, 440);
-            textBox8.Margin = new Padding(4, 4, 4, 4);
+            textBox8.Margin = new Padding(4);
             textBox8.Name = "textBox8";
             textBox8.Size = new Size(224, 37);
             textBox8.TabIndex = 32;
@@ -267,7 +267,7 @@
             textBox9.BorderStyle = BorderStyle.None;
             textBox9.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox9.Location = new Point(1295, 332);
-            textBox9.Margin = new Padding(4, 4, 4, 4);
+            textBox9.Margin = new Padding(4);
             textBox9.Name = "textBox9";
             textBox9.Size = new Size(224, 37);
             textBox9.TabIndex = 33;
@@ -278,7 +278,7 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Codigo, Nombre, Cuenta, Tipo_Cuenta, Detalle });
             dataGridView1.Location = new Point(25, 296);
-            dataGridView1.Margin = new Padding(4, 4, 4, 4);
+            dataGridView1.Margin = new Padding(4);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.Size = new Size(1031, 485);
@@ -321,7 +321,7 @@
             button4.ForeColor = Color.White;
             button4.ImageAlign = ContentAlignment.TopCenter;
             button4.Location = new Point(1259, 670);
-            button4.Margin = new Padding(4, 4, 4, 4);
+            button4.Margin = new Padding(4);
             button4.Name = "button4";
             button4.Size = new Size(198, 49);
             button4.TabIndex = 41;
@@ -336,7 +336,7 @@
             button5.ForeColor = Color.White;
             button5.ImageAlign = ContentAlignment.TopCenter;
             button5.Location = new Point(1259, 240);
-            button5.Margin = new Padding(4, 4, 4, 4);
+            button5.Margin = new Padding(4);
             button5.Name = "button5";
             button5.Size = new Size(162, 49);
             button5.TabIndex = 42;
@@ -371,7 +371,7 @@
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
             panel1.Location = new Point(15, 15);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(1572, 869);
             panel1.TabIndex = 10;
@@ -384,7 +384,7 @@
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Ingresos", "Egresos" });
             comboBox1.Location = new Point(1295, 489);
-            comboBox1.Margin = new Padding(4, 4, 4, 4);
+            comboBox1.Margin = new Padding(4);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(223, 38);
             comboBox1.TabIndex = 43;
@@ -396,9 +396,10 @@
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(1602, 899);
             Controls.Add(panel1);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "FRM_PG7";
             Text = "FRM_PG7";
+            Load += FRM_PG7_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();

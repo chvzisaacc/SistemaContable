@@ -21,5 +21,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
 
         }
+
+        private void FRM_PG8_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

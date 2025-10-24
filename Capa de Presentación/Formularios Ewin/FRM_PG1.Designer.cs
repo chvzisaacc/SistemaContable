@@ -32,6 +32,7 @@
             txtContraseña = new TextBox();
             button1 = new Button();
             label3 = new Label();
+            label1 = new Label();
             SuspendLayout();
             // 
             // txtUsuario
@@ -89,6 +90,16 @@
             label3.TextAlign = ContentAlignment.TopRight;
             label3.Click += label3_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
+            label1.Location = new Point(483, 427);
+            label1.Name = "label1";
+            label1.Size = new Size(16, 25);
+            label1.TabIndex = 6;
+            label1.Text = ".";
+            // 
             // FRM_PG1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -96,6 +107,7 @@
             BackgroundImage = Properties.Resources.Imagen_de_WhatsApp_2025_10_21_a_las_22_22_16_14a2ddba;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1602, 899);
+            Controls.Add(label1);
             Controls.Add(txtContraseña);
             Controls.Add(txtUsuario);
             Controls.Add(label3);
@@ -114,5 +126,6 @@
         private TextBox txtContraseña;
         private Button button1;
         private Label label3;
+        private Label label1;
     }
 }

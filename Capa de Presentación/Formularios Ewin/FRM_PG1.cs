@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using capa_de_acceso_de_datos;
+using Capa_de_acceso_de_datos;
 
 
 namespace Capa_de_Presentación.Formularios_Ewin
@@ -31,7 +31,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void label3_Click(object sender, EventArgs e)

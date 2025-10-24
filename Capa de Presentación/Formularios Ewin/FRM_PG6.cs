@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Capa_de_Presentación.Formularios_Ewin
 {
     public partial class FRM_PG6 : Form
@@ -15,6 +16,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
         public FRM_PG6()
         {
             InitializeComponent();
+        }
+
+        private void FRM_PG6_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

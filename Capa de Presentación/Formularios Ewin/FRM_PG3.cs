@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Capa_de_Presentación.Formularios_Ewin
 {
     public partial class FRM_PG3 : Form
@@ -18,6 +19,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void FRM_PG3_Load(object sender, EventArgs e)
         {
 
         }

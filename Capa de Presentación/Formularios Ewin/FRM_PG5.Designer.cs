@@ -195,6 +195,7 @@
             Margin = new Padding(4);
             Name = "FRM_PG5";
             Text = "FRM_PG5";
+            Load += FRM_PG5_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();

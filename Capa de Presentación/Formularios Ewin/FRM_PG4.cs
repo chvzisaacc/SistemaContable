@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Capa_de_Presentación.Formularios_Ewin
 {
     public partial class FRM_PG4 : Form
@@ -18,6 +19,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FRM_PG4_Load(object sender, EventArgs e)
         {
 
         }
