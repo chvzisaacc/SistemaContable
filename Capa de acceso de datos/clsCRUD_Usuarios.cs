@@ -18,37 +18,35 @@ namespace Capa_de_acceso_de_datos
             conexion = new Clsconexion();
         }
 
-
-
-
-        public bool AgregarUsuario(string nombre, string apellido, string correo, string usuario,
+        // AGREGAR usuario - Retorna el ID generado
+        public int AgregarUsuario(string nombre, string apellido, string correo, string usuario,
                                    string password, int idRol, int idParroquia, int idEstado)
         {
             try
             {
                 conexion.Abrir();
 
-                string query = @"INSERT INTO dbo.usuario 
-                                (usuario_nombre, usuario_apellido, usuario_correo, usuario, 
-                                 usuario_password, Id_estado_cuenta, Rol_Id, Parroquia_Id) 
-                                VALUES 
-                                (@nombre, @apellido, @correo, @usuario, @password, @idEstado, @idRol, @idParroquia)";
+                SqlCommand cmd = new SqlCommand("sp_AgregarUsuario", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conexion.sc);
+                // Parámetros de entrada
                 cmd.Parameters.AddWithValue("@nombre", nombre);
                 cmd.Parameters.AddWithValue("@apellido", apellido);
-                if (string.IsNullOrEmpty(correo))
-                    cmd.Parameters.AddWithValue("@correo", DBNull.Value);
-                else
-                    cmd.Parameters.AddWithValue("@correo", correo);
-                                cmd.Parameters.AddWithValue("@usuario", usuario);
+                cmd.Parameters.AddWithValue("@correo", string.IsNullOrEmpty(correo) ? (object)DBNull.Value : correo);
+                cmd.Parameters.AddWithValue("@usuario", usuario);
                 cmd.Parameters.AddWithValue("@password", password);
                 cmd.Parameters.AddWithValue("@idRol", idRol);
                 cmd.Parameters.AddWithValue("@idParroquia", idParroquia);
                 cmd.Parameters.AddWithValue("@idEstado", idEstado);
 
-                int resultado = cmd.ExecuteNonQuery();
-                return resultado > 0;
+                // Parámetro de salida para obtener el ID generado
+                SqlParameter nuevoId = new SqlParameter("@nuevoId", SqlDbType.Int);
+                nuevoId.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(nuevoId);
+
+                cmd.ExecuteNonQuery();
+
+                return Convert.ToInt32(nuevoId.Value);
             }
             catch (Exception ex)
             {
@@ -60,26 +58,16 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        // OBTENER todos los usuarios
         public DataTable ObtenerUsuarios()
         {
             try
             {
                 conexion.Abrir();
 
-                string query = @"SELECT 
-                                    u.Usuario_id AS ID,
-                                    u.usuario_nombre AS Nombre,
-                                    u.usuario_apellido AS Apellido,
-                                    u.usuario_correo AS Correo,
-                                    u.usuario AS Usuario,
-                                    u.usuario_password AS Contraseña,
-                                    u.Rol_Id AS Rol,
-                                    u.Parroquia_Id AS Parroquia,
-                                    u.Id_estado_cuenta AS Estado
-                                FROM dbo.usuario u
-                                ORDER BY u.Usuario_id";
+                SqlCommand cmd = new SqlCommand("sp_ObtenerUsuarios", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conexion.sc);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
@@ -96,6 +84,37 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        // BUSCAR usuario por ID
+        public DataRow BuscarUsuarioPorId(int id)
+        {
+            try
+            {
+                conexion.Abrir();
+
+                SqlCommand cmd = new SqlCommand("sp_BuscarUsuarioPorId", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", id);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
+                if (dt.Rows.Count > 0)
+                    return dt.Rows[0];
+                else
+                    return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar usuario: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+
+        // MODIFICAR usuario
         public bool ModificarUsuario(int id, string nombre, string apellido, string correo,
                                     string usuario, string password, int idRol, int idParroquia, int idEstado)
         {
@@ -103,27 +122,14 @@ namespace Capa_de_acceso_de_datos
             {
                 conexion.Abrir();
 
-                string query = @"UPDATE dbo.usuario 
-                                SET usuario_nombre = @nombre,
-                                    usuario_apellido = @apellido,
-                                    usuario_correo = @correo,
-                                    usuario = @usuario,
-                                    usuario_password = @password,
-                                    Rol_Id = @idRol,
-                                    Parroquia_Id = @idParroquia,
-                                    Id_estado_cuenta = @idEstado
-                                WHERE Usuario_id = @id";
+                SqlCommand cmd = new SqlCommand("sp_ModificarUsuario", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conexion.sc);
                 cmd.Parameters.AddWithValue("@id", id);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
                 cmd.Parameters.AddWithValue("@apellido", apellido);
-                if (string.IsNullOrEmpty(correo))
-                    cmd.Parameters.AddWithValue("@correo", DBNull.Value);
-                else
-                    cmd.Parameters.AddWithValue("@correo", correo);
-                
-                                cmd.Parameters.AddWithValue("@usuario", usuario);
+                cmd.Parameters.AddWithValue("@correo", string.IsNullOrEmpty(correo) ? (object)DBNull.Value : correo);
+                cmd.Parameters.AddWithValue("@usuario", usuario);
                 cmd.Parameters.AddWithValue("@password", password);
                 cmd.Parameters.AddWithValue("@idRol", idRol);
                 cmd.Parameters.AddWithValue("@idParroquia", idParroquia);
@@ -142,15 +148,15 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        // ELIMINAR usuario
         public bool EliminarUsuario(int id)
         {
             try
             {
                 conexion.Abrir();
 
-                string query = "DELETE FROM dbo.usuario WHERE Usuario_id = @id";
-
-                SqlCommand cmd = new SqlCommand(query, conexion.sc);
+                SqlCommand cmd = new SqlCommand("sp_EliminarUsuario", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id", id);
 
                 int resultado = cmd.ExecuteNonQuery();
@@ -166,17 +172,17 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        // INHABILITAR usuario (soft delete)
         public bool InhabilitarUsuario(int id, int nuevoEstado)
         {
             try
             {
                 conexion.Abrir();
 
-                string query = "UPDATE dbo.usuario SET Id_estado_cuenta = @estado WHERE Usuario_id = @id";
-
-                SqlCommand cmd = new SqlCommand(query, conexion.sc);
+                SqlCommand cmd = new SqlCommand("sp_InhabilitarUsuario", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id", id);
-                cmd.Parameters.AddWithValue("@estado", nuevoEstado);
+                cmd.Parameters.AddWithValue("@nuevoEstado", nuevoEstado);
 
                 int resultado = cmd.ExecuteNonQuery();
                 return resultado > 0;
@@ -191,19 +197,24 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        // VALIDAR si usuario existe
         public bool UsuarioExiste(string usuario)
         {
             try
             {
                 conexion.Abrir();
 
-                string query = "SELECT COUNT(*) FROM dbo.usuario WHERE usuario = @usuario";
-
-                SqlCommand cmd = new SqlCommand(query, conexion.sc);
+                SqlCommand cmd = new SqlCommand("sp_UsuarioExiste", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@usuario", usuario);
 
-                int count = (int)cmd.ExecuteScalar();
-                return count > 0;
+                SqlParameter existe = new SqlParameter("@existe", SqlDbType.Bit);
+                existe.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(existe);
+
+                cmd.ExecuteNonQuery();
+
+                return Convert.ToBoolean(existe.Value);
             }
             catch (Exception ex)
             {
@@ -214,16 +225,39 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
+        
+        public int ObtenerProximoId()
+        {
+            try
+            {
+                conexion.Abrir();
 
+                SqlCommand cmd = new SqlCommand("sp_ObtenerProximoId", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                int proximoId = (int)cmd.ExecuteScalar();
+                return proximoId;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener próximo ID: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+
+        // OBTENER roles para ComboBox
         public DataTable ObtenerRoles()
         {
             try
             {
                 conexion.Abrir();
 
-                string query = "SELECT Rol_Id, Rol_descripcion FROM dbo.Rol ORDER BY Rol";
+                SqlCommand cmd = new SqlCommand("sp_ObtenerRoles", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conexion.sc);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
@@ -240,15 +274,16 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        // OBTENER parroquias para ComboBox
         public DataTable ObtenerParroquias()
         {
             try
             {
                 conexion.Abrir();
 
-                string query = "SELECT Parroquia_id, Parroquia_nombre FROM dbo.Parroquia ORDER BY Parroquia_nombre";
+                SqlCommand cmd = new SqlCommand("sp_ObtenerParroquias", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conexion.sc);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
@@ -271,9 +306,9 @@ namespace Capa_de_acceso_de_datos
             {
                 conexion.Abrir();
 
-                string query = "SELECT Id_estado_cuenta, descripcion FROM dbo.Estado_cuenta ORDER BY descripcion";
+                SqlCommand cmd = new SqlCommand("sp_ObtenerEstados", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conexion.sc);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
@@ -290,6 +325,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        
 
     }
 }

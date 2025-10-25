@@ -11,7 +11,7 @@ namespace Capa_de_acceso_de_datos
 {
     public class Clsconexion
     {
-        string conexion = "Data Source=DESKTOP-NRLBBAA\\SQLEXPRESS;Initial Catalog=BD_Arquidiocesis;Integrated Security=True;TrustServerCertificate=True;";
+        string conexion = "Data Source=LENOVO-AFCM\\SQLEXPRESS;Initial Catalog=BD_Arquidiocesis;Integrated Security=True;TrustServerCertificate=True;";
 
 
         public SqlConnection sc = new();
