@@ -10,7 +10,7 @@ namespace Capa_de_Presentación.CLASES
 {
     public class ClsVerificarCod
     {
-        public void ProcesarCodigoRecuperacion(int usuarioId, string codigo, Form formularioActual)
+        public void ProcesarCodigoRecuperacion(int usuarioId, string codigo, string correoUsuario, Form formularioActual)
         {
             try
             {
@@ -21,7 +21,7 @@ namespace Capa_de_Presentación.CLASES
                 {
                     case "CODIGO_VALIDO":
                         MessageBox.Show("Código verificado correctamente.");
-                        FRM_PG4 frm = new FRM_PG4();
+                        FRM_PG4 frm = new(correoUsuario);
                         frm.Show();
                         formularioActual.Hide();
                         break;

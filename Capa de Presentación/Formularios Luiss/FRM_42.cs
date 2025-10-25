@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Capa_de_Presentación.CLASES;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,14 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_42 : Form
     {
+
+        ClsCerrar cerrar = new ClsCerrar();
         public FRM_42()
         {
             InitializeComponent();
+            this.FormClosing += cerrar.CerrarApp;
             // Agrega los paneles secundarios dentro del panel contenedor
             panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Controls.Add(panelCajaChica2);

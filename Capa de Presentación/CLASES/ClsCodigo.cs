@@ -15,10 +15,10 @@ namespace Capa_de_Presentación.CLASES
 
         public ClsCodigo()
         {
-            ClsAccionesDB acciones = new();
+            acciones = new ClsAccionesDB();
         }
 
-        public void ProcesarCodigoRecuperacion(int usuarioId, string codigo, Form formularioActual)
+        public void ProcesarCodigoRecuperacion(int usuarioId, string codigo,string correo, Form formularioActual)
         {
             string resultado = acciones.ValidarCodigoRecuperacion(usuarioId, codigo);
 
@@ -26,7 +26,7 @@ namespace Capa_de_Presentación.CLASES
             {
                 case "CODIGO_VALIDO":
                     MessageBox.Show("Código verificado correctamente.");
-                    FRM_PG4 frm = new FRM_PG4();
+                    FRM_PG4 frm = new FRM_PG4(correo);
                     frm.Show();
                     formularioActual.Hide();
                     break;

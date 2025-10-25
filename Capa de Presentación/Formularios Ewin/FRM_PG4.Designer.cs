@@ -30,11 +30,11 @@
         {
             panel1 = new Panel();
             panel2 = new Panel();
-            button2 = new Button();
-            textBox2 = new TextBox();
+            btnConfirmar = new Button();
+            txtConfirmarContraseña = new TextBox();
             label3 = new Label();
             button1 = new Button();
-            textBox1 = new TextBox();
+            txtNuevaContraseña = new TextBox();
             label2 = new Label();
             label1 = new Label();
             panel1.SuspendLayout();
@@ -56,11 +56,11 @@
             // 
             panel2.BackColor = Color.White;
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(button2);
-            panel2.Controls.Add(textBox2);
+            panel2.Controls.Add(btnConfirmar);
+            panel2.Controls.Add(txtConfirmarContraseña);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(button1);
-            panel2.Controls.Add(textBox1);
+            panel2.Controls.Add(txtNuevaContraseña);
             panel2.Controls.Add(label2);
             panel2.Controls.Add(label1);
             panel2.Location = new Point(4, 4);
@@ -70,29 +70,30 @@
             panel2.Size = new Size(796, 391);
             panel2.TabIndex = 0;
             // 
-            // button2
+            // btnConfirmar
             // 
-            button2.BackColor = Color.FromArgb(43, 56, 143);
-            button2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.White;
-            button2.ImageAlign = ContentAlignment.TopCenter;
-            button2.Location = new Point(475, 179);
-            button2.Margin = new Padding(4);
-            button2.Name = "button2";
-            button2.Size = new Size(284, 49);
-            button2.TabIndex = 7;
-            button2.Text = "Confirmar";
-            button2.UseVisualStyleBackColor = false;
-            button2.UseWaitCursor = true;
+            btnConfirmar.BackColor = Color.FromArgb(43, 56, 143);
+            btnConfirmar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnConfirmar.ForeColor = Color.White;
+            btnConfirmar.ImageAlign = ContentAlignment.TopCenter;
+            btnConfirmar.Location = new Point(475, 179);
+            btnConfirmar.Margin = new Padding(4);
+            btnConfirmar.Name = "btnConfirmar";
+            btnConfirmar.Size = new Size(284, 49);
+            btnConfirmar.TabIndex = 7;
+            btnConfirmar.Text = "Confirmar";
+            btnConfirmar.UseVisualStyleBackColor = false;
+            btnConfirmar.UseWaitCursor = true;
+            btnConfirmar.Click += btnConfirmar_Click;
             // 
-            // textBox2
+            // txtConfirmarContraseña
             // 
-            textBox2.BorderStyle = BorderStyle.FixedSingle;
-            textBox2.Location = new Point(70, 271);
-            textBox2.Margin = new Padding(4);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(386, 31);
-            textBox2.TabIndex = 6;
+            txtConfirmarContraseña.BorderStyle = BorderStyle.FixedSingle;
+            txtConfirmarContraseña.Location = new Point(70, 271);
+            txtConfirmarContraseña.Margin = new Padding(4);
+            txtConfirmarContraseña.Name = "txtConfirmarContraseña";
+            txtConfirmarContraseña.Size = new Size(386, 31);
+            txtConfirmarContraseña.TabIndex = 6;
             // 
             // label3
             // 
@@ -118,15 +119,16 @@
             button1.Text = "Cancelar";
             button1.UseVisualStyleBackColor = false;
             button1.UseWaitCursor = true;
+            button1.Click += button1_Click;
             // 
-            // textBox1
+            // txtNuevaContraseña
             // 
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Location = new Point(70, 194);
-            textBox1.Margin = new Padding(4);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(386, 31);
-            textBox1.TabIndex = 2;
+            txtNuevaContraseña.BorderStyle = BorderStyle.FixedSingle;
+            txtNuevaContraseña.Location = new Point(70, 194);
+            txtNuevaContraseña.Margin = new Padding(4);
+            txtNuevaContraseña.Name = "txtNuevaContraseña";
+            txtNuevaContraseña.Size = new Size(386, 31);
+            txtNuevaContraseña.TabIndex = 2;
             // 
             // label2
             // 
@@ -173,12 +175,12 @@
 
         private Panel panel1;
         private Panel panel2;
-        private TextBox textBox2;
+        private TextBox txtConfirmarContraseña;
         private Label label3;
         private Button button1;
-        private TextBox textBox1;
+        private TextBox txtNuevaContraseña;
         private Label label2;
         private Label label1;
-        private Button button2;
+        private Button btnConfirmar;
     }
 }

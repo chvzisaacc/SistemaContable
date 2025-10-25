@@ -41,7 +41,7 @@ namespace Capa_de_acceso_de_datos
             return rol;
         }
 
-        public void CambiarContraseña(string correo, string nuevaContraseña)
+        public bool CambiarContraseña(string correo, string nuevaContraseña)
         {
             try
             {
@@ -51,13 +51,14 @@ namespace Capa_de_acceso_de_datos
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Correo", correo);
                     cmd.Parameters.AddWithValue("@NuevaContraseña", nuevaContraseña);
-                    cmd.ExecuteNonQuery();
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
                 }
-                throw new Exception("Contraseña actualizada correctamente");
+                
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al actualizar contraseña: " + ex.Message);
+                throw;
             }
             finally
             {

@@ -86,6 +86,9 @@
             txt6.Name = "txt6";
             txt6.Size = new Size(76, 87);
             txt6.TabIndex = 14;
+            txt6.TextAlign = HorizontalAlignment.Center;
+            txt6.TextChanged += txt6_TextChanged;
+            txt6.KeyPress += txt6_KeyPress;
             // 
             // txt7
             // 
@@ -96,6 +99,10 @@
             txt7.Name = "txt7";
             txt7.Size = new Size(76, 87);
             txt7.TabIndex = 13;
+            txt7.TextAlign = HorizontalAlignment.Center;
+            txt7.TextChanged += txt7_TextChanged;
+            txt7.KeyPress += txt7_KeyPress;
+            txt7.KeyUp += txt7_KeyUp;
             // 
             // txt8
             // 
@@ -106,6 +113,9 @@
             txt8.Name = "txt8";
             txt8.Size = new Size(76, 87);
             txt8.TabIndex = 12;
+            txt8.TextAlign = HorizontalAlignment.Center;
+            txt8.TextChanged += txt8_TextChanged;
+            txt8.KeyPress += txt8_KeyPress;
             // 
             // txt2
             // 
@@ -116,6 +126,9 @@
             txt2.Name = "txt2";
             txt2.Size = new Size(76, 87);
             txt2.TabIndex = 11;
+            txt2.TextAlign = HorizontalAlignment.Center;
+            txt2.TextChanged += txt2_TextChanged;
+            txt2.KeyPress += txt2_KeyPress;
             // 
             // txt3
             // 
@@ -126,6 +139,9 @@
             txt3.Name = "txt3";
             txt3.Size = new Size(76, 87);
             txt3.TabIndex = 10;
+            txt3.TextAlign = HorizontalAlignment.Center;
+            txt3.TextChanged += txt3_TextChanged;
+            txt3.KeyPress += txt3_KeyPress;
             // 
             // txt4
             // 
@@ -136,6 +152,9 @@
             txt4.Name = "txt4";
             txt4.Size = new Size(76, 87);
             txt4.TabIndex = 9;
+            txt4.TextAlign = HorizontalAlignment.Center;
+            txt4.TextChanged += txt4_TextChanged;
+            txt4.KeyPress += txt4_KeyPress;
             // 
             // txt5
             // 
@@ -146,6 +165,9 @@
             txt5.Name = "txt5";
             txt5.Size = new Size(76, 87);
             txt5.TabIndex = 8;
+            txt5.TextAlign = HorizontalAlignment.Center;
+            txt5.TextChanged += txt5_TextChanged;
+            txt5.KeyPress += txt5_KeyPress;
             // 
             // txt1
             // 
@@ -156,7 +178,9 @@
             txt1.Name = "txt1";
             txt1.Size = new Size(76, 87);
             txt1.TabIndex = 7;
+            txt1.TextAlign = HorizontalAlignment.Center;
             txt1.TextChanged += txt1_TextChanged;
+            txt1.KeyPress += txt1_KeyPress;
             // 
             // label1
             // 
