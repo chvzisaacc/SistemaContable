@@ -43,11 +43,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 dgvCatalogoCuentas.DataSource = crudCatalogoCuentas.ObtenerCatalogoCuentas();
 
-                // Opcional: Ocultar la columna CuentaID si solo quieres mostrar el nombre
                 if (dgvCatalogoCuentas.Columns["CuentaID"] != null)
                     dgvCatalogoCuentas.Columns["CuentaID"].Visible = false;
 
-                // Formatear columnas de tipo decimal a 2 decimales
+
                 if (dgvCatalogoCuentas.Columns["Detalle"] != null)
                     dgvCatalogoCuentas.Columns["Detalle"].DefaultCellStyle.Format = "N2";
 
@@ -65,7 +64,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                // Cargar las cuentas desde la tabla "cuentas" (Ingresos/Egresos)
                 cmbTipoCuenta.DataSource = crudCatalogoCuentas.ObtenerCuentas();
                 cmbTipoCuenta.DisplayMember = "nombre_cuenta";
                 cmbTipoCuenta.ValueMember = "id_cuenta";
@@ -87,9 +85,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 {
                     txtId.Text = cuenta["Cod_cuenta"].ToString();
                     txtNombre.Text = cuenta["nombre_cuenta"].ToString();
-                    txtCuenta.Text = cuenta["nombre_cuenta"].ToString(); // O el campo que corresponda
+                    txtCuenta.Text = cuenta["nombre_cuenta"].ToString();
 
-                    // Seleccionar el tipo de cuenta en el ComboBox
                     cmbTipoCuenta.SelectedValue = cuenta["id_cuenta"];
 
                     txtDetalle.Text = cuenta["detalle"] != DBNull.Value
@@ -154,8 +151,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void HabilitarControles(bool habilitar)
         {
-            txtId.Enabled = false; // El código siempre deshabilitado (es IDENTITY)
-            txtCuenta.Enabled = habilitar; // Permitir editar
+            txtId.Enabled = false;
+            txtCuenta.Enabled = habilitar;
             txtNombre.Enabled = habilitar;
             txtDetalle.Enabled = habilitar;
             txtSaldo.Enabled = habilitar;
@@ -261,69 +258,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
-        // Evento para cuando se hace doble clic en el DataGridView para editar
-        private void dgvCatalogoCuentas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                codCuentaSeleccionado = Convert.ToInt32(dgvCatalogoCuentas.Rows[e.RowIndex].Cells["Codigo"].Value);
-                HabilitarControles(true);
-                modoEdicion = true;
-                CargarDatosCuenta();
-                txtNombre.Focus();
-            }
-        }
+        
 
-        // Evento para actualizar txtCuenta cuando cambia el ComboBox (OPCIONAL - puedes comentarlo si no lo necesitas)
-        private void cmbTipoCuenta_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Si quieres que txtCuenta se llene automáticamente con el id del tipo de cuenta:
-            // if (cmbTipoCuenta.SelectedValue != null)
-            // {
-            //     txtCuenta.Text = cmbTipoCuenta.SelectedValue.ToString();
-            // }
 
-            // De lo contrario, deja este método vacío o elimínalo
-        }
-
-        // Opcional: Botón para eliminar
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            if (dgvCatalogoCuentas.CurrentRow == null)
-            {
-                MessageBox.Show("Seleccione una cuenta para eliminar", "Advertencia",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DialogResult confirmacion = MessageBox.Show(
-                "¿Está seguro de eliminar esta cuenta? Esta acción no se puede deshacer.",
-                "Confirmar eliminación",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (confirmacion == DialogResult.Yes)
-            {
-                try
-                {
-                    int codigo = Convert.ToInt32(dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value);
-                    bool resultado = crudCatalogoCuentas.EliminarCatalogoCuenta(codigo);
-
-                    if (resultado)
-                    {
-                        MessageBox.Show("Cuenta eliminada exitosamente", "Éxito",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        CargarDatos();
-                        LimpiarCampos();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al eliminar: " + ex.Message, "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
+      
         private void label10_Click(object sender, EventArgs e)
         {
 

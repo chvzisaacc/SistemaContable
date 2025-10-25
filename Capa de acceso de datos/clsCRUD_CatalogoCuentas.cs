@@ -26,13 +26,11 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_AgregarCatalogoCuenta", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                // Parámetros de entrada
                 cmd.Parameters.AddWithValue("@idCuenta", idCuenta);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
                 cmd.Parameters.AddWithValue("@detalle", detalle.HasValue ? (object)detalle.Value : DBNull.Value);
                 cmd.Parameters.AddWithValue("@saldo", saldo.HasValue ? (object)saldo.Value : DBNull.Value);
 
-                // Parámetro de salida para obtener el Código generado
                 SqlParameter nuevoId = new SqlParameter("@nuevoId", SqlDbType.Int);
                 nuevoId.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(nuevoId);
@@ -51,7 +49,6 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // OBTENER todas las cuentas del catálogo
         public DataTable ObtenerCatalogoCuentas()
         {
             try
@@ -77,7 +74,6 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // BUSCAR cuenta por Código
         public DataRow BuscarCatalogoCuentaPorId(int codCuenta)
         {
             try
@@ -107,7 +103,6 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // MODIFICAR cuenta
         public bool ModificarCatalogoCuenta(int codCuenta, int idCuenta, string nombre, decimal? detalle, decimal? saldo)
         {
             try
@@ -136,31 +131,8 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // ELIMINAR cuenta
-        public bool EliminarCatalogoCuenta(int codCuenta)
-        {
-            try
-            {
-                conexion.Abrir();
+        
 
-                SqlCommand cmd = new SqlCommand("sp_EliminarCatalogoCuenta", conexion.sc);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id", codCuenta);
-
-                int resultado = cmd.ExecuteNonQuery();
-                return resultado > 0;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al eliminar cuenta: " + ex.Message, ex);
-            }
-            finally
-            {
-                conexion.Cerrar();
-            }
-        }
-
-        // VALIDAR si nombre_cuenta existe
         public bool CatalogoCuentaExiste(string nombreCuenta)
         {
             try
@@ -189,7 +161,6 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // OBTENER próximo Código
         public int ObtenerProximoCodigo()
         {
             try
@@ -212,7 +183,6 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // OBTENER cuentas para ComboBox (Ingresos y Egresos)
         public DataTable ObtenerCuentas()
         {
             try
