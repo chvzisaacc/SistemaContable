@@ -25,9 +25,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Controls.Add(panelBancos2);
             panelContenedor.Controls.Add(panelIngresos);
+            panelContenedor.Controls.Add(panel5);
 
             // Opcional: muestra uno por defecto
-            MostrarSoloEstePanel(panelIngresos);
+            MostrarSoloEstePanel(panelContenedor);
         }
 
         private void MostrarSoloEstePanel(Panel panelAMostrar)
@@ -41,10 +42,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelAMostrar.BringToFront();
         }
 
-        private void btnIngresos_Click(object sender, EventArgs e)
-        {
-            MostrarSoloEstePanel(panelIngresos);
-        }
+
 
         private void btnGastos_Click(object sender, EventArgs e)
         {
@@ -55,11 +53,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             MostrarSoloEstePanel(panelCajaChica2);
         }
+        private void btnIngresos_Click_1(object sender, EventArgs e)
+        {
+            MostrarSoloEstePanel(panelIngresos);
+        }
 
-        private void btnBancos_Click(object sender, EventArgs e)
+        private void btnBancos_Click_1(object sender, EventArgs e)
         {
             MostrarSoloEstePanel(panelBancos2);
         }
+
+
+
 
 
 
@@ -73,25 +78,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             popup.ShowDialog();
         }
 
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
 
-        }
-
-        private void menuStrip1_ItemClicked_1(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-        private void FRM_42_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
@@ -102,41 +89,105 @@ namespace Capa_de_Presentación.Formularios_Luiss
             popup.ShowDialog();
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
 
-        }
-
-      
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
- 
-        private void btnGuardar_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnDetalle_Click(object sender, EventArgs e)
         {
-            using (var frm = new FRM_PG69()) // tu formulario emergente
+            using (var frm = new FRM_PG69())
             {
                 frm.StartPosition = FormStartPosition.CenterParent;
-                frm.ShowDialog(this); // bloquea la ventana principal hasta cerrar
+                frm.ShowDialog(this);
             }
         }
 
-        private void button2_Click_1(object sender, EventArgs e)
+        private void cmbCuentas_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+
+            if (cmbCuentas.SelectedIndex < 0) return;
+
+            switch (cmbCuentas.SelectedIndex)
+            {
+                case 0: // Cuenta ahorro
+                    {
+                        var frm = new FRM_PG42BancosCuentaAhorro
+                        {
+                            StartPosition = FormStartPosition.Manual,
+                            Location = new Point(430, 450)
+                        };
+                        frm.ShowDialog();
+                        break;
+                    }
+                case 1: // Cuenta cheques
+                    {
+                        var frm = new FRM_PG42BancosCuentaCheque
+                        {
+                            StartPosition = FormStartPosition.Manual,
+                            Location = new Point(430, 450)
+                        };
+
+                        frm.ShowDialog();
+                        break;
+                    }
+            }
+        }
+
+        private void cmbAcciones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbAcciones.SelectedIndex < 0) return;
+
+            switch (cmbAcciones.SelectedIndex)
+            {
+                case 0: // Agregar Saldo
+                    {
+                        var frm = new FRM_BancosAgregarSaldo
+                        {
+                            StartPosition = FormStartPosition.Manual,
+                            Location = new Point(430, 450)
+                        };
+                        frm.ShowDialog();
+                        break;
+                    }
+                case 1: // Cuenta cheques
+                    {
+                        var frm = new FRM_BancosTransferenciaEntreCuentas
+                        {
+                            StartPosition = FormStartPosition.Manual,
+                            Location = new Point(430, 450)
+                        };
+
+                        frm.ShowDialog();
+                        break;
+                    }
+                case 2: // Cuenta cheques
+                    {
+                        var frm = new FRM_BancosAgregarCuentaBancaria
+                        {
+                            StartPosition = FormStartPosition.Manual,
+                            Location = new Point(430, 450)
+                        };
+
+                        frm.ShowDialog();
+                        break;
+                    }
+                case 3: // Cuenta cheques
+                    {
+                        var frm = new FRM_BancosRetirarDinero
+                        {
+                            StartPosition = FormStartPosition.Manual,
+                            Location = new Point(430, 450)
+                        };
+
+                        frm.ShowDialog();
+                        break;
+                    }
+            }
         }
     }
 }
+
+      
+
+      
+
 

@@ -47,18 +47,19 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(98, 24);
+            label1.Location = new Point(109, -1);
             label1.Name = "label1";
-            label1.Size = new Size(134, 32);
+            label1.Size = new Size(170, 41);
             label1.TabIndex = 0;
             label1.Text = "SERVICIOS";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(56, 59);
+            pictureBox1.Location = new Point(61, 44);
+            pictureBox1.Margin = new Padding(3, 4, 3, 4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(236, 141);
+            pictureBox1.Size = new Size(287, 147);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
@@ -69,21 +70,19 @@
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(85, 226);
-            textBox2.Margin = new Padding(3, 2, 3, 2);
+            textBox2.Location = new Point(94, 230);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(185, 26);
+            textBox2.Size = new Size(237, 32);
             textBox2.TabIndex = 18;
             textBox2.Text = "Catálogo de cuentas";
             // 
             // pibCatalogoCuentas
             // 
             pibCatalogoCuentas.Image = (Image)resources.GetObject("pibCatalogoCuentas.Image");
-            pibCatalogoCuentas.Location = new Point(56, 214);
-            pibCatalogoCuentas.Margin = new Padding(3, 2, 3, 2);
+            pibCatalogoCuentas.Location = new Point(30, 198);
             pibCatalogoCuentas.Name = "pibCatalogoCuentas";
-            pibCatalogoCuentas.Size = new Size(236, 50);
-            pibCatalogoCuentas.SizeMode = PictureBoxSizeMode.CenterImage;
+            pibCatalogoCuentas.Size = new Size(367, 105);
+            pibCatalogoCuentas.SizeMode = PictureBoxSizeMode.Zoom;
             pibCatalogoCuentas.TabIndex = 17;
             pibCatalogoCuentas.TabStop = false;
             // 
@@ -93,21 +92,19 @@
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox1.ForeColor = Color.White;
-            textBox1.Location = new Point(85, 295);
-            textBox1.Margin = new Padding(3, 2, 3, 2);
+            textBox1.Location = new Point(109, 329);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(163, 26);
+            textBox1.Size = new Size(220, 32);
             textBox1.TabIndex = 20;
             textBox1.Text = "Generar Reportes";
             // 
             // pibGenerarReportes
             // 
             pibGenerarReportes.Image = (Image)resources.GetObject("pibGenerarReportes.Image");
-            pibGenerarReportes.Location = new Point(56, 283);
-            pibGenerarReportes.Margin = new Padding(3, 2, 3, 2);
+            pibGenerarReportes.Location = new Point(30, 296);
             pibGenerarReportes.Name = "pibGenerarReportes";
-            pibGenerarReportes.Size = new Size(236, 50);
-            pibGenerarReportes.SizeMode = PictureBoxSizeMode.CenterImage;
+            pibGenerarReportes.Size = new Size(367, 105);
+            pibGenerarReportes.SizeMode = PictureBoxSizeMode.Zoom;
             pibGenerarReportes.TabIndex = 19;
             pibGenerarReportes.TabStop = false;
             pibGenerarReportes.Click += pibGenerarReportes_Click;
@@ -118,10 +115,9 @@
             textBox3.BorderStyle = BorderStyle.None;
             textBox3.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox3.ForeColor = Color.White;
-            textBox3.Location = new Point(129, 363);
-            textBox3.Margin = new Padding(3, 2, 3, 2);
+            textBox3.Location = new Point(150, 432);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(86, 26);
+            textBox3.Size = new Size(129, 32);
             textBox3.TabIndex = 22;
             textBox3.Text = "Bitácora";
             textBox3.TextChanged += textBox3_TextChanged;
@@ -129,20 +125,19 @@
             // pibBitacora
             // 
             pibBitacora.Image = (Image)resources.GetObject("pibBitacora.Image");
-            pibBitacora.Location = new Point(56, 354);
-            pibBitacora.Margin = new Padding(3, 2, 3, 2);
+            pibBitacora.Location = new Point(30, 396);
             pibBitacora.Name = "pibBitacora";
-            pibBitacora.Size = new Size(236, 50);
-            pibBitacora.SizeMode = PictureBoxSizeMode.CenterImage;
+            pibBitacora.Size = new Size(367, 105);
+            pibBitacora.SizeMode = PictureBoxSizeMode.Zoom;
             pibBitacora.TabIndex = 21;
             pibBitacora.TabStop = false;
             pibBitacora.Click += pibBitacora_Click;
             // 
             // FRM_SERVICIOS
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(369, 516);
+            ClientSize = new Size(421, 510);
             Controls.Add(textBox3);
             Controls.Add(pibBitacora);
             Controls.Add(textBox1);
@@ -151,6 +146,7 @@
             Controls.Add(pibCatalogoCuentas);
             Controls.Add(pictureBox1);
             Controls.Add(label1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "FRM_SERVICIOS";
             Text = "FRM_SERVICIOS";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

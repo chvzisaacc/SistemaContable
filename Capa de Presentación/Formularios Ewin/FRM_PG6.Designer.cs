@@ -443,20 +443,20 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(253, 145);
+            label3.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
+            label3.Location = new Point(256, 132);
             label3.Name = "label3";
-            label3.Size = new Size(230, 31);
+            label3.Size = new Size(282, 38);
             label3.TabIndex = 3;
             label3.Text = "Catálogo de cuentas";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(78, 145);
+            label2.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
+            label2.Location = new Point(81, 132);
             label2.Name = "label2";
-            label2.Size = new Size(97, 31);
+            label2.Size = new Size(117, 38);
             label2.TabIndex = 2;
             label2.Text = "Usuario";
             // 
