@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_BancosAgregarCuentaBancaria));
             panel2 = new Panel();
             checkBox1 = new CheckBox();
-            textBox5 = new TextBox();
+            txtTasaInteres = new TextBox();
             textBox4 = new TextBox();
             textBox3 = new TextBox();
             label9 = new Label();
@@ -48,7 +48,7 @@
             // 
             panel2.BackColor = SystemColors.Control;
             panel2.Controls.Add(checkBox1);
-            panel2.Controls.Add(textBox5);
+            panel2.Controls.Add(txtTasaInteres);
             panel2.Controls.Add(textBox4);
             panel2.Controls.Add(textBox3);
             panel2.Controls.Add(label9);
@@ -72,18 +72,19 @@
             checkBox1.TabIndex = 20;
             checkBox1.Text = "Habilitar";
             checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
-            // textBox5
+            // txtTasaInteres
             // 
-            textBox5.BackColor = Color.FromArgb(251, 203, 51);
-            textBox5.BorderStyle = BorderStyle.None;
-            textBox5.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox5.ForeColor = Color.Black;
-            textBox5.Location = new Point(195, 142);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(88, 31);
-            textBox5.TabIndex = 19;
-            textBox5.Text = "   1.00%";
+            txtTasaInteres.BackColor = Color.FromArgb(251, 203, 51);
+            txtTasaInteres.BorderStyle = BorderStyle.None;
+            txtTasaInteres.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtTasaInteres.ForeColor = Color.Black;
+            txtTasaInteres.Location = new Point(195, 142);
+            txtTasaInteres.Name = "txtTasaInteres";
+            txtTasaInteres.Size = new Size(88, 31);
+            txtTasaInteres.TabIndex = 19;
+            txtTasaInteres.Text = "   1.00%";
             // 
             // textBox4
             // 
@@ -188,7 +189,7 @@
 
         private Panel panel2;
         private CheckBox checkBox1;
-        private TextBox textBox5;
+        private TextBox txtTasaInteres;
         private TextBox textBox4;
         private TextBox textBox3;
         private Label label9;

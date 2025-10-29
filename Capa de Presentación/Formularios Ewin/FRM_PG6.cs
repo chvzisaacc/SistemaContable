@@ -26,14 +26,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void FRM_PG6_Load(object sender, EventArgs e)
         {
-
             CargarDatos();
             CargarComboBoxes();
             LimpiarCampos();
             HabilitarControles(false);
         }
 
-        
+
 
         private void CargarDatos()
         {
@@ -172,7 +171,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void HabilitarControles(bool habilitar)
         {
-            txtId.Enabled = false; 
+            txtId.Enabled = false;
             txtNombre.Enabled = habilitar;
             txtApellido.Enabled = habilitar;
             txtCorreo.Enabled = habilitar;
@@ -206,7 +205,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             txtNombre.Focus();
         }
 
-        
+
         private void btnModificar_Click_1(object sender, EventArgs e)
         {
             if (dgvUsuarios.CurrentRow == null)
@@ -368,6 +367,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
         }
 
-        
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

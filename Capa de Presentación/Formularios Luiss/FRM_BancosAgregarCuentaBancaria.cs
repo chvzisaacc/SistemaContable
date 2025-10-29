@@ -15,6 +15,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_BancosAgregarCuentaBancaria()
         {
             InitializeComponent();
+            txtTasaInteres.Enabled = false; 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                txtTasaInteres.Enabled = true;
+            }
+            else
+            {
+                txtTasaInteres.Enabled = false;
+            }
         }
     }
 }

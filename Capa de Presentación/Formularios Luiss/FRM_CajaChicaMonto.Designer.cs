@@ -1,6 +1,6 @@
 ﻿namespace Capa_de_Presentación.Formularios_Luiss
 {
-    partial class FRM_BancosAgregarSaldo
+    partial class FRM_CajaChicaMonto
     {
         /// <summary>
         /// Required designer variable.
@@ -28,34 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_BancosAgregarSaldo));
-            panel2 = new Panel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_CajaChicaMonto));
             textBox4 = new TextBox();
             textBox2 = new TextBox();
             pictureBox2 = new PictureBox();
             textBox1 = new TextBox();
             label7 = new Label();
-            cmbCuentas = new ComboBox();
-            label6 = new Label();
-            panel2.SuspendLayout();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // panel2
-            // 
-            panel2.BackColor = SystemColors.Control;
-            panel2.Controls.Add(textBox4);
-            panel2.Controls.Add(textBox2);
-            panel2.Controls.Add(pictureBox2);
-            panel2.Controls.Add(textBox1);
-            panel2.Controls.Add(label7);
-            panel2.Controls.Add(cmbCuentas);
-            panel2.Controls.Add(label6);
-            panel2.Location = new Point(10, 9);
-            panel2.Margin = new Padding(3, 2, 3, 2);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(453, 232);
-            panel2.TabIndex = 10;
             // 
             // textBox4
             // 
@@ -63,11 +45,11 @@
             textBox4.BorderStyle = BorderStyle.None;
             textBox4.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox4.ForeColor = Color.Black;
-            textBox4.Location = new Point(120, 100);
+            textBox4.Location = new Point(134, 84);
             textBox4.Margin = new Padding(3, 2, 3, 2);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(222, 25);
-            textBox4.TabIndex = 19;
+            textBox4.TabIndex = 26;
             textBox4.Text = "Ingrese monto";
             // 
             // textBox2
@@ -76,23 +58,22 @@
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(156, 157);
+            textBox2.Location = new Point(145, 159);
             textBox2.Margin = new Padding(3, 2, 3, 2);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(161, 22);
-            textBox2.TabIndex = 14;
+            textBox2.TabIndex = 25;
             textBox2.Text = "Guardar y cerrar";
-            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(120, 142);
+            pictureBox2.Location = new Point(109, 144);
             pictureBox2.Margin = new Padding(3, 2, 3, 2);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(222, 50);
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
-            pictureBox2.TabIndex = 13;
+            pictureBox2.TabIndex = 24;
             pictureBox2.TabStop = false;
             // 
             // textBox1
@@ -100,71 +81,57 @@
             textBox1.BackColor = Color.FromArgb(251, 203, 51);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(123, 100);
+            textBox1.Location = new Point(137, 84);
             textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(179, 25);
-            textBox1.TabIndex = 12;
+            textBox1.TabIndex = 23;
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(15, 100);
+            label7.Location = new Point(33, 84);
             label7.Name = "label7";
             label7.Size = new Size(78, 25);
-            label7.TabIndex = 10;
+            label7.TabIndex = 20;
             label7.Text = "Monto:";
             // 
-            // cmbCuentas
+            // panel1
             // 
-            cmbCuentas.BackColor = Color.FromArgb(251, 203, 51);
-            cmbCuentas.FlatStyle = FlatStyle.Flat;
-            cmbCuentas.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbCuentas.FormattingEnabled = true;
-            cmbCuentas.Items.AddRange(new object[] { "Cuenta Cheque", "Cuenta Ahorro" });
-            cmbCuentas.Location = new Point(120, 56);
-            cmbCuentas.Margin = new Padding(3, 2, 3, 2);
-            cmbCuentas.Name = "cmbCuentas";
-            cmbCuentas.Size = new Size(223, 33);
-            cmbCuentas.TabIndex = 11;
-            cmbCuentas.Text = "      Cuentas";
+            panel1.BackColor = SystemColors.Control;
+            panel1.Controls.Add(label7);
+            panel1.Controls.Add(textBox2);
+            panel1.Controls.Add(textBox4);
+            panel1.Controls.Add(pictureBox2);
+            panel1.Controls.Add(textBox1);
+            panel1.Location = new Point(12, 12);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(450, 226);
+            panel1.TabIndex = 27;
             // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(77, 15);
-            label6.Name = "label6";
-            label6.Size = new Size(241, 30);
-            label6.TabIndex = 10;
-            label6.Text = "Seleccione una cuenta";
-            // 
-            // FRM_BancosAgregarSaldo
+            // FRM_CajaChicaMonto
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(474, 250);
-            Controls.Add(panel2);
-            Margin = new Padding(3, 2, 3, 2);
-            Name = "FRM_BancosAgregarSaldo";
-            Text = "FRM_BancosAgregarSaldo";
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            Controls.Add(panel1);
+            Name = "FRM_CajaChicaMonto";
+            Text = "FRM_CajaChicaMonto";
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Panel panel2;
         private TextBox textBox4;
         private TextBox textBox2;
         private PictureBox pictureBox2;
         private TextBox textBox1;
         private Label label7;
-        private ComboBox cmbCuentas;
-        private Label label6;
+        private Panel panel1;
     }
 }

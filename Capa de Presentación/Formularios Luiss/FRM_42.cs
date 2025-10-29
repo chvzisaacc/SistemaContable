@@ -1,4 +1,5 @@
-﻿using Capa_de_Presentación.CLASES;
+﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,11 +15,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_42 : Form
     {
+        private clsCRUD_CatalogoCuentas crudCataloCuentas;
+        private bool modoEdicion = false;
+        private int cuentaBancoIDseleccionado = 0;
 
         ClsCerrar cerrar = new ClsCerrar();
         public FRM_42()
         {
             InitializeComponent();
+            crudCataloCuentas = new clsCRUD_CatalogoCuentas();
             this.FormClosing += cerrar.CerrarApp;
             // Agrega los paneles secundarios dentro del panel contenedor
             panelContenedor.Controls.Add(panelGastos2);
@@ -30,6 +35,66 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // Opcional: muestra uno por defecto
             MostrarSoloEstePanel(panelContenedor);
         }
+
+        private void FRM_42_Load(object sender, EventArgs e)
+        {
+            //CargarDatos();
+            //CargarComboBoxes();
+           // LimpiarCampos();
+            //HabilitarControles(false);
+        }
+
+        /*private void CargarDatos()
+        {
+            try
+            {
+                dgvUsuarios.DataSource = crudUsuarios.ObtenerUsuarios();
+
+                //aqui es para ocultar algunos campos (los ids y las contraseñas)
+                /*
+                if (dgvUsuarios.Columns["Contraseña"] != null)
+                    dgvUsuarios.Columns["Contraseña"].Visible = false;
+
+                if (dgvUsuarios.Columns["RolID"] != null)
+                    dgvUsuarios.Columns["RolID"].Visible = false;
+                if (dgvUsuarios.Columns["ParroquiaID"] != null)
+                    dgvUsuarios.Columns["ParroquiaID"].Visible = false;
+                if (dgvUsuarios.Columns["EstadoID"] != null)
+                    dgvUsuarios.Columns["EstadoID"].Visible = false;
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar datos: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        */
+
+       /* private void CargarComboBoxes()
+        {
+            try
+            {
+                cmbCuentas.DataSource = crudCataloCuentas.ObtenerRoles();
+                cmbCuentas.DisplayMember = "Rol_descripcion";
+                cmbCuentas.ValueMember = "Rol_Id";
+
+                cmbParroquia.DataSource = crudCataloCuentas.ObtenerParroquias();
+                cmbParroquia.DisplayMember = "Parroquia_nombre";
+                cmbParroquia.ValueMember = "Parroquia_id";
+
+                cmbEstado.DataSource = crudUsuarios.ObtenerEstados();
+                cmbEstado.DisplayMember = "descripcion";
+                cmbEstado.ValueMember = "Id_estado_cuenta";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar opciones: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        */
 
         private void MostrarSoloEstePanel(Panel panelAMostrar)
         {
@@ -148,7 +213,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         frm.ShowDialog();
                         break;
                     }
-                case 1: // Cuenta cheques
+                case 1: // Transferencia entre cuentas
                     {
                         var frm = new FRM_BancosTransferenciaEntreCuentas
                         {
@@ -159,7 +224,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         frm.ShowDialog();
                         break;
                     }
-                case 2: // Cuenta cheques
+                case 2: // Agregar cuenta bancaria
                     {
                         var frm = new FRM_BancosAgregarCuentaBancaria
                         {
@@ -170,7 +235,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         frm.ShowDialog();
                         break;
                     }
-                case 3: // Cuenta cheques
+                case 3: // Retirar dinero
                     {
                         var frm = new FRM_BancosRetirarDinero
                         {
@@ -183,8 +248,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     }
             }
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
     }
-}
+
+ }
+
 
       
 
