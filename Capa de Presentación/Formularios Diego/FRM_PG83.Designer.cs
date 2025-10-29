@@ -30,15 +30,17 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG83));
             panel1 = new Panel();
+            panel3 = new Panel();
             label8 = new Label();
             pictureBox4 = new PictureBox();
             pictureBox3 = new PictureBox();
             panel2 = new Panel();
-            textBox2 = new TextBox();
+            cmbDestino = new ComboBox();
+            btnGuardar = new TextBox();
             pictureBox2 = new PictureBox();
-            textBox1 = new TextBox();
+            txtMonto = new TextBox();
             label7 = new Label();
-            comboBox1 = new ComboBox();
+            cmbOrigen = new ComboBox();
             label6 = new Label();
             panel4 = new Panel();
             label5 = new Label();
@@ -48,9 +50,6 @@
             label1 = new Label();
             pictureBox1 = new PictureBox();
             panel5 = new Panel();
-            comboBox2 = new ComboBox();
-            panel3 = new Panel();
-            textBox4 = new TextBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -79,6 +78,15 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(845, 496);
             panel1.TabIndex = 1;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = Color.FromArgb(43, 56, 143);
+            panel3.Enabled = false;
+            panel3.Location = new Point(0, 173);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(845, 3);
+            panel3.TabIndex = 9;
             // 
             // label8
             // 
@@ -114,13 +122,12 @@
             // 
             // panel2
             // 
-            panel2.Controls.Add(textBox4);
-            panel2.Controls.Add(comboBox2);
-            panel2.Controls.Add(textBox2);
+            panel2.Controls.Add(cmbDestino);
+            panel2.Controls.Add(btnGuardar);
             panel2.Controls.Add(pictureBox2);
-            panel2.Controls.Add(textBox1);
+            panel2.Controls.Add(txtMonto);
             panel2.Controls.Add(label7);
-            panel2.Controls.Add(comboBox1);
+            panel2.Controls.Add(cmbOrigen);
             panel2.Controls.Add(label6);
             panel2.Location = new Point(223, 209);
             panel2.Name = "panel2";
@@ -128,17 +135,30 @@
             panel2.TabIndex = 8;
             panel2.Paint += panel2_Paint;
             // 
-            // textBox2
+            // cmbDestino
             // 
-            textBox2.BackColor = Color.FromArgb(43, 56, 143);
-            textBox2.BorderStyle = BorderStyle.None;
-            textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(132, 183);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(164, 27);
-            textBox2.TabIndex = 14;
-            textBox2.Text = "Guardar y cerrar";
+            cmbDestino.BackColor = Color.FromArgb(251, 203, 51);
+            cmbDestino.FlatStyle = FlatStyle.Flat;
+            cmbDestino.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbDestino.FormattingEnabled = true;
+            cmbDestino.Location = new Point(120, 100);
+            cmbDestino.Name = "cmbDestino";
+            cmbDestino.Size = new Size(205, 33);
+            cmbDestino.TabIndex = 15;
+            cmbDestino.Text = "            Destino";
+            // 
+            // btnGuardar
+            // 
+            btnGuardar.BackColor = Color.FromArgb(43, 56, 143);
+            btnGuardar.BorderStyle = BorderStyle.None;
+            btnGuardar.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar.ForeColor = Color.White;
+            btnGuardar.Location = new Point(132, 183);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(164, 27);
+            btnGuardar.TabIndex = 14;
+            btnGuardar.Text = "Guardar y cerrar";
+            btnGuardar.TextChanged += btnGuardar_TextChanged;
             // 
             // pictureBox2
             // 
@@ -149,16 +169,17 @@
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.TabIndex = 13;
             pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click_1;
             // 
-            // textBox1
+            // txtMonto
             // 
-            textBox1.BackColor = Color.FromArgb(251, 203, 51);
-            textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(120, 139);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(201, 27);
-            textBox1.TabIndex = 12;
+            txtMonto.BackColor = Color.FromArgb(251, 203, 51);
+            txtMonto.BorderStyle = BorderStyle.None;
+            txtMonto.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtMonto.Location = new Point(120, 139);
+            txtMonto.Name = "txtMonto";
+            txtMonto.Size = new Size(201, 27);
+            txtMonto.TabIndex = 12;
             // 
             // label7
             // 
@@ -170,17 +191,17 @@
             label7.TabIndex = 10;
             label7.Text = "Monto:";
             // 
-            // comboBox1
+            // cmbOrigen
             // 
-            comboBox1.BackColor = Color.FromArgb(251, 203, 51);
-            comboBox1.FlatStyle = FlatStyle.Flat;
-            comboBox1.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(120, 61);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(205, 33);
-            comboBox1.TabIndex = 11;
-            comboBox1.Text = "            Origen";
+            cmbOrigen.BackColor = Color.FromArgb(251, 203, 51);
+            cmbOrigen.FlatStyle = FlatStyle.Flat;
+            cmbOrigen.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbOrigen.FormattingEnabled = true;
+            cmbOrigen.Location = new Point(120, 61);
+            cmbOrigen.Name = "cmbOrigen";
+            cmbOrigen.Size = new Size(205, 33);
+            cmbOrigen.TabIndex = 11;
+            cmbOrigen.Text = "            Origen";
             // 
             // label6
             // 
@@ -267,39 +288,6 @@
             panel5.Size = new Size(412, 238);
             panel5.TabIndex = 9;
             // 
-            // comboBox2
-            // 
-            comboBox2.BackColor = Color.FromArgb(251, 203, 51);
-            comboBox2.FlatStyle = FlatStyle.Flat;
-            comboBox2.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(120, 100);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(205, 33);
-            comboBox2.TabIndex = 15;
-            comboBox2.Text = "            Destino";
-            // 
-            // panel3
-            // 
-            panel3.BackColor = Color.FromArgb(43, 56, 143);
-            panel3.Enabled = false;
-            panel3.Location = new Point(0, 173);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(845, 3);
-            panel3.TabIndex = 9;
-            // 
-            // textBox4
-            // 
-            textBox4.BackColor = Color.FromArgb(251, 203, 51);
-            textBox4.BorderStyle = BorderStyle.None;
-            textBox4.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox4.ForeColor = Color.Black;
-            textBox4.Location = new Point(157, 142);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(139, 24);
-            textBox4.TabIndex = 18;
-            textBox4.Text = "Ingrese monto";
-            // 
             // FRM_PG83
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -309,6 +297,7 @@
             Controls.Add(panel1);
             Name = "FRM_PG83";
             Text = "FRM_PG83";
+            Load += FRM_PG83_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
@@ -327,11 +316,11 @@
         private PictureBox pictureBox4;
         private PictureBox pictureBox3;
         private Panel panel2;
-        private TextBox textBox2;
+        private TextBox btnGuardar;
         private PictureBox pictureBox2;
-        private TextBox textBox1;
+        private TextBox txtMonto;
         private Label label7;
-        private ComboBox comboBox1;
+        private ComboBox cmbOrigen;
         private Label label6;
         private Panel panel4;
         private Label label5;
@@ -341,8 +330,7 @@
         private Label label1;
         private PictureBox pictureBox1;
         private Panel panel5;
-        private ComboBox comboBox2;
+        private ComboBox cmbDestino;
         private Panel panel3;
-        private TextBox textBox4;
     }
 }
