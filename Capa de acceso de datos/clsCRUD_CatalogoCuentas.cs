@@ -85,7 +85,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@id", codCuenta);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
+                DataTable dt = new DataTable() ;
                 adapter.Fill(dt);
 
                 if (dt.Rows.Count > 0)
