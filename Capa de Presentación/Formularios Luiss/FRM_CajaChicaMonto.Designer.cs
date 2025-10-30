@@ -29,28 +29,30 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_CajaChicaMonto));
-            textBox4 = new TextBox();
+            txtMonto = new TextBox();
             textBox2 = new TextBox();
             pictureBox2 = new PictureBox();
             textBox1 = new TextBox();
             label7 = new Label();
             panel1 = new Panel();
+            Btnguardar = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
-            // textBox4
+            // txtMonto
             // 
-            textBox4.BackColor = Color.FromArgb(251, 203, 51);
-            textBox4.BorderStyle = BorderStyle.None;
-            textBox4.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox4.ForeColor = Color.Black;
-            textBox4.Location = new Point(134, 84);
-            textBox4.Margin = new Padding(3, 2, 3, 2);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(222, 25);
-            textBox4.TabIndex = 26;
-            textBox4.Text = "Ingrese monto";
+            txtMonto.BackColor = Color.FromArgb(251, 203, 51);
+            txtMonto.BorderStyle = BorderStyle.None;
+            txtMonto.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtMonto.ForeColor = Color.Black;
+            txtMonto.Location = new Point(137, 84);
+            txtMonto.Margin = new Padding(3, 2, 3, 2);
+            txtMonto.Name = "txtMonto";
+            txtMonto.Size = new Size(179, 25);
+            txtMonto.TabIndex = 26;
+            txtMonto.Text = "Ingrese monto";
+            txtMonto.TextChanged += textBox4_TextChanged;
             // 
             // textBox2
             // 
@@ -58,12 +60,13 @@
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(145, 159);
+            textBox2.Location = new Point(144, 156);
             textBox2.Margin = new Padding(3, 2, 3, 2);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(161, 22);
+            textBox2.Size = new Size(150, 22);
             textBox2.TabIndex = 25;
             textBox2.Text = "Guardar y cerrar";
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pictureBox2
             // 
@@ -100,15 +103,30 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.Control;
+            panel1.Controls.Add(Btnguardar);
             panel1.Controls.Add(label7);
-            panel1.Controls.Add(textBox2);
-            panel1.Controls.Add(textBox4);
-            panel1.Controls.Add(pictureBox2);
+            panel1.Controls.Add(txtMonto);
             panel1.Controls.Add(textBox1);
+            panel1.Controls.Add(textBox2);
+            panel1.Controls.Add(pictureBox2);
             panel1.Location = new Point(12, 12);
             panel1.Name = "panel1";
             panel1.Size = new Size(450, 226);
             panel1.TabIndex = 27;
+            // 
+            // Btnguardar
+            // 
+            Btnguardar.BackColor = Color.FromArgb(43, 56, 143);
+            Btnguardar.FlatStyle = FlatStyle.Flat;
+            Btnguardar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            Btnguardar.ForeColor = SystemColors.ButtonHighlight;
+            Btnguardar.Location = new Point(81, 134);
+            Btnguardar.Name = "Btnguardar";
+            Btnguardar.Size = new Size(262, 60);
+            Btnguardar.TabIndex = 27;
+            Btnguardar.Text = "Guardar y cerrar";
+            Btnguardar.UseVisualStyleBackColor = false;
+            Btnguardar.Click += button1_Click;
             // 
             // FRM_CajaChicaMonto
             // 
@@ -127,11 +145,12 @@
 
         #endregion
 
-        private TextBox textBox4;
+        private TextBox txtMonto;
         private TextBox textBox2;
         private PictureBox pictureBox2;
         private TextBox textBox1;
         private Label label7;
         private Panel panel1;
+        private Button Btnguardar;
     }
 }

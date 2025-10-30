@@ -32,25 +32,25 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_42));
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             label1 = new Label();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
             panelContenedor = new Panel();
-            panelBancos2 = new Panel();
-            cmbAcciones = new ComboBox();
-            cmbCD = new ComboBox();
-            cmbInteresesBancarios = new ComboBox();
-            cmbCuentas = new ComboBox();
             panelCajaChica2 = new Panel();
             chkSaldoInicial = new CheckBox();
             txtSaldoActual = new TextBox();
             pictureBox4 = new PictureBox();
             btnDetalle = new Button();
             label7 = new Label();
+            panelBancos2 = new Panel();
+            cmbAcciones = new ComboBox();
+            cmbCD = new ComboBox();
+            cmbInteresesBancarios = new ComboBox();
+            cmbCuentas = new ComboBox();
             panelGastos2 = new Panel();
             btnGuardar2 = new Button();
             dgvGastos = new DataGridView();
@@ -83,13 +83,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             btnIngresos = new Button();
             panel1 = new Panel();
             panelLinea = new Panel();
+            textBox1 = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panelContenedor.SuspendLayout();
-            panelBancos2.SuspendLayout();
             panelCajaChica2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            panelBancos2.SuspendLayout();
             panelGastos2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvGastos).BeginInit();
             panelIngresos.SuspendLayout();
@@ -151,6 +152,85 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(1096, 302);
             panelContenedor.TabIndex = 8;
+            // 
+            // panelCajaChica2
+            // 
+            panelCajaChica2.Controls.Add(textBox1);
+            panelCajaChica2.Controls.Add(chkSaldoInicial);
+            panelCajaChica2.Controls.Add(txtSaldoActual);
+            panelCajaChica2.Controls.Add(pictureBox4);
+            panelCajaChica2.Controls.Add(btnDetalle);
+            panelCajaChica2.Controls.Add(label7);
+            panelCajaChica2.Dock = DockStyle.Fill;
+            panelCajaChica2.Location = new Point(0, 0);
+            panelCajaChica2.Margin = new Padding(3, 2, 3, 2);
+            panelCajaChica2.Name = "panelCajaChica2";
+            panelCajaChica2.Size = new Size(1096, 302);
+            panelCajaChica2.TabIndex = 42;
+            panelCajaChica2.Paint += panelCajaChica2_Paint;
+            // 
+            // chkSaldoInicial
+            // 
+            chkSaldoInicial.AutoSize = true;
+            chkSaldoInicial.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chkSaldoInicial.Location = new Point(366, 206);
+            chkSaldoInicial.Margin = new Padding(3, 2, 3, 2);
+            chkSaldoInicial.Name = "chkSaldoInicial";
+            chkSaldoInicial.Size = new Size(245, 34);
+            chkSaldoInicial.TabIndex = 39;
+            chkSaldoInicial.Text = "Ingresar saldo inicial";
+            chkSaldoInicial.UseVisualStyleBackColor = true;
+            chkSaldoInicial.CheckedChanged += chkSaldoInicial_CheckedChanged;
+            // 
+            // txtSaldoActual
+            // 
+            txtSaldoActual.BackColor = Color.FromArgb(251, 203, 51);
+            txtSaldoActual.BorderStyle = BorderStyle.None;
+            txtSaldoActual.Enabled = false;
+            txtSaldoActual.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtSaldoActual.Location = new Point(446, 134);
+            txtSaldoActual.Margin = new Padding(3, 2, 3, 2);
+            txtSaldoActual.Name = "txtSaldoActual";
+            txtSaldoActual.Size = new Size(137, 32);
+            txtSaldoActual.TabIndex = 38;
+            txtSaldoActual.Text = " 0.00";
+            txtSaldoActual.TextChanged += txtSaldoActual_TextChanged;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
+            pictureBox4.Location = new Point(360, 112);
+            pictureBox4.Margin = new Padding(3, 2, 3, 2);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(276, 80);
+            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox4.TabIndex = 37;
+            pictureBox4.TabStop = false;
+            // 
+            // btnDetalle
+            // 
+            btnDetalle.BackColor = Color.FromArgb(43, 56, 143);
+            btnDetalle.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
+            btnDetalle.FlatAppearance.BorderSize = 0;
+            btnDetalle.FlatStyle = FlatStyle.Flat;
+            btnDetalle.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDetalle.ForeColor = SystemColors.Control;
+            btnDetalle.Location = new Point(687, 134);
+            btnDetalle.Name = "btnDetalle";
+            btnDetalle.Size = new Size(133, 38);
+            btnDetalle.TabIndex = 36;
+            btnDetalle.Text = "Detalle";
+            btnDetalle.UseVisualStyleBackColor = false;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.Location = new Point(381, 32);
+            label7.Name = "label7";
+            label7.Size = new Size(257, 45);
+            label7.TabIndex = 31;
+            label7.Text = "SALDO ACTUAL";
             // 
             // panelBancos2
             // 
@@ -214,80 +294,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbCuentas.Text = "Cuentas de Ahorro";
             cmbCuentas.SelectedIndexChanged += cmbCuentas_SelectedIndexChanged;
             // 
-            // panelCajaChica2
-            // 
-            panelCajaChica2.Controls.Add(chkSaldoInicial);
-            panelCajaChica2.Controls.Add(txtSaldoActual);
-            panelCajaChica2.Controls.Add(pictureBox4);
-            panelCajaChica2.Controls.Add(btnDetalle);
-            panelCajaChica2.Controls.Add(label7);
-            panelCajaChica2.Dock = DockStyle.Fill;
-            panelCajaChica2.Location = new Point(0, 0);
-            panelCajaChica2.Margin = new Padding(3, 2, 3, 2);
-            panelCajaChica2.Name = "panelCajaChica2";
-            panelCajaChica2.Size = new Size(1096, 302);
-            panelCajaChica2.TabIndex = 42;
-            // 
-            // chkSaldoInicial
-            // 
-            chkSaldoInicial.AutoSize = true;
-            chkSaldoInicial.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            chkSaldoInicial.Location = new Point(366, 206);
-            chkSaldoInicial.Margin = new Padding(3, 2, 3, 2);
-            chkSaldoInicial.Name = "chkSaldoInicial";
-            chkSaldoInicial.Size = new Size(245, 34);
-            chkSaldoInicial.TabIndex = 39;
-            chkSaldoInicial.Text = "Ingresar saldo inicial";
-            chkSaldoInicial.UseVisualStyleBackColor = true;
-            // 
-            // txtSaldoActual
-            // 
-            txtSaldoActual.BackColor = Color.FromArgb(251, 203, 51);
-            txtSaldoActual.BorderStyle = BorderStyle.None;
-            txtSaldoActual.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtSaldoActual.Location = new Point(463, 135);
-            txtSaldoActual.Margin = new Padding(3, 2, 3, 2);
-            txtSaldoActual.Name = "txtSaldoActual";
-            txtSaldoActual.Size = new Size(99, 32);
-            txtSaldoActual.TabIndex = 38;
-            txtSaldoActual.Text = "L 0.00";
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(360, 112);
-            pictureBox4.Margin = new Padding(3, 2, 3, 2);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(276, 80);
-            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox4.TabIndex = 37;
-            pictureBox4.TabStop = false;
-            // 
-            // btnDetalle
-            // 
-            btnDetalle.BackColor = Color.FromArgb(43, 56, 143);
-            btnDetalle.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
-            btnDetalle.FlatAppearance.BorderSize = 0;
-            btnDetalle.FlatStyle = FlatStyle.Flat;
-            btnDetalle.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnDetalle.ForeColor = SystemColors.Control;
-            btnDetalle.Location = new Point(687, 134);
-            btnDetalle.Name = "btnDetalle";
-            btnDetalle.Size = new Size(133, 38);
-            btnDetalle.TabIndex = 36;
-            btnDetalle.Text = "Detalle";
-            btnDetalle.UseVisualStyleBackColor = false;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(381, 32);
-            label7.Name = "label7";
-            label7.Size = new Size(257, 45);
-            label7.TabIndex = 31;
-            label7.Text = "SALDO ACTUAL";
-            // 
             // panelGastos2
             // 
             panelGastos2.Controls.Add(btnGuardar2);
@@ -322,14 +328,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // dgvGastos
             // 
             dgvGastos.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = SystemColors.Control;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvGastos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvGastos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvGastos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvGastos.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3 });
             dgvGastos.Location = new Point(31, 100);
@@ -472,14 +478,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // dgvIngresos
             // 
             dgvIngresos.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = SystemColors.Control;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dgvIngresos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvIngresos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvIngresos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvIngresos.Columns.AddRange(new DataGridViewColumn[] { cNombreCuenta, cDetalle, cSaldo });
             dgvIngresos.Location = new Point(16, 98);
@@ -654,6 +660,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelLinea.Size = new Size(1099, 2);
             panelLinea.TabIndex = 24;
             // 
+            // textBox1
+            // 
+            textBox1.BackColor = Color.FromArgb(251, 203, 51);
+            textBox1.BorderStyle = BorderStyle.None;
+            textBox1.Enabled = false;
+            textBox1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox1.Location = new Point(427, 134);
+            textBox1.Margin = new Padding(3, 2, 3, 2);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(14, 32);
+            textBox1.TabIndex = 40;
+            textBox1.Text = "L";
+            // 
             // FRM_42
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -668,10 +687,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panelContenedor.ResumeLayout(false);
-            panelBancos2.ResumeLayout(false);
             panelCajaChica2.ResumeLayout(false);
             panelCajaChica2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            panelBancos2.ResumeLayout(false);
             panelGastos2.ResumeLayout(false);
             panelGastos2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvGastos).EndInit();
@@ -737,5 +756,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private ComboBox cmbOrigen;
         private Panel panel5;
         private Button button1;
+        private TextBox textBox1;
     }
 }
