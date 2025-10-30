@@ -88,6 +88,7 @@ namespace Capa_de_Presentación.Formularios_Diego
 
                         ClsAccionesDB acciones = new ClsAccionesDB();
                         acciones.GuardarCertificado(nombreCertificado, depositoInicial, plazo, tasa);
+
                     }
                 }
 
