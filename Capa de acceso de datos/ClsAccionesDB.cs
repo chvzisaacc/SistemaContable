@@ -54,7 +54,7 @@ namespace Capa_de_acceso_de_datos
                     int filas = cmd.ExecuteNonQuery();
                     return filas > 0;
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -147,5 +147,33 @@ namespace Capa_de_acceso_de_datos
             return resultado;
         }
 
+        public void GuardarCertificado(string nombreCertificado, decimal depositoInicial, int plazo, decimal tasa)
+        {
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_guardar_certificado", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Nombre_certificado", nombreCertificado);
+                    cmd.Parameters.AddWithValue("@deposito_inicial", depositoInicial);
+                    cmd.Parameters.AddWithValue("@plazo", plazo);
+                    cmd.Parameters.AddWithValue("@tasa", nombreCertificado);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al guardar certificado de depósito: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+
+
+
+        }
     }
 }

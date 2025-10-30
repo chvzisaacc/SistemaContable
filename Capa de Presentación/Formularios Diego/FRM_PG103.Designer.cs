@@ -34,38 +34,39 @@
             pictureBox4 = new PictureBox();
             pictureBox3 = new PictureBox();
             panel2 = new Panel();
+            button1 = new Button();
+            dataGridView1 = new DataGridView();
+            textBox4 = new TextBox();
+            pictureBox9 = new PictureBox();
+            pictureBox8 = new PictureBox();
+            pictureBox7 = new PictureBox();
+            textBox3 = new TextBox();
+            pictureBox6 = new PictureBox();
+            textBox1 = new TextBox();
+            pictureBox5 = new PictureBox();
+            textBox2 = new TextBox();
+            pictureBox2 = new PictureBox();
             label6 = new Label();
             panel4 = new Panel();
             label1 = new Label();
             pictureBox1 = new PictureBox();
             panel5 = new Panel();
-            dataGridView1 = new DataGridView();
             Nombre = new DataGridViewTextBoxColumn();
-            ClmDeposito = new DataGridViewTextBoxColumn();
-            ClmPlazos = new DataGridViewTextBoxColumn();
-            clmTasa = new DataGridViewTextBoxColumn();
-            textBox2 = new TextBox();
-            pictureBox2 = new PictureBox();
-            textBox1 = new TextBox();
-            pictureBox5 = new PictureBox();
-            textBox3 = new TextBox();
-            pictureBox6 = new PictureBox();
-            pictureBox7 = new PictureBox();
-            pictureBox8 = new PictureBox();
-            pictureBox9 = new PictureBox();
-            textBox4 = new TextBox();
+            DepositoInicial = new DataGridViewTextBoxColumn();
+            Plazo = new DataGridViewTextBoxColumn();
+            Tasa = new DataGridViewTextBoxColumn();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -79,9 +80,10 @@
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(panel5);
-            panel1.Location = new Point(29, 21);
+            panel1.Location = new Point(36, 26);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(845, 496);
+            panel1.Size = new Size(1056, 620);
             panel1.TabIndex = 3;
             panel1.Paint += panel1_Paint;
             // 
@@ -89,18 +91,20 @@
             // 
             label8.AutoSize = true;
             label8.BackColor = Color.FromArgb(251, 203, 51);
-            label8.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.FromArgb(43, 56, 143);
-            label8.Location = new Point(761, 32);
+            label8.Location = new Point(944, 35);
+            label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
-            label8.Size = new Size(44, 31);
+            label8.Size = new Size(45, 32);
             label8.TabIndex = 12;
             label8.Text = "SD";
             // 
             // pictureBox4
             // 
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(735, 3);
+            pictureBox4.Location = new Point(919, 4);
+            pictureBox4.Margin = new Padding(4);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Size = new Size(95, 88);
             pictureBox4.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -110,15 +114,18 @@
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(652, 14);
+            pictureBox3.Location = new Point(815, 18);
+            pictureBox3.Margin = new Padding(4);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(77, 66);
+            pictureBox3.Size = new Size(96, 82);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 10;
             pictureBox3.TabStop = false;
             // 
             // panel2
             // 
+            panel2.Controls.Add(button1);
+            panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(textBox4);
             panel2.Controls.Add(pictureBox9);
             panel2.Controls.Add(pictureBox8);
@@ -129,28 +136,183 @@
             panel2.Controls.Add(pictureBox5);
             panel2.Controls.Add(textBox2);
             panel2.Controls.Add(pictureBox2);
-            panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(label6);
-            panel2.Location = new Point(50, 127);
+            panel2.Location = new Point(62, 159);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(741, 324);
+            panel2.Size = new Size(926, 405);
             panel2.TabIndex = 8;
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.Transparent;
+            button1.BackgroundImageLayout = ImageLayout.Center;
+            button1.Location = new Point(102, 263);
+            button1.Name = "button1";
+            button1.Size = new Size(22, 34);
+            button1.TabIndex = 31;
+            button1.Text = "+";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Nombre, DepositoInicial, Plazo, Tasa });
+            dataGridView1.Location = new Point(130, 99);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
+            dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.Size = new Size(664, 198);
+            dataGridView1.TabIndex = 30;
+            dataGridView1.CellClick += dataGridView1_CellClick;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
+            // 
+            // textBox4
+            // 
+            textBox4.BackColor = Color.FromArgb(43, 56, 143);
+            textBox4.BorderStyle = BorderStyle.None;
+            textBox4.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox4.ForeColor = Color.White;
+            textBox4.Location = new Point(80, 44);
+            textBox4.Margin = new Padding(4);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(50, 21);
+            textBox4.TabIndex = 29;
+            textBox4.Text = "Volver";
+            // 
+            // pictureBox9
+            // 
+            pictureBox9.Image = (Image)resources.GetObject("pictureBox9.Image");
+            pictureBox9.Location = new Point(26, 21);
+            pictureBox9.Margin = new Padding(4);
+            pictureBox9.Name = "pictureBox9";
+            pictureBox9.Size = new Size(149, 71);
+            pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox9.TabIndex = 28;
+            pictureBox9.TabStop = false;
+            // 
+            // pictureBox8
+            // 
+            pictureBox8.Image = (Image)resources.GetObject("pictureBox8.Image");
+            pictureBox8.Location = new Point(876, 162);
+            pictureBox8.Margin = new Padding(4);
+            pictureBox8.Name = "pictureBox8";
+            pictureBox8.Size = new Size(46, 44);
+            pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox8.TabIndex = 27;
+            pictureBox8.TabStop = false;
+            // 
+            // pictureBox7
+            // 
+            pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
+            pictureBox7.Location = new Point(829, 162);
+            pictureBox7.Margin = new Padding(4);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(46, 44);
+            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox7.TabIndex = 26;
+            pictureBox7.TabStop = false;
+            // 
+            // textBox3
+            // 
+            textBox3.BackColor = Color.FromArgb(43, 56, 143);
+            textBox3.BorderStyle = BorderStyle.None;
+            textBox3.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox3.ForeColor = Color.White;
+            textBox3.Location = new Point(678, 341);
+            textBox3.Margin = new Padding(4);
+            textBox3.Name = "textBox3";
+            textBox3.ReadOnly = true;
+            textBox3.Size = new Size(69, 21);
+            textBox3.TabIndex = 24;
+            textBox3.Text = "Guardar";
+            textBox3.Click += textBox3_Click;
+            textBox3.TextChanged += textBox3_TextChanged_1;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
+            pictureBox6.Location = new Point(625, 310);
+            pictureBox6.Margin = new Padding(4);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(171, 91);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 25;
+            pictureBox6.TabStop = false;
+            pictureBox6.Click += pictureBox6_Click;
+            // 
+            // textBox1
+            // 
+            textBox1.BackColor = Color.FromArgb(43, 56, 143);
+            textBox1.BorderStyle = BorderStyle.None;
+            textBox1.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox1.ForeColor = Color.White;
+            textBox1.Location = new Point(424, 341);
+            textBox1.Margin = new Padding(4);
+            textBox1.Name = "textBox1";
+            textBox1.ReadOnly = true;
+            textBox1.Size = new Size(69, 21);
+            textBox1.TabIndex = 22;
+            textBox1.Text = "Cancelar";
+            // 
+            // pictureBox5
+            // 
+            pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
+            pictureBox5.Location = new Point(375, 310);
+            pictureBox5.Margin = new Padding(4);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Size = new Size(171, 91);
+            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox5.TabIndex = 23;
+            pictureBox5.TabStop = false;
+            // 
+            // textBox2
+            // 
+            textBox2.BackColor = Color.FromArgb(43, 56, 143);
+            textBox2.BorderStyle = BorderStyle.None;
+            textBox2.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox2.ForeColor = Color.White;
+            textBox2.Location = new Point(195, 341);
+            textBox2.Margin = new Padding(4);
+            textBox2.Name = "textBox2";
+            textBox2.ReadOnly = true;
+            textBox2.Size = new Size(69, 21);
+            textBox2.TabIndex = 16;
+            textBox2.Text = "Renovar";
+            textBox2.TextChanged += textBox2_TextChanged;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(130, 310);
+            pictureBox2.Margin = new Padding(4);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(171, 91);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 21;
+            pictureBox2.TabStop = false;
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.FlatStyle = FlatStyle.Popup;
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(227, 19);
+            label6.Location = new Point(284, 24);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.RightToLeft = RightToLeft.No;
-            label6.Size = new Size(323, 38);
+            label6.Size = new Size(382, 45);
             label6.TabIndex = 10;
             label6.Text = "Certificado de depósito\r\n";
             // 
             // panel4
             // 
-            panel4.Location = new Point(154, 168);
+            panel4.Location = new Point(192, 210);
+            panel4.Margin = new Padding(4);
             panel4.Name = "panel4";
             panel4.Size = new Size(0, 0);
             panel4.TabIndex = 7;
@@ -159,18 +321,20 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(135, 42);
+            label1.Location = new Point(169, 52);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(147, 38);
+            label1.Size = new Size(175, 45);
             label1.TabIndex = 1;
             label1.Text = "Sacerdote";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(20, 14);
+            pictureBox1.Location = new Point(25, 18);
+            pictureBox1.Margin = new Padding(4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(97, 88);
+            pictureBox1.Size = new Size(121, 110);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -178,188 +342,69 @@
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(43, 56, 143);
-            panel5.Location = new Point(47, 124);
+            panel5.Location = new Point(59, 155);
+            panel5.Margin = new Padding(4);
             panel5.Name = "panel5";
-            panel5.Size = new Size(747, 330);
+            panel5.Size = new Size(934, 412);
             panel5.TabIndex = 9;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Nombre, ClmDeposito, ClmPlazos, clmTasa });
-            dataGridView1.Location = new Point(104, 80);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(553, 162);
-            dataGridView1.TabIndex = 12;
             // 
             // Nombre
             // 
             Nombre.HeaderText = "Nombre";
-            Nombre.MinimumWidth = 6;
+            Nombre.MinimumWidth = 8;
             Nombre.Name = "Nombre";
             Nombre.ReadOnly = true;
-            Nombre.Width = 125;
+            Nombre.Width = 150;
             // 
-            // ClmDeposito
+            // DepositoInicial
             // 
-            ClmDeposito.HeaderText = "Depósito Inicial";
-            ClmDeposito.MinimumWidth = 6;
-            ClmDeposito.Name = "ClmDeposito";
-            ClmDeposito.ReadOnly = true;
-            ClmDeposito.Width = 125;
+            DepositoInicial.HeaderText = "Deposito inicial";
+            DepositoInicial.MinimumWidth = 8;
+            DepositoInicial.Name = "DepositoInicial";
+            DepositoInicial.ReadOnly = true;
+            DepositoInicial.Width = 150;
             // 
-            // ClmPlazos
+            // Plazo
             // 
-            ClmPlazos.HeaderText = "Plazo (Meses)";
-            ClmPlazos.MinimumWidth = 6;
-            ClmPlazos.Name = "ClmPlazos";
-            ClmPlazos.ReadOnly = true;
-            ClmPlazos.Width = 125;
+            Plazo.HeaderText = "Plazo(meses)";
+            Plazo.MinimumWidth = 8;
+            Plazo.Name = "Plazo";
+            Plazo.ReadOnly = true;
+            Plazo.Width = 150;
             // 
-            // clmTasa
+            // Tasa
             // 
-            clmTasa.HeaderText = "Tasa";
-            clmTasa.MinimumWidth = 6;
-            clmTasa.Name = "clmTasa";
-            clmTasa.ReadOnly = true;
-            clmTasa.Width = 125;
-            // 
-            // textBox2
-            // 
-            textBox2.BackColor = Color.FromArgb(43, 56, 143);
-            textBox2.BorderStyle = BorderStyle.None;
-            textBox2.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(156, 273);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(55, 18);
-            textBox2.TabIndex = 16;
-            textBox2.Text = "Renovar";
-            textBox2.TextChanged += textBox2_TextChanged;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(117, 248);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(137, 73);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 21;
-            pictureBox2.TabStop = false;
-            // 
-            // textBox1
-            // 
-            textBox1.BackColor = Color.FromArgb(43, 56, 143);
-            textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox1.ForeColor = Color.White;
-            textBox1.Location = new Point(339, 273);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(55, 18);
-            textBox1.TabIndex = 22;
-            textBox1.Text = "Cancelar";
-            // 
-            // pictureBox5
-            // 
-            pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
-            pictureBox5.Location = new Point(300, 248);
-            pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(137, 73);
-            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox5.TabIndex = 23;
-            pictureBox5.TabStop = false;
-            // 
-            // textBox3
-            // 
-            textBox3.BackColor = Color.FromArgb(43, 56, 143);
-            textBox3.BorderStyle = BorderStyle.None;
-            textBox3.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox3.ForeColor = Color.White;
-            textBox3.Location = new Point(539, 273);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(55, 18);
-            textBox3.TabIndex = 24;
-            textBox3.Text = "Guardar";
-            // 
-            // pictureBox6
-            // 
-            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(500, 248);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(137, 73);
-            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox6.TabIndex = 25;
-            pictureBox6.TabStop = false;
-            // 
-            // pictureBox7
-            // 
-            pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
-            pictureBox7.Location = new Point(663, 130);
-            pictureBox7.Name = "pictureBox7";
-            pictureBox7.Size = new Size(37, 35);
-            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox7.TabIndex = 26;
-            pictureBox7.TabStop = false;
-            // 
-            // pictureBox8
-            // 
-            pictureBox8.Image = (Image)resources.GetObject("pictureBox8.Image");
-            pictureBox8.Location = new Point(701, 130);
-            pictureBox8.Name = "pictureBox8";
-            pictureBox8.Size = new Size(37, 35);
-            pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox8.TabIndex = 27;
-            pictureBox8.TabStop = false;
-            // 
-            // pictureBox9
-            // 
-            pictureBox9.Image = (Image)resources.GetObject("pictureBox9.Image");
-            pictureBox9.Location = new Point(21, 17);
-            pictureBox9.Name = "pictureBox9";
-            pictureBox9.Size = new Size(119, 57);
-            pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox9.TabIndex = 28;
-            pictureBox9.TabStop = false;
-            // 
-            // textBox4
-            // 
-            textBox4.BackColor = Color.FromArgb(43, 56, 143);
-            textBox4.BorderStyle = BorderStyle.None;
-            textBox4.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox4.ForeColor = Color.White;
-            textBox4.Location = new Point(64, 35);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(40, 18);
-            textBox4.TabIndex = 29;
-            textBox4.Text = "Volver";
+            Tasa.HeaderText = "Tasa";
+            Tasa.MinimumWidth = 8;
+            Tasa.Name = "Tasa";
+            Tasa.ReadOnly = true;
+            Tasa.Width = 150;
             // 
             // FRM_PG103
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(907, 548);
+            ClientSize = new Size(1134, 685);
             Controls.Add(panel1);
+            Margin = new Padding(4);
             Name = "FRM_PG103";
             Text = "FRM_PG103";
+            Load += FRM_PG103_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -375,11 +420,6 @@
         private Label label1;
         private PictureBox pictureBox1;
         private Panel panel5;
-        private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn Nombre;
-        private DataGridViewTextBoxColumn ClmDeposito;
-        private DataGridViewTextBoxColumn ClmPlazos;
-        private DataGridViewTextBoxColumn clmTasa;
         private TextBox textBox2;
         private PictureBox pictureBox2;
         private TextBox textBox3;
@@ -390,5 +430,11 @@
         private PictureBox pictureBox9;
         private PictureBox pictureBox8;
         private PictureBox pictureBox7;
+        private DataGridView dataGridView1;
+        private Button button1;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn DepositoInicial;
+        private DataGridViewTextBoxColumn Plazo;
+        private DataGridViewTextBoxColumn Tasa;
     }
 }
