@@ -16,6 +16,7 @@ namespace Capa_de_Presentación.CLASES
                 Clsconexion conexion = new Clsconexion();
                 conexion.Cerrar();
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
+                Application.Exit();
             }
             catch (Exception ex)
             {

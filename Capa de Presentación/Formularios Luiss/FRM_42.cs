@@ -40,7 +40,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             //CargarDatos();
             //CargarComboBoxes();
-           // LimpiarCampos();
+            // LimpiarCampos();
             //HabilitarControles(false);
         }
 
@@ -71,30 +71,30 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
         */
 
-       /* private void CargarComboBoxes()
-        {
-            try
-            {
-                cmbCuentas.DataSource = crudCataloCuentas.ObtenerRoles();
-                cmbCuentas.DisplayMember = "Rol_descripcion";
-                cmbCuentas.ValueMember = "Rol_Id";
+        /* private void CargarComboBoxes()
+         {
+             try
+             {
+                 cmbCuentas.DataSource = crudCataloCuentas.ObtenerRoles();
+                 cmbCuentas.DisplayMember = "Rol_descripcion";
+                 cmbCuentas.ValueMember = "Rol_Id";
 
-                cmbParroquia.DataSource = crudCataloCuentas.ObtenerParroquias();
-                cmbParroquia.DisplayMember = "Parroquia_nombre";
-                cmbParroquia.ValueMember = "Parroquia_id";
+                 cmbParroquia.DataSource = crudCataloCuentas.ObtenerParroquias();
+                 cmbParroquia.DisplayMember = "Parroquia_nombre";
+                 cmbParroquia.ValueMember = "Parroquia_id";
 
-                cmbEstado.DataSource = crudUsuarios.ObtenerEstados();
-                cmbEstado.DisplayMember = "descripcion";
-                cmbEstado.ValueMember = "Id_estado_cuenta";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar opciones: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+                 cmbEstado.DataSource = crudUsuarios.ObtenerEstados();
+                 cmbEstado.DisplayMember = "descripcion";
+                 cmbEstado.ValueMember = "Id_estado_cuenta";
+             }
+             catch (Exception ex)
+             {
+                 MessageBox.Show("Error al cargar opciones: " + ex.Message, "Error",
+                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+             }
+         }
 
-        */
+         */
 
         private void MostrarSoloEstePanel(Panel panelAMostrar)
         {
@@ -254,9 +254,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        private void panelCajaChica2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 
- }
+}
 
 
       
