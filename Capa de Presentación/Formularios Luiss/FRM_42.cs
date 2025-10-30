@@ -1,6 +1,4 @@
-﻿using Capa_de_acceso_de_datos;
-using Capa_de_Presentación.CLASES;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
+using Microsoft.Data.SqlClient;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Capa_de_Presentación.Formularios_Luiss
@@ -42,6 +43,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             //CargarComboBoxes();
             // LimpiarCampos();
             //HabilitarControles(false);
+            MostrarSaldoActual();
         }
 
         /*private void CargarDatos()
@@ -259,6 +261,55 @@ namespace Capa_de_Presentación.Formularios_Luiss
             //llamar form 69,
             FRM_PG69 obj_frm69 = new FRM_PG69();
             obj_frm69.ShowDialog();
+        }
+
+        private void chkSaldoInicial_CheckedChanged(object sender, EventArgs e)
+        {
+            FRM_CajaChicaMonto obcaja = new FRM_CajaChicaMonto();
+            obcaja.ShowDialog();
+        }
+        private void MostrarSaldoActual()
+        {
+            Clsconexion objCon = new Clsconexion();
+
+            try
+            {
+                objCon.Abrir();
+                MessageBox.Show("Conexion abierta: " + objCon.sc.State.ToString());
+
+                string query = "SELECT TOP 1 saldo FROM Cajachica ORDER BY Id_cajachica DESC";
+                SqlCommand comando = new SqlCommand(query, objCon.sc);
+
+                SqlDataReader lector = comando.ExecuteReader();
+
+                if (lector.Read())
+                {
+                    //convertir el valor string a decimal
+                    decimal saldo = Convert.ToDecimal(lector["saldo"]);
+                    //n2 formatea a dos digitos despues del "."
+                    txtSaldoActual.Text = saldo.ToString("N2");
+                }
+                else
+                {
+                    MessageBox.Show("No hay registros en CajaChica.");
+                    txtSaldoActual.Text = "0.00";
+                }
+
+                lector.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+            finally
+            {
+                objCon.Cerrar();
+            }
+        }
+
+        private void txtSaldoActual_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

@@ -56,5 +56,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 MessageBox.Show("Error al mostrar los datos: " + ex.Message);
             }
         }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
