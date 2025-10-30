@@ -254,9 +254,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-        private void panelCajaChica2_Paint(object sender, PaintEventArgs e)
+        private void btnDetalle_Click_1(object sender, EventArgs e)
         {
-
+            //llamar form 69,
+            FRM_PG69 obj_frm69 = new FRM_PG69();
+            obj_frm69.ShowDialog();
         }
     }
 
