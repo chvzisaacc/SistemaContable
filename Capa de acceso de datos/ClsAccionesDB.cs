@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
@@ -158,7 +159,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@Nombre_certificado", nombreCertificado);
                     cmd.Parameters.AddWithValue("@deposito_inicial", depositoInicial);
                     cmd.Parameters.AddWithValue("@plazo", plazo);
-                    cmd.Parameters.AddWithValue("@tasa", nombreCertificado);
+                    cmd.Parameters.AddWithValue("@tasa", tasa);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -170,10 +171,136 @@ namespace Capa_de_acceso_de_datos
             {
                 Cerrar();
             }
-
-
-
-
         }
+
+            public DataTable CargarCertificados()
+            {
+                try
+                {
+                    DataTable dt = new DataTable();
+
+                    Abrir();
+
+                    SqlCommand cmd = new SqlCommand("sp_Mostrarcertificados", sc);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+
+                    dataAdapter.Fill(dt);
+
+                    return dt;  
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error al cargar los certificados: " + ex.Message);
+                }
+                finally
+                {
+  
+                    Cerrar();
+                }
+
+            }
+
+            public DataTable CargarCuentasBancarias()
+            {
+                try
+                {
+                     DataTable dt = new DataTable();
+                     Abrir();
+                     SqlCommand cmd = new SqlCommand("sp_mostrarCuentas", sc);
+                     cmd.CommandType = CommandType.StoredProcedure;
+                   
+                     SqlDataAdapter dataAdapter = new();
+                     dataAdapter.SelectCommand = cmd;
+                     dataAdapter.Fill(dt);
+                     return dt;
+            }
+                catch (Exception ex)
+                {
+                     throw new Exception("Error al cargar los certificados: " + ex.Message);
+                }
+                finally
+                {
+                    Cerrar();
+                }
+            }
+
+        public bool editarcertificado(int codigocertificado,string nombreCertificado, decimal depositoInicial, int plazo, decimal tasa)
+        {
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_editar_certificado", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id_Certificado", codigocertificado);
+                    cmd.Parameters.AddWithValue("@Nombre_certificado", nombreCertificado);
+                    cmd.Parameters.AddWithValue("@deposito_inicial", depositoInicial);
+                    cmd.Parameters.AddWithValue("@plazo", plazo);
+                    cmd.Parameters.AddWithValue("@tasa", tasa);
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al editar certificado de depósito: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
+        }
+        public bool renovarCertificado(int codigocertificado, decimal depositoInicial, int plazo, decimal tasa)
+        {
+            try
+            {
+                Abrir();
+                using(SqlCommand cmd = new SqlCommand("sp_renovar_Certificado", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id_Certificado", codigocertificado);
+                    cmd.Parameters.AddWithValue("@deposito_inicial", depositoInicial);
+                    cmd.Parameters.AddWithValue("@plazo", plazo);
+                    cmd.Parameters.AddWithValue("@tasa", tasa);
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al renovar el certificado de depósito: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
+        }
+
+        public void cancelarCertificado(int codigocertificado,string detalle)
+        {
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_cancelar_Certificado", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id_Certificado", codigocertificado);
+                    cmd.Parameters.AddWithValue("@Detalle", detalle);
+                    int filas = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cancelar el certificado de depósito: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
+        }
+
+
     }
 }

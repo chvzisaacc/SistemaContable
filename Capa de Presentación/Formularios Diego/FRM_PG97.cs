@@ -16,5 +16,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             InitializeComponent();
         }
+
+        private void FRM_PG97_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

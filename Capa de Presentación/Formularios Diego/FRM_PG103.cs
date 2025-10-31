@@ -8,14 +8,52 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
 
 namespace Capa_de_Presentación.Formularios_Diego
 {
     public partial class FRM_PG103 : Form
     {
+        private bool modoEdicionActivo = false;
+        private DataTable dtDatosCertificados = null;
         public FRM_PG103()
         {
             InitializeComponent();
+            CargarDatos();
+        }
+
+        public FRM_PG103(string text)
+        {
+            InitializeComponent();
+            Text = text;
+            CargarDatos();
+        }
+
+        public void CargarDatos()
+        {
+            try
+            {
+                ClsAccionesDB acciones = new ClsAccionesDB();
+
+                dtDatosCertificados = acciones.CargarCertificados();
+                dataGridView1.Columns.Clear();
+
+                dataGridView1.DataSource = dtDatosCertificados;
+
+                dataGridView1.AllowUserToAddRows = false;
+                dataGridView1.AutoResizeColumns();
+                dataGridView1.ReadOnly = true;
+
+                if (dataGridView1.Columns.Contains("Id_certificado"))
+                {
+                    dataGridView1.Columns["Id_certificado"].Visible = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message);
+            }
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -50,17 +88,15 @@ namespace Capa_de_Presentación.Formularios_Diego
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridView1.ReadOnly = false;
-
-            foreach (DataGridViewColumn column in dataGridView1.Columns)
-            {
-                column.ReadOnly = false;
-            }
+            ClsCD clsCD = new();
+            clsCD.BloquearDesbloquearData(dtDatosCertificados, dataGridView1, e.RowIndex);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            dataGridView1.Rows.Add();
+            ClsCD objCd = new();
+            objCd.Agregarfila(dtDatosCertificados, dataGridView1);
+
         }
 
         private void textBox3_TextChanged_1(object sender, EventArgs e)
@@ -72,32 +108,42 @@ namespace Capa_de_Presentación.Formularios_Diego
         {
 
         }
-
+        private bool datosGuardados = false;
         private void textBox3_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.Rows.Count > 0)
-            {
-                foreach (DataGridViewRow row in dataGridView1.Rows)
-                {
-                    if (row.Cells[0].Value != null && row.Cells[1].Value != null && row.Cells[2].Value != null && row.Cells[3].Value != null)
-                    {
-                        string nombreCertificado = row.Cells["Nombre"].Value.ToString();
-                        decimal depositoInicial = Convert.ToDecimal(row.Cells["DepositoInicial"].Value);
-                        int plazo = Convert.ToInt32(row.Cells["Plazo"].Value);
-                        decimal tasa = Convert.ToDecimal(row.Cells["Tasa"].Value);
+            ClsCD objCD = new();
+            objCD.GuardarCD(dtDatosCertificados, dataGridView1, datosGuardados);
+        }
 
-                        ClsAccionesDB acciones = new ClsAccionesDB();
-                        acciones.GuardarCertificado(nombreCertificado, depositoInicial, plazo, tasa);
+        private void pictureBox8_Click(object sender, EventArgs e)
+        {
+            FRM_PG114 objICD = new();
+            objICD.Show();
+            this.Hide();
+        }
 
-                    }
-                }
+        private void pictureBox7_Click(object sender, EventArgs e)
+        {
+            ClsCD objCD = new ClsCD();
+            objCD.guardaredic(dtDatosCertificados, dataGridView1, ref modoEdicionActivo);
+        }
 
-                MessageBox.Show("Datos guardados con éxito.");
-            }
-            else
-            {
-                MessageBox.Show("No hay datos para guardar.");
-            }
+        private void textBox2_Click(object sender, EventArgs e)
+        {
+            ClsCD objCD = new();
+            objCD.renovarCD(dtDatosCertificados, dataGridView1, ref modoEdicionActivo);
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_Click(object sender, EventArgs e)
+        {
+            ClsCD objCD = new ClsCD();
+            objCD.cancelarCertificado(dataGridView1);
+            CargarDatos();
         }
     }
 }
