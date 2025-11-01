@@ -32,7 +32,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void FRM_PG7_Load(object sender, EventArgs e)
         {
             CargarDatos();
-            CargarComboBoxTipoCuenta();
+            CargarComboBoxTipoTransaccion();
             LimpiarCampos();
             HabilitarControles(false);
         }
@@ -46,9 +46,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 if (dgvCatalogoCuentas.Columns["CuentaID"] != null)
                     dgvCatalogoCuentas.Columns["CuentaID"].Visible = false;
 
-
+                /*
                 if (dgvCatalogoCuentas.Columns["Detalle"] != null)
                     dgvCatalogoCuentas.Columns["Detalle"].DefaultCellStyle.Format = "N2";
+                */
 
                 if (dgvCatalogoCuentas.Columns["Saldo"] != null)
                     dgvCatalogoCuentas.Columns["Saldo"].DefaultCellStyle.Format = "N2";
@@ -75,6 +76,21 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        private void CargarComboBoxTipoTransaccion()
+        {
+            try
+            {
+                cmbTipoCuenta.DataSource = crudCatalogoCuentas.ObtenerTipoTransaccion();
+                cmbTipoCuenta.DisplayMember = "descripcion";
+                cmbTipoCuenta.ValueMember = "Cod_tipo";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar tipos de transaccion: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void CargarDatosCuenta()
         {
             try
@@ -90,8 +106,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     cmbTipoCuenta.SelectedValue = cuenta["id_cuenta"];
 
                     txtDetalle.Text = cuenta["detalle"] != DBNull.Value
-                        ? Convert.ToDecimal(cuenta["detalle"]).ToString("N2")
-                        : "";
+                    ? cuenta["detalle"].ToString()  
+                    : "";
 
                     txtSaldo.Text = cuenta["saldo"] != DBNull.Value
                         ? Convert.ToDecimal(cuenta["saldo"]).ToString("N2")
@@ -192,12 +208,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 int idCuenta = Convert.ToInt32(cmbTipoCuenta.SelectedValue);
                 string nombre = txtNombre.Text.Trim();
 
-                decimal? detalle = null;
-                if (!string.IsNullOrWhiteSpace(txtDetalle.Text))
-                {
-                    if (decimal.TryParse(txtDetalle.Text, out decimal detalleValue))
-                        detalle = detalleValue;
-                }
+                string detalle = txtDetalle.Text.Trim();  // No hay TryParse
+                if (string.IsNullOrWhiteSpace(detalle))
+                    detalle = null;
 
                 decimal? saldo = null;
                 if (!string.IsNullOrWhiteSpace(txtSaldo.Text))

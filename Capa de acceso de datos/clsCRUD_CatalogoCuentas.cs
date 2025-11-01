@@ -17,7 +17,7 @@ namespace Capa_de_acceso_de_datos
             conexion = new Clsconexion();
         }
 
-        public int AgregarCatalogoCuenta(int idCuenta, string nombre, decimal? detalle, decimal? saldo)
+        public int AgregarCatalogoCuenta(int idCuenta, string nombre, String detalle, decimal? saldo)
         {
             try
             {
@@ -28,8 +28,16 @@ namespace Capa_de_acceso_de_datos
 
                 cmd.Parameters.AddWithValue("@idCuenta", idCuenta);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
-                cmd.Parameters.AddWithValue("@detalle", detalle.HasValue ? (object)detalle.Value : DBNull.Value);
-                cmd.Parameters.AddWithValue("@saldo", saldo.HasValue ? (object)saldo.Value : DBNull.Value);
+                if (!string.IsNullOrWhiteSpace(detalle))
+                    cmd.Parameters.AddWithValue("@detalle", detalle);
+                else
+                    cmd.Parameters.AddWithValue("@detalle", DBNull.Value);
+
+                // Parámetro saldo como decimal
+                if (saldo.HasValue)
+                    cmd.Parameters.AddWithValue("@saldo", saldo.Value);
+                else
+                    cmd.Parameters.AddWithValue("@saldo", DBNull.Value);
 
                 SqlParameter nuevoId = new SqlParameter("@nuevoId", SqlDbType.Int);
                 nuevoId.Direction = ParameterDirection.Output;
@@ -103,7 +111,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public bool ModificarCatalogoCuenta(int codCuenta, int idCuenta, string nombre, decimal? detalle, decimal? saldo)
+        public bool ModificarCatalogoCuenta(int codCuenta, int idCuenta, string nombre, String detalle, decimal? saldo)
         {
             try
             {
@@ -115,7 +123,11 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@codCuenta", codCuenta);
                 cmd.Parameters.AddWithValue("@idCuenta", idCuenta);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
-                cmd.Parameters.AddWithValue("@detalle", detalle.HasValue ? (object)detalle.Value : DBNull.Value);
+                if (!string.IsNullOrWhiteSpace(detalle))
+                    cmd.Parameters.AddWithValue("@detalle", detalle);
+                else
+                    cmd.Parameters.AddWithValue("@detalle", DBNull.Value);
+
                 cmd.Parameters.AddWithValue("@saldo", saldo.HasValue ? (object)saldo.Value : DBNull.Value);
 
                 int resultado = cmd.ExecuteNonQuery();
@@ -208,6 +220,31 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        
+        public DataTable ObtenerTipoTransaccion()
+        {
+            try
+            {
+                conexion.Abrir();
+
+                SqlCommand cmd = new SqlCommand("sp_ObtenerTiposTransaccion", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener cuentas: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+
+
     }
 }
