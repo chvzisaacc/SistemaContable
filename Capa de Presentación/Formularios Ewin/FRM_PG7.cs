@@ -65,7 +65,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             try
             {
                 cmbTipoCuenta.DataSource = crudCatalogoCuentas.ObtenerCuentas();
-                cmbTipoCuenta.DisplayMember = "nombre_cuenta";
+                cmbTipoCuenta.DisplayMember = "descripcion";
                 cmbTipoCuenta.ValueMember = "id_cuenta";
             }
             catch (Exception ex)
@@ -258,10 +258,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
-        
 
 
-      
         private void label10_Click(object sender, EventArgs e)
         {
 
