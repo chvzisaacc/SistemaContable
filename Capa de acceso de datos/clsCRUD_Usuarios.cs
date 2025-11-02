@@ -17,8 +17,6 @@ namespace Capa_de_acceso_de_datos
         {
             conexion = new Clsconexion();
         }
-
-        // AGREGAR usuario - Retorna el ID generado
         public int AgregarUsuario(string nombre, string apellido, string correo, string usuario,
                                    string password, int idRol, int idParroquia, int idEstado)
         {
