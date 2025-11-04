@@ -49,11 +49,14 @@
             // 
             // dgvCajaChica
             // 
+            dgvCajaChica.AllowUserToAddRows = false;
+            dgvCajaChica.AllowUserToDeleteRows = false;
             dgvCajaChica.BackgroundColor = SystemColors.Control;
             dgvCajaChica.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCajaChica.Columns.AddRange(new DataGridViewColumn[] { cNombre, cDetalle, cSaldo });
             dgvCajaChica.Location = new Point(139, 75);
             dgvCajaChica.Name = "dgvCajaChica";
+            dgvCajaChica.ReadOnly = true;
             dgvCajaChica.RowHeadersWidth = 51;
             dgvCajaChica.Size = new Size(503, 314);
             dgvCajaChica.TabIndex = 1;
@@ -64,6 +67,7 @@
             cNombre.HeaderText = "Nombre";
             cNombre.MinimumWidth = 6;
             cNombre.Name = "cNombre";
+            cNombre.ReadOnly = true;
             cNombre.Width = 150;
             // 
             // cDetalle
@@ -71,6 +75,7 @@
             cDetalle.HeaderText = "Detalle";
             cDetalle.MinimumWidth = 6;
             cDetalle.Name = "cDetalle";
+            cDetalle.ReadOnly = true;
             cDetalle.Width = 150;
             // 
             // cSaldo
@@ -78,6 +83,7 @@
             cSaldo.HeaderText = "Saldo";
             cSaldo.MinimumWidth = 6;
             cSaldo.Name = "cSaldo";
+            cSaldo.ReadOnly = true;
             cSaldo.Width = 150;
             // 
             // Btncerrar
@@ -92,6 +98,7 @@
             Btncerrar.TabIndex = 17;
             Btncerrar.Text = "Cerrar";
             Btncerrar.UseVisualStyleBackColor = false;
+            Btncerrar.Click += Btncerrar_Click;
             // 
             // FRM_PG69
             // 

@@ -61,5 +61,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
 
         }
+
+        private void Btncerrar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

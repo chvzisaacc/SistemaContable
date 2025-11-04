@@ -39,11 +39,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void FRM_42_Load(object sender, EventArgs e)
         {
-            //CargarDatos();
-            //CargarComboBoxes();
-            // LimpiarCampos();
-            //HabilitarControles(false);
-            MostrarSaldoActual();
+
+            //Muestra el ultimo saldo inicial agregado 
+            ActualizarSaldo();
         }
 
         /*private void CargarDatos()
@@ -267,6 +265,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             FRM_CajaChicaMonto obcaja = new FRM_CajaChicaMonto();
             obcaja.ShowDialog();
+
+            chkSaldoInicial.Visible = false;
+
+            if (txtSaldoActual.Text == "0.00")
+            {
+                chkSaldoInicial.Visible = true;
+            }
         }
         private void MostrarSaldoActual()
         {
@@ -277,7 +282,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 objCon.Abrir();
                 MessageBox.Show("Conexion abierta: " + objCon.sc.State.ToString());
 
-                string query = "SELECT TOP 1 saldo FROM Cajachica ORDER BY Id_cajachica DESC";
+                string query = "exec saldo_actual";
                 SqlCommand comando = new SqlCommand(query, objCon.sc);
 
                 SqlDataReader lector = comando.ExecuteReader();
@@ -304,6 +309,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
             finally
             {
                 objCon.Cerrar();
+            }
+        }
+
+        //Actualiza el saldo que se muestra en pantalla
+        private void ActualizarSaldo()
+        {
+            try
+            {
+                MostrarSaldoActual();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar el saldo: " + ex.Message);
             }
         }
 
