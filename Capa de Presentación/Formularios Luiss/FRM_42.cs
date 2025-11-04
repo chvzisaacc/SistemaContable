@@ -47,62 +47,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void FRM_42_Load(object sender, EventArgs e)
         {
-
-            //Muestra el ultimo saldo inicial agregado 
-            ActualizarSaldo();
+            DateTime mesactual = DateTime.Now;
+            DateTime mesactual1 = new DateTime(mesactual.Year, mesactual.Month, 1);
+            dtpFecha.MinDate = mesactual1;
+            dtpFecha.MaxDate = mesactual;
+            MostrarSaldoActual();
         }
 
-        /*private void CargarDatos()
-        {
-            try
-            {
-                dgvUsuarios.DataSource = crudUsuarios.ObtenerUsuarios();
-
-                //aqui es para ocultar algunos campos (los ids y las contraseñas)
-                /*
-                if (dgvUsuarios.Columns["Contraseña"] != null)
-                    dgvUsuarios.Columns["Contraseña"].Visible = false;
-
-                if (dgvUsuarios.Columns["RolID"] != null)
-                    dgvUsuarios.Columns["RolID"].Visible = false;
-                if (dgvUsuarios.Columns["ParroquiaID"] != null)
-                    dgvUsuarios.Columns["ParroquiaID"].Visible = false;
-                if (dgvUsuarios.Columns["EstadoID"] != null)
-                    dgvUsuarios.Columns["EstadoID"].Visible = false;
-                
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar datos: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        */
-
-        /* private void CargarComboBoxes()
-         {
-             try
-             {
-                 cmbCuentas.DataSource = crudCataloCuentas.ObtenerRoles();
-                 cmbCuentas.DisplayMember = "Rol_descripcion";
-                 cmbCuentas.ValueMember = "Rol_Id";
-
-                 cmbParroquia.DataSource = crudCataloCuentas.ObtenerParroquias();
-                 cmbParroquia.DisplayMember = "Parroquia_nombre";
-                 cmbParroquia.ValueMember = "Parroquia_id";
-
-                 cmbEstado.DataSource = crudUsuarios.ObtenerEstados();
-                 cmbEstado.DisplayMember = "descripcion";
-                 cmbEstado.ValueMember = "Id_estado_cuenta";
-             }
-             catch (Exception ex)
-             {
-                 MessageBox.Show("Error al cargar opciones: " + ex.Message, "Error",
-                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-             }
-         }
-
-         */
+        
 
         private void MostrarSoloEstePanel(Panel panelAMostrar)
         {
@@ -273,8 +225,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             FRM_CajaChicaMonto obcaja = new FRM_CajaChicaMonto();
             obcaja.ShowDialog();
-
-            
         }
         private void MostrarSaldoActual()
         {
@@ -284,7 +234,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 objCon.Abrir();
 
-                string query = "exec saldo_actual";
+                string query = "SELECT TOP 1 saldo FROM Cajachica ORDER BY Id_cajachica DESC";
                 SqlCommand comando = new SqlCommand(query, objCon.sc);
 
                 SqlDataReader lector = comando.ExecuteReader();
@@ -313,8 +263,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-       
-
         private void txtSaldoActual_TextChanged(object sender, EventArgs e)
         {
 
@@ -338,6 +286,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void dgvIngresos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+
+
+        private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            
         }
 
         private void InicializarDGVIngr()

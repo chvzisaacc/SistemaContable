@@ -38,6 +38,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
            ClsRecuperacion objrecu = new ClsRecuperacion();
            objrecu.IniciarSesion(txtUsuario.Text, txtContraseña.Text, this, label1);
+            string usuario = txtUsuario.Text;
+            string clave = txtContraseña.Text;
+            ClsAccionesDB clsAccionesDB = new();
+            int codigoUsuario = clsAccionesDB.ValidarCredenciales(usuario, clave);
         }
 
         private void label3_Click(object sender, EventArgs e)
