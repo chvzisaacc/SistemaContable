@@ -34,6 +34,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+
         public bool TransferirEntreCuentas(int cuentaOrigen, int cuentaDestino, decimal monto)
         {
             try

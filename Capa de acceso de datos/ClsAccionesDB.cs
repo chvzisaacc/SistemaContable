@@ -348,6 +348,8 @@ namespace Capa_de_acceso_de_datos
             return listaOrigenes;
         }
 
+       
+
         public DataTable ObtenerCuentasIngreso()
         {
             DataTable dtCuentas = new DataTable();
@@ -371,6 +373,34 @@ namespace Capa_de_acceso_de_datos
             catch (Exception ex)
             {
                 throw new Exception("Error al obtener las sugerencias para autocompletar: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
+        }
+        public DataTable ObtenerCuentasGastos()
+        {
+            DataTable dtCuentas = new DataTable();
+
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("SP_mostrar_cuentasgastos", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(dtCuentas);
+                    }
+
+                    return dtCuentas;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener las cuentas de gastos: " + ex.Message);
             }
             finally
             {
