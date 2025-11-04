@@ -75,29 +75,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
             label3 = new Label();
             label4 = new Label();
             cmbOrigen2 = new ComboBox();
-<<<<<<< HEAD
-=======
-            panelIngresos = new Panel();
-            button1 = new Button();
-            dtpFecha = new DateTimePicker();
-            btnGuardar = new Button();
-            dgvIngresos = new DataGridView();
-            cNombreCuenta = new DataGridViewTextBoxColumn();
-            cDetalle = new DataGridViewTextBoxColumn();
-            cSaldo = new DataGridViewTextBoxColumn();
-            txtNoReferencia = new TextBox();
-            lblNoReferencia = new Label();
-            lblFecha = new Label();
-            lblOrigen = new Label();
-            cmbOrigen = new ComboBox();
->>>>>>> Modulo banco terminado
             btnGastos = new Button();
             btnBancos = new Button();
             btnCajaChica = new Button();
             lblNoSeleccionado = new Label();
             btnIngresos = new Button();
             panel1 = new Panel();
-            panelMensaje = new Panel();
             panelLinea = new Panel();
             NombreCuenta = new DataGridViewTextBoxColumn();
             cDetalle = new DataGridViewTextBoxColumn();
@@ -165,7 +148,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // panelContenedor
             // 
-<<<<<<< HEAD
             panelContenedor.Controls.Add(panelIngresos);
             panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Controls.Add(panelBancos2);
@@ -173,13 +155,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Location = new Point(4, 355);
             panelContenedor.Margin = new Padding(4, 5, 4, 5);
-=======
-            panelContenedor.Controls.Add(panelBancos2);
-            panelContenedor.Controls.Add(panelCajaChica2);
-            panelContenedor.Controls.Add(panelGastos2);
-            panelContenedor.Controls.Add(panelIngresos);
-            panelContenedor.Location = new Point(3, 213);
->>>>>>> Modulo banco terminado
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(1566, 503);
             panelContenedor.TabIndex = 8;
@@ -549,7 +524,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // dgvGastos
             // 
             dgvGastos.BackgroundColor = SystemColors.Control;
-<<<<<<< HEAD
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = SystemColors.Control;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -558,16 +532,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dgvGastos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-=======
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvGastos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
->>>>>>> Modulo banco terminado
             dgvGastos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvGastos.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3 });
             dgvGastos.Location = new Point(44, 167);
@@ -654,159 +618,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbOrigen2.TabIndex = 22;
             cmbOrigen2.Text = "Seleccionar";
             // 
-<<<<<<< HEAD
-=======
-            // panelIngresos
-            // 
-            panelIngresos.Controls.Add(button1);
-            panelIngresos.Controls.Add(dtpFecha);
-            panelIngresos.Controls.Add(btnGuardar);
-            panelIngresos.Controls.Add(dgvIngresos);
-            panelIngresos.Controls.Add(txtNoReferencia);
-            panelIngresos.Controls.Add(lblNoReferencia);
-            panelIngresos.Controls.Add(lblFecha);
-            panelIngresos.Controls.Add(lblOrigen);
-            panelIngresos.Controls.Add(cmbOrigen);
-            panelIngresos.Dock = DockStyle.Fill;
-            panelIngresos.Location = new Point(0, 0);
-            panelIngresos.Name = "panelIngresos";
-            panelIngresos.Size = new Size(1096, 302);
-            panelIngresos.TabIndex = 44;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.FromArgb(43, 56, 143);
-            button1.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = SystemColors.Control;
-            button1.Location = new Point(986, 262);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 28);
-            button1.TabIndex = 29;
-            button1.Text = "Guardar";
-            button1.UseVisualStyleBackColor = false;
-            // 
-            // dtpFecha
-            // 
-            dtpFecha.CalendarFont = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dtpFecha.CalendarForeColor = SystemColors.ControlLightLight;
-            dtpFecha.CalendarTitleForeColor = SystemColors.ControlLightLight;
-            dtpFecha.Format = DateTimePickerFormat.Short;
-            dtpFecha.Location = new Point(136, 62);
-            dtpFecha.Name = "dtpFecha";
-            dtpFecha.Size = new Size(164, 23);
-            dtpFecha.TabIndex = 21;
-            // 
-            // btnGuardar
-            // 
-            btnGuardar.BackColor = Color.FromArgb(43, 56, 143);
-            btnGuardar.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
-            btnGuardar.FlatAppearance.BorderSize = 0;
-            btnGuardar.FlatStyle = FlatStyle.Flat;
-            btnGuardar.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGuardar.ForeColor = SystemColors.Control;
-            btnGuardar.Location = new Point(1080, 368);
-            btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(142, 48);
-            btnGuardar.TabIndex = 20;
-            btnGuardar.Text = "Guardar";
-            btnGuardar.UseVisualStyleBackColor = false;
-            // 
-            // dgvIngresos
-            // 
-            dgvIngresos.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgvIngresos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dgvIngresos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvIngresos.Columns.AddRange(new DataGridViewColumn[] { cNombreCuenta, cDetalle, cSaldo });
-            dgvIngresos.Location = new Point(16, 98);
-            dgvIngresos.Name = "dgvIngresos";
-            dgvIngresos.RowHeadersWidth = 51;
-            dgvIngresos.Size = new Size(938, 200);
-            dgvIngresos.TabIndex = 19;
-            // 
-            // cNombreCuenta
-            // 
-            cNombreCuenta.HeaderText = "Nombre/Cuenta";
-            cNombreCuenta.MinimumWidth = 6;
-            cNombreCuenta.Name = "cNombreCuenta";
-            cNombreCuenta.Width = 350;
-            // 
-            // cDetalle
-            // 
-            cDetalle.HeaderText = "Detalle";
-            cDetalle.MinimumWidth = 6;
-            cDetalle.Name = "cDetalle";
-            cDetalle.Width = 350;
-            // 
-            // cSaldo
-            // 
-            cSaldo.HeaderText = "Saldo";
-            cSaldo.MinimumWidth = 6;
-            cSaldo.Name = "cSaldo";
-            cSaldo.Width = 350;
-            // 
-            // txtNoReferencia
-            // 
-            txtNoReferencia.BackColor = Color.FromArgb(251, 203, 51);
-            txtNoReferencia.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtNoReferencia.Location = new Point(600, 16);
-            txtNoReferencia.Name = "txtNoReferencia";
-            txtNoReferencia.Size = new Size(177, 35);
-            txtNoReferencia.TabIndex = 18;
-            // 
-            // lblNoReferencia
-            // 
-            lblNoReferencia.AutoSize = true;
-            lblNoReferencia.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNoReferencia.Location = new Point(386, 15);
-            lblNoReferencia.Name = "lblNoReferencia";
-            lblNoReferencia.Size = new Size(182, 32);
-            lblNoReferencia.TabIndex = 17;
-            lblNoReferencia.Text = "No. Referencia";
-            // 
-            // lblFecha
-            // 
-            lblFecha.AutoSize = true;
-            lblFecha.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblFecha.Location = new Point(16, 52);
-            lblFecha.Name = "lblFecha";
-            lblFecha.Size = new Size(78, 32);
-            lblFecha.TabIndex = 16;
-            lblFecha.Text = "Fecha";
-            // 
-            // lblOrigen
-            // 
-            lblOrigen.AutoSize = true;
-            lblOrigen.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblOrigen.Location = new Point(16, 15);
-            lblOrigen.Name = "lblOrigen";
-            lblOrigen.Size = new Size(92, 32);
-            lblOrigen.TabIndex = 15;
-            lblOrigen.Text = "Origen";
-            // 
-            // cmbOrigen
-            // 
-            cmbOrigen.BackColor = Color.FromArgb(251, 203, 51);
-            cmbOrigen.FlatStyle = FlatStyle.Flat;
-            cmbOrigen.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbOrigen.FormattingEnabled = true;
-            cmbOrigen.Location = new Point(136, 15);
-            cmbOrigen.Margin = new Padding(3, 2, 3, 2);
-            cmbOrigen.Name = "cmbOrigen";
-            cmbOrigen.Size = new Size(164, 33);
-            cmbOrigen.TabIndex = 13;
-            cmbOrigen.Text = "Seleccionar";
-            // 
->>>>>>> Modulo banco terminado
             // btnGastos
             // 
             btnGastos.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
@@ -869,7 +680,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // panel1
             // 
             panel1.BackColor = Color.White;
-            panel1.Controls.Add(panelMensaje);
             panel1.Controls.Add(panelLinea);
             panel1.Controls.Add(panelContenedor);
             panel1.Controls.Add(btnIngresos);
@@ -888,16 +698,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panel1.Size = new Size(1570, 863);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
-            // 
-            // panelMensaje
-            // 
-            panelMensaje.BackgroundImage = (Image)resources.GetObject("panelMensaje.BackgroundImage");
-            panelMensaje.BackgroundImageLayout = ImageLayout.Stretch;
-            panelMensaje.Location = new Point(300, 220);
-            panelMensaje.Margin = new Padding(3, 2, 3, 2);
-            panelMensaje.Name = "panelMensaje";
-            panelMensaje.Size = new Size(536, 257);
-            panelMensaje.TabIndex = 50;
             // 
             // panelLinea
             // 
@@ -965,16 +765,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
         private PictureBox pictureBox3;
-       // private Panel panel6;
+        // private Panel panel6;
         private Panel panelContenedor;
         private Button btnGastos;
         private Button btnBancos;
         private Button btnCajaChica;
         private Label lblNoSeleccionado;
         private Button btnIngresos;
-       // private Panel panelGastos;
-       // private Panel panelCajaChica;
-       // private Panel panelBancos;
+        // private Panel panelGastos;
+        // private Panel panelCajaChica;
+        // private Panel panelBancos;
         private Panel panel1;
         private Panel panelBancos2;
         private ComboBox cmbAcciones;
@@ -1007,16 +807,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private Label lblFecha;
         private Label lblOrigen;
         private ComboBox cmbOrigen;
+        private Panel panel5;
         private Button button1;
-<<<<<<< HEAD
         private TextBox textBox1;
         private Button button2;
         private Button button3;
         private DataGridViewTextBoxColumn NombreCuenta;
         private DataGridViewTextBoxColumn cDetalle;
         private DataGridViewTextBoxColumn cSaldo;
-=======
-        private Panel panelMensaje;
->>>>>>> Modulo banco terminado
     }
 }

@@ -17,12 +17,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_42 : Form
     {
-<<<<<<< HEAD
+
         private DataTable dtDatosIngresos = null;
         private clsCRUD_CatalogoCuentas crudCataloCuentas;
-=======
+
         private ClsCRUD_CuentasBancarias crudCuentasBancarias;
->>>>>>> Modulo banco terminado
+
         private bool modoEdicion = false;
         private int cuentaBancoIDseleccionado = 0;
         private AutoCompleteStringCollection Subcuentas = new AutoCompleteStringCollection();
@@ -32,15 +32,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_42()
         {
             InitializeComponent();
-<<<<<<< HEAD
+
             InicializarDGVIngr();
             CargarDatosAutocompletado();
             Transacciones objtransa = new();
             objtransa.CargarComboBoxOrigen(cmbOrigen);
             crudCataloCuentas = new clsCRUD_CatalogoCuentas();
-=======
+
             crudCuentasBancarias = new ClsCRUD_CuentasBancarias();
->>>>>>> Modulo banco terminado
+
             this.FormClosing += cerrar.CerrarApp;
             // Agrega los paneles secundarios dentro del panel contenedor
             panelContenedor.Controls.Add(panelGastos2);
@@ -55,15 +55,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void FRM_42_Load(object sender, EventArgs e)
         {
-<<<<<<< HEAD
+
             DateTime mesactual = DateTime.Now;
             DateTime mesactual1 = new DateTime(mesactual.Year, mesactual.Month, 1);
             dtpFecha.MinDate = mesactual1;
             dtpFecha.MaxDate = mesactual;
             MostrarSaldoActual();
         }
-
-=======
+        //=======
+        private void FRM_42_LOAD(object sender, EventArgs e)
+        {
             CargarDatos();
             CargarComboBoxes();
            // LimpiarCampos();
@@ -114,7 +115,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
->>>>>>> Modulo banco terminado
+
         
 
         private void MostrarSoloEstePanel(Panel panelAMostrar)
@@ -132,24 +133,24 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void btnGastos_Click(object sender, EventArgs e)
         {
-            panelMensaje.Visible = false;
+            //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelGastos2);
         }
 
         private void btnCajaChica_Click(object sender, EventArgs e)
         {
-            panelMensaje.Visible = false;
+            //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelCajaChica2);
         }
         private void btnIngresos_Click_1(object sender, EventArgs e)
         {
-            panelMensaje.Visible = false;
+            //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelIngresos);
         }
 
         private void btnBancos_Click_1(object sender, EventArgs e)
         {
-            panelMensaje.Visible = false;
+            //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelBancos2);
         }
 
