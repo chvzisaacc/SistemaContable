@@ -51,8 +51,9 @@
             label1 = new Label();
             pictureBox1 = new PictureBox();
             panel5 = new Panel();
-            Nombre = new DataGridViewTextBoxColumn();
-            DepositoInicial = new DataGridViewTextBoxColumn();
+            Id_Certificado = new DataGridViewTextBoxColumn();
+            Nombre_certificado = new DataGridViewTextBoxColumn();
+            deposito_inicial = new DataGridViewTextBoxColumn();
             Plazo = new DataGridViewTextBoxColumn();
             Tasa = new DataGridViewTextBoxColumn();
             panel1.SuspendLayout();
@@ -160,13 +161,15 @@
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Nombre, DepositoInicial, Plazo, Tasa });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Id_Certificado, Nombre_certificado, deposito_inicial, Plazo, Tasa });
             dataGridView1.Location = new Point(130, 99);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(664, 198);
+            dataGridView1.Size = new Size(650, 198);
             dataGridView1.TabIndex = 30;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
@@ -205,6 +208,7 @@
             pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox8.TabIndex = 27;
             pictureBox8.TabStop = false;
+            pictureBox8.Click += pictureBox8_Click;
             // 
             // pictureBox7
             // 
@@ -216,6 +220,7 @@
             pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox7.TabIndex = 26;
             pictureBox7.TabStop = false;
+            pictureBox7.Click += pictureBox7_Click;
             // 
             // textBox3
             // 
@@ -251,13 +256,15 @@
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox1.ForeColor = Color.White;
-            textBox1.Location = new Point(424, 341);
+            textBox1.Location = new Point(424, 344);
             textBox1.Margin = new Padding(4);
             textBox1.Name = "textBox1";
             textBox1.ReadOnly = true;
             textBox1.Size = new Size(69, 21);
             textBox1.TabIndex = 22;
             textBox1.Text = "Cancelar";
+            textBox1.Click += textBox1_Click;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // pictureBox5
             // 
@@ -276,13 +283,14 @@
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(195, 341);
+            textBox2.Location = new Point(184, 341);
             textBox2.Margin = new Padding(4);
             textBox2.Name = "textBox2";
             textBox2.ReadOnly = true;
             textBox2.Size = new Size(69, 21);
             textBox2.TabIndex = 16;
             textBox2.Text = "Renovar";
+            textBox2.Click += textBox2_Click;
             textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pictureBox2
@@ -348,21 +356,27 @@
             panel5.Size = new Size(934, 412);
             panel5.TabIndex = 9;
             // 
-            // Nombre
+            // Id_Certificado
             // 
-            Nombre.HeaderText = "Nombre";
-            Nombre.MinimumWidth = 8;
-            Nombre.Name = "Nombre";
-            Nombre.ReadOnly = true;
-            Nombre.Width = 150;
+            Id_Certificado.HeaderText = "Id_Certificado";
+            Id_Certificado.MinimumWidth = 8;
+            Id_Certificado.Name = "Id_Certificado";
+            Id_Certificado.ReadOnly = true;
+            Id_Certificado.Visible = false;
             // 
-            // DepositoInicial
+            // Nombre_certificado
             // 
-            DepositoInicial.HeaderText = "Deposito inicial";
-            DepositoInicial.MinimumWidth = 8;
-            DepositoInicial.Name = "DepositoInicial";
-            DepositoInicial.ReadOnly = true;
-            DepositoInicial.Width = 150;
+            Nombre_certificado.HeaderText = "Nombre_certificado";
+            Nombre_certificado.MinimumWidth = 8;
+            Nombre_certificado.Name = "Nombre_certificado";
+            Nombre_certificado.ReadOnly = true;
+            // 
+            // deposito_inicial
+            // 
+            deposito_inicial.HeaderText = "deposito_inicial";
+            deposito_inicial.MinimumWidth = 8;
+            deposito_inicial.Name = "deposito_inicial";
+            deposito_inicial.ReadOnly = true;
             // 
             // Plazo
             // 
@@ -370,7 +384,6 @@
             Plazo.MinimumWidth = 8;
             Plazo.Name = "Plazo";
             Plazo.ReadOnly = true;
-            Plazo.Width = 150;
             // 
             // Tasa
             // 
@@ -378,7 +391,6 @@
             Tasa.MinimumWidth = 8;
             Tasa.Name = "Tasa";
             Tasa.ReadOnly = true;
-            Tasa.Width = 150;
             // 
             // FRM_PG103
             // 
@@ -432,8 +444,9 @@
         private PictureBox pictureBox7;
         private DataGridView dataGridView1;
         private Button button1;
-        private DataGridViewTextBoxColumn Nombre;
-        private DataGridViewTextBoxColumn DepositoInicial;
+        private DataGridViewTextBoxColumn Id_Certificado;
+        private DataGridViewTextBoxColumn Nombre_certificado;
+        private DataGridViewTextBoxColumn deposito_inicial;
         private DataGridViewTextBoxColumn Plazo;
         private DataGridViewTextBoxColumn Tasa;
     }

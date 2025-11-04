@@ -3,12 +3,24 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Capa_de_acceso_de_datos
 {
+    public class Origen
+    {
+        public int ID { get; set; }
+        public string Nombre { get; set; }
+
+        public Origen(int id, string nombre)
+        {
+            this.ID = id;
+            this.Nombre = nombre;
+        }
+    }
     public class ClsAccionesDB : Clsconexion
     {
         public int ValidarCredenciales(string usuario, string contraseña)
@@ -158,7 +170,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@Nombre_certificado", nombreCertificado);
                     cmd.Parameters.AddWithValue("@deposito_inicial", depositoInicial);
                     cmd.Parameters.AddWithValue("@plazo", plazo);
-                    cmd.Parameters.AddWithValue("@tasa", nombreCertificado);
+                    cmd.Parameters.AddWithValue("@tasa", tasa);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -170,10 +182,200 @@ namespace Capa_de_acceso_de_datos
             {
                 Cerrar();
             }
+        }
 
+            public DataTable CargarCertificados()
+            {
+                try
+                {
+                    DataTable dt = new DataTable();
 
+                    Abrir();
 
+                    SqlCommand cmd = new SqlCommand("sp_Mostrarcertificados", sc);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
+                    SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+
+                    dataAdapter.Fill(dt);
+
+                    return dt;  
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error al cargar los certificados: " + ex.Message);
+                }
+                finally
+                {
+  
+                    Cerrar();
+                }
+
+            }
+
+            public DataTable CargarCuentasBancarias()
+            {
+                try
+                {
+                     DataTable dt = new DataTable();
+                     Abrir();
+                     SqlCommand cmd = new SqlCommand("sp_mostrarCuentas", sc);
+                     cmd.CommandType = CommandType.StoredProcedure;
+                   
+                     SqlDataAdapter dataAdapter = new();
+                     dataAdapter.SelectCommand = cmd;
+                     dataAdapter.Fill(dt);
+                     return dt;
+            }
+                catch (Exception ex)
+                {
+                     throw new Exception("Error al cargar los certificados: " + ex.Message);
+                }
+                finally
+                {
+                    Cerrar();
+                }
+            }
+
+        public bool editarcertificado(int codigocertificado,string nombreCertificado, decimal depositoInicial, int plazo, decimal tasa)
+        {
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_editar_certificado", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id_Certificado", codigocertificado);
+                    cmd.Parameters.AddWithValue("@Nombre_certificado", nombreCertificado);
+                    cmd.Parameters.AddWithValue("@deposito_inicial", depositoInicial);
+                    cmd.Parameters.AddWithValue("@plazo", plazo);
+                    cmd.Parameters.AddWithValue("@tasa", tasa);
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al editar certificado de depósito: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
+        }
+        public bool renovarCertificado(int codigocertificado, decimal depositoInicial, int plazo, decimal tasa)
+        {
+            try
+            {
+                Abrir();
+                using(SqlCommand cmd = new SqlCommand("sp_renovar_Certificado", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id_Certificado", codigocertificado);
+                    cmd.Parameters.AddWithValue("@deposito_inicial", depositoInicial);
+                    cmd.Parameters.AddWithValue("@plazo", plazo);
+                    cmd.Parameters.AddWithValue("@tasa", tasa);
+                    int filas = cmd.ExecuteNonQuery();
+                    return filas > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al renovar el certificado de depósito: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
+        }
+
+        public void cancelarCertificado(int codigocertificado,string detalle)
+        {
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_cancelar_Certificado", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id_Certificado", codigocertificado);
+                    cmd.Parameters.AddWithValue("@Detalle", detalle);
+                    int filas = cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cancelar el certificado de depósito: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
+        }
+
+        public List<Origen> ObtenerListaOrigenes()
+        {
+            List<Origen> listaOrigenes = new List<Origen>();
+
+            try
+            {
+                Abrir();
+
+                using (SqlCommand cmd = new SqlCommand("SP_ObtenerFuentesDeFondos", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id = Convert.ToInt32(reader["ID"]);
+                            string nombre = reader["NombreOrigen"].ToString();
+
+                            listaOrigenes.Add(new Origen(id, nombre));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar origen: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+            return listaOrigenes;
+        }
+
+        public DataTable ObtenerCuentasIngreso()
+        {
+            DataTable dtCuentas = new DataTable();
+
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("SP_mostrar_cuentasingresos", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+ 
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(dtCuentas);
+                    }
+
+                    return dtCuentas;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener las sugerencias para autocompletar: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
         }
     }
 }

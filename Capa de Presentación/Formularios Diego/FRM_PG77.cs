@@ -56,5 +56,10 @@ namespace Capa_de_Presentación.Formularios_Diego
         {
 
         }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

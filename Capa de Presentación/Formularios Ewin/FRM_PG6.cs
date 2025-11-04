@@ -41,7 +41,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 dgvUsuarios.DataSource = crudUsuarios.ObtenerUsuarios();
 
                 //aqui es para ocultar algunos campos (los ids y las contraseñas)
-                /*
+                
                 if (dgvUsuarios.Columns["Contraseña"] != null)
                     dgvUsuarios.Columns["Contraseña"].Visible = false;
 
@@ -51,7 +51,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     dgvUsuarios.Columns["ParroquiaID"].Visible = false;
                 if (dgvUsuarios.Columns["EstadoID"] != null)
                     dgvUsuarios.Columns["EstadoID"].Visible = false;
-                */
+                
             }
             catch (Exception ex)
             {
