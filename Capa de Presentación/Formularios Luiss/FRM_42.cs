@@ -313,18 +313,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        //Actualiza el saldo que se muestra en pantalla
-        private void ActualizarSaldo()
-        {
-            try
-            {
-                MostrarSaldoActual();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al actualizar el saldo: " + ex.Message);
-            }
-        }
+       
 
         private void txtSaldoActual_TextChanged(object sender, EventArgs e)
         {
