@@ -186,9 +186,25 @@ namespace Capa_de_Presentación.CLASES
                         dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
                     }
 
+                    
                     DataGridViewRow fila = dataGridView1.SelectedRows[0];
+                    int codigocertificado = 0;
 
-                    int codigocertificado = Convert.ToInt32(fila.Cells["Id_Certificado"].Value);
+                    DataGridViewCell pkCell = fila.Cells["Id_Certificado"];
+
+                    if (pkCell != null && pkCell.Value != null && pkCell.Value != DBNull.Value)
+                    {
+                        if (!int.TryParse(pkCell.Value.ToString(), out codigocertificado))
+                        {
+                            throw new FormatException("El código del certificado no tiene un formato numérico válido.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se puede obtener el ID para editar.", "Error de ID", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     string nombreCertificado = fila.Cells["Nombre_certificado"].Value?.ToString() ?? string.Empty;
                     decimal depositoInicial = Convert.ToDecimal(fila.Cells["deposito_inicial"].Value);
                     int plazo = Convert.ToInt32(fila.Cells["Plazo"].Value);

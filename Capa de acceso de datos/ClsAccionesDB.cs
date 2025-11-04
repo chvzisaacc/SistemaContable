@@ -10,6 +10,17 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Capa_de_acceso_de_datos
 {
+    public class Origen
+    {
+        public int ID { get; set; }
+        public string Nombre { get; set; }
+
+        public Origen(int id, string nombre)
+        {
+            this.ID = id;
+            this.Nombre = nombre;
+        }
+    }
     public class ClsAccionesDB : Clsconexion
     {
         public int ValidarCredenciales(string usuario, string contraseña)
@@ -301,6 +312,70 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        public List<Origen> ObtenerListaOrigenes()
+        {
+            List<Origen> listaOrigenes = new List<Origen>();
 
+            try
+            {
+                Abrir();
+
+                using (SqlCommand cmd = new SqlCommand("SP_ObtenerFuentesDeFondos", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id = Convert.ToInt32(reader["ID"]);
+                            string nombre = reader["NombreOrigen"].ToString();
+
+                            listaOrigenes.Add(new Origen(id, nombre));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar origen: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+            return listaOrigenes;
+        }
+
+        public DataTable ObtenerCuentasIngreso()
+        {
+            DataTable dtCuentas = new DataTable();
+
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("SP_mostrar_cuentasingresos", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+ 
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(dtCuentas);
+                    }
+
+                    return dtCuentas;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener las sugerencias para autocompletar: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
+        }
     }
 }

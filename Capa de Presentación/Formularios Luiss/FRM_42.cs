@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
+using Capa_de_Presentación.Formularios_Diego;
+using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,23 +11,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Capa_de_acceso_de_datos;
-using Capa_de_Presentación.CLASES;
-using Microsoft.Data.SqlClient;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_42 : Form
     {
+        private DataTable dtDatosIngresos = null;
         private clsCRUD_CatalogoCuentas crudCataloCuentas;
         private bool modoEdicion = false;
         private int cuentaBancoIDseleccionado = 0;
+        private AutoCompleteStringCollection Subcuentas = new AutoCompleteStringCollection();
+        private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
 
         ClsCerrar cerrar = new ClsCerrar();
         public FRM_42()
         {
             InitializeComponent();
+            InicializarDGVIngr();
+            CargarDatosAutocompletado();
+            Transacciones objtransa = new();
+            objtransa.CargarComboBoxOrigen(cmbOrigen);
             crudCataloCuentas = new clsCRUD_CatalogoCuentas();
             this.FormClosing += cerrar.CerrarApp;
             // Agrega los paneles secundarios dentro del panel contenedor
@@ -275,7 +283,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             try
             {
                 objCon.Abrir();
-                MessageBox.Show("Conexion abierta: " + objCon.sc.State.ToString());
 
                 string query = "SELECT TOP 1 saldo FROM Cajachica ORDER BY Id_cajachica DESC";
                 SqlCommand comando = new SqlCommand(query, objCon.sc);
@@ -291,7 +298,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 }
                 else
                 {
-                    MessageBox.Show("No hay registros en CajaChica.");
                     txtSaldoActual.Text = "0.00";
                 }
 
@@ -311,9 +317,113 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
 
         }
-    }
 
+        private void cmbOrigen_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            cmbOrigen.Text = "Seleccionar";
+            txtNoReferencia.Text = null;
+            Transacciones transa = new();
+            transa.Agregarfila(dtDatosIngresos, dataGridView1);
+
+
+        }
+
+        private void dgvIngresos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void InicializarDGVIngr()
+        {
+            dataGridView1.Columns.Clear();
+            dtDatosIngresos = new DataTable("Ingresos");
+            dtDatosIngresos.Columns.Add("NombreCuenta", typeof(string));
+            dtDatosIngresos.Columns.Add("Detalle", typeof(string));
+            dtDatosIngresos.Columns.Add("Saldo", typeof(string));
+            dataGridView1.DataSource = dtDatosIngresos;
+            dataGridView1.AutoGenerateColumns = true;
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Transacciones objtransa = new();
+            objtransa.BloquearDesbloquearDataIngresos(dtDatosIngresos, dataGridView1, e.RowIndex);
+        }
+
+        private void panelIngresos_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+
+        private void CargarDatosAutocompletado()
+        {
+            Subcuentas.Clear();
+
+            try
+            {
+                DataTable dt = objSubCuentas.ObtenerCuentasIngreso();
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    Subcuentas.Add(row["Subcuentas"].ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (dataGridView1.CurrentCell.OwningColumn.Name == "NombreCuenta")
+            {
+                TextBox autoText = e.Control as TextBox;
+                if (autoText != null)
+                {
+                    autoText.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    autoText.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+                    ClsAccionesDB clsAccionesDB = new();
+                    DataTable dtCuentas = clsAccionesDB.ObtenerCuentasIngreso();
+                    AutoCompleteStringCollection nombresCuentas = new AutoCompleteStringCollection();
+
+                    foreach (DataRow row in dtCuentas.Rows)
+                    {
+                        nombresCuentas.Add(row["Subcuentas"].ToString());
+                    }
+
+                    autoText.AutoCompleteCustomSource = nombresCuentas;
+                }
+            }
+            else
+            {
+                TextBox autoText = e.Control as TextBox;
+                if (autoText != null)
+                {
+                    autoText.AutoCompleteMode = AutoCompleteMode.None;
+                    autoText.AutoCompleteSource = AutoCompleteSource.None;
+                }
+            }
+        }
+        
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            FRM_PG103 fRM_PG103 = new FRM_PG103();
+            fRM_PG103.Show();
+            this.Hide();
+        }
+    }
 }
+
+
 
 
       
