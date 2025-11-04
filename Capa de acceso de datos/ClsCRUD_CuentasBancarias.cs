@@ -161,8 +161,10 @@ namespace Capa_de_acceso_de_datos
 
                     return true;
                 }
-                
+                else
+                {
                     return false; // no hubo id generad
+                }
                
             }
             catch (Exception ex)
