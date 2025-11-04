@@ -44,7 +44,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            comando.Parameters.AddWithValue("@saldo", saldo);
+            comando.Parameters.AddWithValue("@monto", saldo);
 
             try
             {
