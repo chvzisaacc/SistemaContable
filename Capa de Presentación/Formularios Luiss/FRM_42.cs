@@ -274,12 +274,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             FRM_CajaChicaMonto obcaja = new FRM_CajaChicaMonto();
             obcaja.ShowDialog();
 
-            chkSaldoInicial.Visible = false;
-
-            if (txtSaldoActual.Text == "0.00")
-            {
-                chkSaldoInicial.Visible = true;
-            }
+            
         }
         private void MostrarSaldoActual()
         {
