@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_BancosAgregarSaldo));
             panel2 = new Panel();
-            textBox4 = new TextBox();
+            txtMonto = new TextBox();
             textBox2 = new TextBox();
             pictureBox2 = new PictureBox();
             textBox1 = new TextBox();
@@ -44,7 +44,7 @@
             // panel2
             // 
             panel2.BackColor = SystemColors.Control;
-            panel2.Controls.Add(textBox4);
+            panel2.Controls.Add(txtMonto);
             panel2.Controls.Add(textBox2);
             panel2.Controls.Add(pictureBox2);
             panel2.Controls.Add(textBox1);
@@ -57,23 +57,23 @@
             panel2.Size = new Size(453, 232);
             panel2.TabIndex = 10;
             // 
-            // textBox4
+            // txtMonto
             // 
-            textBox4.BackColor = Color.FromArgb(251, 203, 51);
-            textBox4.BorderStyle = BorderStyle.None;
-            textBox4.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox4.ForeColor = Color.Black;
-            textBox4.Location = new Point(120, 100);
-            textBox4.Margin = new Padding(3, 2, 3, 2);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(222, 25);
-            textBox4.TabIndex = 19;
-            textBox4.Text = "Ingrese monto";
+            txtMonto.BackColor = Color.FromArgb(251, 203, 51);
+            txtMonto.BorderStyle = BorderStyle.None;
+            txtMonto.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtMonto.ForeColor = Color.Black;
+            txtMonto.Location = new Point(120, 100);
+            txtMonto.Margin = new Padding(3, 2, 3, 2);
+            txtMonto.Name = "txtMonto";
+            txtMonto.Size = new Size(222, 25);
+            txtMonto.TabIndex = 19;
             // 
             // textBox2
             // 
             textBox2.BackColor = Color.FromArgb(43, 56, 143);
             textBox2.BorderStyle = BorderStyle.None;
+            textBox2.Enabled = false;
             textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
             textBox2.Location = new Point(156, 157);
@@ -94,6 +94,7 @@
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.TabIndex = 13;
             pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
             // 
             // textBox1
             // 
@@ -150,6 +151,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "FRM_BancosAgregarSaldo";
             Text = "FRM_BancosAgregarSaldo";
+            Load += FRM_BancosAgregarSaldo_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -159,7 +161,7 @@
         #endregion
 
         private Panel panel2;
-        private TextBox textBox4;
+        private TextBox txtMonto;
         private TextBox textBox2;
         private PictureBox pictureBox2;
         private TextBox textBox1;
