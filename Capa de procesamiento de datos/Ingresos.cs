@@ -9,6 +9,21 @@ using System.Threading.Tasks;
 
 namespace Capa_de_procesamiento_de_datos
 {
+    public class DetalleIngreso
+    {
+        public string NombreCuenta { get; set; }
+        public string Descripcion { get; set; }
+        public decimal Monto { get; set; }
+
+    }
+
+    public class ResultadoGuardado
+    {
+        public int FilasGuardadas { get; set; }
+        public bool HuboError { get; set; }
+        public string Mensaje { get; set; }
+    }
+
     public class Ingresos : Clsconexion
     {
         public int IngresarIngresos(DateTime fecha, string descripcion, decimal monto, string referencia, int usuarioId, int idOrigen, string nombre)
@@ -49,5 +64,10 @@ namespace Capa_de_procesamiento_de_datos
 
             return nuevaTransa;
         }
+       
+
     }
 }
+
+
+
