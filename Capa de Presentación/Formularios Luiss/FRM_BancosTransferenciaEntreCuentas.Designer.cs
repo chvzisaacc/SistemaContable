@@ -30,13 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_BancosTransferenciaEntreCuentas));
             panel2 = new Panel();
-            textBox4 = new TextBox();
-            comboBox2 = new ComboBox();
+            txtMonto = new TextBox();
+            cmbDestino = new ComboBox();
             textBox2 = new TextBox();
             pictureBox2 = new PictureBox();
             textBox1 = new TextBox();
             label7 = new Label();
-            comboBox1 = new ComboBox();
+            cmbOrigen = new ComboBox();
             label6 = new Label();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -45,43 +45,43 @@
             // panel2
             // 
             panel2.BackColor = SystemColors.Control;
-            panel2.Controls.Add(textBox4);
-            panel2.Controls.Add(comboBox2);
+            panel2.Controls.Add(txtMonto);
+            panel2.Controls.Add(cmbDestino);
             panel2.Controls.Add(textBox2);
             panel2.Controls.Add(pictureBox2);
             panel2.Controls.Add(textBox1);
             panel2.Controls.Add(label7);
-            panel2.Controls.Add(comboBox1);
+            panel2.Controls.Add(cmbOrigen);
             panel2.Controls.Add(label6);
             panel2.Location = new Point(12, 12);
             panel2.Name = "panel2";
             panel2.Size = new Size(518, 309);
             panel2.TabIndex = 10;
             // 
-            // textBox4
+            // txtMonto
             // 
-            textBox4.BackColor = Color.FromArgb(251, 203, 51);
-            textBox4.BorderStyle = BorderStyle.None;
-            textBox4.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox4.ForeColor = Color.Black;
-            textBox4.Location = new Point(155, 170);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(215, 31);
-            textBox4.TabIndex = 18;
-            textBox4.Text = "Ingrese monto";
+            txtMonto.BackColor = Color.FromArgb(251, 203, 51);
+            txtMonto.BorderStyle = BorderStyle.None;
+            txtMonto.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtMonto.ForeColor = Color.Black;
+            txtMonto.Location = new Point(155, 170);
+            txtMonto.Name = "txtMonto";
+            txtMonto.Size = new Size(215, 31);
+            txtMonto.TabIndex = 18;
+            txtMonto.TextChanged += txtMonto_TextChanged;
             // 
-            // comboBox2
+            // cmbDestino
             // 
-            comboBox2.BackColor = Color.FromArgb(251, 203, 51);
-            comboBox2.FlatStyle = FlatStyle.Flat;
-            comboBox2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "Cuenta Ahorro", "Cuenta Cheque" });
-            comboBox2.Location = new Point(155, 112);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(215, 39);
-            comboBox2.TabIndex = 15;
-            comboBox2.Text = "            Destino";
+            cmbDestino.BackColor = Color.FromArgb(251, 203, 51);
+            cmbDestino.FlatStyle = FlatStyle.Flat;
+            cmbDestino.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbDestino.FormattingEnabled = true;
+            cmbDestino.Items.AddRange(new object[] { "Cuenta Ahorro", "Cuenta Cheque" });
+            cmbDestino.Location = new Point(86, 112);
+            cmbDestino.Name = "cmbDestino";
+            cmbDestino.Size = new Size(354, 39);
+            cmbDestino.TabIndex = 15;
+            cmbDestino.Text = "            Destino";
             // 
             // textBox2
             // 
@@ -94,6 +94,7 @@
             textBox2.Size = new Size(164, 27);
             textBox2.TabIndex = 14;
             textBox2.Text = "Guardar y cerrar";
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pictureBox2
             // 
@@ -104,6 +105,7 @@
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.TabIndex = 13;
             pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
             // 
             // textBox1
             // 
@@ -125,18 +127,19 @@
             label7.TabIndex = 10;
             label7.Text = "Monto:";
             // 
-            // comboBox1
+            // cmbOrigen
             // 
-            comboBox1.BackColor = Color.FromArgb(251, 203, 51);
-            comboBox1.FlatStyle = FlatStyle.Flat;
-            comboBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Cuenta Cheque", "Cuenta Ahorro" });
-            comboBox1.Location = new Point(155, 67);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(215, 39);
-            comboBox1.TabIndex = 11;
-            comboBox1.Text = "            Origen";
+            cmbOrigen.BackColor = Color.FromArgb(251, 203, 51);
+            cmbOrigen.FlatStyle = FlatStyle.Flat;
+            cmbOrigen.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbOrigen.FormattingEnabled = true;
+            cmbOrigen.Items.AddRange(new object[] { "Cuenta Cheque", "Cuenta Ahorro" });
+            cmbOrigen.Location = new Point(86, 67);
+            cmbOrigen.Name = "cmbOrigen";
+            cmbOrigen.Size = new Size(354, 39);
+            cmbOrigen.TabIndex = 11;
+            cmbOrigen.Text = "            Origen";
+            cmbOrigen.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // label6
             // 
@@ -157,6 +160,7 @@
             Controls.Add(panel2);
             Name = "FRM_BancosTransferenciaEntreCuentas";
             Text = "FRM_BancosTransferenciaEntreCuentas";
+            Load += FRM_BancosTransferenciaEntreCuentas_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -166,13 +170,13 @@
         #endregion
 
         private Panel panel2;
-        private TextBox textBox4;
-        private ComboBox comboBox2;
+        private TextBox txtMonto;
+        private ComboBox cmbDestino;
         private TextBox textBox2;
         private PictureBox pictureBox2;
         private TextBox textBox1;
         private Label label7;
-        private ComboBox comboBox1;
+        private ComboBox cmbOrigen;
         private Label label6;
     }
 }
