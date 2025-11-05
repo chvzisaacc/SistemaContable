@@ -504,6 +504,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 MessageBox.Show("Error al cargar datos: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            string nombreColumnaAOcultar = "Saldo";
+
+            if (dgvCatalogoCuentas.Columns.Contains(nombreColumnaAOcultar))
+            {
+                dgvCatalogoCuentas.Columns[nombreColumnaAOcultar].Visible = false;
+            }
         }
 
         private void CargarComboBoxTipoTransaccion()
@@ -597,6 +604,16 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 MessageBox.Show("Error al buscar: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void dgvCatalogoCuentas_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+        }
+
+        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            
         }
     }
 }

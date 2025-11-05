@@ -206,7 +206,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             button1.TabIndex = 29;
             button1.Text = "Guardar";
             button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click_1;
+            //button1.Click += button1_Click_1;
             // 
             // dtpFecha
             // 
@@ -541,7 +541,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             btnGuardar2.TabIndex = 28;
             btnGuardar2.Text = "Guardar";
             btnGuardar2.UseVisualStyleBackColor = false;
-            btnGuardar2.Click += btnGuardar2_Click;
+            //btnGuardar2.Click += btnGuardar2_Click;
             // 
             // dgvGastos
             // 
