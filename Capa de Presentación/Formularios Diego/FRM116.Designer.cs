@@ -32,16 +32,16 @@
             panel1 = new Panel();
             panel2 = new Panel();
             dataGridView1 = new DataGridView();
-            textBox4 = new TextBox();
-            pictureBox9 = new PictureBox();
-            label6 = new Label();
-            panel4 = new Panel();
-            panel5 = new Panel();
             Nombre = new DataGridViewTextBoxColumn();
             Saldo = new DataGridViewTextBoxColumn();
             Interés = new DataGridViewTextBoxColumn();
             GananciaGenerada = new DataGridViewTextBoxColumn();
             TotalAcumulado = new DataGridViewTextBoxColumn();
+            textBox4 = new TextBox();
+            pictureBox9 = new PictureBox();
+            label6 = new Label();
+            panel4 = new Panel();
+            panel5 = new Panel();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -85,6 +85,47 @@
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.Size = new Size(814, 225);
             dataGridView1.TabIndex = 32;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            // 
+            // Nombre
+            // 
+            Nombre.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Nombre.HeaderText = "Nombre de la Cuenta";
+            Nombre.MinimumWidth = 8;
+            Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
+            // 
+            // Saldo
+            // 
+            Saldo.HeaderText = "Saldo de la Cuenta";
+            Saldo.MinimumWidth = 8;
+            Saldo.Name = "Saldo";
+            Saldo.ReadOnly = true;
+            Saldo.Width = 140;
+            // 
+            // Interés
+            // 
+            Interés.HeaderText = "Tasa";
+            Interés.MinimumWidth = 8;
+            Interés.Name = "Interés";
+            Interés.ReadOnly = true;
+            Interés.Width = 120;
+            // 
+            // GananciaGenerada
+            // 
+            GananciaGenerada.HeaderText = "Ganancia Generada";
+            GananciaGenerada.MinimumWidth = 8;
+            GananciaGenerada.Name = "GananciaGenerada";
+            GananciaGenerada.ReadOnly = true;
+            GananciaGenerada.Width = 140;
+            // 
+            // TotalAcumulado
+            // 
+            TotalAcumulado.HeaderText = "Total Acumulado";
+            TotalAcumulado.MinimumWidth = 8;
+            TotalAcumulado.Name = "TotalAcumulado";
+            TotalAcumulado.ReadOnly = true;
+            TotalAcumulado.Width = 140;
             // 
             // textBox4
             // 
@@ -137,46 +178,6 @@
             panel5.Name = "panel5";
             panel5.Size = new Size(906, 472);
             panel5.TabIndex = 9;
-            // 
-            // Nombre
-            // 
-            Nombre.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Nombre.HeaderText = "Nombre de la Cuenta";
-            Nombre.MinimumWidth = 8;
-            Nombre.Name = "Nombre";
-            Nombre.ReadOnly = true;
-            // 
-            // Saldo
-            // 
-            Saldo.HeaderText = "Saldo de la Cuenta";
-            Saldo.MinimumWidth = 8;
-            Saldo.Name = "Saldo";
-            Saldo.ReadOnly = true;
-            Saldo.Width = 140;
-            // 
-            // Interés
-            // 
-            Interés.HeaderText = "Tasa";
-            Interés.MinimumWidth = 8;
-            Interés.Name = "Interés";
-            Interés.ReadOnly = true;
-            Interés.Width = 120;
-            // 
-            // GananciaGenerada
-            // 
-            GananciaGenerada.HeaderText = "Ganancia Generada";
-            GananciaGenerada.MinimumWidth = 8;
-            GananciaGenerada.Name = "GananciaGenerada";
-            GananciaGenerada.ReadOnly = true;
-            GananciaGenerada.Width = 140;
-            // 
-            // TotalAcumulado
-            // 
-            TotalAcumulado.HeaderText = "Total Acumulado";
-            TotalAcumulado.MinimumWidth = 8;
-            TotalAcumulado.Name = "TotalAcumulado";
-            TotalAcumulado.ReadOnly = true;
-            TotalAcumulado.Width = 140;
             // 
             // FRM116
             // 
