@@ -83,8 +83,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panel1 = new Panel();
             panelLinea = new Panel();
             NombreCuenta = new DataGridViewTextBoxColumn();
-            cDetalle = new DataGridViewTextBoxColumn();
-            cSaldo = new DataGridViewTextBoxColumn();
+            Detalle = new DataGridViewTextBoxColumn();
+            Saldo = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -206,6 +206,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             button1.TabIndex = 29;
             button1.Text = "Guardar";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // dtpFecha
             // 
@@ -250,7 +251,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { NombreCuenta, cDetalle, cSaldo });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { NombreCuenta, Detalle, Saldo });
             dataGridView1.Location = new Point(61, 165);
             dataGridView1.Margin = new Padding(4, 5, 4, 5);
             dataGridView1.Name = "dataGridView1";
@@ -481,7 +482,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // panel5
             // 
-            panel5.BackgroundImage = (Image)resources.GetObject("panel5.BackgroundImage");
             panel5.BackgroundImageLayout = ImageLayout.Stretch;
             panel5.Location = new Point(407, 25);
             panel5.Margin = new Padding(4, 3, 4, 3);
@@ -715,19 +715,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
             NombreCuenta.Name = "NombreCuenta";
             NombreCuenta.ReadOnly = true;
             // 
-            // cDetalle
+            // Detalle
             // 
-            cDetalle.HeaderText = "Detalle";
-            cDetalle.MinimumWidth = 6;
-            cDetalle.Name = "cDetalle";
-            cDetalle.ReadOnly = true;
+            Detalle.HeaderText = "Detalle";
+            Detalle.MinimumWidth = 6;
+            Detalle.Name = "Detalle";
+            Detalle.ReadOnly = true;
             // 
-            // cSaldo
+            // Saldo
             // 
-            cSaldo.HeaderText = "Saldo";
-            cSaldo.MinimumWidth = 6;
-            cSaldo.Name = "cSaldo";
-            cSaldo.ReadOnly = true;
+            Saldo.HeaderText = "Saldo";
+            Saldo.MinimumWidth = 6;
+            Saldo.Name = "Saldo";
+            Saldo.ReadOnly = true;
             // 
             // FRM_42
             // 
@@ -813,7 +813,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private Button button2;
         private Button button3;
         private DataGridViewTextBoxColumn NombreCuenta;
-        private DataGridViewTextBoxColumn cDetalle;
-        private DataGridViewTextBoxColumn cSaldo;
+        private DataGridViewTextBoxColumn Detalle;
+        private DataGridViewTextBoxColumn Saldo;
     }
 }

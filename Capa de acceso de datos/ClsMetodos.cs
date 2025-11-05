@@ -6,26 +6,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-
 namespace Capa_de_acceso_de_datos
 {
     public class ClsMetodos:ClsAccionesDB
     {
         public int IniciarSesion(string usuario, string contraseña)
         {
+
+            ResultadoLogin resultado = null;
+
             try
             {
                 Abrir();
-                int rol = ValidarCredenciales(usuario, contraseña);
-                return rol;
+
+   
+                resultado = ValidarCredenciales(usuario, contraseña);
+
+                if (resultado != null && resultado.UsuarioID > 0)
+                {
+   
+                    Sesion1.IniciarSesion(resultado.UsuarioID, resultado.RolID);
+
+             
+                    return resultado.RolID;
+                }
+
+                return 0;
             }
             catch (Exception ex)
             {
+ 
                 throw new Exception("Error al iniciar sesión: " + ex.Message);
             }
             finally
             {
+                // Asegurar el cierre de la conexión
                 Cerrar();
             }
         }

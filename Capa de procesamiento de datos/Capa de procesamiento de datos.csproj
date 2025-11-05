@@ -12,4 +12,10 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Capa de acceso de datos">
+      <HintPath>..\Capa de acceso de datos\bin\Debug\net8.0-windows\Capa de acceso de datos.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
