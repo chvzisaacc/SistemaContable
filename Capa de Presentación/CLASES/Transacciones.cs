@@ -18,18 +18,18 @@ namespace Capa_de_Presentación.CLASES
             {
                 List<Origen> lista = clsAccionesDB.ObtenerListaOrigenes();
 
-                cmbOrigen.Items.Clear();
-                cmbOrigen.DisplayMember = "Nombre";
+                lista.Insert(0, new Origen(0, "— Seleccione un Origen de fondos —"));
 
-                foreach (Origen item in lista)
-                {
-                    cmbOrigen.Items.Add(item);
-                }
+           
+                cmbOrigen.DataSource = lista;
 
-                if (cmbOrigen.Items.Count > 0)
-                {
-                    cmbOrigen.SelectedIndex = 0;
-                }
+                cmbOrigen.DisplayMember = "Nombre"; 
+
+                
+                cmbOrigen.ValueMember = "ID";
+
+
+                cmbOrigen.SelectedIndex = 0;
             }
             catch (Exception ex)
             {

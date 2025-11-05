@@ -21,10 +21,18 @@ namespace Capa_de_acceso_de_datos
             this.Nombre = nombre;
         }
     }
+
+    public class ResultadoLogin
+    {
+        public int UsuarioID { get; set; }
+        public int RolID { get; set; }
+    }
     public class ClsAccionesDB : Clsconexion
     {
-        public int ValidarCredenciales(string usuario, string contraseña)
+        public ResultadoLogin ValidarCredenciales(string usuario, string contraseña)
         {
+            ResultadoLogin resultado = new ResultadoLogin { UsuarioID = 0, RolID = 0 };
+
             int rol = 0;
             try
             {
@@ -34,11 +42,15 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@Usuario", usuario);
                 cmd.Parameters.AddWithValue("@Password", contraseña);
 
-                object resultado = cmd.ExecuteScalar();
-
-                if (resultado != null)
+                using (SqlDataReader dr = cmd.ExecuteReader())
                 {
-                    rol = Convert.ToInt32(resultado);
+                    if (dr.Read())
+                    {
+                        // Asegúrate que el SP devuelva estas columnas.
+                        resultado.UsuarioID = Convert.ToInt32(dr["UsuarioID"]);
+                        resultado.RolID = Convert.ToInt32(dr["RolID"]);
+                    }
+                    dr.Close();
                 }
             }
             catch (Exception ex)
@@ -50,7 +62,7 @@ namespace Capa_de_acceso_de_datos
                 Cerrar();
             }
 
-            return rol;
+            return resultado;
         }
 
         public bool CambiarContraseña(string correo, string nuevaContraseña)
@@ -184,60 +196,60 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-            public DataTable CargarCertificados()
+        public DataTable CargarCertificados()
+        {
+            try
             {
-                try
-                {
-                    DataTable dt = new DataTable();
+                DataTable dt = new DataTable();
 
-                    Abrir();
+                Abrir();
 
-                    SqlCommand cmd = new SqlCommand("sp_Mostrarcertificados", sc);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand("sp_Mostrarcertificados", sc);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                    SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
 
-                    dataAdapter.Fill(dt);
+                dataAdapter.Fill(dt);
 
-                    return dt;  
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error al cargar los certificados: " + ex.Message);
-                }
-                finally
-                {
-  
-                    Cerrar();
-                }
-
+                return dt;
             }
-
-            public DataTable CargarCuentasBancarias()
+            catch (Exception ex)
             {
-                try
-                {
-                     DataTable dt = new DataTable();
-                     Abrir();
-                     SqlCommand cmd = new SqlCommand("sp_mostrarCuentas", sc);
-                     cmd.CommandType = CommandType.StoredProcedure;
-                   
-                     SqlDataAdapter dataAdapter = new();
-                     dataAdapter.SelectCommand = cmd;
-                     dataAdapter.Fill(dt);
-                     return dt;
+                throw new Exception("Error al cargar los certificados: " + ex.Message);
             }
-                catch (Exception ex)
-                {
-                     throw new Exception("Error al cargar los certificados: " + ex.Message);
-                }
-                finally
-                {
-                    Cerrar();
-                }
+            finally
+            {
+
+                Cerrar();
             }
 
-        public bool editarcertificado(int codigocertificado,string nombreCertificado, decimal depositoInicial, int plazo, decimal tasa)
+        }
+
+        public DataTable CargarCuentasBancarias()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                Abrir();
+                SqlCommand cmd = new SqlCommand("sp_mostrarCuentas", sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter dataAdapter = new();
+                dataAdapter.SelectCommand = cmd;
+                dataAdapter.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar los certificados: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
+        }
+
+        public bool editarcertificado(int codigocertificado, string nombreCertificado, decimal depositoInicial, int plazo, decimal tasa)
         {
             try
             {
@@ -268,7 +280,7 @@ namespace Capa_de_acceso_de_datos
             try
             {
                 Abrir();
-                using(SqlCommand cmd = new SqlCommand("sp_renovar_Certificado", sc))
+                using (SqlCommand cmd = new SqlCommand("sp_renovar_Certificado", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Id_Certificado", codigocertificado);
@@ -289,7 +301,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public void cancelarCertificado(int codigocertificado,string detalle)
+        public void cancelarCertificado(int codigocertificado, string detalle)
         {
             try
             {
@@ -348,7 +360,7 @@ namespace Capa_de_acceso_de_datos
             return listaOrigenes;
         }
 
-       
+
 
         public DataTable ObtenerCuentasIngreso()
         {
@@ -361,7 +373,7 @@ namespace Capa_de_acceso_de_datos
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
- 
+
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
                         da.Fill(dtCuentas);
@@ -406,6 +418,33 @@ namespace Capa_de_acceso_de_datos
             {
                 Cerrar();
             }
+        }
+        
+
+        public int ObtenerUsuarioIdPorNombreUsuario(string nombreUsuario)
+        {
+            int idUsuario = 0;
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("SP_ObtenerUsuarioIdPorNombre", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@NombreUsuario", nombreUsuario);
+                    object result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                        idUsuario = Convert.ToInt32(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener ID de usuario: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
+            return idUsuario;
         }
     }
 }

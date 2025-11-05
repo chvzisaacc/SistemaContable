@@ -36,12 +36,29 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button1_Click(object sender, EventArgs e)
         {
-           ClsRecuperacion objrecu = new ClsRecuperacion();
-           objrecu.IniciarSesion(txtUsuario.Text, txtContraseña.Text, this, label1);
             string usuario = txtUsuario.Text;
-            string clave = txtContraseña.Text;
-            ClsAccionesDB clsAccionesDB = new();
-            int codigoUsuario = clsAccionesDB.ValidarCredenciales(usuario, clave);
+            string password = txtContraseña.Text;
+            ClsRecuperacion objrecu = new ClsRecuperacion();
+           objrecu.IniciarSesion(txtUsuario.Text, txtContraseña.Text, this, label1);
+           ClsAccionesDB clsAccionesDB = new();
+            int rol = 0;
+
+            if (rol > 0)
+            {
+                int idUsuario = clsAccionesDB.ObtenerUsuarioIdPorNombreUsuario(usuario);
+
+                if (idUsuario > 0)
+                {
+                    Sesion1.IniciarSesion(idUsuario, rol);
+
+                    MessageBox.Show("Inicio de sesión exitoso. ID de Usuario guardado.");
+                }
+                else
+                {
+                    MessageBox.Show("Error: El usuario es válido, pero no se pudo obtener su ID.", "Error Crítico");
+                }
+            }
+
         }
 
         private void label3_Click(object sender, EventArgs e)
