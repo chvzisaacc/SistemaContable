@@ -30,6 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG6));
             panel1 = new Panel();
+            textBox1 = new TextBox();
+            label14 = new Label();
+            btnHabilitar = new Button();
             btnAgregar = new Button();
             btnGuardar = new Button();
             btnInhabilitar = new Button();
@@ -73,6 +76,9 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(textBox1);
+            panel1.Controls.Add(label14);
+            panel1.Controls.Add(btnHabilitar);
             panel1.Controls.Add(btnAgregar);
             panel1.Controls.Add(btnGuardar);
             panel1.Controls.Add(btnInhabilitar);
@@ -112,13 +118,47 @@
             panel1.TabIndex = 9;
             panel1.Paint += panel1_Paint;
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(582, 204);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(656, 27);
+            textBox1.TabIndex = 45;
+            textBox1.TextChanged += textBox1_TextChanged;
+            textBox1.KeyUp += textBox1_KeyUp;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(521, 207);
+            label14.Name = "label14";
+            label14.Size = new Size(55, 20);
+            label14.TabIndex = 44;
+            label14.Text = "Buscar:";
+            label14.Click += label14_Click;
+            // 
+            // btnHabilitar
+            // 
+            btnHabilitar.BackColor = Color.FromArgb(43, 56, 143);
+            btnHabilitar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnHabilitar.ForeColor = Color.White;
+            btnHabilitar.ImageAlign = ContentAlignment.TopCenter;
+            btnHabilitar.Location = new Point(636, 620);
+            btnHabilitar.Name = "btnHabilitar";
+            btnHabilitar.Size = new Size(158, 39);
+            btnHabilitar.TabIndex = 43;
+            btnHabilitar.Text = "Habilitar";
+            btnHabilitar.UseVisualStyleBackColor = false;
+            btnHabilitar.UseWaitCursor = true;
+            btnHabilitar.Click += btnHabilitar_Click;
+            // 
             // btnAgregar
             // 
             btnAgregar.BackColor = Color.FromArgb(43, 56, 143);
             btnAgregar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAgregar.ForeColor = Color.White;
             btnAgregar.ImageAlign = ContentAlignment.TopCenter;
-            btnAgregar.Location = new Point(731, 192);
+            btnAgregar.Location = new Point(345, 197);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.Size = new Size(130, 39);
             btnAgregar.TabIndex = 42;
@@ -163,7 +203,7 @@
             btnModificar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnModificar.ForeColor = Color.White;
             btnModificar.ImageAlign = ContentAlignment.TopCenter;
-            btnModificar.Location = new Point(617, 620);
+            btnModificar.Location = new Point(436, 620);
             btnModificar.Name = "btnModificar";
             btnModificar.Size = new Size(158, 39);
             btnModificar.TabIndex = 38;
@@ -519,5 +559,8 @@
         private Button btnGuardar;
         private Button btnInhabilitar;
         private Button btnModificar;
+        private Button btnHabilitar;
+        private Label label14;
+        private TextBox textBox1;
     }
 }

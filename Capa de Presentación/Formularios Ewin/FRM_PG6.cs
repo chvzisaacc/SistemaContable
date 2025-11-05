@@ -17,11 +17,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private clsCRUD_Usuarios crudUsuarios;
         private bool modoEdicion = false;
         private int usuarioIdSeleccionado = 0;
+        private BindingSource bindingSource;
+
 
         public FRM_PG6()
         {
             InitializeComponent();
             crudUsuarios = new clsCRUD_Usuarios();
+            bindingSource = new BindingSource();
+
         }
 
         private void FRM_PG6_Load(object sender, EventArgs e)
@@ -41,7 +45,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 dgvUsuarios.DataSource = crudUsuarios.ObtenerUsuarios();
 
                 //aqui es para ocultar algunos campos (los ids y las contraseñas)
-                
+
                 if (dgvUsuarios.Columns["Contraseña"] != null)
                     dgvUsuarios.Columns["Contraseña"].Visible = false;
 
@@ -51,7 +55,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     dgvUsuarios.Columns["ParroquiaID"].Visible = false;
                 if (dgvUsuarios.Columns["EstadoID"] != null)
                     dgvUsuarios.Columns["EstadoID"].Visible = false;
-                
+
             }
             catch (Exception ex)
             {
@@ -371,5 +375,53 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
 
         }
+
+        private void btnHabilitar_Click(object sender, EventArgs e)
+        {
+            if (dgvUsuarios.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione un usuario para habilitar", "Advertencia",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                int id = Convert.ToInt32(dgvUsuarios.CurrentRow.Cells["ID"].Value);
+                int estadoInactivo = 1; // Ajustar según tu BD
+
+                bool resultado = crudUsuarios.InhabilitarUsuario(id, estadoInactivo);
+
+                if (resultado)
+                {
+                    MessageBox.Show("Usuario habilitado exitosamente", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CargarDatos();
+                    LimpiarCampos();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al habilitar: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_KeyUp(object sender, KeyEventArgs e)
+        {
+           
+        }
+
+
     }
 }
