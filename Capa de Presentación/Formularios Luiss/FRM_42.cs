@@ -17,8 +17,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_42 : Form
     {
+
         private DataTable dtDatosIngresos = null;
         private clsCRUD_CatalogoCuentas crudCataloCuentas;
+
+        private ClsCRUD_CuentasBancarias crudCuentasBancarias;
+
         private bool modoEdicion = false;
         private int cuentaBancoIDseleccionado = 0;
         private AutoCompleteStringCollection Subcuentas = new AutoCompleteStringCollection();
@@ -28,25 +32,30 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_42()
         {
             InitializeComponent();
+
             InicializarDGVIngr();
             CargarDatosAutocompletado();
             Transacciones objtransa = new();
             objtransa.CargarComboBoxOrigen(cmbOrigen);
             crudCataloCuentas = new clsCRUD_CatalogoCuentas();
+
+            crudCuentasBancarias = new ClsCRUD_CuentasBancarias();
+
             this.FormClosing += cerrar.CerrarApp;
             // Agrega los paneles secundarios dentro del panel contenedor
             panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Controls.Add(panelBancos2);
             panelContenedor.Controls.Add(panelIngresos);
-            panelContenedor.Controls.Add(panel5);
+            //panelContenedor.Controls.Add(panelMensaje);
 
             // Opcional: muestra uno por defecto
-            MostrarSoloEstePanel(panelContenedor);
+            MostrarSoloEstePanel(panel1);
         }
 
         private void FRM_42_Load(object sender, EventArgs e)
         {
+
             DateTime mesactual = DateTime.Now;
             DateTime mesactual1 = new DateTime(mesactual.Year, mesactual.Month, 1);
             dtpFecha.MinDate = mesactual1;
@@ -57,6 +66,59 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
         }
+        //=======
+        private void FRM_42_LOAD(object sender, EventArgs e)
+        {
+            CargarDatos();
+            CargarComboBoxes();
+           // LimpiarCampos();
+            //HabilitarControles(false);
+        }
+
+        private void CargarDatos()
+        {
+            try
+            {
+                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
+
+                //aqui es para ocultar algunos campos (los ids y las contraseñas)
+                /*
+                if (dgvUsuarios.Columns["Contraseña"] != null)
+                    dgvUsuarios.Columns["Contraseña"].Visible = false;
+
+                if (dgvUsuarios.Columns["RolID"] != null)
+                    dgvUsuarios.Columns["RolID"].Visible = false;
+                if (dgvUsuarios.Columns["ParroquiaID"] != null)
+                    dgvUsuarios.Columns["ParroquiaID"].Visible = false;
+                if (dgvUsuarios.Columns["EstadoID"] != null)
+                    dgvUsuarios.Columns["EstadoID"].Visible = false;
+                */
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar datos: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        
+                 
+       private void CargarComboBoxes()
+        {
+            try
+            {
+                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
+                cmbCuentas.DisplayMember = "Nombre";
+                cmbCuentas.ValueMember = "Id_cuentaBanco";
+
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar opciones: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
 
         
 
@@ -75,20 +137,24 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void btnGastos_Click(object sender, EventArgs e)
         {
+            //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelGastos2);
         }
 
         private void btnCajaChica_Click(object sender, EventArgs e)
         {
+            //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelCajaChica2);
         }
         private void btnIngresos_Click_1(object sender, EventArgs e)
         {
+            //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelIngresos);
         }
 
         private void btnBancos_Click_1(object sender, EventArgs e)
         {
+            //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelBancos2);
         }
 

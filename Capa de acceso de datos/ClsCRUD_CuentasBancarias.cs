@@ -17,21 +17,22 @@ namespace Capa_de_acceso_de_datos
             conexion = new Clsconexion();
         }
 
-        public int AgregarCuentaBancaria(int CuentaBancariaID, decimal? saldo, decimal? tasa_interes, decimal? ganancia_generada)
+        public int AgregarCuentaBancaria(int CuentaBancariaID,string Nombre, decimal? saldo, decimal? tasa_interes)
         {
             try
             {
                 conexion.Abrir();
                 SqlCommand cmd = new SqlCommand("sp_AgregarCuentaBanco", conexion.sc);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@id_cuentaBanco", CuentaBancariaID);
+                cmd.Parameters.AddWithValue("@Nombre", Nombre);
                 cmd.Parameters.AddWithValue("@saldo", saldo);
                 cmd.Parameters.AddWithValue("@tasa_interes", tasa_interes);
-                cmd.Parameters.AddWithValue("@ganancia_generada", ganancia_generada);
+                ;
 
-                SqlParameter nuevoId = new SqlParameter("@nuevoId", System.Data.SqlDbType.Int);
-                nuevoId.Direction = System.Data.ParameterDirection.Output;
+                SqlParameter nuevoId = new SqlParameter("@nuevoId", SqlDbType.Int);
+                nuevoId.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(nuevoId);
 
                 cmd.ExecuteNonQuery();
@@ -54,18 +55,121 @@ namespace Capa_de_acceso_de_datos
             try
             {
                 conexion.Abrir();
+
                 SqlCommand cmd = new SqlCommand("sp_ObtenerCuentasBancarias", conexion.sc);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                System.Data.DataTable dt = new System.Data.DataTable();
+                DataTable dt = new DataTable();
                 adapter.Fill(dt);
 
                 return dt;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener cuentas bancarias: " + ex.Message, ex);
+                throw new Exception("Error al obtener Cuentas Bancarias: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+        public bool ModificarSaldo(int idCuentaBanco, decimal saldo)
+        {
+            try
+            {
+                conexion.Abrir();
+                using var cmd = new SqlCommand("sp_ModificarSaldo", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@Id_cuentaBanco", SqlDbType.Int).Value = idCuentaBanco;
+
+                var pSaldo = cmd.Parameters.Add("@saldo", SqlDbType.Decimal);
+                pSaldo.Precision = 18;
+                pSaldo.Scale = 2;
+                pSaldo.Value = saldo;
+
+                int filas = cmd.ExecuteNonQuery(); // esperado: 1 si actualiza una fila
+                return filas > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al modificar saldo: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+        public bool AgregarSaldo(int idCuentaBanco, decimal monto)
+        {
+            try
+            {
+                conexion.Abrir();
+                using var cmd = new SqlCommand("dbo.sp_AgregarSaldo", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@Id_cuentaBanco", SqlDbType.Int).Value = idCuentaBanco;
+
+                var pMonto = cmd.Parameters.Add("@monto", SqlDbType.Decimal);
+                pMonto.Precision = 18;
+                pMonto.Scale = 2;
+                pMonto.Value = monto;
+
+                int filas = cmd.ExecuteNonQuery();   // esperado: 1 si actualiza una fila
+                return filas > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar saldo: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+        public bool CrearCuentaBanco(String Nombre, decimal saldo, decimal tasaInteres, out int nuevo_Id)
+        {
+            nuevo_Id = 0;
+            try
+            {
+                conexion.Abrir();
+                using var cmd = new SqlCommand("dbo.sp_AgregarCuentaBanco", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //cmd.Parameters.Add("@Id_cuentaBanco", SqlDbType.Int).Value = idCuentaBanco;
+                var pNombre = cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar, 40).Value = Nombre ?? string.Empty;
+                //pNombre.Value = Nombre ?? string.Empty;
+                
+                var pSaldo = cmd.Parameters.Add("@saldo", SqlDbType.Decimal);
+                pSaldo.Precision = 10; 
+                pSaldo.Scale = 2; 
+                pSaldo.Value = saldo;
+
+                var pTasa = cmd.Parameters.Add("@tasa_interes", SqlDbType.Decimal);
+                pTasa.Precision = 4;
+                pTasa.Scale = 2; 
+                pTasa.Value = tasaInteres;
+
+               var pOut = cmd.Parameters.Add("@nuevo_Id", SqlDbType.Int);
+                pOut.Direction = ParameterDirection.Output;
+
+                int filas = cmd.ExecuteNonQuery();
+                if (pOut.Value != DBNull.Value && (int)pOut.Value > 0)
+                {
+                    nuevo_Id = (int)pOut.Value;
+
+                    return true;
+                }
+                else
+                {
+                    return false; // no hubo id generad
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al crear cuenta bancaria: " + ex.Message, ex);
             }
             finally
             {
