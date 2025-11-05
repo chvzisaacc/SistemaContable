@@ -30,29 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG5));
             panel1 = new Panel();
-            panelMensaje = new Panel();
             btnCatalagoCuenta = new Button();
             btnUsuario = new Button();
             panelContenedor = new Panel();
-            panelCatalogoCuentas = new Panel();
-            btnGuardarCuenta = new Button();
-            txtSaldo = new TextBox();
-            label14 = new Label();
-            cmbTipoCuenta = new ComboBox();
-            btnNuevaCuenta = new Button();
-            button1 = new Button();
-            dgvCatalogoCuentas = new DataGridView();
-            txtIdCuenta = new TextBox();
-            txtCuenta = new TextBox();
-            txtNombreCuenta = new TextBox();
-            txtDetalle = new TextBox();
-            label15 = new Label();
-            label16 = new Label();
-            label17 = new Label();
-            label18 = new Label();
-            label19 = new Label();
-            panel10 = new Panel();
             panelUsuario = new Panel();
+            label20 = new Label();
+            label3 = new Label();
+            txtBuscar = new TextBox();
+            label2 = new Label();
             btnGuardarUsuario = new Button();
             btnInhabilitarUsuario = new Button();
             btnHabilitar = new Button();
@@ -82,6 +67,24 @@
             label5 = new Label();
             label4 = new Label();
             panel9 = new Panel();
+            panelCatalogoCuentas = new Panel();
+            btnGuardarCuenta = new Button();
+            txtSaldo = new TextBox();
+            label14 = new Label();
+            cmbTipoCuenta = new ComboBox();
+            btnNuevaCuenta = new Button();
+            button1 = new Button();
+            dgvCatalogoCuentas = new DataGridView();
+            txtIdCuenta = new TextBox();
+            txtCuenta = new TextBox();
+            txtNombreCuenta = new TextBox();
+            txtDetalle = new TextBox();
+            label15 = new Label();
+            label16 = new Label();
+            label17 = new Label();
+            label18 = new Label();
+            label19 = new Label();
+            panel10 = new Panel();
             pictureBox3 = new PictureBox();
             label8 = new Label();
             pictureBox4 = new PictureBox();
@@ -90,12 +93,13 @@
             panel4 = new Panel();
             label1 = new Label();
             pictureBox1 = new PictureBox();
+            panelMensaje = new Panel();
             panel1.SuspendLayout();
             panelContenedor.SuspendLayout();
-            panelCatalogoCuentas.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCatalogoCuentas).BeginInit();
             panelUsuario.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).BeginInit();
+            panelCatalogoCuentas.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvCatalogoCuentas).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -104,7 +108,6 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
-            panel1.Controls.Add(panelMensaje);
             panel1.Controls.Add(btnCatalagoCuenta);
             panel1.Controls.Add(btnUsuario);
             panel1.Controls.Add(panelContenedor);
@@ -116,20 +119,12 @@
             panel1.Controls.Add(panel4);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
+            panel1.Controls.Add(panelMensaje);
             panel1.Location = new Point(11, 12);
             panel1.Name = "panel1";
             panel1.Size = new Size(1258, 695);
             panel1.TabIndex = 8;
             panel1.Paint += panel1_Paint;
-            // 
-            // panelMensaje
-            // 
-            panelMensaje.BackgroundImage = (Image)resources.GetObject("panelMensaje.BackgroundImage");
-            panelMensaje.BackgroundImageLayout = ImageLayout.Stretch;
-            panelMensaje.Location = new Point(320, 177);
-            panelMensaje.Name = "panelMensaje";
-            panelMensaje.Size = new Size(619, 340);
-            panelMensaje.TabIndex = 22;
             // 
             // btnCatalagoCuenta
             // 
@@ -157,13 +152,425 @@
             // 
             // panelContenedor
             // 
-            panelContenedor.Controls.Add(panelCatalogoCuentas);
             panelContenedor.Controls.Add(panelUsuario);
+            panelContenedor.Controls.Add(panelCatalogoCuentas);
             panelContenedor.Location = new Point(3, 179);
             panelContenedor.Margin = new Padding(3, 4, 3, 4);
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(1251, 512);
             panelContenedor.TabIndex = 17;
+            // 
+            // panelUsuario
+            // 
+            panelUsuario.BackColor = Color.White;
+            panelUsuario.Controls.Add(label20);
+            panelUsuario.Controls.Add(label3);
+            panelUsuario.Controls.Add(txtBuscar);
+            panelUsuario.Controls.Add(label2);
+            panelUsuario.Controls.Add(btnGuardarUsuario);
+            panelUsuario.Controls.Add(btnInhabilitarUsuario);
+            panelUsuario.Controls.Add(btnHabilitar);
+            panelUsuario.Controls.Add(btnModificarUsuario);
+            panelUsuario.Controls.Add(btnAgregar);
+            panelUsuario.Controls.Add(btnGuardar);
+            panelUsuario.Controls.Add(btnInhabilitar);
+            panelUsuario.Controls.Add(btnEliminar);
+            panelUsuario.Controls.Add(btnModificar);
+            panelUsuario.Controls.Add(dgvUsuarios);
+            panelUsuario.Controls.Add(cmbEstado);
+            panelUsuario.Controls.Add(cmbParroquia);
+            panelUsuario.Controls.Add(cmbRol);
+            panelUsuario.Controls.Add(txtId);
+            panelUsuario.Controls.Add(txtApellido);
+            panelUsuario.Controls.Add(txtNombre);
+            panelUsuario.Controls.Add(txtContraseña);
+            panelUsuario.Controls.Add(txtUsuario);
+            panelUsuario.Controls.Add(txtCorreo);
+            panelUsuario.Controls.Add(label13);
+            panelUsuario.Controls.Add(label12);
+            panelUsuario.Controls.Add(label11);
+            panelUsuario.Controls.Add(label10);
+            panelUsuario.Controls.Add(label9);
+            panelUsuario.Controls.Add(label7);
+            panelUsuario.Controls.Add(label6);
+            panelUsuario.Controls.Add(label5);
+            panelUsuario.Controls.Add(label4);
+            panelUsuario.Controls.Add(panel9);
+            panelUsuario.Dock = DockStyle.Fill;
+            panelUsuario.Location = new Point(0, 0);
+            panelUsuario.Name = "panelUsuario";
+            panelUsuario.Size = new Size(1251, 512);
+            panelUsuario.TabIndex = 19;
+            panelUsuario.Paint += panelUsuario_Paint;
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Font = new Font("Segoe UI", 10.8F);
+            label20.Location = new Point(27, 415);
+            label20.Name = "label20";
+            label20.Size = new Size(66, 25);
+            label20.TabIndex = 50;
+            label20.Text = "Estado";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 10.8F);
+            label3.Location = new Point(27, 372);
+            label3.Name = "label3";
+            label3.Size = new Size(87, 25);
+            label3.TabIndex = 49;
+            label3.Text = "Parroquia";
+            // 
+            // txtBuscar
+            // 
+            txtBuscar.Location = new Point(613, 30);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.Size = new Size(632, 27);
+            txtBuscar.TabIndex = 48;
+            txtBuscar.TextChanged += txtBuscar_TextChanged;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(548, 33);
+            label2.Name = "label2";
+            label2.Size = new Size(59, 20);
+            label2.TabIndex = 47;
+            label2.Text = "Buscar: ";
+            // 
+            // btnGuardarUsuario
+            // 
+            btnGuardarUsuario.BackColor = Color.FromArgb(43, 56, 143);
+            btnGuardarUsuario.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardarUsuario.ForeColor = Color.White;
+            btnGuardarUsuario.ImageAlign = ContentAlignment.TopCenter;
+            btnGuardarUsuario.Location = new Point(1039, 452);
+            btnGuardarUsuario.Name = "btnGuardarUsuario";
+            btnGuardarUsuario.Size = new Size(158, 39);
+            btnGuardarUsuario.TabIndex = 46;
+            btnGuardarUsuario.Text = "Guardar";
+            btnGuardarUsuario.UseVisualStyleBackColor = false;
+            btnGuardarUsuario.UseWaitCursor = true;
+            btnGuardarUsuario.Click += btnGuardarUsuario_Click;
+            // 
+            // btnInhabilitarUsuario
+            // 
+            btnInhabilitarUsuario.BackColor = Color.FromArgb(43, 56, 143);
+            btnInhabilitarUsuario.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnInhabilitarUsuario.ForeColor = Color.White;
+            btnInhabilitarUsuario.ImageAlign = ContentAlignment.TopCenter;
+            btnInhabilitarUsuario.Location = new Point(832, 452);
+            btnInhabilitarUsuario.Name = "btnInhabilitarUsuario";
+            btnInhabilitarUsuario.Size = new Size(158, 39);
+            btnInhabilitarUsuario.TabIndex = 45;
+            btnInhabilitarUsuario.Text = "Inhabilitar";
+            btnInhabilitarUsuario.UseVisualStyleBackColor = false;
+            btnInhabilitarUsuario.UseWaitCursor = true;
+            btnInhabilitarUsuario.Click += btnInhabilitarUsuario_Click;
+            // 
+            // btnHabilitar
+            // 
+            btnHabilitar.BackColor = Color.FromArgb(43, 56, 143);
+            btnHabilitar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnHabilitar.ForeColor = Color.White;
+            btnHabilitar.ImageAlign = ContentAlignment.TopCenter;
+            btnHabilitar.Location = new Point(613, 452);
+            btnHabilitar.Name = "btnHabilitar";
+            btnHabilitar.Size = new Size(158, 39);
+            btnHabilitar.TabIndex = 44;
+            btnHabilitar.Text = "Habilitar";
+            btnHabilitar.UseVisualStyleBackColor = false;
+            btnHabilitar.UseWaitCursor = true;
+            btnHabilitar.Click += btnHabilitar_Click;
+            // 
+            // btnModificarUsuario
+            // 
+            btnModificarUsuario.BackColor = Color.FromArgb(43, 56, 143);
+            btnModificarUsuario.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnModificarUsuario.ForeColor = Color.White;
+            btnModificarUsuario.ImageAlign = ContentAlignment.TopCenter;
+            btnModificarUsuario.Location = new Point(379, 452);
+            btnModificarUsuario.Name = "btnModificarUsuario";
+            btnModificarUsuario.Size = new Size(158, 39);
+            btnModificarUsuario.TabIndex = 43;
+            btnModificarUsuario.Text = "Modificar";
+            btnModificarUsuario.UseVisualStyleBackColor = false;
+            btnModificarUsuario.UseWaitCursor = true;
+            btnModificarUsuario.Click += btnModificarCuentaUsuario_Click;
+            // 
+            // btnAgregar
+            // 
+            btnAgregar.BackColor = Color.FromArgb(43, 56, 143);
+            btnAgregar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAgregar.ForeColor = Color.White;
+            btnAgregar.ImageAlign = ContentAlignment.TopCenter;
+            btnAgregar.Location = new Point(352, 23);
+            btnAgregar.Name = "btnAgregar";
+            btnAgregar.Size = new Size(130, 39);
+            btnAgregar.TabIndex = 42;
+            btnAgregar.Text = "Agregar";
+            btnAgregar.UseVisualStyleBackColor = false;
+            btnAgregar.UseWaitCursor = true;
+            btnAgregar.Click += btnAgregar_Click_1;
+            // 
+            // btnGuardar
+            // 
+            btnGuardar.BackColor = Color.FromArgb(43, 56, 143);
+            btnGuardar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar.ForeColor = Color.White;
+            btnGuardar.ImageAlign = ContentAlignment.TopCenter;
+            btnGuardar.Location = new Point(1039, 620);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(158, 39);
+            btnGuardar.TabIndex = 41;
+            btnGuardar.Text = "Guardar";
+            btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.UseWaitCursor = true;
+            // 
+            // btnInhabilitar
+            // 
+            btnInhabilitar.BackColor = Color.FromArgb(43, 56, 143);
+            btnInhabilitar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnInhabilitar.ForeColor = Color.White;
+            btnInhabilitar.ImageAlign = ContentAlignment.TopCenter;
+            btnInhabilitar.Location = new Point(832, 620);
+            btnInhabilitar.Name = "btnInhabilitar";
+            btnInhabilitar.Size = new Size(158, 39);
+            btnInhabilitar.TabIndex = 40;
+            btnInhabilitar.Text = "Inhabilitar";
+            btnInhabilitar.UseVisualStyleBackColor = false;
+            btnInhabilitar.UseWaitCursor = true;
+            // 
+            // btnEliminar
+            // 
+            btnEliminar.BackColor = Color.FromArgb(43, 56, 143);
+            btnEliminar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminar.ForeColor = Color.White;
+            btnEliminar.ImageAlign = ContentAlignment.TopCenter;
+            btnEliminar.Location = new Point(613, 620);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(158, 39);
+            btnEliminar.TabIndex = 39;
+            btnEliminar.Text = "Eliminar";
+            btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.UseWaitCursor = true;
+            // 
+            // btnModificar
+            // 
+            btnModificar.BackColor = Color.FromArgb(43, 56, 143);
+            btnModificar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnModificar.ForeColor = Color.White;
+            btnModificar.ImageAlign = ContentAlignment.TopCenter;
+            btnModificar.Location = new Point(379, 620);
+            btnModificar.Name = "btnModificar";
+            btnModificar.Size = new Size(158, 39);
+            btnModificar.TabIndex = 38;
+            btnModificar.Text = "Modificar";
+            btnModificar.UseVisualStyleBackColor = false;
+            btnModificar.UseWaitCursor = true;
+            // 
+            // dgvUsuarios
+            // 
+            dgvUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvUsuarios.Location = new Point(352, 77);
+            dgvUsuarios.Name = "dgvUsuarios";
+            dgvUsuarios.RowHeadersWidth = 51;
+            dgvUsuarios.Size = new Size(893, 339);
+            dgvUsuarios.TabIndex = 37;
+            // 
+            // cmbEstado
+            // 
+            cmbEstado.BackColor = Color.FromArgb(251, 203, 51);
+            cmbEstado.FlatStyle = FlatStyle.Flat;
+            cmbEstado.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbEstado.FormattingEnabled = true;
+            cmbEstado.Location = new Point(141, 407);
+            cmbEstado.Name = "cmbEstado";
+            cmbEstado.Size = new Size(158, 33);
+            cmbEstado.TabIndex = 36;
+            cmbEstado.Text = "        ";
+            // 
+            // cmbParroquia
+            // 
+            cmbParroquia.BackColor = Color.FromArgb(251, 203, 51);
+            cmbParroquia.FlatStyle = FlatStyle.Flat;
+            cmbParroquia.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbParroquia.FormattingEnabled = true;
+            cmbParroquia.Location = new Point(141, 364);
+            cmbParroquia.Name = "cmbParroquia";
+            cmbParroquia.Size = new Size(158, 33);
+            cmbParroquia.TabIndex = 35;
+            // 
+            // cmbRol
+            // 
+            cmbRol.BackColor = Color.FromArgb(251, 203, 51);
+            cmbRol.FlatStyle = FlatStyle.Flat;
+            cmbRol.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbRol.FormattingEnabled = true;
+            cmbRol.Location = new Point(141, 325);
+            cmbRol.Name = "cmbRol";
+            cmbRol.Size = new Size(158, 33);
+            cmbRol.TabIndex = 34;
+            // 
+            // txtId
+            // 
+            txtId.BackColor = Color.FromArgb(251, 203, 51);
+            txtId.BorderStyle = BorderStyle.None;
+            txtId.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtId.Location = new Point(141, 77);
+            txtId.Name = "txtId";
+            txtId.Size = new Size(154, 31);
+            txtId.TabIndex = 33;
+            // 
+            // txtApellido
+            // 
+            txtApellido.BackColor = Color.FromArgb(251, 203, 51);
+            txtApellido.BorderStyle = BorderStyle.None;
+            txtApellido.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtApellido.Location = new Point(141, 163);
+            txtApellido.Name = "txtApellido";
+            txtApellido.Size = new Size(154, 31);
+            txtApellido.TabIndex = 32;
+            // 
+            // txtNombre
+            // 
+            txtNombre.BackColor = Color.FromArgb(251, 203, 51);
+            txtNombre.BorderStyle = BorderStyle.None;
+            txtNombre.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtNombre.Location = new Point(141, 120);
+            txtNombre.Name = "txtNombre";
+            txtNombre.Size = new Size(154, 31);
+            txtNombre.TabIndex = 31;
+            // 
+            // txtContraseña
+            // 
+            txtContraseña.BackColor = Color.FromArgb(251, 203, 51);
+            txtContraseña.BorderStyle = BorderStyle.None;
+            txtContraseña.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtContraseña.Location = new Point(141, 287);
+            txtContraseña.Name = "txtContraseña";
+            txtContraseña.Size = new Size(154, 31);
+            txtContraseña.TabIndex = 27;
+            // 
+            // txtUsuario
+            // 
+            txtUsuario.BackColor = Color.FromArgb(251, 203, 51);
+            txtUsuario.BorderStyle = BorderStyle.None;
+            txtUsuario.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtUsuario.Location = new Point(141, 241);
+            txtUsuario.Name = "txtUsuario";
+            txtUsuario.Size = new Size(154, 31);
+            txtUsuario.TabIndex = 26;
+            // 
+            // txtCorreo
+            // 
+            txtCorreo.BackColor = Color.FromArgb(251, 203, 51);
+            txtCorreo.BorderStyle = BorderStyle.None;
+            txtCorreo.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtCorreo.Location = new Point(141, 203);
+            txtCorreo.Name = "txtCorreo";
+            txtCorreo.Size = new Size(154, 31);
+            txtCorreo.TabIndex = 25;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI", 10.8F);
+            label13.Location = new Point(21, 524);
+            label13.Name = "label13";
+            label13.Size = new Size(87, 25);
+            label13.TabIndex = 24;
+            label13.Text = "Parroquia";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Segoe UI", 10.8F);
+            label12.Location = new Point(21, 564);
+            label12.Name = "label12";
+            label12.Size = new Size(66, 25);
+            label12.TabIndex = 23;
+            label12.Text = "Estado";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 10.8F);
+            label11.Location = new Point(27, 293);
+            label11.Name = "label11";
+            label11.Size = new Size(101, 25);
+            label11.TabIndex = 22;
+            label11.Text = "Contraseña";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI", 10.8F);
+            label10.Location = new Point(27, 335);
+            label10.Name = "label10";
+            label10.Size = new Size(37, 25);
+            label10.TabIndex = 21;
+            label10.Text = "Rol";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 10.8F);
+            label9.Location = new Point(27, 125);
+            label9.Name = "label9";
+            label9.Size = new Size(78, 25);
+            label9.TabIndex = 20;
+            label9.Text = "Nombre";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 10.8F);
+            label7.Location = new Point(27, 168);
+            label7.Name = "label7";
+            label7.Size = new Size(78, 25);
+            label7.TabIndex = 19;
+            label7.Text = "Apellido";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 10.8F);
+            label6.Location = new Point(27, 208);
+            label6.Name = "label6";
+            label6.Size = new Size(66, 25);
+            label6.TabIndex = 18;
+            label6.Text = "Correo";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 10.8F);
+            label5.Location = new Point(27, 248);
+            label5.Name = "label5";
+            label5.Size = new Size(72, 25);
+            label5.TabIndex = 17;
+            label5.Text = "Usuario";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 10.8F);
+            label4.Location = new Point(27, 83);
+            label4.Name = "label4";
+            label4.Size = new Size(30, 25);
+            label4.TabIndex = 16;
+            label4.Text = "ID";
+            // 
+            // panel9
+            // 
+            panel9.Location = new Point(175, 192);
+            panel9.Name = "panel9";
+            panel9.Size = new Size(0, 0);
+            panel9.TabIndex = 7;
             // 
             // panelCatalogoCuentas
             // 
@@ -377,377 +784,6 @@
             panel10.Size = new Size(0, 0);
             panel10.TabIndex = 7;
             // 
-            // panelUsuario
-            // 
-            panelUsuario.BackColor = Color.White;
-            panelUsuario.Controls.Add(btnGuardarUsuario);
-            panelUsuario.Controls.Add(btnInhabilitarUsuario);
-            panelUsuario.Controls.Add(btnHabilitar);
-            panelUsuario.Controls.Add(btnModificarUsuario);
-            panelUsuario.Controls.Add(btnAgregar);
-            panelUsuario.Controls.Add(btnGuardar);
-            panelUsuario.Controls.Add(btnInhabilitar);
-            panelUsuario.Controls.Add(btnEliminar);
-            panelUsuario.Controls.Add(btnModificar);
-            panelUsuario.Controls.Add(dgvUsuarios);
-            panelUsuario.Controls.Add(cmbEstado);
-            panelUsuario.Controls.Add(cmbParroquia);
-            panelUsuario.Controls.Add(cmbRol);
-            panelUsuario.Controls.Add(txtId);
-            panelUsuario.Controls.Add(txtApellido);
-            panelUsuario.Controls.Add(txtNombre);
-            panelUsuario.Controls.Add(txtContraseña);
-            panelUsuario.Controls.Add(txtUsuario);
-            panelUsuario.Controls.Add(txtCorreo);
-            panelUsuario.Controls.Add(label13);
-            panelUsuario.Controls.Add(label12);
-            panelUsuario.Controls.Add(label11);
-            panelUsuario.Controls.Add(label10);
-            panelUsuario.Controls.Add(label9);
-            panelUsuario.Controls.Add(label7);
-            panelUsuario.Controls.Add(label6);
-            panelUsuario.Controls.Add(label5);
-            panelUsuario.Controls.Add(label4);
-            panelUsuario.Controls.Add(panel9);
-            panelUsuario.Dock = DockStyle.Fill;
-            panelUsuario.Location = new Point(0, 0);
-            panelUsuario.Name = "panelUsuario";
-            panelUsuario.Size = new Size(1251, 512);
-            panelUsuario.TabIndex = 19;
-            panelUsuario.Paint += panelUsuario_Paint;
-            // 
-            // btnGuardarUsuario
-            // 
-            btnGuardarUsuario.BackColor = Color.FromArgb(43, 56, 143);
-            btnGuardarUsuario.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGuardarUsuario.ForeColor = Color.White;
-            btnGuardarUsuario.ImageAlign = ContentAlignment.TopCenter;
-            btnGuardarUsuario.Location = new Point(1039, 452);
-            btnGuardarUsuario.Name = "btnGuardarUsuario";
-            btnGuardarUsuario.Size = new Size(158, 39);
-            btnGuardarUsuario.TabIndex = 46;
-            btnGuardarUsuario.Text = "Guardar";
-            btnGuardarUsuario.UseVisualStyleBackColor = false;
-            btnGuardarUsuario.UseWaitCursor = true;
-            btnGuardarUsuario.Click += btnGuardarUsuario_Click;
-            // 
-            // btnInhabilitarUsuario
-            // 
-            btnInhabilitarUsuario.BackColor = Color.FromArgb(43, 56, 143);
-            btnInhabilitarUsuario.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnInhabilitarUsuario.ForeColor = Color.White;
-            btnInhabilitarUsuario.ImageAlign = ContentAlignment.TopCenter;
-            btnInhabilitarUsuario.Location = new Point(832, 452);
-            btnInhabilitarUsuario.Name = "btnInhabilitarUsuario";
-            btnInhabilitarUsuario.Size = new Size(158, 39);
-            btnInhabilitarUsuario.TabIndex = 45;
-            btnInhabilitarUsuario.Text = "Inhabilitar";
-            btnInhabilitarUsuario.UseVisualStyleBackColor = false;
-            btnInhabilitarUsuario.UseWaitCursor = true;
-            btnInhabilitarUsuario.Click += btnInhabilitarUsuario_Click;
-            // 
-            // btnHabilitar
-            // 
-            btnHabilitar.BackColor = Color.FromArgb(43, 56, 143);
-            btnHabilitar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnHabilitar.ForeColor = Color.White;
-            btnHabilitar.ImageAlign = ContentAlignment.TopCenter;
-            btnHabilitar.Location = new Point(613, 452);
-            btnHabilitar.Name = "btnHabilitar";
-            btnHabilitar.Size = new Size(158, 39);
-            btnHabilitar.TabIndex = 44;
-            btnHabilitar.Text = "Habilitar";
-            btnHabilitar.UseVisualStyleBackColor = false;
-            btnHabilitar.UseWaitCursor = true;
-            btnHabilitar.Click += btnHabilitar_Click;
-            // 
-            // btnModificarUsuario
-            // 
-            btnModificarUsuario.BackColor = Color.FromArgb(43, 56, 143);
-            btnModificarUsuario.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnModificarUsuario.ForeColor = Color.White;
-            btnModificarUsuario.ImageAlign = ContentAlignment.TopCenter;
-            btnModificarUsuario.Location = new Point(379, 452);
-            btnModificarUsuario.Name = "btnModificarUsuario";
-            btnModificarUsuario.Size = new Size(158, 39);
-            btnModificarUsuario.TabIndex = 43;
-            btnModificarUsuario.Text = "Modificar";
-            btnModificarUsuario.UseVisualStyleBackColor = false;
-            btnModificarUsuario.UseWaitCursor = true;
-            btnModificarUsuario.Click += btnModificarCuentaUsuario_Click;
-            // 
-            // btnAgregar
-            // 
-            btnAgregar.BackColor = Color.FromArgb(43, 56, 143);
-            btnAgregar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAgregar.ForeColor = Color.White;
-            btnAgregar.ImageAlign = ContentAlignment.TopCenter;
-            btnAgregar.Location = new Point(352, 23);
-            btnAgregar.Name = "btnAgregar";
-            btnAgregar.Size = new Size(130, 39);
-            btnAgregar.TabIndex = 42;
-            btnAgregar.Text = "Agregar";
-            btnAgregar.UseVisualStyleBackColor = false;
-            btnAgregar.UseWaitCursor = true;
-            btnAgregar.Click += btnAgregar_Click_1;
-            // 
-            // btnGuardar
-            // 
-            btnGuardar.BackColor = Color.FromArgb(43, 56, 143);
-            btnGuardar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGuardar.ForeColor = Color.White;
-            btnGuardar.ImageAlign = ContentAlignment.TopCenter;
-            btnGuardar.Location = new Point(1039, 620);
-            btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(158, 39);
-            btnGuardar.TabIndex = 41;
-            btnGuardar.Text = "Guardar";
-            btnGuardar.UseVisualStyleBackColor = false;
-            btnGuardar.UseWaitCursor = true;
-            // 
-            // btnInhabilitar
-            // 
-            btnInhabilitar.BackColor = Color.FromArgb(43, 56, 143);
-            btnInhabilitar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnInhabilitar.ForeColor = Color.White;
-            btnInhabilitar.ImageAlign = ContentAlignment.TopCenter;
-            btnInhabilitar.Location = new Point(832, 620);
-            btnInhabilitar.Name = "btnInhabilitar";
-            btnInhabilitar.Size = new Size(158, 39);
-            btnInhabilitar.TabIndex = 40;
-            btnInhabilitar.Text = "Inhabilitar";
-            btnInhabilitar.UseVisualStyleBackColor = false;
-            btnInhabilitar.UseWaitCursor = true;
-            // 
-            // btnEliminar
-            // 
-            btnEliminar.BackColor = Color.FromArgb(43, 56, 143);
-            btnEliminar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEliminar.ForeColor = Color.White;
-            btnEliminar.ImageAlign = ContentAlignment.TopCenter;
-            btnEliminar.Location = new Point(613, 620);
-            btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(158, 39);
-            btnEliminar.TabIndex = 39;
-            btnEliminar.Text = "Eliminar";
-            btnEliminar.UseVisualStyleBackColor = false;
-            btnEliminar.UseWaitCursor = true;
-            // 
-            // btnModificar
-            // 
-            btnModificar.BackColor = Color.FromArgb(43, 56, 143);
-            btnModificar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnModificar.ForeColor = Color.White;
-            btnModificar.ImageAlign = ContentAlignment.TopCenter;
-            btnModificar.Location = new Point(379, 620);
-            btnModificar.Name = "btnModificar";
-            btnModificar.Size = new Size(158, 39);
-            btnModificar.TabIndex = 38;
-            btnModificar.Text = "Modificar";
-            btnModificar.UseVisualStyleBackColor = false;
-            btnModificar.UseWaitCursor = true;
-            // 
-            // dgvUsuarios
-            // 
-            dgvUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvUsuarios.Location = new Point(352, 77);
-            dgvUsuarios.Name = "dgvUsuarios";
-            dgvUsuarios.RowHeadersWidth = 51;
-            dgvUsuarios.Size = new Size(893, 339);
-            dgvUsuarios.TabIndex = 37;
-            // 
-            // cmbEstado
-            // 
-            cmbEstado.BackColor = Color.FromArgb(251, 203, 51);
-            cmbEstado.FlatStyle = FlatStyle.Flat;
-            cmbEstado.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbEstado.FormattingEnabled = true;
-            cmbEstado.Location = new Point(134, 556);
-            cmbEstado.Name = "cmbEstado";
-            cmbEstado.Size = new Size(158, 33);
-            cmbEstado.TabIndex = 36;
-            cmbEstado.Text = "        ";
-            // 
-            // cmbParroquia
-            // 
-            cmbParroquia.BackColor = Color.FromArgb(251, 203, 51);
-            cmbParroquia.FlatStyle = FlatStyle.Flat;
-            cmbParroquia.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbParroquia.FormattingEnabled = true;
-            cmbParroquia.Location = new Point(134, 516);
-            cmbParroquia.Name = "cmbParroquia";
-            cmbParroquia.Size = new Size(158, 33);
-            cmbParroquia.TabIndex = 35;
-            // 
-            // cmbRol
-            // 
-            cmbRol.BackColor = Color.FromArgb(251, 203, 51);
-            cmbRol.FlatStyle = FlatStyle.Flat;
-            cmbRol.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbRol.FormattingEnabled = true;
-            cmbRol.Location = new Point(141, 325);
-            cmbRol.Name = "cmbRol";
-            cmbRol.Size = new Size(158, 33);
-            cmbRol.TabIndex = 34;
-            // 
-            // txtId
-            // 
-            txtId.BackColor = Color.FromArgb(251, 203, 51);
-            txtId.BorderStyle = BorderStyle.None;
-            txtId.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtId.Location = new Point(141, 77);
-            txtId.Name = "txtId";
-            txtId.Size = new Size(154, 31);
-            txtId.TabIndex = 33;
-            // 
-            // txtApellido
-            // 
-            txtApellido.BackColor = Color.FromArgb(251, 203, 51);
-            txtApellido.BorderStyle = BorderStyle.None;
-            txtApellido.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtApellido.Location = new Point(141, 163);
-            txtApellido.Name = "txtApellido";
-            txtApellido.Size = new Size(154, 31);
-            txtApellido.TabIndex = 32;
-            // 
-            // txtNombre
-            // 
-            txtNombre.BackColor = Color.FromArgb(251, 203, 51);
-            txtNombre.BorderStyle = BorderStyle.None;
-            txtNombre.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtNombre.Location = new Point(141, 120);
-            txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(154, 31);
-            txtNombre.TabIndex = 31;
-            // 
-            // txtContraseña
-            // 
-            txtContraseña.BackColor = Color.FromArgb(251, 203, 51);
-            txtContraseña.BorderStyle = BorderStyle.None;
-            txtContraseña.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtContraseña.Location = new Point(141, 287);
-            txtContraseña.Name = "txtContraseña";
-            txtContraseña.Size = new Size(154, 31);
-            txtContraseña.TabIndex = 27;
-            // 
-            // txtUsuario
-            // 
-            txtUsuario.BackColor = Color.FromArgb(251, 203, 51);
-            txtUsuario.BorderStyle = BorderStyle.None;
-            txtUsuario.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtUsuario.Location = new Point(141, 241);
-            txtUsuario.Name = "txtUsuario";
-            txtUsuario.Size = new Size(154, 31);
-            txtUsuario.TabIndex = 26;
-            // 
-            // txtCorreo
-            // 
-            txtCorreo.BackColor = Color.FromArgb(251, 203, 51);
-            txtCorreo.BorderStyle = BorderStyle.None;
-            txtCorreo.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtCorreo.Location = new Point(141, 203);
-            txtCorreo.Name = "txtCorreo";
-            txtCorreo.Size = new Size(154, 31);
-            txtCorreo.TabIndex = 25;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI", 10.8F);
-            label13.Location = new Point(21, 524);
-            label13.Name = "label13";
-            label13.Size = new Size(87, 25);
-            label13.TabIndex = 24;
-            label13.Text = "Parroquia";
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 10.8F);
-            label12.Location = new Point(21, 564);
-            label12.Name = "label12";
-            label12.Size = new Size(66, 25);
-            label12.TabIndex = 23;
-            label12.Text = "Estado";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 10.8F);
-            label11.Location = new Point(27, 293);
-            label11.Name = "label11";
-            label11.Size = new Size(101, 25);
-            label11.TabIndex = 22;
-            label11.Text = "Contraseña";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 10.8F);
-            label10.Location = new Point(27, 335);
-            label10.Name = "label10";
-            label10.Size = new Size(37, 25);
-            label10.TabIndex = 21;
-            label10.Text = "Rol";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 10.8F);
-            label9.Location = new Point(27, 125);
-            label9.Name = "label9";
-            label9.Size = new Size(78, 25);
-            label9.TabIndex = 20;
-            label9.Text = "Nombre";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 10.8F);
-            label7.Location = new Point(27, 168);
-            label7.Name = "label7";
-            label7.Size = new Size(78, 25);
-            label7.TabIndex = 19;
-            label7.Text = "Apellido";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 10.8F);
-            label6.Location = new Point(27, 208);
-            label6.Name = "label6";
-            label6.Size = new Size(66, 25);
-            label6.TabIndex = 18;
-            label6.Text = "Correo";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 10.8F);
-            label5.Location = new Point(27, 248);
-            label5.Name = "label5";
-            label5.Size = new Size(72, 25);
-            label5.TabIndex = 17;
-            label5.Text = "Usuario";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 10.8F);
-            label4.Location = new Point(27, 83);
-            label4.Name = "label4";
-            label4.Size = new Size(30, 25);
-            label4.TabIndex = 16;
-            label4.Text = "ID";
-            // 
-            // panel9
-            // 
-            panel9.Location = new Point(175, 192);
-            panel9.Name = "panel9";
-            panel9.Size = new Size(0, 0);
-            panel9.TabIndex = 7;
-            // 
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
@@ -825,6 +861,15 @@
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
+            // panelMensaje
+            // 
+            panelMensaje.BackgroundImage = (Image)resources.GetObject("panelMensaje.BackgroundImage");
+            panelMensaje.BackgroundImageLayout = ImageLayout.Stretch;
+            panelMensaje.Location = new Point(320, 177);
+            panelMensaje.Name = "panelMensaje";
+            panelMensaje.Size = new Size(619, 340);
+            panelMensaje.TabIndex = 22;
+            // 
             // FRM_PG5
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -838,12 +883,12 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panelContenedor.ResumeLayout(false);
-            panelCatalogoCuentas.ResumeLayout(false);
-            panelCatalogoCuentas.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCatalogoCuentas).EndInit();
             panelUsuario.ResumeLayout(false);
             panelUsuario.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).EndInit();
+            panelCatalogoCuentas.ResumeLayout(false);
+            panelCatalogoCuentas.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvCatalogoCuentas).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -912,5 +957,9 @@
         private Button btnModificarUsuario;
         private Button btnGuardarCuenta;
         private Panel panelMensaje;
+        private TextBox txtBuscar;
+        private Label label2;
+        private Label label20;
+        private Label label3;
     }
 }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace Capa_de_Presentación.Formularios_Ewin
@@ -19,11 +20,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private clsCRUD_Usuarios crudUsuarios;
         private bool modoEdicionUsuario = false;
         private int usuarioIdSeleccionado = 0;
+        private BindingSource bindingSource;
 
         //Catalogo
         private clsCRUD_CatalogoCuentas crudCatalogoCuentas;
-        private bool modoEdicionCatalogo = false;
-        private int codCuentaSeleccionado = 0;
 
         ClsCerrar cerrar = new ClsCerrar();
         public FRM_PG5()
@@ -43,6 +43,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             //catalogo
             crudCatalogoCuentas = new clsCRUD_CatalogoCuentas();
+
+            //Para busqueda de usuarios
+            bindingSource = new BindingSource();
         }
 
         private void MostrarSoloEstePanel(Panel panelAMostrar)
@@ -85,7 +88,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                dgvUsuarios.DataSource = crudUsuarios.ObtenerUsuarios();
+                DataTable dt = crudUsuarios.ObtenerUsuarios();
+                bindingSource.DataSource = dt;
+                dgvUsuarios.DataSource = bindingSource;
 
                 //aqui es para ocultar algunos campos (los ids y las contraseñas)
 
@@ -262,7 +267,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             LimpiarCamposCatalogo();
             HabilitarControlesCatalogo(true);
-            modoEdicionCatalogo = false;
 
             try
             {
@@ -556,9 +560,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             if (cmbTipoCuenta.Items.Count > 0)
                 cmbTipoCuenta.SelectedIndex = 0;
-
-            codCuentaSeleccionado = 0;
-            modoEdicionCatalogo = false;
         }
 
         private void HabilitarControlesCatalogo(bool habilitar)
@@ -570,6 +571,32 @@ namespace Capa_de_Presentación.Formularios_Ewin
             txtSaldo.Enabled = habilitar;
             cmbTipoCuenta.Enabled = habilitar;
             btnGuardar.Enabled = habilitar;
+        }
+
+        private void txtBuscar_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                string textoBusqueda = txtBuscar.Text.Trim();
+
+                if (string.IsNullOrEmpty(textoBusqueda))
+                {
+                    bindingSource.RemoveFilter();
+                }
+                else
+                {
+                    // Busca en Nombre, Apellido y Usuario
+                    bindingSource.Filter = string.Format(
+                        "Nombre LIKE '%{0}%' OR Apellido LIKE '%{0}%' OR Usuario LIKE '%{0}%'",
+                        textoBusqueda.Replace("'", "''")
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al buscar: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
