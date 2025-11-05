@@ -221,6 +221,7 @@
             dgvUsuarios.RowHeadersWidth = 51;
             dgvUsuarios.Size = new Size(893, 339);
             dgvUsuarios.TabIndex = 37;
+            dgvUsuarios.CellContentClick += dgvUsuarios_CellContentClick;
             // 
             // cmbEstado
             // 

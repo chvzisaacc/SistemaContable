@@ -1,4 +1,5 @@
-﻿using Capa_de_Presentación.CLASES;
+﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,16 @@ namespace Capa_de_Presentación.Formularios_Ewin
 {
     public partial class FRM_PG5 : Form
     {
+        //usuarios
+        private clsCRUD_Usuarios crudUsuarios;
+        private bool modoEdicionUsuario = false;
+        private int usuarioIdSeleccionado = 0;
+
+        //Catalogo
+        private clsCRUD_CatalogoCuentas crudCatalogoCuentas;
+        private bool modoEdicionCatalogo = false;
+        private int codCuentaSeleccionado = 0;
+
         ClsCerrar cerrar = new ClsCerrar();
         public FRM_PG5()
         {
@@ -26,6 +37,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             // Opcional: muestra uno por defecto
             MostrarSoloEstePanel(panel1);
+
+            //usuarios
+            crudUsuarios = new clsCRUD_Usuarios();
+
+            //catalogo
+            crudCatalogoCuentas = new clsCRUD_CatalogoCuentas();
         }
 
         private void MostrarSoloEstePanel(Panel panelAMostrar)
@@ -50,8 +67,169 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void FRM_PG5_Load(object sender, EventArgs e)
         {
+            //usuarios
+            CargarDatosUsuarioDGV();
+            CargarComboBoxesUsuario();
+            LimpiarCamposUsuario();
+            HabilitarControlesUsuario(false);
 
+            //catalogo
+            CargarDatosCatalogoDGV();
+            CargarComboBoxTipoTransaccion();
+            LimpiarCamposCatalogo();
+            HabilitarControlesCatalogo(false);
         }
+
+        //usuarios
+        private void CargarDatosUsuarioDGV()
+        {
+            try
+            {
+                dgvUsuarios.DataSource = crudUsuarios.ObtenerUsuarios();
+
+                //aqui es para ocultar algunos campos (los ids y las contraseñas)
+
+                if (dgvUsuarios.Columns["Contraseña"] != null)
+                    dgvUsuarios.Columns["Contraseña"].Visible = false;
+
+                if (dgvUsuarios.Columns["RolID"] != null)
+                    dgvUsuarios.Columns["RolID"].Visible = false;
+                if (dgvUsuarios.Columns["ParroquiaID"] != null)
+                    dgvUsuarios.Columns["ParroquiaID"].Visible = false;
+                if (dgvUsuarios.Columns["EstadoID"] != null)
+                    dgvUsuarios.Columns["EstadoID"].Visible = false;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar datos: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarComboBoxesUsuario()
+        {
+            try
+            {
+                cmbRol.DataSource = crudUsuarios.ObtenerRoles();
+                cmbRol.DisplayMember = "Rol_descripcion";
+                cmbRol.ValueMember = "Rol_Id";
+
+                cmbParroquia.DataSource = crudUsuarios.ObtenerParroquias();
+                cmbParroquia.DisplayMember = "Parroquia_nombre";
+                cmbParroquia.ValueMember = "Parroquia_id";
+
+                cmbEstado.DataSource = crudUsuarios.ObtenerEstados();
+                cmbEstado.DisplayMember = "descripcion";
+                cmbEstado.ValueMember = "Id_estado_cuenta";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar opciones: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarDatosUsuario()
+        {
+            try
+            {
+                var usuario = crudUsuarios.BuscarUsuarioPorId(usuarioIdSeleccionado);
+
+                if (usuario != null)
+                {
+                    txtId.Text = usuario["Usuario_id"].ToString();
+                    txtNombre.Text = usuario["usuario_nombre"].ToString();
+                    txtApellido.Text = usuario["usuario_apellido"].ToString();
+                    txtCorreo.Text = usuario["usuario_correo"] != DBNull.Value
+                        ? usuario["usuario_correo"].ToString()
+                        : "";
+                    txtUsuario.Text = usuario["usuario"].ToString();
+                    txtContraseña.Text = usuario["usuario_password"].ToString();
+                    cmbRol.SelectedValue = usuario["Rol_Id"];
+                    cmbParroquia.SelectedValue = usuario["Parroquia_Id"];
+                    cmbEstado.SelectedValue = usuario["Id_estado_cuenta"];
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar usuario: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool ValidarCamposUsuario()
+        {
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            {
+                MessageBox.Show("El nombre es requerido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtApellido.Text))
+            {
+                MessageBox.Show("El apellido es requerido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtApellido.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtUsuario.Text))
+            {
+                MessageBox.Show("El usuario es requerido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtUsuario.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtContraseña.Text))
+            {
+                MessageBox.Show("La contraseña es requerida", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtContraseña.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private void LimpiarCamposUsuario()
+        {
+            txtId.Clear();
+            txtNombre.Clear();
+            txtApellido.Clear();
+            txtCorreo.Clear();
+            txtUsuario.Clear();
+            txtContraseña.Clear();
+
+            if (cmbRol.Items.Count > 0)
+                cmbRol.SelectedIndex = 0;
+            if (cmbParroquia.Items.Count > 0)
+                cmbParroquia.SelectedIndex = 0;
+            if (cmbEstado.Items.Count > 0)
+                cmbEstado.SelectedIndex = 0;
+
+            usuarioIdSeleccionado = 0;
+            modoEdicionUsuario = false;
+        }
+
+        private void HabilitarControlesUsuario(bool habilitar)
+        {
+            txtId.Enabled = false;
+            txtNombre.Enabled = habilitar;
+            txtApellido.Enabled = habilitar;
+            txtCorreo.Enabled = habilitar;
+            txtUsuario.Enabled = habilitar;
+            txtContraseña.Enabled = habilitar;
+            cmbRol.Enabled = habilitar;
+            cmbParroquia.Enabled = habilitar;
+            cmbEstado.Enabled = habilitar;
+            btnGuardar.Enabled = habilitar;
+        }
+
+
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
@@ -78,6 +256,320 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void button6_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnNuevaCuenta_Click(object sender, EventArgs e)
+        {
+            LimpiarCamposCatalogo();
+            HabilitarControlesCatalogo(true);
+            modoEdicionCatalogo = false;
+
+            try
+            {
+                int proximoCodigo = crudCatalogoCuentas.ObtenerProximoCodigo();
+                txtId.Text = proximoCodigo.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener código: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            txtNombre.Focus();
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            LimpiarCamposUsuario();
+            HabilitarControlesUsuario(true);
+            modoEdicionUsuario = false;
+
+            try
+            {
+                int proximoId = crudUsuarios.ObtenerProximoId();
+                txtId.Text = proximoId.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener ID: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            txtNombre.Focus();
+        }
+
+
+
+        private void btnGuardarUsuario_Click(object sender, EventArgs e)
+        {
+            if (!ValidarCamposUsuario())
+                return;
+
+            try
+            {
+                string nombre = txtNombre.Text.Trim();
+                string apellido = txtApellido.Text.Trim();
+                string correo = txtCorreo.Text.Trim();
+                string usuario = txtUsuario.Text.Trim();
+                string password = txtContraseña.Text.Trim();
+                int idRol = Convert.ToInt32(cmbRol.SelectedValue);
+                int idParroquia = Convert.ToInt32(cmbParroquia.SelectedValue);
+                int idEstado = Convert.ToInt32(cmbEstado.SelectedValue);
+
+                if (modoEdicionUsuario)
+                {
+                    bool resultado = crudUsuarios.ModificarUsuario(
+                        usuarioIdSeleccionado, nombre, apellido,
+                        correo, usuario, password, idRol, idParroquia, idEstado);
+
+                    if (resultado)
+                    {
+                        MessageBox.Show("Usuario modificado exitosamente", "Éxito",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CargarDatosUsuarioDGV();
+                        LimpiarCamposUsuario();
+                        HabilitarControlesUsuario(false);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo modificar el usuario", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    if (crudUsuarios.UsuarioExiste(usuario))
+                    {
+                        MessageBox.Show("El nombre de usuario ya existe", "Advertencia",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    int nuevoId = crudUsuarios.AgregarUsuario(nombre, apellido, correo,
+                        usuario, password, idRol, idParroquia, idEstado);
+
+                    if (nuevoId > 0)
+                    {
+                        MessageBox.Show($"Usuario agregado exitosamente con ID: {nuevoId}", "Éxito",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        CargarDatosUsuarioDGV();
+                        LimpiarCamposUsuario();
+                        HabilitarControlesUsuario(false);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo agregar el usuario", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void panelUsuario_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnModificarCuentaUsuario_Click(object sender, EventArgs e)
+        {
+            if (dgvUsuarios.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione un usuario para modificar", "Advertencia",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Capturar el ID del usuario seleccionado
+            usuarioIdSeleccionado = Convert.ToInt32(dgvUsuarios.CurrentRow.Cells["ID"].Value);
+
+            HabilitarControlesUsuario(true);
+            modoEdicionUsuario = true;
+            CargarDatosUsuario();
+            txtNombre.Focus();
+        }
+
+        private void btnInhabilitarUsuario_Click(object sender, EventArgs e)
+        {
+            if (dgvUsuarios.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione un usuario para inhabilitar", "Advertencia",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                int id = Convert.ToInt32(dgvUsuarios.CurrentRow.Cells["ID"].Value);
+                int estadoInactivo = 2; // Ajustar según tu BD
+
+                bool resultado = crudUsuarios.InhabilitarUsuario(id, estadoInactivo);
+
+                if (resultado)
+                {
+                    MessageBox.Show("Usuario inhabilitado exitosamente", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CargarDatosUsuarioDGV();
+                    LimpiarCamposUsuario();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al inhabilitar: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+        }
+
+        private void btnHabilitar_Click(object sender, EventArgs e)
+        {
+            if (dgvUsuarios.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione un usuario para habilitar", "Advertencia",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                int id = Convert.ToInt32(dgvUsuarios.CurrentRow.Cells["ID"].Value);
+                int estadoInactivo = 1; // Ajustar según tu BD
+
+                bool resultado = crudUsuarios.InhabilitarUsuario(id, estadoInactivo);
+
+                if (resultado)
+                {
+                    MessageBox.Show("Usuario habilitado exitosamente", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CargarDatosUsuarioDGV();
+                    LimpiarCamposUsuario();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al habilitar: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnAgregar_Click_1(object sender, EventArgs e)
+        {
+            LimpiarCamposUsuario();
+            HabilitarControlesUsuario(true);
+            modoEdicionUsuario = false;
+
+            try
+            {
+                int proximoId = crudUsuarios.ObtenerProximoId();
+                txtId.Text = proximoId.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener ID: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            txtNombre.Focus();
+        }
+
+        //catalogo
+        private void CargarDatosCatalogoDGV()
+        {
+            try
+            {
+                dgvCatalogoCuentas.DataSource = crudCatalogoCuentas.ObtenerCatalogoCuentas();
+
+                if (dgvCatalogoCuentas.Columns["CuentaID"] != null)
+                    dgvCatalogoCuentas.Columns["CuentaID"].Visible = false;
+
+                /*
+                if (dgvCatalogoCuentas.Columns["Detalle"] != null)
+                    dgvCatalogoCuentas.Columns["Detalle"].DefaultCellStyle.Format = "N2";
+                */
+
+                if (dgvCatalogoCuentas.Columns["Saldo"] != null)
+                    dgvCatalogoCuentas.Columns["Saldo"].DefaultCellStyle.Format = "N2";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar datos: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarComboBoxTipoTransaccion()
+        {
+            try
+            {
+                cmbTipoCuenta.DataSource = crudCatalogoCuentas.ObtenerTipoTransaccion();
+                cmbTipoCuenta.DisplayMember = "descripcion";
+                cmbTipoCuenta.ValueMember = "Cod_tipo";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar tipos de transaccion: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool ValidarCamposCatalogo()
+        {
+            if (string.IsNullOrWhiteSpace(txtNombreCuenta.Text))
+            {
+                MessageBox.Show("El nombre de la cuenta es requerido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombreCuenta.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtCuenta.Text))
+            {
+                MessageBox.Show("El campo Cuenta es requerido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCuenta.Focus();
+                return false;
+            }
+
+            if (cmbTipoCuenta.SelectedValue == null)
+            {
+                MessageBox.Show("Debe seleccionar un tipo de cuenta", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbTipoCuenta.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private void LimpiarCamposCatalogo()
+        {
+            txtId.Clear();
+            txtCuenta.Clear();
+            txtNombreCuenta.Clear();
+            txtDetalle.Clear();
+            txtSaldo.Clear();
+
+            if (cmbTipoCuenta.Items.Count > 0)
+                cmbTipoCuenta.SelectedIndex = 0;
+
+            codCuentaSeleccionado = 0;
+            modoEdicionCatalogo = false;
+        }
+
+        private void HabilitarControlesCatalogo(bool habilitar)
+        {
+            txtId.Enabled = false;
+            txtCuenta.Enabled = habilitar;
+            txtNombreCuenta.Enabled = habilitar;
+            txtDetalle.Enabled = habilitar;
+            txtSaldo.Enabled = habilitar;
+            cmbTipoCuenta.Enabled = habilitar;
+            btnGuardar.Enabled = habilitar;
         }
     }
 }

@@ -419,9 +419,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void textBox1_KeyUp(object sender, KeyEventArgs e)
         {
-           
+
         }
 
+        private void dgvUsuarios_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
+        }
     }
 }

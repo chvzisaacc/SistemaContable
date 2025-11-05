@@ -30,19 +30,21 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG5));
             panel1 = new Panel();
+            panelMensaje = new Panel();
             btnCatalagoCuenta = new Button();
             btnUsuario = new Button();
             panelContenedor = new Panel();
             panelCatalogoCuentas = new Panel();
+            btnGuardarCuenta = new Button();
             txtSaldo = new TextBox();
             label14 = new Label();
             cmbTipoCuenta = new ComboBox();
             btnNuevaCuenta = new Button();
             button1 = new Button();
             dgvCatalogoCuentas = new DataGridView();
-            textBox1 = new TextBox();
+            txtIdCuenta = new TextBox();
             txtCuenta = new TextBox();
-            textBox2 = new TextBox();
+            txtNombreCuenta = new TextBox();
             txtDetalle = new TextBox();
             label15 = new Label();
             label16 = new Label();
@@ -51,6 +53,10 @@
             label19 = new Label();
             panel10 = new Panel();
             panelUsuario = new Panel();
+            btnGuardarUsuario = new Button();
+            btnInhabilitarUsuario = new Button();
+            btnHabilitar = new Button();
+            btnModificarUsuario = new Button();
             btnAgregar = new Button();
             btnGuardar = new Button();
             btnInhabilitar = new Button();
@@ -84,12 +90,6 @@
             panel4 = new Panel();
             label1 = new Label();
             pictureBox1 = new PictureBox();
-            button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
-            button5 = new Button();
-            button6 = new Button();
-            panelMensaje = new Panel();
             panel1.SuspendLayout();
             panelContenedor.SuspendLayout();
             panelCatalogoCuentas.SuspendLayout();
@@ -122,6 +122,15 @@
             panel1.TabIndex = 8;
             panel1.Paint += panel1_Paint;
             // 
+            // panelMensaje
+            // 
+            panelMensaje.BackgroundImage = (Image)resources.GetObject("panelMensaje.BackgroundImage");
+            panelMensaje.BackgroundImageLayout = ImageLayout.Stretch;
+            panelMensaje.Location = new Point(320, 177);
+            panelMensaje.Name = "panelMensaje";
+            panelMensaje.Size = new Size(619, 340);
+            panelMensaje.TabIndex = 22;
+            // 
             // btnCatalagoCuenta
             // 
             btnCatalagoCuenta.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
@@ -148,8 +157,8 @@
             // 
             // panelContenedor
             // 
-            panelContenedor.Controls.Add(panelUsuario);
             panelContenedor.Controls.Add(panelCatalogoCuentas);
+            panelContenedor.Controls.Add(panelUsuario);
             panelContenedor.Location = new Point(3, 179);
             panelContenedor.Margin = new Padding(3, 4, 3, 4);
             panelContenedor.Name = "panelContenedor";
@@ -159,16 +168,16 @@
             // panelCatalogoCuentas
             // 
             panelCatalogoCuentas.BackColor = Color.White;
-            panelCatalogoCuentas.Controls.Add(button6);
+            panelCatalogoCuentas.Controls.Add(btnGuardarCuenta);
             panelCatalogoCuentas.Controls.Add(txtSaldo);
             panelCatalogoCuentas.Controls.Add(label14);
             panelCatalogoCuentas.Controls.Add(cmbTipoCuenta);
             panelCatalogoCuentas.Controls.Add(btnNuevaCuenta);
             panelCatalogoCuentas.Controls.Add(button1);
             panelCatalogoCuentas.Controls.Add(dgvCatalogoCuentas);
-            panelCatalogoCuentas.Controls.Add(textBox1);
+            panelCatalogoCuentas.Controls.Add(txtIdCuenta);
             panelCatalogoCuentas.Controls.Add(txtCuenta);
-            panelCatalogoCuentas.Controls.Add(textBox2);
+            panelCatalogoCuentas.Controls.Add(txtNombreCuenta);
             panelCatalogoCuentas.Controls.Add(txtDetalle);
             panelCatalogoCuentas.Controls.Add(label15);
             panelCatalogoCuentas.Controls.Add(label16);
@@ -181,6 +190,21 @@
             panelCatalogoCuentas.Name = "panelCatalogoCuentas";
             panelCatalogoCuentas.Size = new Size(1251, 512);
             panelCatalogoCuentas.TabIndex = 20;
+            // 
+            // btnGuardarCuenta
+            // 
+            btnGuardarCuenta.BackColor = Color.FromArgb(43, 56, 143);
+            btnGuardarCuenta.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardarCuenta.ForeColor = Color.White;
+            btnGuardarCuenta.ImageAlign = ContentAlignment.TopCenter;
+            btnGuardarCuenta.Location = new Point(986, 388);
+            btnGuardarCuenta.Name = "btnGuardarCuenta";
+            btnGuardarCuenta.Size = new Size(158, 39);
+            btnGuardarCuenta.TabIndex = 46;
+            btnGuardarCuenta.Text = "Guardar";
+            btnGuardarCuenta.UseVisualStyleBackColor = false;
+            btnGuardarCuenta.UseWaitCursor = true;
+            btnGuardarCuenta.Click += button6_Click;
             // 
             // txtSaldo
             // 
@@ -227,6 +251,7 @@
             btnNuevaCuenta.Text = "Nueva cuenta";
             btnNuevaCuenta.UseVisualStyleBackColor = false;
             btnNuevaCuenta.UseWaitCursor = true;
+            btnNuevaCuenta.Click += btnNuevaCuenta_Click;
             // 
             // button1
             // 
@@ -255,15 +280,15 @@
             dgvCatalogoCuentas.Size = new Size(825, 388);
             dgvCatalogoCuentas.TabIndex = 37;
             // 
-            // textBox1
+            // txtIdCuenta
             // 
-            textBox1.BackColor = Color.FromArgb(251, 203, 51);
-            textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(1042, 81);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(179, 31);
-            textBox1.TabIndex = 33;
+            txtIdCuenta.BackColor = Color.FromArgb(251, 203, 51);
+            txtIdCuenta.BorderStyle = BorderStyle.None;
+            txtIdCuenta.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtIdCuenta.Location = new Point(1042, 81);
+            txtIdCuenta.Name = "txtIdCuenta";
+            txtIdCuenta.Size = new Size(179, 31);
+            txtIdCuenta.TabIndex = 33;
             // 
             // txtCuenta
             // 
@@ -275,15 +300,15 @@
             txtCuenta.Size = new Size(179, 31);
             txtCuenta.TabIndex = 32;
             // 
-            // textBox2
+            // txtNombreCuenta
             // 
-            textBox2.BackColor = Color.FromArgb(251, 203, 51);
-            textBox2.BorderStyle = BorderStyle.None;
-            textBox2.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox2.Location = new Point(1042, 120);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(179, 31);
-            textBox2.TabIndex = 31;
+            txtNombreCuenta.BackColor = Color.FromArgb(251, 203, 51);
+            txtNombreCuenta.BorderStyle = BorderStyle.None;
+            txtNombreCuenta.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtNombreCuenta.Location = new Point(1042, 120);
+            txtNombreCuenta.Name = "txtNombreCuenta";
+            txtNombreCuenta.Size = new Size(179, 31);
+            txtNombreCuenta.TabIndex = 31;
             // 
             // txtDetalle
             // 
@@ -355,10 +380,10 @@
             // panelUsuario
             // 
             panelUsuario.BackColor = Color.White;
-            panelUsuario.Controls.Add(button2);
-            panelUsuario.Controls.Add(button3);
-            panelUsuario.Controls.Add(button4);
-            panelUsuario.Controls.Add(button5);
+            panelUsuario.Controls.Add(btnGuardarUsuario);
+            panelUsuario.Controls.Add(btnInhabilitarUsuario);
+            panelUsuario.Controls.Add(btnHabilitar);
+            panelUsuario.Controls.Add(btnModificarUsuario);
             panelUsuario.Controls.Add(btnAgregar);
             panelUsuario.Controls.Add(btnGuardar);
             panelUsuario.Controls.Add(btnInhabilitar);
@@ -389,6 +414,67 @@
             panelUsuario.Name = "panelUsuario";
             panelUsuario.Size = new Size(1251, 512);
             panelUsuario.TabIndex = 19;
+            panelUsuario.Paint += panelUsuario_Paint;
+            // 
+            // btnGuardarUsuario
+            // 
+            btnGuardarUsuario.BackColor = Color.FromArgb(43, 56, 143);
+            btnGuardarUsuario.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardarUsuario.ForeColor = Color.White;
+            btnGuardarUsuario.ImageAlign = ContentAlignment.TopCenter;
+            btnGuardarUsuario.Location = new Point(1039, 452);
+            btnGuardarUsuario.Name = "btnGuardarUsuario";
+            btnGuardarUsuario.Size = new Size(158, 39);
+            btnGuardarUsuario.TabIndex = 46;
+            btnGuardarUsuario.Text = "Guardar";
+            btnGuardarUsuario.UseVisualStyleBackColor = false;
+            btnGuardarUsuario.UseWaitCursor = true;
+            btnGuardarUsuario.Click += btnGuardarUsuario_Click;
+            // 
+            // btnInhabilitarUsuario
+            // 
+            btnInhabilitarUsuario.BackColor = Color.FromArgb(43, 56, 143);
+            btnInhabilitarUsuario.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnInhabilitarUsuario.ForeColor = Color.White;
+            btnInhabilitarUsuario.ImageAlign = ContentAlignment.TopCenter;
+            btnInhabilitarUsuario.Location = new Point(832, 452);
+            btnInhabilitarUsuario.Name = "btnInhabilitarUsuario";
+            btnInhabilitarUsuario.Size = new Size(158, 39);
+            btnInhabilitarUsuario.TabIndex = 45;
+            btnInhabilitarUsuario.Text = "Inhabilitar";
+            btnInhabilitarUsuario.UseVisualStyleBackColor = false;
+            btnInhabilitarUsuario.UseWaitCursor = true;
+            btnInhabilitarUsuario.Click += btnInhabilitarUsuario_Click;
+            // 
+            // btnHabilitar
+            // 
+            btnHabilitar.BackColor = Color.FromArgb(43, 56, 143);
+            btnHabilitar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnHabilitar.ForeColor = Color.White;
+            btnHabilitar.ImageAlign = ContentAlignment.TopCenter;
+            btnHabilitar.Location = new Point(613, 452);
+            btnHabilitar.Name = "btnHabilitar";
+            btnHabilitar.Size = new Size(158, 39);
+            btnHabilitar.TabIndex = 44;
+            btnHabilitar.Text = "Habilitar";
+            btnHabilitar.UseVisualStyleBackColor = false;
+            btnHabilitar.UseWaitCursor = true;
+            btnHabilitar.Click += btnHabilitar_Click;
+            // 
+            // btnModificarUsuario
+            // 
+            btnModificarUsuario.BackColor = Color.FromArgb(43, 56, 143);
+            btnModificarUsuario.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnModificarUsuario.ForeColor = Color.White;
+            btnModificarUsuario.ImageAlign = ContentAlignment.TopCenter;
+            btnModificarUsuario.Location = new Point(379, 452);
+            btnModificarUsuario.Name = "btnModificarUsuario";
+            btnModificarUsuario.Size = new Size(158, 39);
+            btnModificarUsuario.TabIndex = 43;
+            btnModificarUsuario.Text = "Modificar";
+            btnModificarUsuario.UseVisualStyleBackColor = false;
+            btnModificarUsuario.UseWaitCursor = true;
+            btnModificarUsuario.Click += btnModificarCuentaUsuario_Click;
             // 
             // btnAgregar
             // 
@@ -396,13 +482,14 @@
             btnAgregar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAgregar.ForeColor = Color.White;
             btnAgregar.ImageAlign = ContentAlignment.TopCenter;
-            btnAgregar.Location = new Point(738, 43);
+            btnAgregar.Location = new Point(352, 23);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.Size = new Size(130, 39);
             btnAgregar.TabIndex = 42;
             btnAgregar.Text = "Agregar";
             btnAgregar.UseVisualStyleBackColor = false;
             btnAgregar.UseWaitCursor = true;
+            btnAgregar.Click += btnAgregar_Click_1;
             // 
             // btnGuardar
             // 
@@ -738,86 +825,6 @@
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
-            // button2
-            // 
-            button2.BackColor = Color.FromArgb(43, 56, 143);
-            button2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.White;
-            button2.ImageAlign = ContentAlignment.TopCenter;
-            button2.Location = new Point(1039, 452);
-            button2.Name = "button2";
-            button2.Size = new Size(158, 39);
-            button2.TabIndex = 46;
-            button2.Text = "Guardar";
-            button2.UseVisualStyleBackColor = false;
-            button2.UseWaitCursor = true;
-            // 
-            // button3
-            // 
-            button3.BackColor = Color.FromArgb(43, 56, 143);
-            button3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.ForeColor = Color.White;
-            button3.ImageAlign = ContentAlignment.TopCenter;
-            button3.Location = new Point(832, 452);
-            button3.Name = "button3";
-            button3.Size = new Size(158, 39);
-            button3.TabIndex = 45;
-            button3.Text = "Inhabilitar";
-            button3.UseVisualStyleBackColor = false;
-            button3.UseWaitCursor = true;
-            // 
-            // button4
-            // 
-            button4.BackColor = Color.FromArgb(43, 56, 143);
-            button4.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button4.ForeColor = Color.White;
-            button4.ImageAlign = ContentAlignment.TopCenter;
-            button4.Location = new Point(613, 452);
-            button4.Name = "button4";
-            button4.Size = new Size(158, 39);
-            button4.TabIndex = 44;
-            button4.Text = "Eliminar";
-            button4.UseVisualStyleBackColor = false;
-            button4.UseWaitCursor = true;
-            // 
-            // button5
-            // 
-            button5.BackColor = Color.FromArgb(43, 56, 143);
-            button5.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button5.ForeColor = Color.White;
-            button5.ImageAlign = ContentAlignment.TopCenter;
-            button5.Location = new Point(379, 452);
-            button5.Name = "button5";
-            button5.Size = new Size(158, 39);
-            button5.TabIndex = 43;
-            button5.Text = "Modificar";
-            button5.UseVisualStyleBackColor = false;
-            button5.UseWaitCursor = true;
-            // 
-            // button6
-            // 
-            button6.BackColor = Color.FromArgb(43, 56, 143);
-            button6.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button6.ForeColor = Color.White;
-            button6.ImageAlign = ContentAlignment.TopCenter;
-            button6.Location = new Point(986, 388);
-            button6.Name = "button6";
-            button6.Size = new Size(158, 39);
-            button6.TabIndex = 46;
-            button6.Text = "Guardar";
-            button6.UseVisualStyleBackColor = false;
-            button6.UseWaitCursor = true;
-            button6.Click += button6_Click;
-            // 
-            // panelMensaje
-            // 
-            panelMensaje.BackgroundImage = (Image)resources.GetObject("panelMensaje.BackgroundImage");
-            panelMensaje.BackgroundImageLayout = ImageLayout.Stretch;
-            panelMensaje.Location = new Point(320, 177);
-            panelMensaje.Name = "panelMensaje";
-            panelMensaje.Size = new Size(619, 340);
-            panelMensaje.TabIndex = 22;
-            // 
             // FRM_PG5
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -887,9 +894,9 @@
         private Button btnNuevaCuenta;
         private Button button1;
         private DataGridView dgvCatalogoCuentas;
-        private TextBox textBox1;
+        private TextBox txtIdCuenta;
         private TextBox txtCuenta;
-        private TextBox textBox2;
+        private TextBox txtNombreCuenta;
         private TextBox txtDetalle;
         private Label label15;
         private Label label16;
@@ -899,11 +906,11 @@
         private Panel panel10;
         private Button btnUsuario;
         private Button btnCatalagoCuenta;
-        private Button button2;
-        private Button button3;
-        private Button button4;
-        private Button button5;
-        private Button button6;
+        private Button btnGuardarUsuario;
+        private Button btnInhabilitarUsuario;
+        private Button btnHabilitar;
+        private Button btnModificarUsuario;
+        private Button btnGuardarCuenta;
         private Panel panelMensaje;
     }
 }
