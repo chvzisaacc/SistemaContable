@@ -63,6 +63,32 @@ namespace Capa_de_Presentación.CLASES
                 MessageBox.Show("No se puede añadir la fila.", "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+        public void Agregarfila2(DataTable dtDatosGastos, DataGridView dgvGastos)
+        {
+            if (dtDatosGastos != null)
+            {
+                dgvGastos.ReadOnly = false;
+
+                DataRow newRow = dtDatosGastos.NewRow();
+                dtDatosGastos.Rows.Add(newRow);
+
+                int lastIndex = dtDatosGastos.Rows.Count - 1;
+
+                if (lastIndex >= 0)
+                {
+                    DataGridViewColumn firstVisibleColumn = dgvGastos.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c.Visible);
+
+                    if (firstVisibleColumn != null)
+                    {
+                        dgvGastos.CurrentCell = dgvGastos.Rows[lastIndex].Cells[firstVisibleColumn.Index];
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No se puede añadir la fila.", "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
 
         public void BloquearDesbloquearDataIngresos(DataTable dtDatosIngresos, DataGridView dataGridView1, int RowIndex)
         {
@@ -112,6 +138,10 @@ namespace Capa_de_Presentación.CLASES
                 }
             }
         }
-        
+
+        internal void Agregarfila2(object dtDatosGastos, DataGridView dgvGastos)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

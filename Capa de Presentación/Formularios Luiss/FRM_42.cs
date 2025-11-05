@@ -38,6 +38,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             CargarDatosAutocompletado();
             Transacciones objtransa = new();
             objtransa.CargarComboBoxOrigen(cmbOrigen);
+            objtransa.CargarComboBoxOrigen(cmbOrigen2);
             crudCataloCuentas = new clsCRUD_CatalogoCuentas();
 
             crudCuentasBancarias = new ClsCRUD_CuentasBancarias();
@@ -503,8 +504,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     }
 
                     int nuevoID = ingresos.IngresarIngresos(fechaTransaccion, descripcion, monto, referencia, idUsuario, idOrigen, nombreCuenta);
-                    
-                   filasGuardadas++;
+
+                    filasGuardadas++;
                 }
 
             }
@@ -536,6 +537,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 }
 
             }
+        }
+
+        private void cmbOrigen2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            cmbOrigen2.Text = "Seleccionar";
+            txtNoReferencia.Text = null;
+            Transacciones transa = new();
+           // transa.Agregarfila2(dtDatosGastos, dgvGastos);
         }
     }
 }
