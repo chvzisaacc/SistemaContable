@@ -51,7 +51,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             DateTime mesactual1 = new DateTime(mesactual.Year, mesactual.Month, 1);
             dtpFecha.MinDate = mesactual1;
             dtpFecha.MaxDate = mesactual;
-            MostrarSaldoActual();
+            // MostrarSaldoActual();
+
+            ActualizarSaldo();
+
+
         }
 
         
@@ -223,8 +227,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void chkSaldoInicial_CheckedChanged(object sender, EventArgs e)
         {
+            if (txtSaldoActual.Text == "0.00")
+            {
+                chkSaldoInicial.Visible = true;
+            }
             FRM_CajaChicaMonto obcaja = new FRM_CajaChicaMonto();
             obcaja.ShowDialog();
+
+            chkSaldoInicial.Visible = false;
+
+            if (txtSaldoActual.Text == "0.00")
+            {
+                chkSaldoInicial.Visible = true;
+            }
         }
         private void MostrarSaldoActual()
         {
@@ -234,7 +249,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 objCon.Abrir();
 
-                string query = "SELECT TOP 1 saldo FROM Cajachica ORDER BY Id_cajachica DESC";
+                string query = "exec saldo_actual";
                 SqlCommand comando = new SqlCommand(query, objCon.sc);
 
                 SqlDataReader lector = comando.ExecuteReader();
@@ -260,6 +275,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
             finally
             {
                 objCon.Cerrar();
+            }
+        }
+        //Actualiza el saldo que se muestra en pantalla
+        private void ActualizarSaldo()
+        {
+            try
+            {
+                MostrarSaldoActual();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar el saldo: " + ex.Message);
             }
         }
 
