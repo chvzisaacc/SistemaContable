@@ -474,8 +474,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int idOrigen = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
 
+            
+        }
+
+
+        private void btnGuardar2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            int idOrigen = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
             if (idOrigen == 0)
             {
                 MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -495,46 +506,31 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     string nombreCuenta = fila.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
                     string descripcion = fila.Cells["Detalle"].Value?.ToString() ?? string.Empty;
 
-
                     if (!decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out decimal monto) || monto <= 0)
                     {
                         MessageBox.Show($"Monto inválido", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         continue;
                     }
 
-                    int nuevoID = ingresos.IngresarIngresos(fechaTransaccion, descripcion, monto, referencia, idUsuario, idOrigen, nombreCuenta);
-                    
-                   filasGuardadas++;
-                }
 
+                    int nuevoID = ingresos.IngresarIngresos(fechaTransaccion, descripcion, monto, referencia, idUsuario, idOrigen, nombreCuenta);
+                    filasGuardadas++;
+                }
             }
             catch (Exception ex)
+
             {
                 errorGuardado = true;
                 string mensajeError = "Error al guardar la transacción" + ex.Message;
             }
-
             if (!errorGuardado && filasGuardadas > 0)
             {
                 if (filasGuardadas > 0)
                 {
-                    MessageBox.Show(
-                        $"Se guardaron {filasGuardadas} fila(s) correctamente.",
-                        "Transacción guardada",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    MessageBox.Show($"Se guardaron {filasGuardadas} fila(s) correctamente.", "Transacción guardada", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
-                {
-                    MessageBox.Show(
-                        "No se guardó ninguna fila válida.",
-                        "Aviso",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
-                }
-
+                { MessageBox.Show("No se guardó ninguna fila válida.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
             }
         }
     }
