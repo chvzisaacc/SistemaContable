@@ -195,6 +195,31 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+
+        public bool HabilitarUsuario(int id, int nuevoEstado)
+        {
+            try
+            {
+                conexion.Abrir();
+
+                SqlCommand cmd = new SqlCommand("sp_InhabilitarUsuario", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.Parameters.AddWithValue("@nuevoEstado", nuevoEstado);
+
+                int resultado = cmd.ExecuteNonQuery();
+                return resultado > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al inhabilitar usuario: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+
         // VALIDAR si usuario existe
         public bool UsuarioExiste(string usuario)
         {
@@ -323,7 +348,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        
+
 
     }
 }
