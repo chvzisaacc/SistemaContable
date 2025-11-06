@@ -18,7 +18,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_42 : Form
     {
-
+        private System.Threading.Timer temporizador;
         private DataTable dtDatosIngresos = null;
         private clsCRUD_CatalogoCuentas crudCataloCuentas;
 
@@ -53,6 +53,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             // Opcional: muestra uno por defecto
             MostrarSoloEstePanel(panel1);
+
+
         }
 
         private void FRM_42_Load(object sender, EventArgs e)
@@ -83,18 +85,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
 
-                //aqui es para ocultar algunos campos (los ids y las contraseñas)
-                /*
-                if (dgvUsuarios.Columns["Contraseña"] != null)
-                    dgvUsuarios.Columns["Contraseña"].Visible = false;
-
-                if (dgvUsuarios.Columns["RolID"] != null)
-                    dgvUsuarios.Columns["RolID"].Visible = false;
-                if (dgvUsuarios.Columns["ParroquiaID"] != null)
-                    dgvUsuarios.Columns["ParroquiaID"].Visible = false;
-                if (dgvUsuarios.Columns["EstadoID"] != null)
-                    dgvUsuarios.Columns["EstadoID"].Visible = false;
-                */
             }
             catch (Exception ex)
             {
@@ -401,6 +391,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtDatosIngresos.Columns.Add("Saldo", typeof(string));
             dataGridView1.DataSource = dtDatosIngresos;
             dataGridView1.AutoGenerateColumns = true;
+      
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -562,6 +553,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     int nuevoID = ingresos.IngresarIngresos(fechaTransaccion, descripcion, monto, referencia, idUsuario, idOrigen, nombreCuenta);
                     filasGuardadas++;
+                    fila.Cells["HoraRegistro"].Value = DateTime.Now;
+
+                    fila.Cells["Saldo"].Style.ForeColor = Color.Green;
                 }
                 catch (Exception exGuardado)
                 {
@@ -575,7 +569,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 MessageBox.Show("Error al guardar la transacción: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            // 🔹 Mensajes finales
+
             if (!errorGuardado)
             {
                 if (filasGuardadas > 0)
@@ -594,9 +588,25 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
 
         }
+
+        private void Temporizador_Tick(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow fila in dataGridView1.Rows)
+            {
+                if (fila.Cells["HoraRegistro"].Value != null)
+                {
+                    DateTime hora = Convert.ToDateTime(fila.Cells["HoraRegistro"].Value);
+                    double minutosPasados = (DateTime.Now - hora).TotalMinutes;
+
+                    if (minutosPasados >= 1)
+                    {
+                        fila.Visible = false;
+                    }
+                }
+            }
+        }
     }
 }
-
 
 
 
