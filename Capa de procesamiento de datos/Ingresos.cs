@@ -64,10 +64,42 @@ namespace Capa_de_procesamiento_de_datos
 
             return nuevaTransa;
         }
-       
 
+        public DataTable CargarTransaccionesActivas()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                Abrir();
+                {
+                    using (SqlCommand cmd = new SqlCommand("sp_ObtenerTransaccionesActivas", sc))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        da.Fill(dt);
+
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar las transacciones activas: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+            return dt;
+        }
     }
 }
+
+
+    
+
 
 
 

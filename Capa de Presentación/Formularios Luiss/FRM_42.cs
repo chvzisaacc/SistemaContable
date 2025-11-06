@@ -64,7 +64,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             DateTime mesactual1 = new DateTime(mesactual.Year, mesactual.Month, 1);
             dtpFecha.MinDate = mesactual1;
             dtpFecha.MaxDate = mesactual;
-            // MostrarSaldoActual();
+            CargarTransaccionesActivas();
 
             ActualizarSaldo();
 
@@ -389,9 +389,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtDatosIngresos.Columns.Add("NombreCuenta", typeof(string));
             dtDatosIngresos.Columns.Add("Detalle", typeof(string));
             dtDatosIngresos.Columns.Add("Saldo", typeof(string));
+            dtDatosIngresos.Columns.Add("HoraRegistro", typeof(DateTime));
             dataGridView1.DataSource = dtDatosIngresos;
             dataGridView1.AutoGenerateColumns = true;
-      
+            dataGridView1.Columns["HoraRegistro"].Visible = false;
+
+
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -589,20 +592,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-        private void Temporizador_Tick(object sender, EventArgs e)
+        private void CargarTransaccionesActivas()
         {
-            foreach (DataGridViewRow fila in dataGridView1.Rows)
+            try
             {
-                if (fila.Cells["HoraRegistro"].Value != null)
-                {
-                    DateTime hora = Convert.ToDateTime(fila.Cells["HoraRegistro"].Value);
-                    double minutosPasados = (DateTime.Now - hora).TotalMinutes;
-
-                    if (minutosPasados >= 1)
-                    {
-                        fila.Visible = false;
-                    }
-                }
+                Ingresos objIngresos = new Ingresos();
+                DataTable dt = objIngresos.CargarTransaccionesActivas();
+                dataGridView1.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al mostrar las transacciones activas: " + ex.Message);
             }
         }
     }

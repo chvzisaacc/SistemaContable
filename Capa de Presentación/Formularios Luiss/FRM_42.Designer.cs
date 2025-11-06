@@ -85,6 +85,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             NombreCuenta = new DataGridViewTextBoxColumn();
             cDetalle = new DataGridViewTextBoxColumn();
             cSaldo = new DataGridViewTextBoxColumn();
+            HoraRegistro = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -309,7 +310,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { NombreCuenta, cDetalle, cSaldo });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { NombreCuenta, cDetalle, cSaldo, HoraRegistro });
             dataGridView1.Location = new Point(61, 165);
             dataGridView1.Margin = new Padding(4, 5, 4, 5);
             dataGridView1.Name = "dataGridView1";
@@ -730,6 +731,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cSaldo.Name = "cSaldo";
             cSaldo.ReadOnly = true;
             // 
+            // HoraRegistro
+            // 
+            HoraRegistro.HeaderText = "Column1";
+            HoraRegistro.MinimumWidth = 8;
+            HoraRegistro.Name = "HoraRegistro";
+            HoraRegistro.ReadOnly = true;
+            HoraRegistro.Visible = false;
+            // 
             // FRM_42
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -816,5 +825,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private DataGridViewTextBoxColumn NombreCuenta;
         private DataGridViewTextBoxColumn cDetalle;
         private DataGridViewTextBoxColumn cSaldo;
+        private DataGridViewTextBoxColumn HoraRegistro;
     }
 }
