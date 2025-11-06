@@ -397,7 +397,7 @@ namespace Capa_de_acceso_de_datos
 
             try
             {
-                Abrir();
+                Abrir(); 
                 using (SqlCommand cmd = new SqlCommand("SP_mostrar_cuentasgastos", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -412,14 +412,14 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener las cuentas de gastos: " + ex.Message);
+                throw new Exception("No hay sugerencias " + ex.Message);
             }
             finally
             {
-                Cerrar();
+                Cerrar(); 
             }
         }
-        
+
 
         public int ObtenerUsuarioIdPorNombreUsuario(string nombreUsuario)
         {
