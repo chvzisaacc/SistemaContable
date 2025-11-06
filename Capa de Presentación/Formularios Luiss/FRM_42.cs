@@ -82,19 +82,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             try
             {
                 cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
-
-                //aqui es para ocultar algunos campos (los ids y las contraseñas)
-                /*
-                if (dgvUsuarios.Columns["Contraseña"] != null)
-                    dgvUsuarios.Columns["Contraseña"].Visible = false;
-
-                if (dgvUsuarios.Columns["RolID"] != null)
-                    dgvUsuarios.Columns["RolID"].Visible = false;
-                if (dgvUsuarios.Columns["ParroquiaID"] != null)
-                    dgvUsuarios.Columns["ParroquiaID"].Visible = false;
-                if (dgvUsuarios.Columns["EstadoID"] != null)
-                    dgvUsuarios.Columns["EstadoID"].Visible = false;
-                */
             }
             catch (Exception ex)
             {
@@ -308,6 +295,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 chkSaldoInicial.Visible = true;
             }
+
+
         }
         private void MostrarSaldoActual()
         {
@@ -475,68 +464,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int idOrigen = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
 
-            if (idOrigen == 0)
-            {
-                MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            Ingresos ingresos = new();
-            int filasGuardadas = 0;
-            bool errorGuardado = false;
-            try
-            {
-                DateTime fechaTransaccion = dtpFecha.Value;
-                string referencia = txtNoReferencia.Text.Trim();
-                int idUsuario = Sesion1.UsuarioID;
-                foreach (DataGridViewRow fila in dataGridView1.Rows)
-                {
-                    if (fila.IsNewRow) continue;
-                    string nombreCuenta = fila.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
-                    string descripcion = fila.Cells["Detalle"].Value?.ToString() ?? string.Empty;
-
-
-                    if (!decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out decimal monto) || monto <= 0)
-                    {
-                        MessageBox.Show($"Monto inválido", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        continue;
-                    }
-
-                    int nuevoID = ingresos.IngresarIngresos(fechaTransaccion, descripcion, monto, referencia, idUsuario, idOrigen, nombreCuenta);
-
-                    filasGuardadas++;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                errorGuardado = true;
-                string mensajeError = "Error al guardar la transacción" + ex.Message;
-            }
-
-            if (!errorGuardado && filasGuardadas > 0)
-            {
-                if (filasGuardadas > 0)
-                {
-                    MessageBox.Show(
-                        $"Se guardaron {filasGuardadas} fila(s) correctamente.",
-                        "Transacción guardada",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
-                }
-                else
-                {
-                    MessageBox.Show(
-                        "No se guardó ninguna fila válida.",
-                        "Aviso",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
-                }
-
-            }
         }
 
         private void cmbOrigen2_SelectedIndexChanged(object sender, EventArgs e)
@@ -549,7 +477,89 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbOrigen2.Text = "Seleccionar";
             txtNoReferencia.Text = null;
             Transacciones transa = new();
-           // transa.Agregarfila2(dtDatosGastos, dgvGastos);
+            // transa.Agregarfila2(dtDatosGastos, dgvGastos);
+        }
+
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            //INGRESOS
+            int idOrigen = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
+
+            if (idOrigen == 0)
+            {
+                MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
+            if (dataGridView1.CurrentRow == null || dataGridView1.CurrentRow.IsNewRow)
+            {
+                MessageBox.Show("Debe estar ubicado en una fila válida (no la fila nueva vacía) para guardar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridViewRow fila = dataGridView1.CurrentRow;
+
+            if (dataGridView1.CurrentCell == null) return;
+
+            Ingresos ingresos = new();
+            int filasGuardadas = 0;
+            bool errorGuardado = false;
+
+            try
+            {
+                DateTime fechaTransaccion = dtpFecha.Value;
+                string referencia = txtNoReferencia.Text.Trim();
+                int idUsuario = Sesion1.UsuarioID;
+
+                string nombreCuenta = fila.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
+                string descripcion = fila.Cells["Detalle"].Value?.ToString() ?? string.Empty;
+
+                if (!decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out decimal monto) || monto <= 0)
+                {
+                    MessageBox.Show($"Monto inválido para la cuenta: {nombreCuenta}", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return; 
+                }
+
+                try
+                {
+                    int nuevoID = ingresos.IngresarIngresos(fechaTransaccion, descripcion, monto, referencia, idUsuario, idOrigen, nombreCuenta);
+
+                    filasGuardadas++;
+                }
+                catch (Exception exGuardado)
+                {
+                    errorGuardado = true;
+                    MessageBox.Show($"Error al guardar la fila para la cuenta {nombreCuenta}: {exGuardado.Message}", "Error de Guardado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                errorGuardado = true;
+                string mensajeError = "Error al guardar la transacción: " + ex.Message;
+                MessageBox.Show(mensajeError, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if (!errorGuardado)
+            {
+                if (filasGuardadas > 0)
+                {
+                    MessageBox.Show("Se guardó la fila correctamente.", "Transacción guardada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+ 
+                }
+                else
+                {
+                    MessageBox.Show("No se guardó ninguna fila válida.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+
+        private void btnGuardar2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
