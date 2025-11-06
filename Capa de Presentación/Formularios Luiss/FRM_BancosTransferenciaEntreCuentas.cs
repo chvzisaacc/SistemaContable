@@ -29,13 +29,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 DataTable dtCuentas = crudTransferencia.ObtenerCuentasBanco();
 
                 cmbOrigen.DataSource = dtCuentas.Copy();
-                cmbOrigen.DisplayMember = "Descripcion";
-                cmbOrigen.ValueMember = "Id_cuentabanco";
+                cmbOrigen.DisplayMember = "NombreCompleto";
+                cmbOrigen.ValueMember = "Id_Origen";
                 cmbOrigen.SelectedIndex = -1;
 
                 cmbDestino.DataSource = dtCuentas.Copy();
-                cmbDestino.DisplayMember = "Descripcion";
-                cmbDestino.ValueMember = "Id_cuentabanco";
+                cmbDestino.DisplayMember = "NombreCompleto";
+                cmbDestino.ValueMember = "Id_Origen";
                 cmbDestino.SelectedIndex = -1;
             }
             catch (Exception ex)
