@@ -25,7 +25,7 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_AgregarCuentaBanco", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@id_cuentaBanco", CuentaBancariaID);
+                cmd.Parameters.AddWithValue("@id_Origen", CuentaBancariaID);
                 cmd.Parameters.AddWithValue("@Nombre", Nombre);
                 cmd.Parameters.AddWithValue("@saldo", saldo);
                 cmd.Parameters.AddWithValue("@tasa_interes", tasa_interes);
@@ -74,7 +74,7 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
-        public bool ModificarSaldo(int idCuentaBanco, decimal saldo)
+        public bool ModificarSaldo(int Id_Origen, decimal saldo)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace Capa_de_acceso_de_datos
                 using var cmd = new SqlCommand("sp_ModificarSaldo", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add("@Id_cuentaBanco", SqlDbType.Int).Value = idCuentaBanco;
+                cmd.Parameters.Add("@Id_Origen", SqlDbType.Int).Value = Id_Origen;
 
                 var pSaldo = cmd.Parameters.Add("@saldo", SqlDbType.Decimal);
                 pSaldo.Precision = 18;
@@ -101,7 +101,7 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
-        public bool AgregarSaldo(int idCuentaBanco, decimal monto)
+        public bool AgregarSaldo(int Id_Origen, decimal monto)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace Capa_de_acceso_de_datos
                 using var cmd = new SqlCommand("dbo.sp_AgregarSaldo", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add("@Id_cuentaBanco", SqlDbType.Int).Value = idCuentaBanco;
+                cmd.Parameters.Add("@Id_Origen", SqlDbType.Int).Value = Id_Origen;
 
                 var pMonto = cmd.Parameters.Add("@monto", SqlDbType.Decimal);
                 pMonto.Precision = 18;

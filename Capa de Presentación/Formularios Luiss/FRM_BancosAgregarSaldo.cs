@@ -111,7 +111,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
                 cmbCuentas.DisplayMember = "Nombre";
-                cmbCuentas.ValueMember = "Id_cuentaBanco";
+                cmbCuentas.ValueMember = "Id_Origen";
 
 
             }
