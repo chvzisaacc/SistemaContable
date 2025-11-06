@@ -20,6 +20,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
     {
 
         private DataTable dtDatosIngresos = null;
+        private DataTable dtDatosGastos = null;
         private clsCRUD_CatalogoCuentas crudCataloCuentas;
 
         private ClsCRUD_CuentasBancarias crudCuentasBancarias;
@@ -36,6 +37,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             InicializarDGVIngr();
             CargarDatosAutocompletado();
+            CargarDatosAutocompletadoGastos();
             Transacciones objtransa = new();
             objtransa.CargarComboBoxOrigen(cmbOrigen);
             objtransa.CargarComboBoxOrigen(cmbOrigen2);
@@ -401,6 +403,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dataGridView1.AutoGenerateColumns = true;
         }
 
+        private void InicializarDGVgastos()
+        {
+            dgvGastos.Columns.Clear();
+            dtDatosIngresos = new DataTable("Ingresos");
+            dtDatosIngresos.Columns.Add("NombreCuenta", typeof(string));
+            dtDatosIngresos.Columns.Add("Detalle", typeof(string));
+            dtDatosIngresos.Columns.Add("Saldo", typeof(string));
+            dgvGastos.DataSource = dtDatosIngresos;
+            dgvGastos.AutoGenerateColumns = true;
+        }
+
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             Transacciones objtransa = new();
@@ -430,7 +443,31 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 MessageBox.Show(ex.Message, "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+
+
         }
+        private void CargarDatosAutocompletadoGastos()
+        {
+            Subcuentas.Clear();
+
+            try
+            {
+                DataTable dt = objSubCuentas.ObtenerCuentasGastos();
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    Subcuentas.Add(row["Subcuentas"].ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+        }
+
 
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
@@ -549,7 +586,39 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbOrigen2.Text = "Seleccionar";
             txtNoReferencia.Text = null;
             Transacciones transa = new();
-           // transa.Agregarfila2(dtDatosGastos, dgvGastos);
+            transa.Agregarfila2(dtDatosGastos, dgvGastos);
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            //Adicionar una fila al datagridview de gastos
+            int lastIndex = dgvGastos.Rows.Add();
+            dgvGastos.CurrentCell = dgvGastos.Rows[lastIndex].Cells[0];
+        }
+
+        private void dgvGastos_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (dgvGastos.CurrentCell.ColumnIndex == 0) 
+            {
+                TextBox txt = e.Control as TextBox;
+                if (txt != null)
+                {
+                    txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+                    AutoCompleteStringCollection coleccion = new AutoCompleteStringCollection();
+
+                    ClsAccionesDB objac = new ClsAccionesDB();
+                    DataTable dtNombres = objac.ObtenerCuentasGastos();
+                    foreach (DataRow row in dtNombres.Rows)
+                    {
+                        coleccion.Add(row["Subcuentas"].ToString());
+                    }
+
+                    txt.AutoCompleteCustomSource = coleccion;
+                }
+            }
+
         }
     }
 }

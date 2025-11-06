@@ -77,7 +77,6 @@ namespace Capa_de_Presentación.CLASES
                 if (lastIndex >= 0)
                 {
                     DataGridViewColumn firstVisibleColumn = dgvGastos.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c.Visible);
-
                     if (firstVisibleColumn != null)
                     {
                         dgvGastos.CurrentCell = dgvGastos.Rows[lastIndex].Cells[firstVisibleColumn.Index];
@@ -86,7 +85,7 @@ namespace Capa_de_Presentación.CLASES
             }
             else
             {
-                MessageBox.Show("No se puede añadir la fila.", "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("No se puede añadir la fila", "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
