@@ -29,6 +29,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }

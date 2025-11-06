@@ -41,9 +41,10 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(92, 120);
+            label1.Location = new Point(115, 150);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(258, 38);
+            label1.Size = new Size(306, 45);
             label1.TabIndex = 0;
             label1.Text = "Correo Electronico";
             label1.Click += label1_Click;
@@ -54,18 +55,21 @@
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(143, 197);
+            textBox2.Location = new Point(179, 246);
+            textBox2.Margin = new Padding(4, 4, 4, 4);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(165, 35);
+            textBox2.Size = new Size(206, 42);
             textBox2.TabIndex = 16;
             textBox2.Text = "Cerrar Sesión";
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(96, 185);
+            pictureBox2.Location = new Point(120, 231);
+            pictureBox2.Margin = new Padding(4, 4, 4, 4);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(254, 67);
+            pictureBox2.Size = new Size(318, 84);
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.TabIndex = 15;
             pictureBox2.TabStop = false;
@@ -74,24 +78,24 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(154, -8);
-            pictureBox1.Margin = new Padding(3, 4, 3, 4);
+            pictureBox1.Location = new Point(192, -10);
+            pictureBox1.Margin = new Padding(4, 5, 4, 5);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(132, 124);
+            pictureBox1.Size = new Size(165, 155);
             pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox1.TabIndex = 17;
             pictureBox1.TabStop = false;
             // 
             // FRM_CERRARSESION
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(447, 281);
+            ClientSize = new Size(559, 351);
             Controls.Add(pictureBox1);
             Controls.Add(textBox2);
             Controls.Add(pictureBox2);
             Controls.Add(label1);
-            Margin = new Padding(3, 4, 3, 4);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "FRM_CERRARSESION";
             Text = "FRM_CERRARSESION";
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
