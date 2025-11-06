@@ -30,8 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG5));
             panel1 = new Panel();
-            pictureBox3 = new PictureBox();
-            pictureBox2 = new PictureBox();
             btnCatalagoCuenta = new Button();
             btnUsuario = new Button();
             panelContenedor = new Panel();
@@ -87,6 +85,9 @@
             label5 = new Label();
             label4 = new Label();
             panel9 = new Panel();
+            pictureBox3 = new PictureBox();
+            label8 = new Label();
+            pictureBox4 = new PictureBox();
             panel2 = new Panel();
             panel3 = new Panel();
             panel4 = new Panel();
@@ -94,60 +95,36 @@
             pictureBox1 = new PictureBox();
             panelMensaje = new Panel();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             panelContenedor.SuspendLayout();
             panelCatalogoCuentas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCatalogoCuentas).BeginInit();
             panelUsuario.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.White;
-            panel1.Controls.Add(pictureBox3);
-            panel1.Controls.Add(pictureBox2);
+            panel1.Controls.Add(panelMensaje);
             panel1.Controls.Add(btnCatalagoCuenta);
             panel1.Controls.Add(btnUsuario);
             panel1.Controls.Add(panelContenedor);
+            panel1.Controls.Add(pictureBox3);
+            panel1.Controls.Add(label8);
+            panel1.Controls.Add(pictureBox4);
             panel1.Controls.Add(panel2);
             panel1.Controls.Add(panel3);
             panel1.Controls.Add(panel4);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
-            panel1.Controls.Add(panelMensaje);
             panel1.Location = new Point(11, 12);
             panel1.Name = "panel1";
             panel1.Size = new Size(1258, 695);
             panel1.TabIndex = 8;
             panel1.Paint += panel1_Paint;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Image = Properties.Resources.Captura_de_pantalla_2025_10_22_2105101;
-            pictureBox3.Location = new Point(1158, 23);
-            pictureBox3.Margin = new Padding(3, 4, 3, 4);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(90, 84);
-            pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox3.TabIndex = 24;
-            pictureBox3.TabStop = false;
-            pictureBox3.Click += pictureBox3_Click;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(1042, 23);
-            pictureBox2.Margin = new Padding(3, 4, 3, 4);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(104, 84);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 23;
-            pictureBox2.TabStop = false;
-            pictureBox2.Click += pictureBox2_Click;
             // 
             // btnCatalagoCuenta
             // 
@@ -208,7 +185,6 @@
             panelCatalogoCuentas.Name = "panelCatalogoCuentas";
             panelCatalogoCuentas.Size = new Size(1251, 512);
             panelCatalogoCuentas.TabIndex = 20;
-            panelCatalogoCuentas.Paint += panelCatalogoCuentas_Paint;
             // 
             // btnGuardarCuenta
             // 
@@ -809,6 +785,38 @@
             panel9.Size = new Size(0, 0);
             panel9.TabIndex = 7;
             // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
+            pictureBox3.Location = new Point(1061, 25);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(77, 67);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 15;
+            pictureBox3.TabStop = false;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.BackColor = Color.FromArgb(251, 203, 51);
+            label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.ForeColor = Color.FromArgb(43, 56, 143);
+            label8.Location = new Point(1171, 41);
+            label8.Name = "label8";
+            label8.Size = new Size(41, 28);
+            label8.TabIndex = 14;
+            label8.Text = "AD";
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
+            pictureBox4.Location = new Point(1153, 19);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(95, 88);
+            pictureBox4.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBox4.TabIndex = 13;
+            pictureBox4.TabStop = false;
+            // 
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(43, 56, 143);
@@ -875,8 +883,6 @@
             Load += FRM_PG5_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             panelContenedor.ResumeLayout(false);
             panelCatalogoCuentas.ResumeLayout(false);
             panelCatalogoCuentas.PerformLayout();
@@ -884,6 +890,8 @@
             panelUsuario.ResumeLayout(false);
             panelUsuario.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
@@ -895,6 +903,9 @@
         private PictureBox pictureBox1;
         private Panel panel2;
         private Panel panel3;
+        private Label label8;
+        private PictureBox pictureBox4;
+        private PictureBox pictureBox3;
         private Panel panelContenedor;
         private Panel panelUsuario;
         private Button btnAgregar;
@@ -951,7 +962,5 @@
         private Label label2;
         private Label label20;
         private Label label3;
-        private PictureBox pictureBox2;
-        private PictureBox pictureBox3;
     }
 }
