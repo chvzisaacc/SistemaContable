@@ -17,7 +17,7 @@ namespace Capa_de_acceso_de_datos
             try
             {
                 conexion.Abrir();
-                SqlCommand cmd = new SqlCommand("sp_ObtenerCuentasBanco", conexion.sc);
+                SqlCommand cmd = new SqlCommand("sp_ObtenerOrigenFuentes", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
