@@ -599,10 +599,35 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 Ingresos objIngresos = new Ingresos();
                 DataTable dt = objIngresos.CargarTransaccionesActivas();
                 dataGridView1.DataSource = dt;
+                ConfigurarVisualizacionDGV();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al mostrar las transacciones activas: " + ex.Message);
+            }
+        }
+
+        private void ConfigurarVisualizacionDGV()
+        {
+            if (dataGridView1.Columns.Count > 0)
+            {
+                if (dataGridView1.Columns.Contains("HoraRegistro"))
+                {
+                    dataGridView1.Columns["HoraRegistro"].Visible = false;
+                }
+
+                if (dataGridView1.Columns.Contains("NombreCuenta"))
+                    dataGridView1.Columns["NombreCuenta"].HeaderText = "Cuenta";
+
+                if (dataGridView1.Columns.Contains("descripcion"))
+                    dataGridView1.Columns["descripcion"].HeaderText = "Detalle";
+
+                if (dataGridView1.Columns.Contains("Saldo"))
+                {
+                    dataGridView1.Columns["Saldo"].DefaultCellStyle.Format = "N2";
+                    dataGridView1.Columns["Saldo"].HeaderText = "Monto";
+                }
+
             }
         }
     }

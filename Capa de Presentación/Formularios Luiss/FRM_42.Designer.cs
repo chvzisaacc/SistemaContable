@@ -51,6 +51,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             lblOrigen = new Label();
             cmbOrigen = new ComboBox();
             dataGridView1 = new DataGridView();
+            NombreCuenta = new DataGridViewTextBoxColumn();
+            cDetalle = new DataGridViewTextBoxColumn();
+            cSaldo = new DataGridViewTextBoxColumn();
+            HoraRegistro = new DataGridViewTextBoxColumn();
             panelCajaChica2 = new Panel();
             textBox1 = new TextBox();
             chkSaldoInicial = new CheckBox();
@@ -82,10 +86,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             btnIngresos = new Button();
             panel1 = new Panel();
             panelLinea = new Panel();
-            NombreCuenta = new DataGridViewTextBoxColumn();
-            cDetalle = new DataGridViewTextBoxColumn();
-            cSaldo = new DataGridViewTextBoxColumn();
-            HoraRegistro = new DataGridViewTextBoxColumn();
+            pictureBox7 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -98,6 +99,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelGastos2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvGastos).BeginInit();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -162,6 +164,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // panelIngresos
             // 
+            panelIngresos.Controls.Add(pictureBox7);
             panelIngresos.Controls.Add(button2);
             panelIngresos.Controls.Add(button1);
             panelIngresos.Controls.Add(dtpFecha);
@@ -321,6 +324,35 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dgvIngresos_CellContentClick;
             dataGridView1.EditingControlShowing += dataGridView1_EditingControlShowing;
+            // 
+            // NombreCuenta
+            // 
+            NombreCuenta.HeaderText = "Nombre/Cuenta";
+            NombreCuenta.MinimumWidth = 6;
+            NombreCuenta.Name = "NombreCuenta";
+            NombreCuenta.ReadOnly = true;
+            // 
+            // cDetalle
+            // 
+            cDetalle.HeaderText = "Detalle";
+            cDetalle.MinimumWidth = 6;
+            cDetalle.Name = "cDetalle";
+            cDetalle.ReadOnly = true;
+            // 
+            // cSaldo
+            // 
+            cSaldo.HeaderText = "Saldo";
+            cSaldo.MinimumWidth = 6;
+            cSaldo.Name = "cSaldo";
+            cSaldo.ReadOnly = true;
+            // 
+            // HoraRegistro
+            // 
+            HoraRegistro.HeaderText = "Column1";
+            HoraRegistro.MinimumWidth = 8;
+            HoraRegistro.Name = "HoraRegistro";
+            HoraRegistro.ReadOnly = true;
+            HoraRegistro.Visible = false;
             // 
             // panelCajaChica2
             // 
@@ -710,34 +742,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelLinea.Size = new Size(1570, 3);
             panelLinea.TabIndex = 24;
             // 
-            // NombreCuenta
+            // pictureBox7
             // 
-            NombreCuenta.HeaderText = "Nombre/Cuenta";
-            NombreCuenta.MinimumWidth = 6;
-            NombreCuenta.Name = "NombreCuenta";
-            NombreCuenta.ReadOnly = true;
-            // 
-            // cDetalle
-            // 
-            cDetalle.HeaderText = "Detalle";
-            cDetalle.MinimumWidth = 6;
-            cDetalle.Name = "cDetalle";
-            cDetalle.ReadOnly = true;
-            // 
-            // cSaldo
-            // 
-            cSaldo.HeaderText = "Saldo";
-            cSaldo.MinimumWidth = 6;
-            cSaldo.Name = "cSaldo";
-            cSaldo.ReadOnly = true;
-            // 
-            // HoraRegistro
-            // 
-            HoraRegistro.HeaderText = "Column1";
-            HoraRegistro.MinimumWidth = 8;
-            HoraRegistro.Name = "HoraRegistro";
-            HoraRegistro.ReadOnly = true;
-            HoraRegistro.Visible = false;
+            pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
+            pictureBox7.Location = new Point(1409, 384);
+            pictureBox7.Margin = new Padding(4);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(134, 44);
+            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox7.TabIndex = 33;
+            pictureBox7.TabStop = false;
             // 
             // FRM_42
             // 
@@ -766,6 +780,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)dgvGastos).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ResumeLayout(false);
         }
 
@@ -826,5 +841,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private DataGridViewTextBoxColumn cDetalle;
         private DataGridViewTextBoxColumn cSaldo;
         private DataGridViewTextBoxColumn HoraRegistro;
+        private PictureBox pictureBox7;
     }
 }

@@ -41,23 +41,39 @@ namespace Capa_de_Presentación.CLASES
         {
             if (dtDatosIngresos != null)
             {
+
                 dataGridView1.ReadOnly = false;
+
 
                 DataRow newRow = dtDatosIngresos.NewRow();
                 dtDatosIngresos.Rows.Add(newRow);
-                dataGridView1.DataSource = dtDatosIngresos;
-                dataGridView1.Refresh();
-                Application.DoEvents();
+
+   
+                dataGridView1.DataSource = dtDatosIngresos; 
+
+   
+                if (dataGridView1.Columns.Contains("HoraRegistro"))
+                {
+                    dataGridView1.Columns["HoraRegistro"].Visible = false;
+                }
+
 
                 int lastIndex = dtDatosIngresos.Rows.Count - 1;
 
                 if (lastIndex >= 0)
                 {
+
+                    dataGridView1.CurrentCell = null; 
+                    dataGridView1.ClearSelection(); 
+
+                    dataGridView1.FirstDisplayedScrollingRowIndex = lastIndex;
+
                     DataGridViewColumn firstVisibleColumn = dataGridView1.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c.Visible);
 
                     if (firstVisibleColumn != null)
                     {
                         dataGridView1.CurrentCell = dataGridView1.Rows[lastIndex].Cells[firstVisibleColumn.Index];
+                        dataGridView1.BeginEdit(true);
                     }
                 }
             }

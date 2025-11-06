@@ -51,7 +51,7 @@ namespace Capa_de_procesamiento_de_datos
                         nuevaTransa = Convert.ToInt32(result);
                     }
                 }
-
+                
             }
             catch (Exception ex)
             {
@@ -78,8 +78,6 @@ namespace Capa_de_procesamiento_de_datos
 
                         SqlDataAdapter da = new SqlDataAdapter(cmd);
                         da.Fill(dt);
-
-
                     }
                 }
             }
