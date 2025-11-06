@@ -45,6 +45,9 @@ namespace Capa_de_Presentación.CLASES
 
                 DataRow newRow = dtDatosIngresos.NewRow();
                 dtDatosIngresos.Rows.Add(newRow);
+                dataGridView1.DataSource = dtDatosIngresos;
+                dataGridView1.Refresh();
+                Application.DoEvents();
 
                 int lastIndex = dtDatosIngresos.Rows.Count - 1;
 

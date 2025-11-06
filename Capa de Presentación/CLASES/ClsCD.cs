@@ -96,45 +96,53 @@ namespace Capa_de_Presentación.CLASES
         public void GuardarCD(DataTable dtDatosCertificados, DataGridView dataGridView1, bool datosGuardados)
         {
 
-            if (dataGridView1.Rows.Count > 0)
+            if (dataGridView1.Rows.Count == 0)
             {
+                MessageBox.Show("No hay filas para guardar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                if (dataGridView1.SelectedRows.Count > 0)
+
+            DataGridViewRow fila = dataGridView1.Rows[dataGridView1.Rows.Count - 1];
+
+ 
+            if (fila.IsNewRow && dataGridView1.Rows.Count > 1)
+                fila = dataGridView1.Rows[dataGridView1.Rows.Count - 2];
+
+ 
+            if (fila.Cells["Nombre_certificado"].Value == null ||
+                fila.Cells["deposito_inicial"].Value == null ||
+                fila.Cells["Plazo"].Value == null ||
+                fila.Cells["Tasa"].Value == null)
+            {
+                MessageBox.Show("Hay campos vacíos, llenalos todos antes de guardar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                string nombreCertificado = fila.Cells["Nombre_certificado"].Value.ToString();
+                decimal depositoInicial = Convert.ToDecimal(fila.Cells["deposito_inicial"].Value);
+                int plazo = Convert.ToInt32(fila.Cells["Plazo"].Value);
+                decimal tasa = Convert.ToDecimal(fila.Cells["Tasa"].Value);
+
+
+                ClsAccionesDB acciones = new ClsAccionesDB();
+                acciones.GuardarCertificado(nombreCertificado, depositoInicial, plazo, tasa);
+
+                MessageBox.Show("Última fila guardada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            
+                foreach (DataGridViewCell cell in fila.Cells)
                 {
-                    DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-                    if (
-                        selectedRow.Cells["Nombre_Certificado"].Value != null &&
-                        selectedRow.Cells["deposito_inicial"].Value != null &&
-                        selectedRow.Cells["Plazo"].Value != null &&
-                        selectedRow.Cells["Tasa"].Value != null)
-                    {
-
-                        string nombreCertificado = selectedRow.Cells["Nombre_certificado"].Value.ToString();
-                        decimal depositoInicial = Convert.ToDecimal(selectedRow.Cells["deposito_inicial"].Value);
-                        int plazo = Convert.ToInt32(selectedRow.Cells["Plazo"].Value);
-                        decimal tasa = Convert.ToDecimal(selectedRow.Cells["Tasa"].Value);
-
-                        ClsAccionesDB acciones = new ClsAccionesDB();
-                        acciones.GuardarCertificado(nombreCertificado, depositoInicial, plazo, tasa);
-
-                        MessageBox.Show("Datos guardados con éxito.");
-
-                        foreach (DataGridViewCell cell in selectedRow.Cells)
-                        {
-                            cell.ReadOnly = true;
-                        }
-                        datosGuardados = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Hay campos vacíos en la fila seleccionada.");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("No hay filas seleccionadas.");
+                    cell.ReadOnly = true;
                 }
 
+                datosGuardados = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar la última fila: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
