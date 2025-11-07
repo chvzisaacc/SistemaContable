@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG5));
             panel1 = new Panel();
+            panelMensaje = new Panel();
             btnCatalagoCuenta = new Button();
             btnUsuario = new Button();
             panelContenedor = new Panel();
@@ -93,7 +94,6 @@
             panel4 = new Panel();
             label1 = new Label();
             pictureBox1 = new PictureBox();
-            panelMensaje = new Panel();
             panel1.SuspendLayout();
             panelContenedor.SuspendLayout();
             panelCatalogoCuentas.SuspendLayout();
@@ -126,6 +126,15 @@
             panel1.TabIndex = 8;
             panel1.Paint += panel1_Paint;
             // 
+            // panelMensaje
+            // 
+            panelMensaje.BackgroundImage = (Image)resources.GetObject("panelMensaje.BackgroundImage");
+            panelMensaje.BackgroundImageLayout = ImageLayout.Stretch;
+            panelMensaje.Location = new Point(320, 177);
+            panelMensaje.Name = "panelMensaje";
+            panelMensaje.Size = new Size(619, 340);
+            panelMensaje.TabIndex = 22;
+            // 
             // btnCatalagoCuenta
             // 
             btnCatalagoCuenta.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
@@ -152,8 +161,8 @@
             // 
             // panelContenedor
             // 
-            panelContenedor.Controls.Add(panelCatalogoCuentas);
             panelContenedor.Controls.Add(panelUsuario);
+            panelContenedor.Controls.Add(panelCatalogoCuentas);
             panelContenedor.Location = new Point(3, 179);
             panelContenedor.Margin = new Padding(3, 4, 3, 4);
             panelContenedor.Name = "panelContenedor";
@@ -616,6 +625,7 @@
             cmbParroquia.Name = "cmbParroquia";
             cmbParroquia.Size = new Size(158, 33);
             cmbParroquia.TabIndex = 35;
+            cmbParroquia.SelectedIndexChanged += cmbParroquia_SelectedIndexChanged;
             // 
             // cmbRol
             // 
@@ -861,15 +871,6 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
-            // 
-            // panelMensaje
-            // 
-            panelMensaje.BackgroundImage = (Image)resources.GetObject("panelMensaje.BackgroundImage");
-            panelMensaje.BackgroundImageLayout = ImageLayout.Stretch;
-            panelMensaje.Location = new Point(320, 177);
-            panelMensaje.Name = "panelMensaje";
-            panelMensaje.Size = new Size(619, 340);
-            panelMensaje.TabIndex = 22;
             // 
             // FRM_PG5
             // 
