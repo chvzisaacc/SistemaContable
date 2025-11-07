@@ -47,7 +47,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     var cuenta = rows[0];
                     // Asigna los valores a tus TextBoxes y otros controles
-                   // txtNombreCuenta.Text = cuenta["Nombre"].ToString();
+                    //txtNombreCuenta.Text = cuenta["Nombre"].ToString();
                     txtMonto.Text = cuenta["saldo"].ToString();
                     // ...etc.
                 }
@@ -69,40 +69,40 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
 
-       /* private void CargarDatosCuenta()
-        {
-            try
-            {
-                // Obtiene todas las cuentas
-                DataTable dt = CRUD_CuentasBancarias.ObtenerCuentasBancarias();
+        /* private void CargarDatosCuenta()
+         {
+             try
+             {
+                 // Obtiene todas las cuentas
+                 DataTable dt = CRUD_CuentasBancarias.ObtenerCuentasBancarias();
 
-                // Busca la fila específica que corresponde a nuestro ID
-                // Nota: Lo ideal sería tener un método en tu CRUD que obtenga una sola cuenta por ID.
-                DataRow[] rows = dt.Select($"Id_Origen = {cuentaId}");
+                 // Busca la fila específica que corresponde a nuestro ID
+                 // Nota: Lo ideal sería tener un método en tu CRUD que obtenga una sola cuenta por ID.
+                 DataRow[] rows = dt.Select($"Id_Origen = {cuentaId}");
 
-                if (rows.Length > 0)
-                {
-                    _cuentaActual = rows[0];
+                 if (rows.Length > 0)
+                 {
+                     _cuentaActual = rows[0];
 
-                    // Llena los controles del formulario con los datos
-                    this.Text = $"Editando Cuenta: {_cuentaActual["Nombre"]}";
-                    txtNombre.Text = _cuentaActual["Nombre"].ToString();
-                    txtSaldo.Text = _cuentaActual["saldo"].ToString();
-                    txtTasaInteres.Text = _cuentaActual["tasa_interes"].ToString();
-                    // ...y así con los demás controles que tengas.
-                }
-                else
-                {
-                    MessageBox.Show("No se encontraron los datos para la cuenta seleccionada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    this.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar los datos de la cuenta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-       */
+                     // Llena los controles del formulario con los datos
+                     this.Text = $"Editando Cuenta: {_cuentaActual["Nombre"]}";
+                     txtNombre.Text = _cuentaActual["Nombre"].ToString();
+                     txtSaldo.Text = _cuentaActual["saldo"].ToString();
+                     txtTasaInteres.Text = _cuentaActual["tasa_interes"].ToString();
+                     // ...y así con los demás controles que tengas.
+                 }
+                 else
+                 {
+                     MessageBox.Show("No se encontraron los datos para la cuenta seleccionada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                     this.Close();
+                 }
+             }
+             catch (Exception ex)
+             {
+                 MessageBox.Show("Error al cargar los datos de la cuenta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             }
+         }
+        */
         private bool ValidarCampos()
         {
             if (string.IsNullOrWhiteSpace(txtMonto.Text))
@@ -172,7 +172,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al actualizar el saldo: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -180,6 +180,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
 
         }
+
+        private void FRM_PG42BancosCuentaAhorro_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 
 
