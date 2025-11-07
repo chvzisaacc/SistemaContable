@@ -737,13 +737,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 if (filasGuardadas > 0)
                 {
                     MessageBox.Show("Se guardo correctamente el ingreso.", "Transaccion guardada", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Transacciones objtransa = new Transacciones();
-
-                    objtransa.CargarComboBoxOrigen(cmbOrigen);
-
-                    objtransa.CargarComboBoxOrigen(cmbOrigen2);
-
-                    ActualizarSaldo();
                 }
                 else
                 {
@@ -847,13 +840,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 if (filasGuardadas > 0)
                 {
                     MessageBox.Show("Se guardó correctamente el gasto.", "Transacción guardada", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Transacciones objtransa = new Transacciones();
-
-                    objtransa.CargarComboBoxOrigen(cmbOrigen);
- 
-                    objtransa.CargarComboBoxOrigen(cmbOrigen2);
-              
-                    ActualizarSaldo();
                 }
                 else
                 {
@@ -863,3 +849,4 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
     }
 }
+
