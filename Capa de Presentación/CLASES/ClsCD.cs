@@ -184,6 +184,22 @@ namespace Capa_de_Presentación.CLASES
             {
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
 
+                bool esUltimaFilaGuardada = dataGridView1.Rows.Count > 1 && selectedRow.Index == dataGridView1.Rows.Count - 2;
+
+                DateTime fechaUltimoGuardado = Capa_de_acceso_de_datos.Sesion1.UltimoGuardadoCertificado;
+
+                if (esUltimaFilaGuardada && fechaUltimoGuardado != DateTime.MinValue)
+                {
+                    TimeSpan tiempoTranscurrido = DateTime.Now - fechaUltimoGuardado;
+                    double minutosTranscurridos = tiempoTranscurrido.TotalMinutes;
+
+                    if (minutosTranscurridos > 1)
+                    {
+                        MessageBox.Show($"Han transcurrido más de 1 minuto ({minutosTranscurridos:N1} min) desde el último guardado. No se permite la edición de esta fila.", "Restricción de Tiempo", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        return; // Detiene la edición
+                    }
+                }
+
                 dataGridView1.ReadOnly = false;
 
                 foreach (DataGridViewCell cell in selectedRow.Cells)
@@ -226,8 +242,26 @@ namespace Capa_de_Presentación.CLASES
                         dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
                     }
 
-                    
                     DataGridViewRow fila = dataGridView1.SelectedRows[0];
+                    string nombreCertificado = fila.Cells["Nombre_certificado"].Value?.ToString() ?? string.Empty;
+
+                    decimal depositoInicial;
+                    if (fila.Cells["deposito_inicial"].Value == null || !decimal.TryParse(fila.Cells["deposito_inicial"].Value.ToString(), out depositoInicial))
+                    {
+                        throw new FormatException("El Depósito Inicial no es un número válido o está vacío.");
+                    }
+
+                    int plazo;
+                    if (fila.Cells["Plazo"].Value == null || !int.TryParse(fila.Cells["Plazo"].Value.ToString(), out plazo))
+                    {
+                        throw new FormatException("El Plazo no es un número entero válido o está vacío.");
+                    }
+
+                    decimal tasa;
+                    if (fila.Cells["Tasa"].Value == null || !decimal.TryParse(fila.Cells["Tasa"].Value.ToString(), out tasa))
+                    {
+                        throw new FormatException("La Tasa no es un número válido o está vacía.");
+                    }
                     int codigocertificado = 0;
 
                     DataGridViewCell pkCell = fila.Cells["Id_Certificado"];
@@ -245,10 +279,7 @@ namespace Capa_de_Presentación.CLASES
                         return;
                     }
 
-                    string nombreCertificado = fila.Cells["Nombre_certificado"].Value?.ToString() ?? string.Empty;
-                    decimal depositoInicial = Convert.ToDecimal(fila.Cells["deposito_inicial"].Value);
-                    int plazo = Convert.ToInt32(fila.Cells["Plazo"].Value);
-                    decimal tasa = Convert.ToDecimal(fila.Cells["Tasa"].Value);
+                    
 
                     ClsAccionesDB accionesDB = new ClsAccionesDB();
                     accionesDB.editarcertificado(codigocertificado, nombreCertificado, depositoInicial, plazo, tasa);
