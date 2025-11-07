@@ -59,7 +59,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void FRM_42_Load(object sender, EventArgs e)
         {
-
+            dgvGastos.AllowUserToAddRows = false;
             DateTime mesactual = DateTime.Now;
             DateTime mesactual1 = new DateTime(mesactual.Year, mesactual.Month, 1);
             dtpFecha.MinDate = mesactual1;
@@ -412,6 +412,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtDatosIngresos.Columns.Add("Saldo", typeof(string));
             dgvGastos.DataSource = dtDatosIngresos;
             dgvGastos.AutoGenerateColumns = true;
+            dgvGastos.AllowUserToAddRows = false;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -598,26 +599,39 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void dgvGastos_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (dgvGastos.CurrentCell.ColumnIndex == 0) 
+            TextBox txt = e.Control as TextBox;
+            if (txt != null)
             {
-                TextBox txt = e.Control as TextBox;
-                if (txt != null)
+                if (dgvGastos.CurrentCell.ColumnIndex == 0)
                 {
                     txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                     txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
-                    AutoCompleteStringCollection coleccion = new AutoCompleteStringCollection();
-
-                    ClsAccionesDB objac = new ClsAccionesDB();
-                    DataTable dtNombres = objac.ObtenerCuentasGastos();
-                    foreach (DataRow row in dtNombres.Rows)
+                    // Cargar sugerencias solo una vez
+                    if (txt.AutoCompleteCustomSource == null || txt.AutoCompleteCustomSource.Count == 0)
                     {
-                        coleccion.Add(row["Subcuentas"].ToString());
+                        AutoCompleteStringCollection coleccion = new AutoCompleteStringCollection();
+                        ClsAccionesDB objac = new ClsAccionesDB();
+                        DataTable dtNombres = objac.ObtenerCuentasGastos();
+                        foreach (DataRow row in dtNombres.Rows)
+                        {
+                            coleccion.Add(row["Subcuentas"].ToString());
+                        }
+                        txt.AutoCompleteCustomSource = coleccion;
                     }
-
-                    txt.AutoCompleteCustomSource = coleccion;
+                }
+                else
+                {
+                    txt.AutoCompleteMode = AutoCompleteMode.None;
+                    txt.AutoCompleteSource = AutoCompleteSource.None;
+                    txt.AutoCompleteCustomSource = null;
                 }
             }
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
 
         }
     }
