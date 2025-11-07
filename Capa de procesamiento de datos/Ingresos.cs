@@ -65,6 +65,8 @@ namespace Capa_de_procesamiento_de_datos
             return nuevaTransa;
         }
 
+       
+
         public DataTable CargarTransaccionesActivas()
         {
             DataTable dt = new DataTable();
