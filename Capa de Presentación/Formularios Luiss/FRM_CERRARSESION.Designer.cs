@@ -49,7 +49,7 @@
             // 
             // textBox2
             // 
-            textBox2.BackColor = Color.FromArgb(43, 56, 143);
+            /*textBox2.BackColor = Color.FromArgb(43, 56, 143);
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
@@ -59,11 +59,11 @@
             textBox2.Size = new Size(206, 42);
             textBox2.TabIndex = 16;
             textBox2.Text = "Cerrar Sesión";
-            textBox2.TextChanged += textBox2_TextChanged;
+            textBox2.TextChanged += textBox2_TextChanged;*/
             // 
             // pictureBox2
             // 
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            /*pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
             pictureBox2.Location = new Point(120, 231);
             pictureBox2.Margin = new Padding(4, 4, 4, 4);
             pictureBox2.Name = "pictureBox2";
@@ -71,7 +71,7 @@
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.TabIndex = 15;
             pictureBox2.TabStop = false;
-            pictureBox2.Click += pictureBox2_Click_1;
+            pictureBox2.Click += pictureBox2_Click_1;*/
             // 
             // pictureBox1
             // 
