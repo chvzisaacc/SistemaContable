@@ -69,8 +69,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             ActualizarSaldo();
             CargarCuentasEnComboBox();
-           // CargarDatos();
-           // CargarComboBoxes();
+            // CargarDatos();
+            // CargarComboBoxes();
 
 
         }
@@ -263,7 +263,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             frm.ShowDialog(this);
         }
-        
+
 
         private void cmbAcciones_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -547,7 +547,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void cmbOrigen2_SelectedIndexChanged(object sender, EventArgs e)
@@ -800,6 +800,36 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     MessageBox.Show("No se guardó la transacción.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+            }
+        }
+
+        private void cmbInteresesBancarios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbInteresesBancarios.SelectedIndex < 0) return;
+
+            switch (cmbInteresesBancarios.SelectedIndex)
+            {
+                case 0: // cuentas de banco
+                    {
+                        var frm = new FRM116
+                        {
+                            StartPosition = FormStartPosition.Manual,
+                            Location = new Point(430, 450)
+                        };
+                        frm.ShowDialog();
+                        break;
+                    }
+                case 1: // CD
+                    {
+                        var frm = new FRM_PG114
+                        {
+                            StartPosition = FormStartPosition.Manual,
+                            Location = new Point(430, 450)
+                        };
+
+                        frm.ShowDialog();
+                        break;
+                    }
             }
         }
     }
