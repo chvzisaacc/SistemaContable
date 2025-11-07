@@ -93,6 +93,30 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        public DataTable ObtenerHistorialSacerdote()
+        {
+            try
+            {
+                conexion.Abrir();
+
+                SqlCommand cmd = new SqlCommand("sp_ObtenerHistorialSacerdote", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el historial: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
 
 
     }
