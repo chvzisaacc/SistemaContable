@@ -620,5 +620,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
 
         }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
