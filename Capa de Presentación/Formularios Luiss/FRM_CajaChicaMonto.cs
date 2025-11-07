@@ -14,6 +14,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_CajaChicaMonto : Form
     {
+        public delegate void ActualizarSaldoDelegate();
+
+        // Lo que el form principal debe actualizar o delegar
+        public event ActualizarSaldoDelegate SaldoActualizado;
 
 
         public FRM_CajaChicaMonto()
@@ -33,6 +37,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             Clsconexion objcone = new Clsconexion();
             SqlCommand comando = new SqlCommand("sp_Insertarsaldo", objcone.sc);
             comando.CommandType = CommandType.StoredProcedure;
@@ -51,6 +56,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 objcone.Abrir();
                 comando.ExecuteNonQuery();
                 MessageBox.Show("Monto insertado correctamente");
+                this.Close();
+                SaldoActualizado?.Invoke();
+
             }
             catch (Exception ex)
             {
@@ -59,7 +67,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             finally
             {
                 objcone.Cerrar();
+                
             }
+
         }
     }
 }

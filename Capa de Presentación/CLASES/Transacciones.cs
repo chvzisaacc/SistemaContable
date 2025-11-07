@@ -5,31 +5,35 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Capa_de_Presentación.CLASES
 {
     public class Transacciones : Clsconexion
     {
-        public void CargarComboBoxOrigen(ComboBox cmbOrigen)
+        public void CargarComboBoxOrigen(ComboBox cmbOrigen, ComboBox cmbOrigen2)
         {
             ClsAccionesDB clsAccionesDB = new ClsAccionesDB();
 
             try
             {
-                List<Origen> lista = clsAccionesDB.ObtenerListaOrigenes();
+                ClsAccionesDB db = new ClsAccionesDB();
+                List<Origen> lista = db.ObtenerListaOrigenes();
+                List<Origen> lista2 = db.ObtenerListaOrigenes();
 
-                lista.Insert(0, new Origen(0, "— Seleccione un Origen de fondos —"));
+                lista.Insert(0, new Origen(0, "Seleccionar"));
+                lista2.Insert(0, new Origen(0, "Seleccionar"));
 
-           
                 cmbOrigen.DataSource = lista;
-
-                cmbOrigen.DisplayMember = "Nombre"; 
-
-                
+                cmbOrigen.DisplayMember = "Nombre";
                 cmbOrigen.ValueMember = "ID";
-
-
                 cmbOrigen.SelectedIndex = 0;
+
+                cmbOrigen2.DataSource = lista2;
+                cmbOrigen2.DisplayMember = "Nombre";
+                cmbOrigen2.ValueMember = "ID";
+                cmbOrigen2.SelectedIndex = 0;
+
             }
             catch (Exception ex)
             {
@@ -91,14 +95,18 @@ namespace Capa_de_Presentación.CLASES
                 DataRow newRow = dtDatosGastos.NewRow();
                 dtDatosGastos.Rows.Add(newRow);
 
+                
+                dgvGastos.DataSource = dtDatosGastos;
                 int lastIndex = dtDatosGastos.Rows.Count - 1;
 
                 if (lastIndex >= 0)
                 {
+                    
                     DataGridViewColumn firstVisibleColumn = dgvGastos.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c.Visible);
                     if (firstVisibleColumn != null)
                     {
                         dgvGastos.CurrentCell = dgvGastos.Rows[lastIndex].Cells[firstVisibleColumn.Index];
+                        dgvGastos.BeginEdit(true);
                     }
                 }
             }
@@ -157,7 +165,61 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        public void BloquearDesbloquearDataGastos(DataTable dtDatosGastos, DataGridView dgvgastos, int RowIndex)
+        {
+            if (RowIndex >= 0)
+            {
+                dgvgastos.ReadOnly = false;
+            }
+
+            if (RowIndex >= 0 && dtDatosGastos != null)
+            {
+                int lastDataRowIndex = dtDatosGastos.Rows.Count - 1;
+
+                if (RowIndex == lastDataRowIndex)
+                {
+                    DataGridViewRow currentRow = dgvgastos.Rows[RowIndex];
+                    bool algunCampoVacio = false;
+
+                    string[] columnasAComprobar = new string[]
+                    {
+                        "dataGridViewTextBoxColumn1",
+                        "dataGridViewTextBoxColumn2",
+                        "dataGridViewTextBoxColumn3",
+
+                    };
+
+                    foreach (string nombreColumna in columnasAComprobar)
+                    {
+                        object cellValue = currentRow.Cells[nombreColumna].Value;
+
+                        if (cellValue == null || string.IsNullOrEmpty(cellValue.ToString()))
+                        {
+                            algunCampoVacio = true;
+                            break;
+                        }
+                    }
+
+                    if (algunCampoVacio)
+                    {
+                        dgvgastos.ReadOnly = false;
+
+                        foreach (DataGridViewColumn column in dtDatosGastos.Columns)
+                        {
+                            column.ReadOnly = false;
+                        }
+                    }
+
+                }
+            }
+        }
+
         internal void Agregarfila2(object dtDatosGastos, DataGridView dgvGastos)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void CargarComboBoxOrigen(object cmbOrigen, object cmbOrigen2)
         {
             throw new NotImplementedException();
         }

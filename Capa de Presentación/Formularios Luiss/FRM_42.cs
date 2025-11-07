@@ -39,8 +39,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             CargarDatosAutocompletado();
             CargarDatosAutocompletadoGastos();
             Transacciones objtransa = new();
-            objtransa.CargarComboBoxOrigen(cmbOrigen);
-            objtransa.CargarComboBoxOrigen(cmbOrigen2);
+            objtransa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+
+
             crudCataloCuentas = new clsCRUD_CatalogoCuentas();
 
             crudCuentasBancarias = new ClsCRUD_CuentasBancarias();
@@ -60,11 +61,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void FRM_42_Load(object sender, EventArgs e)
         {
             dgvGastos.AllowUserToAddRows = false;
-            CargarOrigenes();
             DateTime mesactual = DateTime.Now;
             DateTime mesactual1 = new DateTime(mesactual.Year, mesactual.Month, 1);
             dtpFecha.MinDate = mesactual1;
             dtpFecha.MaxDate = mesactual;
+            dateTimePicker1.MinDate = mesactual1;
+            dateTimePicker1.MaxDate = mesactual;
             // MostrarSaldoActual();
 
             ActualizarSaldo();
@@ -109,10 +111,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 ClsAccionesDB db = new ClsAccionesDB();
                 List<Origen> lista = db.ObtenerListaOrigenes();
+                List<Origen> lista2 = db.ObtenerListaOrigenes();
 
                 cmbOrigen.DataSource = lista;
                 cmbOrigen.DisplayMember = "Nombre";
                 cmbOrigen.ValueMember = "ID";
+
+                cmbOrigen2.DataSource = lista2;
+                cmbOrigen2.DisplayMember = "Nombre";
+                cmbOrigen2.ValueMember = "ID";
             }
             catch (Exception ex)
             {
@@ -278,9 +285,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
                         };
-                        frm.ShowDialog();
-                        break;
+                        DialogResult result = frm.ShowDialog();
+
+                        if (result == DialogResult.OK)
+                        {
+                            Transacciones transacciones = new();
+                            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+
+
+                        }
                     }
+                    break;
+
                 case 1: // Transferencia entre cuentas
                     {
                         var frm = new FRM_BancosTransferenciaEntreCuentas
@@ -288,10 +304,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
                         };
+                        DialogResult result = frm.ShowDialog();
 
-                        frm.ShowDialog();
-                        break;
+                        if (result == DialogResult.OK)
+                        {
+                            Transacciones transacciones = new();
+                            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+
+
+                        }
                     }
+                    break;
                 case 2: // Agregar cuenta bancaria
                     {
                         var frm = new FRM_BancosAgregarCuentaBancaria
@@ -299,10 +322,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
                         };
+                        DialogResult result = frm.ShowDialog();
 
-                        frm.ShowDialog();
-                        break;
+                        if (result == DialogResult.OK)
+                        {
+                            Transacciones transacciones = new();
+                            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+
+
+                        }
                     }
+                    break;
                 case 3: // Retirar dinero
                     {
                         var frm = new FRM_BancosRetirarDinero
@@ -311,9 +341,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
                             Location = new Point(430, 450)
                         };
 
-                        frm.ShowDialog();
-                        break;
+                        DialogResult result = frm.ShowDialog();
+
+                        if (result == DialogResult.OK)
+                        {
+                            Transacciones transacciones = new();
+                            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+
+
+                        }
                     }
+                    break;
             }
         }
 
@@ -331,19 +369,32 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void chkSaldoInicial_CheckedChanged(object sender, EventArgs e)
         {
-            if (txtSaldoActual.Text == "0.00")
-            {
-                chkSaldoInicial.Visible = true;
-            }
             FRM_CajaChicaMonto obcaja = new FRM_CajaChicaMonto();
-            obcaja.ShowDialog();
+            if (chkSaldoInicial.Checked)
+            {
 
-            chkSaldoInicial.Visible = false;
+                obcaja.SaldoActualizado += this.ActualizarSaldo;
+
+                obcaja.ShowDialog();
+
+                obcaja.SaldoActualizado -= this.ActualizarSaldo;
+            }
+            ActualizarSaldo();
+            Transacciones transacciones = new();
+            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
 
             if (txtSaldoActual.Text == "0.00")
             {
                 chkSaldoInicial.Visible = true;
+                obcaja.ShowDialog();
             }
+            else
+            {
+                chkSaldoInicial.Visible = false;
+            }
+                
+
+            
         }
         private void MostrarSaldoActual()
         {
@@ -434,6 +485,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtDatosIngresos.Columns.Add("Detalle", typeof(string));
             dtDatosIngresos.Columns.Add("Saldo", typeof(string));
             dataGridView1.DataSource = dtDatosIngresos;
+            
             dataGridView1.AutoGenerateColumns = true;
         }
 
@@ -446,7 +498,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtDatosIngresos.Columns.Add("Saldo", typeof(string));
             dgvGastos.DataSource = dtDatosIngresos;
             dgvGastos.AutoGenerateColumns = true;
-            dgvGastos.AllowUserToAddRows = false;
+            //dgvGastos.AllowUserToAddRows = false;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -558,7 +610,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void button4_Click(object sender, EventArgs e)
         {
             cmbOrigen2.Text = "Seleccionar";
-            txtNoReferencia.Text = null;
+            txtNoReferencia2.Text = null;
             Transacciones transa = new();
             transa.Agregarfila2(dtDatosGastos, dgvGastos);
         }
@@ -566,34 +618,38 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void button4_Click_1(object sender, EventArgs e)
         {
             //Adicionar una fila al datagridview de gastos
+            cmbOrigen2.Text = "Seleccionar";
+            txtNoReferencia2.Text = null;
             int lastIndex = dgvGastos.Rows.Add();
             dgvGastos.CurrentCell = dgvGastos.Rows[lastIndex].Cells[0];
         }
 
         private void dgvGastos_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            TextBox txt = e.Control as TextBox;
-            if (txt != null)
+            if (dgvGastos.CurrentCell.ColumnIndex == 0)
             {
-                if (dgvGastos.CurrentCell.ColumnIndex == 0)
+                TextBox txt = e.Control as TextBox;
+                if (txt != null)
                 {
                     txt.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                     txt.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
-                    // Cargar sugerencias solo una vez
-                    if (txt.AutoCompleteCustomSource == null || txt.AutoCompleteCustomSource.Count == 0)
+                    ClsAccionesDB clsAccionesDB = new();
+                    DataTable daraTable = clsAccionesDB.ObtenerCuentasGastos();
+                    AutoCompleteStringCollection nombrescuentas = new AutoCompleteStringCollection();
+
+                    foreach (DataRow row in daraTable.Rows)
                     {
-                        AutoCompleteStringCollection coleccion = new AutoCompleteStringCollection();
-                        ClsAccionesDB objac = new ClsAccionesDB();
-                        DataTable dtNombres = objac.ObtenerCuentasGastos();
-                        foreach (DataRow row in dtNombres.Rows)
-                        {
-                            coleccion.Add(row["Subcuentas"].ToString());
-                        }
-                        txt.AutoCompleteCustomSource = coleccion;
+                        nombrescuentas.Add(row["Subcuentas"].ToString());
                     }
+                    txt.AutoCompleteCustomSource = nombrescuentas;
                 }
-                else
+            }
+            else
+            {
+     
+                TextBox txt = e.Control as TextBox;
+                if (txt != null)
                 {
                     txt.AutoCompleteMode = AutoCompleteMode.None;
                     txt.AutoCompleteSource = AutoCompleteSource.None;
@@ -692,6 +748,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 if (filasGuardadas > 0)
                 {
                     MessageBox.Show("Se guardo correctamente el ingreso.", "Transaccion guardada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Transacciones objtransa = new Transacciones();
+                    objtransa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                    ActualizarSaldo();
+                    
+
+
                 }
                 else
                 {
@@ -711,7 +773,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 this.BindingContext[dgvGastos.DataSource]?.EndCurrentEdit();
             }
 
-            int idOrigen = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
+            int idOrigen = Convert.ToInt32(cmbOrigen2.SelectedValue ?? 0);
 
             if (idOrigen == 0)
             {
@@ -795,6 +857,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 if (filasGuardadas > 0)
                 {
                     MessageBox.Show("Se guardó correctamente el gasto.", "Transacción guardada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Transacciones objtransa = new Transacciones();
+                    objtransa.CargarComboBoxOrigen(cmbOrigen,cmbOrigen2);
+                    ActualizarSaldo();
                 }
                 else
                 {
@@ -831,6 +896,33 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         break;
                     }
             }
+        }
+
+        private void cmbOrigen2_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panelGastos2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvGastos_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Transacciones objtransa = new();
+            objtransa.BloquearDesbloquearDataGastos(dtDatosGastos, dgvGastos, e.RowIndex);
+        
+        }
+
+        private void dgvGastos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,7 +23,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
