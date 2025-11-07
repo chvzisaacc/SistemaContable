@@ -10,21 +10,11 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
-    public partial class FRM_PG42BancosCuentaCheque : Form
+    public partial class FRM_ServiciosAdministrador : Form
     {
-        public FRM_PG42BancosCuentaCheque()
+        public FRM_ServiciosAdministrador()
         {
             InitializeComponent();
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void FRM_PG42BancosCuentaCheque_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

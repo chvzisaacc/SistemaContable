@@ -68,16 +68,39 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // MostrarSaldoActual();
 
             ActualizarSaldo();
+            CargarCuentasEnComboBox();
+           // CargarDatos();
+           // CargarComboBoxes();
 
 
         }
         //=======
-        private void FRM_42_LOAD(object sender, EventArgs e)
+
+        private void CargarCuentasEnComboBox()
         {
-            CargarDatos();
-            CargarComboBoxes();
-            // LimpiarCampos();
-            //HabilitarControles(false);
+            try
+            {
+                // 1. Desvincula el evento para que no se dispare
+                cmbCuentas.SelectedIndexChanged -= cmbCuentas_SelectedIndexChanged;
+
+                // Carga los datos como ya lo haces
+                DataTable dtCuentas = crudCuentasBancarias.ObtenerCuentasBancarias();
+                cmbCuentas.DataSource = dtCuentas;
+                cmbCuentas.DisplayMember = "Nombre";
+                cmbCuentas.ValueMember = "Id_Origen";
+
+                // Asegúrate de que no haya nada seleccionado al inicio
+                cmbCuentas.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar las cuentas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // 3. Vuelve a vincular el evento para que funcione cuando el usuario haga clic
+                cmbCuentas.SelectedIndexChanged += cmbCuentas_SelectedIndexChanged;
+            }
         }
 
         private void CargarOrigenes()
@@ -221,33 +244,26 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
 
 
-            if (cmbCuentas.SelectedIndex < 0) return;
-
-            switch (cmbCuentas.SelectedIndex)
+            // Si no hay nada seleccionado, no hace nada.
+            if (cmbCuentas.SelectedIndex < 0 || cmbCuentas.SelectedValue == null)
             {
-                case 0: // Cuenta ahorro
-                    {
-                        var frm = new FRM_BancosAgregarSaldo
-                        {
-                            StartPosition = FormStartPosition.Manual,
-                            Location = new Point(430, 450)
-                        };
-                        frm.ShowDialog();
-                        break;
-                    }
-                case 1: // Cuenta cheques
-                    {
-                        var frm = new FRM_PG42BancosCuentaCheque
-                        {
-                            StartPosition = FormStartPosition.Manual,
-                            Location = new Point(430, 450)
-                        };
-
-                        frm.ShowDialog();
-                        break;
-                    }
+                return;
             }
+
+            // Obtiene el ID de la cuenta desde el valor seleccionado
+            int idSeleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
+
+            // Crea y muestra TU formulario existente, pasándole el ID
+            var frm = new FRM_PG42BancosCuentaAhorro(idSeleccionado) // <-- CAMBIO REALIZADO AQUÍ
+            {
+                StartPosition = FormStartPosition.Manual,
+                // Mantengo las coordenadas que has usado para consistencia
+                Location = new Point(414, 101)
+            };
+
+            frm.ShowDialog(this);
         }
+        
 
         private void cmbAcciones_SelectedIndexChanged(object sender, EventArgs e)
         {
