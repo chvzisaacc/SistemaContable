@@ -1,6 +1,5 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
-using Capa_de_Presentación.Formularios_Luiss;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -617,27 +616,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         }
 
-        private void panelCatalogoCuentas_Paint(object sender, PaintEventArgs e)
+        private void cmbParroquia_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            FRM_CERRARSESION popup = new FRM_CERRARSESION();
-            var buttonScreenPosition = pictureBox2.PointToScreen(Point.Empty);
-            popup.StartPosition = FormStartPosition.Manual;
-            popup.Location = new Point(buttonScreenPosition.X, buttonScreenPosition.Y + pictureBox2.Height);
-            popup.ShowDialog();
-        }
 
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            FRM_SERVICIOS popup = new FRM_SERVICIOS();
-            var buttonScreenPosition = pictureBox1.PointToScreen(Point.Empty);
-            popup.StartPosition = FormStartPosition.Manual;
-            popup.Location = new Point(buttonScreenPosition.X, buttonScreenPosition.Y + pictureBox1.Height);
-            popup.ShowDialog();
         }
     }
 }

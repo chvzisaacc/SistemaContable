@@ -30,14 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG51));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             pictureBox3 = new PictureBox();
             label1 = new Label();
             dgvBitacora = new DataGridView();
-            cFecha = new DataGridViewTextBoxColumn();
-            cHora = new DataGridViewTextBoxColumn();
-            cActividad = new DataGridViewTextBoxColumn();
             lblConsulte = new Label();
             lblTitulo = new Label();
             btnVolver = new Button();
@@ -78,47 +74,22 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvBitacora.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvBitacora.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvBitacora.Columns.AddRange(new DataGridViewColumn[] { cFecha, cHora, cActividad });
             dgvBitacora.EnableHeadersVisualStyles = false;
             dgvBitacora.GridColor = SystemColors.WindowText;
             dgvBitacora.Location = new Point(75, 309);
             dgvBitacora.Margin = new Padding(3, 4, 3, 4);
             dgvBitacora.Name = "dgvBitacora";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Control;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 14F);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvBitacora.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 14F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvBitacora.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvBitacora.RowHeadersWidth = 51;
             dgvBitacora.Size = new Size(1175, 380);
             dgvBitacora.TabIndex = 17;
-            // 
-            // cFecha
-            // 
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            cFecha.DefaultCellStyle = dataGridViewCellStyle2;
-            cFecha.FillWeight = 300F;
-            cFecha.HeaderText = "Fecha";
-            cFecha.MinimumWidth = 6;
-            cFecha.Name = "cFecha";
-            cFecha.Width = 200;
-            // 
-            // cHora
-            // 
-            cHora.HeaderText = "Hora";
-            cHora.MinimumWidth = 6;
-            cHora.Name = "cHora";
-            cHora.Width = 200;
-            // 
-            // cActividad
-            // 
-            cActividad.HeaderText = "Actividad";
-            cActividad.MinimumWidth = 6;
-            cActividad.Name = "cActividad";
-            cActividad.Width = 700;
             // 
             // lblConsulte
             // 
@@ -170,6 +141,7 @@
             Margin = new Padding(3, 4, 3, 4);
             Name = "FRM_PG51";
             Text = "FRM_PG51";
+            Load += FRM_PG51_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvBitacora).EndInit();
             ResumeLayout(false);
@@ -184,8 +156,5 @@
         private Label lblConsulte;
         private Label lblTitulo;
         private Button btnVolver;
-        private DataGridViewTextBoxColumn cFecha;
-        private DataGridViewTextBoxColumn cHora;
-        private DataGridViewTextBoxColumn cActividad;
     }
 }

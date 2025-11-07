@@ -18,13 +18,45 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private ClsCRUD_CuentasBancarias CRUD_CuentasBancarias;
         private bool modoEdicion = false;
         //private int CuentaBancoID = 1;
-        public FRM_PG42BancosCuentaAhorro()
+        private readonly int cuentaId;
+        private DataRow _cuentaActual; // Para guardar los datos de la cuenta cargada
+        public FRM_PG42BancosCuentaAhorro(int idOrigen)
         {
             InitializeComponent();
+            cuentaId = idOrigen;
             CRUD_CuentasBancarias = new ClsCRUD_CuentasBancarias();
         }
 
+        private void FRM_PG42BancosCuentaCheque_Load(object sender, EventArgs e)
+        {
+            // Si _cuentaId tiene un valor, carga los datos
+            if (cuentaId > 0)
+            {
+                CargarDatosDeLaCuenta();
+            }
+        }
 
+        private void CargarDatosDeLaCuenta()
+        {
+            try
+            {
+                DataTable dt = CRUD_CuentasBancarias.ObtenerCuentasBancarias();
+                DataRow[] rows = dt.Select($"Id_Origen = {cuentaId}");
+
+                if (rows.Length > 0)
+                {
+                    var cuenta = rows[0];
+                    // Asigna los valores a tus TextBoxes y otros controles
+                    //txtNombreCuenta.Text = cuenta["Nombre"].ToString();
+                    txtMonto.Text = cuenta["saldo"].ToString();
+                    // ...etc.
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error");
+            }
+        }
 
         private void FRM_PG6_Load(object sender, EventArgs e)
         {
@@ -32,7 +64,45 @@ namespace Capa_de_Presentación.Formularios_Luiss
             //CargarComboBoxes();
             //LimpiarCampos();
             HabilitarControles(false);
+            //CargarDatosCuenta();
         }
+
+
+
+        /* private void CargarDatosCuenta()
+         {
+             try
+             {
+                 // Obtiene todas las cuentas
+                 DataTable dt = CRUD_CuentasBancarias.ObtenerCuentasBancarias();
+
+                 // Busca la fila específica que corresponde a nuestro ID
+                 // Nota: Lo ideal sería tener un método en tu CRUD que obtenga una sola cuenta por ID.
+                 DataRow[] rows = dt.Select($"Id_Origen = {cuentaId}");
+
+                 if (rows.Length > 0)
+                 {
+                     _cuentaActual = rows[0];
+
+                     // Llena los controles del formulario con los datos
+                     this.Text = $"Editando Cuenta: {_cuentaActual["Nombre"]}";
+                     txtNombre.Text = _cuentaActual["Nombre"].ToString();
+                     txtSaldo.Text = _cuentaActual["saldo"].ToString();
+                     txtTasaInteres.Text = _cuentaActual["tasa_interes"].ToString();
+                     // ...y así con los demás controles que tengas.
+                 }
+                 else
+                 {
+                     MessageBox.Show("No se encontraron los datos para la cuenta seleccionada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                     this.Close();
+                 }
+             }
+             catch (Exception ex)
+             {
+                 MessageBox.Show("Error al cargar los datos de la cuenta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             }
+         }
+        */
         private bool ValidarCampos()
         {
             if (string.IsNullOrWhiteSpace(txtMonto.Text))
@@ -78,31 +148,48 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void pictureBox2_Click_1(object sender, EventArgs e)
         {
-            if (!decimal.TryParse(txtMonto.Text.Trim(), out var saldo))
+            // Ejemplo de cómo usarías tu CRUD para guardar cambios.
+            try
             {
-                MessageBox.Show("Ingrese un monto válido.");
-                return;
-            }
+                if (!decimal.TryParse(txtMonto.Text, out decimal nuevoSaldo))
+                {
+                    MessageBox.Show("El saldo ingresado no es un número válido.");
+                    return;
+                }
 
-            int idCuentaBanco = 1 ;/* el ID real de la cuenta a actualizar */
-            
+                // Llama al método para modificar el saldo
+                bool exito = CRUD_CuentasBancarias.ModificarSaldo(cuentaId, nuevoSaldo);
 
-            bool exito = CRUD_CuentasBancarias.ModificarSaldo(idCuentaBanco, saldo);
-            if (exito)
-            {
-                MessageBox.Show("Saldo modificado exitosamente", "Éxito",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+                if (exito)
+                {
+                    MessageBox.Show("Saldo actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo actualizar el saldo.", "Fallo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("No se actualizó ninguna fila. Verifica el Id de cuenta.", "Aviso",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Error al actualizar el saldo: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-    }    
 
-   
-           
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void FRM_PG42BancosCuentaAhorro_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
+
+
+
+}
 

@@ -54,6 +54,7 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(452, 232);
             panel2.TabIndex = 10;
+            panel2.Paint += panel2_Paint;
             // 
             // txtMonto
             // 
@@ -80,6 +81,7 @@
             textBox2.Size = new Size(144, 22);
             textBox2.TabIndex = 14;
             textBox2.Text = "Guardar y cerrar";
+            //textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pictureBox2
             // 
@@ -134,6 +136,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "FRM_PG42BancosCuentaAhorro";
             Text = "FRM_PG42BancosCuentaAhorro";
+            Load += FRM_PG42BancosCuentaAhorro_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();

@@ -68,28 +68,51 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // MostrarSaldoActual();
 
             ActualizarSaldo();
+            CargarCuentasEnComboBox();
+            // CargarDatos();
+            // CargarComboBoxes();
 
 
         }
         //=======
-        private void FRM_42_LOAD(object sender, EventArgs e)
+
+        private void CargarCuentasEnComboBox()
         {
-            CargarDatos();
-            CargarComboBoxes();
-            // LimpiarCampos();
-            //HabilitarControles(false);
+            try
+            {
+                // 1. Desvincula el evento para que no se dispare
+                cmbCuentas.SelectedIndexChanged -= cmbCuentas_SelectedIndexChanged;
+
+                // Carga los datos como ya lo haces
+                DataTable dtCuentas = crudCuentasBancarias.ObtenerCuentasBancarias();
+                cmbCuentas.DataSource = dtCuentas;
+                cmbCuentas.DisplayMember = "Nombre";
+                cmbCuentas.ValueMember = "Id_Origen";
+
+                // Asegúrate de que no haya nada seleccionado al inicio
+                cmbCuentas.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar las cuentas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // 3. Vuelve a vincular el evento para que funcione cuando el usuario haga clic
+                cmbCuentas.SelectedIndexChanged += cmbCuentas_SelectedIndexChanged;
+            }
         }
 
         private void CargarOrigenes()
         {
             try
             {
-                ClsAccionesDB db = new ClsAccionesDB(); 
-                List<Origen> lista = db.ObtenerListaOrigenes(); 
+                ClsAccionesDB db = new ClsAccionesDB();
+                List<Origen> lista = db.ObtenerListaOrigenes();
 
                 cmbOrigen.DataSource = lista;
-                cmbOrigen.DisplayMember = "Nombre"; 
-                cmbOrigen.ValueMember = "ID";       
+                cmbOrigen.DisplayMember = "Nombre";
+                cmbOrigen.ValueMember = "ID";
             }
             catch (Exception ex)
             {
@@ -221,33 +244,26 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
 
 
-            if (cmbCuentas.SelectedIndex < 0) return;
-
-            switch (cmbCuentas.SelectedIndex)
+            // Si no hay nada seleccionado, no hace nada.
+            if (cmbCuentas.SelectedIndex < 0 || cmbCuentas.SelectedValue == null)
             {
-                case 0: // Cuenta ahorro
-                    {
-                        var frm = new FRM_PG42BancosCuentaAhorro
-                        {
-                            StartPosition = FormStartPosition.Manual,
-                            Location = new Point(430, 450)
-                        };
-                        frm.ShowDialog();
-                        break;
-                    }
-                case 1: // Cuenta cheques
-                    {
-                        var frm = new FRM_PG42BancosCuentaCheque
-                        {
-                            StartPosition = FormStartPosition.Manual,
-                            Location = new Point(430, 450)
-                        };
-
-                        frm.ShowDialog();
-                        break;
-                    }
+                return;
             }
+
+            // Obtiene el ID de la cuenta desde el valor seleccionado
+            int idSeleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
+
+            // Crea y muestra TU formulario existente, pasándole el ID
+            var frm = new FRM_PG42BancosCuentaAhorro(idSeleccionado) // <-- CAMBIO REALIZADO AQUÍ
+            {
+                StartPosition = FormStartPosition.Manual,
+                // Mantengo las coordenadas que has usado para consistencia
+                Location = new Point(414, 101)
+            };
+
+            frm.ShowDialog(this);
         }
+
 
         private void cmbAcciones_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -531,68 +547,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int idOrigen = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
 
-            if (idOrigen == 0)
-            {
-                MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            Ingresos ingresos = new();
-            int filasGuardadas = 0;
-            bool errorGuardado = false;
-            try
-            {
-                DateTime fechaTransaccion = dtpFecha.Value;
-                string referencia = txtNoReferencia.Text.Trim();
-                int idUsuario = Sesion1.UsuarioID;
-                foreach (DataGridViewRow fila in dataGridView1.Rows)
-                {
-                    if (fila.IsNewRow) continue;
-                    string nombreCuenta = fila.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
-                    string descripcion = fila.Cells["Detalle"].Value?.ToString() ?? string.Empty;
-
-
-                    if (!decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out decimal monto) || monto <= 0)
-                    {
-                        MessageBox.Show($"Monto inválido", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        continue;
-                    }
-
-                    int nuevoID = ingresos.IngresarIngresos(fechaTransaccion, descripcion, monto, referencia, idUsuario, idOrigen, nombreCuenta);
-
-                    filasGuardadas++;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                errorGuardado = true;
-                string mensajeError = "Error al guardar la transacción" + ex.Message;
-            }
-
-            if (!errorGuardado && filasGuardadas > 0)
-            {
-                if (filasGuardadas > 0)
-                {
-                    MessageBox.Show(
-                        $"Se guardaron {filasGuardadas} fila(s) correctamente.",
-                        "Transacción guardada",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
-                }
-                else
-                {
-                    MessageBox.Show(
-                        "No se guardó ninguna fila válida.",
-                        "Aviso",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
-                }
-
-            }
         }
 
         private void cmbOrigen2_SelectedIndexChanged(object sender, EventArgs e)
@@ -756,8 +711,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 this.BindingContext[dgvGastos.DataSource]?.EndCurrentEdit();
             }
 
-           int idOrigen = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
-            
+            int idOrigen = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
+
             if (idOrigen == 0)
             {
                 MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -847,15 +802,36 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 }
             }
         }
+
+        private void cmbInteresesBancarios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbInteresesBancarios.SelectedIndex < 0) return;
+
+            switch (cmbInteresesBancarios.SelectedIndex)
+            {
+                case 0: // cuentas de banco
+                    {
+                        var frm = new FRM116
+                        {
+                            StartPosition = FormStartPosition.Manual,
+                            Location = new Point(430, 450)
+                        };
+                        frm.ShowDialog();
+                        break;
+                    }
+                case 1: // CD
+                    {
+                        var frm = new FRM_PG114
+                        {
+                            StartPosition = FormStartPosition.Manual,
+                            Location = new Point(430, 450)
+                        };
+
+                        frm.ShowDialog();
+                        break;
+                    }
+            }
+        }
     }
 }
- 
-
-
-
-
-      
-
-      
-
 
