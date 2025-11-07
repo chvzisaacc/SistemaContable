@@ -66,6 +66,7 @@ namespace Capa_de_Presentación.CLASES
                         "deposito_inicial",
                         "plazo",
                         "tasa"
+                        
                     };
 
                     foreach (string nombreColumna in columnasAComprobar)
@@ -95,44 +96,75 @@ namespace Capa_de_Presentación.CLASES
 
         public void GuardarCD(DataTable dtDatosCertificados, DataGridView dataGridView1, bool datosGuardados)
         {
+            int idParroquia = Capa_de_acceso_de_datos.Sesion1.IdParroquia;
 
-            if (dataGridView1.Rows.Count == 0)
+            if (dataGridView1.Rows.Count == 0 || (dataGridView1.Rows.Count == 1 && dataGridView1.Rows[0].IsNewRow))
             {
-                MessageBox.Show("No hay filas para guardar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("No hay filas con datos válidos para guardar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            
+            DataGridViewRow fila = dataGridView1.Rows.Count > 1 && dataGridView1.Rows[dataGridView1.Rows.Count - 1].IsNewRow
+                ? dataGridView1.Rows[dataGridView1.Rows.Count - 2]
+                : dataGridView1.Rows[dataGridView1.Rows.Count - 1];
 
-            DataGridViewRow fila = dataGridView1.Rows[dataGridView1.Rows.Count - 1];
-
- 
-            if (fila.IsNewRow && dataGridView1.Rows.Count > 1)
-                fila = dataGridView1.Rows[dataGridView1.Rows.Count - 2];
-
- 
-            if (fila.Cells["Nombre_certificado"].Value == null ||
-                fila.Cells["deposito_inicial"].Value == null ||
-                fila.Cells["Plazo"].Value == null ||
-                fila.Cells["Tasa"].Value == null)
+            // --- Validación de Nulos y Celdas Vacías (Mejorada para ser más robusta) ---
+            string[] columnasObligatorias = new string[]
             {
-                MessageBox.Show("Hay campos vacíos, llenalos todos antes de guardar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                "Nombre_certificado", "deposito_inicial", "Plazo", "Tasa"
+            };
+
+            foreach (string nombreColumna in columnasObligatorias)
+            {
+                object cellValue = fila.Cells[nombreColumna]?.Value;
+                if (cellValue == null || cellValue == DBNull.Value || string.IsNullOrWhiteSpace(cellValue.ToString()))
+                {
+                    MessageBox.Show($"El campo '{nombreColumna}' está vacío. Llenalos todos antes de guardar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            // --- Fin de Validación de Nulos ---
+
+           
+            if (idParroquia <= 0)
+            {
+                MessageBox.Show("Error: No se pudo obtener el ID de Parroquia del usuario logeado. Reinicie la sesión.", "Error de Sesión", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             try
             {
                 string nombreCertificado = fila.Cells["Nombre_certificado"].Value.ToString();
-                decimal depositoInicial = Convert.ToDecimal(fila.Cells["deposito_inicial"].Value);
-                int plazo = Convert.ToInt32(fila.Cells["Plazo"].Value);
-                decimal tasa = Convert.ToDecimal(fila.Cells["Tasa"].Value);
+
+
+                decimal depositoInicial;
+                if (!decimal.TryParse(fila.Cells["deposito_inicial"].Value.ToString(), out depositoInicial))
+                {
+                    throw new FormatException("El Depósito Inicial no es un número válido.");
+                }
+
+                int plazo;
+                if (!int.TryParse(fila.Cells["Plazo"].Value.ToString(), out plazo))
+                {
+                    throw new FormatException("El Plazo no es un número entero válido.");
+                }
+
+                decimal tasa;
+                if (!decimal.TryParse(fila.Cells["Tasa"].Value.ToString(), out tasa))
+                {
+                    throw new FormatException("La Tasa no es un número válido.");
+                }
+
+                DateTime fechaTransaccionActual = DateTime.Now;
 
 
                 ClsAccionesDB acciones = new ClsAccionesDB();
-                acciones.GuardarCertificado(nombreCertificado, depositoInicial, plazo, tasa);
+                acciones.GuardarCertificado(nombreCertificado, depositoInicial, plazo, tasa, idParroquia, fechaTransaccionActual);
 
                 MessageBox.Show("Última fila guardada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            
+                // Bloquear la fila después de guardar
                 foreach (DataGridViewCell cell in fila.Cells)
                 {
                     cell.ReadOnly = true;
@@ -383,6 +415,7 @@ namespace Capa_de_Presentación.CLASES
                     decimal deposito = Convert.ToDecimal(row["deposito_inicial"]);
                     decimal tasa = Convert.ToDecimal(row["tasa"]);
                     int plazo = Convert.ToInt32(row["plazo"]);
+                    dtDatosCertificados.Columns.Add("FechaTransaccion", typeof(DateTime));
 
                     decimal gananciaSinRedondear = deposito * (tasa / 100) * plazo;
                     decimal totalSinRedondear = deposito + gananciaSinRedondear;
@@ -413,6 +446,11 @@ namespace Capa_de_Presentación.CLASES
                 {
                     dgv.Columns["tasa"].Visible = false;
                 }
+                if (dgv.Columns.Contains("Fecha"))
+                {
+                    dgv.Columns["Fecha"].Visible = false;
+                }
+
 
                 if (dgv.Columns.Contains("Ganancia_Generado"))
                 {

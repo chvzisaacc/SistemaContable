@@ -26,10 +26,11 @@ namespace Capa_de_acceso_de_datos
     {
         public int UsuarioID { get; set; }
         public int RolID { get; set; }
+        public int IdParroquia { get; internal set; }
     }
     public class ClsAccionesDB : Clsconexion
     {
-        public ResultadoLogin ValidarCredenciales(string usuario, string contraseña)
+        public ResultadoLogin ValidarCredenciales(string usuario, string contraseña, int parroquiaId)
         {
             ResultadoLogin resultado = new ResultadoLogin { UsuarioID = 0, RolID = 0 };
 
@@ -49,6 +50,14 @@ namespace Capa_de_acceso_de_datos
                         // Asegúrate que el SP devuelva estas columnas.
                         resultado.UsuarioID = Convert.ToInt32(dr["UsuarioID"]);
                         resultado.RolID = Convert.ToInt32(dr["RolID"]);
+                        if (dr["Parroquia_ID"] != DBNull.Value)
+                        {
+                            resultado.IdParroquia = Convert.ToInt32(dr["Parroquia_ID"]);
+                        }
+                        else
+                        {
+                            resultado.IdParroquia = 0; // O un valor seguro si es nulo
+                        }
                     }
                     dr.Close();
                 }
@@ -171,7 +180,7 @@ namespace Capa_de_acceso_de_datos
             return resultado;
         }
 
-        public void GuardarCertificado(string nombreCertificado, decimal depositoInicial, int plazo, decimal tasa)
+        public void GuardarCertificado(string nombreCertificado, decimal depositoInicial, int plazo, decimal tasa, int idParroquia, DateTime fecha)
         {
             try
             {
@@ -183,6 +192,9 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@deposito_inicial", depositoInicial);
                     cmd.Parameters.AddWithValue("@plazo", plazo);
                     cmd.Parameters.AddWithValue("@tasa", tasa);
+                    cmd.Parameters.AddWithValue("@IdParroquia", idParroquia);
+                    cmd.Parameters.AddWithValue("@Fecha", fecha);
+
                     cmd.ExecuteNonQuery();
                 }
             }

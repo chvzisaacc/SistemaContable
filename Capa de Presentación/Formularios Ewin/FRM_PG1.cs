@@ -36,12 +36,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button1_Click(object sender, EventArgs e)
         {
+            ClsAccionesDB clsAccionesDB = new();
+            int rol = 0;
+            int IdParroquia = 0;
             string usuario = txtUsuario.Text;
             string password = txtContraseña.Text;
             ClsRecuperacion objrecu = new ClsRecuperacion();
-           objrecu.IniciarSesion(txtUsuario.Text, txtContraseña.Text, this, label1);
-           ClsAccionesDB clsAccionesDB = new();
-            int rol = 0;
+            objrecu.IniciarSesion(txtUsuario.Text, txtContraseña.Text, IdParroquia, this, label1);
+           
+            
 
             if (rol > 0)
             {
@@ -49,7 +52,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                 if (idUsuario > 0)
                 {
-                    Sesion1.IniciarSesion(idUsuario, rol);
+                    Sesion1.IniciarSesion(idUsuario, rol, IdParroquia);
 
                     MessageBox.Show("Inicio de sesión exitoso. ID de Usuario guardado.");
                 }

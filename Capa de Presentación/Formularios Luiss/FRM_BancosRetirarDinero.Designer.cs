@@ -51,9 +51,10 @@
             panel2.Controls.Add(label7);
             panel2.Controls.Add(comboBox1);
             panel2.Controls.Add(label6);
-            panel2.Location = new Point(12, 12);
+            panel2.Location = new Point(15, 15);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(518, 309);
+            panel2.Size = new Size(648, 386);
             panel2.TabIndex = 10;
             // 
             // textBox4
@@ -62,9 +63,10 @@
             textBox4.BorderStyle = BorderStyle.None;
             textBox4.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox4.ForeColor = Color.Black;
-            textBox4.Location = new Point(157, 144);
+            textBox4.Location = new Point(196, 180);
+            textBox4.Margin = new Padding(4);
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(231, 31);
+            textBox4.Size = new Size(289, 37);
             textBox4.TabIndex = 18;
             textBox4.Text = "Ingrese monto";
             // 
@@ -74,39 +76,45 @@
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(189, 218);
+            textBox2.Location = new Point(228, 274);
+            textBox2.Margin = new Padding(4);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(164, 27);
+            textBox2.Size = new Size(205, 32);
             textBox2.TabIndex = 14;
             textBox2.Text = " Enviar y cerrar";
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(157, 209);
+            pictureBox2.Location = new Point(196, 261);
+            pictureBox2.Margin = new Padding(4);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(226, 51);
+            pictureBox2.Size = new Size(282, 64);
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.TabIndex = 13;
             pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
             // 
             // textBox1
             // 
             textBox1.BackColor = Color.FromArgb(251, 203, 51);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(182, 144);
+            textBox1.Location = new Point(228, 180);
+            textBox1.Margin = new Padding(4);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(201, 31);
+            textBox1.Size = new Size(251, 37);
             textBox1.TabIndex = 12;
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(49, 144);
+            label7.Location = new Point(61, 180);
+            label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
-            label7.Size = new Size(93, 31);
+            label7.Size = new Size(114, 38);
             label7.TabIndex = 10;
             label7.Text = "Monto:";
             // 
@@ -117,9 +125,10 @@
             comboBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Cuenta Ahorro", "Cuenta Cheque" });
-            comboBox1.Location = new Point(157, 88);
+            comboBox1.Location = new Point(196, 110);
+            comboBox1.Margin = new Padding(4);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(230, 39);
+            comboBox1.Size = new Size(286, 46);
             comboBox1.TabIndex = 11;
             comboBox1.Text = "            Cuentas";
             // 
@@ -127,19 +136,21 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(149, 28);
+            label6.Location = new Point(186, 35);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
-            label6.Size = new Size(254, 38);
+            label6.Size = new Size(301, 45);
             label6.TabIndex = 10;
             label6.Text = "Enviar a caja chica";
             // 
             // FRM_BancosRetirarDinero
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(542, 333);
+            ClientSize = new Size(678, 416);
             Controls.Add(panel2);
+            Margin = new Padding(4);
             Name = "FRM_BancosRetirarDinero";
             Text = "FRM_BancosRetirarDinero";
             panel2.ResumeLayout(false);

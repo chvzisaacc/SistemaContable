@@ -275,80 +275,77 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void cmbAcciones_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbAcciones.SelectedIndex < 0) return;
+            Transacciones transaccionesObj = new();
 
             switch (cmbAcciones.SelectedIndex)
             {
                 case 0: // Agregar Saldo
                     {
-                        var frm = new FRM_BancosAgregarSaldo
+                        using (var frm = new FRM_BancosAgregarSaldo
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
-                        };
-                        DialogResult result = frm.ShowDialog();
-
-                        if (result == DialogResult.OK)
+                        })
                         {
-                            Transacciones transacciones = new();
-                            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                            DialogResult result = frm.ShowDialog();
 
-
+                            if (result == DialogResult.OK)
+                            {
+                                transaccionesObj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                            }
                         }
                     }
                     break;
 
                 case 1: // Transferencia entre cuentas
                     {
-                        var frm = new FRM_BancosTransferenciaEntreCuentas
+                        using (var frm = new FRM_BancosTransferenciaEntreCuentas
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
-                        };
-                        DialogResult result = frm.ShowDialog();
-
-                        if (result == DialogResult.OK)
+                        })
                         {
-                            Transacciones transacciones = new();
-                            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                            DialogResult result = frm.ShowDialog();
 
-
+                            if (result == DialogResult.OK)
+                            {
+                                transaccionesObj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                            }
                         }
                     }
                     break;
                 case 2: // Agregar cuenta bancaria
                     {
-                        var frm = new FRM_BancosAgregarCuentaBancaria
+                        using (var frm = new FRM_BancosAgregarCuentaBancaria
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
-                        };
-                        DialogResult result = frm.ShowDialog();
-
-                        if (result == DialogResult.OK)
+                        })
                         {
-                            Transacciones transacciones = new();
-                            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                            DialogResult result = frm.ShowDialog();
 
-
+                            if (result == DialogResult.OK)
+                            {
+                                transaccionesObj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                                CargarCuentasEnComboBox();
+                            }
                         }
                     }
                     break;
                 case 3: // Retirar dinero
                     {
-                        var frm = new FRM_BancosRetirarDinero
+                        using (var frm = new FRM_BancosRetirarDinero
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
-                        };
-
-                        DialogResult result = frm.ShowDialog();
-
-                        if (result == DialogResult.OK)
+                        })
                         {
-                            Transacciones transacciones = new();
-                            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                            DialogResult result = frm.ShowDialog();
 
-
+                            if (result == DialogResult.OK)
+                            {
+                                transaccionesObj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                            }
                         }
                     }
                     break;

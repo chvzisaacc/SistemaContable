@@ -14,12 +14,12 @@ namespace Capa_de_Presentación.CAPAS
 {
     public class ClsRecuperacion
     {
-        public void IniciarSesion(string usuario, string contraseña, Form formularioActual, Label lblMensaje)
+        public void IniciarSesion(string usuario, string contraseña,int idparroquia, Form formularioActual, Label lblMensaje)
         {
             try
             {
                 ClsMetodos metodos = new ClsMetodos();
-                int rol = metodos.IniciarSesion(usuario, contraseña);
+                int rol = metodos.IniciarSesion(usuario, contraseña, idparroquia);
 
                 if (rol == -1)
                 {

@@ -10,7 +10,7 @@ namespace Capa_de_acceso_de_datos
 {
     public class ClsMetodos:ClsAccionesDB
     {
-        public int IniciarSesion(string usuario, string contraseña)
+        public int IniciarSesion(string usuario, string contraseña,int IdParroquia)
         {
 
             ResultadoLogin resultado = null;
@@ -20,15 +20,16 @@ namespace Capa_de_acceso_de_datos
                 Abrir();
 
    
-                resultado = ValidarCredenciales(usuario, contraseña);
+                resultado = ValidarCredenciales(usuario, contraseña,IdParroquia);
 
                 if (resultado != null && resultado.UsuarioID > 0)
                 {
    
-                    Sesion1.IniciarSesion(resultado.UsuarioID, resultado.RolID);
+                    Sesion1.IniciarSesion(resultado.UsuarioID, resultado.RolID,resultado.IdParroquia);
 
              
                     return resultado.RolID;
+                    return resultado.IdParroquia;
                 }
 
                 return 0;

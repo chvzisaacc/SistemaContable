@@ -56,6 +56,7 @@
             deposito_inicial = new DataGridViewTextBoxColumn();
             Plazo = new DataGridViewTextBoxColumn();
             Tasa = new DataGridViewTextBoxColumn();
+            FechaTransaccion = new DataGridViewTextBoxColumn();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -143,6 +144,7 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(926, 405);
             panel2.TabIndex = 8;
+            panel2.Paint += panel2_Paint;
             // 
             // button1
             // 
@@ -164,13 +166,14 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Id_Certificado, Nombre_certificado, deposito_inicial, Plazo, Tasa });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Id_Certificado, Nombre_certificado, deposito_inicial, Plazo, Tasa, FechaTransaccion });
             dataGridView1.Location = new Point(130, 99);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.Size = new Size(650, 198);
             dataGridView1.TabIndex = 30;
+            dataGridView1.CellBeginEdit += dataGridView1_CellBeginEdit;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
             // 
@@ -392,6 +395,14 @@
             Tasa.Name = "Tasa";
             Tasa.ReadOnly = true;
             // 
+            // FechaTransaccion
+            // 
+            FechaTransaccion.HeaderText = "Fecha";
+            FechaTransaccion.MinimumWidth = 8;
+            FechaTransaccion.Name = "FechaTransaccion";
+            FechaTransaccion.ReadOnly = true;
+            FechaTransaccion.Visible = false;
+            // 
             // FRM_PG103
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -449,5 +460,6 @@
         private DataGridViewTextBoxColumn deposito_inicial;
         private DataGridViewTextBoxColumn Plazo;
         private DataGridViewTextBoxColumn Tasa;
+        private DataGridViewTextBoxColumn FechaTransaccion;
     }
 }

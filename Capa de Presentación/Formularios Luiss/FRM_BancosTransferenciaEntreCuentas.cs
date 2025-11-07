@@ -132,6 +132,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 "Confirmar transferencia",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
+            this.DialogResult = DialogResult.OK;
 
             if (result == DialogResult.Yes)
             {

@@ -8,16 +8,19 @@ namespace Capa_de_acceso_de_datos
 {
     public static class Sesion1
     {
+
         public static int UsuarioID { get; private set; } = 0;
 
         public static int RolID { get; private set; } = 0;
+        public static int IdParroquia { get; private set; } = 0;
 
         public static string Correo { get; private set; } = null;
 
-        public static void IniciarSesion(int id, int rol)
+        public static void IniciarSesion(int id, int rol, int idParroquia)
         {
             UsuarioID = id;
             RolID = rol;
+            IdParroquia = idParroquia; // Almacenamos el ID de Parroquia
             Correo = null;  // limpia cache al loguear
         }
 
@@ -25,6 +28,7 @@ namespace Capa_de_acceso_de_datos
         {
             UsuarioID = 0;
             RolID = 0;
+            IdParroquia = 0;
             Correo = null;
         }
 
