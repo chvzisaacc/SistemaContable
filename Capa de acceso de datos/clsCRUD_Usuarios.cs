@@ -349,6 +349,25 @@ namespace Capa_de_acceso_de_datos
         }
 
 
+        public string ObtenerCorreoPorUsuario(int usuarioId)
+        {
+            try
+            {
+                conexion.Abrir();
+                using var cmd = new SqlCommand("dbo.usp_GetCorreoUsuario", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@UsuarioId", SqlDbType.Int).Value = usuarioId;
+
+                var obj = cmd.ExecuteScalar();
+                return obj?.ToString() ?? string.Empty;
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+
+
 
     }
 }

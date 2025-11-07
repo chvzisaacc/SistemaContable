@@ -30,10 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_CERRARSESION));
             label1 = new Label();
-            textBox2 = new TextBox();
-            pictureBox2 = new PictureBox();
             pictureBox1 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -51,7 +49,7 @@
             // 
             // textBox2
             // 
-            textBox2.BackColor = Color.FromArgb(43, 56, 143);
+            /*textBox2.BackColor = Color.FromArgb(43, 56, 143);
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
@@ -61,11 +59,11 @@
             textBox2.Size = new Size(206, 42);
             textBox2.TabIndex = 16;
             textBox2.Text = "Cerrar Sesión";
-            textBox2.TextChanged += textBox2_TextChanged;
+            textBox2.TextChanged += textBox2_TextChanged;*/
             // 
             // pictureBox2
             // 
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            /*pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
             pictureBox2.Location = new Point(120, 231);
             pictureBox2.Margin = new Padding(4, 4, 4, 4);
             pictureBox2.Name = "pictureBox2";
@@ -73,7 +71,7 @@
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.TabIndex = 15;
             pictureBox2.TabStop = false;
-            pictureBox2.Click += pictureBox2_Click_1;
+            pictureBox2.Click += pictureBox2_Click_1;*/
             // 
             // pictureBox1
             // 
@@ -86,19 +84,31 @@
             pictureBox1.TabIndex = 17;
             pictureBox1.TabStop = false;
             // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(43, 56, 143);
+            button1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.ForeColor = Color.Transparent;
+            button1.Location = new Point(92, 177);
+            button1.Name = "button1";
+            button1.Size = new Size(265, 71);
+            button1.TabIndex = 18;
+            button1.Text = "Cerrar Sesión";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
             // FRM_CERRARSESION
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(559, 351);
+            ClientSize = new Size(447, 281);
+            Controls.Add(button1);
             Controls.Add(pictureBox1);
-            Controls.Add(textBox2);
-            Controls.Add(pictureBox2);
             Controls.Add(label1);
             Margin = new Padding(4, 5, 4, 5);
             Name = "FRM_CERRARSESION";
             Text = "FRM_CERRARSESION";
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            Load += FRM_CERRARSESION_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -107,8 +117,7 @@
         #endregion
 
         private Label label1;
-        private TextBox textBox2;
-        private PictureBox pictureBox2;
         private PictureBox pictureBox1;
+        private Button button1;
     }
 }
