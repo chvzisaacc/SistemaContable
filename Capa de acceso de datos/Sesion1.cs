@@ -17,6 +17,7 @@ namespace Capa_de_acceso_de_datos
         public static string Correo { get; private set; } = null;
 
         public static DateTime UltimoGuardadoCertificado { get; set; } = DateTime.MinValue;
+        public static int UltimoIdCertificadoGuardado { get; set; } = 0;
 
         public static void IniciarSesion(int id, int rol, int idParroquia)
         {

@@ -180,8 +180,10 @@ namespace Capa_de_acceso_de_datos
             return resultado;
         }
 
-        public void GuardarCertificado(string nombreCertificado, decimal depositoInicial, int plazo, decimal tasa, int idParroquia, DateTime fecha)
+        public int GuardarCertificado(string nombreCertificado, decimal depositoInicial, int plazo, decimal tasa, int idParroquia, DateTime fecha)
         {
+            int idGenerado = 0;
+
             try
             {
                 Abrir();
@@ -195,7 +197,8 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@IdParroquia", idParroquia);
                     cmd.Parameters.AddWithValue("@Fecha", fecha);
 
-                    cmd.ExecuteNonQuery();
+                    
+                    idGenerado = (int)cmd.ExecuteScalar();
                 }
             }
             catch (Exception ex)
@@ -206,6 +209,7 @@ namespace Capa_de_acceso_de_datos
             {
                 Cerrar();
             }
+            return idGenerado;
         }
 
         public DataTable CargarCertificados()

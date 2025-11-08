@@ -104,16 +104,12 @@ namespace Capa_de_Presentación.CLASES
                 return;
             }
 
-            
             DataGridViewRow fila = dataGridView1.Rows.Count > 1 && dataGridView1.Rows[dataGridView1.Rows.Count - 1].IsNewRow
                 ? dataGridView1.Rows[dataGridView1.Rows.Count - 2]
                 : dataGridView1.Rows[dataGridView1.Rows.Count - 1];
 
-            // --- Validación de Nulos y Celdas Vacías (Mejorada para ser más robusta) ---
-            string[] columnasObligatorias = new string[]
-            {
-                "Nombre_certificado", "deposito_inicial", "Plazo", "Tasa"
-            };
+            // Validación de Nulos y Celdas Vacías
+            string[] columnasObligatorias = new string[] { "Nombre_certificado", "deposito_inicial", "Plazo", "Tasa" };
 
             foreach (string nombreColumna in columnasObligatorias)
             {
@@ -124,9 +120,7 @@ namespace Capa_de_Presentación.CLASES
                     return;
                 }
             }
-            // --- Fin de Validación de Nulos ---
 
-           
             if (idParroquia <= 0)
             {
                 MessageBox.Show("Error: No se pudo obtener el ID de Parroquia del usuario logeado. Reinicie la sesión.", "Error de Sesión", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -136,7 +130,6 @@ namespace Capa_de_Presentación.CLASES
             try
             {
                 string nombreCertificado = fila.Cells["Nombre_certificado"].Value.ToString();
-
 
                 decimal depositoInicial;
                 if (!decimal.TryParse(fila.Cells["deposito_inicial"].Value.ToString(), out depositoInicial))
@@ -158,9 +151,12 @@ namespace Capa_de_Presentación.CLASES
 
                 DateTime fechaTransaccionActual = DateTime.Now;
 
-
+                // Aquí se guarda el certificado y recupera el ID generado
                 ClsAccionesDB acciones = new ClsAccionesDB();
-                acciones.GuardarCertificado(nombreCertificado, depositoInicial, plazo, tasa, idParroquia, fechaTransaccionActual);
+                int idCertificadoGenerado = acciones.GuardarCertificado(nombreCertificado, depositoInicial, plazo, tasa, idParroquia, fechaTransaccionActual);
+
+                // Asignar el Id generado a la fila
+                fila.Cells["Id_Certificado"].Value = idCertificadoGenerado;
 
                 MessageBox.Show("Última fila guardada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -183,22 +179,6 @@ namespace Capa_de_Presentación.CLASES
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-
-                bool esUltimaFilaGuardada = dataGridView1.Rows.Count > 1 && selectedRow.Index == dataGridView1.Rows.Count - 2;
-
-                DateTime fechaUltimoGuardado = Capa_de_acceso_de_datos.Sesion1.UltimoGuardadoCertificado;
-
-                if (esUltimaFilaGuardada && fechaUltimoGuardado != DateTime.MinValue)
-                {
-                    TimeSpan tiempoTranscurrido = DateTime.Now - fechaUltimoGuardado;
-                    double minutosTranscurridos = tiempoTranscurrido.TotalMinutes;
-
-                    if (minutosTranscurridos > 1)
-                    {
-                        MessageBox.Show($"Han transcurrido más de 1 minuto ({minutosTranscurridos:N1} min) desde el último guardado. No se permite la edición de esta fila.", "Restricción de Tiempo", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                        return; // Detiene la edición
-                    }
-                }
 
                 dataGridView1.ReadOnly = false;
 
@@ -243,43 +223,28 @@ namespace Capa_de_Presentación.CLASES
                     }
 
                     DataGridViewRow fila = dataGridView1.SelectedRows[0];
-                    string nombreCertificado = fila.Cells["Nombre_certificado"].Value?.ToString() ?? string.Empty;
-
-                    decimal depositoInicial;
-                    if (fila.Cells["deposito_inicial"].Value == null || !decimal.TryParse(fila.Cells["deposito_inicial"].Value.ToString(), out depositoInicial))
-                    {
-                        throw new FormatException("El Depósito Inicial no es un número válido o está vacío.");
-                    }
-
-                    int plazo;
-                    if (fila.Cells["Plazo"].Value == null || !int.TryParse(fila.Cells["Plazo"].Value.ToString(), out plazo))
-                    {
-                        throw new FormatException("El Plazo no es un número entero válido o está vacío.");
-                    }
-
-                    decimal tasa;
-                    if (fila.Cells["Tasa"].Value == null || !decimal.TryParse(fila.Cells["Tasa"].Value.ToString(), out tasa))
-                    {
-                        throw new FormatException("La Tasa no es un número válido o está vacía.");
-                    }
                     int codigocertificado = 0;
 
+                    // Verificar si el campo "Id_Certificado" tiene un valor válido
                     DataGridViewCell pkCell = fila.Cells["Id_Certificado"];
 
-                    if (pkCell != null && pkCell.Value != null && pkCell.Value != DBNull.Value)
+                    if (pkCell == null || pkCell.Value == DBNull.Value || pkCell.Value == null)
                     {
-                        if (!int.TryParse(pkCell.Value.ToString(), out codigocertificado))
-                        {
-                            throw new FormatException("El código del certificado no tiene un formato numérico válido.");
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("No se puede obtener el ID para editar.", "Error de ID", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("No se puede obtener el ID para editar. Asegúrese de que la fila esté guardada.", "Error de ID", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    
+                    // Verificar si el valor del "Id_Certificado" es un número válido
+                    if (!int.TryParse(pkCell.Value.ToString(), out codigocertificado))
+                    {
+                        MessageBox.Show("El código del certificado no tiene un formato numérico válido.", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    string nombreCertificado = fila.Cells["Nombre_certificado"].Value?.ToString() ?? string.Empty;
+                    decimal depositoInicial = Convert.ToDecimal(fila.Cells["deposito_inicial"].Value);
+                    int plazo = Convert.ToInt32(fila.Cells["Plazo"].Value);
+                    decimal tasa = Convert.ToDecimal(fila.Cells["Tasa"].Value);
 
                     ClsAccionesDB accionesDB = new ClsAccionesDB();
                     accionesDB.editarcertificado(codigocertificado, nombreCertificado, depositoInicial, plazo, tasa);
@@ -296,6 +261,7 @@ namespace Capa_de_Presentación.CLASES
             }
             else
             {
+                // Si no está en modo de edición, se llama al método para activar la edición
                 editarCD(dtDatosCertificados, dataGridView1);
                 modoEdicionActivo = true;
             }
