@@ -75,6 +75,8 @@
             textBox2.Size = new Size(237, 32);
             textBox2.TabIndex = 18;
             textBox2.Text = "Catálogo de cuentas";
+            textBox2.MouseClick += textBox2_MouseClick;
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pibCatalogoCuentas
             // 
@@ -97,6 +99,7 @@
             textBox1.Size = new Size(220, 32);
             textBox1.TabIndex = 20;
             textBox1.Text = "Generar Reportes";
+            textBox1.MouseClick += textBox1_MouseClick;
             // 
             // pibGenerarReportes
             // 
@@ -120,6 +123,7 @@
             textBox3.Size = new Size(129, 32);
             textBox3.TabIndex = 22;
             textBox3.Text = "Bitácora";
+            textBox3.MouseClick += textBox3_MouseClick;
             textBox3.TextChanged += textBox3_TextChanged;
             // 
             // pibBitacora
@@ -137,7 +141,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(421, 510);
+            ClientSize = new Size(418, 513);
             Controls.Add(textBox3);
             Controls.Add(pibBitacora);
             Controls.Add(textBox1);

@@ -121,7 +121,7 @@ namespace Capa_de_Presentación
 
         private void CargarParroquias()
         {
-            
+
             try
             {
                 DataTable dtParroquias = crudUsuarios.ObtenerParroquias();
@@ -234,6 +234,9 @@ namespace Capa_de_Presentación
             cmbParroquia.ValueMember = "Parroquia_id";
         }
 
-
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
