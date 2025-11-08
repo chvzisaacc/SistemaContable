@@ -1,5 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
+using Capa_de_Presentación.Formularios_Luiss;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -623,7 +624,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
+            FRM_ServiciosAdministrador popup = new FRM_ServiciosAdministrador();
+            popup.ShowDialog();
+        }
 
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            FRM_CERRARSESION popup = new FRM_CERRARSESION();
+            var buttonScreenPosition = pictureBox4.PointToScreen(Point.Empty);
+            popup.StartPosition = FormStartPosition.Manual;
+            popup.Location = new Point(buttonScreenPosition.X, buttonScreenPosition.Y + pictureBox4.Height);
+            popup.ShowDialog();
         }
     }
 }

@@ -104,6 +104,7 @@
             btnVolver.TabIndex = 7;
             btnVolver.Text = "Volver Atrás";
             btnVolver.UseVisualStyleBackColor = true;
+            btnVolver.Click += btnVolver_Click;
             // 
             // cmbUsuario
             // 

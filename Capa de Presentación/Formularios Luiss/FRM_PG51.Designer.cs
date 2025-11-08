@@ -126,6 +126,7 @@
             btnVolver.TabIndex = 20;
             btnVolver.Text = "Volver Atrás";
             btnVolver.UseVisualStyleBackColor = true;
+            btnVolver.Click += btnVolver_Click;
             // 
             // FRM_PG51
             // 

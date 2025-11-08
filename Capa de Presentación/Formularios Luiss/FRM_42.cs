@@ -219,10 +219,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             FRM_SERVICIOS popup = new FRM_SERVICIOS();
+            popup.StartPosition = FormStartPosition.Manual;
             var buttonScreenPosition = pictureBox1.PointToScreen(Point.Empty);
             popup.StartPosition = FormStartPosition.Manual;
             popup.Location = new Point(buttonScreenPosition.X, buttonScreenPosition.Y + pictureBox1.Height);
-            popup.ShowDialog();
+            popup.ShowDialog(this);
         }
 
 

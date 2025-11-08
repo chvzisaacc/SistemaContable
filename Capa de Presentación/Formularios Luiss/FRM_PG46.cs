@@ -54,5 +54,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
