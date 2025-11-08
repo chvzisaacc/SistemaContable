@@ -51,7 +51,8 @@
             textBox3.Size = new Size(129, 32);
             textBox3.TabIndex = 30;
             textBox3.Text = "Bitácora";
-            textBox3.MouseDoubleClick += textBox3_MouseDoubleClick;
+            textBox3.MouseClick += textBox3_MouseClick;
+            textBox3.TextChanged += textBox3_TextChanged;
             // 
             // pibBitacora
             // 
