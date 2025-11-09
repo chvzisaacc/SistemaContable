@@ -55,27 +55,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void textBox3_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            var main = this.Owner as Form;
-
-            try
-            {
-
-                main?.Hide();
-
-
-                this.Hide();
-                using (var frm = new FRM_PG38())
-                {
-                    frm.StartPosition = FormStartPosition.CenterParent;
-                    frm.ShowDialog(this);
-                }
-            }
-            finally
-            {
-
-                this.Close();
-                main?.Show();
-            }
+            
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
