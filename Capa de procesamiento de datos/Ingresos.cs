@@ -51,7 +51,7 @@ namespace Capa_de_procesamiento_de_datos
                         nuevaTransa = Convert.ToInt32(result);
                     }
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -65,40 +65,79 @@ namespace Capa_de_procesamiento_de_datos
             return nuevaTransa;
         }
 
-       
-
-        public DataTable CargarTransaccionesActivas()
+        public int ModificarIngreso(int idTransaccion, DateTime fecha, string descripcion, decimal monto, int referencia, int usuarioId, int idOrigen, string nombre)
         {
-            DataTable dt = new DataTable();
+            int rowsAffected = 0;
             try
             {
                 Abrir();
-                {
-                    using (SqlCommand cmd = new SqlCommand("sp_ObtenerTransaccionesActivas", sc))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
 
-                        SqlDataAdapter da = new SqlDataAdapter(cmd);
-                        da.Fill(dt);
-                    }
+                using (SqlCommand command = new SqlCommand("sp_ModificarIngresos", sc))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@id_transaccion", idTransaccion);
+
+                    command.Parameters.AddWithValue("@fecha_transaccion", fecha);
+                    command.Parameters.AddWithValue("@descripcion", descripcion);
+                    command.Parameters.AddWithValue("@monto_nuevo", monto);
+                    command.Parameters.AddWithValue("@Numero_de_Referencia", referencia);
+                    command.Parameters.AddWithValue("@Usuario_id", usuarioId);
+                    command.Parameters.AddWithValue("@Id_Origen", idOrigen);
+                    command.Parameters.AddWithValue("@Nombre", nombre);
+
+                    rowsAffected = command.ExecuteNonQuery();
                 }
+
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al cargar las transacciones activas: " + ex.Message);
+                throw new Exception("Error al modificar el ingreso: " + ex.Message, ex);
             }
             finally
             {
                 Cerrar();
             }
 
-            return dt;
+            return rowsAffected;
+
         }
+
+
+
+        /*public DataTable CargarTransaccionesActivas()
+           {
+               DataTable dt = new DataTable();
+               try
+               {
+                   Abrir();
+                   {
+                       using (SqlCommand cmd = new SqlCommand("sp_ObtenerTransaccionesActivas", sc))
+                       {
+                           cmd.CommandType = CommandType.StoredProcedure;
+
+                           SqlDataAdapter da = new SqlDataAdapter(cmd);
+                           da.Fill(dt);
+                       }
+                   }
+               }
+               catch (Exception ex)
+               {
+                   throw new Exception("Error al cargar las transacciones activas: " + ex.Message);
+               }
+               finally
+               {
+                   Cerrar();
+               }
+
+               return dt;
+           }*/
     }
 }
 
 
-    
+
+
 
 
 

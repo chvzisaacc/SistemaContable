@@ -390,9 +390,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 chkSaldoInicial.Visible = false;
             }
-                
 
-            
+
+
         }
         private void MostrarSaldoActual()
         {
@@ -483,7 +483,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtDatosIngresos.Columns.Add("Detalle", typeof(string));
             dtDatosIngresos.Columns.Add("Saldo", typeof(string));
             dataGridView1.DataSource = dtDatosIngresos;
-            
+
             dataGridView1.AutoGenerateColumns = true;
         }
 
@@ -645,7 +645,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             else
             {
-     
+
                 TextBox txt = e.Control as TextBox;
                 if (txt != null)
                 {
@@ -749,7 +749,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     Transacciones objtransa = new Transacciones();
                     objtransa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
                     ActualizarSaldo();
-                    
+
 
 
                 }
@@ -856,7 +856,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     MessageBox.Show("Se guardó correctamente el gasto.", "Transacción guardada", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Transacciones objtransa = new Transacciones();
-                    objtransa.CargarComboBoxOrigen(cmbOrigen,cmbOrigen2);
+                    objtransa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
                     ActualizarSaldo();
                 }
                 else
@@ -915,13 +915,20 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             Transacciones objtransa = new();
             objtransa.BloquearDesbloquearDataGastos(dtDatosGastos, dgvGastos, e.RowIndex);
-        
+
         }
 
         private void dgvGastos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
         }
+
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 }
 
