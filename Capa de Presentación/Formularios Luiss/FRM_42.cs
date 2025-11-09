@@ -92,26 +92,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                // 1. Desvincula el evento para que no se dispare
-                cmbCuentas.SelectedIndexChanged -= cmbCuentas_SelectedIndexChanged;
-
-                // Carga los datos como ya lo haces
                 DataTable dtCuentas = crudCuentasBancarias.ObtenerCuentasBancarias();
                 cmbCuentas.DataSource = dtCuentas;
                 cmbCuentas.DisplayMember = "Nombre";
                 cmbCuentas.ValueMember = "Id_Origen";
 
-                // Asegúrate de que no haya nada seleccionado al inicio
+                // Esto previene que el evento se dispare al cargar,
+                // porque ningún ítem está seleccionado inicialmente.
                 cmbCuentas.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar las cuentas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                // 3. Vuelve a vincular el evento para que funcione cuando el usuario haga clic
-                cmbCuentas.SelectedIndexChanged += cmbCuentas_SelectedIndexChanged;
+                MessageBox.Show("Error al cargar las cuentas: " + ex.Message);
             }
         }
 
@@ -258,30 +250,39 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        // EN FRM_42.cs
+
+        // EN FRM_42.cs
+
+        // EN FRM_42.cs
+
         private void cmbCuentas_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-
-            // Si no hay nada seleccionado, no hace nada.
-            if (cmbCuentas.SelectedIndex < 0 || cmbCuentas.SelectedValue == null)
+            if (cmbCuentas.SelectedValue == null)
             {
                 return;
             }
 
-            // Obtiene el ID de la cuenta desde el valor seleccionado
-            int idSeleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
-
-            // Crea y muestra TU formulario existente, pasándole el ID
-            var frm = new FRM_PG42BancosCuentaAhorro(idSeleccionado) // <-- CAMBIO REALIZADO AQUÍ
+            try
             {
-                StartPosition = FormStartPosition.Manual,
-                // Mantengo las coordenadas que has usado para consistencia
-                Location = new Point(414, 101)
-            };
+                int idSeleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
+                var frm = new FRM_PG42BancosCuentaAhorro(idSeleccionado);
 
-            frm.ShowDialog(this);
+                // --- USAREMOS .Show() COMO SOLUCIÓN DEFINITIVA ---
+                frm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al intentar abrir el formulario: \n" + ex.Message, "Error");
+            }
         }
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> lacon
 
         private void cmbAcciones_SelectedIndexChanged(object sender, EventArgs e)
         {

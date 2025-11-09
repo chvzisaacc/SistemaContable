@@ -36,6 +36,7 @@
             textBox1 = new TextBox();
             label7 = new Label();
             label6 = new Label();
+            lblTitulo = new Label();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
@@ -43,6 +44,7 @@
             // panel2
             // 
             panel2.BackColor = SystemColors.Control;
+            panel2.Controls.Add(lblTitulo);
             panel2.Controls.Add(txtMonto);
             panel2.Controls.Add(textBox2);
             panel2.Controls.Add(pictureBox2);
@@ -81,7 +83,7 @@
             textBox2.Size = new Size(144, 22);
             textBox2.TabIndex = 14;
             textBox2.Text = "Guardar y cerrar";
-            //textBox2.TextChanged += textBox2_TextChanged;
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pictureBox2
             // 
@@ -122,9 +124,19 @@
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.Location = new Point(24, 19);
             label6.Name = "label6";
-            label6.Size = new Size(346, 30);
+            label6.Size = new Size(163, 30);
             label6.TabIndex = 10;
-            label6.Text = "Saldo Actual - Cuenta de Ahorro";
+            label6.Text = "Saldo Actual - ";
+            // 
+            // lblTitulo
+            // 
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
+            lblTitulo.Location = new Point(214, 19);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(76, 30);
+            lblTitulo.TabIndex = 20;
+            lblTitulo.Text = "label1";
             // 
             // FRM_PG42BancosCuentaAhorro
             // 
@@ -152,5 +164,6 @@
         private TextBox textBox1;
         private Label label7;
         private Label label6;
+        private Label lblTitulo;
     }
 }

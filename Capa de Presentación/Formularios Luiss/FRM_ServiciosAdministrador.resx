@@ -118,6 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+<<<<<<< HEAD
   <data name="pibBitacora.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAQoAAABSCAYAAACsYZrnAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
@@ -172,6 +173,12 @@
     <value>
         iVBORw0KGgoAAAANSUhEUgAAATMAAADkCAYAAAD0FMN9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
         vAAADrwBlbxySQAAEWdJREFUeF7tnU2yJFUZhtmIG9AN6ApwA7gB3YBuAGbOcOZInDFBnTFoA2ZEaITO
+=======
+  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAATMAAADkCAYAAAD0FMN9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        vQAADr0BR/uQrQAAEWdJREFUeF7tnU2yJFUZhtmIG9AN6ApwA7gB3YBuAGbOcOZInDFBnTFoA2ZEaITO
+>>>>>>> lacon
         CB20MwICJTCgUbFR0Wu8fftEn/tV/ldm1vfzvBFPQN/Kuj+VdZ768vzlS3eEEJIgL9kvEEJIxCAzQkiK
         IDNCSIogM0JIiiAzQkiKIDNCSIogM0JIiiAzQkiKIDNCSIogM0JIiiAzQkiKIDNCSIogM0JIiiAzQkiK
         IDNCSIogM0JIiiAzQkiKIDNCSIogM0JIiiAzsih/+Mu/737zwVcP+Nnv/n73+ntfXPDW+19eHPvF0//a
