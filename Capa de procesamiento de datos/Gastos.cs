@@ -25,9 +25,10 @@ namespace Capa_de_procesamiento_de_datos
 
     public class Gastos : Clsconexion
     {
-        public int IngresarGastos(DateTime fecha, string descripcion, decimal monto, string referencia, int usuarioId, int idOrigen, string nombre)
+        public int IngresarGastos(DateTime fechaTransaccion, string descripcion, decimal monto, int referencia, int idUsuario, int idOrigenNuevo, string nombreCuenta)
         {
-            int nuevaTransa = 0;
+            int nuevaTransaccion = 0;
+
             try
             {
                 Abrir();
@@ -36,19 +37,18 @@ namespace Capa_de_procesamiento_de_datos
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("@fecha_transaccion", fecha);
+                    command.Parameters.AddWithValue("@fecha_transaccion", fechaTransaccion);
                     command.Parameters.AddWithValue("@descripcion", descripcion);
                     command.Parameters.AddWithValue("@monto_historico", monto);
                     command.Parameters.AddWithValue("@numero_de_referencia", referencia);
-                    command.Parameters.AddWithValue("@usuario_id", usuarioId);
-                    command.Parameters.AddWithValue("@id_origen", idOrigen);
-                    command.Parameters.AddWithValue("@nombre", nombre);
+                    command.Parameters.AddWithValue("@usuario_id", idUsuario);
+                    command.Parameters.AddWithValue("@id_origen", idOrigenNuevo);
+                    command.Parameters.AddWithValue("@nombre", nombreCuenta);
 
                     object result = command.ExecuteScalar();
+
                     if (result != null && result != DBNull.Value)
-                    {
-                        nuevaTransa = Convert.ToInt32(result);
-                    }
+                        nuevaTransaccion = Convert.ToInt32(result);
                 }
             }
             catch (Exception ex)
@@ -60,7 +60,49 @@ namespace Capa_de_procesamiento_de_datos
                 Cerrar();
             }
 
-            return nuevaTransa;
+            return nuevaTransaccion;
+        }
+
+
+        public int ModificarGastos(int idTransaccion, DateTime fecha, string descripcion, decimal monto, int referencia, int usuarioId, int idOrigen, string nombre)
+        {
+            int filasAfectadas = 0;
+            try
+            {
+                Abrir();
+
+                using (SqlCommand command = new SqlCommand("sp_ModificarGastos", sc))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@id_transaccion", idTransaccion);
+
+                    command.Parameters.AddWithValue("@fecha_transaccion", fecha);
+                    command.Parameters.AddWithValue("@descripcion", descripcion);
+                    command.Parameters.AddWithValue("@monto_nuevo", monto);
+                    command.Parameters.AddWithValue("@Numero_de_Referencia", referencia);
+                    command.Parameters.AddWithValue("@Usuario_id", usuarioId);
+                    command.Parameters.AddWithValue("@Id_Origen", idOrigen);
+                    command.Parameters.AddWithValue("@Nombre", nombre);
+
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && int.TryParse(result.ToString(), out int count))
+                        filasAfectadas = count;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al modificar el gasto: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+            return filasAfectadas;
+
         }
     }
 }

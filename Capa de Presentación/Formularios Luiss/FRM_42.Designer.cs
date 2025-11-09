@@ -32,14 +32,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_42));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             label1 = new Label();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
             panelContenedor = new Panel();
+            panel5 = new Panel();
             panelIngresos = new Panel();
             pictureBox5 = new PictureBox();
             button2 = new Button();
@@ -55,7 +56,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             NombreCuenta = new DataGridViewTextBoxColumn();
             cDetalle = new DataGridViewTextBoxColumn();
             cSaldo = new DataGridViewTextBoxColumn();
-            panel5 = new Panel();
             panelCajaChica2 = new Panel();
             textBox1 = new TextBox();
             chkSaldoInicial = new CheckBox();
@@ -79,6 +79,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             label4 = new Label();
             cmbOrigen2 = new ComboBox();
             dgvGastos = new DataGridView();
+            Id_Transaccion1 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
@@ -154,16 +155,25 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // panelContenedor
             // 
-            panelContenedor.Controls.Add(panelIngresos);
             panelContenedor.Controls.Add(panel5);
+            panelContenedor.Controls.Add(panelGastos2);
+            panelContenedor.Controls.Add(panelIngresos);
             panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Controls.Add(panelBancos2);
-            panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Location = new Point(4, 355);
             panelContenedor.Margin = new Padding(4, 5, 4, 5);
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(1566, 503);
             panelContenedor.TabIndex = 8;
+            // 
+            // panel5
+            // 
+            panel5.BackgroundImageLayout = ImageLayout.Stretch;
+            panel5.Location = new Point(407, 25);
+            panel5.Margin = new Padding(4, 3, 4, 3);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(749, 367);
+            panel5.TabIndex = 49;
             // 
             // panelIngresos
             // 
@@ -239,6 +249,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtpFecha.Name = "dtpFecha";
             dtpFecha.Size = new Size(345, 31);
             dtpFecha.TabIndex = 21;
+            dtpFecha.ValueChanged += dtpFecha_ValueChanged;
             // 
             // btnGuardar
             // 
@@ -320,14 +331,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { NombreCuenta, cDetalle, cSaldo });
             dataGridView1.Location = new Point(61, 165);
@@ -339,6 +350,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dataGridView1.TabIndex = 19;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dgvIngresos_CellContentClick;
+            dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
             dataGridView1.EditingControlShowing += dataGridView1_EditingControlShowing;
             // 
             // NombreCuenta
@@ -361,15 +373,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cSaldo.MinimumWidth = 6;
             cSaldo.Name = "cSaldo";
             cSaldo.ReadOnly = true;
-            // 
-            // panel5
-            // 
-            panel5.BackgroundImageLayout = ImageLayout.Stretch;
-            panel5.Location = new Point(407, 25);
-            panel5.Margin = new Padding(4, 3, 4, 3);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(749, 367);
-            panel5.TabIndex = 49;
             // 
             // panelCajaChica2
             // 
@@ -553,13 +556,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // pictureBox7
             // 
             pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
-            pictureBox7.Location = new Point(760, 229);
+            pictureBox7.Location = new Point(1427, 384);
             pictureBox7.Margin = new Padding(4);
             pictureBox7.Name = "pictureBox7";
-            pictureBox7.Size = new Size(46, 44);
+            pictureBox7.Size = new Size(134, 44);
             pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox7.TabIndex = 34;
             pictureBox7.TabStop = false;
+            pictureBox7.Click += pictureBox7_Click;
             // 
             // dateTimePicker1
             // 
@@ -669,16 +673,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dgvGastos.AllowUserToDeleteRows = false;
             dgvGastos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvGastos.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgvGastos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvGastos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvGastos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvGastos.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3 });
+            dgvGastos.Columns.AddRange(new DataGridViewColumn[] { Id_Transaccion1, dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3 });
             dgvGastos.Location = new Point(44, 167);
             dgvGastos.Margin = new Padding(4, 5, 4, 5);
             dgvGastos.Name = "dgvGastos";
@@ -689,6 +693,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dgvGastos.CellClick += dgvGastos_CellClick;
             dgvGastos.CellContentClick += dgvGastos_CellContentClick;
             dgvGastos.EditingControlShowing += dgvGastos_EditingControlShowing;
+            // 
+            // Id_Transaccion1
+            // 
+            Id_Transaccion1.HeaderText = "IdTransaccion";
+            Id_Transaccion1.MinimumWidth = 8;
+            Id_Transaccion1.Name = "Id_Transaccion1";
+            Id_Transaccion1.ReadOnly = true;
+            Id_Transaccion1.Visible = false;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -858,9 +870,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private Panel panelGastos2;
         private Button btnGuardar2;
         private DataGridView dgvGastos;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private TextBox txtNoReferencia2;
         private Label label2;
         private Label label3;
@@ -886,12 +895,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private TextBox textBox1;
         private Button button2;
         private Button button3;
-        private DataGridViewTextBoxColumn NombreCuenta;
-        private DataGridViewTextBoxColumn cDetalle;
-        private DataGridViewTextBoxColumn cSaldo;
         private Button button4;
         private DateTimePicker dateTimePicker1;
         private PictureBox pictureBox5;
         private PictureBox pictureBox7;
+        private DataGridViewTextBoxColumn Id_Transaccion1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn NombreCuenta;
+        private DataGridViewTextBoxColumn cDetalle;
+        private DataGridViewTextBoxColumn cSaldo;
     }
 }

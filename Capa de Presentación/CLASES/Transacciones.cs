@@ -95,8 +95,6 @@ namespace Capa_de_Presentación.CLASES
                 DataRow newRow = dtDatosGastos.NewRow();
                 dtDatosGastos.Rows.Add(newRow);
 
-                
-                dgvGastos.DataSource = dtDatosGastos;
                 int lastIndex = dtDatosGastos.Rows.Count - 1;
 
                 if (lastIndex >= 0)
@@ -104,8 +102,10 @@ namespace Capa_de_Presentación.CLASES
                     
                     DataGridViewColumn firstVisibleColumn = dgvGastos.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c.Visible);
                     if (firstVisibleColumn != null)
-                    {
-                        dgvGastos.CurrentCell = dgvGastos.Rows[lastIndex].Cells[firstVisibleColumn.Index];
+                    { 
+
+                        dgvGastos.ClearSelection();
+                       dgvGastos.CurrentCell = dgvGastos.Rows[lastIndex].Cells[firstVisibleColumn.Index];
                         dgvGastos.BeginEdit(true);
                     }
                 }
@@ -183,9 +183,9 @@ namespace Capa_de_Presentación.CLASES
 
                     string[] columnasAComprobar = new string[]
                     {
-                        "dataGridViewTextBoxColumn1",
-                        "dataGridViewTextBoxColumn2",
-                        "dataGridViewTextBoxColumn3",
+                        "NombreCuenta",
+                        "Detalle",
+                        "Saldo",
 
                     };
 
@@ -204,7 +204,7 @@ namespace Capa_de_Presentación.CLASES
                     {
                         dgvgastos.ReadOnly = false;
 
-                        foreach (DataGridViewColumn column in dtDatosGastos.Columns)
+                        foreach (DataGridViewColumn column in dgvgastos.Columns)
                         {
                             column.ReadOnly = false;
                         }

@@ -11,27 +11,28 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.CLASES
 {
-    public class IngresosIn : Clsconexion
+    public class GastosGa: Clsconexion
     {
-        public void editarIngreso(DataTable dtIngresos, DataGridView dataGridView1)
+
+        public void editarGasto(DataTable dtGasto, DataGridView dgvGastos)
         {
-            if (dataGridView1.Rows.Count == 0)
+            if (dgvGastos.Rows.Count == 0)
             {
                 MessageBox.Show("No hay filas para editar.", "Advertencia",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            //Desbloquear todo el DataGridView
-            dataGridView1.ReadOnly = false;
+
+            dgvGastos.ReadOnly = false;
 
             //Permitir editar con clic y teclado
-            dataGridView1.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dataGridView1.MultiSelect = false;
+            dgvGastos.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
+            dgvGastos.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dgvGastos.MultiSelect = false;
 
             //Hacer todas las celdas editables y visualmente activas
-            foreach (DataGridViewRow row in dataGridView1.Rows)
+            foreach (DataGridViewRow row in dgvGastos.Rows)
             {
                 foreach (DataGridViewCell cell in row.Cells)
                 {
@@ -39,39 +40,25 @@ namespace Capa_de_Presentación.CLASES
                     cell.Style.BackColor = Color.White; // opcional: color editable
                 }
             }
-
-            //Enfocar la primera celda visible editable
-            DataGridViewColumn firstVisibleColumn = dataGridView1.Columns
-                .Cast<DataGridViewColumn>()
-                .FirstOrDefault(c => c.Visible && !c.ReadOnly);
-
-            if (firstVisibleColumn != null && dataGridView1.Rows.Count > 0)
-            {
-                dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[firstVisibleColumn.Index];
-                dataGridView1.BeginEdit(true);
-            }
-
-            MessageBox.Show("Modo edición activado.",
-                "Modo Edición Activado", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        public bool GuardarEdicion(DataTable dtIngresos, string nombreCuenta, string detalle, decimal saldo,
+        public bool GuardarEdicion2(DataTable dtGasto, string nombreCuenta, string detalle, decimal saldo,
         DateTime fechaTransaccion, string referencia, int idOrigen,
         TextBox txtNoReferencia = null, ComboBox cmbOrigen = null,
-        DataGridView dataGridView1 = null, DateTimePicker dtpFecha = null)
+        DataGridView dgvGastos = null, DateTimePicker dtpFecha = null)
         {
             try
             {
                 // Validar selección de fila
-                if (dataGridView1 != null && dataGridView1.CurrentRow == null && dataGridView1.SelectedRows.Count > 0)
+                if (dgvGastos != null && dgvGastos.CurrentRow == null && dgvGastos.SelectedRows.Count > 0)
                 {
-                    dataGridView1.CurrentCell = dataGridView1.SelectedRows[0].Cells[0];
+                    dgvGastos.CurrentCell = dgvGastos.SelectedRows[0].Cells[0];
                     MessageBox.Show("No se seleccionó ninguna fila válida.", "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
-                DataGridViewRow fila = dataGridView1.CurrentRow;
+                DataGridViewRow fila = dgvGastos.CurrentRow;
 
                 // Validar ID
                 if (fila.Cells["Id_transaccion"].Value == null || fila.Cells["Id_transaccion"].Value == DBNull.Value)
@@ -83,9 +70,9 @@ namespace Capa_de_Presentación.CLASES
 
                 int transaccionId = Convert.ToInt32(fila.Cells["Id_transaccion"].Value);
 
-                Ingresos ingresos = new Ingresos();
+                Capa_de_procesamiento_de_datos.Gastos gastos = new Capa_de_procesamiento_de_datos.Gastos();
 
-                int rowsAffected = ingresos.ModificarIngreso(
+                int rowsAffected = gastos.ModificarGastos(
                     transaccionId, fechaTransaccion, detalle, saldo,
                     Convert.ToInt32(referencia), Sesion1.UsuarioID, idOrigen, nombreCuenta
                 );
@@ -101,22 +88,22 @@ namespace Capa_de_Presentación.CLASES
                     if (cmbOrigen != null) cmbOrigen.SelectedIndex = -1;
                     if (dtpFecha != null) dtpFecha.Value = DateTime.Now;
 
-                    // 🔹 Dejar el DataGridView bloqueado para edición,
+                    //Dejar el DataGridView bloqueado para edición,
                     // pero habilitado para selección y navegación.
-                    if (dataGridView1 != null)
+                    if (dgvGastos != null)
                     {
-                        foreach (DataGridViewColumn col in dataGridView1.Columns)
+                        foreach (DataGridViewColumn col in dgvGastos.Columns)
                             col.ReadOnly = true;
 
-                        dataGridView1.ReadOnly = true;
-                        dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                        dataGridView1.MultiSelect = false;
-                        dataGridView1.Enabled = true;
-                        dataGridView1.ClearSelection();
+                        dgvGastos.ReadOnly = true;
+                        dgvGastos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                        dgvGastos.MultiSelect = false;
+                        dgvGastos.Enabled = true;
+                        dgvGastos.ClearSelection();
 
                         // Seleccionar primera fila para evitar bloqueo visual
-                        if (dataGridView1.Rows.Count > 0)
-                            dataGridView1.Rows[0].Selected = true;
+                        if (dgvGastos.Rows.Count > 0)
+                            dgvGastos.Rows[0].Selected = true;
                     }
 
                     return true;
@@ -136,10 +123,5 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
-
-        
     }
 }
-
-
-

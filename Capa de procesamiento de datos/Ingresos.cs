@@ -26,7 +26,7 @@ namespace Capa_de_procesamiento_de_datos
 
     public class Ingresos : Clsconexion
     {
-        public int IngresarIngresos(DateTime fecha, string descripcion, decimal monto, string referencia, int usuarioId, int idOrigen, string nombre)
+        public int IngresarIngresos(DateTime fecha, string descripcion, decimal monto, int referencia, int usuarioId, int idOrigen, string nombre)
         {
             int nuevaTransa = 0;
             try
@@ -67,7 +67,7 @@ namespace Capa_de_procesamiento_de_datos
 
         public int ModificarIngreso(int idTransaccion, DateTime fecha, string descripcion, decimal monto, int referencia, int usuarioId, int idOrigen, string nombre)
         {
-            int rowsAffected = 0;
+            int filasAfectadas = 0;
             try
             {
                 Abrir();
@@ -86,7 +86,10 @@ namespace Capa_de_procesamiento_de_datos
                     command.Parameters.AddWithValue("@Id_Origen", idOrigen);
                     command.Parameters.AddWithValue("@Nombre", nombre);
 
-                    rowsAffected = command.ExecuteNonQuery();
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && int.TryParse(result.ToString(), out int count))
+                        filasAfectadas = count;
                 }
 
             }
@@ -99,7 +102,7 @@ namespace Capa_de_procesamiento_de_datos
                 Cerrar();
             }
 
-            return rowsAffected;
+            return filasAfectadas;
 
         }
 
