@@ -33,6 +33,8 @@ namespace Capa_de_acceso_de_datos
                 }
 
                 return 0;
+
+
             }
             catch (Exception ex)
             {
@@ -45,6 +47,8 @@ namespace Capa_de_acceso_de_datos
                 Cerrar();
             }
         }
+
+
 
     }
 }

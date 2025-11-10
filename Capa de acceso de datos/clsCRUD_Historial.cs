@@ -147,6 +147,61 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        public void RegistrarAccionUsuario(int usuarioId, string modulo, string accion, decimal? monto, string descripcion)
+        {
+            try
+            {
+                conexion.Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_RegistrarAccionUsuario", conexion.sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UsuarioID", usuarioId);
+                    cmd.Parameters.AddWithValue("@Modulo", modulo);
+                    cmd.Parameters.AddWithValue("@Accion", accion);
+                    // Manejo de valor nulo para el monto
+                    cmd.Parameters.AddWithValue("@Monto", (object)monto ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Descripcion", descripcion);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al registrar acción de usuario: " + ex.Message);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+
+        /// <summary>
+        /// Obtiene el historial de acciones para un usuario específico.
+        /// </summary>
+        public DataTable ObtenerHistorialUsuario(int usuarioId)
+        {
+            try
+            {
+                conexion.Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_ObtenerHistorialUsuario", conexion.sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UsuarioID", usuarioId);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    return dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el historial del usuario: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+
 
     }
 }

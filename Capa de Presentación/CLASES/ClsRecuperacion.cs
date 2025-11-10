@@ -14,12 +14,15 @@ namespace Capa_de_Presentación.CAPAS
 {
     public class ClsRecuperacion
     {
+      
         public void IniciarSesion(string usuario, string contraseña,int idparroquia, Form formularioActual, Label lblMensaje)
         {
             try
             {
                 ClsMetodos metodos = new ClsMetodos();
                 int rol = metodos.IniciarSesion(usuario, contraseña, idparroquia);
+                int Id_Usuario = metodos.ObtenerUsuarioIdPorNombreUsuario(usuario);
+
 
                 if (rol == -1)
                 {
@@ -39,7 +42,7 @@ namespace Capa_de_Presentación.CAPAS
                 }
                 else if (rol == 2 || rol == 3)
                 {
-                    FRM_42 empleado = new FRM_42();
+                    FRM_42 empleado = new FRM_42(Id_Usuario);
                     empleado.Show();
                     formularioActual.Hide();
                 }
