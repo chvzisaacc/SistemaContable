@@ -118,6 +118,35 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        public void RegistrarActividad(int usuarioId, int moduloId, string tarea, string descripcion)
+        {
+            try
+            {
+                conexion.Abrir();
+
+                using (SqlCommand cmd = new SqlCommand("sp_RegistrarActividad", conexion.sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@id_usuario", usuarioId);
+                    cmd.Parameters.AddWithValue("@id_modulo", moduloId);
+                    cmd.Parameters.AddWithValue("@tarea_realizada", tarea);
+                    cmd.Parameters.AddWithValue("@descripcion_tarea", descripcion);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error al obtener el historial: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+
 
     }
 }

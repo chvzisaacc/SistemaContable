@@ -1,7 +1,7 @@
 ﻿using Capa_de_acceso_de_datos;
-using Capa_de_procesamiento_de_datos;
 using Capa_de_Presentación.CLASES;
 using Capa_de_Presentación.Formularios_Diego;
+using Capa_de_procesamiento_de_datos;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Collections.Specialized.BitVector32;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Capa_de_Presentación.Formularios_Luiss
@@ -22,18 +23,24 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private DataTable dtDatosIngresos = new DataTable("Ingresos");
         private DataTable dtDatosGastos = new DataTable("Gastos");
         private clsCRUD_CatalogoCuentas crudCataloCuentas;
+        
 
         private ClsCRUD_CuentasBancarias crudCuentasBancarias;
+
 
         private bool modoEdicion = false;
         private int cuentaBancoIDseleccionado = 0;
         private AutoCompleteStringCollection Subcuentas = new AutoCompleteStringCollection();
         private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
 
+
+        private clsCRUD_Historial crudHistorial = new clsCRUD_Historial();
+
         ClsCerrar cerrar = new ClsCerrar();
         public FRM_42()
         {
             InitializeComponent();
+
 
             InicializarDGVIngr();
             InicializarDGVgastos();
@@ -46,6 +53,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             crudCataloCuentas = new clsCRUD_CatalogoCuentas();
 
             crudCuentasBancarias = new ClsCRUD_CuentasBancarias();
+
+            crudHistorial = new clsCRUD_Historial();
 
             this.FormClosing += cerrar.CerrarApp;
             // Agrega los paneles secundarios dentro del panel contenedor
@@ -87,6 +96,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
         //=======
+
+
+       
 
         private void CargarCuentasEnComboBox()
         {
@@ -191,23 +203,69 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void btnGastos_Click(object sender, EventArgs e)
         {
+            try
+            {
+                crudHistorial.RegistrarActividad(
+                    Sesion1.UsuarioID,
+                    3, // ID del Módulo de Gastos
+                    "Navegación",
+                    "El usuario entró al módulo de Gastos."
+                );
+            }
+            catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
+            // --- FIN ---
+
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelGastos2);
         }
 
         private void btnCajaChica_Click(object sender, EventArgs e)
         {
+            try
+            {
+                crudHistorial.RegistrarActividad(
+                    Sesion1.UsuarioID,
+                    4, // ID del Módulo de Caja Chica
+                    "Navegación",
+                    "El usuario entró al módulo de Caja Chica."
+                );
+            }
+            catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
+            // --- FIN ---
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelCajaChica2);
         }
         private void btnIngresos_Click_1(object sender, EventArgs e)
         {
+            try
+            {
+                crudHistorial.RegistrarActividad(
+                    Sesion1.UsuarioID, // Asegúrate que 'Sesion1.UsuarioID' sea correcto
+                    2, // ID del Módulo de Ingresos
+                    "Navegación",
+                    "El usuario entró al módulo de Ingresos."
+                );
+            }
+            catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
+            // --- FIN ---
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelIngresos);
         }
 
         private void btnBancos_Click_1(object sender, EventArgs e)
         {
+            // --- LÍNEAS A AGREGAR/DESCOMENTAR ---
+            try
+            {
+                crudHistorial.RegistrarActividad(
+                    Sesion1.UsuarioID,
+                    5, // ID del Módulo de Bancos
+                    "Navegación",
+                    "El usuario entró al módulo de Bancos."
+                );
+            }
+            catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
+            // --- FIN ---
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelBancos2);
         }
@@ -250,11 +308,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        // EN FRM_42.cs
-
-        // EN FRM_42.cs
-
-        // EN FRM_42.cs
+     
 
         private void cmbCuentas_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -268,8 +322,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 int idSeleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
                 var frm = new FRM_PG42BancosCuentaAhorro(idSeleccionado);
 
-                // --- USAREMOS .Show() COMO SOLUCIÓN DEFINITIVA ---
-                frm.Show();
+                frm.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -277,12 +330,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> lacon
+
+
 
         private void cmbAcciones_SelectedIndexChanged(object sender, EventArgs e)
         {

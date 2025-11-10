@@ -25,6 +25,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         //Catalogo
         private clsCRUD_CatalogoCuentas crudCatalogoCuentas;
+        //BITACORA
+       private clsCRUD_Historial crudHistorial;
 
         ClsCerrar cerrar = new ClsCerrar();
         public FRM_PG5()
@@ -44,6 +46,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             //catalogo
             crudCatalogoCuentas = new clsCRUD_CatalogoCuentas();
+
+            //bitacora
+            crudHistorial = new clsCRUD_Historial();
 
             //Para busqueda de usuarios
             bindingSource = new BindingSource();
@@ -330,10 +335,24 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     if (resultado)
                     {
                         MessageBox.Show("Usuario modificado exitosamente", "Éxito",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                           MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        try
+                        {
+                            crudHistorial.RegistrarActividad(
+                                1, // CAMBIAR por Sesion.UsuarioID
+                                7, // Módulo de Usuarios
+                                "Modificación de Usuario",
+                                $"Se modificaron los datos del usuario: '{usuario}' (ID: {usuarioIdSeleccionado})."
+                            );
+                        }
+                        catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
+                        // --- FIN DEL NUEVO CÓDIGO ---
+
                         CargarDatosUsuarioDGV();
                         LimpiarCamposUsuario();
                         HabilitarControlesUsuario(false);
+                      
                     }
                     else
                     {
@@ -357,6 +376,19 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     {
                         MessageBox.Show($"Usuario agregado exitosamente con ID: {nuevoId}", "Éxito",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // --- **NUEVO** REGISTRO DE BITÁCORA (AGREGAR) ---
+                        try
+                        {
+                            crudHistorial.RegistrarActividad(
+                                1, // CAMBIAR por Sesion.UsuarioID
+                                7, // Módulo de Usuarios
+                                "Creación de Usuario",
+                                $"Se creó el nuevo usuario: '{usuario}' (ID: {nuevoId})."
+                            );
+                        }
+                        catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
+                        // --- FIN DEL NUEVO CÓDIGO ---
+
                         CargarDatosUsuarioDGV();
                         LimpiarCamposUsuario();
                         HabilitarControlesUsuario(false);
@@ -418,6 +450,19 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 {
                     MessageBox.Show("Usuario inhabilitado exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // --- **NUEVO** REGISTRO DE BITÁCORA (INHABILITAR) ---
+                    try
+                    {
+                        crudHistorial.RegistrarActividad(
+                            1, // CAMBIAR por Sesion.UsuarioID
+                            7, // Módulo de Usuarios
+                            "Inhabilitación de Usuario",
+                            $"Se inhabilitó al usuario con ID: {id}."
+                        );
+                    }
+                    catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
+                    // --- FIN DEL NUEVO CÓDIGO ---
+
                     CargarDatosUsuarioDGV();
                     LimpiarCamposUsuario();
                 }
@@ -451,6 +496,20 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 {
                     MessageBox.Show("Usuario habilitado exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // --- **NUEVO** REGISTRO DE BITÁCORA (HABILITAR) ---
+                    try
+                    {
+                        crudHistorial.RegistrarActividad(
+                            1, // CAMBIAR por Sesion.UsuarioID
+                            7, // Módulo de Usuarios
+                            "Habilitación de Usuario",
+                            $"Se habilitó al usuario con ID: {id}."
+                        );
+                    }
+                    catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
+                    // --- FIN DEL NUEVO CÓDIGO ---
+
                     CargarDatosUsuarioDGV();
                     LimpiarCamposUsuario();
                 }

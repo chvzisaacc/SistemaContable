@@ -30,13 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG42BancosCuentaAhorro));
             panel2 = new Panel();
+            lblTitulo = new Label();
             txtMonto = new TextBox();
             textBox2 = new TextBox();
             pictureBox2 = new PictureBox();
             textBox1 = new TextBox();
             label7 = new Label();
             label6 = new Label();
-            lblTitulo = new Label();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
@@ -56,7 +56,16 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(452, 232);
             panel2.TabIndex = 10;
-            panel2.Paint += panel2_Paint;
+            // 
+            // lblTitulo
+            // 
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
+            lblTitulo.Location = new Point(214, 19);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(76, 30);
+            lblTitulo.TabIndex = 20;
+            lblTitulo.Text = "label1";
             // 
             // txtMonto
             // 
@@ -83,7 +92,6 @@
             textBox2.Size = new Size(144, 22);
             textBox2.TabIndex = 14;
             textBox2.Text = "Guardar y cerrar";
-            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pictureBox2
             // 
@@ -127,16 +135,6 @@
             label6.Size = new Size(163, 30);
             label6.TabIndex = 10;
             label6.Text = "Saldo Actual - ";
-            // 
-            // lblTitulo
-            // 
-            lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblTitulo.Location = new Point(214, 19);
-            lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(76, 30);
-            lblTitulo.TabIndex = 20;
-            lblTitulo.Text = "label1";
             // 
             // FRM_PG42BancosCuentaAhorro
             // 
