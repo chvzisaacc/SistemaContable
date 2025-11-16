@@ -9,17 +9,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Capa_de_procesamiento_de_datos;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_PG69 : Form
     {
         Clsconexion cn = new Clsconexion();
+        private int idTransaccion;
 
-        public FRM_PG69()
+        public FRM_PG69(int idTransaccion)
         {
             InitializeComponent();
-
+            this.idTransaccion = idTransaccion;
 
         }
 
@@ -30,39 +32,29 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void FRM_PG69_Load(object sender, EventArgs e)
         {
-            MostrarCajachica();
+            CargarPartidas();
 
         }
 
-        private void MostrarCajachica()
+        private void CargarPartidas()
         {
-            try
-            {
-                cn.Abrir();
-
-                SqlCommand cmd = new SqlCommand("sp_ObtenerCajachica", cn.sc);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                dgvCajaChica.DataSource = dt;
-
-                cn.Cerrar();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al mostrar los datos: " + ex.Message);
-            }
+            PatidasDobles pa = new();
+            DataTable dt = pa.CargarPartidas(idTransaccion);
+            dgvPartidas.DataSource = dt;
         }
 
+  
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
 
         private void Btncerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

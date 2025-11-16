@@ -329,7 +329,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void btnDetalle_Click(object sender, EventArgs e)
         {
-            using (var frm = new FRM_PG69())
+            using (var frm = new FRM_PG69(idTransaccion))
             {
                 frm.StartPosition = FormStartPosition.CenterParent;
                 frm.ShowDialog(this);
@@ -471,7 +471,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void btnDetalle_Click_1(object sender, EventArgs e)
         {
             //llamar form 69,
-            FRM_PG69 obj_frm69 = new FRM_PG69();
+            FRM_PG69 obj_frm69 = new FRM_PG69(idTransaccion);
             obj_frm69.ShowDialog();
         }
 
@@ -953,7 +953,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
         private int idTransaccionAEditar = 0;
-
+        private int idTransaccion;
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
@@ -1079,7 +1079,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 if (!decimal.TryParse(fila.Cells["dataGridViewTextBoxColumn3"].Value?.ToString(), out decimal monto) || monto <= 0)
                 {
-                    MessageBox.Show($"Monto invalido para la cuenta: {nombreCuenta}", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Monto invalido para la cuenta: {nombreCuenta}", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -1092,7 +1092,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 catch (Exception exGuardado)
                 {
                     errorGuardado = true;
-                    MessageBox.Show($"Error al guardar la fila para la cuenta {nombreCuenta}: {exGuardado.Message}", "Error de Guardado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error al guardar la fila para la cuenta {nombreCuenta}: {exGuardado.Message}", "Error de Guardado", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -1112,7 +1112,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     {
                         decimal.TryParse(fila.Cells["dataGridViewTextBoxColumn3"].Value?.ToString(), out decimal montoGuardado);
                         string nombreCuentaGuardada = fila.Cells["dataGridViewTextBoxColumn1"].Value?.ToString() ?? "";
-                        string descripcionHistorial = $"Gasto en '{nombreCuentaGuardada}' por {montoGuardado:C2}. Ref: {txtNoReferencia2.Text}";
+                        string descripcionHistorial = "Gasto en '{nombreCuentaGuardada}' por {montoGuardado:C2}. Ref: {txtNoReferencia2.Text}";
 
                         crudHistorial.RegistrarAccionUsuario(Id_UsuarioLogin, "Gastos", "Nuevo Gasto", montoGuardado, descripcionHistorial);
                     }
