@@ -20,16 +20,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
         //private int CuentaBancoID = 1;
         private readonly int cuentaId;
         private DataRow _cuentaActual; // Para guardar los datos de la cuenta cargada
+
         public FRM_PG42BancosCuentaAhorro(int idOrigen)
         {
             InitializeComponent();
             cuentaId = idOrigen;
             CRUD_CuentasBancarias = new ClsCRUD_CuentasBancarias();
+            
         }
 
         private void FRM_PG42BancosCuentaCheque_Load(object sender, EventArgs e)
         {
-            // Si _cuentaId tiene un valor, carga los datos
+            //Si _cuentaId tiene un valor, carga los datos
             if (cuentaId > 0)
             {
                 CargarDatosDeLaCuenta();

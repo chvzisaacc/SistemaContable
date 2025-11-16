@@ -15,6 +15,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_PG42BancosCuentaCheque()
         {
             InitializeComponent();
+            
         }
 
         private void label6_Click(object sender, EventArgs e)
@@ -23,6 +24,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         private void FRM_PG42BancosCuentaCheque_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }

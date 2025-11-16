@@ -40,8 +40,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
             panelContenedor = new Panel();
-            panel5 = new Panel();
             panelIngresos = new Panel();
+            pictureBox8 = new PictureBox();
             pictureBox5 = new PictureBox();
             button2 = new Button();
             button1 = new Button();
@@ -68,7 +68,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbAcciones = new ComboBox();
             cmbInteresesBancarios = new ComboBox();
             cmbCuentas = new ComboBox();
+            panel5 = new Panel();
             panelGastos2 = new Panel();
+            pictureBox6 = new PictureBox();
             pictureBox7 = new PictureBox();
             dateTimePicker1 = new DateTimePicker();
             button4 = new Button();
@@ -95,12 +97,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panelContenedor.SuspendLayout();
             panelIngresos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panelCajaChica2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             panelBancos2.SuspendLayout();
             panelGastos2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvGastos).BeginInit();
             panel1.SuspendLayout();
@@ -166,17 +170,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelContenedor.Size = new Size(1566, 503);
             panelContenedor.TabIndex = 8;
             // 
-            // panel5
-            // 
-            panel5.BackgroundImageLayout = ImageLayout.Stretch;
-            panel5.Location = new Point(407, 25);
-            panel5.Margin = new Padding(4, 3, 4, 3);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(749, 367);
-            panel5.TabIndex = 49;
-            // 
             // panelIngresos
             // 
+            panelIngresos.Controls.Add(pictureBox8);
             panelIngresos.Controls.Add(pictureBox5);
             panelIngresos.Controls.Add(button2);
             panelIngresos.Controls.Add(button1);
@@ -196,11 +192,24 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelIngresos.TabIndex = 44;
             panelIngresos.Paint += panelIngresos_Paint;
             // 
+            // pictureBox8
+            // 
+            pictureBox8.BackgroundImage = Properties.Resources.ojo;
+            pictureBox8.Image = Properties.Resources.ojo1;
+            pictureBox8.Location = new Point(1426, 348);
+            pictureBox8.Margin = new Padding(4);
+            pictureBox8.Name = "pictureBox8";
+            pictureBox8.Size = new Size(134, 44);
+            pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox8.TabIndex = 36;
+            pictureBox8.TabStop = false;
+            pictureBox8.Click += pictureBox8_Click;
+            // 
             // pictureBox5
             // 
             pictureBox5.BorderStyle = BorderStyle.FixedSingle;
             pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
-            pictureBox5.Location = new Point(1408, 399);
+            pictureBox5.Location = new Point(1426, 399);
             pictureBox5.Margin = new Padding(4);
             pictureBox5.Name = "pictureBox5";
             pictureBox5.Size = new Size(135, 44);
@@ -229,7 +238,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = SystemColors.Control;
-            button1.Location = new Point(1409, 452);
+            button1.Location = new Point(1427, 451);
             button1.Margin = new Padding(4, 5, 4, 5);
             button1.Name = "button1";
             button1.Size = new Size(134, 47);
@@ -533,8 +542,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbCuentas.Text = "Cuentas de Ahorro";
             cmbCuentas.SelectedIndexChanged += cmbCuentas_SelectedIndexChanged;
             // 
+            // panel5
+            // 
+            panel5.BackgroundImageLayout = ImageLayout.Stretch;
+            panel5.Location = new Point(407, 25);
+            panel5.Margin = new Padding(4, 3, 4, 3);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(749, 367);
+            panel5.TabIndex = 49;
+            // 
             // panelGastos2
             // 
+            panelGastos2.Controls.Add(pictureBox6);
             panelGastos2.Controls.Add(pictureBox7);
             panelGastos2.Controls.Add(dateTimePicker1);
             panelGastos2.Controls.Add(button4);
@@ -552,6 +571,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelGastos2.Size = new Size(1566, 503);
             panelGastos2.TabIndex = 43;
             panelGastos2.Paint += panelGastos2_Paint;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.BackgroundImage = Properties.Resources.ojo;
+            pictureBox6.Image = Properties.Resources.ojo1;
+            pictureBox6.Location = new Point(1427, 332);
+            pictureBox6.Margin = new Padding(4);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(134, 44);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 35;
+            pictureBox6.TabStop = false;
+            pictureBox6.Click += pictureBox6_Click;
             // 
             // pictureBox7
             // 
@@ -830,6 +862,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelContenedor.ResumeLayout(false);
             panelIngresos.ResumeLayout(false);
             panelIngresos.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panelCajaChica2.ResumeLayout(false);
@@ -838,6 +871,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelBancos2.ResumeLayout(false);
             panelGastos2.ResumeLayout(false);
             panelGastos2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvGastos).EndInit();
             panel1.ResumeLayout(false);
@@ -906,5 +940,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private DataGridViewTextBoxColumn NombreCuenta;
         private DataGridViewTextBoxColumn cDetalle;
         private DataGridViewTextBoxColumn cSaldo;
+        private PictureBox pictureBox6;
+        private PictureBox pictureBox8;
     }
 }

@@ -249,14 +249,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
 
-        private void btnDetalle_Click(object sender, EventArgs e)
+        /*private void btnDetalle_Click(object sender, EventArgs e)
         {
-            using (var frm = new FRM_PG69())
+            //using (var frm = new FRM_PG69())
             {
                 frm.StartPosition = FormStartPosition.CenterParent;
                 frm.ShowDialog(this);
             }
-        }
+        }*/
 
         private void cmbCuentas_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -371,8 +371,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void btnDetalle_Click_1(object sender, EventArgs e)
         {
             //llamar form 69,
-            FRM_PG69 obj_frm69 = new FRM_PG69();
-            obj_frm69.ShowDialog();
+            //FRM_PG69 obj_frm69 = new FRM_PG69();
+            //obj_frm69.ShowDialog();
         }
 
         private void chkSaldoInicial_CheckedChanged(object sender, EventArgs e)
@@ -1106,6 +1106,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                     MessageBox.Show("Transacción editada correctamente.", "Éxito",
                                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
                 }
                 else
                 {
@@ -1298,7 +1299,41 @@ namespace Capa_de_Presentación.Formularios_Luiss
             MessageBox.Show("Modo edición activado. Puedes editar libremente las celdas.",
                             "Modo Edición", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void pictureBox8_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                int idTransaccion = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id_Transaccion"].Value);
+
+
+                FRM_PG69 frm = new FRM_PG69(idTransaccion);
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Seleccione una transacción antes de continuar.", "Aviso",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            if (dgvGastos.SelectedRows.Count > 0)
+            {
+                int idTransaccion = Convert.ToInt32(dgvGastos.SelectedRows[0].Cells["Id_Transaccion"].Value);
+
+
+                FRM_PG69 frm = new FRM_PG69(idTransaccion);
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Seleccione una transacción antes de continuar.", "Aviso",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
-    
+
 }
 

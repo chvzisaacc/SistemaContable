@@ -29,38 +29,43 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            dgvCajaChica = new DataGridView();
+            dgvPartidas = new DataGridView();
             cNombre = new DataGridViewTextBoxColumn();
             cDetalle = new DataGridViewTextBoxColumn();
             cSaldo = new DataGridViewTextBoxColumn();
             Btncerrar = new Button();
-            ((System.ComponentModel.ISupportInitialize)dgvCajaChica).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvPartidas).BeginInit();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(225, 25);
+            label1.Location = new Point(269, 39);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(284, 32);
+            label1.Size = new Size(537, 48);
             label1.TabIndex = 0;
-            label1.Text = "Registro para caja chica";
+            label1.Text = "Partida doble de la transacción";
+            label1.Click += label1_Click;
             // 
-            // dgvCajaChica
+            // dgvPartidas
             // 
-            dgvCajaChica.AllowUserToAddRows = false;
-            dgvCajaChica.AllowUserToDeleteRows = false;
-            dgvCajaChica.BackgroundColor = SystemColors.Control;
-            dgvCajaChica.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCajaChica.Columns.AddRange(new DataGridViewColumn[] { cNombre, cDetalle, cSaldo });
-            dgvCajaChica.Location = new Point(139, 75);
-            dgvCajaChica.Name = "dgvCajaChica";
-            dgvCajaChica.ReadOnly = true;
-            dgvCajaChica.RowHeadersWidth = 51;
-            dgvCajaChica.Size = new Size(503, 314);
-            dgvCajaChica.TabIndex = 1;
-            dgvCajaChica.CellContentClick += dataGridView1_CellContentClick;
+            dgvPartidas.AllowUserToAddRows = false;
+            dgvPartidas.AllowUserToDeleteRows = false;
+            dgvPartidas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvPartidas.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgvPartidas.BackgroundColor = SystemColors.Control;
+            dgvPartidas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvPartidas.Columns.AddRange(new DataGridViewColumn[] { cNombre, cDetalle, cSaldo });
+            dgvPartidas.Location = new Point(119, 114);
+            dgvPartidas.Margin = new Padding(4, 5, 4, 5);
+            dgvPartidas.Name = "dgvPartidas";
+            dgvPartidas.ReadOnly = true;
+            dgvPartidas.RowHeadersWidth = 51;
+            dgvPartidas.Size = new Size(846, 133);
+            dgvPartidas.TabIndex = 1;
+            dgvPartidas.CellContentClick += dataGridView1_CellContentClick;
             // 
             // cNombre
             // 
@@ -68,7 +73,7 @@
             cNombre.MinimumWidth = 6;
             cNombre.Name = "cNombre";
             cNombre.ReadOnly = true;
-            cNombre.Width = 150;
+            cNombre.Visible = false;
             // 
             // cDetalle
             // 
@@ -76,7 +81,7 @@
             cDetalle.MinimumWidth = 6;
             cDetalle.Name = "cDetalle";
             cDetalle.ReadOnly = true;
-            cDetalle.Width = 150;
+            cDetalle.Visible = false;
             // 
             // cSaldo
             // 
@@ -84,7 +89,7 @@
             cSaldo.MinimumWidth = 6;
             cSaldo.Name = "cSaldo";
             cSaldo.ReadOnly = true;
-            cSaldo.Width = 150;
+            cSaldo.Visible = false;
             // 
             // Btncerrar
             // 
@@ -92,9 +97,10 @@
             Btncerrar.FlatStyle = FlatStyle.Flat;
             Btncerrar.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             Btncerrar.ForeColor = Color.White;
-            Btncerrar.Location = new Point(318, 417);
+            Btncerrar.Location = new Point(423, 271);
+            Btncerrar.Margin = new Padding(4, 5, 4, 5);
             Btncerrar.Name = "Btncerrar";
-            Btncerrar.Size = new Size(148, 48);
+            Btncerrar.Size = new Size(211, 80);
             Btncerrar.TabIndex = 17;
             Btncerrar.Text = "Cerrar";
             Btncerrar.UseVisualStyleBackColor = false;
@@ -102,16 +108,17 @@
             // 
             // FRM_PG69
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(776, 488);
+            ClientSize = new Size(1109, 375);
             Controls.Add(Btncerrar);
-            Controls.Add(dgvCajaChica);
+            Controls.Add(dgvPartidas);
             Controls.Add(label1);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "FRM_PG69";
             Text = "FRM_PG69";
             Load += FRM_PG69_Load;
-            ((System.ComponentModel.ISupportInitialize)dgvCajaChica).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvPartidas).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -119,10 +126,10 @@
         #endregion
 
         private Label label1;
-        private DataGridView dgvCajaChica;
+        private DataGridView dgvPartidas;
+        private Button Btncerrar;
         private DataGridViewTextBoxColumn cNombre;
         private DataGridViewTextBoxColumn cDetalle;
         private DataGridViewTextBoxColumn cSaldo;
-        private Button Btncerrar;
     }
 }
