@@ -20,12 +20,48 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void FRM_PG10_Load(object sender, EventArgs e)
         {
-
+            CargarParroquias();
+            CargarReportes();
         }
 
         private void label4_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void CargarParroquias()
+        {
+            try
+            {
+                ClsAccionesDB db = new ClsAccionesDB();
+                List<string> lista = db.ObtenerListaParroquias();
+
+                cmbParroquia.DataSource = lista;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los reportes: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarReportes()
+        {
+            try
+            {
+                ClsAccionesDB db = new ClsAccionesDB();
+                List<string> lista = db.ObtenerTipoReporte();
+
+                cmbTipoReporte.DataSource = lista;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los reportes: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

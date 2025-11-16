@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Capa_de_acceso_de_datos;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -26,6 +27,26 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             this.Close();
 
+        }
+
+        private void FRM_PG49_Load(object sender, EventArgs e)
+        {
+            CargarReportes();
+        }
+
+        private void CargarReportes()
+        {
+            try
+            {
+                ClsAccionesDB db = new ClsAccionesDB();
+                List<string> lista = db.ObtenerTipoReporte();
+
+                cmbTipoReporte.DataSource = lista;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los reportes: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

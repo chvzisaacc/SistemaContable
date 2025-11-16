@@ -10,6 +10,27 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Capa_de_acceso_de_datos
 {
+
+    public class Parroquia
+    {
+        public string Nombre { get; set; }
+
+        public Parroquia(int id, string nombre)
+        {
+            
+            this.Nombre = nombre;
+        }
+    }
+
+    public class Reporte
+    {
+        public string nombre { get; set; }
+
+        public Reporte( string nombre)
+        {
+            this.nombre = nombre;
+        }
+    }
     public class Origen
     {
         public int ID { get; set; }
@@ -377,7 +398,73 @@ namespace Capa_de_acceso_de_datos
         }
 
 
+        public List<string> ObtenerListaParroquias()
+        {
+            List<string> listaParroquias = new List<string>();
 
+            try
+            {
+                Abrir();
+
+                using (SqlCommand cmd = new SqlCommand("nom_parroquia", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string nombre = reader["Parroquia_nombre"].ToString();
+                            listaParroquias.Add(nombre);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar parroquias: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+            return listaParroquias;
+        }
+
+        public List<string> ObtenerTipoReporte()
+        {
+            List<string> Reportes = new List<string>();
+
+            try
+            {
+                Abrir();
+
+                using (SqlCommand cmd = new SqlCommand("tipo_reporte", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string nombre = reader["descripcion"].ToString();
+                            Reportes.Add(nombre);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar los reportes: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+            return Reportes;
+        }
         public DataTable ObtenerCuentasIngreso()
         {
             DataTable dtCuentas = new DataTable();
