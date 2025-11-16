@@ -15,7 +15,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_PG42BancosCuentaAhorro : Form
     {
-<<<<<<< HEAD
         private ClsCRUD_CuentasBancarias CRUD_CuentasBancarias;
         private bool modoEdicion = false;
         //private int CuentaBancoID = 1;
@@ -27,85 +26,169 @@ namespace Capa_de_Presentación.Formularios_Luiss
             InitializeComponent();
             cuentaId = idOrigen;
             CRUD_CuentasBancarias = new ClsCRUD_CuentasBancarias();
-            
-=======
-        private readonly int _cuentaId;
-        private readonly ClsCRUD_CuentasBancarias _crud;
 
-        public FRM_PG42BancosCuentaAhorro(int idCuenta)
-        {
-            InitializeComponent();
-            _cuentaId = idCuenta; // Guarda el ID de la cuenta que se va a mostrar.
-            _crud = new ClsCRUD_CuentasBancarias();
-
->>>>>>> 39807de266bd94fe8493277493778386845411f1
         }
 
         private void FRM_PG42BancosCuentaCheque_Load(object sender, EventArgs e)
         {
-<<<<<<< HEAD
             //Si _cuentaId tiene un valor, carga los datos
             if (cuentaId > 0)
             {
                 CargarDatosDeLaCuenta();
             }
-=======
-            CargarYMostrarDatosDeCuenta();
->>>>>>> 39807de266bd94fe8493277493778386845411f1
         }
 
-        private void CargarYMostrarDatosDeCuenta()
+        private void CargarDatosDeLaCuenta()
         {
             try
             {
-                // Llama al método que ya tienes para obtener TODAS las cuentas.
-                DataTable dtCuentas = _crud.ObtenerCuentasBancarias();
+                DataTable dt = CRUD_CuentasBancarias.ObtenerCuentasBancarias();
+                DataRow[] rows = dt.Select($"Id_Origen = {cuentaId}");
 
-                // Usa el método .Select() de DataTable para encontrar la fila exacta que coincide con el ID.
-                DataRow[] rows = dtCuentas.Select($"Id_Origen = {_cuentaId}");
-
-                // Verifica si se encontró la fila.
                 if (rows.Length > 0)
                 {
-                    // Si se encontró, toma la primera fila (solo debería haber una).
-                    DataRow cuentaActual = rows[0];
-
-                    // Extrae el nombre y el saldo de la fila.
-                    string nombreCuenta = cuentaActual["Nombre"].ToString();
-                    decimal saldoActual = Convert.ToDecimal(cuentaActual["saldo"]);
-
-                    // ¡Aquí está la parte clave! Actualiza tus controles.
-                    // Asegúrate de que tus controles se llamen 'lblTitulo' y 'txtMonto'.
-                    lblTitulo.Text = $"Saldo Actual - {nombreCuenta}";
-                    txtMonto.Text = saldoActual.ToString("N2"); // "N2" formatea el número con 2 decimales.
+                    var cuenta = rows[0];
+                    // Asigna los valores a tus TextBoxes y otros controles
+                    //txtNombreCuenta.Text = cuenta["Nombre"].ToString();
+                    txtMonto.Text = cuenta["saldo"].ToString();
+                    // ...etc.
                 }
-                else
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error");
+            }
+        }
+
+        private void FRM_PG6_Load(object sender, EventArgs e)
+        {
+            // CargarDatos();
+            //CargarComboBoxes();
+            //LimpiarCampos();
+            HabilitarControles(false);
+            //CargarDatosCuenta();
+        }
+
+
+
+        /* private void CargarDatosCuenta()
+         {
+             try
+             {
+                 // Obtiene todas las cuentas
+                 DataTable dt = CRUD_CuentasBancarias.ObtenerCuentasBancarias();
+
+                 // Busca la fila específica que corresponde a nuestro ID
+                 // Nota: Lo ideal sería tener un método en tu CRUD que obtenga una sola cuenta por ID.
+                 DataRow[] rows = dt.Select($"Id_Origen = {cuentaId}");
+
+                 if (rows.Length > 0)
+                 {
+                     _cuentaActual = rows[0];
+
+                     // Llena los controles del formulario con los datos
+                     this.Text = $"Editando Cuenta: {_cuentaActual["Nombre"]}";
+                     txtNombre.Text = _cuentaActual["Nombre"].ToString();
+                     txtSaldo.Text = _cuentaActual["saldo"].ToString();
+                     txtTasaInteres.Text = _cuentaActual["tasa_interes"].ToString();
+                     // ...y así con los demás controles que tengas.
+                 }
+                 else
+                 {
+                     MessageBox.Show("No se encontraron los datos para la cuenta seleccionada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                     this.Close();
+                 }
+             }
+             catch (Exception ex)
+             {
+                 MessageBox.Show("Error al cargar los datos de la cuenta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             }
+         }
+        */
+        private bool ValidarCampos()
+        {
+            if (string.IsNullOrWhiteSpace(txtMonto.Text))
+            {
+                MessageBox.Show("El monto es requerido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMonto.Focus();
+                return false;
+            }
+
+            return true;
+        }
+        private void HabilitarControles(bool habilitar)
+        {
+            txtMonto.Enabled = habilitar;
+
+        }
+        /*private void ModificarSaldo()
+        {
+            try
+            {
+                decimal saldo = decimal.Parse(txtMonto.Text.Trim());
+                bool exito = CRUD_CuentasBancarias.ModificarSaldo(saldo);
+
+                if (exito)
                 {
-                    // Si no se encuentra el ID, muestra un error y cierra el formulario.
-                    MessageBox.Show("No se encontraron los datos para la cuenta seleccionada.", "Error de Datos");
+                    MessageBox.Show("Saldo modificado exitosamente", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error crítico al cargar los datos de la cuenta: \n" + ex.Message, "Error");
-                this.Close();
+                MessageBox.Show("No se pudo modificar el saldo", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        */
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
 
-
-
-
+        }
 
         private void pictureBox2_Click_1(object sender, EventArgs e)
         {
-            this.Close();
+            // Ejemplo de cómo usarías tu CRUD para guardar cambios.
+            try
+            {
+                if (!decimal.TryParse(txtMonto.Text, out decimal nuevoSaldo))
+                {
+                    MessageBox.Show("El saldo ingresado no es un número válido.");
+                    return;
+                }
+
+                // Llama al método para modificar el saldo
+                bool exito = CRUD_CuentasBancarias.ModificarSaldo(cuentaId, nuevoSaldo);
+
+                if (exito)
+                {
+                    MessageBox.Show("Saldo actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo actualizar el saldo.", "Fallo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar el saldo: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
         private void FRM_PG42BancosCuentaAhorro_Load(object sender, EventArgs e)
         {
 
         }
+
+
     }
 
 
