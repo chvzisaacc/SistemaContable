@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG42BancosCuentaAhorro));
             panel2 = new Panel();
+            lblTitulo = new Label();
             txtMonto = new TextBox();
             textBox2 = new TextBox();
             pictureBox2 = new PictureBox();
@@ -43,6 +44,7 @@
             // panel2
             // 
             panel2.BackColor = SystemColors.Control;
+            panel2.Controls.Add(lblTitulo);
             panel2.Controls.Add(txtMonto);
             panel2.Controls.Add(textBox2);
             panel2.Controls.Add(pictureBox2);
@@ -54,7 +56,16 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(452, 232);
             panel2.TabIndex = 10;
-            panel2.Paint += panel2_Paint;
+            // 
+            // lblTitulo
+            // 
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
+            lblTitulo.Location = new Point(214, 19);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(76, 30);
+            lblTitulo.TabIndex = 20;
+            lblTitulo.Text = "label1";
             // 
             // txtMonto
             // 
@@ -81,7 +92,6 @@
             textBox2.Size = new Size(144, 22);
             textBox2.TabIndex = 14;
             textBox2.Text = "Guardar y cerrar";
-            //textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pictureBox2
             // 
@@ -122,9 +132,9 @@
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.Location = new Point(24, 19);
             label6.Name = "label6";
-            label6.Size = new Size(346, 30);
+            label6.Size = new Size(163, 30);
             label6.TabIndex = 10;
-            label6.Text = "Saldo Actual - Cuenta de Ahorro";
+            label6.Text = "Saldo Actual - ";
             // 
             // FRM_PG42BancosCuentaAhorro
             // 
@@ -152,5 +162,6 @@
         private TextBox textBox1;
         private Label label7;
         private Label label6;
+        private Label lblTitulo;
     }
 }

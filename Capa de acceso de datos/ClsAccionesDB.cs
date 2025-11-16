@@ -443,7 +443,7 @@ namespace Capa_de_acceso_de_datos
             try
             {
                 Abrir();
-                using (SqlCommand cmd = new SqlCommand("SP_ObtenerUsuarioIdPorNombre", sc))
+                using (SqlCommand cmd = new SqlCommand("SP_ObtenerUsuarioId", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@NombreUsuario", nombreUsuario);

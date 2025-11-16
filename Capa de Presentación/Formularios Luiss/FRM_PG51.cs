@@ -13,17 +13,44 @@ namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_PG51 : Form
     {
-
+        private int Id_UsuarioLogin;
         private clsCRUD_Historial crudHistorial;
-        public FRM_PG51()
+        public FRM_PG51(int Id_Usuario)
         {
             InitializeComponent();
+            Id_UsuarioLogin =Id_Usuario;
             crudHistorial = new clsCRUD_Historial();
         }
 
         private void FRM_PG51_Load(object sender, EventArgs e)
         {
-            CargarDatos();
+            // CargarDatos();
+            CargarMiHistorial();
+        }
+
+        private void CargarMiHistorial()
+        {
+            try
+            {
+                // Llama al nuevo método para obtener solo el historial de este usuario
+                dgvBitacora.DataSource = crudHistorial.ObtenerHistorialUsuario(Id_UsuarioLogin);
+
+                // Formatear columnas para que se vea bien
+                if (dgvBitacora.Columns["Monto"] != null)
+                {
+                    dgvBitacora.Columns["Monto"].DefaultCellStyle.Format = "C2"; // Formato de moneda
+                    dgvBitacora.Columns["Monto"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                }
+                if (dgvBitacora.Columns["FechaHora"] != null)
+                {
+                    dgvBitacora.Columns["FechaHora"].DefaultCellStyle.Format = "g"; // Formato de fecha y hora corta
+                }
+                dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar tu historial: " + ex.Message, "Error");
+            }
         }
 
         private void CargarDatos()

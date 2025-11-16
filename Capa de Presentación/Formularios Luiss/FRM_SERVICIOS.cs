@@ -12,9 +12,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_SERVICIOS : Form
     {
-        public FRM_SERVICIOS()
+        private readonly int Id_Usuariologin;
+        public FRM_SERVICIOS(int Id_Usuario)
         {
             InitializeComponent();
+            Id_Usuariologin = Id_Usuario;
 
         }
 
@@ -26,6 +28,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void pibCataloCuentas_Click(object sender, EventArgs e)
         {
             FRM_PG46 frm = new FRM_PG46();
+           
             frm.Show();
             this.Close();
         }
@@ -39,9 +42,27 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void pibBitacora_Click(object sender, EventArgs e)
         {
-            FRM_PG51 frm = new FRM_PG51();
-            frm.Show();
-            this.Close();
+            var main = this.Owner as Form;
+
+            try
+            {
+                main?.Hide();
+                this.Hide();
+
+                // --- LÍNEA CORREGIDA ---
+                // Creamos el formulario de la bitácora pasándole el ID que guardamos.
+                // Asumo que FRM_PG51 es tu bitácora personal.
+                using (var frm = new FRM_PG51(Id_Usuariologin))
+                {
+                    frm.StartPosition = FormStartPosition.CenterParent;
+                    frm.ShowDialog(this);
+                }
+            }
+            finally
+            {
+                this.Close();
+                main?.Show();
+            }
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -112,7 +133,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
                 this.Hide();
-                using (var frm = new FRM_PG51())
+                using (var frm = new FRM_PG51(Id_Usuariologin))
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
                     frm.ShowDialog(this);
