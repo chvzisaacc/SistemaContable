@@ -329,7 +329,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void btnDetalle_Click(object sender, EventArgs e)
         {
-            using (var frm = new FRM_PG69())
+            using (var frm = new FRM_PG69(idTransaccion))
             {
                 frm.StartPosition = FormStartPosition.CenterParent;
                 frm.ShowDialog(this);
@@ -471,7 +471,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void btnDetalle_Click_1(object sender, EventArgs e)
         {
             //llamar form 69,
-            FRM_PG69 obj_frm69 = new FRM_PG69();
+            FRM_PG69 obj_frm69 = new FRM_PG69(idTransaccion);
             obj_frm69.ShowDialog();
         }
 
@@ -953,7 +953,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
         private int idTransaccionAEditar = 0;
-
+        private int idTransaccion;
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
