@@ -17,6 +17,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
     {
 
         private readonly GastosService _gastosService = new GastosService();
+        private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
         public FRM_PG49()
         {
             InitializeComponent();
@@ -81,40 +82,82 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
 
             int tipoReporteId = Convert.ToInt32(cmbTipoReporte.SelectedValue);
-            if (tipoReporteId != 4) // 4 = Gastos
-            {
-                MessageBox.Show("Este botón está configurado para el Informe de Gastos.");
-                return;
-            }
 
             DateTime desde = dtpDesde.Value.Date;
             DateTime hasta = dtpHasta.Value.Date;
 
             if (desde > hasta)
             {
-                MessageBox.Show("La fecha desde no puede ser mayor que la fecha hasta.");
+                MessageBox.Show("La fecha 'Desde' no puede ser mayor que la fecha 'Hasta'.");
                 return;
             }
 
-            // 🔹 Aquí usamos tu Sesion1 real
             int parroquiaId = Sesion1.IdParroquia;
-
-            // 🔹 Nombre viene de la BD vía SP
             string parroquiaNombre = _gastosService.ObtenerNombreParroquia(parroquiaId);
 
-            // 1. Generar PDF
-            string rutaPdf = _gastosService.GenerarInformeGastos(
+            string rutaPdf = string.Empty;
+            string nombreReporte = string.Empty;
+
+            switch (tipoReporteId)
+            {
+           case 1:
+            rutaPdf = _estadoResultadosService.GenerarInformeEstadoResultados(
+                      parroquiaId,
+                      parroquiaNombre,
+                      desde,
+                      hasta,
+                      Sesion1.UsuarioID);
+
+            nombreReporte = "Estado de Resultados";
+            break;
+
+               /* case 2: // Balance General
+            /* rutaPdf = _balanceGeneralService.GenerarInformeBalanceGeneral(
                 parroquiaId,
                 parroquiaNombre,
                 desde,
                 hasta,
-                Sesion1.UsuarioID
+                Sesion1.UsuarioID);
+
+             nombreReporte = "BalanceGeneral";
+             break;
+
+        
+
+            /* case 3: // Ingresos
+                 rutaPdf = _ingresosService.GenerarInformeIngresos(
+                     parroquiaId,
+                     parroquiaNombre,
+                     desde,
+                     hasta,
+                     Sesion1.UsuarioID);
+
+                 nombreReporte = "Ingresos";
+                 break;*/
+
+            case 4: // BALANCE GENERAL
+                rutaPdf = _gastosService.GenerarInformeGastos(
+                parroquiaId,
+                parroquiaNombre,
+                desde,
+                hasta,
+                Sesion1.UsuarioID);
+
+                nombreReporte = "Gastos";
+                break;
+
+            default:
+                MessageBox.Show("Tipo de reporte no válido.");
+                return;
+            }
+        
+
+            string nombreVisible = ConstruirNombreReporteVisible(
+                nombreReporte,
+                desde,
+                hasta
             );
 
-            // 2. Nombre que verá en el ListBox
-            string nombreVisible = ConstruirNombreReporteVisible("Gastos", desde, hasta);
-
-            // 3. Agregar al ListBox
             var item = new ReporteUIItem
             {
                 TipoReporteId = tipoReporteId,
@@ -127,12 +170,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             lstReportes.Items.Add(item);
 
-            // 4. Abrir el PDF con el visor por defecto
+            // Abrir automáticamente el PDF
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
             {
                 FileName = rutaPdf,
                 UseShellExecute = true
             });
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -192,7 +236,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 }
             }
         }
+
+        private void lstReportes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
-    
+
 }
 

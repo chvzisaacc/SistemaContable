@@ -12,6 +12,38 @@ namespace Capa_de_acceso_de_datos
     {
         private readonly Clsconexion _cn = new Clsconexion();
 
+        
+        public DataSet ObtenerEstadoResultados(int parroquiaId, DateTime desde, DateTime hasta)
+        {
+            DataSet ds = new DataSet();
+
+            try
+            {
+                _cn.Abrir();
+
+                using (SqlCommand cmd = new SqlCommand("SP_EstadoResultados", _cn.sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@fechaInicio", desde.Date);
+                    cmd.Parameters.AddWithValue("@fechaFin", hasta.Date);
+                    cmd.Parameters.AddWithValue("@idParroquia", parroquiaId);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(ds);  
+                                       
+                    }
+                }
+            }
+            finally
+            {
+                _cn.Cerrar();
+            }
+
+            return ds;
+        }
+
         public DataTable ObtenerGastosPorParroquia(int parroquiaId, DateTime desde, DateTime hasta)
         {
             DataTable dt = new DataTable();
