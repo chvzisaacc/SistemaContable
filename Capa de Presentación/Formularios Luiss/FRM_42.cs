@@ -1,7 +1,7 @@
 ﻿using Capa_de_acceso_de_datos;
+using Capa_de_procesamiento_de_datos;
 using Capa_de_Presentación.CLASES;
 using Capa_de_Presentación.Formularios_Diego;
-using Capa_de_procesamiento_de_datos;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -23,25 +23,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private DataTable dtDatosIngresos = new DataTable("Ingresos");
         private DataTable dtDatosGastos = new DataTable("Gastos");
         private clsCRUD_CatalogoCuentas crudCataloCuentas;
-        
 
         private ClsCRUD_CuentasBancarias crudCuentasBancarias;
-
 
         private bool modoEdicion = false;
         private int cuentaBancoIDseleccionado = 0;
         private AutoCompleteStringCollection Subcuentas = new AutoCompleteStringCollection();
         private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
 
-
-        private clsCRUD_Historial crudHistorial = new clsCRUD_Historial();
-        private int Id_UsuarioLogin;
-
         ClsCerrar cerrar = new ClsCerrar();
-        public FRM_42(int Id_Usuario)
+        public FRM_42(int id_Usuario)
         {
             InitializeComponent();
-
 
             InicializarDGVIngr();
             InicializarDGVgastos();
@@ -54,10 +47,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             crudCataloCuentas = new clsCRUD_CatalogoCuentas();
 
             crudCuentasBancarias = new ClsCRUD_CuentasBancarias();
-
-            crudHistorial = new clsCRUD_Historial();
-
-            Id_UsuarioLogin = Id_Usuario; 
 
             this.FormClosing += cerrar.CerrarApp;
             // Agrega los paneles secundarios dentro del panel contenedor
@@ -100,25 +89,30 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
         //=======
 
-
-       
-
         private void CargarCuentasEnComboBox()
         {
             try
             {
+                // 1. Desvincula el evento para que no se dispare
+                cmbCuentas.SelectedIndexChanged -= cmbCuentas_SelectedIndexChanged;
+
+                // Carga los datos como ya lo haces
                 DataTable dtCuentas = crudCuentasBancarias.ObtenerCuentasBancarias();
                 cmbCuentas.DataSource = dtCuentas;
                 cmbCuentas.DisplayMember = "Nombre";
                 cmbCuentas.ValueMember = "Id_Origen";
 
-                // Esto previene que el evento se dispare al cargar,
-                // porque ningún ítem está seleccionado inicialmente.
+                // Asegúrate de que no haya nada seleccionado al inicio
                 cmbCuentas.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar las cuentas: " + ex.Message);
+                MessageBox.Show("Error al cargar las cuentas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // 3. Vuelve a vincular el evento para que funcione cuando el usuario haga clic
+                cmbCuentas.SelectedIndexChanged += cmbCuentas_SelectedIndexChanged;
             }
         }
 
@@ -206,94 +200,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void btnGastos_Click(object sender, EventArgs e)
         {
-            try
-            {
-                crudHistorial.RegistrarActividad(
-                    Sesion1.UsuarioID,
-                    3, // ID del Módulo de Gastos
-                    "Navegación",
-                    "El usuario entró al módulo de Gastos."
-                );
-            }
-            catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
-
-            try
-            {
-                crudHistorial.RegistrarAccionUsuario(Id_UsuarioLogin, "Navegación", "Entrada a Gastos", null, "El usuario entró al módulo de Gastos.");
-            }
-            catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
-
-
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelGastos2);
         }
 
         private void btnCajaChica_Click(object sender, EventArgs e)
         {
-            try
-            {
-                crudHistorial.RegistrarActividad(
-                    Sesion1.UsuarioID,
-                    4, // ID del Módulo de Caja Chica
-                    "Navegación",
-                    "El usuario entró al módulo de Caja Chica."
-                );
-            }
-            catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
-
-            try
-            {
-                crudHistorial.RegistrarAccionUsuario(Id_UsuarioLogin, "Navegación", "Entrada a Caja Chica", null, "El usuario entró al módulo de Caja Chica.");
-            }
-            catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
-
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelCajaChica2);
         }
         private void btnIngresos_Click_1(object sender, EventArgs e)
         {
-            try
-            {
-                crudHistorial.RegistrarActividad(
-                    Sesion1.UsuarioID, 
-                    2, // ID del Módulo de Ingresos
-                    "Navegación",
-                    "El usuario entró al módulo de Ingresos."
-                );
-            }
-            catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
-           
-
-            try
-            {
-                crudHistorial.RegistrarAccionUsuario(Id_UsuarioLogin, "Navegación", "Entrada a Ingresos", null, "El usuario entró al módulo de Ingresos.");
-            }
-            catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
-            
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelIngresos);
         }
 
         private void btnBancos_Click_1(object sender, EventArgs e)
         {
-            // --- LÍNEAS A AGREGAR/DESCOMENTAR ---
-            try
-            {
-                crudHistorial.RegistrarActividad(
-                    Sesion1.UsuarioID,
-                    5, // ID del Módulo de Bancos
-                    "Navegación",
-                    "El usuario entró al módulo de Bancos."
-                );
-            }
-            catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
-
-            try
-            {
-                crudHistorial.RegistrarAccionUsuario(Id_UsuarioLogin, "Navegación", "Entrada a Bancos", null, "El usuario entró al módulo de Bancos.");
-            }
-            catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
-
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelBancos2);
         }
@@ -306,7 +229,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            FRM_SERVICIOS popup = new FRM_SERVICIOS(Id_UsuarioLogin);
+            FRM_SERVICIOS popup = new FRM_SERVICIOS();
             popup.StartPosition = FormStartPosition.Manual;
             var buttonScreenPosition = pictureBox1.PointToScreen(Point.Empty);
             popup.StartPosition = FormStartPosition.Manual;
@@ -327,41 +250,38 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
 
-        private void btnDetalle_Click(object sender, EventArgs e)
+        /*private void btnDetalle_Click(object sender, EventArgs e)
         {
-            using (var frm = new FRM_PG69(idTransaccion))
+            //using (var frm = new FRM_PG69())
             {
                 frm.StartPosition = FormStartPosition.CenterParent;
                 frm.ShowDialog(this);
             }
-        }
-
-     
+        }*/
 
         private void cmbCuentas_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbCuentas.SelectedValue == null)
+
+
+            // Si no hay nada seleccionado, no hace nada.
+            if (cmbCuentas.SelectedIndex < 0 || cmbCuentas.SelectedValue == null)
             {
                 return;
             }
 
-            try
-            {
-                int idSeleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
-                var frm = new FRM_PG42BancosCuentaAhorro(idSeleccionado);
+            // Obtiene el ID de la cuenta desde el valor seleccionado
+            int idSeleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
 
-                frm.ShowDialog();
-            }
-            catch (Exception ex)
+            // Crea y muestra TU formulario existente, pasándole el ID
+            var frm = new FRM_PG42BancosCuentaAhorro(idSeleccionado) // <-- CAMBIO REALIZADO AQUÍ
             {
-                MessageBox.Show("Error al intentar abrir el formulario: \n" + ex.Message, "Error");
-            }
+                StartPosition = FormStartPosition.Manual,
+                // Mantengo las coordenadas que has usado para consistencia
+                Location = new Point(414, 101)
+            };
+
+            frm.ShowDialog(this);
         }
-
-
-
-
-
 
 
         private void cmbAcciones_SelectedIndexChanged(object sender, EventArgs e)
@@ -383,12 +303,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                             if (result == DialogResult.OK)
                             {
-                                try
-                                {
-                                    crudHistorial.RegistrarAccionUsuario(Id_UsuarioLogin, "Bancos", "Agregar Saldo", null, "Se registró una adición de saldo a una cuenta.");
-                                }
-                                catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
-                                // --- FIN ---
                                 transaccionesObj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
                             }
                         }
@@ -406,13 +320,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
                             DialogResult result = frm.ShowDialog();
 
                             if (result == DialogResult.OK)
-                                try
-                                {
-                                    crudHistorial.RegistrarAccionUsuario(Id_UsuarioLogin, "Bancos", "Transferencia", null, "Se realizó una transferencia entre cuentas bancarias.");
-                                }
-                                catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
-                            // --- FIN ---
-                            transaccionesObj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                            {
+                                transaccionesObj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                            }
                         }
                     }
                     break;
@@ -427,14 +337,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                             DialogResult result = frm.ShowDialog();
 
                             if (result == DialogResult.OK)
-                                try
-                                {
-                                    crudHistorial.RegistrarAccionUsuario(Id_UsuarioLogin, "Bancos", "Nueva Cuenta", null, "Se agregó una nueva cuenta bancaria.");
-                                }
-                                catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
-                            // --- FIN ---
-                            transaccionesObj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
-                            CargarCuentasEnComboBox();
+                            {
+                                transaccionesObj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                                CargarCuentasEnComboBox();
+                            }
                         }
                     }
                     break;
@@ -449,17 +355,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
                             DialogResult result = frm.ShowDialog();
 
                             if (result == DialogResult.OK)
-                                try
-                                {
-                                    crudHistorial.RegistrarAccionUsuario(Id_UsuarioLogin, "Bancos", "Retiro de Dinero", null, "Se realizó un retiro de dinero de una cuenta.");
-                                }
-                                catch (Exception ex) { Console.WriteLine("Error de Bitácora: " + ex.Message); }
-                            // --- FIN ---
-                            transaccionesObj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                            {
+                                transaccionesObj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                            }
                         }
-
-                        break;
                     }
+                    break;
             }
         }
 
@@ -471,8 +372,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void btnDetalle_Click_1(object sender, EventArgs e)
         {
             //llamar form 69,
-            FRM_PG69 obj_frm69 = new FRM_PG69(idTransaccion);
-            obj_frm69.ShowDialog();
+            //FRM_PG69 obj_frm69 = new FRM_PG69();
+            //obj_frm69.ShowDialog();
         }
 
         private void chkSaldoInicial_CheckedChanged(object sender, EventArgs e)
@@ -813,20 +714,108 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            //ENTRA EN MODO EDICION
+
+            if (modoEdicion)
+            {
+                if (dataGridView1.CurrentRow == null)
+                {
+                    MessageBox.Show("Seleccione una fila para guardar la edición.", "Advertencia",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 🔹 Corrige posible celda invisible
+                if (dataGridView1.CurrentRow == null && dataGridView1.SelectedRows.Count > 0)
+                {
+                    DataGridViewColumn primeraVisible = dataGridView1.Columns
+                        .Cast<DataGridViewColumn>()
+                        .FirstOrDefault(c => c.Visible);
+
+                    if (primeraVisible != null)
+                        dataGridView1.CurrentCell = dataGridView1.SelectedRows[0].Cells[primeraVisible.Index];
+                }
+
+                DataGridViewRow fila = dataGridView1.CurrentRow;
+
+                string nombreCuenta = fila.Cells["NombreCuenta"].Value?.ToString() ?? "";
+                string detalle = fila.Cells["Detalle"].Value?.ToString() ?? "";
+                decimal saldo = 0;
+                decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out saldo);
+                DateTime fechaTR = dtpFecha.Value;
+                string referenciaTexto = txtNoReferencia.Text.Trim();
+                int referencia = 0;
+                int.TryParse(referenciaTexto, out referencia);
+                int idOrigen = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
+
+                if (string.IsNullOrEmpty(nombreCuenta))
+                {
+                    MessageBox.Show("Debe ingresar el nombre de la cuenta.", "Advertencia",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (saldo <= 0)
+                {
+                    MessageBox.Show("El monto debe ser mayor que cero.", "Advertencia",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                //Llamar al método de edición
+                IngresosIn editar = new IngresosIn();
+                bool actualizado = editar.GuardarEdicion(dtDatosIngresos, nombreCuenta, detalle, saldo, fechaTR, referenciaTexto, idOrigen,
+                                    txtNoReferencia, cmbOrigen, dataGridView1, dtpFecha);
+
+                if (actualizado)
+                {
+                    modoEdicion = false;
+                    dataGridView1.ReadOnly = true;
+                    foreach (DataGridViewColumn col in dataGridView1.Columns)
+                        col.ReadOnly = true;
+
+                    //Actualiza el Id_Origen en la fila actual (para que el lápiz lea el correcto)
+                    if (dataGridView1.CurrentRow != null)
+                        dataGridView1.CurrentRow.Cells["Id_Origen"].Value = idOrigen;
+
+                    txtNoReferencia.Clear();
+                    dtpFecha.Value = DateTime.Now;
+
+                    //Recargar los combos SIN perder la selección
+                    Transacciones objTransa = new Transacciones();
+                    objTransa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+
+                    //Forzar actualización visual segura del ComboBox
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        cmbOrigen.SelectedValue = idOrigen;  // Selecciona el origen actualizado
+                        cmbOrigen.Refresh();                 // Refresca el control en pantalla
+                    }));
+
+                    // 🔹 Actualizar saldo después de recargar origen
+                    ActualizarSaldo();
+
+                    MessageBox.Show("Transacción editada correctamente.", "Éxito",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo actualizar la transacción. Verifique los datos o la conexión.",
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return;
+            }
             dataGridView1.EndEdit();
             this.Validate();
             this.BindingContext[dataGridView1.DataSource]?.EndCurrentEdit();
 
-            int idOrigen = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
-            if (idOrigen == 0)
+            int idOrigenNuevo = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
+            if (idOrigenNuevo == 0)
             {
                 MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // BUSCA LA ULTIMA FILA
-            DataGridViewRow fila = null;
+            DataGridViewRow filaNueva = null;
             for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
             {
                 var row = dataGridView1.Rows[i];
@@ -841,20 +830,22 @@ namespace Capa_de_Presentación.Formularios_Luiss
                             break;
                         }
                     }
-
                     if (tieneDatos)
                     {
-                        fila = row;
+                        filaNueva = row;
                         break;
                     }
                 }
             }
 
-            if (fila == null)
+            if (filaNueva == null)
             {
                 MessageBox.Show("No hay ninguna fila válida para guardar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+
+            //GUARDAR NUEVO INGRESO
 
             Ingresos ingresos = new();
             bool errorGuardado = false;
@@ -863,64 +854,81 @@ namespace Capa_de_Presentación.Formularios_Luiss
             try
             {
                 DateTime fechaTransaccion = dtpFecha.Value;
-                int referenciaInt = 0;
-                int.TryParse(txtNoReferencia.Text.Trim(), out referenciaInt);
+                string referenciaTexto = txtNoReferencia.Text.Trim();
+                int referencia = 0;
+                int.TryParse(referenciaTexto, out referencia);
+
                 int idUsuario = Sesion1.UsuarioID;
+                string nombreCuenta = filaNueva.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
+                string descripcion = filaNueva.Cells["Detalle"].Value?.ToString() ?? string.Empty;
 
-                string nombreCuenta = fila.Cells["nombrecuenta"].Value?.ToString() ?? string.Empty;
-                string descripcion = fila.Cells["Detalle"].Value?.ToString() ?? string.Empty;
-
-                if (!decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out decimal monto) || monto <= 0)
+                if (!decimal.TryParse(filaNueva.Cells["Saldo"].Value?.ToString(), out decimal monto) || monto <= 0)
                 {
                     MessageBox.Show($"Monto inválido para la cuenta: {nombreCuenta}", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                try
+                int nuevoID = ingresos.IngresarIngresos(fechaTransaccion, descripcion, monto, referencia, idUsuario, idOrigenNuevo, nombreCuenta);
+                if (nuevoID <= 0)
                 {
-                    int nuevoID = ingresos.IngresarIngresos(fechaTransaccion, descripcion,monto, referenciaInt, idUsuario, idOrigen, nombreCuenta);
-                    filasGuardadas++;
-                    fila.Cells["Saldo"].Style.ForeColor = Color.Green;
+                    MessageBox.Show("No se recibió un ID válido desde la base de datos. Verifique el SP.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                catch (Exception exGuardado)
-                {
-                    errorGuardado = true;
-                    MessageBox.Show($"Error al guardar la fila para la cuenta {nombreCuenta}: {exGuardado.Message}", "Error de Guardado", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+
+                filasGuardadas++;
+
+                if (!dtDatosIngresos.Columns.Contains("Id_transaccion"))
+                    dtDatosIngresos.Columns.Add("Id_transaccion", typeof(int));
+
+                if (dataGridView1.Columns.Contains("Id_transaccion"))
+                    filaNueva.Cells["Id_transaccion"].Value = nuevoID;
+
+                filaNueva.Cells["FechaTransaccion"].Value = fechaTransaccion;
+                filaNueva.Cells["NoReferencia"].Value = referencia;
+                filaNueva.Cells["Id_Origen"].Value = idOrigenNuevo;
+                filaNueva.Cells["Saldo"].Style.ForeColor = Color.Green;
+
+                dataGridView1.Refresh();
+                dataGridView1.ClearSelection();
+
+                MessageBox.Show("Ingreso registrado correctamente.", "Éxito",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                Transacciones objtransa = new Transacciones();
+                objtransa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+
+
+                ActualizarSaldo();
             }
             catch (Exception ex)
             {
                 errorGuardado = true;
-                MessageBox.Show("Error al guardar la transaccion: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al guardar la transacción: " + ex.Message,
+                                "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
 
-            if (!errorGuardado)
+            if (!errorGuardado && filasGuardadas > 0)
             {
-                if (filasGuardadas > 0)
-                {
-                    MessageBox.Show("Se guardo correctamente el ingreso.", "Transaccion guardada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                modoEdicion = false;
 
-                    // --- CÓDIGO DE BITÁCORA INSERTADO ---
-                    try
-                    {
-                        decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out decimal montoGuardado);
-                        string nombreCuentaGuardada = fila.Cells["nombrecuenta"].Value?.ToString() ?? "";
-                        string descripcionHistorial = $"Ingreso en '{nombreCuentaGuardada}' por {montoGuardado:C2}. Ref: {txtNoReferencia.Text}";
+                foreach (DataGridViewColumn col in dataGridView1.Columns)
+                    col.ReadOnly = true;
 
-                        crudHistorial.RegistrarAccionUsuario(Id_UsuarioLogin, "Ingresos", "Nuevo Ingreso", montoGuardado, descripcionHistorial);
-                    }
-                    catch (Exception exHistorial) { Console.WriteLine("Error de Bitácora: " + exHistorial.Message); }
-                    // --- FIN DEL CÓDIGO DE BITÁCORA ---
+                dataGridView1.ReadOnly = false;
+                dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dataGridView1.MultiSelect = false;
+                dataGridView1.ClearSelection();
 
-                    Transacciones objtransa = new Transacciones();
-                    objtransa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
-                    ActualizarSaldo();
-                }
-                else
-                {
-                    MessageBox.Show("No se guardo la transaccion", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                txtNoReferencia.Clear();
+                cmbOrigen.SelectedIndex = -1;
+                dtpFecha.Value = DateTime.Now;
+
+            }
+            else if (errorGuardado)
+            {
+                MessageBox.Show("No se guardó la transacción debido a un error.", "Aviso",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -953,7 +961,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
         private int idTransaccionAEditar = 0;
-        private int idTransaccion;
+
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
@@ -1017,23 +1025,109 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void btnGuardar2_Click(object sender, EventArgs e)
         {
+
+            if (modoEdicion)
+            {
+                if (dgvGastos.CurrentRow == null)
+                {
+                    MessageBox.Show("Seleccione una fila para guardar la edición.", "Advertencia",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 🔹 Corrige posible celda invisible
+                if (dgvGastos.CurrentRow == null && dgvGastos.SelectedRows.Count > 0)
+                {
+                    DataGridViewColumn primeraVisible = dgvGastos.Columns
+                        .Cast<DataGridViewColumn>()
+                        .FirstOrDefault(c => c.Visible);
+
+                    if (primeraVisible != null)
+                        dgvGastos.CurrentCell = dgvGastos.SelectedRows[0].Cells[primeraVisible.Index];
+                }
+
+                DataGridViewRow fila = dgvGastos.CurrentRow;
+
+                string nombreCuenta = fila.Cells["NombreCuenta"].Value?.ToString() ?? "";
+                string detalle = fila.Cells["Detalle"].Value?.ToString() ?? "";
+                decimal saldo = 0;
+                decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out saldo);
+                DateTime fechaTR = dateTimePicker1.Value;
+                string referenciaTexto = txtNoReferencia2.Text.Trim();
+                int referencia = 0;
+                int.TryParse(referenciaTexto, out referencia);
+                int idOrigen = Convert.ToInt32(cmbOrigen2.SelectedValue ?? 0);
+
+                if (string.IsNullOrEmpty(nombreCuenta))
+                {
+                    MessageBox.Show("Debe ingresar el nombre de la cuenta.", "Advertencia",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (saldo <= 0)
+                {
+                    MessageBox.Show("El monto debe ser mayor que cero.", "Advertencia",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                //Llamar al método de edición
+                GastosGa editar = new();
+                bool actualizado = editar.GuardarEdicion2(dtDatosGastos, nombreCuenta, detalle, saldo, fechaTR, referenciaTexto, idOrigen,
+                                    txtNoReferencia2, cmbOrigen2, dgvGastos, dateTimePicker1);
+
+                if (actualizado)
+                {
+                    modoEdicion = false;
+                    dgvGastos.ReadOnly = true;
+                    foreach (DataGridViewColumn col in dgvGastos.Columns)
+                        col.ReadOnly = true;
+
+                    //Actualiza el Id_Origen en la fila actual (para que el lápiz lea el correcto)
+                    if (dgvGastos.CurrentRow != null)
+                        dgvGastos.CurrentRow.Cells["Id_Origen"].Value = idOrigen;
+
+                    txtNoReferencia.Clear();
+                    dateTimePicker1.Value = DateTime.Now;
+
+                    //Recargar los combos SIN perder la selección
+                    Transacciones objTransa = new Transacciones();
+                    objTransa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+
+                    //Forzar actualización visual segura del ComboBox
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        cmbOrigen2.SelectedValue = idOrigen;  // Selecciona el origen actualizado
+                        cmbOrigen2.Refresh();                 // Refresca el control en pantalla
+                    }));
+
+                    // 🔹 Actualizar saldo después de recargar origen
+                    ActualizarSaldo();
+
+                    MessageBox.Show("Transacción editada correctamente.", "Éxito",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo actualizar la transacción. Verifique los datos o la conexión.",
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return;
+            }
             dgvGastos.EndEdit();
             this.Validate();
+            this.BindingContext[dgvGastos.DataSource]?.EndCurrentEdit();
 
-            if (dgvGastos.DataSource != null)
-            {
-                this.BindingContext[dgvGastos.DataSource]?.EndCurrentEdit();
-            }
-
-            int idOrigen = Convert.ToInt32(cmbOrigen2.SelectedValue ?? 0);
-
-            if (idOrigen == 0)
+            int idOrigenNuevo = Convert.ToInt32(cmbOrigen2.SelectedValue ?? 0);
+            if (idOrigenNuevo == 0)
             {
                 MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            DataGridViewRow fila = null;
+            DataGridViewRow filaNueva = null;
             for (int i = dgvGastos.Rows.Count - 1; i >= 0; i--)
             {
                 var row = dgvGastos.Rows[i];
@@ -1048,88 +1142,106 @@ namespace Capa_de_Presentación.Formularios_Luiss
                             break;
                         }
                     }
-
                     if (tieneDatos)
                     {
-                        fila = row;
+                        filaNueva = row;
                         break;
                     }
                 }
             }
 
-            if (fila == null)
+            if (filaNueva == null)
             {
-                MessageBox.Show("No hay ninguna fila valida para guardar", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("No hay ninguna fila válida para guardar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            Gastos gastos = new();
+
+            //GUARDAR NUEVO GASTO
+
+            Gastos gasto = new();
             bool errorGuardado = false;
             int filasGuardadas = 0;
 
             try
             {
-                DateTime fechaTransaccion = dtpFecha.Value; // Debería ser dateTimePicker1 del panel de gastos
-                int referenciaInt = 0;
-                int.TryParse(txtNoReferencia.Text.Trim(), out referenciaInt);
+                DateTime fechaTransaccion = dtpFecha.Value;
+                string referenciaTexto = txtNoReferencia.Text.Trim();
+                int referencia = 0;
+                int.TryParse(referenciaTexto, out referencia);
+
                 int idUsuario = Sesion1.UsuarioID;
+                string nombreCuenta = filaNueva.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
+                string descripcion = filaNueva.Cells["Detalle"].Value?.ToString() ?? string.Empty;
 
-                string nombreCuenta = fila.Cells["dataGridViewTextBoxColumn1"].Value?.ToString() ?? string.Empty;
-                string descripcion = fila.Cells["dataGridViewTextBoxColumn2"].Value?.ToString() ?? string.Empty;
-
-                if (!decimal.TryParse(fila.Cells["dataGridViewTextBoxColumn3"].Value?.ToString(), out decimal monto) || monto <= 0)
+                if (!decimal.TryParse(filaNueva.Cells["Saldo"].Value?.ToString(), out decimal monto) || monto <= 0)
                 {
-                    MessageBox.Show("Monto invalido para la cuenta: {nombreCuenta}", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"Monto inválido para la cuenta: {nombreCuenta}", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                try
+                int nuevoID = gasto.IngresarGastos(fechaTransaccion, descripcion, monto, referencia, idUsuario, idOrigenNuevo, nombreCuenta);
+                if (nuevoID <= 0)
                 {
-                    int nuevoID = gastos.IngresarGastos(fechaTransaccion, descripcion, monto, referenciaInt, idUsuario, idOrigen, nombreCuenta);
-                    filasGuardadas++;
-                    fila.Cells["dataGridViewTextBoxColumn3"].Style.ForeColor = Color.Red;
+                    MessageBox.Show("No se recibió un ID válido desde la base de datos. Verifique el SP.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
-                catch (Exception exGuardado)
-                {
-                    errorGuardado = true;
-                    MessageBox.Show("Error al guardar la fila para la cuenta {nombreCuenta}: {exGuardado.Message}", "Error de Guardado", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+
+                filasGuardadas++;
+
+                if (!dtDatosGastos.Columns.Contains("Id_transaccion"))
+                    dtDatosGastos.Columns.Add("Id_transaccion", typeof(int));
+
+                if (dgvGastos.Columns.Contains("Id_transaccion"))
+                    filaNueva.Cells["Id_transaccion"].Value = nuevoID;
+
+                filaNueva.Cells["FechaTransaccion"].Value = fechaTransaccion;
+                filaNueva.Cells["NoReferencia"].Value = referencia;
+                filaNueva.Cells["Id_Origen"].Value = idOrigenNuevo;
+                filaNueva.Cells["Saldo"].Style.ForeColor = Color.Green;
+
+                dgvGastos.Refresh();
+                dgvGastos.ClearSelection();
+
+                MessageBox.Show("Gasto registrado correctamente.", "Éxito",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                Transacciones objtransa = new Transacciones();
+                objtransa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+
+
+                ActualizarSaldo();
             }
             catch (Exception ex)
             {
                 errorGuardado = true;
-                MessageBox.Show("Error al guardar la transaccion: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al guardar la transacción: " + ex.Message,
+                                "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            if (!errorGuardado)
+
+            if (!errorGuardado && filasGuardadas > 0)
             {
-                if (filasGuardadas > 0)
-                {
-                    MessageBox.Show("Se guardó correctamente el gasto.", "Transacción guardada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                modoEdicion = false;
 
-                    // --- CÓDIGO DE BITÁCORA INSERTADO ---
-                    try
-                    {
-                        decimal.TryParse(fila.Cells["dataGridViewTextBoxColumn3"].Value?.ToString(), out decimal montoGuardado);
-                        string nombreCuentaGuardada = fila.Cells["dataGridViewTextBoxColumn1"].Value?.ToString() ?? "";
-                        string descripcionHistorial = "Gasto en '{nombreCuentaGuardada}' por {montoGuardado:C2}. Ref: {txtNoReferencia2.Text}";
+                foreach (DataGridViewColumn col in dgvGastos.Columns)
+                    col.ReadOnly = true;
 
-                        crudHistorial.RegistrarAccionUsuario(Id_UsuarioLogin, "Gastos", "Nuevo Gasto", montoGuardado, descripcionHistorial);
-                    }
-                    catch (Exception exHistorial) { Console.WriteLine("Error de Bitácora: " + exHistorial.Message); }
-                    // --- FIN DEL CÓDIGO DE BITÁCORA ---
+                dgvGastos.ReadOnly = false;
+                dgvGastos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvGastos.MultiSelect = false;
+                dgvGastos.ClearSelection();
 
-                    Transacciones objtransa = new Transacciones();
-                    objtransa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
-                    ActualizarSaldo();
-                }
-                else
-                {
-                    MessageBox.Show("No se guardó la transacción.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                txtNoReferencia2.Clear();
+                cmbOrigen2.SelectedIndex = -1;
+                dateTimePicker1.Value = DateTime.Now;
+            }
+            else if (errorGuardado)
+            {
+                MessageBox.Show("No se guardó la transacción debido a un error.", "Aviso",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
 
         private void dtpFecha_ValueChanged(object sender, EventArgs e)
         {
@@ -1188,7 +1300,46 @@ namespace Capa_de_Presentación.Formularios_Luiss
             MessageBox.Show("Modo edición activado. Puedes editar libremente las celdas.",
                             "Modo Edición", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void pictureBox8_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                int idTransaccion = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id_Transaccion"].Value);
+
+
+                FRM_PG69 frm = new FRM_PG69(idTransaccion);
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Seleccione una transacción antes de continuar.", "Aviso",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            if (dgvGastos.SelectedRows.Count > 0)
+            {
+                int idTransaccion = Convert.ToInt32(dgvGastos.SelectedRows[0].Cells["Id_Transaccion"].Value);
+
+
+                FRM_PG69 frm = new FRM_PG69(idTransaccion);
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Seleccione una transacción antes de continuar.", "Aviso",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
-    
+
 }
 

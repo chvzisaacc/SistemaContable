@@ -20,6 +20,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        public FRM_SERVICIOS()
+        {
+            InitializeComponent();
+        }
+
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
@@ -28,7 +33,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void pibCataloCuentas_Click(object sender, EventArgs e)
         {
             FRM_PG46 frm = new FRM_PG46();
-           
+
             frm.Show();
             this.Close();
         }
@@ -102,20 +107,20 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             try
             {
-                
+
                 main?.Hide();
 
-                
-                this.Hide(); 
+
+                this.Hide();
                 using (var frm = new FRM_PG49())
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
-                    frm.ShowDialog(this); 
+                    frm.ShowDialog(this);
                 }
             }
             finally
             {
-                
+
                 this.Close();
                 main?.Show();
             }
@@ -145,6 +150,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 this.Close();
                 main?.Show();
             }
+
+        }
+
+        private void FRM_SERVICIOS_Load(object sender, EventArgs e)
+        {
 
         }
     }

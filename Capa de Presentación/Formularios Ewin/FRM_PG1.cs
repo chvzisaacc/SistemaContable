@@ -1,7 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CAPAS;
 using Capa_de_Presentación.CLASES;
-using Capa_de_Presentación.RECONOCIMIENTO_FACIAL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -110,9 +109,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            RECONOCIMIENTO_BIOMETRICO objrc = new();
-            objrc.Show();
-            this.Dispose();
+            
         }
     }
 }

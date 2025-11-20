@@ -9,8 +9,6 @@ using System.Data;
 namespace Capa_de_acceso_de_datos
 {
 
-<<<<<<< HEAD
-=======
     public class Parroquia
     {
         public string Nombre { get; set; }
@@ -31,7 +29,6 @@ namespace Capa_de_acceso_de_datos
             this.nombre = nombre;
         }
     }
->>>>>>> b2413308697a9f389575501d1aff412d1b99b491
     public class Origen
     {
         public int ID { get; set; }
@@ -409,8 +406,6 @@ namespace Capa_de_acceso_de_datos
             return listaOrigenes;
         }
 
-<<<<<<< HEAD
-=======
 
         public List<string> ObtenerListaParroquias()
         {
@@ -479,7 +474,6 @@ namespace Capa_de_acceso_de_datos
 
             return Reportes;
         }
->>>>>>> b2413308697a9f389575501d1aff412d1b99b491
         public DataTable ObtenerCuentasIngreso()
         {
             DataTable dtCuentas = new DataTable();

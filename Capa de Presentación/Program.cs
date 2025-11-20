@@ -23,7 +23,7 @@ namespace Capa_de_Presentación
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             ApplicationConfiguration.Initialize();
-            Application.Run(new FRM_PG49());
+            Application.Run(new FRM_PG1());
 
         }
     }
