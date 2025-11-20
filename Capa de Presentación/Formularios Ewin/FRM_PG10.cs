@@ -214,7 +214,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 }
             }
         }
+
+        private void cmbTipoReporte_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
-    
+
 }
 
