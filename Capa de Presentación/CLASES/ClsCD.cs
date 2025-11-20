@@ -157,6 +157,7 @@ namespace Capa_de_Presentación.CLASES
 
                 // Asignar el Id generado a la fila
                 fila.Cells["Id_Certificado"].Value = idCertificadoGenerado;
+                fila.Cells["FechaTransaccion"].Value = fechaTransaccionActual;
 
                 MessageBox.Show("Última fila guardada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -412,7 +413,7 @@ namespace Capa_de_Presentación.CLASES
                     decimal deposito = Convert.ToDecimal(row["deposito_inicial"]);
                     decimal tasa = Convert.ToDecimal(row["tasa"]);
                     int plazo = Convert.ToInt32(row["plazo"]);
-                    dtDatosCertificados.Columns.Add("FechaTransaccion", typeof(DateTime));
+                    //dtDatosCertificados.Columns.Add("FechaTransaccion", typeof(DateTime));
 
                     decimal gananciaSinRedondear = deposito * (tasa / 100) * plazo;
                     decimal totalSinRedondear = deposito + gananciaSinRedondear;
