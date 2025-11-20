@@ -1,10 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Capa_de_acceso_de_datos
 {
@@ -17,7 +12,7 @@ namespace Capa_de_acceso_de_datos
             conexion = new Clsconexion();
         }
 
-        public int AgregarCuentaBancaria(int CuentaBancariaID,string Nombre, decimal? saldo, decimal? tasa_interes)
+        public int AgregarCuentaBancaria(int CuentaBancariaID, string Nombre, decimal? saldo, decimal? tasa_interes)
         {
             try
             {
@@ -140,18 +135,18 @@ namespace Capa_de_acceso_de_datos
                 //cmd.Parameters.Add("@Id_cuentaBanco", SqlDbType.Int).Value = idCuentaBanco;
                 var pNombre = cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar, 40).Value = Nombre ?? string.Empty;
                 //pNombre.Value = Nombre ?? string.Empty;
-                
+
                 var pSaldo = cmd.Parameters.Add("@saldo", SqlDbType.Decimal);
-                pSaldo.Precision = 10; 
-                pSaldo.Scale = 2; 
+                pSaldo.Precision = 10;
+                pSaldo.Scale = 2;
                 pSaldo.Value = saldo;
 
                 var pTasa = cmd.Parameters.Add("@tasa_interes", SqlDbType.Decimal);
                 pTasa.Precision = 4;
-                pTasa.Scale = 2; 
+                pTasa.Scale = 2;
                 pTasa.Value = tasaInteres;
 
-               var pOut = cmd.Parameters.Add("@nuevo_Id", SqlDbType.Int);
+                var pOut = cmd.Parameters.Add("@nuevo_Id", SqlDbType.Int);
                 pOut.Direction = ParameterDirection.Output;
 
                 int filas = cmd.ExecuteNonQuery();
@@ -165,7 +160,7 @@ namespace Capa_de_acceso_de_datos
                 {
                     return false; // no hubo id generad
                 }
-               
+
             }
             catch (Exception ex)
             {

@@ -22,5 +22,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
 
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

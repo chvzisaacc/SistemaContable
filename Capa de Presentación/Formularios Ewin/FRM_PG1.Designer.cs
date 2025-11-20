@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG1));
             txtUsuario = new TextBox();
             txtContraseña = new TextBox();
             button1 = new Button();
             label3 = new Label();
             label1 = new Label();
+            pictureBox1 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // txtUsuario
@@ -100,6 +103,17 @@
             label1.TabIndex = 6;
             label1.Text = ".";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(287, 518);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(45, 47);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 7;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            // 
             // FRM_PG1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -107,6 +121,7 @@
             BackgroundImage = Properties.Resources.Imagen_de_WhatsApp_2025_10_21_a_las_22_22_16_14a2ddba;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1602, 899);
+            Controls.Add(pictureBox1);
             Controls.Add(label1);
             Controls.Add(txtContraseña);
             Controls.Add(txtUsuario);
@@ -116,6 +131,7 @@
             Name = "FRM_PG1";
             Text = "FRM_PG1";
             Load += FRM_PG1_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -127,5 +143,6 @@
         private Button button1;
         private Label label3;
         private Label label1;
+        private PictureBox pictureBox1;
     }
 }

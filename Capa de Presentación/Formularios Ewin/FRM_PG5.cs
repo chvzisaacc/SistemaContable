@@ -29,7 +29,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
        private clsCRUD_Historial crudHistorial;
 
         ClsCerrar cerrar = new ClsCerrar();
-        public FRM_PG5()
+        private int idParroquia;
+
+        public FRM_PG5(int usuarioID)
         {
             InitializeComponent();
             this.FormClosing += cerrar.CerrarApp;
@@ -52,6 +54,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             //Para busqueda de usuarios
             bindingSource = new BindingSource();
+        }
+
+        public FRM_PG5(int usuarioID, int idParroquia) : this(usuarioID)
+        {
+            this.idParroquia = idParroquia;
+        }
+
+        public FRM_PG5()
+        {
         }
 
         private void MostrarSoloEstePanel(Panel panelAMostrar)

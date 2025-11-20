@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Capa_de_acceso_de_datos.CORREO
+﻿namespace Capa_de_acceso_de_datos.CORREO
 {
-    public class Sistema:ClsEmailService
+    public class Sistema : ClsEmailService
     {
         public static Dictionary<string, string> CodigosVerificacion = new Dictionary<string, string>();
 

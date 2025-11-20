@@ -1,16 +1,9 @@
-﻿using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿using System.Net;
 using System.Net.Mail;
-using System.Net;
-using System.Security.Cryptography;
 
 namespace Capa_de_acceso_de_datos.CORREO
 {
-    public abstract class ClsEmailService:Clsconexion
+    public abstract class ClsEmailService : Clsconexion
     {
         private SmtpClient smtpClient = new();
         protected string senderMail { get; set; }

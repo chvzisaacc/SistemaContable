@@ -1,15 +1,10 @@
 ﻿using Capa_de_acceso_de_datos;
-using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 
 namespace Capa_de_procesamiento_de_datos
 {
-    public class PatidasDobles:Clsconexion
+    public class PatidasDobles : Clsconexion
     {
         public DataTable CargarPartidas(int idTransaccion)
         {

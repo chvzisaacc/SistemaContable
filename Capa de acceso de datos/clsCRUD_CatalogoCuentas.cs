@@ -1,10 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Capa_de_acceso_de_datos
 {
@@ -93,7 +88,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@id", codCuenta);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable() ;
+                DataTable dt = new DataTable();
                 adapter.Fill(dt);
 
                 if (dt.Rows.Count > 0)
@@ -143,7 +138,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        
+
 
         public bool CatalogoCuentaExiste(string nombreCuenta)
         {

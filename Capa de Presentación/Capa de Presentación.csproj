@@ -11,12 +11,37 @@
 
 	<ItemGroup>
 	  <PackageReference Include="aSystem.Windows.Forms" Version="1.0.0" />
+	  <PackageReference Include="Emgu.CV" Version="4.12.0.5764" />
+	  <PackageReference Include="Emgu.CV.Bitmap" Version="4.12.0.5764" />
+	  <PackageReference Include="Emgu.CV.Models" Version="4.12.0.5764" />
+	  <PackageReference Include="Emgu.CV.runtime.windows" Version="4.12.0.5764" />
+	  <PackageReference Include="Emgu.CV.UI" Version="4.12.0.5764" />
+	  <PackageReference Include="EmguCvWorld" Version="2.0.0" />
+	  <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 	  <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+	  <PackageReference Include="Microsoft.SqlServer.Server" Version="1.0.0" />
+	  <PackageReference Include="OpenTK" Version="4.9.4" />
+	  <PackageReference Include="OpenTK.GLControl" Version="4.0.2" />
+	  <PackageReference Include="Stimulsoft.Reports.Engine.NetCore" Version="2025.4.3" />
+	  <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
+	  <PackageReference Include="System.Xml.Linq" Version="3.5.21022.801" />
+	  <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.1" />
+	  <PackageReference Include="ZedGraph" Version="5.2.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Capa de acceso de datos\Capa de acceso de datos.csproj" />
-	  <ProjectReference Include="..\Capa de procesamiento de datos\Capa de procesamiento de datos.csproj" />
+	  <Reference Include="Capa de acceso de datos">
+	    <HintPath>..\Capa de acceso de datos\bin\Debug\net8.0-windows\Capa de acceso de datos.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Capa de procesamiento de datos">
+	    <HintPath>..\Capa de procesamiento de datos\bin\Debug\net8.0-windows\Capa de procesamiento de datos.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Emgu.CV">
+	    <HintPath>bin\Debug\net8.0-windows\Emgu.CV.dll</HintPath>
+	  </Reference>
+	  <Reference Include="FaceRecognition">
+	    <HintPath>..\..\..\Downloads\FaceRecognition.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 
@@ -33,6 +58,10 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="RECONOCIMIENTO FACIAL\" />
 	</ItemGroup>
 
 </Project>

@@ -1,15 +1,14 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
+﻿using Emgu.CV; // Necesario para Mat, VideoCapture, CascadeClassifier
+using Emgu.CV.CvEnum; // Necesario para ImreadModes y otros Enums
+using Emgu.CV.Structure; // Necesario para Image<TColor, TDepth>
+using Microsoft.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+
+// Nota: Asumo que Clsconexion es la clase base que contiene sc (SqlConnection), Abrir() y Cerrar().
 
 namespace Capa_de_acceso_de_datos
 {
+
     public class Origen
     {
         public int ID { get; set; }
@@ -24,47 +23,48 @@ namespace Capa_de_acceso_de_datos
 
     public class ResultadoLogin
     {
-        public int UsuarioID { get; set; }
-        public int RolID { get; set; }
-        public int IdParroquia { get; internal set; }
+        public int UsuarioID { get; set; } = 0;
+        public int RolID { get; set; } = 0;
+        public int IdParroquia { get; internal set; } = 0;
     }
+
     public class ClsAccionesDB : Clsconexion
     {
         public ResultadoLogin ValidarCredenciales(string usuario, string contraseña, int parroquiaId)
         {
-            ResultadoLogin resultado = new ResultadoLogin { UsuarioID = 0, RolID = 0 };
+            // Inicialización simplificada
+            ResultadoLogin resultado = new ResultadoLogin();
 
-            int rol = 0;
             try
             {
                 Abrir();
-                SqlCommand cmd = new SqlCommand("IngresoLogin", sc);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Usuario", usuario);
-                cmd.Parameters.AddWithValue("@Password", contraseña);
-
-                using (SqlDataReader dr = cmd.ExecuteReader())
+                using (SqlCommand cmd = new SqlCommand("IngresoLogin", sc))
                 {
-                    if (dr.Read())
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    // El parámetro parroquiaId en el método pero no en el SP:
+                    // Si el SP 'IngresoLogin' no usa @ParroquiaID, elimínalo de la firma del método.
+                    // cmd.Parameters.AddWithValue("@ParroquiaID", parroquiaId); 
+                    cmd.Parameters.AddWithValue("@Usuario", usuario);
+                    cmd.Parameters.AddWithValue("@Password", contraseña);
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        // Asegúrate que el SP devuelva estas columnas.
-                        resultado.UsuarioID = Convert.ToInt32(dr["UsuarioID"]);
-                        resultado.RolID = Convert.ToInt32(dr["RolID"]);
-                        if (dr["Parroquia_ID"] != DBNull.Value)
+                        if (dr.Read())
                         {
-                            resultado.IdParroquia = Convert.ToInt32(dr["Parroquia_ID"]);
+                            // Asegúrate que el SP devuelva estas columnas.
+                            resultado.UsuarioID = dr.GetInt32(dr.GetOrdinal("UsuarioID"));
+                            resultado.RolID = dr.GetInt32(dr.GetOrdinal("RolID"));
+
+                            int parroquiaOrdinal = dr.GetOrdinal("Parroquia_ID");
+                            resultado.IdParroquia = dr.IsDBNull(parroquiaOrdinal) ? 0 : dr.GetInt32(parroquiaOrdinal);
                         }
-                        else
-                        {
-                            resultado.IdParroquia = 0; // O un valor seguro si es nulo
-                        }
                     }
-                    dr.Close();
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al validar usuario: " + ex.Message);
+                // Es mejor registrar o manejar la excepción en la capa de negocio, no solo lanzarla.
+                throw new Exception("Error al validar usuario: " + ex.Message, ex);
             }
             finally
             {
@@ -87,11 +87,11 @@ namespace Capa_de_acceso_de_datos
                     int filas = cmd.ExecuteNonQuery();
                     return filas > 0;
                 }
-
             }
             catch (Exception ex)
             {
-                throw;
+                // throw; es mejor que throw new Exception(ex.Message); si quieres preservar el stack trace
+                throw new Exception("Error al cambiar la contraseña: " + ex.Message, ex);
             }
             finally
             {
@@ -110,13 +110,13 @@ namespace Capa_de_acceso_de_datos
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@CorreoParroquia", correo);
                     object result = cmd.ExecuteScalar();
-                    if (result != null)
+                    if (result != null && result != DBNull.Value)
                         id = Convert.ToInt32(result);
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener ID de usuario: " + ex.Message);
+                throw new Exception("Error al obtener ID de usuario por correo: " + ex.Message, ex);
             }
             finally
             {
@@ -140,7 +140,7 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al guardar código de recuperación: " + ex.Message);
+                throw new Exception("Error al guardar código de recuperación: " + ex.Message, ex);
             }
             finally
             {
@@ -156,21 +156,24 @@ namespace Capa_de_acceso_de_datos
             try
             {
                 Abrir();
-                SqlCommand cmd = new SqlCommand("ValidarCodigoRecuperacion", sc);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
-                cmd.Parameters.AddWithValue("@Codigo", codigo);
-
-                SqlDataReader dr = cmd.ExecuteReader();
-                if (dr.Read())
+                using (SqlCommand cmd = new SqlCommand("ValidarCodigoRecuperacion", sc))
                 {
-                    resultado = dr["Resultado"]?.ToString() ?? "SIN_RESULTADO";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
+                    cmd.Parameters.AddWithValue("@Codigo", codigo);
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            resultado = dr["Resultado"]?.ToString() ?? "SIN_RESULTADO";
+                        }
+                    } // dr.Close() y dr.Dispose() llamados automáticamente por 'using'
                 }
-                dr.Close();
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al validar el código: " + ex.Message);
+                throw new Exception("Error al validar el código: " + ex.Message, ex);
             }
             finally
             {
@@ -197,13 +200,18 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@IdParroquia", idParroquia);
                     cmd.Parameters.AddWithValue("@Fecha", fecha);
 
-                    
-                    idGenerado = (int)cmd.ExecuteScalar();
+                    // ExecuteScalar devuelve un objeto; se debe manejar DBNull si aplica, aunque para un ID serial es improbable.
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        idGenerado = Convert.ToInt32(result);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al guardar certificado de depósito: " + ex.Message);
+                throw new Exception("Error al guardar certificado de depósito: " + ex.Message, ex);
             }
             finally
             {
@@ -214,50 +222,50 @@ namespace Capa_de_acceso_de_datos
 
         public DataTable CargarCertificados()
         {
+            DataTable dt = new DataTable();
             try
             {
-                DataTable dt = new DataTable();
-
                 Abrir();
-
-                SqlCommand cmd = new SqlCommand("sp_Mostrarcertificados", sc);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
-
-                dataAdapter.Fill(dt);
-
+                using (SqlCommand cmd = new SqlCommand("sp_Mostrarcertificados", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
+                    {
+                        dataAdapter.Fill(dt);
+                    }
+                }
                 return dt;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al cargar los certificados: " + ex.Message);
+                throw new Exception("Error al cargar los certificados: " + ex.Message, ex);
             }
             finally
             {
-
                 Cerrar();
             }
-
         }
 
         public DataTable CargarCuentasBancarias()
         {
+            DataTable dt = new DataTable();
             try
             {
-                DataTable dt = new DataTable();
                 Abrir();
-                SqlCommand cmd = new SqlCommand("sp_mostrarCuentas", sc);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                SqlDataAdapter dataAdapter = new();
-                dataAdapter.SelectCommand = cmd;
-                dataAdapter.Fill(dt);
+                using (SqlCommand cmd = new SqlCommand("sp_mostrarCuentas", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
+                    {
+                        dataAdapter.Fill(dt);
+                    }
+                }
                 return dt;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al cargar los certificados: " + ex.Message);
+                // Error de certificados en CargarCuentasBancarias. Se corrige el mensaje.
+                throw new Exception("Error al cargar las cuentas bancarias: " + ex.Message, ex);
             }
             finally
             {
@@ -284,13 +292,14 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al editar certificado de depósito: " + ex.Message);
+                throw new Exception("Error al editar certificado de depósito: " + ex.Message, ex);
             }
             finally
             {
                 Cerrar();
             }
         }
+
         public bool renovarCertificado(int codigocertificado, decimal depositoInicial, int plazo, decimal tasa)
         {
             try
@@ -309,7 +318,7 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al renovar el certificado de depósito: " + ex.Message);
+                throw new Exception("Error al renovar el certificado de depósito: " + ex.Message, ex);
             }
             finally
             {
@@ -327,12 +336,12 @@ namespace Capa_de_acceso_de_datos
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Id_Certificado", codigocertificado);
                     cmd.Parameters.AddWithValue("@Detalle", detalle);
-                    int filas = cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al cancelar el certificado de depósito: " + ex.Message);
+                throw new Exception("Error al cancelar el certificado de depósito: " + ex.Message, ex);
             }
             finally
             {
@@ -356,8 +365,9 @@ namespace Capa_de_acceso_de_datos
                     {
                         while (reader.Read())
                         {
-                            int id = Convert.ToInt32(reader["ID"]);
-                            string nombre = reader["NombreOrigen"].ToString();
+                            // Uso de GetInt32 y GetString para robustez
+                            int id = reader.GetInt32(reader.GetOrdinal("ID"));
+                            string nombre = reader.GetString(reader.GetOrdinal("NombreOrigen"));
 
                             listaOrigenes.Add(new Origen(id, nombre));
                         }
@@ -366,7 +376,7 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al cargar origen: " + ex.Message, ex);
+                throw new Exception("Error al cargar origen de fondos: " + ex.Message, ex);
             }
             finally
             {
@@ -375,8 +385,6 @@ namespace Capa_de_acceso_de_datos
 
             return listaOrigenes;
         }
-
-
 
         public DataTable ObtenerCuentasIngreso()
         {
@@ -389,31 +397,30 @@ namespace Capa_de_acceso_de_datos
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
                         da.Fill(dtCuentas);
                     }
-
-                    return dtCuentas;
                 }
+                return dtCuentas;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener las sugerencias para autocompletar: " + ex.Message);
+                throw new Exception("Error al obtener las cuentas de ingresos: " + ex.Message, ex);
             }
             finally
             {
                 Cerrar();
             }
         }
+
         public DataTable ObtenerCuentasGastos()
         {
             DataTable dtCuentas = new DataTable();
 
             try
             {
-                Abrir(); 
+                Abrir();
                 using (SqlCommand cmd = new SqlCommand("SP_mostrar_cuentasgastos", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -422,17 +429,17 @@ namespace Capa_de_acceso_de_datos
                     {
                         da.Fill(dtCuentas);
                     }
-
-                    return dtCuentas;
                 }
+                return dtCuentas;
             }
             catch (Exception ex)
             {
-                throw new Exception("No hay sugerencias " + ex.Message);
+                // Mensaje corregido
+                throw new Exception("Error al obtener las cuentas de gastos: " + ex.Message, ex);
             }
             finally
             {
-                Cerrar(); 
+                Cerrar();
             }
         }
 
@@ -454,13 +461,130 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener ID de usuario: " + ex.Message);
+                throw new Exception("Error al obtener ID de usuario por nombre de usuario: " + ex.Message, ex);
             }
             finally
             {
                 Cerrar();
             }
             return idUsuario;
+        }
+
+        public List<(int Id, Image<Gray, byte> Rostro)> CargarImagenesBD(CascadeClassifier detector)
+        {
+            List<(int, Image<Gray, byte>)> lista = new List<(int, Image<Gray, byte>)>();
+
+            try
+            {
+                Abrir();
+
+                using (SqlCommand cmd = new SqlCommand("sp_ObtenerPersonas", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            try
+                            {
+                                int id = dr.GetInt32(dr.GetOrdinal("Usuario_id"));
+                                int rostroDataOrdinal = dr.GetOrdinal("RostroData");
+
+                                if (dr.IsDBNull(rostroDataOrdinal))
+                                {
+                                    Console.WriteLine($"Usuario {id}: RostroData es NULL");
+                                    continue;
+                                }
+
+                                byte[] fotoBytes = (byte[])dr["RostroData"];
+
+                                if (fotoBytes.Length == 0)
+                                {
+                                    Console.WriteLine($"Usuario {id}: RostroData vacío");
+                                    continue;
+                                }
+
+                                // Convertimos directamente el byte[] en Mat
+                                using (Mat m = new Mat())
+                                {
+                                    CvInvoke.Imdecode(fotoBytes, ImreadModes.Grayscale, m);
+
+                                    if (m.IsEmpty)
+                                    {
+                                        Console.WriteLine($"Usuario {id}: RostroData vacío");
+                                        continue;
+                                    }
+
+                                    Image<Gray, byte> rostro = m.ToImage<Gray, byte>();
+
+                                    // Asegurar tamaño correcto
+                                    if (rostro.Width != 100 || rostro.Height != 100)
+                                    {
+                                        rostro = rostro.Resize(100, 100, Inter.Linear);
+                                    }
+
+                                    lista.Add((id, rostro.Clone()));
+                                }
+                            
+
+                            }
+                                
+                            catch (Exception exInner)
+                            {
+                                Console.WriteLine($"Error procesando fila: {exInner.Message}");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar imágenes desde la BD: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+            return lista;
+        }
+
+        public ResultadoLogin ValidarUsuarioPorID(int usuarioID)
+        {
+            ResultadoLogin resultado = new ResultadoLogin();
+
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("IngresoLoginPorIDReconocimientoFacial", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UsuarioID", usuarioID);
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            resultado.UsuarioID = dr.GetInt32(dr.GetOrdinal("UsuarioID"));
+                            resultado.RolID = dr.GetInt32(dr.GetOrdinal("RolID"));
+
+                            int parroquiaOrdinal = dr.GetOrdinal("Parroquia_ID");
+                            resultado.IdParroquia = dr.IsDBNull(parroquiaOrdinal) ? 0 : dr.GetInt32(parroquiaOrdinal);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al validar usuario por biometria: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+            return resultado;
         }
     }
 }

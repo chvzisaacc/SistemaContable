@@ -12,9 +12,18 @@ namespace Capa_de_Presentación.Formularios_Ewin
 {
     public partial class FRM_PG8 : Form
     {
+        private int usuarioID;
+        private int idParroquia;
+
         public FRM_PG8()
         {
             InitializeComponent();
+        }
+
+        public FRM_PG8(int usuarioID, int idParroquia)
+        {
+            this.usuarioID = usuarioID;
+            this.idParroquia = idParroquia;
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)

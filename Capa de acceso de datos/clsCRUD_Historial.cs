@@ -1,10 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Capa_de_acceso_de_datos
 {
@@ -14,7 +9,7 @@ namespace Capa_de_acceso_de_datos
 
         public clsCRUD_Historial()
         {
-            conexion = new Clsconexion();   
+            conexion = new Clsconexion();
         }
 
         public DataTable ObtenerHistorial(int? parroquiaId = null, int? usuarioId = null)
