@@ -3,10 +3,12 @@
     public static class Sesion1
     {
 
+
+
         public static int UsuarioID { get; private set; } = 0;
 
         public static int RolID { get; private set; } = 0;
-        public static int IdParroquia { get; private set; } = 0;
+        public static int IdParroquia { get; set; } = 0;
 
         public static string Correo { get; private set; } = null;
 

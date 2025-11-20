@@ -31,20 +31,20 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG10));
             panel1 = new Panel();
             button1 = new Button();
-            comboBox3 = new ComboBox();
+            cmbFormatoDescarga = new ComboBox();
             label9 = new Label();
             panel3 = new Panel();
-            listBox1 = new ListBox();
+            lstReportes = new ListBox();
             label2 = new Label();
             panel2 = new Panel();
             button2 = new Button();
-            comboBox2 = new ComboBox();
-            comboBox1 = new ComboBox();
+            cmbTipoReporte = new ComboBox();
+            cmbParroquia = new ComboBox();
             label7 = new Label();
             label8 = new Label();
-            dateTimePicker2 = new DateTimePicker();
+            dtpHasta = new DateTimePicker();
             label5 = new Label();
-            dateTimePicker1 = new DateTimePicker();
+            dtpDesde = new DateTimePicker();
             label3 = new Label();
             label6 = new Label();
             label4 = new Label();
@@ -61,7 +61,7 @@
             // 
             panel1.BackColor = Color.White;
             panel1.Controls.Add(button1);
-            panel1.Controls.Add(comboBox3);
+            panel1.Controls.Add(cmbFormatoDescarga);
             panel1.Controls.Add(label9);
             panel1.Controls.Add(panel3);
             panel1.Controls.Add(panel2);
@@ -69,14 +69,16 @@
             panel1.Controls.Add(panel4);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
-            panel1.Location = new Point(12, 12);
+            panel1.Location = new Point(11, 12);
             panel1.Name = "panel1";
             panel1.Size = new Size(1258, 695);
             panel1.TabIndex = 12;
+            panel1.Paint += panel1_Paint;
             // 
             // button1
             // 
             button1.BackColor = Color.FromArgb(43, 56, 143);
+            button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
             button1.ImageAlign = ContentAlignment.TopCenter;
@@ -87,15 +89,16 @@
             button1.Text = "Descargar";
             button1.UseVisualStyleBackColor = false;
             button1.UseWaitCursor = true;
+            button1.Click += button1_Click;
             // 
-            // comboBox3
+            // cmbFormatoDescarga
             // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Items.AddRange(new object[] { "PDF", "DOCX", "JPG" });
-            comboBox3.Location = new Point(947, 493);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(124, 28);
-            comboBox3.TabIndex = 11;
+            cmbFormatoDescarga.FormattingEnabled = true;
+            cmbFormatoDescarga.Items.AddRange(new object[] { "PDF", "DOCX", "JPG" });
+            cmbFormatoDescarga.Location = new Point(947, 493);
+            cmbFormatoDescarga.Name = "cmbFormatoDescarga";
+            cmbFormatoDescarga.Size = new Size(124, 28);
+            cmbFormatoDescarga.TabIndex = 11;
             // 
             // label9
             // 
@@ -110,21 +113,21 @@
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(251, 203, 51);
-            panel3.Controls.Add(listBox1);
+            panel3.Controls.Add(lstReportes);
             panel3.Controls.Add(label2);
             panel3.Location = new Point(722, 192);
             panel3.Name = "panel3";
             panel3.Size = new Size(501, 288);
             panel3.TabIndex = 18;
             // 
-            // listBox1
+            // lstReportes
             // 
-            listBox1.FormattingEnabled = true;
-            listBox1.Items.AddRange(new object[] { "Balance General - Junio-2025" });
-            listBox1.Location = new Point(3, 57);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(495, 224);
-            listBox1.TabIndex = 3;
+            lstReportes.FormattingEnabled = true;
+            lstReportes.Items.AddRange(new object[] { "Queso" });
+            lstReportes.Location = new Point(3, 57);
+            lstReportes.Name = "lstReportes";
+            lstReportes.Size = new Size(495, 224);
+            lstReportes.TabIndex = 3;
             // 
             // label2
             // 
@@ -141,13 +144,13 @@
             // 
             panel2.BackColor = Color.FromArgb(141, 215, 247);
             panel2.Controls.Add(button2);
-            panel2.Controls.Add(comboBox2);
-            panel2.Controls.Add(comboBox1);
+            panel2.Controls.Add(cmbTipoReporte);
+            panel2.Controls.Add(cmbParroquia);
             panel2.Controls.Add(label7);
             panel2.Controls.Add(label8);
-            panel2.Controls.Add(dateTimePicker2);
+            panel2.Controls.Add(dtpHasta);
             panel2.Controls.Add(label5);
-            panel2.Controls.Add(dateTimePicker1);
+            panel2.Controls.Add(dtpDesde);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(label6);
             panel2.Location = new Point(88, 192);
@@ -158,8 +161,9 @@
             // button2
             // 
             button2.BackColor = Color.FromArgb(43, 56, 143);
+            button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.White;
+            button2.ForeColor = Color.Transparent;
             button2.ImageAlign = ContentAlignment.TopCenter;
             button2.Location = new Point(178, 201);
             button2.Name = "button2";
@@ -168,47 +172,48 @@
             button2.Text = "Generar";
             button2.UseVisualStyleBackColor = false;
             button2.UseWaitCursor = true;
+            button2.Click += button2_Click;
             // 
-            // comboBox2
+            // cmbTipoReporte
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(399, 133);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(124, 28);
-            comboBox2.TabIndex = 9;
+            cmbTipoReporte.FormattingEnabled = true;
+            cmbTipoReporte.Location = new Point(334, 127);
+            cmbTipoReporte.Name = "cmbTipoReporte";
+            cmbTipoReporte.Size = new Size(189, 28);
+            cmbTipoReporte.TabIndex = 9;
             // 
-            // comboBox1
+            // cmbParroquia
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(399, 87);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(124, 28);
-            comboBox1.TabIndex = 8;
+            cmbParroquia.FormattingEnabled = true;
+            cmbParroquia.Location = new Point(334, 84);
+            cmbParroquia.Name = "cmbParroquia";
+            cmbParroquia.Size = new Size(189, 28);
+            cmbParroquia.TabIndex = 8;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(283, 133);
+            label7.Location = new Point(223, 133);
             label7.Name = "label7";
-            label7.Size = new Size(113, 20);
+            label7.Size = new Size(116, 20);
             label7.TabIndex = 7;
-            label7.Text = "Tipo de reporte";
+            label7.Text = "Tipo de reporte:";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(283, 90);
+            label8.Location = new Point(257, 91);
             label8.Name = "label8";
-            label8.Size = new Size(72, 20);
+            label8.Size = new Size(75, 20);
             label8.TabIndex = 6;
-            label8.Text = "Parroquia";
+            label8.Text = "Parroquia:";
             // 
-            // dateTimePicker2
+            // dtpHasta
             // 
-            dateTimePicker2.Location = new Point(70, 126);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(146, 27);
-            dateTimePicker2.TabIndex = 5;
+            dtpHasta.Location = new Point(70, 125);
+            dtpHasta.Name = "dtpHasta";
+            dtpHasta.Size = new Size(146, 27);
+            dtpHasta.TabIndex = 5;
             // 
             // label5
             // 
@@ -217,29 +222,29 @@
             label5.Name = "label5";
             label5.Size = new Size(50, 20);
             label5.TabIndex = 4;
-            label5.Text = "label5";
+            label5.Text = "Hasta:";
             // 
-            // dateTimePicker1
+            // dtpDesde
             // 
-            dateTimePicker1.Location = new Point(70, 83);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(146, 27);
-            dateTimePicker1.TabIndex = 3;
+            dtpDesde.Location = new Point(70, 83);
+            dtpDesde.Name = "dtpDesde";
+            dtpDesde.Size = new Size(146, 27);
+            dtpDesde.TabIndex = 3;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Location = new Point(14, 88);
             label3.Name = "label3";
-            label3.Size = new Size(50, 20);
+            label3.Size = new Size(54, 20);
             label3.TabIndex = 2;
-            label3.Text = "label3";
+            label3.Text = "Desde:";
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(212, 15);
+            label6.Location = new Point(213, 15);
             label6.Name = "label6";
             label6.Size = new Size(133, 38);
             label6.TabIndex = 1;
@@ -250,7 +255,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(1124, 0);
+            label4.Location = new Point(1120, 13);
             label4.Name = "label4";
             label4.Size = new Size(131, 46);
             label4.TabIndex = 16;
@@ -277,7 +282,7 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(20, 14);
+            pictureBox1.Location = new Point(21, 13);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(97, 88);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -315,18 +320,18 @@
         private PictureBox pictureBox1;
         private Label label2;
         private Label label6;
-        private ComboBox comboBox2;
-        private ComboBox comboBox1;
+        private ComboBox cmbTipoReporte;
+        private ComboBox cmbParroquia;
         private Label label7;
         private Label label8;
-        private DateTimePicker dateTimePicker2;
+        private DateTimePicker dtpHasta;
         private Label label5;
-        private DateTimePicker dateTimePicker1;
+        private DateTimePicker dtpDesde;
         private Label label3;
         private Button button2;
         private Button button1;
-        private ComboBox comboBox3;
+        private ComboBox cmbFormatoDescarga;
         private Label label9;
-        private ListBox listBox1;
+        private ListBox lstReportes;
     }
 }

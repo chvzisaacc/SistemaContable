@@ -18,10 +18,14 @@
     <PackageReference Include="Emgu.UI.WinForms" Version="4.5.5" />
     <PackageReference Include="EmguCvWorld" Version="2.0.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+<<<<<<< HEAD
     <PackageReference Include="Microsoft.SqlServer.Server" Version="1.0.0" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.11.0.20250507" />
     <PackageReference Include="Stimulsoft.Reports.Engine.NetCore" Version="2025.4.3" />
     <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
+=======
+    <PackageReference Include="QuestPDF" Version="2024.7.1" />
+>>>>>>> b2413308697a9f389575501d1aff412d1b99b491
   </ItemGroup>
 
 </Project>
