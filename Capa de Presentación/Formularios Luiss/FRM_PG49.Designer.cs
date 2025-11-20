@@ -168,6 +168,7 @@
             cmbTipoReporte.Name = "cmbTipoReporte";
             cmbTipoReporte.Size = new Size(109, 23);
             cmbTipoReporte.TabIndex = 9;
+            cmbTipoReporte.SelectedIndexChanged += cmbTipoReporte_SelectedIndexChanged;
             // 
             // label7
             // 

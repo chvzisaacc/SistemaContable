@@ -44,6 +44,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void FRM_PG49_Load(object sender, EventArgs e)
         {
+
+            Sesion1.IdParroquia = 1;
             CargarReportes();
             cmbFormatoDescarga.Items.Clear();
             cmbFormatoDescarga.Items.Add("PDF");
@@ -92,65 +94,67 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            int parroquiaId = Sesion1.IdParroquia;
+            int parroquiaId = 1;
             string parroquiaNombre = _gastosService.ObtenerNombreParroquia(parroquiaId);
+
+            MessageBox.Show("Parroquia enviada: " + Sesion1.IdParroquia);
 
             string rutaPdf = string.Empty;
             string nombreReporte = string.Empty;
 
             switch (tipoReporteId)
             {
-           case 1:
-            rutaPdf = _estadoResultadosService.GenerarInformeEstadoResultados(
+                case 1:
+                    rutaPdf = _estadoResultadosService.GenerarInformeEstadoResultados(
+                              parroquiaId,
+                              parroquiaNombre,
+                              desde,
+                              hasta,
+                              Sesion1.UsuarioID);
+
+                    nombreReporte = "Estado de Resultados";
+                    break;
+
+                /* case 2: // Balance General
+             /* rutaPdf = _balanceGeneralService.GenerarInformeBalanceGeneral(
+                 parroquiaId,
+                 parroquiaNombre,
+                 desde,
+                 hasta,
+                 Sesion1.UsuarioID);
+
+              nombreReporte = "BalanceGeneral";
+              break;
+
+
+
+             /* case 3: // Ingresos
+                  rutaPdf = _ingresosService.GenerarInformeIngresos(
                       parroquiaId,
                       parroquiaNombre,
                       desde,
                       hasta,
                       Sesion1.UsuarioID);
 
-            nombreReporte = "Estado de Resultados";
-            break;
+                  nombreReporte = "Ingresos";
+                  break;*/
 
-               /* case 2: // Balance General
-            /* rutaPdf = _balanceGeneralService.GenerarInformeBalanceGeneral(
-                parroquiaId,
-                parroquiaNombre,
-                desde,
-                hasta,
-                Sesion1.UsuarioID);
+                case 4: // BALANCE GENERAL
+                    rutaPdf = _gastosService.GenerarInformeGastos(
+                    parroquiaId,
+                    parroquiaNombre,
+                    desde,
+                    hasta,
+                    Sesion1.UsuarioID);
 
-             nombreReporte = "BalanceGeneral";
-             break;
+                    nombreReporte = "Gastos";
+                    break;
 
-        
-
-            /* case 3: // Ingresos
-                 rutaPdf = _ingresosService.GenerarInformeIngresos(
-                     parroquiaId,
-                     parroquiaNombre,
-                     desde,
-                     hasta,
-                     Sesion1.UsuarioID);
-
-                 nombreReporte = "Ingresos";
-                 break;*/
-
-            case 4: // BALANCE GENERAL
-                rutaPdf = _gastosService.GenerarInformeGastos(
-                parroquiaId,
-                parroquiaNombre,
-                desde,
-                hasta,
-                Sesion1.UsuarioID);
-
-                nombreReporte = "Gastos";
-                break;
-
-            default:
-                MessageBox.Show("Tipo de reporte no válido.");
-                return;
+                default:
+                    MessageBox.Show("Tipo de reporte no válido.");
+                    return;
             }
-        
+
 
             string nombreVisible = ConstruirNombreReporteVisible(
                 nombreReporte,
@@ -238,6 +242,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         private void lstReportes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbTipoReporte_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
