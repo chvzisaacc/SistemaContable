@@ -84,32 +84,33 @@ namespace Capa_de_procesamiento_de_datos
 
                     page.Content().Table(table =>
                     {
-                        table.ColumnsDefinition(cols =>
+                        table.ColumnsDefinition(columns =>
                         {
-                            cols.ConstantColumn(80);  // Fecha
-                            cols.RelativeColumn();    // Cuenta / Descripción
-                            cols.ConstantColumn(80);  // Debe
-                            cols.ConstantColumn(80);  // Haber
+                            columns.ConstantColumn(70);  // Fecha
+                            columns.RelativeColumn(2);   // Cuenta
+                            columns.RelativeColumn(3);   // Descripción
+                            columns.ConstantColumn(80);  // Monto
                         });
 
-                        table.Header(h =>
+                        table.Header(header =>
                         {
-                            h.Cell().Text("Fecha").Bold();
-                            h.Cell().Text("Cuenta / Movimiento").Bold();
-                            h.Cell().Text("Debe").Bold();
-                            h.Cell().Text("Haber").Bold();
+                            header.Cell().Text("Fecha").SemiBold();
+                            header.Cell().Text("Cuenta").SemiBold();
+                            header.Cell().Text("Descripción").SemiBold();
+                            header.Cell().Text("Monto").SemiBold();
                         });
 
                         foreach (DataRow row in datos.Rows)
                         {
-                            DateTime fecha = Convert.ToDateTime(row["fecha_transaccion"]);
-                            string cuenta = row["CuentaContable"]?.ToString();
-                            string desc = row["DescripcionMovimiento"]?.ToString();
+                            var fecha = (DateTime)row["fecha_transaccion"];
+                            string cuenta = row["NombreCuenta"].ToString();
+                            string desc = row["descripcion"].ToString();
+                            decimal monto = Convert.ToDecimal(row["Monto"]);   // 👈 viene del SP
 
                             table.Cell().Text(fecha.ToString("dd/MM/yyyy"));
-                            table.Cell().Text($"{cuenta}\n{desc}");
-                            table.Cell().Text(string.Format("{0:N2}", row["Debe"]));
-                            table.Cell().Text(string.Format("{0:N2}", row["Haber"]));
+                            table.Cell().Text(cuenta);
+                            table.Cell().Text(desc);
+                            table.Cell().Text(string.Format("{0:N2}", monto));
                         }
                     });
 
