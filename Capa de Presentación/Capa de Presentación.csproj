@@ -46,10 +46,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="RECONOCIMIENTO FACIAL\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\Capa de acceso de datos\Capa de acceso de datos.csproj" />
 		<ProjectReference Include="..\Capa de procesamiento de datos\Capa de procesamiento de datos.csproj" />
 	</ItemGroup>
