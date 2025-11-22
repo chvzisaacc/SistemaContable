@@ -32,6 +32,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
         private bool cargandoIntereses = true;
 
+        //Validaciones
+        private ClsValidaciones Validaciones;
+        
         ClsCerrar cerrar = new ClsCerrar();
         public FRM_42(int id_Usuario)
         {
@@ -49,6 +52,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             crudCataloCuentas = new clsCRUD_CatalogoCuentas();
 
             crudCuentasBancarias = new ClsCRUD_CuentasBancarias();
+
+            Validaciones = new ClsValidaciones();
 
             this.FormClosing += cerrar.CerrarApp;
             // Agrega los paneles secundarios dentro del panel contenedor
@@ -75,9 +80,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.usuario_id = userId;
         }
 
-        public FRM_42()
-        {
-        }
+        
 
         private void FRM_42_Load(object sender, EventArgs e)
         {
@@ -104,7 +107,40 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // CargarDatos();
             // CargarComboBoxes();
 
+           
+        }
 
+        private bool ValidarCampos()
+        {
+            if (string.IsNullOrWhiteSpace(txtNoReferencia.Text))
+            {
+                MessageBox.Show("El campo detalle es requerido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNoReferencia.Focus();
+
+                if (!Validaciones.EsNumeroEntero(txtNoReferencia.Text))
+                {
+                    MessageBox.Show("El detalle solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNoReferencia.Focus(); 
+                    return false;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(txtNoReferencia2.Text))
+            {
+                MessageBox.Show("El campo detalle es requerido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNoReferencia.Focus();
+
+                if (!Validaciones.EsNumeroEntero(txtNoReferencia2.Text))
+                {
+                    MessageBox.Show("El detalle solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNoReferencia.Focus();
+                    return false;
+                }
+            }
+
+            return true;
         }
         private void CargarCuentasEnComboBox()
         {
@@ -731,7 +767,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-
+            ValidarCampos();
             if (modoEdicion)
             {
                 if (dataGridView1.CurrentRow == null)
@@ -1043,7 +1079,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void btnGuardar2_Click(object sender, EventArgs e)
         {
-
+            ValidarCampos();
             if (modoEdicion)
             {
                 if (dgvGastos.CurrentRow == null)

@@ -123,7 +123,7 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
-        public bool CrearCuentaBanco(String Nombre, decimal saldo, decimal tasaInteres, out int nuevo_Id)
+        public bool CrearCuentaBanco(String Nombre, decimal saldo,  out int nuevo_Id)
         {
             nuevo_Id = 0;
             try
@@ -140,11 +140,6 @@ namespace Capa_de_acceso_de_datos
                 pSaldo.Precision = 10;
                 pSaldo.Scale = 2;
                 pSaldo.Value = saldo;
-
-                var pTasa = cmd.Parameters.Add("@tasa_interes", SqlDbType.Decimal);
-                pTasa.Precision = 4;
-                pTasa.Scale = 2;
-                pTasa.Value = tasaInteres;
 
                 var pOut = cmd.Parameters.Add("@nuevo_Id", SqlDbType.Int);
                 pOut.Direction = ParameterDirection.Output;

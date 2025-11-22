@@ -1,4 +1,5 @@
 ﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,31 +15,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
     public partial class FRM_BancosAgregarCuentaBancaria : Form
     {
         private ClsCRUD_CuentasBancarias crud;  // campo
-
+        private ClsValidaciones Validaciones; //Validaciones
         public FRM_BancosAgregarCuentaBancaria()
         {
             InitializeComponent();
             crud = new ClsCRUD_CuentasBancarias();
-            txtTasaInteres.Enabled = false;
+           
+            Validaciones = new ClsValidaciones();
         }
 
 
 
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox1.Checked)
-            {
-                txtTasaInteres.Enabled = true;
-            }
-            else
-            {
-                txtTasaInteres.Enabled = false;
-            }
-        }
+
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
+            ValidarCampos();
             var nombre = txtCuenta.Text.Trim();
             if (string.IsNullOrWhiteSpace(nombre))
             {
@@ -46,16 +39,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
 
             }
-
-            if (!decimal.TryParse(txtTasaInteres.Text.Trim(), out var tasa) || tasa < 0m)
-            {
-                MessageBox.Show("Ingrese una tasa válida.");
-                return;
-            }
-
             decimal saldo = 0m;
 
-            bool ok = crud.CrearCuentaBanco(nombre, saldo, tasa, out int nuevo_Id);
+            bool ok = crud.CrearCuentaBanco(nombre, saldo,  out int nuevo_Id);
             /* if (ok)
              {
                  MessageBox.Show($"Cuenta creada. Id: {nuevo_Id}");
@@ -79,12 +65,77 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void FRM_BancosAgregarCuentaBancaria_Load(object sender, EventArgs e)
         {
+            
+        }
+        private bool ValidarCampos()
+        {
+            if (string.IsNullOrWhiteSpace(txtCuenta.Text))
+            {
+                MessageBox.Show("El campo detalle es requerido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCuenta.Focus();
 
+                if (!Validaciones.EsTextoValido(txtCuenta.Text))
+                {
+                    MessageBox.Show("El detalle solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCuenta.Focus();
+                    return false;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtMonto.Text) && !Validaciones.EsNumeroDecimal(txtMonto.Text))
+            {
+                MessageBox.Show("El saldo debe ser un número válido (Ej: 100.00).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMonto.Focus();
+                return false;
+            }
+            return true;
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void txtCuenta_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCuenta_Click(object sender, EventArgs e)
+        {
+            if (txtCuenta.Text == "Ingrese una cuenta")
+            {
+                txtCuenta.Text = "";
+                txtCuenta.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtUsuario_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtCuenta.Text))
+            {
+                txtCuenta.Text = "Ingrese una cuenta";
+                txtCuenta.ForeColor = Color.Gray;
+            }
+        }
+
+        private void txtMonto_Click(object sender, EventArgs e)
+        {
+            if (txtMonto.Text == "Ingrse un Monto")
+            {
+                txtMonto.Text = "";
+                txtMonto.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtMonto_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtCuenta.Text))
+            {
+                txtMonto.Text = "Ingrese un monto";
+                txtMonto.ForeColor = Color.Gray;
+            }
         }
     }
 }

@@ -26,7 +26,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
         //Catalogo
         private clsCRUD_CatalogoCuentas crudCatalogoCuentas;
         //BITACORA
-       private clsCRUD_Historial crudHistorial;
+        private clsCRUD_Historial crudHistorial;
+        //Validaciones
+       private ClsValidaciones Validaciones;
 
         ClsCerrar cerrar = new ClsCerrar();
         private int idParroquia;
@@ -51,7 +53,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             //bitacora
             crudHistorial = new clsCRUD_Historial();
-
+            //validaciones
+                        Validaciones = new ClsValidaciones();
             //Para busqueda de usuarios
             bindingSource = new BindingSource();
         }
@@ -64,6 +67,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
         public FRM_PG5(string userName, int userId) : this(0, 0)
         {
 
+        }
+
+        public FRM_PG5()
+        {
         }
 
         private void MostrarSoloEstePanel(Panel panelAMostrar)
@@ -99,6 +106,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             CargarComboBoxTipoTransaccion();
             LimpiarCamposCatalogo();
             HabilitarControlesCatalogo(false);
+            ValidarCamposCatalogo();
         }
 
         //usuarios
@@ -188,32 +196,65 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 MessageBox.Show("El nombre es requerido", "Validación",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
-                return false;
+
+                if (!Validaciones.EsTextoValido(txtNombre.Text))
+                {
+                    MessageBox.Show("El nombre solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNombre.Focus();
+                    return false;
+                }
+
             }
+
+           
 
             if (string.IsNullOrWhiteSpace(txtApellido.Text))
             {
                 MessageBox.Show("El apellido es requerido", "Validación",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtApellido.Focus();
-                return false;
+                if (!Validaciones.EsTextoValido(txtApellido.Text))
+                {
+                    MessageBox.Show("El apellido solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNombre.Focus();
+                    return false;
+                }
+
             }
+
+           
+
+            if (string.IsNullOrWhiteSpace(txtCorreo.Text))
+            {
+                MessageBox.Show("El correo es requerido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtApellido.Focus();
+                if (!Validaciones.EsCorreoValido(txtCorreo.Text))
+                {
+                    MessageBox.Show("El formato del correo no es válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCorreo.Focus();
+                    return false;
+                }
+
+            }
+
+            
 
             if (string.IsNullOrWhiteSpace(txtUsuario.Text))
             {
                 MessageBox.Show("El usuario es requerido", "Validación",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtUsuario.Focus();
-                return false;
+                if (string.IsNullOrWhiteSpace(txtContraseña.Text))
+                {
+                    MessageBox.Show("La contraseña es requerida", "Validación",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtContraseña.Focus();
+                    return false;
+                }
             }
 
-            if (string.IsNullOrWhiteSpace(txtContraseña.Text))
-            {
-                MessageBox.Show("La contraseña es requerida", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtContraseña.Focus();
-                return false;
-            }
+            
 
             return true;
         }
@@ -364,7 +405,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         CargarDatosUsuarioDGV();
                         LimpiarCamposUsuario();
                         HabilitarControlesUsuario(false);
-                      
+
                     }
                     else
                     {
@@ -602,19 +643,68 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private bool ValidarCamposCatalogo()
         {
+            if (string.IsNullOrWhiteSpace(txtIdCuenta.Text))
+            {
+                MessageBox.Show("El codigo de la cuenta es requerido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombreCuenta.Focus();
+                if (!Validaciones.EsNumeroDecimal(txtNombreCuenta.Text))
+                {
+                    MessageBox.Show("El codigo de la cuenta tiene caracteres inválidos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNombreCuenta.Focus();
+                    return false;
+                }
+            }
+
             if (string.IsNullOrWhiteSpace(txtNombreCuenta.Text))
             {
                 MessageBox.Show("El nombre de la cuenta es requerido", "Validación",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombreCuenta.Focus();
-                return false;
+                
+                if (!Validaciones.EsTextoValido(txtNombreCuenta.Text))
+                {
+                    MessageBox.Show("El nombre de la cuenta tiene caracteres inválidos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNombreCuenta.Focus();
+
+                    return false;
+                }
+
             }
+            
 
             if (string.IsNullOrWhiteSpace(txtCuenta.Text))
             {
                 MessageBox.Show("El campo Cuenta es requerido", "Validación",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCuenta.Focus();
+
+                if (!Validaciones.EsTextoValido(txtCuenta.Text))
+                {
+                    MessageBox.Show("La cuenta solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNombre.Focus();
+                    return false;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(txtDetalle.Text))
+            {
+                MessageBox.Show("El campo detalle es requerido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCuenta.Focus();
+
+                if (!Validaciones.EsTextoValido(txtCuenta.Text))
+                {
+                    MessageBox.Show("El detalle solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNombre.Focus();
+                    return false;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtSaldo.Text) && !Validaciones.EsNumeroDecimal(txtSaldo.Text))
+            {
+                MessageBox.Show("El saldo debe ser un número válido (Ej: 100.00).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSaldo.Focus();
                 return false;
             }
 
@@ -706,6 +796,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             popup.StartPosition = FormStartPosition.Manual;
             popup.Location = new Point(buttonScreenPosition.X, buttonScreenPosition.Y + pictureBox4.Height);
             popup.ShowDialog();
+        }
+
+        private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
         }
     }
 }

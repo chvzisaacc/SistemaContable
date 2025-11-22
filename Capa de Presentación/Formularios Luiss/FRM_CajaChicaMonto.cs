@@ -1,4 +1,5 @@
 ﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
@@ -10,11 +11,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         // Lo que el form principal debe actualizar o delegar
         public event ActualizarSaldoDelegate SaldoActualizado;
-
+        //Validaciones
+        private ClsValidaciones Validaciones;
 
         public FRM_CajaChicaMonto()
         {
             InitializeComponent();
+            Validaciones = new ClsValidaciones();
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
@@ -62,6 +65,29 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             }
 
+        }
+
+        private void FRM_CajaChicaMonto_Load(object sender, EventArgs e)
+        {
+            ValidarCampos();
+        }
+
+        private bool ValidarCampos()
+        {
+            if (string.IsNullOrWhiteSpace(txtMonto.Text))
+            {
+                MessageBox.Show("El campo detalle es requerido", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMonto.Focus();
+
+                if (!Validaciones.EsNumeroDecimal(txtMonto.Text))
+                {
+                    MessageBox.Show("El detalle solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMonto.Focus();
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             if (rol == 1)
             {
-                FRM_PG5 admin = new FRM_PG5();
+                FRM_PG5 admin = new FRM_PG5(idUsuario);
                 admin.Show();
                 this.Hide();
             }
@@ -110,6 +110,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             RECONOCIMIENTO_FACIAL.RECONOCER rECONOCER = new();
             rECONOCER.Show();
             this.Hide();
+        }
+
+        private void txtUsuario_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
