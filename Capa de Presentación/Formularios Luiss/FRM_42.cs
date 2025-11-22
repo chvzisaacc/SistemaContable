@@ -75,6 +75,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.usuario_id = userId;
         }
 
+        public FRM_42()
+        {
+        }
+
         private void FRM_42_Load(object sender, EventArgs e)
         {
             dgvGastos.AllowUserToAddRows = false;

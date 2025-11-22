@@ -44,6 +44,42 @@ namespace Capa_de_acceso_de_datos
             return ds;
         }
 
+        public DataTable ObtenerIngresosPorParroquia(int parroquiaId, DateTime desde, DateTime hasta)
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                _cn.Abrir(); // Usamos _cn, que es el que declaraste arriba
+
+                // Asegúrate de que el nombre del SP sea exactamente como lo creaste en SQL
+                using (SqlCommand cmd = new SqlCommand("sp_ReporteIngresos", _cn.sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Agregamos los 3 parámetros que pide tu SP
+                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquiaId);
+                    cmd.Parameters.AddWithValue("@Desde", desde.Date);
+                    cmd.Parameters.AddWithValue("@Hasta", hasta.Date);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(dt);
+                    }
+                }
+            }
+            
+            finally
+            {
+                _cn.Cerrar();
+            }
+
+            return dt;
+        }
+
+
+
+
         public DataTable ObtenerGastosPorParroquia(int parroquiaId, DateTime desde, DateTime hasta)
         {
             DataTable dt = new DataTable();
@@ -151,5 +187,8 @@ namespace Capa_de_acceso_de_datos
             return dt;
         }
     }
+
 }
+
+
 

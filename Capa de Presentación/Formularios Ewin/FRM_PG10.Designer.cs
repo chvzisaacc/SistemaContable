@@ -279,6 +279,7 @@
             cmbParroquia.Size = new Size(166, 23);
 >>>>>>> aas
             cmbParroquia.TabIndex = 8;
+            cmbParroquia.SelectedIndexChanged += cmbParroquia_SelectedIndexChanged;
             // 
             // label7
             // 
