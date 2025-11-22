@@ -1,6 +1,7 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CAPAS;
 using Capa_de_Presentación.CLASES;
+using Capa_de_Presentación.Formularios_Luiss;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,37 +37,34 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ClsAccionesDB clsAccionesDB = new();
-            int rol = 0;
-            int IdParroquia = 0;
-            string usuario = txtUsuario.Text;
-            string password = txtContraseña.Text;
-            ClsRecuperacion objrecu = new ClsRecuperacion();
-            objrecu.IniciarSesion(txtUsuario.Text, txtContraseña.Text, IdParroquia, this, label1);
+            ClsRecuperacion login = new ClsRecuperacion();
+            int rol = login.IniciarSesion(txtUsuario.Text, txtContraseña.Text, 0, label1);
 
+            if (rol <= 0) return;
 
+            ClsAccionesDB acciones = new ClsAccionesDB();
+            int idUsuario = acciones.ObtenerUsuarioIdPorNombreUsuario(txtUsuario.Text);
 
-            if (rol > 0)
+            Sesion1.IniciarSesion(idUsuario, rol, 0);
+
+            if (rol == 1)
             {
-                int idUsuario = clsAccionesDB.ObtenerUsuarioIdPorNombreUsuario(usuario);
-
-                if (idUsuario > 0)
-                {
-                    Sesion1.IniciarSesion(idUsuario, rol, IdParroquia);
-
-                    MessageBox.Show("Inicio de sesión exitoso. ID de Usuario guardado.");
-                }
-                else
-                {
-                    MessageBox.Show("Error: El usuario es válido, pero no se pudo obtener su ID.", "Error Crítico");
-                }
+                FRM_PG5 admin = new FRM_PG5();
+                admin.Show();
+                this.Hide();
+            }
+            else if (rol == 2 || rol == 3)
+            {
+                FRM_42 empleado = new FRM_42(idUsuario);
+                empleado.Show();
+                this.Hide();
             }
 
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
-            FRM_PG2 objrecu = new FRM_PG2();
+            Olvidaste_tu_contraseña objrecu = new Olvidaste_tu_contraseña();
             objrecu.Show();
             this.Hide();
         }
@@ -109,7 +107,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            
+            RECONOCIMIENTO_FACIAL.RECONOCER rECONOCER = new();
+            rECONOCER.Show();
+            this.Hide();
         }
     }
 }

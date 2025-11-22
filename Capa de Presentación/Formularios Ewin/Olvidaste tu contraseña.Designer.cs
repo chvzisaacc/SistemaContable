@@ -1,6 +1,6 @@
 ﻿namespace Capa_de_Presentación.Formularios_Ewin
 {
-    partial class FRM_PG2
+    partial class Olvidaste_tu_contraseña
     {
         /// <summary>
         /// Required designer variable.
@@ -30,6 +30,7 @@
         {
             panel1 = new Panel();
             panel2 = new Panel();
+            label4 = new Label();
             txtCorreo = new TextBox();
             button1 = new Button();
             label3 = new Label();
@@ -55,6 +56,7 @@
             // 
             panel2.BackColor = Color.White;
             panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(label4);
             panel2.Controls.Add(txtCorreo);
             panel2.Controls.Add(button1);
             panel2.Controls.Add(label3);
@@ -66,6 +68,16 @@
             panel2.RightToLeft = RightToLeft.No;
             panel2.Size = new Size(620, 550);
             panel2.TabIndex = 0;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(3, 523);
+            label4.Name = "label4";
+            label4.Size = new Size(61, 25);
+            label4.TabIndex = 5;
+            label4.Text = "Volver";
+            label4.Click += label4_Click;
             // 
             // txtCorreo
             // 
@@ -126,7 +138,7 @@
             label1.Text = "Contraseña Olvidada";
             label1.TextAlign = ContentAlignment.TopCenter;
             // 
-            // FRM_PG2
+            // Olvidaste_tu_contraseña
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -135,8 +147,9 @@
             ClientSize = new Size(1602, 899);
             Controls.Add(panel1);
             Margin = new Padding(4);
-            Name = "FRM_PG2";
-            Text = "FRM_PG2";
+            Name = "Olvidaste_tu_contraseña";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Olvisdaste tu contraseña";
             Load += FRM_PG2_Load_1;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
@@ -154,5 +167,6 @@
         private Label label3;
         private Button button1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private Label label4;
     }
 }

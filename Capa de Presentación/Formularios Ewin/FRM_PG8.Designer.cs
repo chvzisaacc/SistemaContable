@@ -71,9 +71,10 @@
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
-            panel1.Location = new Point(12, 12);
+            panel1.Location = new Point(15, 15);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1258, 695);
+            panel1.Size = new Size(1572, 869);
             panel1.TabIndex = 9;
             panel1.Paint += panel1_Paint;
             // 
@@ -83,9 +84,10 @@
             panel6.BorderStyle = BorderStyle.Fixed3D;
             panel6.Controls.Add(panel7);
             panel6.Enabled = false;
-            panel6.Location = new Point(894, 128);
+            panel6.Location = new Point(1118, 160);
+            panel6.Margin = new Padding(4);
             panel6.Name = "panel6";
-            panel6.Size = new Size(334, 322);
+            panel6.Size = new Size(416, 402);
             panel6.TabIndex = 17;
             // 
             // panel7
@@ -96,10 +98,11 @@
             panel7.Controls.Add(button1);
             panel7.Controls.Add(pictureBox2);
             panel7.Controls.Add(label6);
-            panel7.Location = new Point(3, 3);
+            panel7.Location = new Point(4, 4);
+            panel7.Margin = new Padding(4);
             panel7.Name = "panel7";
             panel7.RightToLeft = RightToLeft.No;
-            panel7.Size = new Size(323, 311);
+            panel7.Size = new Size(403, 388);
             panel7.TabIndex = 0;
             // 
             // label4
@@ -108,9 +111,10 @@
             label4.BackColor = Color.FromArgb(251, 203, 51);
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.FromArgb(43, 56, 143);
-            label4.Location = new Point(130, 38);
+            label4.Location = new Point(162, 48);
+            label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
-            label4.Size = new Size(41, 28);
+            label4.Size = new Size(49, 32);
             label4.TabIndex = 19;
             label4.Text = "AD";
             // 
@@ -120,18 +124,21 @@
             button1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
             button1.ImageAlign = ContentAlignment.TopCenter;
-            button1.Location = new Point(61, 192);
+            button1.Location = new Point(76, 240);
+            button1.Margin = new Padding(4);
             button1.Name = "button1";
-            button1.Size = new Size(201, 52);
+            button1.Size = new Size(251, 65);
             button1.TabIndex = 4;
             button1.Text = "Cerrar Sesión";
             button1.UseVisualStyleBackColor = false;
             button1.UseWaitCursor = true;
+            button1.Click += button1_Click;
             // 
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(112, 14);
+            pictureBox2.Location = new Point(140, 18);
+            pictureBox2.Margin = new Padding(4);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(95, 88);
             pictureBox2.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -142,9 +149,10 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(27, 126);
+            label6.Location = new Point(34, 158);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
-            label6.Size = new Size(270, 38);
+            label6.Size = new Size(314, 45);
             label6.TabIndex = 0;
             label6.Text = "Admin@gmail.com";
             label6.TextAlign = ContentAlignment.TopCenter;
@@ -153,17 +161,19 @@
             // 
             panel5.BackgroundImage = (Image)resources.GetObject("panel5.BackgroundImage");
             panel5.BackgroundImageLayout = ImageLayout.Stretch;
-            panel5.Location = new Point(308, 254);
+            panel5.Location = new Point(385, 318);
+            panel5.Margin = new Padding(4);
             panel5.Name = "panel5";
-            panel5.Size = new Size(620, 340);
+            panel5.Size = new Size(775, 425);
             panel5.TabIndex = 16;
             // 
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(1060, 25);
+            pictureBox3.Location = new Point(1325, 31);
+            pictureBox3.Margin = new Padding(4);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(77, 66);
+            pictureBox3.Size = new Size(96, 82);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 15;
             pictureBox3.TabStop = false;
@@ -174,16 +184,19 @@
             label8.BackColor = Color.FromArgb(251, 203, 51);
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.FromArgb(43, 56, 143);
-            label8.Location = new Point(1172, 42);
+            label8.Location = new Point(1465, 52);
+            label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
-            label8.Size = new Size(41, 28);
+            label8.Size = new Size(49, 32);
             label8.TabIndex = 14;
             label8.Text = "AD";
+            label8.Click += label8_Click;
             // 
             // pictureBox4
             // 
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(1153, 18);
+            pictureBox4.Location = new Point(1441, 22);
+            pictureBox4.Margin = new Padding(4);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Size = new Size(95, 88);
             pictureBox4.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -194,23 +207,26 @@
             // 
             panel2.BackColor = Color.FromArgb(43, 56, 143);
             panel2.Enabled = false;
-            panel2.Location = new Point(413, 173);
+            panel2.Location = new Point(516, 216);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(845, 3);
+            panel2.Size = new Size(1056, 4);
             panel2.TabIndex = 11;
             // 
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(43, 56, 143);
             panel3.Enabled = false;
-            panel3.Location = new Point(0, 173);
+            panel3.Location = new Point(0, 216);
+            panel3.Margin = new Padding(4);
             panel3.Name = "panel3";
-            panel3.Size = new Size(845, 3);
+            panel3.Size = new Size(1056, 4);
             panel3.TabIndex = 10;
             // 
             // panel4
             // 
-            panel4.Location = new Point(175, 192);
+            panel4.Location = new Point(219, 240);
+            panel4.Margin = new Padding(4);
             panel4.Name = "panel4";
             panel4.Size = new Size(0, 0);
             panel4.TabIndex = 7;
@@ -219,9 +235,10 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            label3.Location = new Point(254, 133);
+            label3.Location = new Point(318, 166);
+            label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(282, 38);
+            label3.Size = new Size(335, 45);
             label3.TabIndex = 3;
             label3.Text = "Catálogo de cuentas";
             // 
@@ -229,9 +246,10 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            label2.Location = new Point(79, 133);
+            label2.Location = new Point(99, 166);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(117, 38);
+            label2.Size = new Size(139, 45);
             label2.TabIndex = 2;
             label2.Text = "Usuario";
             // 
@@ -239,30 +257,34 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Black", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(134, 39);
+            label1.Location = new Point(168, 49);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(221, 38);
+            label1.Size = new Size(257, 45);
             label1.TabIndex = 1;
             label1.Text = "Administrador";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(20, 14);
+            pictureBox1.Location = new Point(25, 18);
+            pictureBox1.Margin = new Padding(4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(97, 88);
+            pictureBox1.Size = new Size(121, 110);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
             // FRM_PG8
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(1282, 719);
+            ClientSize = new Size(1602, 899);
             Controls.Add(panel1);
+            Margin = new Padding(4);
             Name = "FRM_PG8";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_PG8";
             Load += FRM_PG8_Load;
             panel1.ResumeLayout(false);

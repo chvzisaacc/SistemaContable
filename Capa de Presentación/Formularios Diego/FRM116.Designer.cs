@@ -139,6 +139,8 @@
             textBox4.Size = new Size(50, 21);
             textBox4.TabIndex = 31;
             textBox4.Text = "Volver";
+            textBox4.Click += textBox4_Click;
+            textBox4.TextChanged += textBox4_TextChanged;
             // 
             // pictureBox9
             // 
@@ -187,6 +189,7 @@
             ClientSize = new Size(1134, 686);
             Controls.Add(panel1);
             Name = "FRM116";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM116";
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);

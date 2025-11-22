@@ -61,8 +61,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             this.idParroquia = idParroquia;
         }
 
-        public FRM_PG5()
+        public FRM_PG5(string userName, int userId) : this(0, 0)
         {
+
         }
 
         private void MostrarSoloEstePanel(Panel panelAMostrar)

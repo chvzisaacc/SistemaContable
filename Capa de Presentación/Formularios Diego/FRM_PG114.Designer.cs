@@ -212,6 +212,7 @@
             Controls.Add(panel1);
             Margin = new Padding(4);
             Name = "FRM_PG114";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_PG114";
             Load += FRM_PG114_Load;
             panel1.ResumeLayout(false);

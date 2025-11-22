@@ -32,6 +32,7 @@
             panel1 = new Panel();
             panel6 = new Panel();
             panel7 = new Panel();
+            label4 = new Label();
             button2 = new Button();
             pictureBox2 = new PictureBox();
             button1 = new Button();
@@ -72,7 +73,7 @@
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
             panel1.Location = new Point(15, 15);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(1572, 869);
             panel1.TabIndex = 10;
@@ -85,7 +86,7 @@
             panel6.Controls.Add(panel7);
             panel6.Enabled = false;
             panel6.Location = new Point(1118, 160);
-            panel6.Margin = new Padding(4, 4, 4, 4);
+            panel6.Margin = new Padding(4);
             panel6.Name = "panel6";
             panel6.Size = new Size(416, 523);
             panel6.TabIndex = 17;
@@ -94,16 +95,27 @@
             // 
             panel7.BackColor = Color.White;
             panel7.BorderStyle = BorderStyle.FixedSingle;
+            panel7.Controls.Add(label4);
             panel7.Controls.Add(button2);
             panel7.Controls.Add(pictureBox2);
             panel7.Controls.Add(button1);
             panel7.Controls.Add(label6);
             panel7.Location = new Point(4, 4);
-            panel7.Margin = new Padding(4, 4, 4, 4);
+            panel7.Margin = new Padding(4);
             panel7.Name = "panel7";
             panel7.RightToLeft = RightToLeft.No;
             panel7.Size = new Size(403, 511);
             panel7.TabIndex = 0;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(3, 484);
+            label4.Name = "label4";
+            label4.Size = new Size(59, 25);
+            label4.TabIndex = 7;
+            label4.Text = "Cerrar";
+            label4.Click += label4_Click;
             // 
             // button2
             // 
@@ -112,7 +124,7 @@
             button2.ForeColor = Color.White;
             button2.ImageAlign = ContentAlignment.TopCenter;
             button2.Location = new Point(76, 416);
-            button2.Margin = new Padding(4, 4, 4, 4);
+            button2.Margin = new Padding(4);
             button2.Name = "button2";
             button2.Size = new Size(251, 65);
             button2.TabIndex = 6;
@@ -125,7 +137,7 @@
             pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
             pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
             pictureBox2.Location = new Point(76, 72);
-            pictureBox2.Margin = new Padding(4, 4, 4, 4);
+            pictureBox2.Margin = new Padding(4);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(251, 196);
             pictureBox2.TabIndex = 5;
@@ -138,7 +150,7 @@
             button1.ForeColor = Color.White;
             button1.ImageAlign = ContentAlignment.TopCenter;
             button1.Location = new Point(76, 321);
-            button1.Margin = new Padding(4, 4, 4, 4);
+            button1.Margin = new Padding(4);
             button1.Name = "button1";
             button1.Size = new Size(251, 65);
             button1.TabIndex = 4;
@@ -163,7 +175,7 @@
             panel5.BackgroundImage = (Image)resources.GetObject("panel5.BackgroundImage");
             panel5.BackgroundImageLayout = ImageLayout.Stretch;
             panel5.Location = new Point(385, 318);
-            panel5.Margin = new Padding(4, 4, 4, 4);
+            panel5.Margin = new Padding(4);
             panel5.Name = "panel5";
             panel5.Size = new Size(775, 425);
             panel5.TabIndex = 16;
@@ -172,7 +184,7 @@
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
             pictureBox3.Location = new Point(1325, 31);
-            pictureBox3.Margin = new Padding(4, 4, 4, 4);
+            pictureBox3.Margin = new Padding(4);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new Size(96, 82);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
@@ -196,7 +208,7 @@
             // 
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
             pictureBox4.Location = new Point(1441, 22);
-            pictureBox4.Margin = new Padding(4, 4, 4, 4);
+            pictureBox4.Margin = new Padding(4);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Size = new Size(95, 88);
             pictureBox4.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -208,7 +220,7 @@
             panel2.BackColor = Color.FromArgb(43, 56, 143);
             panel2.Enabled = false;
             panel2.Location = new Point(516, 216);
-            panel2.Margin = new Padding(4, 4, 4, 4);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
             panel2.Size = new Size(1056, 4);
             panel2.TabIndex = 11;
@@ -218,7 +230,7 @@
             panel3.BackColor = Color.FromArgb(43, 56, 143);
             panel3.Enabled = false;
             panel3.Location = new Point(0, 216);
-            panel3.Margin = new Padding(4, 4, 4, 4);
+            panel3.Margin = new Padding(4);
             panel3.Name = "panel3";
             panel3.Size = new Size(1056, 4);
             panel3.TabIndex = 10;
@@ -226,7 +238,7 @@
             // panel4
             // 
             panel4.Location = new Point(219, 240);
-            panel4.Margin = new Padding(4, 4, 4, 4);
+            panel4.Margin = new Padding(4);
             panel4.Name = "panel4";
             panel4.Size = new Size(0, 0);
             panel4.TabIndex = 7;
@@ -268,7 +280,7 @@
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(25, 18);
-            pictureBox1.Margin = new Padding(4, 4, 4, 4);
+            pictureBox1.Margin = new Padding(4);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(121, 110);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -282,8 +294,9 @@
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(1602, 899);
             Controls.Add(panel1);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "FRM_PG9";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_PG9";
             Load += FRM_PG9_Load;
             panel1.ResumeLayout(false);
@@ -318,5 +331,6 @@
         private Label label2;
         private Label label1;
         private PictureBox pictureBox1;
+        private Label label4;
     }
 }

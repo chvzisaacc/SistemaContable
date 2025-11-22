@@ -28,6 +28,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         }
 
+        public FRM_PG3()
+        {
+        }
+
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
@@ -169,6 +173,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 e.Handled = true;
             }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            Olvidaste_tu_contraseña fRM_PG2 = new();
+            fRM_PG2.Show();
+            this.Hide();
         }
     }
 }

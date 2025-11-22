@@ -10,6 +10,12 @@ namespace Capa_de_Presentación.Formularios_Diego
         {
             InitializeComponent();
             CargarDatos();
+
+        }
+
+        private void FRM_PG114_Load(object sender, EventArgs e)
+        {
+            
         }
 
         public void CargarDatos()
@@ -24,11 +30,6 @@ namespace Capa_de_Presentación.Formularios_Diego
             {
                 MessageBox.Show(ex.Message, "Error al cargar");
             }
-        }
-
-        private void FRM_PG114_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)

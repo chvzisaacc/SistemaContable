@@ -1,4 +1,5 @@
 ﻿using Capa_de_Presentación.CLASES;
+using Capa_de_Presentación.Formularios_Luiss;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,6 +18,11 @@ namespace Capa_de_Presentación.Formularios_Diego
         {
             InitializeComponent();
             CargarBancos();
+        }
+
+        private void FRM116_Load(object sender, EventArgs e)
+        {
+
         }
 
         public void CargarBancos()
@@ -41,6 +47,18 @@ namespace Capa_de_Presentación.Formularios_Diego
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox4_Click(object sender, EventArgs e)
+        {
+            FRM_42 fRM_42 = new();
+            fRM_42.ShowDialog();
+            this.Hide();
         }
     }
 }

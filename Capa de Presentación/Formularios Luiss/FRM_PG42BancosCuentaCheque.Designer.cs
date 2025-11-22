@@ -136,6 +136,7 @@
             Controls.Add(panel2);
             Margin = new Padding(4, 3, 4, 3);
             Name = "FRM_PG42BancosCuentaCheque";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_PG42BancosCuentaCheque";
             Load += FRM_PG42BancosCuentaCheque_Load;
             panel2.ResumeLayout(false);

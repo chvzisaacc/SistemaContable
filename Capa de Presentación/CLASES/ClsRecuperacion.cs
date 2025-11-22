@@ -14,45 +14,28 @@ namespace Capa_de_Presentación.CAPAS
 {
     public class ClsRecuperacion
     {
-      
-        public void IniciarSesion(string usuario, string contraseña,int idparroquia, Form formularioActual, Label lblMensaje)
+
+        public int IniciarSesion(string usuario, string contraseña, int idparroquia, Label lblMensaje)
         {
-            try
-            {
-                ClsMetodos metodos = new ClsMetodos();
-                int rol = metodos.IniciarSesion(usuario, contraseña, idparroquia);
-                int Id_Usuario = metodos.ObtenerUsuarioIdPorNombreUsuario(usuario);
+            ClsMetodos metodos = new ClsMetodos();
+            int rol = metodos.IniciarSesion(usuario, contraseña, idparroquia);
 
+            int Id_Usuario = metodos.ObtenerUsuarioIdPorNombreUsuario(usuario);
 
-                if (rol == -1)
-                {
-                    lblMensaje.ForeColor = Color.Red;
-                    lblMensaje.Text = "Su cuenta está inhabilitada.";
-                }
-                else if (rol == 0)
-                {
-                    lblMensaje.ForeColor = Color.Red;
-                    lblMensaje.Text = "Credenciales incorrectas";
-                }
-                else if (rol == 1)
-                {
-                    FRM_PG5 admin = new FRM_PG5();
-                    admin.Show();
-                    formularioActual.Hide();
-                }
-                else if (rol == 2 || rol == 3)
-                {
-                    FRM_42 empleado = new FRM_42(Id_Usuario);
-                    empleado.Show();
-                    formularioActual.Hide();
-                }
-            }
-            catch (Exception ex)
+            if (rol == -1)
             {
-                MessageBox.Show(ex.Message);
+                lblMensaje.ForeColor = Color.Red;
+                lblMensaje.Text = "Su cuenta está inhabilitada.";
             }
+            else if (rol == 0)
+            {
+                lblMensaje.ForeColor = Color.Red;
+                lblMensaje.Text = "Credenciales incorrectas";
+            }
+
+            return rol;
         }
-    
+
 
         public void ProcesarCodigoRecuperacion(int usuarioId, string codigo, Form formularioActual)
         {

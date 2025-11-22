@@ -30,6 +30,7 @@
         {
             panel1 = new Panel();
             panel2 = new Panel();
+            label2 = new Label();
             txt6 = new TextBox();
             txt7 = new TextBox();
             txt8 = new TextBox();
@@ -59,6 +60,7 @@
             // 
             panel2.BackColor = Color.White;
             panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(label2);
             panel2.Controls.Add(txt6);
             panel2.Controls.Add(txt7);
             panel2.Controls.Add(txt8);
@@ -76,6 +78,16 @@
             panel2.Size = new Size(1254, 417);
             panel2.TabIndex = 0;
             panel2.Paint += panel2_Paint;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(3, 390);
+            label2.Name = "label2";
+            label2.Size = new Size(61, 25);
+            label2.TabIndex = 15;
+            label2.Text = "Volver";
+            label2.Click += label2_Click;
             // 
             // txt6
             // 
@@ -220,6 +232,7 @@
             Controls.Add(panel1);
             Margin = new Padding(4);
             Name = "FRM_PG3";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_PG3";
             Load += FRM_PG3_Load;
             panel1.ResumeLayout(false);
@@ -242,5 +255,6 @@
         private TextBox txt4;
         private TextBox txt5;
         private TextBox txt1;
+        private Label label2;
     }
 }

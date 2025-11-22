@@ -30,6 +30,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private int cuentaBancoIDseleccionado = 0;
         private AutoCompleteStringCollection Subcuentas = new AutoCompleteStringCollection();
         private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
+        private bool cargandoIntereses = true;
 
         ClsCerrar cerrar = new ClsCerrar();
         public FRM_42(int id_Usuario)
@@ -41,6 +42,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             CargarDatosAutocompletado();
             CargarDatosAutocompletadoGastos();
             Transacciones objtransa = new();
+            cargandoIntereses = true;
             objtransa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
 
 
@@ -58,6 +60,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             // Opcional: muestra uno por defecto
             MostrarSoloEstePanel(panel1);
+
+            cargandoIntereses = false;
+            cmbInteresesBancarios.SelectedIndex = -1;
+        }
+
+        public FRM_42()
+        {
+        }
+
+        public FRM_42(string userName, int userId)
+        {
+            this.usuario_nombre = userName;
+            this.usuario_id = userId;
         }
 
         private void FRM_42_Load(object sender, EventArgs e)
@@ -87,8 +102,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
         }
-        //=======
-
         private void CargarCuentasEnComboBox()
         {
             try
@@ -961,7 +974,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
         private int idTransaccionAEditar = 0;
-
+        private string usuario_nombre;
+        private int usuario_id;
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
@@ -1339,6 +1353,28 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
 
         }
+
+        private void cmbInteresesBancarios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cargandoIntereses) return;  // ← evita ejecuciones indeseadas
+            if (cmbInteresesBancarios.SelectedIndex < 0) return;
+
+            switch (cmbInteresesBancarios.SelectedIndex)
+            {
+                case 0:
+                    using (var frm = new FRM116())
+                        frm.ShowDialog();
+                    this.Hide();
+                    break;
+
+                case 1:
+                    using (var frm = new FRM_PG114())
+                        frm.ShowDialog();
+                    this.Hide();
+                    break;
+            }
+        }
+        
     }
 
 }

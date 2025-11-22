@@ -30,6 +30,7 @@
         {
             panel1 = new Panel();
             panel2 = new Panel();
+            label4 = new Label();
             btnConfirmar = new Button();
             txtConfirmarContraseña = new TextBox();
             label3 = new Label();
@@ -56,6 +57,7 @@
             // 
             panel2.BackColor = Color.White;
             panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(label4);
             panel2.Controls.Add(btnConfirmar);
             panel2.Controls.Add(txtConfirmarContraseña);
             panel2.Controls.Add(label3);
@@ -69,6 +71,16 @@
             panel2.RightToLeft = RightToLeft.No;
             panel2.Size = new Size(796, 391);
             panel2.TabIndex = 0;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(3, 364);
+            label4.Name = "label4";
+            label4.Size = new Size(61, 25);
+            label4.TabIndex = 8;
+            label4.Text = "Volver";
+            label4.Click += label4_Click;
             // 
             // btnConfirmar
             // 
@@ -163,6 +175,7 @@
             Controls.Add(panel1);
             Margin = new Padding(4);
             Name = "FRM_PG4";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_PG4";
             Load += FRM_PG4_Load;
             panel1.ResumeLayout(false);
@@ -182,5 +195,6 @@
         private Label label2;
         private Label label1;
         private Button btnConfirmar;
+        private Label label4;
     }
 }

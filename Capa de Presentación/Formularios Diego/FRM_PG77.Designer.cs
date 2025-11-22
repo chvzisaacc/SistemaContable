@@ -78,7 +78,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(panel5);
             panel1.Location = new Point(36, 26);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(1056, 620);
             panel1.TabIndex = 0;
@@ -89,7 +89,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             panel6.BackColor = Color.FromArgb(43, 56, 143);
             panel6.Enabled = false;
             panel6.Location = new Point(0, 216);
-            panel6.Margin = new Padding(4, 4, 4, 4);
+            panel6.Margin = new Padding(4);
             panel6.Name = "panel6";
             panel6.Size = new Size(1056, 4);
             panel6.TabIndex = 13;
@@ -98,7 +98,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             // 
             panel3.Enabled = false;
             panel3.Location = new Point(0, 0);
-            panel3.Margin = new Padding(4, 4, 4, 4);
+            panel3.Margin = new Padding(4);
             panel3.Name = "panel3";
             panel3.Size = new Size(1056, 4);
             panel3.TabIndex = 7;
@@ -108,12 +108,12 @@ namespace Capa_de_Presentación.Formularios_Diego
             // 
             label8.AutoSize = true;
             label8.BackColor = Color.FromArgb(251, 203, 51);
-            label8.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.FromArgb(43, 56, 143);
-            label8.Location = new Point(951, 40);
+            label8.Location = new Point(945, 36);
             label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
-            label8.Size = new Size(54, 38);
+            label8.Size = new Size(45, 32);
             label8.TabIndex = 12;
             label8.Text = "SD";
             label8.Click += label8_Click;
@@ -122,7 +122,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             // 
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
             pictureBox4.Location = new Point(919, 4);
-            pictureBox4.Margin = new Padding(4, 4, 4, 4);
+            pictureBox4.Margin = new Padding(4);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Size = new Size(95, 88);
             pictureBox4.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -134,7 +134,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
             pictureBox3.Location = new Point(814, 16);
-            pictureBox3.Margin = new Padding(4, 4, 4, 4);
+            pictureBox3.Margin = new Padding(4);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new Size(96, 84);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
@@ -152,7 +152,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             panel2.Controls.Add(comboBox1);
             panel2.Controls.Add(label6);
             panel2.Location = new Point(279, 261);
-            panel2.Margin = new Padding(4, 4, 4, 4);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
             panel2.Size = new Size(508, 290);
             panel2.TabIndex = 8;
@@ -165,7 +165,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             textBox4.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox4.ForeColor = Color.Black;
             textBox4.Location = new Point(232, 144);
-            textBox4.Margin = new Padding(4, 4, 4, 4);
+            textBox4.Margin = new Padding(4);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(174, 29);
             textBox4.TabIndex = 19;
@@ -175,12 +175,12 @@ namespace Capa_de_Presentación.Formularios_Diego
             // 
             textBox2.BackColor = Color.FromArgb(43, 56, 143);
             textBox2.BorderStyle = BorderStyle.None;
-            textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox2.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(171, 221);
-            textBox2.Margin = new Padding(4, 4, 4, 4);
+            textBox2.Location = new Point(188, 230);
+            textBox2.Margin = new Padding(4);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(206, 32);
+            textBox2.Size = new Size(163, 27);
             textBox2.TabIndex = 14;
             textBox2.Text = "Guardar y cerrar";
             // 
@@ -188,7 +188,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
             pictureBox2.Location = new Point(110, 204);
-            pictureBox2.Margin = new Padding(4, 4, 4, 4);
+            pictureBox2.Margin = new Padding(4);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(318, 84);
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -201,7 +201,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox1.Location = new Point(171, 144);
-            textBox1.Margin = new Padding(4, 4, 4, 4);
+            textBox1.Margin = new Padding(4);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(256, 37);
             textBox1.TabIndex = 12;
@@ -224,7 +224,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             comboBox1.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(171, 76);
-            comboBox1.Margin = new Padding(4, 4, 4, 4);
+            comboBox1.Margin = new Padding(4);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(255, 38);
             comboBox1.TabIndex = 11;
@@ -245,7 +245,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             // panel4
             // 
             panel4.Location = new Point(219, 240);
-            panel4.Margin = new Padding(4, 4, 4, 4);
+            panel4.Margin = new Padding(4);
             panel4.Name = "panel4";
             panel4.Size = new Size(0, 0);
             panel4.TabIndex = 7;
@@ -310,7 +310,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(26, 16);
-            pictureBox1.Margin = new Padding(4, 4, 4, 4);
+            pictureBox1.Margin = new Padding(4);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(121, 110);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -322,7 +322,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             // 
             panel5.BackColor = Color.FromArgb(43, 56, 143);
             panel5.Location = new Point(274, 256);
-            panel5.Margin = new Padding(4, 4, 4, 4);
+            panel5.Margin = new Padding(4);
             panel5.Name = "panel5";
             panel5.Size = new Size(519, 304);
             panel5.TabIndex = 9;
@@ -334,8 +334,9 @@ namespace Capa_de_Presentación.Formularios_Diego
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(1134, 685);
             Controls.Add(panel1);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "FRM_PG77";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_PG77";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

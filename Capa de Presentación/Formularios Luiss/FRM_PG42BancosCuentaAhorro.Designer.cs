@@ -51,19 +51,20 @@
             panel2.Controls.Add(textBox1);
             panel2.Controls.Add(label7);
             panel2.Controls.Add(label6);
-            panel2.Location = new Point(10, 9);
-            panel2.Margin = new Padding(3, 2, 3, 2);
+            panel2.Location = new Point(14, 15);
+            panel2.Margin = new Padding(4, 3, 4, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(452, 232);
+            panel2.Size = new Size(646, 387);
             panel2.TabIndex = 10;
             // 
             // lblTitulo
             // 
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblTitulo.Location = new Point(214, 19);
+            lblTitulo.Location = new Point(306, 32);
+            lblTitulo.Margin = new Padding(4, 0, 4, 0);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(76, 30);
+            lblTitulo.Size = new Size(113, 45);
             lblTitulo.TabIndex = 20;
             lblTitulo.Text = "label1";
             // 
@@ -73,10 +74,10 @@
             txtMonto.BorderStyle = BorderStyle.None;
             txtMonto.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
             txtMonto.ForeColor = Color.Black;
-            txtMonto.Location = new Point(197, 81);
-            txtMonto.Margin = new Padding(3, 2, 3, 2);
+            txtMonto.Location = new Point(281, 135);
+            txtMonto.Margin = new Padding(4, 3, 4, 3);
             txtMonto.Name = "txtMonto";
-            txtMonto.Size = new Size(179, 29);
+            txtMonto.Size = new Size(256, 44);
             txtMonto.TabIndex = 19;
             // 
             // textBox2
@@ -86,20 +87,20 @@
             textBox2.Enabled = false;
             textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(163, 139);
-            textBox2.Margin = new Padding(3, 2, 3, 2);
+            textBox2.Location = new Point(233, 232);
+            textBox2.Margin = new Padding(4, 3, 4, 3);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(144, 22);
+            textBox2.Size = new Size(206, 32);
             textBox2.TabIndex = 14;
             textBox2.Text = "Guardar y cerrar";
             // 
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(121, 125);
-            pictureBox2.Margin = new Padding(3, 2, 3, 2);
+            pictureBox2.Location = new Point(173, 208);
+            pictureBox2.Margin = new Padding(4, 3, 4, 3);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(222, 50);
+            pictureBox2.Size = new Size(317, 83);
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.TabIndex = 13;
             pictureBox2.TabStop = false;
@@ -110,19 +111,20 @@
             textBox1.BackColor = Color.FromArgb(251, 203, 51);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(197, 81);
-            textBox1.Margin = new Padding(3, 2, 3, 2);
+            textBox1.Location = new Point(281, 135);
+            textBox1.Margin = new Padding(4, 3, 4, 3);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(179, 25);
+            textBox1.Size = new Size(256, 37);
             textBox1.TabIndex = 12;
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            label7.Location = new Point(92, 77);
+            label7.Location = new Point(131, 128);
+            label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
-            label7.Size = new Size(88, 30);
+            label7.Size = new Size(134, 45);
             label7.TabIndex = 10;
             label7.Text = "Monto:";
             // 
@@ -130,21 +132,23 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(24, 19);
+            label6.Location = new Point(34, 32);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
-            label6.Size = new Size(163, 30);
+            label6.Size = new Size(245, 45);
             label6.TabIndex = 10;
             label6.Text = "Saldo Actual - ";
             // 
             // FRM_PG42BancosCuentaAhorro
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(474, 250);
+            ClientSize = new Size(677, 417);
             Controls.Add(panel2);
-            Margin = new Padding(3, 2, 3, 2);
+            Margin = new Padding(4, 3, 4, 3);
             Name = "FRM_PG42BancosCuentaAhorro";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_PG42BancosCuentaAhorro";
             Load += FRM_PG42BancosCuentaAhorro_Load;
             panel2.ResumeLayout(false);

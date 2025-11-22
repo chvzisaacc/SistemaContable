@@ -116,6 +116,7 @@
             Controls.Add(label1);
             Margin = new Padding(4, 5, 4, 5);
             Name = "FRM_PG69";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_PG69";
             Load += FRM_PG69_Load;
             ((System.ComponentModel.ISupportInitialize)dgvPartidas).EndInit();

@@ -36,6 +36,12 @@
             panel2 = new Panel();
             button1 = new Button();
             dataGridView1 = new DataGridView();
+            Id_Certificado = new DataGridViewTextBoxColumn();
+            Nombre_certificado = new DataGridViewTextBoxColumn();
+            deposito_inicial = new DataGridViewTextBoxColumn();
+            Plazo = new DataGridViewTextBoxColumn();
+            Tasa = new DataGridViewTextBoxColumn();
+            FechaTransaccion = new DataGridViewTextBoxColumn();
             textBox4 = new TextBox();
             pictureBox9 = new PictureBox();
             pictureBox8 = new PictureBox();
@@ -51,12 +57,6 @@
             label1 = new Label();
             pictureBox1 = new PictureBox();
             panel5 = new Panel();
-            Id_Certificado = new DataGridViewTextBoxColumn();
-            Nombre_certificado = new DataGridViewTextBoxColumn();
-            deposito_inicial = new DataGridViewTextBoxColumn();
-            Plazo = new DataGridViewTextBoxColumn();
-            Tasa = new DataGridViewTextBoxColumn();
-            FechaTransaccion = new DataGridViewTextBoxColumn();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -176,6 +176,50 @@
             dataGridView1.CellBeginEdit += dataGridView1_CellBeginEdit;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
+            // 
+            // Id_Certificado
+            // 
+            Id_Certificado.HeaderText = "Id_Certificado";
+            Id_Certificado.MinimumWidth = 8;
+            Id_Certificado.Name = "Id_Certificado";
+            Id_Certificado.ReadOnly = true;
+            Id_Certificado.Visible = false;
+            // 
+            // Nombre_certificado
+            // 
+            Nombre_certificado.HeaderText = "Nombre_certificado";
+            Nombre_certificado.MinimumWidth = 8;
+            Nombre_certificado.Name = "Nombre_certificado";
+            Nombre_certificado.ReadOnly = true;
+            // 
+            // deposito_inicial
+            // 
+            deposito_inicial.HeaderText = "deposito_inicial";
+            deposito_inicial.MinimumWidth = 8;
+            deposito_inicial.Name = "deposito_inicial";
+            deposito_inicial.ReadOnly = true;
+            // 
+            // Plazo
+            // 
+            Plazo.HeaderText = "Plazo(meses)";
+            Plazo.MinimumWidth = 8;
+            Plazo.Name = "Plazo";
+            Plazo.ReadOnly = true;
+            // 
+            // Tasa
+            // 
+            Tasa.HeaderText = "Tasa";
+            Tasa.MinimumWidth = 8;
+            Tasa.Name = "Tasa";
+            Tasa.ReadOnly = true;
+            // 
+            // FechaTransaccion
+            // 
+            FechaTransaccion.HeaderText = "Fecha";
+            FechaTransaccion.MinimumWidth = 8;
+            FechaTransaccion.Name = "FechaTransaccion";
+            FechaTransaccion.ReadOnly = true;
+            FechaTransaccion.Visible = false;
             // 
             // textBox4
             // 
@@ -359,50 +403,6 @@
             panel5.Size = new Size(934, 412);
             panel5.TabIndex = 9;
             // 
-            // Id_Certificado
-            // 
-            Id_Certificado.HeaderText = "Id_Certificado";
-            Id_Certificado.MinimumWidth = 8;
-            Id_Certificado.Name = "Id_Certificado";
-            Id_Certificado.ReadOnly = true;
-            Id_Certificado.Visible = false;
-            // 
-            // Nombre_certificado
-            // 
-            Nombre_certificado.HeaderText = "Nombre_certificado";
-            Nombre_certificado.MinimumWidth = 8;
-            Nombre_certificado.Name = "Nombre_certificado";
-            Nombre_certificado.ReadOnly = true;
-            // 
-            // deposito_inicial
-            // 
-            deposito_inicial.HeaderText = "deposito_inicial";
-            deposito_inicial.MinimumWidth = 8;
-            deposito_inicial.Name = "deposito_inicial";
-            deposito_inicial.ReadOnly = true;
-            // 
-            // Plazo
-            // 
-            Plazo.HeaderText = "Plazo(meses)";
-            Plazo.MinimumWidth = 8;
-            Plazo.Name = "Plazo";
-            Plazo.ReadOnly = true;
-            // 
-            // Tasa
-            // 
-            Tasa.HeaderText = "Tasa";
-            Tasa.MinimumWidth = 8;
-            Tasa.Name = "Tasa";
-            Tasa.ReadOnly = true;
-            // 
-            // FechaTransaccion
-            // 
-            FechaTransaccion.HeaderText = "Fecha";
-            FechaTransaccion.MinimumWidth = 8;
-            FechaTransaccion.Name = "FechaTransaccion";
-            FechaTransaccion.ReadOnly = true;
-            FechaTransaccion.Visible = false;
-            // 
             // FRM_PG103
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -412,6 +412,7 @@
             Controls.Add(panel1);
             Margin = new Padding(4);
             Name = "FRM_PG103";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_PG103";
             Load += FRM_PG103_Load;
             panel1.ResumeLayout(false);

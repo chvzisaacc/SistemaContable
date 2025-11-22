@@ -152,6 +152,7 @@
             Controls.Add(panel2);
             Margin = new Padding(4);
             Name = "FRM_BancosRetirarDinero";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_BancosRetirarDinero";
             panel2.ResumeLayout(false);
             panel2.PerformLayout();

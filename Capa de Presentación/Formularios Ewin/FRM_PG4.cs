@@ -76,5 +76,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            FRM_PG3 fRM_PG3 = new FRM_PG3();
+            fRM_PG3.Show();
+            this.Hide();
+        }
     }
 }

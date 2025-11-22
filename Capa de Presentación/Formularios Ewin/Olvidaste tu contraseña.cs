@@ -13,10 +13,10 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
-    public partial class FRM_PG2 : Form
+    public partial class Olvidaste_tu_contraseña : Form
     {
         ClsCerrar cerrar = new ClsCerrar();
-        public FRM_PG2()
+        public Olvidaste_tu_contraseña()
         {
             InitializeComponent();
             this.FormClosing += cerrar.CerrarApp;
@@ -81,6 +81,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             FRM_PG3 objingresar = new FRM_PG3(usuarioId, correo);
             objingresar.Show();
+            this.Hide();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            FRM_PG1 fRM_PG1 = new();
+            fRM_PG1.Show();
             this.Hide();
         }
     }

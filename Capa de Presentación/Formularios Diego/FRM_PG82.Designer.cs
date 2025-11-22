@@ -375,6 +375,7 @@
             Controls.Add(panel1);
             Margin = new Padding(4);
             Name = "FRM_PG82";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_PG82";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

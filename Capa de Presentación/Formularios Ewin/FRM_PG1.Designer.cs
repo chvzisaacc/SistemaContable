@@ -129,7 +129,8 @@
             Controls.Add(button1);
             Margin = new Padding(4);
             Name = "FRM_PG1";
-            Text = "FRM_PG1";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Inicio de Sesión";
             Load += FRM_PG1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);

@@ -1,8 +1,6 @@
-﻿using Emgu.CV; // Necesario para Mat, VideoCapture, CascadeClassifier
-using Emgu.CV.CvEnum; // Necesario para ImreadModes y otros Enums
-using Emgu.CV.Structure; // Necesario para Image<TColor, TDepth>
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Drawing;
 
 // Nota: Asumo que Clsconexion es la clase base que contiene sc (SqlConnection), Abrir() y Cerrar().
 
@@ -15,7 +13,7 @@ namespace Capa_de_acceso_de_datos
 
         public Parroquia(int id, string nombre)
         {
-            
+
             this.Nombre = nombre;
         }
     }
@@ -24,7 +22,7 @@ namespace Capa_de_acceso_de_datos
     {
         public string nombre { get; set; }
 
-        public Reporte( string nombre)
+        public Reporte(string nombre)
         {
             this.nombre = nombre;
         }
@@ -558,77 +556,183 @@ namespace Capa_de_acceso_de_datos
             return idUsuario;
         }
 
-        public List<(int Id, Image<Gray, byte> Rostro)> CargarImagenesBD(CascadeClassifier detector)
+        public List<Usuario> ObtenerUsuarios()
         {
-            List<(int, Image<Gray, byte>)> lista = new List<(int, Image<Gray, byte>)>();
+            List<Usuario> usuarios = new List<Usuario>();
 
             try
             {
                 Abrir();
 
-                using (SqlCommand cmd = new SqlCommand("sp_ObtenerPersonas", sc))
+                using (SqlCommand cmd = new SqlCommand("SP_CargarUsuarios", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        while (dr.Read())
+                        while (reader.Read())
                         {
-                            try
-                            {
-                                int id = dr.GetInt32(dr.GetOrdinal("Usuario_id"));
-                                int rostroDataOrdinal = dr.GetOrdinal("RostroData");
+                            int id = Convert.ToInt32(reader["Usuario_id"]);
+                            string nombre = reader["usuario_nombre"].ToString();
 
-                                if (dr.IsDBNull(rostroDataOrdinal))
-                                {
-                                    Console.WriteLine($"Usuario {id}: RostroData es NULL");
-                                    continue;
-                                }
-
-                                byte[] fotoBytes = (byte[])dr["RostroData"];
-
-                                if (fotoBytes.Length == 0)
-                                {
-                                    Console.WriteLine($"Usuario {id}: RostroData vacío");
-                                    continue;
-                                }
-
-                                // Convertimos directamente el byte[] en Mat
-                                using (Mat m = new Mat())
-                                {
-                                    CvInvoke.Imdecode(fotoBytes, ImreadModes.Grayscale, m);
-
-                                    if (m.IsEmpty)
-                                    {
-                                        Console.WriteLine($"Usuario {id}: RostroData vacío");
-                                        continue;
-                                    }
-
-                                    Image<Gray, byte> rostro = m.ToImage<Gray, byte>();
-
-                                    // Asegurar tamaño correcto
-                                    if (rostro.Width != 100 || rostro.Height != 100)
-                                    {
-                                        rostro = rostro.Resize(100, 100, Inter.Linear);
-                                    }
-
-                                    lista.Add((id, rostro.Clone()));
-                                }
-                            
-
-                            }
-                                
-                            catch (Exception exInner)
-                            {
-                                Console.WriteLine($"Error procesando fila: {exInner.Message}");
-                            }
+                            usuarios.Add(new Usuario(id, nombre));
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al cargar imágenes desde la BD: " + ex.Message, ex);
+                throw new Exception("Error al cargar los usuarios: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+            return usuarios;
+        }
+
+        public int GuardarFotoRostro(int usuarioId, byte[] rostroData)
+        {
+            int nuevoRostroId = 0;
+
+            try
+            {
+                Abrir();
+
+                using (SqlCommand command = new SqlCommand("SP_GuardarFotos", sc))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@Usuario_id", usuarioId);
+                    command.Parameters.AddWithValue("@RostroData", rostroData);
+
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                        nuevoRostroId = Convert.ToInt32(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al guardar la foto del rostro: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+            return nuevoRostroId;
+        }
+
+        public int ContarFotosUsuario(int usuarioId)
+        {
+            int total = 0;
+
+            try
+            {
+                Abrir();
+
+                using (SqlCommand cmd = new SqlCommand("SP_ContarFotosUsuario", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
+
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                        total = Convert.ToInt32(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al contar fotos del usuario: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+            return total;
+        }
+
+        public void BorrarFotosUsuario(int usuarioId)
+        {
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("SP_BorrarFotosUsuario", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al borrar fotos del usuario: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+        }
+
+        public string ObtenerNombreUsuario(int usuarioId)
+        {
+            string nombre = "Desconocido";
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("SP_ObtenerNombreUsuario", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
+                    object result = cmd.ExecuteScalar();
+
+
+                    if (result != null && result != DBNull.Value)
+                        nombre = result.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener nombre de usuario: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+            return nombre;
+        }
+
+        public List<byte[]> ObtenerRostrosPorUsuario(int usuarioId)
+        {
+            List<byte[]> lista = new List<byte[]>();
+
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("SP_ObtenerRostrosPorUsuario", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        byte[] data = (byte[])dr["RostroData"];
+                        lista.Add(data);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el rostro: " + ex.Message, ex);
+
             }
             finally
             {
@@ -638,41 +742,42 @@ namespace Capa_de_acceso_de_datos
             return lista;
         }
 
-        public ResultadoLogin ValidarUsuarioPorID(int usuarioID)
+        public Usuario ObtenerUsuarioCompleto(int usuarioId)
         {
-            ResultadoLogin resultado = new ResultadoLogin();
+            Usuario usuario = null;
 
             try
             {
                 Abrir();
-                using (SqlCommand cmd = new SqlCommand("IngresoLoginPorIDReconocimientoFacial", sc))
+                using (SqlCommand cmd = new SqlCommand("SP_ObtenerUsuarioCompleto", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@UsuarioID", usuarioID);
+                    cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
 
-                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    if (dr.Read())
                     {
-                        if (dr.Read())
+                        usuario = new Usuario
                         {
-                            resultado.UsuarioID = dr.GetInt32(dr.GetOrdinal("UsuarioID"));
-                            resultado.RolID = dr.GetInt32(dr.GetOrdinal("RolID"));
-
-                            int parroquiaOrdinal = dr.GetOrdinal("Parroquia_ID");
-                            resultado.IdParroquia = dr.IsDBNull(parroquiaOrdinal) ? 0 : dr.GetInt32(parroquiaOrdinal);
-                        }
+                            Usuario_id = Convert.ToInt32(dr["Usuario_id"]),
+                            usuario_nombre = dr["usuario_nombre"].ToString(),
+                            Rol_id = Convert.ToInt32(dr["Rol_id"]),
+                            Id_estado_cuenta = Convert.ToInt32(dr["Id_estado_cuenta"])
+                        };
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al validar usuario por biometria: " + ex.Message, ex);
+                throw new Exception("Error al obtener usuario completo: " + ex.Message, ex);
             }
             finally
             {
                 Cerrar();
             }
 
-            return resultado;
+            return usuario;
         }
     }
 }
