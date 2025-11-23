@@ -50,9 +50,7 @@ namespace Capa_de_acceso_de_datos
 
             try
             {
-                _cn.Abrir(); // Usamos _cn, que es el que declaraste arriba
-
-                // Asegúrate de que el nombre del SP sea exactamente como lo creaste en SQL
+                _cn.Abrir(); 
                 using (SqlCommand cmd = new SqlCommand("sp_ReporteIngresos", _cn.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -184,6 +182,32 @@ namespace Capa_de_acceso_de_datos
                 _cn.Cerrar();
             }
 
+            return dt;
+        }
+
+        public DataTable ObtenerBalanceGeneral(int parroquiaId, DateTime fechaInicio, DateTime fechaCorte)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                _cn.Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_GenerarBalanceGeneral", _cn.sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquiaId); // Si usas parroquias
+                    cmd.Parameters.AddWithValue("@FechaInicio", fechaInicio.Date);
+                    cmd.Parameters.AddWithValue("@FechaCorte", fechaCorte.Date);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(dt);
+                    }
+                }
+            }
+            finally
+            {
+                _cn.Cerrar();
+            }
             return dt;
         }
     }
