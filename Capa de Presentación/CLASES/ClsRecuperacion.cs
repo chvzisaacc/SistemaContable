@@ -20,8 +20,7 @@ namespace Capa_de_Presentación.CAPAS
             ClsMetodos metodos = new ClsMetodos();
             int rol = metodos.IniciarSesion(usuario, contraseña, idparroquia);
 
-            int Id_Usuario = metodos.ObtenerUsuarioIdPorNombreUsuario(usuario);
-
+            var ids = metodos.ObtenerUsuarioIdPorNombreUsuario(usuario);
             if (rol == -1)
             {
                 lblMensaje.ForeColor = Color.Red;

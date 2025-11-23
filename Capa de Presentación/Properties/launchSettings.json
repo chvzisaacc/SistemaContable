@@ -1,7 +1,9 @@
 {
   "profiles": {
     "Capa de Presentación": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\user\\Desktop\\PROYECTO - CATOLICA\\Capa de Presentación",
+      "remoteDebugEnabled": false
     }
   }
 }

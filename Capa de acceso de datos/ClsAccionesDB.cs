@@ -1,6 +1,8 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Drawing;
+using System;
+using System.Collections.Generic;
 
 // Nota: Asumo que Clsconexion es la clase base que contiene sc (SqlConnection), Abrir() y Cerrar().
 
