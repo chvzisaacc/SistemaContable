@@ -18,6 +18,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
     public partial class FRM_PG10 : Form
     {
 
+        private readonly GastosService _gastosService = new GastosService();
+        private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
+
 
 
         private string ConstruirNombreReporteVisible(string tipoTexto, DateTime desde, DateTime hasta)
@@ -96,8 +99,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
-        /*private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
+            
+            
+            
+            
+            
             if (cmbTipoReporte.SelectedItem == null)
             {
                 MessageBox.Show("Seleccione un tipo de reporte.");
@@ -105,12 +113,16 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
 
             int tipoReporteId = Convert.ToInt32(cmbTipoReporte.SelectedValue);
-
+           
             if (cmbParroquia.SelectedItem == null)
             {
                 MessageBox.Show("Seleccione una parroquia.");
                 return;
             }
+
+            
+            int parroquiaId = Convert.ToInt32(cmbParroquia.SelectedValue);
+            string parroquiaNombre = cmbParroquia.Text;
 
             DateTime desde = dtpDesde.Value.Date;
             DateTime hasta = dtpHasta.Value.Date;
@@ -121,14 +133,44 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return;
             }
 
-            var parroquia = (ParroquiaItem)cmbParroquia.SelectedItem;
 
-            string rutaPdf = _gastosService.GenerarInformeGastos(
-                parroquia.Id,
-                parroquia.Nombre,
+
+            string rutaPdf = string.Empty;
+            string nombreReporte = string.Empty;
+
+            switch (tipoReporteId)
+            {
+                case 1:
+                    rutaPdf = _estadoResultadosService.GenerarInformeEstadoResultados(
+                              parroquiaId,
+                              parroquiaNombre,
+                              desde,
+                              hasta,
+                              Sesion1.UsuarioID);
+
+                    nombreReporte = "Estado de Resultados";
+                    break;
+
+                case 4:
+                    rutaPdf = _gastosService.GenerarInformeGastos(
+                              parroquiaId,
+                              parroquiaNombre,
+                              desde,
+                              hasta,
+                              Sesion1.UsuarioID);
+
+                    nombreReporte = "Gastos";
+                    break;
+
+                default:
+                    MessageBox.Show("Tipo de reporte no válido.");
+                    return;
+            }
+
+            string nombreVisible = ConstruirNombreReporteVisible(
+                nombreReporte,
                 desde,
-                hasta,
-                Sesion1.UsuarioID
+                hasta
             );
 
             var item = new ReporteUIItem
@@ -136,7 +178,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 TipoReporteId = tipoReporteId,
                 NombreVisible = nombreVisible,
                 RutaPdf = rutaPdf,
-                ParroquiaId = parroquia.Id,
+                ParroquiaId = parroquiaId,
                 Desde = desde,
                 Hasta = hasta
             };
@@ -148,7 +190,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 FileName = rutaPdf,
                 UseShellExecute = true
             });
-        }      
+        }
 
 
         private void button1_Click(object sender, EventArgs e)
