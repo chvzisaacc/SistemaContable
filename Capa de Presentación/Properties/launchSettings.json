@@ -1,8 +1,7 @@
 {
   "profiles": {
     "Capa de Presentación": {
-      "commandName": "Project",
-      "workingDirectory": " "
+      "commandName": "Project"
     }
   }
 }
