@@ -31,6 +31,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
         ClsCerrar cerrar = new ClsCerrar();
         private int idParroquia;
 
+     
+
         public FRM_PG5(int usuarioID)
         {
             InitializeComponent();

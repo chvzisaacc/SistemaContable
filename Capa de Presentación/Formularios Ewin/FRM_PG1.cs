@@ -18,6 +18,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
     public partial class FRM_PG1 : Form
     {
         ClsCerrar cerrar = new ClsCerrar();
+        private int usuarioID;
+
         public FRM_PG1()
         {
             InitializeComponent();
@@ -49,7 +51,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             if (rol == 1)
             {
-                FRM_PG5 admin = new FRM_PG5();
+                FRM_PG5 admin = new FRM_PG5(idUsuario);
                 admin.Show();
                 this.Hide();
             }

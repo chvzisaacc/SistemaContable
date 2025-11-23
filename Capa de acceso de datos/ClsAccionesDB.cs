@@ -742,14 +742,17 @@ namespace Capa_de_acceso_de_datos
             return lista;
         }
 
-        public Usuario ObtenerUsuarioCompleto(int usuarioId)
+        public (string nombre, int rolId, int estadoCuenta) ObtenerUsuarioReconocimiento(int usuarioId)
         {
-            Usuario usuario = null;
+            string nombre = "";
+            int rolId = 0;
+            int estadoCuenta = 0;
 
             try
             {
                 Abrir();
-                using (SqlCommand cmd = new SqlCommand("SP_ObtenerUsuarioCompleto", sc))
+
+                using (SqlCommand cmd = new SqlCommand("SP_ObtenerUsuarioReconocimiento", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
@@ -758,26 +761,18 @@ namespace Capa_de_acceso_de_datos
 
                     if (dr.Read())
                     {
-                        usuario = new Usuario
-                        {
-                            Usuario_id = Convert.ToInt32(dr["Usuario_id"]),
-                            usuario_nombre = dr["usuario_nombre"].ToString(),
-                            Rol_id = Convert.ToInt32(dr["Rol_id"]),
-                            Id_estado_cuenta = Convert.ToInt32(dr["Id_estado_cuenta"])
-                        };
+                        nombre = dr["usuario_nombre"].ToString();
+                        rolId = Convert.ToInt32(dr["Rol_id"]);
+                        estadoCuenta = Convert.ToInt32(dr["Id_estado_cuenta"]);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener usuario completo: " + ex.Message, ex);
             }
             finally
             {
                 Cerrar();
             }
 
-            return usuario;
+            return (nombre, rolId, estadoCuenta);
         }
     }
 }

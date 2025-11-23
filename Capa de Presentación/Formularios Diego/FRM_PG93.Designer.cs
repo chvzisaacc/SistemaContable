@@ -78,7 +78,7 @@
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(panel5);
             panel1.Location = new Point(36, 26);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(1056, 620);
             panel1.TabIndex = 2;
@@ -88,7 +88,7 @@
             panel3.BackColor = Color.FromArgb(43, 56, 143);
             panel3.Enabled = false;
             panel3.Location = new Point(0, 216);
-            panel3.Margin = new Padding(4, 4, 4, 4);
+            panel3.Margin = new Padding(4);
             panel3.Name = "panel3";
             panel3.Size = new Size(1056, 4);
             panel3.TabIndex = 9;
@@ -99,7 +99,7 @@
             label8.BackColor = Color.FromArgb(251, 203, 51);
             label8.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.FromArgb(43, 56, 143);
-            label8.Location = new Point(951, 40);
+            label8.Location = new Point(941, 31);
             label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
             label8.Size = new Size(54, 38);
@@ -110,7 +110,7 @@
             // 
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
             pictureBox4.Location = new Point(919, 4);
-            pictureBox4.Margin = new Padding(4, 4, 4, 4);
+            pictureBox4.Margin = new Padding(4);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Size = new Size(95, 88);
             pictureBox4.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -121,7 +121,7 @@
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
             pictureBox3.Location = new Point(815, 18);
-            pictureBox3.Margin = new Padding(4, 4, 4, 4);
+            pictureBox3.Margin = new Padding(4);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new Size(96, 82);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
@@ -141,7 +141,7 @@
             panel2.Controls.Add(label7);
             panel2.Controls.Add(label6);
             panel2.Location = new Point(279, 261);
-            panel2.Margin = new Padding(4, 4, 4, 4);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
             panel2.Size = new Size(508, 290);
             panel2.TabIndex = 8;
@@ -151,7 +151,7 @@
             checkBox1.AutoSize = true;
             checkBox1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             checkBox1.Location = new Point(349, 159);
-            checkBox1.Margin = new Padding(4, 4, 4, 4);
+            checkBox1.Margin = new Padding(4);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(139, 36);
             checkBox1.TabIndex = 20;
@@ -165,7 +165,7 @@
             textBox5.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox5.ForeColor = Color.Black;
             textBox5.Location = new Point(231, 159);
-            textBox5.Margin = new Padding(4, 4, 4, 4);
+            textBox5.Margin = new Padding(4);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(100, 29);
             textBox5.TabIndex = 19;
@@ -178,7 +178,7 @@
             textBox4.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox4.ForeColor = Color.Black;
             textBox4.Location = new Point(179, 86);
-            textBox4.Margin = new Padding(4, 4, 4, 4);
+            textBox4.Margin = new Padding(4);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(205, 29);
             textBox4.TabIndex = 17;
@@ -191,7 +191,7 @@
             textBox3.BorderStyle = BorderStyle.None;
             textBox3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox3.Location = new Point(231, 158);
-            textBox3.Margin = new Padding(4, 4, 4, 4);
+            textBox3.Margin = new Padding(4);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(100, 32);
             textBox3.TabIndex = 16;
@@ -214,7 +214,7 @@
             textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
             textBox2.Location = new Point(165, 229);
-            textBox2.Margin = new Padding(4, 4, 4, 4);
+            textBox2.Margin = new Padding(4);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(205, 32);
             textBox2.TabIndex = 14;
@@ -224,7 +224,7 @@
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
             pictureBox2.Location = new Point(125, 218);
-            pictureBox2.Margin = new Padding(4, 4, 4, 4);
+            pictureBox2.Margin = new Padding(4);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(282, 64);
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -237,7 +237,7 @@
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox1.Location = new Point(150, 84);
-            textBox1.Margin = new Padding(4, 4, 4, 4);
+            textBox1.Margin = new Padding(4);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(251, 37);
             textBox1.TabIndex = 12;
@@ -268,7 +268,7 @@
             // panel4
             // 
             panel4.Location = new Point(219, 240);
-            panel4.Margin = new Padding(4, 4, 4, 4);
+            panel4.Margin = new Padding(4);
             panel4.Name = "panel4";
             panel4.Size = new Size(0, 0);
             panel4.TabIndex = 7;
@@ -332,7 +332,7 @@
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(25, 18);
-            pictureBox1.Margin = new Padding(4, 4, 4, 4);
+            pictureBox1.Margin = new Padding(4);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(121, 110);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -343,7 +343,7 @@
             // 
             panel5.BackColor = Color.FromArgb(43, 56, 143);
             panel5.Location = new Point(275, 258);
-            panel5.Margin = new Padding(4, 4, 4, 4);
+            panel5.Margin = new Padding(4);
             panel5.Name = "panel5";
             panel5.Size = new Size(515, 298);
             panel5.TabIndex = 9;
@@ -355,7 +355,7 @@
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(1134, 685);
             Controls.Add(panel1);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "FRM_PG93";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_PG93";

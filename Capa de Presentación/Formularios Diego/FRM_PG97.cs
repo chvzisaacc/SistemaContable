@@ -21,5 +21,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
 
         }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

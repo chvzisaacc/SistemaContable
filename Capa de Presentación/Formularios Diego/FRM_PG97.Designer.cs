@@ -96,7 +96,7 @@
             label8.BackColor = Color.FromArgb(251, 203, 51);
             label8.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.FromArgb(43, 56, 143);
-            label8.Location = new Point(954, 39);
+            label8.Location = new Point(941, 31);
             label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
             label8.Size = new Size(54, 38);
@@ -159,12 +159,13 @@
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(165, 229);
+            textBox2.Location = new Point(175, 232);
             textBox2.Margin = new Padding(4);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(205, 32);
+            textBox2.Size = new Size(174, 32);
             textBox2.TabIndex = 14;
             textBox2.Text = " Enviar y cerrar";
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pictureBox2
             // 

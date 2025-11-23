@@ -31,15 +31,13 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
         int modelWidth = 100;
         int modelHeight = 100;
-        int threshold = 5000;
+        int threshold = 3000;
+        private bool accesoConcedido = false;
+        private bool mensajeMostrado = false;
+
 
         string pathTrainedFaceModel = $"{Application.StartupPath}\\Faces\\stateModel.yaml";
         string pathReconzierFacesModel = $"{Application.StartupPath}\\haarcascade_frontalface_default.xml";
-
-        // Variables para control de reconocimiento
-        private DateTime lastRecognitionTime = DateTime.MinValue;
-        private string lastRecognizedUser = "";
-        private readonly TimeSpan recognitionCooldown = TimeSpan.FromSeconds(3); // 3 segundos entre reconocimientos
 
         public RECONOCER()
         {
@@ -58,10 +56,8 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             // Cargar modelo entrenado
             if (File.Exists(pathTrainedFaceModel))
                 eigenFaceRecognizer.Read(pathTrainedFaceModel);
-            else
-                MessageBox.Show("No existe un modelo entrenado (stateModel.yaml).");
+            TurnOffCamera(); ;
 
-            TurnOffCamera();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -69,11 +65,11 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             TurnOnCamera();
         }
 
-        private void TurnOnCamera()
+        private async void TurnOnCamera()
         {
             try
             {
-                cam = new VideoCapture(2);
+                cam = new VideoCapture(0);
 
                 if (!cam.IsOpened())
                 {
@@ -83,6 +79,26 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
                 running = true;
 
+                //MOSTRAR CÁMARA POR 5 SEGUNDOS SIN RECONOCER
+                int tempTime = Environment.TickCount;
+
+                while (Environment.TickCount - tempTime < 5000) // 5 segundos
+                {
+                    Mat tmpFrame = new Mat();
+                    cam.Read(tmpFrame);
+
+                    if (!tmpFrame.Empty())
+                    {
+                        Invoke(new Action(() =>
+                        {
+                            pictureBox1.Image = BitmapConverter.ToBitmap(tmpFrame);
+                        }));
+                    }
+
+                    await Task.Delay(50); // refresco suave
+                }
+
+                //LUEGO DE 5 SEGUNDOS EMPIEZA EL RECONOCIMIENTO
                 Task.Run(() =>
                 {
                     while (running)
@@ -96,6 +112,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                 MessageBox.Show("Error al iniciar cámara: " + ex.Message);
             }
         }
+
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -126,10 +143,9 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             }
             catch { }
         }
-
         private void RecognizeFace()
         {
-            if (cam == null) return;
+            if (cam == null || accesoConcedido) return;
 
             Mat imageFrame = new Mat();
             cam.Read(imageFrame);
@@ -148,8 +164,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                 new OpenCvSharp.Size(imageFrame.Width / 8, imageFrame.Height / 8)
             );
 
-            string detectedUserName = "Desconocido";
-            int detectedUserId = -1;
+            string detectedUserName = accesoConcedido ? label1.Text : "Desconocido";
 
             foreach (var face in faces)
             {
@@ -168,33 +183,77 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
                     if (predictedId > 0 && confidence < threshold)
                     {
-                        // OBTENER DATOS DEL USUARIO USANDO TUS MÉTODOS EXISTENTES
+                        // 1. OBTENER NOMBRE + ROL + ESTADO
                         ClsAccionesDB db = new ClsAccionesDB();
-                        Usuario usuario = db.ObtenerUsuarioCompleto(predictedId);
+                        var datos = db.ObtenerUsuarioReconocimiento(predictedId);
 
-                        if (usuario != null)
-                        {
-                            detectedUserName = usuario.usuario_nombre;
-                            detectedUserId = usuario.Usuario_id;
+                        string nombre = datos.nombre;
+                        int rolId = datos.rolId;
+                        int estadoCuenta = datos.estadoCuenta;
 
-                            // Verificar si es un nuevo reconocimiento y procesarlo
-                            ProcessUserRecognition(usuario);
-                        }
-                        else
+                        if (!accesoConcedido)
+                            detectedUserName = nombre;
+
+                        // 2. VALIDAR ESTADO DE CUENTA
+                        if (estadoCuenta != 1)
                         {
-                            // Si no se encuentra usuario completo, obtener solo el nombre
-                            detectedUserName = db.ObtenerNombreUsuario(predictedId);
-                            detectedUserId = predictedId;
+                            Invoke(new Action(() =>
+                            {
+                                MessageBox.Show("La cuenta del usuario está inactiva o bloqueada.",
+                                                "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }));
+                            continue;
                         }
+
+                        // 3. EVITAR ABRIR MÁS DE UNA VEZ
+                        accesoConcedido = true;
+
+                        // 4. ABRIR FORMULARIO SEGÚN ROL
+                        Invoke(new Action(async () =>
+                        {
+                            Form f = null;
+
+                            switch (rolId)
+                            {
+                                case 1:
+                                    f = new FRM_PG5(predictedId);
+                                    break;
+
+                                case 2:
+                                case 3:
+                                    f = new FRM_42(predictedId);
+                                    break;
+
+                                default:
+                                    MessageBox.Show("Rol no reconocido.", "Error",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    accesoConcedido = false;
+                                    return;
+                            }
+
+                            if (!mensajeMostrado)
+                            {
+                                mensajeMostrado = true;
+                                MessageBox.Show("Bienvenido " + nombre, "Acceso concedido");
+                            }
+
+                            await Task.Run(async () =>
+                            {
+                                await Task.Delay(3000); // siempre 3 segundos exactos
+                            });
+
+                            // Apagar cámara y ocultar este form
+                            TurnOffCamera();
+                            this.Hide();
+
+                            f.Show();
+                        }));
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error en reconocimiento: {ex.Message}");
-                }
+                catch { }
             }
 
-            // Mostrar nombre en la interfaz
+            // Mostrar imagen y nombre en pantalla
             Invoke(new Action(() =>
             {
                 label1.Text = detectedUserName;
@@ -202,101 +261,9 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             }));
         }
 
-        private void ProcessUserRecognition(Usuario usuario)
-        {
-            // Control para evitar múltiples reconocimientos consecutivos del mismo usuario
-            if (DateTime.Now - lastRecognitionTime < recognitionCooldown &&
-                lastRecognizedUser == usuario.usuario_nombre)
-            {
-                return;
-            }
-
-            lastRecognitionTime = DateTime.Now;
-            lastRecognizedUser = usuario.usuario_nombre;
-
-            // Invocar en el hilo de la UI
-            Invoke(new Action(() =>
-            {
-                // Verificar estado de cuenta (Id_estado_cuenta = 1 para activo)
-                if (usuario.Id_estado_cuenta != 1)
-                {
-                    string estadoTexto = usuario.Id_estado_cuenta == 2 ? "Inactivo" : "Bloqueado";
-                    MessageBox.Show($"Cuenta {estadoTexto}. Contacte al administrador.",
-                        "Estado de Cuenta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Abrir formulario según el rol (Rol_id)
-                AbrirFormularioPorRol(usuario);
-            }));
-        }
-
-        private void AbrirFormularioPorRol(Usuario usuario)
-        {
-            // Cerrar cámara antes de abrir nuevo formulario
-            TurnOffCamera();
-
-            Form formulario = null;
-
-            // SI EL Rol_id ES 1 ABRE FRM_PG5, SINO FRM_PG42
-            if (usuario.Rol_id == 1)
-            {
-                formulario = new FRM_PG5(usuario.usuario_nombre, usuario.Usuario_id);
-            }
-            else
-            {
-                formulario = new FRM_42(usuario.usuario_nombre, usuario.Usuario_id);
-            }
-
-            // Mostrar mensaje de bienvenida
-            string rolTexto = usuario.Rol_id == 1 ? "Administrador" : "Usuario";
-            MessageBox.Show($"Bienvenido: {usuario.usuario_nombre}\nRol: {rolTexto}",
-                "Acceso Permitido", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            // Mostrar el formulario correspondiente
-            if (formulario != null)
-            {
-                formulario.Show();
-                this.Hide(); // Ocultar el formulario de reconocimiento
-
-                // Evento para cuando se cierre el formulario secundario
-                formulario.FormClosed += (s, args) =>
-                {
-                    this.Show(); // Mostrar nuevamente el formulario de reconocimiento
-                    TurnOnCamera(); // Reactivar la cámara
-                };
-            }
-        }
-
-        // Método alternativo si solo tienes el ID y nombre
-        private void ProcessUserRecognitionAlternative(int userId, string userName)
-        {
-            ClsAccionesDB db = new ClsAccionesDB();
-
-            // Obtener usuario completo
-            Usuario usuario = db.ObtenerUsuarioCompleto(userId);
-
-            if (usuario != null)
-            {
-                ProcessUserRecognition(usuario);
-            }
-            else
-            {
-                // Si no se puede obtener usuario completo, mostrar mensaje
-                MessageBox.Show($"Usuario {userName} no encontrado en la base de datos.",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void RECONOCER_Load(object sender, EventArgs e)
         {
-            // Configuración inicial adicional si es necesaria
-        }
 
-        // Para manejar el cierre del formulario
-        private void RECONOCER_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            TurnOffCamera();
         }
 
         private void RECONOCER_Load_1(object sender, EventArgs e)

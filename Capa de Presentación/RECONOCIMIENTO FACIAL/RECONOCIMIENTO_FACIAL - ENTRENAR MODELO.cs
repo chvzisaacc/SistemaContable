@@ -671,7 +671,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             if (!Directory.Exists(folder))
                 return;
 
-            // Buscar todos los archivos que comienzan con "usuarioId_"
+            // Buscar archivos del usuario (2_*.bmp)
             string patron = $"{usuarioId}_*.bmp";
 
             string[] archivos = Directory.GetFiles(folder, patron);
@@ -682,32 +682,26 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                 {
                     File.Delete(archivo);
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("No se pudo borrar: " + archivo + "\n" + ex.Message);
+                }
             }
         }
+
 
         private void button5_Click(object sender, EventArgs e)
         {
             try
             {
-                // 1. Detener el ciclo
+                // 1. Detener cualquier reconocimiento o captura
                 running = false;
 
                 // 2. Apagar cámara si está en uso
                 if (cam != null)
                 {
-                    try
-                    {
-                        cam.Release();
-                    }
-                    catch { }
-
-                    try
-                    {
-                        cam.Dispose();
-                    }
-                    catch { }
-
+                    try { cam.Release(); } catch { }
+                    try { cam.Dispose(); } catch { }
                     cam = null;
                 }
 
@@ -718,30 +712,34 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                     pictureBox1.Image = null;
                 }
 
-                // 4. Forzar recolección de basura EN DOS PASOS
+                // 4. Forzar liberación de archivos bloqueados
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-                GC.Collect(); // esto libera HANDLEs de archivos bloqueados
+                GC.Collect();
 
-                // 5. Eliminar archivos locales del usuario
+                // 5. Eliminar archivos locales
                 BorrarFotosLocales(faceId);
 
-                // 6. Borrar carpeta del usuario
-                string folder = GetLocalUserFolder(faceId);
-                if (Directory.Exists(folder))
-                    Directory.Delete(folder, true);
-
-                // 7. Borrar fotos de la BD
+                // 6. Eliminar fotos en BD
                 ClsAccionesDB db = new ClsAccionesDB();
                 db.BorrarFotosUsuario(faceId);
 
-                MessageBox.Show("Fotos eliminadas correctamente.");
+                // 7. REENTRENAR el sistema para eliminar el modelo del usuario
+                if (TrainDataSetWithEigenFaceRecognizer())
+                {
+                    MessageBox.Show("Fotos eliminadas y modelo actualizado.");
+                }
+                else
+                {
+                    MessageBox.Show("Fotos eliminadas, pero no se pudo regenerar el modelo.");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al borrar fotos: " + ex.Message);
             }
         }
+
 
     }
 
