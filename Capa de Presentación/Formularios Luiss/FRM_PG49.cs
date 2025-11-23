@@ -138,29 +138,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     nombreReporte = "Ingresos";
                     break;
 
-                /*case 2: // Balance General
-             /* rutaPdf = _balanceGeneralService.GenerarInformeBalanceGeneral(
-                 parroquiaId,
-                 parroquiaNombre,
-                 desde,
-                 hasta,
-                 Sesion1.UsuarioID);
 
-              nombreReporte = "BalanceGeneral";
-              break;
-
-
-
-             /* case 3: // Ingresos
-                  rutaPdf = _ingresosService.GenerarInformeIngresos(
-                      parroquiaId,
-                      parroquiaNombre,
-                      desde,
-                      hasta,
-                      Sesion1.UsuarioID);
-
-                  nombreReporte = "Ingresos";
-                  break;*/
 
                 case 4: // Gastos
                     rutaPdf = _gastosService.GenerarInformeGastos(
