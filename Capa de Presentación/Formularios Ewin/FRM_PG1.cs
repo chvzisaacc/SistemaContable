@@ -51,7 +51,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             if (rol == 1)
             {
-                FRM_PG5 admin = new FRM_PG5(idUsuario);
+                FRM_PG5 admin = new FRM_PG5(usuarioID);
                 admin.Show();
                 this.Hide();
             }
