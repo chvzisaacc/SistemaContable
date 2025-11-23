@@ -53,5 +53,5 @@ namespace Capa_de_Presentación.Formularios_Ewin
             this.Close();
         }
     }
-    }
+    
 }
