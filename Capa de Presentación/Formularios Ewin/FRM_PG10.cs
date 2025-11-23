@@ -1,6 +1,8 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
 using Capa_de_procesamiento_de_datos;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Viewer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -95,7 +97,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        /*private void button2_Click(object sender, EventArgs e)
         {
             if (cmbTipoReporte.SelectedItem == null)
             {
@@ -105,12 +107,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             int tipoReporteId = Convert.ToInt32(cmbTipoReporte.SelectedValue);
 
-            if (tipoReporteId != 4) // 4 = Gastos
-            {
-                MessageBox.Show("Este botón está configurado para el Informe de Gastos.");
-                return;
-            }
-
+          // if (tipoReporteId != 4) // 4 = Gastos
+            //{
+               // MessageBox.Show("Este botón está configurado para el Informe de Gastos.");
+              //  return;
+           // }
+           
             if (cmbParroquia.SelectedItem == null)
             {
                 MessageBox.Show("Seleccione una parroquia.");
@@ -155,7 +157,40 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 FileName = rutaPdf,
                 UseShellExecute = true
             });
+        }      
+        */
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //int idParroquia = Convert.ToInt32(cmbParroquia.SelectedValue);
+                int idParroquia = 1;
+
+                string nombreParroquia = cmbParroquia.Text;
+
+                
+                DateTime desde = dtpDesde.Value.Date;
+                DateTime hasta = dtpHasta.Value.Date;
+                int usuarioId = 1;
+
+                IngresosService servicio = new IngresosService();
+
+                
+                string rutaPDF = servicio.GenerarReporteIngresos(idParroquia, nombreParroquia, desde, hasta, usuarioId);
+
+                MessageBox.Show($"Reporte generado exitosamente en: {rutaPDF}");
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(rutaPDF) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar el reporte: " + ex.Message);
+            }
         }
+
+
+
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -214,7 +249,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 }
             }
         }
+
+        private void cmbTipoReporte_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbParroquia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
-    
+
 }
 

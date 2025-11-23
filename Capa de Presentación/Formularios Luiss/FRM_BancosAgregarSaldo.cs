@@ -15,10 +15,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
     public partial class FRM_BancosAgregarSaldo : Form
     {
         private ClsCRUD_CuentasBancarias crudCuentasBancarias;
+        private ClsValidaciones Validaciones;
         public FRM_BancosAgregarSaldo()
         {
             InitializeComponent();
             crudCuentasBancarias = new ClsCRUD_CuentasBancarias();
+            Validaciones = new ClsValidaciones();
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -27,6 +29,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
+            ValidarCampos();
             // 1) Validar selección de cuenta
             if (cmbCuentas.SelectedValue == null)
             {
@@ -80,6 +83,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
             //HabilitarControles(false);
         }
 
+        private bool ValidarCampos()
+        {
+            if (!string.IsNullOrWhiteSpace(txtMonto.Text) && !Validaciones.EsNumeroDecimal(txtMonto.Text))
+            {
+                MessageBox.Show("El saldo debe ser un número válido (Ej: 100.00).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMonto.Focus();
+                return false;
+            }
+            return true;
+
+        }
         private void CargarDatos()
         {
             try
@@ -119,6 +133,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 MessageBox.Show("Error al cargar opciones: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void txtMonto_Click(object sender, EventArgs e)
+        {
+            if (txtMonto.Text == "Ingrese un monto")
+            {
+                txtMonto.Text = "";
+                txtMonto.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtMonto_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtMonto.Text))
+            {
+                txtMonto.Text = "Ingrese un monto";
+                txtMonto.ForeColor = Color.Gray;
             }
         }
     }

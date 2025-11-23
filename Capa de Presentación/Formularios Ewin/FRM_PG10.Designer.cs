@@ -1,4 +1,5 @@
-﻿namespace Capa_de_Presentación.Formularios_Ewin
+﻿
+namespace Capa_de_Presentación.Formularios_Ewin
 {
     partial class FRM_PG10
     {

@@ -113,5 +113,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             rECONOCER.Show();
             this.Hide();
         }
+
+        private void txtUsuario_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

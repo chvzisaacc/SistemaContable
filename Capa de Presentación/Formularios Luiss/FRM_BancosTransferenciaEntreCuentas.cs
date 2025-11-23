@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,19 +9,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Capa_de_acceso_de_datos;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_BancosTransferenciaEntreCuentas : Form
     {
         private clsTransferenciaEntreCuentas crudTransferencia = new clsTransferenciaEntreCuentas();
+        private ClsValidaciones Validaciones;
 
         public FRM_BancosTransferenciaEntreCuentas()
         {
             InitializeComponent();
             CargarCuentas();
-
+            Validaciones = new ClsValidaciones();
         }
 
         private void CargarCuentas()
@@ -95,6 +97,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
+            ValidarCampos();
             if (cmbOrigen.SelectedIndex == -1)
             {
                 MessageBox.Show("Debe seleccionar una cuenta de origen",
@@ -142,12 +145,40 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void FRM_BancosTransferenciaEntreCuentas_Load(object sender, EventArgs e)
         {
-
+            
         }
 
+        private bool ValidarCampos()
+        {
+            if (!string.IsNullOrWhiteSpace(txtMonto.Text) && !Validaciones.EsNumeroDecimal(txtMonto.Text))
+            {
+                MessageBox.Show("El saldo debe ser un número válido (Ej: 100.00).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMonto.Focus();
+                return false;
+            }
+            return true;
+
+        }
         private void txtMonto_TextChanged(object sender, EventArgs e)
         {
 
+        }
+        private void txtMonto_Click(object sender, EventArgs e)
+        {
+            if (txtMonto.Text == "Usuario")
+            {
+                txtMonto.Text = "";
+                txtMonto.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtMonto_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtMonto.Text))
+            {
+                txtMonto.Text = "Usuario";
+                txtMonto.ForeColor = Color.Gray;
+            }
         }
     }
 }
