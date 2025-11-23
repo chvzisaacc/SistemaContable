@@ -282,7 +282,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         {
             try
             {
-                cam = new VideoCapture(2);
+                cam = new VideoCapture(0);
 
                 if (!cam.IsOpened())
                 {

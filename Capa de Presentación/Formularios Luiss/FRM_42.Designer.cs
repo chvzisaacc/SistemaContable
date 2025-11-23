@@ -40,6 +40,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
             panelContenedor = new Panel();
+            panelBancos2 = new Panel();
+            button3 = new Button();
+            cmbAcciones = new ComboBox();
+            cmbInteresesBancarios = new ComboBox();
+            cmbCuentas = new ComboBox();
+            panel5 = new Panel();
             panelCajaChica2 = new Panel();
             textBox1 = new TextBox();
             chkSaldoInicial = new CheckBox();
@@ -79,12 +85,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             NombreCuenta = new DataGridViewTextBoxColumn();
             cDetalle = new DataGridViewTextBoxColumn();
             cSaldo = new DataGridViewTextBoxColumn();
-            panelBancos2 = new Panel();
-            button3 = new Button();
-            cmbAcciones = new ComboBox();
-            cmbInteresesBancarios = new ComboBox();
-            cmbCuentas = new ComboBox();
-            panel5 = new Panel();
             btnGastos = new Button();
             btnBancos = new Button();
             btnCajaChica = new Button();
@@ -96,6 +96,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panelContenedor.SuspendLayout();
+            panelBancos2.SuspendLayout();
             panelCajaChica2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             panelGastos2.SuspendLayout();
@@ -106,7 +107,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            panelBancos2.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -159,16 +159,94 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // panelContenedor
             // 
-            panelContenedor.Controls.Add(panelBancos2);
             panelContenedor.Controls.Add(panel5);
-            panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Controls.Add(panelIngresos);
+            panelContenedor.Controls.Add(panelBancos2);
+            panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Location = new Point(4, 355);
             panelContenedor.Margin = new Padding(4, 5, 4, 5);
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(1566, 503);
             panelContenedor.TabIndex = 8;
+            // 
+            // panelBancos2
+            // 
+            panelBancos2.Controls.Add(button3);
+            panelBancos2.Controls.Add(cmbAcciones);
+            panelBancos2.Controls.Add(cmbInteresesBancarios);
+            panelBancos2.Controls.Add(cmbCuentas);
+            panelBancos2.Dock = DockStyle.Fill;
+            panelBancos2.Location = new Point(0, 0);
+            panelBancos2.Margin = new Padding(4, 5, 4, 5);
+            panelBancos2.Name = "panelBancos2";
+            panelBancos2.Size = new Size(1566, 503);
+            panelBancos2.TabIndex = 41;
+            panelBancos2.Visible = false;
+            // 
+            // button3
+            // 
+            button3.BackColor = Color.FromArgb(251, 203, 51);
+            button3.Font = new Font("Segoe UI Black", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button3.Location = new Point(433, 267);
+            button3.Name = "button3";
+            button3.Size = new Size(400, 53);
+            button3.TabIndex = 8;
+            button3.Text = "Certificados de depósito";
+            button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
+            // 
+            // cmbAcciones
+            // 
+            cmbAcciones.BackColor = Color.FromArgb(43, 56, 143);
+            cmbAcciones.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbAcciones.ForeColor = SystemColors.ControlLightLight;
+            cmbAcciones.FormattingEnabled = true;
+            cmbAcciones.Items.AddRange(new object[] { "Agregar Saldo", "Transferencia entre cuentas", "Agregar cuenta bancaria", "Salida de dinero" });
+            cmbAcciones.Location = new Point(981, 67);
+            cmbAcciones.Margin = new Padding(4, 5, 4, 5);
+            cmbAcciones.Name = "cmbAcciones";
+            cmbAcciones.Size = new Size(277, 53);
+            cmbAcciones.TabIndex = 7;
+            cmbAcciones.Text = "Acciones";
+            cmbAcciones.SelectedIndexChanged += cmbAcciones_SelectedIndexChanged;
+            // 
+            // cmbInteresesBancarios
+            // 
+            cmbInteresesBancarios.BackColor = Color.FromArgb(251, 203, 51);
+            cmbInteresesBancarios.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold);
+            cmbInteresesBancarios.FormattingEnabled = true;
+            cmbInteresesBancarios.Items.AddRange(new object[] { "Cuentas Bancarias", "Certificados de deposito" });
+            cmbInteresesBancarios.Location = new Point(433, 167);
+            cmbInteresesBancarios.Margin = new Padding(4, 5, 4, 5);
+            cmbInteresesBancarios.Name = "cmbInteresesBancarios";
+            cmbInteresesBancarios.Size = new Size(398, 53);
+            cmbInteresesBancarios.TabIndex = 5;
+            cmbInteresesBancarios.Text = "Intereses Bancarios";
+            cmbInteresesBancarios.SelectedIndexChanged += cmbInteresesBancarios_SelectedIndexChanged;
+            // 
+            // cmbCuentas
+            // 
+            cmbCuentas.BackColor = Color.FromArgb(251, 203, 51);
+            cmbCuentas.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbCuentas.FormattingEnabled = true;
+            cmbCuentas.Items.AddRange(new object[] { "Cuentas de Ahorro", "Cuenta de Cheques" });
+            cmbCuentas.Location = new Point(433, 67);
+            cmbCuentas.Margin = new Padding(4, 5, 4, 5);
+            cmbCuentas.Name = "cmbCuentas";
+            cmbCuentas.Size = new Size(398, 53);
+            cmbCuentas.TabIndex = 4;
+            cmbCuentas.Text = "Cuentas de Ahorro";
+            cmbCuentas.SelectedIndexChanged += cmbCuentas_SelectedIndexChanged;
+            // 
+            // panel5
+            // 
+            panel5.BackgroundImageLayout = ImageLayout.Stretch;
+            panel5.Location = new Point(407, 25);
+            panel5.Margin = new Padding(4, 3, 4, 3);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(749, 367);
+            panel5.TabIndex = 49;
             // 
             // panelCajaChica2
             // 
@@ -679,84 +757,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cSaldo.Name = "cSaldo";
             cSaldo.ReadOnly = true;
             // 
-            // panelBancos2
-            // 
-            panelBancos2.Controls.Add(button3);
-            panelBancos2.Controls.Add(cmbAcciones);
-            panelBancos2.Controls.Add(cmbInteresesBancarios);
-            panelBancos2.Controls.Add(cmbCuentas);
-            panelBancos2.Dock = DockStyle.Fill;
-            panelBancos2.Location = new Point(0, 0);
-            panelBancos2.Margin = new Padding(4, 5, 4, 5);
-            panelBancos2.Name = "panelBancos2";
-            panelBancos2.Size = new Size(1566, 503);
-            panelBancos2.TabIndex = 41;
-            panelBancos2.Visible = false;
-            // 
-            // button3
-            // 
-            button3.BackColor = Color.FromArgb(251, 203, 51);
-            button3.Font = new Font("Segoe UI Black", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(433, 267);
-            button3.Name = "button3";
-            button3.Size = new Size(400, 53);
-            button3.TabIndex = 8;
-            button3.Text = "Certificados de depósito";
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
-            // 
-            // cmbAcciones
-            // 
-            cmbAcciones.BackColor = Color.FromArgb(43, 56, 143);
-            cmbAcciones.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbAcciones.ForeColor = SystemColors.ControlLightLight;
-            cmbAcciones.FormattingEnabled = true;
-            cmbAcciones.Items.AddRange(new object[] { "Agregar Saldo", "Transferencia entre cuentas", "Agregar cuenta bancaria", "Salida de dinero" });
-            cmbAcciones.Location = new Point(981, 67);
-            cmbAcciones.Margin = new Padding(4, 5, 4, 5);
-            cmbAcciones.Name = "cmbAcciones";
-            cmbAcciones.Size = new Size(277, 53);
-            cmbAcciones.TabIndex = 7;
-            cmbAcciones.Text = "Acciones";
-            cmbAcciones.SelectedIndexChanged += cmbAcciones_SelectedIndexChanged;
-            // 
-            // cmbInteresesBancarios
-            // 
-            cmbInteresesBancarios.BackColor = Color.FromArgb(251, 203, 51);
-            cmbInteresesBancarios.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold);
-            cmbInteresesBancarios.FormattingEnabled = true;
-            cmbInteresesBancarios.Items.AddRange(new object[] { "Cuentas Bancarias", "Certificados de deposito" });
-            cmbInteresesBancarios.Location = new Point(433, 167);
-            cmbInteresesBancarios.Margin = new Padding(4, 5, 4, 5);
-            cmbInteresesBancarios.Name = "cmbInteresesBancarios";
-            cmbInteresesBancarios.Size = new Size(398, 53);
-            cmbInteresesBancarios.TabIndex = 5;
-            cmbInteresesBancarios.Text = "Intereses Bancarios";
-            cmbInteresesBancarios.SelectedIndexChanged += cmbInteresesBancarios_SelectedIndexChanged;
-            // 
-            // cmbCuentas
-            // 
-            cmbCuentas.BackColor = Color.FromArgb(251, 203, 51);
-            cmbCuentas.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbCuentas.FormattingEnabled = true;
-            cmbCuentas.Items.AddRange(new object[] { "Cuentas de Ahorro", "Cuenta de Cheques" });
-            cmbCuentas.Location = new Point(433, 67);
-            cmbCuentas.Margin = new Padding(4, 5, 4, 5);
-            cmbCuentas.Name = "cmbCuentas";
-            cmbCuentas.Size = new Size(398, 53);
-            cmbCuentas.TabIndex = 4;
-            cmbCuentas.Text = "Cuentas de Ahorro";
-            cmbCuentas.SelectedIndexChanged += cmbCuentas_SelectedIndexChanged;
-            // 
-            // panel5
-            // 
-            panel5.BackgroundImageLayout = ImageLayout.Stretch;
-            panel5.Location = new Point(407, 25);
-            panel5.Margin = new Padding(4, 3, 4, 3);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(749, 367);
-            panel5.TabIndex = 49;
-            // 
             // btnGastos
             // 
             btnGastos.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
@@ -863,6 +863,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panelContenedor.ResumeLayout(false);
+            panelBancos2.ResumeLayout(false);
             panelCajaChica2.ResumeLayout(false);
             panelCajaChica2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
@@ -876,7 +877,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            panelBancos2.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
