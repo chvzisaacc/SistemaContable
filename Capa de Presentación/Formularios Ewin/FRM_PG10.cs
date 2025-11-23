@@ -24,6 +24,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
         private readonly IngresosService _ingresosService = new IngresosService();
         private readonly BalanceGeneralService _balanceGeneralService = new BalanceGeneralService();
+        private ClsValidaciones Validaciones;
 
 
         private string ConstruirNombreReporteVisible(string tipoTexto, DateTime desde, DateTime hasta)
@@ -37,6 +38,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         public FRM_PG10()
         {
             InitializeComponent();
+            Validaciones = new ClsValidaciones();
         }
 
         private void FRM_PG10_Load(object sender, EventArgs e)
@@ -105,36 +107,34 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void button2_Click(object sender, EventArgs e)
         {
 
-
-
-
-
-            if (cmbTipoReporte.SelectedItem == null)
-            {
-                MessageBox.Show("Seleccione un tipo de reporte.");
-                return;
-            }
-
             int tipoReporteId = Convert.ToInt32(cmbTipoReporte.SelectedValue);
-
-            if (cmbParroquia.SelectedItem == null)
-            {
-                MessageBox.Show("Seleccione una parroquia.");
-                return;
-            }
-
-
             int parroquiaId = Convert.ToInt32(cmbParroquia.SelectedValue);
             string parroquiaNombre = cmbParroquia.Text;
 
             DateTime desde = dtpDesde.Value.Date;
             DateTime hasta = dtpHasta.Value.Date;
 
-            if (desde > hasta)
+            if (!Validaciones.ComboSeleccionado(cmbParroquia))
             {
-                MessageBox.Show("La fecha desde no puede ser mayor que la fecha hasta.");
+                MessageBox.Show("Seleccione una parroquia.", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            if (!Validaciones.ComboSeleccionado(cmbTipoReporte))
+            {
+                MessageBox.Show("Seleccione un tipo de reporte.", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!Validaciones.FechaRangoValido(dtpDesde.Value, dtpHasta.Value))
+            {
+                MessageBox.Show("La fecha 'Desde' no puede ser mayor que 'Hasta'.", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
 
 
 
@@ -216,15 +216,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (lstReportes.SelectedItem == null)
+            if (!Validaciones.ListBoxSeleccionado(lstReportes))
             {
-                MessageBox.Show("Seleccione un reporte generado.");
+                MessageBox.Show("Seleccione un reporte generado de la lista.", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (cmbFormatoDescarga.SelectedItem == null)
+            if (!Validaciones.ComboSeleccionado(cmbFormatoDescarga))
             {
-                MessageBox.Show("Seleccione un formato de descarga (PDF, DOCX o JPG).");
+                MessageBox.Show("Seleccione un formato de descarga.", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

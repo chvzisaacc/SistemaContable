@@ -86,7 +86,7 @@ namespace Capa_de_Presentación.CLASES
             return Regex.IsMatch(texto, @"^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ.,\s]+$")
                    && EsLongitudValida(texto, 5, 200);
         }
-
+        //11. solo letras
         public static bool EsSoloLetras(string texto)
         {
             if (string.IsNullOrWhiteSpace(texto))
@@ -97,6 +97,25 @@ namespace Capa_de_Presentación.CLASES
                 texto,
                 @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
             );
+        }
+
+
+        // 12.Validar que una fecha no sea mayor que otra
+        public bool FechaRangoValido(DateTime desde, DateTime hasta)
+        {
+            return desde <= hasta;
+        }
+
+        // 13.Validar que un ComboBox tenga un valor seleccionado
+        public bool ComboSeleccionado(ComboBox combo)
+        {
+            return combo.SelectedIndex >= 0;
+        }
+
+        // 14.Validar que un ListBox tenga al menos un item seleccionado
+        public bool ListBoxSeleccionado(ListBox lista)
+        {
+            return lista.SelectedItem != null;
         }
 
 
