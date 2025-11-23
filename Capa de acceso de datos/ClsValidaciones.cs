@@ -86,7 +86,7 @@ namespace Capa_de_Presentación.CLASES
             return Regex.IsMatch(texto, @"^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ.,\s]+$")
                    && EsLongitudValida(texto, 5, 200);
         }
-
+        //11. solo letras
         public static bool EsSoloLetras(string texto)
         {
             if (string.IsNullOrWhiteSpace(texto))
