@@ -15,7 +15,7 @@ namespace Capa_de_Presentación.CAPAS
     public class ClsRecuperacion
     {
 
-        public int IniciarSesion(string usuario, string contraseña, int idparroquia, Label lblMensaje)
+        public int IniciarSesion(string usuario, string contraseña, int idparroquia, FRM_PG1 fRM_PG1, Label lblMensaje)
         {
             ClsMetodos metodos = new ClsMetodos();
             int rol = metodos.IniciarSesion(usuario, contraseña, idparroquia);

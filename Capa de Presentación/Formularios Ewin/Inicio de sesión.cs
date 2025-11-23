@@ -57,25 +57,41 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
 
 
-            ClsRecuperacion login = new ClsRecuperacion();
-            int rol = login.IniciarSesion(txtUsuario.Text, txtContraseña.Text, 0, label1);
+            ClsAccionesDB clsAccionesDB = new();
+            int rol = 0;
+            int IdParroquia = 0;
+            string usuario = txtUsuario.Text;
+            string password = txtContraseña.Text;
+            ClsRecuperacion objrecu = new ClsRecuperacion();
+            objrecu.IniciarSesion(txtUsuario.Text, txtContraseña.Text, IdParroquia, this, label1);
 
-            if (rol <= 0) return;
 
-            ClsAccionesDB acciones = new ClsAccionesDB();
-            int idUsuario = acciones.ObtenerUsuarioIdPorNombreUsuario(txtUsuario.Text);
 
-            Sesion1.IniciarSesion(idUsuario, rol, 0);
+            if (rol > 0)
+            {
+                int idUsuario = clsAccionesDB.ObtenerUsuarioIdPorNombreUsuario(usuario);
+
+                if (idUsuario > 0)
+                {
+                    Sesion1.IniciarSesion(idUsuario, rol, IdParroquia);
+
+                    MessageBox.Show("Inicio de sesión exitoso. ID de Usuario guardado.");
+                }
+                else
+                {
+                    MessageBox.Show("Error: El usuario es válido, pero no se pudo obtener su ID.", "Error Crítico");
+                }
+            }
 
             if (rol == 1)
             {
-                FRM_PG5 admin = new FRM_PG5(idUsuario);
+                FRM_PG5 admin = new FRM_PG5();
                 admin.Show();
                 this.Hide();
             }
             else if (rol == 2 || rol == 3)
             {
-                FRM_42 empleado = new FRM_42(idUsuario);
+                FRM_42 empleado = new FRM_42();
                 empleado.Show();
                 this.Hide();
             }
@@ -91,7 +107,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void txtUsuario_Click(object sender, EventArgs e)
         {
-            if (txtUsuario.Text == "Usuario")
+            if (txtUsuario.Text == "usuario")
             {
                 txtUsuario.Text = "";
                 txtUsuario.ForeColor = Color.Black;
@@ -102,7 +118,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             if (string.IsNullOrWhiteSpace(txtUsuario.Text))
             {
-                txtUsuario.Text = "Usuario";
+                txtUsuario.Text = "usuario";
                 txtUsuario.ForeColor = Color.Gray;
             }
         }

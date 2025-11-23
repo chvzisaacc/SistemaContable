@@ -25,6 +25,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        public FRM_PG69()
+        {
+        }
+
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
