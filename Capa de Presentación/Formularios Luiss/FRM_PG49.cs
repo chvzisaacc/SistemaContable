@@ -21,9 +21,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
         private readonly IngresosService _ingresosService = new IngresosService();
         private readonly BalanceGeneralService _balanceGeneralService = new BalanceGeneralService();
+        private ClsValidaciones Validaciones;
         public FRM_PG49()
         {
             InitializeComponent();
+            Validaciones = new ClsValidaciones();
         }
         private string ConstruirNombreReporteVisible(string tipoTexto, DateTime desde, DateTime hasta)
         {
@@ -80,27 +82,35 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (cmbTipoReporte.SelectedItem == null)
-            {
-                MessageBox.Show("Seleccione un tipo de reporte.");
-                return;
-            }
 
             int tipoReporteId = Convert.ToInt32(cmbTipoReporte.SelectedValue);
+            int parroquiaId = Sesion1.IdParroquia;
+            string parroquiaNombre = _gastosService.ObtenerNombreParroquia(parroquiaId);
 
             DateTime desde = dtpDesde.Value.Date;
             DateTime hasta = dtpHasta.Value.Date;
 
-            if (desde > hasta)
+
+            if (!Validaciones.ComboSeleccionado(cmbTipoReporte))
             {
-                MessageBox.Show("La fecha 'Desde' no puede ser mayor que la fecha 'Hasta'.");
+                MessageBox.Show("Seleccione un tipo de reporte.", "Validación",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbTipoReporte.Focus();
                 return;
             }
 
-            int parroquiaId = 1;
-            string parroquiaNombre = _gastosService.ObtenerNombreParroquia(parroquiaId);
 
-            
+            if (!Validaciones.FechaRangoValido(desde, hasta))
+            {
+                MessageBox.Show("La fecha 'Desde' no puede ser mayor que la fecha 'Hasta'.",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dtpDesde.Focus();
+                return;
+            }
+
+
+
+
 
             string rutaPdf = string.Empty;
             string nombreReporte = string.Empty;
@@ -199,7 +209,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
 
             var item = (ReporteUIItem)lstReportes.SelectedItem;
-            string formato = cmbFormatoDescarga.SelectedItem.ToString(); // "PDF", "DOCX" o "JPG"
+            string formato = cmbFormatoDescarga.SelectedItem.ToString();
 
             if (!File.Exists(item.RutaPdf))
             {
@@ -208,15 +218,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
 
             string nombreSeguro = item.NombreVisible
-            .Replace("/", "-")
-            .Replace("\\", "-")
-            .Replace(":", "-")
-            .Replace("*", "-")
-            .Replace("?", "")
-            .Replace("\"", "")
-            .Replace("<", "")
-            .Replace(">", "")
-            .Replace("|", "");
+                .Replace("/", "-")
+                .Replace("\\", "-")
+                .Replace(":", "-")
+                .Replace("*", "-")
+                .Replace("?", "")
+                .Replace("\"", "")
+                .Replace("<", "")
+                .Replace(">", "")
+                .Replace("|", "");
 
             using (var sfd = new SaveFileDialog())
             {
@@ -259,11 +269,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     var image = pdf.SaveAsImage(0);
                     image.Save(sfd.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
                     pdf.Close();
-                }
-                else
-                {
-                    // Stub por si el ing pregunta qué pasaría:
-                    MessageBox.Show($"La conversión a {formato} aún no está implementada.");
                 }
             }
         }

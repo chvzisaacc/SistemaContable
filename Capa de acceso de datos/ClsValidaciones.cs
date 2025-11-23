@@ -100,6 +100,25 @@ namespace Capa_de_Presentación.CLASES
         }
 
 
+        // 12.Validar que una fecha no sea mayor que otra
+        public bool FechaRangoValido(DateTime desde, DateTime hasta)
+        {
+            return desde <= hasta;
+        }
+
+        // 13.Validar que un ComboBox tenga un valor seleccionado
+        public bool ComboSeleccionado(ComboBox combo)
+        {
+            return combo.SelectedIndex >= 0;
+        }
+
+        // 14.Validar que un ListBox tenga al menos un item seleccionado
+        public bool ListBoxSeleccionado(ListBox lista)
+        {
+            return lista.SelectedItem != null;
+        }
+
+
 
     }
 }
