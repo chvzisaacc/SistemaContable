@@ -20,7 +20,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private readonly GastosService _gastosService = new GastosService();
         private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
-        private readonly IngresosService _ingresosService= new IngresosService();
+        private readonly IngresosService _ingresosService = new IngresosService();
 
 
         private string ConstruirNombreReporteVisible(string tipoTexto, DateTime desde, DateTime hasta)
@@ -101,11 +101,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
-            
-            
-            
-            
+
+
+
+
+
             if (cmbTipoReporte.SelectedItem == null)
             {
                 MessageBox.Show("Seleccione un tipo de reporte.");
@@ -113,14 +113,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
 
             int tipoReporteId = Convert.ToInt32(cmbTipoReporte.SelectedValue);
-           
+
             if (cmbParroquia.SelectedItem == null)
             {
                 MessageBox.Show("Seleccione una parroquia.");
                 return;
             }
 
-            
+
             int parroquiaId = Convert.ToInt32(cmbParroquia.SelectedValue);
             string parroquiaNombre = cmbParroquia.Text;
 
@@ -265,6 +265,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         private void cmbParroquia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbTipoReporte_SelectedIndexChanged_1(object sender, EventArgs e)
         {
 
         }

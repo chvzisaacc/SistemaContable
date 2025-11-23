@@ -126,7 +126,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     nombreReporte = "Balance General";
                     break;
 
-                /* case 2: // Balance General
+                /*case 2: // Balance General
              /* rutaPdf = _balanceGeneralService.GenerarInformeBalanceGeneral(
                  parroquiaId,
                  parroquiaNombre,
