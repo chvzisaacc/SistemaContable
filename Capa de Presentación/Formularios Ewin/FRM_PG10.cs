@@ -20,7 +20,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private readonly GastosService _gastosService = new GastosService();
         private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
-        private readonly IngresosService _ingresosService = new IngresosService();
+        private readonly IngresosService _ingresosService= new IngresosService();
+        private readonly BalanceGeneralService _balanceGeneralService = new BalanceGeneralService();
 
 
         private string ConstruirNombreReporteVisible(string tipoTexto, DateTime desde, DateTime hasta)
@@ -101,11 +102,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button2_Click(object sender, EventArgs e)
         {
-
-
-
-
-
+            
+            
+            
+            
+            
             if (cmbTipoReporte.SelectedItem == null)
             {
                 MessageBox.Show("Seleccione un tipo de reporte.");
@@ -113,14 +114,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
 
             int tipoReporteId = Convert.ToInt32(cmbTipoReporte.SelectedValue);
-
+           
             if (cmbParroquia.SelectedItem == null)
             {
                 MessageBox.Show("Seleccione una parroquia.");
                 return;
             }
 
-
+            
             int parroquiaId = Convert.ToInt32(cmbParroquia.SelectedValue);
             string parroquiaNombre = cmbParroquia.Text;
 
@@ -150,6 +151,16 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                     nombreReporte = "Estado de Resultados";
                     break;
+                case 2:
+                    rutaPdf = _balanceGeneralService.GenerarBalanceGeneral(
+                              parroquiaId,
+                              parroquiaNombre,
+                              desde,
+                              hasta,
+                              Sesion1.UsuarioID);
+
+                    nombreReporte = "Balance General";
+                    break;
                 case 3:
                     rutaPdf = _ingresosService.GenerarReporteIngresos(
                               parroquiaId,
@@ -157,7 +168,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                               desde,
                               hasta,
                               Sesion1.UsuarioID);
-                    nombreReporte = "Balance General";
+                    nombreReporte = "Ingresos";
                     break;
                 case 4:
                     rutaPdf = _gastosService.GenerarInformeGastos(
@@ -265,11 +276,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         private void cmbParroquia_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cmbTipoReporte_SelectedIndexChanged_1(object sender, EventArgs e)
         {
 
         }
