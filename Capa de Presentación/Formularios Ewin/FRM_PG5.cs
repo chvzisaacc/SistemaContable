@@ -25,6 +25,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         //Catalogo
         private clsCRUD_CatalogoCuentas crudCatalogoCuentas;
+        private bool modoEdicionCatalogo = false;
+        private int codigoCuentaSeleccionado = 0;
         //BITACORA
         private clsCRUD_Historial crudHistorial;
         //Validaciones
@@ -108,6 +110,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             CargarComboBoxTipoTransaccion();
             LimpiarCamposCatalogo();
             HabilitarControlesCatalogo(false);
+            CargarComboBoxCuentas();
             //ValidarCamposCatalogo();
         }
 
@@ -336,26 +339,167 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button6_Click(object sender, EventArgs e)
         {
-            ValidarCamposCatalogo();
+            if (!ValidarCamposCatalogo())
+                return;
+
+            try
+            {
+                int idCuenta = Convert.ToInt32(cmbCuenta.SelectedValue);
+                string nombreCuenta = txtNombreCuenta.Text.Trim();
+                string detalle = txtDetalle.Text.Trim();
+
+                if (modoEdicionCatalogo)
+                {
+                    // MODIFICAR cuenta existente
+                    bool resultado = crudCatalogoCuentas.ModificarCatalogoCuenta(
+                        codigoCuentaSeleccionado,
+                        idCuenta,
+                        nombreCuenta,
+                        detalle,
+                        null // saldo siempre null
+                    );
+
+                    if (resultado)
+                    {
+                        MessageBox.Show("Cuenta modificada exitosamente", "Éxito",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        try
+                        {
+                            crudHistorial.RegistrarActividad(
+                                1,
+                                8,
+                                "Modificación de Cuenta",
+                                $"Se modificó la cuenta: '{nombreCuenta}' (Código: {codigoCuentaSeleccionado})."
+                            );
+                        }
+                        catch (Exception exBitacora)
+                        {
+                            Console.WriteLine("Error de Bitácora: " + exBitacora.Message);
+                        }
+
+                        CargarDatosCatalogoDGV();
+                        LimpiarCamposCatalogo();
+                        HabilitarControlesCatalogo(false);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo modificar la cuenta", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    // AGREGAR nueva cuenta
+                    if (crudCatalogoCuentas.CatalogoCuentaExiste(nombreCuenta))
+                    {
+                        MessageBox.Show("El nombre de la cuenta ya existe", "Advertencia",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    int nuevoCodigo = crudCatalogoCuentas.AgregarCatalogoCuenta(
+                        idCuenta,
+                        nombreCuenta,
+                        detalle,
+                        null // saldo siempre null
+                    );
+
+                    if (nuevoCodigo > 0)
+                    {
+                        MessageBox.Show($"Cuenta agregada exitosamente con código: {nuevoCodigo}",
+                            "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        try
+                        {
+                            crudHistorial.RegistrarActividad(
+                                1,
+                                8,
+                                "Creación de Cuenta",
+                                $"Se creó la nueva cuenta: '{nombreCuenta}' (Código: {nuevoCodigo})."
+                            );
+                        }
+                        catch (Exception exBitacora)
+                        {
+                            Console.WriteLine("Error de Bitácora: " + exBitacora.Message);
+                        }
+
+                        CargarDatosCatalogoDGV();
+                        LimpiarCamposCatalogo();
+                        HabilitarControlesCatalogo(false);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se pudo agregar la cuenta", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar la cuenta: " + ex.Message + "\n\nDetalle: " + ex.InnerException?.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarComboBoxCuentas()
+        {
+            try
+            {
+                cmbCuenta.DataSource = crudCatalogoCuentas.ObtenerCuentas();
+                cmbCuenta.DisplayMember = "descripcion";
+                cmbCuenta.ValueMember = "id_cuenta";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar cuentas: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarDatosCatalogoCuenta()
+        {
+            try
+            {
+                var cuenta = crudCatalogoCuentas.BuscarCatalogoCuentaPorId(codigoCuentaSeleccionado);
+
+                if (cuenta != null)
+                {
+                    txtIdCuenta.Text = cuenta["Cod_cuenta"].ToString();
+                    txtNombreCuenta.Text = cuenta["nombre_cuenta"].ToString();
+                    txtDetalle.Text = cuenta["detalle"] != DBNull.Value
+                        ? cuenta["detalle"].ToString()
+                        : "";
+                    cmbCuenta.SelectedValue = cuenta["id_cuenta"];
+                    cmbTipoCuenta.SelectedValue = cuenta["cod_tipo"]; // Ajusta según tu stored procedure
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar cuenta: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnNuevaCuenta_Click(object sender, EventArgs e)
         {
             LimpiarCamposCatalogo();
             HabilitarControlesCatalogo(true);
+            modoEdicionCatalogo = false; // Debes agregar esta variable global
 
             try
             {
                 int proximoCodigo = crudCatalogoCuentas.ObtenerProximoCodigo();
-                txtId.Text = proximoCodigo.ToString();
+                txtIdCuenta.Text = proximoCodigo.ToString();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al obtener código: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
-            txtNombre.Focus();
+            txtNombreCuenta.Focus();
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -662,16 +806,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
 
-            string codigo = txtIdCuenta.Text.Trim();      // lo genera el sistema
+            string codigo = txtIdCuenta.Text.Trim();
             string nombreCuenta = txtNombreCuenta.Text.Trim();
-            string cuenta = txtCuenta.Text.Trim();
             string detalle = txtDetalle.Text.Trim();
-            string saldoTexto = txtSaldo.Text.Trim();
 
-            // Código: solo verificamos que venga generado, NO que el usuario lo escriba
+            // Código: verificamos que venga generado
             if (string.IsNullOrWhiteSpace(codigo))
             {
-                MessageBox.Show("No se generó el código de la cuenta. Vuelva a intentar o contacte al administrador.",
+                MessageBox.Show("No se generó el código de la cuenta. Vuelva a intentar.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
@@ -685,12 +827,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return false;
             }
 
-            // Campo Cuenta
-            if (string.IsNullOrWhiteSpace(cuenta) || !val.EsTextoValido(cuenta))
+            // Cuenta padre (ComboBox)
+            if (cmbCuenta.SelectedValue == null)
             {
-                MessageBox.Show("El campo 'Cuenta' es requerido y solo puede contener letras y espacios.",
+                MessageBox.Show("Debe seleccionar una cuenta padre.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCuenta.Focus();
+                cmbCuenta.Focus();
                 return false;
             }
 
@@ -700,15 +842,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 MessageBox.Show("El detalle es requerido y solo puede contener letras y espacios.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDetalle.Focus();
-                return false;
-            }
-
-            // Saldo (opcional, pero si lo escriben debe ser decimal)
-            if (!string.IsNullOrWhiteSpace(saldoTexto) && !val.EsNumeroDecimal(saldoTexto))
-            {
-                MessageBox.Show("El saldo debe ser un número válido. Ejemplo: 100 o 100.50",
-                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtSaldo.Focus();
                 return false;
             }
 
@@ -726,11 +859,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void LimpiarCamposCatalogo()
         {
-            txtId.Clear();
-            txtCuenta.Clear();
+            txtIdCuenta.Clear();
             txtNombreCuenta.Clear();
             txtDetalle.Clear();
-            txtSaldo.Clear();
+
+            if (cmbCuenta.Items.Count > 0)
+                cmbCuenta.SelectedIndex = 0;
 
             if (cmbTipoCuenta.Items.Count > 0)
                 cmbTipoCuenta.SelectedIndex = 0;
@@ -738,13 +872,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void HabilitarControlesCatalogo(bool habilitar)
         {
-            txtId.Enabled = false;
-            txtCuenta.Enabled = habilitar;
+            txtIdCuenta.Enabled = false;
+            cmbCuenta.Enabled = habilitar;
             txtNombreCuenta.Enabled = habilitar;
             txtDetalle.Enabled = habilitar;
-            txtSaldo.Enabled = habilitar;
             cmbTipoCuenta.Enabled = habilitar;
-            btnGuardar.Enabled = habilitar;
+            btnGuardarCuenta.Enabled = habilitar;
         }
 
         private void txtBuscar_TextChanged(object sender, EventArgs e)
