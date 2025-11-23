@@ -97,7 +97,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             int parroquiaId = 1;
             string parroquiaNombre = _gastosService.ObtenerNombreParroquia(parroquiaId);
 
-            MessageBox.Show("Parroquia enviada: " + Sesion1.IdParroquia);
+            
 
             string rutaPdf = string.Empty;
             string nombreReporte = string.Empty;
@@ -139,7 +139,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                   nombreReporte = "Ingresos";
                   break;*/
 
-                case 4: // BALANCE GENERAL
+                case 4: // Gastos
                     rutaPdf = _gastosService.GenerarInformeGastos(
                     parroquiaId,
                     parroquiaNombre,
