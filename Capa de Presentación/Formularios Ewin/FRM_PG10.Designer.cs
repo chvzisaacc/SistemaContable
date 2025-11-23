@@ -71,7 +71,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
             panel1.Location = new Point(14, 15);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(1572, 869);
             panel1.TabIndex = 12;
@@ -85,7 +85,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             button1.ForeColor = Color.White;
             button1.ImageAlign = ContentAlignment.TopCenter;
             button1.Location = new Point(1358, 611);
-            button1.Margin = new Padding(4, 4, 4, 4);
+            button1.Margin = new Padding(4);
             button1.Name = "button1";
             button1.Size = new Size(171, 44);
             button1.TabIndex = 11;
@@ -99,7 +99,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmbFormatoDescarga.FormattingEnabled = true;
             cmbFormatoDescarga.Items.AddRange(new object[] { "PDF", "DOCX", "JPG" });
             cmbFormatoDescarga.Location = new Point(1184, 616);
-            cmbFormatoDescarga.Margin = new Padding(4, 4, 4, 4);
+            cmbFormatoDescarga.Margin = new Padding(4);
             cmbFormatoDescarga.Name = "cmbFormatoDescarga";
             cmbFormatoDescarga.Size = new Size(154, 33);
             cmbFormatoDescarga.TabIndex = 11;
@@ -121,7 +121,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             panel3.Controls.Add(lstReportes);
             panel3.Controls.Add(label2);
             panel3.Location = new Point(902, 240);
-            panel3.Margin = new Padding(4, 4, 4, 4);
+            panel3.Margin = new Padding(4);
             panel3.Name = "panel3";
             panel3.Size = new Size(626, 360);
             panel3.TabIndex = 18;
@@ -132,7 +132,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             lstReportes.ItemHeight = 25;
             lstReportes.Items.AddRange(new object[] { "Queso" });
             lstReportes.Location = new Point(4, 71);
-            lstReportes.Margin = new Padding(4, 4, 4, 4);
+            lstReportes.Margin = new Padding(4);
             lstReportes.Name = "lstReportes";
             lstReportes.Size = new Size(618, 279);
             lstReportes.TabIndex = 3;
@@ -163,7 +163,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             panel2.Controls.Add(label3);
             panel2.Controls.Add(label6);
             panel2.Location = new Point(110, 240);
-            panel2.Margin = new Padding(4, 4, 4, 4);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
             panel2.Size = new Size(686, 360);
             panel2.TabIndex = 17;
@@ -176,7 +176,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             button2.ForeColor = Color.Transparent;
             button2.ImageAlign = ContentAlignment.TopCenter;
             button2.Location = new Point(222, 251);
-            button2.Margin = new Padding(4, 4, 4, 4);
+            button2.Margin = new Padding(4);
             button2.Name = "button2";
             button2.Size = new Size(251, 65);
             button2.TabIndex = 10;
@@ -189,16 +189,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // 
             cmbTipoReporte.FormattingEnabled = true;
             cmbTipoReporte.Location = new Point(418, 159);
-            cmbTipoReporte.Margin = new Padding(4, 4, 4, 4);
+            cmbTipoReporte.Margin = new Padding(4);
             cmbTipoReporte.Name = "cmbTipoReporte";
             cmbTipoReporte.Size = new Size(235, 33);
             cmbTipoReporte.TabIndex = 9;
+            cmbTipoReporte.SelectedIndexChanged += cmbTipoReporte_SelectedIndexChanged_1;
             // 
             // cmbParroquia
             // 
             cmbParroquia.FormattingEnabled = true;
             cmbParroquia.Location = new Point(418, 105);
-            cmbParroquia.Margin = new Padding(4, 4, 4, 4);
+            cmbParroquia.Margin = new Padding(4);
             cmbParroquia.Name = "cmbParroquia";
             cmbParroquia.Size = new Size(235, 33);
             cmbParroquia.TabIndex = 8;
@@ -226,7 +227,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // dtpHasta
             // 
             dtpHasta.Location = new Point(88, 156);
-            dtpHasta.Margin = new Padding(4, 4, 4, 4);
+            dtpHasta.Margin = new Padding(4);
             dtpHasta.Name = "dtpHasta";
             dtpHasta.Size = new Size(182, 31);
             dtpHasta.TabIndex = 5;
@@ -244,7 +245,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // dtpDesde
             // 
             dtpDesde.Location = new Point(88, 104);
-            dtpDesde.Margin = new Padding(4, 4, 4, 4);
+            dtpDesde.Margin = new Padding(4);
             dtpDesde.Name = "dtpDesde";
             dtpDesde.Size = new Size(182, 31);
             dtpDesde.TabIndex = 3;
@@ -286,7 +287,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // panel4
             // 
             panel4.Location = new Point(219, 240);
-            panel4.Margin = new Padding(4, 4, 4, 4);
+            panel4.Margin = new Padding(4);
             panel4.Name = "panel4";
             panel4.Size = new Size(0, 0);
             panel4.TabIndex = 7;
@@ -306,7 +307,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(26, 16);
-            pictureBox1.Margin = new Padding(4, 4, 4, 4);
+            pictureBox1.Margin = new Padding(4);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(121, 110);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -320,7 +321,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(1602, 899);
             Controls.Add(panel1);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "FRM_PG10";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FRM_PG10";

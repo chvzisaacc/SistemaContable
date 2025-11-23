@@ -169,14 +169,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                 string nombreParroquia = cmbParroquia.Text;
 
-                
+
                 DateTime desde = dtpDesde.Value.Date;
                 DateTime hasta = dtpHasta.Value.Date;
                 int usuarioId = 1;
 
                 IngresosService servicio = new IngresosService();
 
-                
+
                 string rutaPDF = servicio.GenerarReporteIngresos(idParroquia, nombreParroquia, desde, hasta, usuarioId);
 
                 MessageBox.Show($"Reporte generado exitosamente en: {rutaPDF}");
@@ -256,6 +256,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         private void cmbParroquia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbTipoReporte_SelectedIndexChanged_1(object sender, EventArgs e)
         {
 
         }
