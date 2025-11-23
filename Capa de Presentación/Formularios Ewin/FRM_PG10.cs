@@ -28,7 +28,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
             return $"{tipoTexto} - {desde:dd/MM/yyyy} a {hasta:dd/MM/yyyy}";
         }
 
-        private readonly GastosService _gastosService = new GastosService();
         public FRM_PG10()
         {
             InitializeComponent();
@@ -107,12 +106,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             int tipoReporteId = Convert.ToInt32(cmbTipoReporte.SelectedValue);
 
-          // if (tipoReporteId != 4) // 4 = Gastos
-            //{
-               // MessageBox.Show("Este botón está configurado para el Informe de Gastos.");
-              //  return;
-           // }
-           
             if (cmbParroquia.SelectedItem == null)
             {
                 MessageBox.Show("Seleccione una parroquia.");
@@ -138,8 +131,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 Sesion1.UsuarioID
             );
 
-            string nombreVisible = ConstruirNombreReporteVisible("Gastos", desde, hasta);
-
             var item = new ReporteUIItem
             {
                 TipoReporteId = tipoReporteId,
@@ -158,38 +149,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 UseShellExecute = true
             });
         }      
-        */
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //int idParroquia = Convert.ToInt32(cmbParroquia.SelectedValue);
-                int idParroquia = 1;
-
-                string nombreParroquia = cmbParroquia.Text;
-
-                
-                DateTime desde = dtpDesde.Value.Date;
-                DateTime hasta = dtpHasta.Value.Date;
-                int usuarioId = 1;
-
-                IngresosService servicio = new IngresosService();
-
-                
-                string rutaPDF = servicio.GenerarReporteIngresos(idParroquia, nombreParroquia, desde, hasta, usuarioId);
-
-                MessageBox.Show($"Reporte generado exitosamente en: {rutaPDF}");
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(rutaPDF) { UseShellExecute = true });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al generar el reporte: " + ex.Message);
-            }
-        }
-
-
-
 
 
         private void button1_Click(object sender, EventArgs e)
