@@ -18,6 +18,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private readonly GastosService _gastosService = new GastosService();
         private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
+        private readonly IngresosService _ingresosService = new IngresosService();
         public FRM_PG49()
         {
             InitializeComponent();
@@ -113,6 +114,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
                               Sesion1.UsuarioID);
 
                     nombreReporte = "Estado de Resultados";
+                    break;
+
+                case 3:
+                    rutaPdf = _ingresosService.GenerarReporteIngresos(
+                              parroquiaId,
+                              parroquiaNombre,
+                              desde,
+                              hasta,
+                              Sesion1.UsuarioID);
+                    nombreReporte = "Balance General";
                     break;
 
                 /* case 2: // Balance General
