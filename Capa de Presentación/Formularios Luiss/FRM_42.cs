@@ -80,12 +80,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 dateTimePicker1.Value = DateTime.Today;
 
 
-           
+
 
             ActualizarSaldo();
             CargarCuentasEnComboBox();
 
-            
+
 
 
         }

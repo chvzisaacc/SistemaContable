@@ -41,6 +41,10 @@ namespace Capa_de_Presentación
             this.Close();
         }
 
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
-}
+

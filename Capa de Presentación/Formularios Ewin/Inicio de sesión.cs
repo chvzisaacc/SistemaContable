@@ -12,7 +12,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
     public partial class FRM_PG1 : Form
     {
         ClsCerrar cerrar = new ClsCerrar();
-        private int usuarioID; // Advertencia CS0169: Se declara pero nunca se usa
+        private int usuarioID;
 
         public FRM_PG1()
         {
@@ -48,19 +48,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
             if (rol <= 0)
                 return;
 
-            // Instancia de acciones de DB para obtener IDs.
-            ClsAccionesDB objAcciones = new();
-
             // OBTENER ID DE USUARIO Y PARROQUIA
-            // El resultado es un Tuple<int, int> (ID_Usuario, ID_Parroquia)
-            var resultadoTuple = objAcciones.ObtenerUsuarioIdPorNombreUsuario(txtUsuario.Text);
+            ClsAccionesDB acciones = new ClsAccionesDB();
+            var resultadoTuple = acciones.ObtenerUsuarioIdPorNombreUsuario(txtUsuario.Text);
 
-            // Extracción de los valores del Tuple
             int idUsuario = resultadoTuple.Item1;
-            int parroquiaId = resultadoTuple.Item2; // Corregido: Ahora se captura el ID de Parroquia
+            int parroquiaId = resultadoTuple.Item2;
 
             // Guardar sesión con ambos valores
-            Sesion1.IniciarSesion(idUsuario, rol, parroquiaId); // Corregido: Inicializa la sesión con los 3 valores
+            Sesion1.IniciarSesion(idUsuario, rol, parroquiaId);
 
             //REDIRECCIONAR AL FORM SEGÚN ROL 
             if (rol == 1)
@@ -76,6 +72,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 this.Hide();
             }
         }
+
+
 
 
         private void label3_Click(object sender, EventArgs e)

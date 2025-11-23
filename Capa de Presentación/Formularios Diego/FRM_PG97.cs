@@ -45,13 +45,18 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return;
             }
 
-            
+
             MessageBox.Show("Envío a caja chica exitoso.", "OK",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            
+
             this.Close();
         }
-    }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
+
