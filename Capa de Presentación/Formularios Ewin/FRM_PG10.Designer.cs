@@ -193,7 +193,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmbTipoReporte.Name = "cmbTipoReporte";
             cmbTipoReporte.Size = new Size(235, 33);
             cmbTipoReporte.TabIndex = 9;
-            cmbTipoReporte.SelectedIndexChanged += cmbTipoReporte_SelectedIndexChanged_1;
+            //cmbTipoReporte.SelectedIndexChanged += cmbTipoReporte_SelectedIndexChanged_1;
             // 
             // cmbParroquia
             // 
