@@ -20,7 +20,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private readonly GastosService _gastosService = new GastosService();
         private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
-
+        private readonly IngresosService _ingresosService= new IngresosService();
 
 
         private string ConstruirNombreReporteVisible(string tipoTexto, DateTime desde, DateTime hasta)
@@ -150,7 +150,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                     nombreReporte = "Estado de Resultados";
                     break;
-
+                case 3:
+                    rutaPdf = _ingresosService.GenerarReporteIngresos(
+                              parroquiaId,
+                              parroquiaNombre,
+                              desde,
+                              hasta,
+                              Sesion1.UsuarioID);
+                    nombreReporte = "Balance General";
+                    break;
                 case 4:
                     rutaPdf = _gastosService.GenerarInformeGastos(
                               parroquiaId,
