@@ -530,9 +530,10 @@ namespace Capa_de_acceso_de_datos
         }
 
 
-        public int ObtenerUsuarioIdPorNombreUsuario(string nombreUsuario)
+        public Tuple<int, int> ObtenerUsuarioIdPorNombreUsuario(string nombreUsuario)
         {
             int idUsuario = 0;
+            int parroquiaId = 0;
             try
             {
                 Abrir();
@@ -540,9 +541,16 @@ namespace Capa_de_acceso_de_datos
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@NombreUsuario", nombreUsuario);
-                    object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                        idUsuario = Convert.ToInt32(result);
+
+                    // Usamos ExecuteReader para obtener ambas columnas
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read()) // Si encuentra al menos una fila
+                        {
+                            idUsuario = reader.GetInt32(reader.GetOrdinal("Usuario_id"));
+                            parroquiaId = reader.IsDBNull(reader.GetOrdinal("Parroquia_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("Parroquia_id"));
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -553,9 +561,9 @@ namespace Capa_de_acceso_de_datos
             {
                 Cerrar();
             }
-            return idUsuario;
-        }
 
+            return Tuple.Create(idUsuario, parroquiaId);  // Tuple con ambos valores
+        }
         public List<Usuario> ObtenerUsuarios()
         {
             List<Usuario> usuarios = new List<Usuario>();

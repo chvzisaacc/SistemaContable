@@ -74,7 +74,7 @@ namespace Capa_de_Presentación.CLASES
 
                 int rowsAffected = gastos.ModificarGastos(
                     transaccionId, fechaTransaccion, detalle, saldo,
-                    Convert.ToInt32(referencia), Sesion1.UsuarioID, idOrigen, nombreCuenta
+                    Convert.ToInt32(referencia), Sesion1.UsuarioId, idOrigen, nombreCuenta
                 );
 
                 if (rowsAffected > 0)

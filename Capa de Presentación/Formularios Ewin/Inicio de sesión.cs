@@ -2,16 +2,10 @@
 using Capa_de_Presentación.CAPAS;
 using Capa_de_Presentación.CLASES;
 using Capa_de_Presentación.Formularios_Luiss;
+using Capa_de_procesamiento_de_datos;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
@@ -26,12 +20,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
             this.FormClosing += cerrar.CerrarApp;
         }
 
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void FRM_PG1_Load(object sender, EventArgs e)
         {
 
@@ -39,64 +27,53 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button1_Click(object sender, EventArgs e)
         {
+            ClsValidaciones validaciones = new ClsValidaciones();
 
-           ClsValidaciones validaciones = new ClsValidaciones();
-
-            // Validación el campo de Usuario
             if (!validaciones.EsUsuarioValido(txtUsuario.Text))
             {
                 MessageBox.Show("Por favor, ingrese un usuario válido.");
                 return;
             }
 
-            // Validación el campo de Contraseña
             if (!validaciones.EsContraseñaValida(txtContraseña.Text))
             {
                 MessageBox.Show("La contraseña debe tener entre 4 y 25 caracteres.");
                 return;
             }
 
+            // VALIDAR LOGIN
+            ClsRecuperacion login = new ClsRecuperacion();
+            int rol = login.IniciarSesion(txtUsuario.Text, txtContraseña.Text, 0, this, label1);
 
-            ClsAccionesDB clsAccionesDB = new();
-            int rol = 0;
-            int IdParroquia = 0;
-            string usuario = txtUsuario.Text;
-            string password = txtContraseña.Text;
-            ClsRecuperacion objrecu = new ClsRecuperacion();
-            objrecu.IniciarSesion(txtUsuario.Text, txtContraseña.Text, IdParroquia, this, label1);
+            if (rol <= 0)
+                return;
 
+            // OBTENER ID DE USUARIO Y PARROQUIA
+            ClsAccionesDB acciones = new ClsAccionesDB();
+            var resultado = acciones.ObtenerUsuarioIdPorNombreUsuario(txtUsuario.Text);
+            int idUsuario = resultado.Item1;
+            int parroquiaId = resultado.Item2;
 
+            // Guardar sesión con ambos valores
+            Sesion1.IniciarSesion(idUsuario, rol, parroquiaId);
 
-            if (rol > 0)
-            {
-                int idUsuario = clsAccionesDB.ObtenerUsuarioIdPorNombreUsuario(usuario);
-
-                if (idUsuario > 0)
-                {
-                    Sesion1.IniciarSesion(idUsuario, rol, IdParroquia);
-
-                    MessageBox.Show("Inicio de sesión exitoso. ID de Usuario guardado.");
-                }
-                else
-                {
-                    MessageBox.Show("Error: El usuario es válido, pero no se pudo obtener su ID.", "Error Crítico");
-                }
-            }
-
+            //REDIRECCIONAR AL FORM SEGÚN ROL 
             if (rol == 1)
             {
-                FRM_PG5 admin = new FRM_PG5();
+                FRM_PG5 admin = new FRM_PG5(idUsuario);
                 admin.Show();
                 this.Hide();
             }
             else if (rol == 2 || rol == 3)
             {
-                FRM_42 empleado = new FRM_42();
+                FRM_42 empleado = new FRM_42(idUsuario);
                 empleado.Show();
                 this.Hide();
             }
-
         }
+
+
+
 
         private void label3_Click(object sender, EventArgs e)
         {
@@ -107,7 +84,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void txtUsuario_Click(object sender, EventArgs e)
         {
-            if (txtUsuario.Text == "usuario")
+            if (txtUsuario.Text == "Usuario")
             {
                 txtUsuario.Text = "";
                 txtUsuario.ForeColor = Color.Black;
@@ -118,7 +95,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             if (string.IsNullOrWhiteSpace(txtUsuario.Text))
             {
-                txtUsuario.Text = "usuario";
+                txtUsuario.Text = "Usuario";
                 txtUsuario.ForeColor = Color.Gray;
             }
         }

@@ -47,7 +47,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dgvPartidas.DataSource = dt;
         }
 
-  
+
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 

@@ -123,7 +123,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                               parroquiaNombre,
                               desde,
                               hasta,
-                              Sesion1.UsuarioID);
+                              Sesion1.UsuarioId);
 
                     nombreReporte = "Estado de Resultados";
                     break;
@@ -134,7 +134,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                               parroquiaNombre,
                               desde,
                               hasta,
-                              Sesion1.UsuarioID);
+                              Sesion1.UsuarioId);
 
                     nombreReporte = "Balance General";
                     break;
@@ -144,7 +144,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                               parroquiaNombre,
                               desde,
                               hasta,
-                              Sesion1.UsuarioID);
+                              Sesion1.UsuarioId);
                     nombreReporte = "Ingresos";
                     break;
 
@@ -156,7 +156,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     parroquiaNombre,
                     desde,
                     hasta,
-                    Sesion1.UsuarioID);
+                    Sesion1.UsuarioId);
 
                     nombreReporte = "Gastos";
                     break;

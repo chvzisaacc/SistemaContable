@@ -5,7 +5,7 @@
 
 
 
-        public static int UsuarioID { get; private set; } = 0;
+        public static int UsuarioId { get; private set; } = 0;
 
         public static int RolID { get; private set; } = 0;
         public static int IdParroquia { get; set; } = 0;
@@ -17,7 +17,7 @@
 
         public static void IniciarSesion(int id, int rol, int idParroquia)
         {
-            UsuarioID = id;
+            UsuarioId = id;
             RolID = rol;
             IdParroquia = idParroquia; // Almacenamos el ID de Parroquia
             Correo = null;  // limpia cache al loguear
@@ -25,7 +25,7 @@
 
         public static void CerrarSesion()
         {
-            UsuarioID = 0;
+            UsuarioId = 0;
             RolID = 0;
             IdParroquia = 0;
             Correo = null;

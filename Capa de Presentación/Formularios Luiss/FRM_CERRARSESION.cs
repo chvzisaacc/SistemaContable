@@ -26,7 +26,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                string correo = _repo.ObtenerCorreoPorUsuario(Sesion1.UsuarioID);
+                string correo = _repo.ObtenerCorreoPorUsuario(Sesion1.UsuarioId);
                 label1.Text = string.IsNullOrWhiteSpace(correo)
                     ? "Sin correo / cuenta inactiva"
                     : correo;

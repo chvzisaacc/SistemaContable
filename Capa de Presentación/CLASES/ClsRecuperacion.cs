@@ -80,6 +80,11 @@ namespace Capa_de_Presentación.CAPAS
                 MessageBox.Show(ex.Message);
             }
         }
+
+        internal int IniciarSesion(string text1, string text2, int v, Label label1)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

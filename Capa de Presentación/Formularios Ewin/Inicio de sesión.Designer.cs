@@ -49,7 +49,7 @@
             txtUsuario.TabIndex = 0;
             txtUsuario.Text = "Usuario";
             txtUsuario.Click += txtUsuario_Click;
-            txtUsuario.TextChanged += txtUsuario_TextChanged;
+            //txtUsuario.TextChanged += txtUsuario_TextChanged;
             txtUsuario.Leave += txtUsuario_Leave;
             // 
             // txtContraseña

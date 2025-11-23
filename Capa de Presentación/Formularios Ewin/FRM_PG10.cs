@@ -149,7 +149,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                               parroquiaNombre,
                               desde,
                               hasta,
-                              Sesion1.UsuarioID);
+                              Sesion1.UsuarioId);
 
                     nombreReporte = "Estado de Resultados";
                     break;
@@ -159,7 +159,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                               parroquiaNombre,
                               desde,
                               hasta,
-                              Sesion1.UsuarioID);
+                              Sesion1.UsuarioId);
 
                     nombreReporte = "Balance General";
                     break;
@@ -169,7 +169,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                               parroquiaNombre,
                               desde,
                               hasta,
-                              Sesion1.UsuarioID);
+                              Sesion1.UsuarioId);
                     nombreReporte = "Ingresos";
                     break;
                 case 4:
@@ -178,7 +178,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                               parroquiaNombre,
                               desde,
                               hasta,
-                              Sesion1.UsuarioID);
+                              Sesion1.UsuarioId);
 
                     nombreReporte = "Gastos";
                     break;
