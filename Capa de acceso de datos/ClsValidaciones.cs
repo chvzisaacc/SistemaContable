@@ -118,6 +118,20 @@ namespace Capa_de_Presentación.CLASES
             return lista.SelectedItem != null;
         }
 
+        // 15. Valida que el monto sea decimal válido y mayor que 0
+        public bool EsMontoPositivo(string texto)
+        {
+            if (string.IsNullOrWhiteSpace(texto))
+                return false;
+
+            if (!EsNumeroDecimal(texto))
+                return false;
+
+            // Si llegó aquí, es número decimal, ahora veo si es > 0
+            decimal monto = decimal.Parse(texto);
+            return monto > 0;
+        }
+
 
 
     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Capa_de_acceso_de_datos;
 
 namespace Capa_de_Presentación.Formularios_Diego
 {
@@ -113,53 +114,61 @@ namespace Capa_de_Presentación.Formularios_Diego
 
         private void btnGuardar_TextChanged(object sender, EventArgs e)
         {
+            ClsValidaciones v = new ClsValidaciones();
 
-        }
-
-        private void pictureBox2_Click_1(object sender, EventArgs e)
-        {
-            if (cmbOrigen.SelectedIndex == -1)
+            // Validar Origen
+            if (!v.ComboSeleccionado(cmbOrigen))
             {
-                MessageBox.Show("Debe seleccionar una cuenta de origen",
-                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbOrigen.Focus();
+                MessageBox.Show("Seleccione una cuenta de origen.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (cmbDestino.SelectedIndex == -1)
+            // Validar Destino
+            if (!v.ComboSeleccionado(cmbDestino))
             {
-                MessageBox.Show("Debe seleccionar una cuenta de destino",
-                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbDestino.Focus();
+                MessageBox.Show("Seleccione una cuenta de destino.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (cmbOrigen.SelectedValue.ToString() == cmbDestino.SelectedValue.ToString())
+            string monto = txtMonto.Text.Trim();
+
+            // Validar que no esté vacío
+            if (string.IsNullOrWhiteSpace(monto))
             {
-                MessageBox.Show("Las cuentas de origen y destino deben ser diferentes",
-                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Ingrese un monto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            decimal monto;
-            if (!decimal.TryParse(txtMonto.Text, out monto) || monto <= 0)
+            // Validar que no tenga letras (solo números)
+            if (!v.EsNumeroDecimal(monto) && !v.EsNumeroEntero(monto))
             {
-                MessageBox.Show("Debe ingresar un monto válido mayor a cero",
-                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtMonto.Focus();
+                MessageBox.Show("El monto debe ser un número válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Validar que sea mayor a 0
+            if (decimal.Parse(monto) <= 0)
+            {
+                MessageBox.Show("El monto debe ser mayor que cero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             DialogResult result = MessageBox.Show(
-                $"¿Está seguro de transferir ${monto:N2} de la cuenta {cmbOrigen.Text} a la cuenta {cmbDestino.Text}?",
-                "Confirmar transferencia",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+                            $"¿Está seguro de transferir ${monto:N2} de la cuenta {cmbOrigen.Text} a la cuenta {cmbDestino.Text}?",
+                            "Confirmar transferencia",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
                 RealizarTransferencia();
             }
+        }
+
+
+        private void pictureBox2_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }
