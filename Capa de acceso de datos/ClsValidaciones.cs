@@ -31,7 +31,7 @@ namespace Capa_de_Presentación.CLASES
             // Nota: He quitado los espacios que tenías dentro del string @" ^ [...]"
             return Regex.IsMatch(texto, @"^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]+$");
         }
-        // 4. Validar formato de Correo Electrónico
+        // 4. Valida formato de Correo Electrónico
         public bool EsCorreoValido(string correo)
         {
             if (string.IsNullOrWhiteSpace(correo)) return false;
@@ -39,6 +39,57 @@ namespace Capa_de_Presentación.CLASES
             // Este patrón verifica: texto + @ + texto + . + extensión (2+ letras)
             return Regex.IsMatch(correo, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
         }
+
+
+        // 5. Valida que el usuario no esté vacío y que sea un texto válido
+        public bool EsUsuarioValido(string usuario)
+        {
+            if (string.IsNullOrWhiteSpace(usuario)) return false;
+            // Validar solo letras y números, y permitir guiones bajos o puntos
+            return Regex.IsMatch(usuario, @"^[a-zA-Z0-9._]+$");
+        }
+
+        // 6. Valida que la contraseña tenga entre 4 y 25 caracteres
+        public bool EsContraseñaValida(string contraseña)
+        {
+            if (string.IsNullOrWhiteSpace(contraseña)) return false;
+            return contraseña.Length >= 4 && contraseña.Length <= 25;
+        }
+
+        // 7.Valida longitud mínima y máxima para cualquier texto
+        public bool EsLongitudValida(string texto, int min, int max)
+        {
+            if (string.IsNullOrWhiteSpace(texto)) return false;
+            return texto.Length >= min && texto.Length <= max;
+        }
+
+        //8. Valida el nombre
+        public bool EsNombrePersonaValido(string texto)
+        {
+            if (!EsTextoValido(texto)) return false;
+            return EsLongitudValida(texto, 2, 50);
+        }
+
+        //9. Valida el nombre del catalogo
+
+        public bool EsNombreCuentaValido(string texto)
+        {
+            if (!EsTextoValido(texto)) return false;
+            return EsLongitudValida(texto, 3, 60);
+        }
+
+        //10.Detalle del catalogo
+        public bool EsDetalleCatalogoValido(string texto)
+        {
+            if (string.IsNullOrWhiteSpace(texto)) return false;
+
+            return Regex.IsMatch(texto, @"^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ.,\s]+$")
+                   && EsLongitudValida(texto, 5, 200);
+        }
+
+
+
+
 
     }
 }

@@ -54,7 +54,24 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+
+            ClsValidaciones validar = new ClsValidaciones();
             string correo = txtCorreo.Text.Trim();
+
+            // Validar que no esté vacío
+            if (string.IsNullOrWhiteSpace(correo))
+            {
+                MessageBox.Show("Por favor ingrese su correo electrónico.");
+                return;
+            }
+
+            // Validar que el formato del correo sea válido
+            if (!validar.EsCorreoValido(correo))
+            {
+                MessageBox.Show("El formato del correo electrónico no es válido.");
+                return;
+            }
+
 
             if (string.IsNullOrEmpty(correo))
             {
