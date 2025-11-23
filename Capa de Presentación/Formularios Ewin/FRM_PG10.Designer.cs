@@ -103,6 +103,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmbFormatoDescarga.Name = "cmbFormatoDescarga";
             cmbFormatoDescarga.Size = new Size(154, 33);
             cmbFormatoDescarga.TabIndex = 11;
+            cmbFormatoDescarga.SelectedIndexChanged += cmbFormatoDescarga_SelectedIndexChanged;
             // 
             // label9
             // 

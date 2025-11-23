@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Spire.Pdf;
+using System.Drawing.Imaging;
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
@@ -20,7 +22,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private readonly GastosService _gastosService = new GastosService();
         private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
-        private readonly IngresosService _ingresosService= new IngresosService();
+        private readonly IngresosService _ingresosService = new IngresosService();
         private readonly BalanceGeneralService _balanceGeneralService = new BalanceGeneralService();
 
 
@@ -102,11 +104,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
-            
-            
-            
-            
+
+
+
+
+
             if (cmbTipoReporte.SelectedItem == null)
             {
                 MessageBox.Show("Seleccione un tipo de reporte.");
@@ -114,14 +116,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
 
             int tipoReporteId = Convert.ToInt32(cmbTipoReporte.SelectedValue);
-           
+
             if (cmbParroquia.SelectedItem == null)
             {
                 MessageBox.Show("Seleccione una parroquia.");
                 return;
             }
 
-            
+
             int parroquiaId = Convert.ToInt32(cmbParroquia.SelectedValue);
             string parroquiaNombre = cmbParroquia.Text;
 
@@ -235,23 +237,34 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return;
             }
 
+            string nombreSeguro = item.NombreVisible
+            .Replace("/", "-")
+            .Replace("\\", "-")
+            .Replace(":", "-")
+            .Replace("*", "-")
+            .Replace("?", "")
+            .Replace("\"", "")
+            .Replace("<", "")
+            .Replace(">", "")
+            .Replace("|", "");
+
             using (var sfd = new SaveFileDialog())
             {
                 switch (formato)
                 {
                     case "PDF":
                         sfd.Filter = "Archivo PDF|*.pdf";
-                        sfd.FileName = item.NombreVisible + ".pdf";
+                        sfd.FileName = nombreSeguro + ".pdf";
                         break;
 
                     case "DOCX":
                         sfd.Filter = "Documento Word|*.docx";
-                        sfd.FileName = item.NombreVisible + ".docx";
+                        sfd.FileName = nombreSeguro + ".docx";
                         break;
 
                     case "JPG":
                         sfd.Filter = "Imagen JPG|*.jpg";
-                        sfd.FileName = item.NombreVisible + ".jpg";
+                        sfd.FileName = nombreSeguro + ".jpg";
                         break;
                 }
 
@@ -262,10 +275,25 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 {
                     File.Copy(item.RutaPdf, sfd.FileName, true);
                 }
+                else if (formato == "DOCX")
+                {
+                    PdfDocument pdf = new PdfDocument();
+                    pdf.LoadFromFile(item.RutaPdf);
+                    pdf.SaveToFile(sfd.FileName, FileFormat.DOCX);
+                    pdf.Close();
+                }
+                else if (formato == "JPG")
+                {
+                    PdfDocument pdf = new PdfDocument();
+                    pdf.LoadFromFile(item.RutaPdf);
+                    var image = pdf.SaveAsImage(0);
+                    image.Save(sfd.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    pdf.Close();
+                }
                 else
                 {
                     // Stub por si el ing pregunta qué pasaría:
-                    MessageBox.Show($"La conversión a {formato} aún no está implementada.");
+                    //MessageBox.Show($"La conversión a {formato} aún no está implementada.");
                 }
             }
         }
@@ -276,6 +304,16 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         private void cmbParroquia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbTipoReporte_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbFormatoDescarga_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

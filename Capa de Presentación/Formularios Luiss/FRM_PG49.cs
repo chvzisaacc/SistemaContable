@@ -1,6 +1,7 @@
 ﻿using Capa_de_acceso_de_datos;
-using Capa_de_procesamiento_de_datos;
 using Capa_de_Presentación.CLASES;
+using Capa_de_procesamiento_de_datos;
+using Spire.Pdf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -228,23 +229,34 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
+            string nombreSeguro = item.NombreVisible
+            .Replace("/", "-")
+            .Replace("\\", "-")
+            .Replace(":", "-")
+            .Replace("*", "-")
+            .Replace("?", "")
+            .Replace("\"", "")
+            .Replace("<", "")
+            .Replace(">", "")
+            .Replace("|", "");
+
             using (var sfd = new SaveFileDialog())
             {
                 switch (formato)
                 {
                     case "PDF":
                         sfd.Filter = "Archivo PDF|*.pdf";
-                        sfd.FileName = item.NombreVisible + ".pdf";
+                        sfd.FileName = nombreSeguro + ".pdf";
                         break;
 
                     case "DOCX":
                         sfd.Filter = "Documento Word|*.docx";
-                        sfd.FileName = item.NombreVisible + ".docx";
+                        sfd.FileName = nombreSeguro + ".docx";
                         break;
 
                     case "JPG":
                         sfd.Filter = "Imagen JPG|*.jpg";
-                        sfd.FileName = item.NombreVisible + ".jpg";
+                        sfd.FileName = nombreSeguro + ".jpg";
                         break;
                 }
 
@@ -254,6 +266,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 if (formato == "PDF")
                 {
                     File.Copy(item.RutaPdf, sfd.FileName, true);
+                }
+                else if (formato == "DOCX")
+                {
+                    PdfDocument pdf = new PdfDocument();
+                    pdf.LoadFromFile(item.RutaPdf);
+                    pdf.SaveToFile(sfd.FileName, FileFormat.DOCX);
+                    pdf.Close();
+                }
+                else if (formato == "JPG")
+                {
+                    PdfDocument pdf = new PdfDocument();
+                    pdf.LoadFromFile(item.RutaPdf);
+                    var image = pdf.SaveAsImage(0);
+                    image.Save(sfd.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    pdf.Close();
                 }
                 else
                 {
