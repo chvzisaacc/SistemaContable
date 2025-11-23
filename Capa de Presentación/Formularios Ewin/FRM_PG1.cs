@@ -39,6 +39,24 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button1_Click(object sender, EventArgs e)
         {
+
+           ClsValidaciones validaciones = new ClsValidaciones();
+
+            // Validación el campo de Usuario
+            if (!validaciones.EsUsuarioValido(txtUsuario.Text))
+            {
+                MessageBox.Show("Por favor, ingrese un usuario válido.");
+                return;
+            }
+
+            // Validación el campo de Contraseña
+            if (!validaciones.EsContraseñaValida(txtContraseña.Text))
+            {
+                MessageBox.Show("La contraseña debe tener entre 4 y 25 caracteres.");
+                return;
+            }
+
+
             ClsRecuperacion login = new ClsRecuperacion();
             int rol = login.IniciarSesion(txtUsuario.Text, txtContraseña.Text, 0, label1);
 
@@ -51,7 +69,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             if (rol == 1)
             {
-                FRM_PG5 admin = new FRM_PG5(usuarioID);
+                FRM_PG5 admin = new FRM_PG5(idUsuario);
                 admin.Show();
                 this.Hide();
             }

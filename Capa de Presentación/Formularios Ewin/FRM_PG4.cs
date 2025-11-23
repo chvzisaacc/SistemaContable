@@ -53,6 +53,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
             string confirmarContraseña = txtConfirmarContraseña.Text.Trim();
 
             Validacion val = new Validacion(nuevaContraseña, confirmarContraseña);
+            ClsValidaciones validar = new ClsValidaciones();
+
+            // Validar longitud de la contraseña
+            if (!validar.EsContraseñaValida(nuevaContraseña))
+            {
+                MessageBox.Show("La contraseña debe tener entre 4 y 25 caracteres.");
+                return;
+            }
 
             if (!val.CamposIguales(nuevaContraseña))
             {

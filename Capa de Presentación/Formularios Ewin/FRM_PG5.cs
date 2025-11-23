@@ -193,70 +193,85 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private bool ValidarCamposUsuario()
         {
-            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            ClsValidaciones val = Validaciones ?? new ClsValidaciones();
+
+            string nombre = txtNombre.Text.Trim();
+            string apellido = txtApellido.Text.Trim();
+            string correo = txtCorreo.Text.Trim();
+            string usuario = txtUsuario.Text.Trim();
+            string contraseña = txtContraseña.Text.Trim();
+
+            // Nombre
+            if (string.IsNullOrWhiteSpace(nombre) || !val.EsTextoValido(nombre))
             {
-                MessageBox.Show("El nombre es requerido", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El nombre es requerido y solo puede contener letras.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
-
-                if (!Validaciones.EsTextoValido(txtNombre.Text))
-                {
-                    MessageBox.Show("El nombre solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNombre.Focus();
-                    return false;
-                }
-
+                return false;
             }
 
-           
-
-            if (string.IsNullOrWhiteSpace(txtApellido.Text))
+            // Apellido
+            if (string.IsNullOrWhiteSpace(apellido) || !val.EsTextoValido(apellido))
             {
-                MessageBox.Show("El apellido es requerido", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El apellido es requerido y solo puede contener letras.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtApellido.Focus();
-                if (!Validaciones.EsTextoValido(txtApellido.Text))
-                {
-                    MessageBox.Show("El apellido solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNombre.Focus();
-                    return false;
-                }
-
+                return false;
             }
 
-           
-
-            if (string.IsNullOrWhiteSpace(txtCorreo.Text))
+            // Correo
+            if (string.IsNullOrWhiteSpace(correo) || !val.EsCorreoValido(correo))
             {
-                MessageBox.Show("El correo es requerido", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtApellido.Focus();
-                if (!Validaciones.EsCorreoValido(txtCorreo.Text))
-                {
-                    MessageBox.Show("El formato del correo no es válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtCorreo.Focus();
-                    return false;
-                }
-
+                MessageBox.Show("El correo es requerido y debe tener un formato válido.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCorreo.Focus();
+                return false;
             }
 
-            
-
-            if (string.IsNullOrWhiteSpace(txtUsuario.Text))
+            // Usuario
+            if (string.IsNullOrWhiteSpace(usuario) || !val.EsUsuarioValido(usuario))
             {
-                MessageBox.Show("El usuario es requerido", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El nombre de usuario es requerido y solo puede tener letras, números, puntos o guiones bajos.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtUsuario.Focus();
-                if (string.IsNullOrWhiteSpace(txtContraseña.Text))
-                {
-                    MessageBox.Show("La contraseña es requerida", "Validación",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtContraseña.Focus();
-                    return false;
-                }
+                return false;
             }
 
-            
+            // Contraseña
+            if (string.IsNullOrWhiteSpace(contraseña) || !val.EsContraseñaValida(contraseña))
+            {
+                MessageBox.Show("La contraseña es requerida y debe tener entre 4 y 25 caracteres.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtContraseña.Focus();
+                return false;
+            }
+
+            // Combo Rol
+            if (cmbRol.SelectedValue == null)
+            {
+                MessageBox.Show("Debe seleccionar un rol.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbRol.Focus();
+                return false;
+            }
+
+            // Combo Parroquia
+            if (cmbParroquia.SelectedValue == null)
+            {
+                MessageBox.Show("Debe seleccionar una parroquia.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbParroquia.Focus();
+                return false;
+            }
+
+            // Combo Estado
+            if (cmbEstado.SelectedValue == null)
+            {
+                MessageBox.Show("Debe seleccionar un estado de cuenta.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbEstado.Focus();
+                return false;
+            }
 
             return true;
         }
@@ -645,75 +660,63 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private bool ValidarCamposCatalogo()
         {
-            if (string.IsNullOrWhiteSpace(txtIdCuenta.Text))
+            ClsValidaciones val = Validaciones ?? new ClsValidaciones();
+
+            string codigo = txtIdCuenta.Text.Trim();      // lo genera el sistema
+            string nombreCuenta = txtNombreCuenta.Text.Trim();
+            string cuenta = txtCuenta.Text.Trim();
+            string detalle = txtDetalle.Text.Trim();
+            string saldoTexto = txtSaldo.Text.Trim();
+
+            // Código: solo verificamos que venga generado, NO que el usuario lo escriba
+            if (string.IsNullOrWhiteSpace(codigo))
             {
-                MessageBox.Show("El codigo de la cuenta es requerido", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("No se generó el código de la cuenta. Vuelva a intentar o contacte al administrador.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // Nombre de cuenta
+            if (string.IsNullOrWhiteSpace(nombreCuenta) || !val.EsTextoValido(nombreCuenta))
+            {
+                MessageBox.Show("El nombre de la cuenta es requerido y solo puede contener letras y espacios.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombreCuenta.Focus();
-                if (!Validaciones.EsNumeroDecimal(txtNombreCuenta.Text))
-                {
-                    MessageBox.Show("El codigo de la cuenta tiene caracteres inválidos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNombreCuenta.Focus();
-                    return false;
-                }
+                return false;
             }
 
-            if (string.IsNullOrWhiteSpace(txtNombreCuenta.Text))
+            // Campo Cuenta
+            if (string.IsNullOrWhiteSpace(cuenta) || !val.EsTextoValido(cuenta))
             {
-                MessageBox.Show("El nombre de la cuenta es requerido", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNombreCuenta.Focus();
-                
-                if (!Validaciones.EsTextoValido(txtNombreCuenta.Text))
-                {
-                    MessageBox.Show("El nombre de la cuenta tiene caracteres inválidos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNombreCuenta.Focus();
-
-                    return false;
-                }
-
-            }
-            
-
-            if (string.IsNullOrWhiteSpace(txtCuenta.Text))
-            {
-                MessageBox.Show("El campo Cuenta es requerido", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El campo 'Cuenta' es requerido y solo puede contener letras y espacios.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCuenta.Focus();
-
-                if (!Validaciones.EsTextoValido(txtCuenta.Text))
-                {
-                    MessageBox.Show("La cuenta solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNombre.Focus();
-                    return false;
-                }
+                return false;
             }
 
-            if (string.IsNullOrWhiteSpace(txtDetalle.Text))
+            // Detalle
+            if (string.IsNullOrWhiteSpace(detalle) || !val.EsTextoValido(detalle))
             {
-                MessageBox.Show("El campo detalle es requerido", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCuenta.Focus();
-
-                if (!Validaciones.EsTextoValido(txtCuenta.Text))
-                {
-                    MessageBox.Show("El detalle solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNombre.Focus();
-                    return false;
-                }
+                MessageBox.Show("El detalle es requerido y solo puede contener letras y espacios.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDetalle.Focus();
+                return false;
             }
 
-            if (!string.IsNullOrWhiteSpace(txtSaldo.Text) && !Validaciones.EsNumeroDecimal(txtSaldo.Text))
+            // Saldo (opcional, pero si lo escriben debe ser decimal)
+            if (!string.IsNullOrWhiteSpace(saldoTexto) && !val.EsNumeroDecimal(saldoTexto))
             {
-                MessageBox.Show("El saldo debe ser un número válido (Ej: 100.00).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El saldo debe ser un número válido. Ejemplo: 100 o 100.50",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtSaldo.Focus();
                 return false;
             }
 
+            // Tipo de cuenta
             if (cmbTipoCuenta.SelectedValue == null)
             {
-                MessageBox.Show("Debe seleccionar un tipo de cuenta", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Debe seleccionar un tipo de cuenta.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbTipoCuenta.Focus();
                 return false;
             }
