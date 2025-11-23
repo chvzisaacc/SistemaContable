@@ -87,7 +87,17 @@ namespace Capa_de_Presentación.CLASES
                    && EsLongitudValida(texto, 5, 200);
         }
 
+        public static bool EsSoloLetras(string texto)
+        {
+            if (string.IsNullOrWhiteSpace(texto))
+                return false;
 
+            // Acepta letras, espacios y acentos
+            return System.Text.RegularExpressions.Regex.IsMatch(
+                texto,
+                @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
+            );
+        }
 
 
 

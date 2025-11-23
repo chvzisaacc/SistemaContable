@@ -110,38 +110,47 @@ namespace Capa_de_Presentación.Formularios_Luiss
            
         }
 
-        private bool ValidarCampos()
+        /*private bool ValidarCampos()
         {
+            // Validar No. Referencia
             if (string.IsNullOrWhiteSpace(txtNoReferencia.Text))
             {
-                MessageBox.Show("El campo detalle es requerido", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El campo número de referencia es requerido.",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNoReferencia.Focus();
-
-                if (!Validaciones.EsNumeroEntero(txtNoReferencia.Text))
-                {
-                    MessageBox.Show("El detalle solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNoReferencia.Focus(); 
-                    return false;
-                }
+                return false;
             }
 
+            // Validar que sea número entero
+            if (!Validaciones.EsNumeroEntero(txtNoReferencia.Text))
+            {
+                MessageBox.Show("El número de referencia solo puede contener números.",
+                    "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNoReferencia.Focus();
+                return false;
+            }
+
+            // Validar Detalle
             if (string.IsNullOrWhiteSpace(txtNoReferencia2.Text))
             {
-                MessageBox.Show("El campo detalle es requerido", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNoReferencia.Focus();
+                MessageBox.Show("El campo detalle es requerido.",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNoReferencia2.Focus();
+                return false;
+            }
 
-                if (!Validaciones.EsNumeroEntero(txtNoReferencia2.Text))
-                {
-                    MessageBox.Show("El detalle solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNoReferencia.Focus();
-                    return false;
-                }
+            // Validar que detalle solo tenga letras
+            if (!ClsValidaciones.EsSoloLetras(txtNoReferencia2.Text))
+            {
+                MessageBox.Show("El detalle solo puede contener letras.",
+                    "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNoReferencia2.Focus();
+                return false;
             }
 
             return true;
         }
+        */
         private void CargarCuentasEnComboBox()
         {
             try
@@ -767,7 +776,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            ValidarCampos();
+            //ValidarCampos();
             if (modoEdicion)
             {
                 if (dataGridView1.CurrentRow == null)
@@ -1079,7 +1088,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void btnGuardar2_Click(object sender, EventArgs e)
         {
-            ValidarCampos();
+            //if (!ValidarCampos())
+                //return;
             if (modoEdicion)
             {
                 if (dgvGastos.CurrentRow == null)
