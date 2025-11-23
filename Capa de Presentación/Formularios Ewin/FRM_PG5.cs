@@ -108,7 +108,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             CargarComboBoxTipoTransaccion();
             LimpiarCamposCatalogo();
             HabilitarControlesCatalogo(false);
-            ValidarCamposCatalogo();
+            //ValidarCamposCatalogo();
         }
 
         //usuarios
@@ -321,7 +321,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button6_Click(object sender, EventArgs e)
         {
-
+            ValidarCamposCatalogo();
         }
 
         private void btnNuevaCuenta_Click(object sender, EventArgs e)
