@@ -12,7 +12,7 @@ namespace Capa_de_acceso_de_datos
             conexion = new Clsconexion();
         }
 
-        public int AgregarCuentaBancaria(int CuentaBancariaID, string Nombre, decimal? saldo, decimal? tasa_interes)
+        public int AgregarCuentaBancaria(int CuentaBancariaID, string Nombre, decimal? saldo)
         {
             try
             {
@@ -23,7 +23,6 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@id_Origen", CuentaBancariaID);
                 cmd.Parameters.AddWithValue("@Nombre", Nombre);
                 cmd.Parameters.AddWithValue("@saldo", saldo);
-                cmd.Parameters.AddWithValue("@tasa_interes", tasa_interes);
                 ;
 
                 SqlParameter nuevoId = new SqlParameter("@nuevoId", SqlDbType.Int);
