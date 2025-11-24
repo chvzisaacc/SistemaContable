@@ -63,8 +63,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
             MostrarSoloEstePanel(panel1);
         }
 
+        public FRM_42(int predictedId, int parroquiaId) : this(predictedId)
+        {
+            this.predictedId = predictedId;
+            this.parroquiaId = parroquiaId;
+        }
+
         public FRM_42()
         {
+ ;
         }
 
         private void FRM_42_Load(object sender, EventArgs e)
@@ -149,18 +156,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
 
-                //aqui es para ocultar algunos campos (los ids y las contraseñas)
-                /*
-                if (dgvUsuarios.Columns["Contraseña"] != null)
-                    dgvUsuarios.Columns["Contraseña"].Visible = false;
-
-                if (dgvUsuarios.Columns["RolID"] != null)
-                    dgvUsuarios.Columns["RolID"].Visible = false;
-                if (dgvUsuarios.Columns["ParroquiaID"] != null)
-                    dgvUsuarios.Columns["ParroquiaID"].Visible = false;
-                if (dgvUsuarios.Columns["EstadoID"] != null)
-                    dgvUsuarios.Columns["EstadoID"].Visible = false;
-                */
             }
             catch (Exception ex)
             {
@@ -971,7 +966,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
         private int idTransaccionAEditar = 0;
-
+        private int predictedId;
+        private int parroquiaId;
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {

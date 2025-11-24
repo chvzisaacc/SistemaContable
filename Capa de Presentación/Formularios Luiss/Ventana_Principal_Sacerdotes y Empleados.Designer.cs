@@ -184,7 +184,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelCajaChica2.Name = "panelCajaChica2";
             panelCajaChica2.Size = new Size(1566, 503);
             panelCajaChica2.TabIndex = 42;
-            panelCajaChica2.Paint += panelCajaChica2_Paint;
+            //panelCajaChica2.Paint += panelCajaChica2_Paint;
             // 
             // textBox1
             // 
