@@ -65,7 +65,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbTipoReporte.SelectedIndex = -1;
         }
 
-            private void CargarReportes()
+        private void CargarReportes()
         {
             try
             {
@@ -285,4 +285,3 @@ namespace Capa_de_Presentación.Formularios_Luiss
     }
 
 }
-

@@ -73,21 +73,24 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void CargarParroquias()
         {
-            DataTable dt = _gastosService.ObtenerParroquias();  // ✅ ahora compila
 
+            DataTable dt = _gastosService.ObtenerParroquias();
+
+
+            cmbParroquia.DataSource = null;
             cmbParroquia.Items.Clear();
 
-            foreach (DataRow row in dt.Rows)
-            {
-                cmbParroquia.Items.Add(new ParroquiaItem
-                {
-                    Id = Convert.ToInt32(row["Parroquia_ID"]),
-                    Nombre = row["Parroquia_nombre"].ToString()
-                });
-            }
+
+            cmbParroquia.DisplayMember = "Parroquia_nombre";
+            cmbParroquia.ValueMember = "Parroquia_ID";
+
+
+            cmbParroquia.DataSource = dt;
+
 
             cmbParroquia.SelectedIndex = -1;
         }
+
 
         private void CargarReportes()
         {
