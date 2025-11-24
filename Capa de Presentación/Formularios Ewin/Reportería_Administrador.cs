@@ -50,7 +50,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmbFormatoDescarga.Items.Add("DOCX");
             cmbFormatoDescarga.Items.Add("JPG");
 
-            // 🔹 Tipos de reporte desde la BD
+            // Tipos de reporte desde la BD
             DataTable dtTipos = _gastosService.ObtenerTiposReporte();
 
             cmbTipoReporte.DataSource = dtTipos;
@@ -58,7 +58,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmbTipoReporte.ValueMember = "TipoReporte_id";    // el int 1,2,3,4
             cmbTipoReporte.SelectedIndex = -1;                // ninguno seleccionado al inicio
 
-            // Parroquias las llenas como ya lo tengas (otro SP)
+            
         }
 
         private void label4_Click(object sender, EventArgs e)
