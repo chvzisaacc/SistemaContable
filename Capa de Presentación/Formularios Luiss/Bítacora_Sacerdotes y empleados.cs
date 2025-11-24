@@ -15,16 +15,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
     {
         private int Id_UsuarioLogin;
         private clsCRUD_Historial crudHistorial;
+
         public FRM_PG51(int Id_Usuario)
         {
             InitializeComponent();
             Id_UsuarioLogin =Id_Usuario;
             crudHistorial = new clsCRUD_Historial();
         }
+       
 
         private void FRM_PG51_Load(object sender, EventArgs e)
         {
-            // CargarDatos();
+           // CargarDatos();
             CargarMiHistorial();
         }
 
@@ -38,8 +40,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 // Formatear columnas para que se vea bien
                 if (dgvBitacora.Columns["Monto"] != null)
                 {
-                    dgvBitacora.Columns["Monto"].DefaultCellStyle.Format = "C2"; // Formato de moneda
-                    dgvBitacora.Columns["Monto"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    dgvBitacora.Columns["Monto"].Visible = false;
                 }
                 if (dgvBitacora.Columns["FechaHora"] != null)
                 {

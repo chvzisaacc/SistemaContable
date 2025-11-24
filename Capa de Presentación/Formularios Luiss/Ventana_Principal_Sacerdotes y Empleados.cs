@@ -29,13 +29,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private int cuentaBancoIDseleccionado = 0;
         private AutoCompleteStringCollection Subcuentas = new AutoCompleteStringCollection();
         private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
-        private int parroquiaId;
+
+        private clsCRUD_Historial crudHistorial;
 
         ClsCerrar cerrar = new ClsCerrar();
-        public FRM_42(int predictedId, int parroquiaId)
+        public FRM_42(int predictedId)
         {
             InitializeComponent();
-            this.parroquiaId = parroquiaId;
 
             InicializarDGVIngr();
             InicializarDGVgastos();
@@ -49,6 +49,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             crudCuentasBancarias = new ClsCRUD_CuentasBancarias();
 
+            crudHistorial = new clsCRUD_Historial();
+
             this.FormClosing += cerrar.CerrarApp;
             // Agrega los paneles secundarios dentro del panel contenedor
             panelContenedor.Controls.Add(panelGastos2);
@@ -61,7 +63,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             MostrarSoloEstePanel(panel1);
         }
 
-        
+        public FRM_42()
+        {
+        }
 
         private void FRM_42_Load(object sender, EventArgs e)
         {
@@ -203,23 +207,28 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelGastos2);
+            RegistrarNavegacion("Gastos");
         }
 
         private void btnCajaChica_Click(object sender, EventArgs e)
         {
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelCajaChica2);
+            RegistrarNavegacion("Caja Chica");
+
         }
         private void btnIngresos_Click_1(object sender, EventArgs e)
         {
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelIngresos);
+            RegistrarNavegacion("Ingresos");
         }
 
         private void btnBancos_Click_1(object sender, EventArgs e)
         {
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelBancos2);
+            RegistrarNavegacion("Bancos");
         }
 
 
@@ -1335,9 +1344,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        private void panelCajaChica2_Paint(object sender, PaintEventArgs e)
+        private void RegistrarNavegacion(string modulo)
         {
+            try
+            {
+                // Instanciamos la clase que contiene el método
+                clsCRUD_Historial historial = new clsCRUD_Historial();
 
+                // Llamamos al método público
+                historial.RegistrarAccionUsuario(
+                    Sesion1.UsuarioId,
+                    modulo,
+                    "Navegación",
+                    null,
+                    $"Ingresó al módulo de {modulo}"
+                );
+            }
+            catch { }
         }
     }
 

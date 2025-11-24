@@ -95,6 +95,39 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        private bool ValidarCampos()
+        {
+            ClsValidaciones val = Validaciones ?? new ClsValidaciones();
+
+
+            string monto = txtMonto.Text.Trim();
+
+
+
+            if (cmbDestino.SelectedValue == null)
+            {
+                MessageBox.Show("Debe seleccionar un rol.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbDestino.Focus();
+                return false;
+            }
+            if (cmbOrigen.SelectedValue == null)
+            {
+                MessageBox.Show("Debe seleccionar un rol.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbOrigen.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(monto) || !val.EsMontoPositivo(monto))
+            {
+                MessageBox.Show("El monto de la cuenta es requerido, solo puede contener numeros y debe ser mayor a 0.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMonto.Focus();
+                return false;
+            }
+            return true;
+        }
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             ValidarCampos();
@@ -148,17 +181,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-        private bool ValidarCampos()
-        {
-            if (!string.IsNullOrWhiteSpace(txtMonto.Text) && !Validaciones.EsNumeroDecimal(txtMonto.Text))
-            {
-                MessageBox.Show("El saldo debe ser un número válido (Ej: 100.00).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtMonto.Focus();
-                return false;
-            }
-            return true;
-
-        }
+       
         private void txtMonto_TextChanged(object sender, EventArgs e)
         {
 

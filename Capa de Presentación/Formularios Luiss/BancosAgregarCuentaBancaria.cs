@@ -69,23 +69,26 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
         private bool ValidarCampos()
         {
-            if (string.IsNullOrWhiteSpace(txtCuenta.Text))
-            {
-                MessageBox.Show("El campo detalle es requerido", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCuenta.Focus();
+            ClsValidaciones val = Validaciones ?? new ClsValidaciones();
 
-                if (!Validaciones.EsTextoValido(txtCuenta.Text))
-                {
-                    MessageBox.Show("El detalle solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtCuenta.Focus();
-                    return false;
-                }
+            string cuenta = txtCuenta.Text.Trim();
+            string monto = txtMonto.Text.Trim();
+            
+
+            
+
+            if (string.IsNullOrWhiteSpace(cuenta) || !val.EsTextoValido(cuenta))
+            {
+                MessageBox.Show("El nombre de la cuenta es requerido y solo puede contener letras y espacios.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCuenta.Focus();
+                return false;
             }
 
-            if (!string.IsNullOrWhiteSpace(txtMonto.Text) && !Validaciones.EsNumeroDecimal(txtMonto.Text))
+            if (string.IsNullOrWhiteSpace(monto) || !val.EsMontoPositivo(monto))
             {
-                MessageBox.Show("El saldo debe ser un número válido (Ej: 100.00).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El monto de la cuenta es requerido, solo puede contener numeros y debe ser mayor a 0.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMonto.Focus();
                 return false;
             }
@@ -122,7 +125,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void txtMonto_Click(object sender, EventArgs e)
         {
-            if (txtMonto.Text == "Ingrse un Monto")
+            if (txtMonto.Text == "Ingrese un Monto")
             {
                 txtMonto.Text = "";
                 txtMonto.ForeColor = Color.Black;
