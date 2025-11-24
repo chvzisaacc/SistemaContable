@@ -41,6 +41,13 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        public void CargarComboBoxCuentas(ComboBox cmbCuentas)
+        {
+                cmbCuentas.Items.Clear();
+                cmbCuentas.Items.Add("Cuentas Bancarias");
+                cmbCuentas.SelectedIndex = 0;
+        }
+
         public void Agregarfila(DataTable dtDatosIngresos, DataGridView dataGridView1)
         {
             if (dtDatosIngresos != null)

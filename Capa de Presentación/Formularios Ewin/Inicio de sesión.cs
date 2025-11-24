@@ -61,7 +61,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             //REDIRECCIONAR AL FORM SEGÚN ROL 
             if (rol == 1)
             {
-                Ventana_Principal_Administrador admin = new Ventana_Principal_Administrador(idUsuario);
+                Ventana_Principal_Administrador admin = new Ventana_Principal_Administrador(idUsuario,parroquiaId);
                 admin.Show();
                 this.Hide();
             }

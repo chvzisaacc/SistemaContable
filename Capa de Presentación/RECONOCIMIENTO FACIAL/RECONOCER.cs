@@ -34,6 +34,8 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         int threshold = 3000;
         private bool accesoConcedido = false;
         private bool mensajeMostrado = false;
+        private bool accesoEnProceso = false;
+
 
 
         string pathTrainedFaceModel = $"{Application.StartupPath}\\Faces\\stateModel.yaml";
@@ -183,7 +185,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
                     if (predictedId > 0 && confidence < threshold)
                     {
-                        // 1. OBTENER NOMBRE + ROL + ESTADO
+                        // Obtener datos del usuario
                         ClsAccionesDB db = new ClsAccionesDB();
                         var datos = db.ObtenerUsuarioReconocimiento(predictedId);
 
@@ -192,10 +194,16 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                         int estadoCuenta = datos.estadoCuenta;
                         int parroquiaId = datos.parroquiaId;
 
+                        // Almacenar datos en la clase estática UsuarioLogueado
+                        UsuarioLogueado.UsuarioId = predictedId;
+                        UsuarioLogueado.Nombre = nombre;
+                        UsuarioLogueado.RolId = rolId;
+                        UsuarioLogueado.ParroquiaId = parroquiaId;
+
                         if (!accesoConcedido)
                             detectedUserName = nombre;
 
-                        // 2. VALIDAR ESTADO DE CUENTA
+                        // Validar estado de cuenta
                         if (estadoCuenta != 1)
                         {
                             Invoke(new Action(() =>
@@ -206,10 +214,10 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                             continue;
                         }
 
-                        // 3. EVITAR ABRIR MÁS DE UNA VEZ
+                        // Evitar abrir más de una vez
                         accesoConcedido = true;
 
-                        // 4. ABRIR FORMULARIO SEGÚN ROL
+                        // Abrir formulario según el rol
                         Invoke(new Action(async () =>
                         {
                             Form f = null;
@@ -217,41 +225,46 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                             switch (rolId)
                             {
                                 case 1:
+                                    // Para el rol de administrador
                                     f = new Ventana_Principal_Administrador(predictedId, parroquiaId);
                                     break;
 
                                 case 2:
                                 case 3:
-                                    f = new FRM_42(predictedId, parroquiaId);
+                                    // Para otros roles (empleado)
+                                    f = new FRM_42(predictedId, parroquiaId); // Pasa el ID y parroquiaId aquí
                                     break;
 
                                 default:
                                     MessageBox.Show("Rol no reconocido.", "Error",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     accesoConcedido = false;
                                     return;
                             }
 
+                            // Mostrar mensaje de bienvenida
                             if (!mensajeMostrado)
                             {
                                 mensajeMostrado = true;
                                 MessageBox.Show("Bienvenido " + nombre, "Acceso concedido");
                             }
 
-                            await Task.Run(async () =>
-                            {
-                                await Task.Delay(3000); // siempre 3 segundos exactos
-                            });
+                            // Esperar 3 segundos antes de mostrar el formulario
+                            await Task.Delay(3000);
 
-                            // Apagar cámara y ocultar este form
+                            // Apagar la cámara y ocultar el formulario de reconocimiento
                             TurnOffCamera();
                             this.Hide();
 
+                            // Mostrar el formulario correspondiente
                             f.Show();
                         }));
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error en el reconocimiento: " + ex.Message);
+                }
             }
 
             // Mostrar imagen y nombre en pantalla
@@ -261,6 +274,9 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                 pictureBox1.Image = BitmapConverter.ToBitmap(imageFrame);
             }));
         }
+
+
+
 
         private void RECONOCER_Load(object sender, EventArgs e)
         {

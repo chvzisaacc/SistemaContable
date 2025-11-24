@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
+using Capa_de_Presentación.Formularios_Luiss;
 
 namespace Capa_de_Presentación.Formularios_Diego
 {
@@ -166,12 +167,12 @@ namespace Capa_de_Presentación.Formularios_Diego
             if (filaActual.Cells[COLUMNA_FECHA].Value != null &&
                 DateTime.TryParse(filaActual.Cells[COLUMNA_FECHA].Value.ToString(), out DateTime fechaTransaccion))
             {
-                DateTime limiteEdicion = fechaTransaccion.AddHours(1);
+                DateTime limiteEdicion = fechaTransaccion.AddMinutes(10);
 
                 if (DateTime.Now > limiteEdicion)
                 {
                     e.Cancel = true;
-                    MessageBox.Show("No puedes editar esta transacción. Solo se permite la modificación durante las primeras 72 horas después del registro.",
+                    MessageBox.Show("No puedes editar esta transacción. Solo se permite la modificación durante los primeros 15 minutos del registro.",
                                     "Edición Bloqueada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
@@ -181,6 +182,11 @@ namespace Capa_de_Presentación.Formularios_Diego
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void pictureBox9_Click(object sender, EventArgs e)
+        {
+          
         }
     }
 

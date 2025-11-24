@@ -151,8 +151,8 @@
             // 
             // panelContenedor
             // 
-            panelContenedor.Controls.Add(panelCatalogoCuentas);
             panelContenedor.Controls.Add(panelUsuario);
+            panelContenedor.Controls.Add(panelCatalogoCuentas);
             panelContenedor.Location = new Point(4, 222);
             panelContenedor.Margin = new Padding(4, 5, 4, 5);
             panelContenedor.Name = "panelContenedor";

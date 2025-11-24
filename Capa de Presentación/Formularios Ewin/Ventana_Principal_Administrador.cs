@@ -22,6 +22,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private bool modoEdicionUsuario = false;
         private int usuarioIdSeleccionado = 0;
         private BindingSource bindingSource;
+        private int idParroquia;
+        private int _usuarioID;
 
         //Catalogo
         private clsCRUD_CatalogoCuentas crudCatalogoCuentas;
@@ -33,13 +35,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
        private ClsValidaciones Validaciones;
 
         ClsCerrar cerrar = new ClsCerrar();
-        private int idParroquia;
 
      
 
-        public Ventana_Principal_Administrador(int usuarioID)
+        public Ventana_Principal_Administrador(int usuarioID, int idParroquia)
         {
             InitializeComponent();
+            this._usuarioID = usuarioID;
+            this.idParroquia = idParroquia;
+            UsuarioLogueado.UsuarioId = usuarioID;
+            UsuarioLogueado.ParroquiaId = idParroquia;
+
             this.FormClosing += cerrar.CerrarApp;
             // Agrega los paneles secundarios dentro del panel contenedor
             panelContenedor.Controls.Add(panelUsuario);
@@ -61,20 +67,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         Validaciones = new ClsValidaciones();
             //Para busqueda de usuarios
             bindingSource = new BindingSource();
-        }
-
-        public Ventana_Principal_Administrador(int usuarioID, int idParroquia) : this(usuarioID)
-        {
-            this.idParroquia = idParroquia;
-        }
-
-        public Ventana_Principal_Administrador(string userName, int userId) : this(0, 0)
-        {
-
-        }
-
-        public Ventana_Principal_Administrador()
-        {
         }
 
         private void MostrarSoloEstePanel(Panel panelAMostrar)

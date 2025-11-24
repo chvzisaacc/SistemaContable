@@ -29,13 +29,22 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private int cuentaBancoIDseleccionado = 0;
         private AutoCompleteStringCollection Subcuentas = new AutoCompleteStringCollection();
         private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
-
+        private int parroquiaId;
+        private int usuarioId;
         private clsCRUD_Historial crudHistorial;
 
         ClsCerrar cerrar = new ClsCerrar();
-        public FRM_42(int predictedId)
+        public FRM_42(int predictedId, int parroquiaId)
         {
             InitializeComponent();
+            this.usuarioId = predictedId;
+            this.parroquiaId = parroquiaId;
+
+            UsuarioLogueado.UsuarioId = predictedId;
+            UsuarioLogueado.ParroquiaId = parroquiaId;
+
+
+
 
             InicializarDGVIngr();
             InicializarDGVgastos();
@@ -63,15 +72,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             MostrarSoloEstePanel(panel1);
         }
 
-        public FRM_42(int predictedId, int parroquiaId) : this(predictedId)
-        {
-            this.predictedId = predictedId;
-            this.parroquiaId = parroquiaId;
-        }
-
         public FRM_42()
         {
- ;
         }
 
         private void FRM_42_Load(object sender, EventArgs e)
@@ -90,14 +92,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             if (dateTimePicker1.Value < dateTimePicker1.MinDate || dateTimePicker1.Value > dateTimePicker1.MaxDate)
                 dateTimePicker1.Value = DateTime.Today;
 
-
-
-
             ActualizarSaldo();
             CargarCuentasEnComboBox();
-
-
-
 
         }
 
@@ -155,7 +151,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             try
             {
                 cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
-
             }
             catch (Exception ex)
             {
@@ -202,28 +197,28 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelGastos2);
-            RegistrarNavegacion("Gastos");
+            //RegistrarNavegacion("Gastos");
         }
 
         private void btnCajaChica_Click(object sender, EventArgs e)
         {
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelCajaChica2);
-            RegistrarNavegacion("Caja Chica");
+            // RegistrarNavegacion("Caja Chica");
 
         }
         private void btnIngresos_Click_1(object sender, EventArgs e)
         {
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelIngresos);
-            RegistrarNavegacion("Ingresos");
+            //RegistrarNavegacion("Ingresos");
         }
 
         private void btnBancos_Click_1(object sender, EventArgs e)
         {
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelBancos2);
-            RegistrarNavegacion("Bancos");
+            //RegistrarNavegacion("Bancos");
         }
 
 
@@ -966,8 +961,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
         private int idTransaccionAEditar = 0;
-        private int predictedId;
-        private int parroquiaId;
+
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
@@ -1340,23 +1334,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        private void RegistrarNavegacion(string modulo)
+        private void cmbInteresesBancarios_SelectedIndexChanged(object sender, EventArgs e)
         {
-            try
+            if (cmbInteresesBancarios.SelectedIndex == 0)
             {
-                // Instanciamos la clase que contiene el método
-                clsCRUD_Historial historial = new clsCRUD_Historial();
+                Intereses_Por_Cds objI = new();
+                objI.Show();
+                this.Hide();
 
-                // Llamamos al método público
-                historial.RegistrarAccionUsuario(
-                    Sesion1.UsuarioId,
-                    modulo,
-                    "Navegación",
-                    null,
-                    $"Ingresó al módulo de {modulo}"
-                );
             }
-            catch { }
         }
     }
 
