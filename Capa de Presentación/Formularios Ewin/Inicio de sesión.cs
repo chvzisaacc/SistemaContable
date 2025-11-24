@@ -67,7 +67,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
             else if (rol == 2 || rol == 3)
             {
-                FRM_42 empleado = new FRM_42(idUsuario);
+                FRM_42 empleado = new FRM_42(idUsuario, parroquiaId);
                 empleado.Show();
                 this.Hide();
             }

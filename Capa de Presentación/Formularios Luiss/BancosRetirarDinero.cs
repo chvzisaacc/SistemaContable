@@ -62,6 +62,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 RealizarTransferencia();
             }
+
+            
         }
 
         private void FRM_BancosRetirarDinero_Load(object sender, EventArgs e)

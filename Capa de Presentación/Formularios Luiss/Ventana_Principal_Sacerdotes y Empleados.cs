@@ -29,11 +29,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private int cuentaBancoIDseleccionado = 0;
         private AutoCompleteStringCollection Subcuentas = new AutoCompleteStringCollection();
         private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
+        private int parroquiaId;
 
         ClsCerrar cerrar = new ClsCerrar();
-        public FRM_42(int predictedId)
+        public FRM_42(int predictedId, int parroquiaId)
         {
             InitializeComponent();
+            this.parroquiaId = parroquiaId;
 
             InicializarDGVIngr();
             InicializarDGVgastos();
@@ -59,9 +61,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             MostrarSoloEstePanel(panel1);
         }
 
-        public FRM_42()
-        {
-        }
+        
 
         private void FRM_42_Load(object sender, EventArgs e)
         {
@@ -1333,6 +1333,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 MessageBox.Show("Seleccione una transacción antes de continuar.", "Aviso",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void panelCajaChica2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 

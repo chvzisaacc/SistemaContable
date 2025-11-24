@@ -190,6 +190,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                         string nombre = datos.nombre;
                         int rolId = datos.rolId;
                         int estadoCuenta = datos.estadoCuenta;
+                        int parroquiaId = datos.parroquiaId;
 
                         if (!accesoConcedido)
                             detectedUserName = nombre;
@@ -216,12 +217,12 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                             switch (rolId)
                             {
                                 case 1:
-                                    f = new Ventana_Principal_Administrador(predictedId);
+                                    f = new Ventana_Principal_Administrador(predictedId, parroquiaId);
                                     break;
 
                                 case 2:
                                 case 3:
-                                    f = new FRM_42(predictedId);
+                                    f = new FRM_42(predictedId, parroquiaId);
                                     break;
 
                                 default:
@@ -267,6 +268,11 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         }
 
         private void RECONOCER_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

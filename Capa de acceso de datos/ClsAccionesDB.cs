@@ -749,12 +749,12 @@ namespace Capa_de_acceso_de_datos
 
             return lista;
         }
-
-        public (string nombre, int rolId, int estadoCuenta) ObtenerUsuarioReconocimiento(int usuarioId)
+        public (string nombre, int rolId, int estadoCuenta, int parroquiaId) ObtenerUsuarioReconocimiento(int usuarioId)
         {
             string nombre = "";
             int rolId = 0;
             int estadoCuenta = 0;
+            int parroquiaId = 0;
 
             try
             {
@@ -772,6 +772,7 @@ namespace Capa_de_acceso_de_datos
                         nombre = dr["usuario_nombre"].ToString();
                         rolId = Convert.ToInt32(dr["Rol_id"]);
                         estadoCuenta = Convert.ToInt32(dr["Id_estado_cuenta"]);
+                        parroquiaId = Convert.ToInt32(dr["parroquia_id"]);
                     }
                 }
             }
@@ -780,8 +781,7 @@ namespace Capa_de_acceso_de_datos
                 Cerrar();
             }
 
-            return (nombre, rolId, estadoCuenta);
+            return (nombre, rolId, estadoCuenta, parroquiaId);
         }
-
     }
 }
