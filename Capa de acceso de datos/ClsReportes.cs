@@ -113,7 +113,7 @@ namespace Capa_de_acceso_de_datos
 
             try
             {
-                _cn.Abrir();   // asumiendo que ya tienes: private readonly Clsconexion _cn = new Clsconexion();
+                _cn.Abrir();   
 
                 using (SqlCommand cmd = new SqlCommand("sp_ObtenerParroquias", _cn.sc))
                 {
