@@ -31,7 +31,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void textBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            var main = this.Owner as Form; // esto es el FRM_42
+            var main = this.Owner as Form; // este es el FRM_42
 
             try
             {
@@ -116,6 +116,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // el código del dueñó se encargará de mostrarlo de nuevo o cerrarlo.
             this.Close();
 
+
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
 
         }
     }

@@ -546,14 +546,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         try
                         {
                             crudHistorial.RegistrarActividad(
-                                1, // CAMBIAR por Sesion.UsuarioID
-                                7, // Módulo de Usuarios
+                                Sesion1.UsuarioId, 
+                                7, 
                                 "Modificación de Usuario",
                                 $"Se modificaron los datos del usuario: '{usuario}' (ID: {usuarioIdSeleccionado})."
                             );
                         }
                         catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
-                        // --- FIN DEL NUEVO CÓDIGO ---
+                        
 
                         CargarDatosUsuarioDGV();
                         LimpiarCamposUsuario();
@@ -582,18 +582,18 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     {
                         MessageBox.Show($"Usuario agregado exitosamente con ID: {nuevoId}", "Éxito",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        // --- **NUEVO** REGISTRO DE BITÁCORA (AGREGAR) ---
+                        
                         try
                         {
                             crudHistorial.RegistrarActividad(
-                                1, // CAMBIAR por Sesion.UsuarioID
-                                7, // Módulo de Usuarios
+                                Sesion1.UsuarioId, 
+                                7, 
                                 "Creación de Usuario",
                                 $"Se creó el nuevo usuario: '{usuario}' (ID: {nuevoId})."
                             );
                         }
                         catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
-                        // --- FIN DEL NUEVO CÓDIGO ---
+                        
 
                         CargarDatosUsuarioDGV();
                         LimpiarCamposUsuario();
@@ -648,7 +648,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             try
             {
                 int id = Convert.ToInt32(dgvUsuarios.CurrentRow.Cells["ID"].Value);
-                int estadoInactivo = 2; // Ajustar según tu BD
+                int estadoInactivo = 2; 
 
                 bool resultado = crudUsuarios.InhabilitarUsuario(id, estadoInactivo);
 
@@ -660,14 +660,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     try
                     {
                         crudHistorial.RegistrarActividad(
-                            1, // CAMBIAR por Sesion.UsuarioID
+                            Sesion1.UsuarioId, 
                             7, // Módulo de Usuarios
                             "Inhabilitación de Usuario",
                             $"Se inhabilitó al usuario con ID: {id}."
                         );
                     }
                     catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
-                    // --- FIN DEL NUEVO CÓDIGO ---
+                    
 
                     CargarDatosUsuarioDGV();
                     LimpiarCamposUsuario();
@@ -694,7 +694,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             try
             {
                 int id = Convert.ToInt32(dgvUsuarios.CurrentRow.Cells["ID"].Value);
-                int estadoInactivo = 1; // Ajustar según tu BD
+                int estadoInactivo = 1; 
 
                 bool resultado = crudUsuarios.InhabilitarUsuario(id, estadoInactivo);
 
@@ -703,18 +703,18 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     MessageBox.Show("Usuario habilitado exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // --- **NUEVO** REGISTRO DE BITÁCORA (HABILITAR) ---
+                    
                     try
                     {
                         crudHistorial.RegistrarActividad(
-                            1, // CAMBIAR por Sesion.UsuarioID
+                            Sesion1.UsuarioId,
                             7, // Módulo de Usuarios
                             "Habilitación de Usuario",
                             $"Se habilitó al usuario con ID: {id}."
                         );
                     }
                     catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
-                    // --- FIN DEL NUEVO CÓDIGO ---
+                    
 
                     CargarDatosUsuarioDGV();
                     LimpiarCamposUsuario();

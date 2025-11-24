@@ -55,7 +55,6 @@ namespace Capa_de_acceso_de_datos
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Agregamos los 3 parámetros que pide tu SP
                     cmd.Parameters.AddWithValue("@ParroquiaId", parroquiaId);
                     cmd.Parameters.AddWithValue("@Desde", desde.Date);
                     cmd.Parameters.AddWithValue("@Hasta", hasta.Date);

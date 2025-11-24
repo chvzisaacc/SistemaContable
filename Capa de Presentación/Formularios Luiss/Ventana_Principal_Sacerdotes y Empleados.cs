@@ -29,22 +29,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private int cuentaBancoIDseleccionado = 0;
         private AutoCompleteStringCollection Subcuentas = new AutoCompleteStringCollection();
         private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
-        private int parroquiaId;
-        private int usuarioId;
+
         private clsCRUD_Historial crudHistorial;
 
         ClsCerrar cerrar = new ClsCerrar();
-        public FRM_42(int predictedId, int parroquiaId)
+        public FRM_42(int predictedId)
         {
             InitializeComponent();
-            this.usuarioId = predictedId;
-            this.parroquiaId = parroquiaId;
-
-            UsuarioLogueado.UsuarioId = predictedId;
-            UsuarioLogueado.ParroquiaId = parroquiaId;
-
-
-
 
             InicializarDGVIngr();
             InicializarDGVgastos();
@@ -68,7 +59,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelContenedor.Controls.Add(panelIngresos);
             //panelContenedor.Controls.Add(panelMensaje);
 
-            // Opcional: muestra uno por defecto
+            // muestra uno por defecto
             MostrarSoloEstePanel(panel1);
         }
 
@@ -92,8 +83,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             if (dateTimePicker1.Value < dateTimePicker1.MinDate || dateTimePicker1.Value > dateTimePicker1.MaxDate)
                 dateTimePicker1.Value = DateTime.Today;
 
+
+
+
             ActualizarSaldo();
             CargarCuentasEnComboBox();
+
+
+
 
         }
 
@@ -151,6 +148,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
             try
             {
                 cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
+
+                //aqui es para ocultar algunos campos (los ids y las contraseñas)
+                /*
+                if (dgvUsuarios.Columns["Contraseña"] != null)
+                    dgvUsuarios.Columns["Contraseña"].Visible = false;
+
+                if (dgvUsuarios.Columns["RolID"] != null)
+                    dgvUsuarios.Columns["RolID"].Visible = false;
+                if (dgvUsuarios.Columns["ParroquiaID"] != null)
+                    dgvUsuarios.Columns["ParroquiaID"].Visible = false;
+                if (dgvUsuarios.Columns["EstadoID"] != null)
+                    dgvUsuarios.Columns["EstadoID"].Visible = false;
+                */
             }
             catch (Exception ex)
             {
@@ -197,28 +207,28 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelGastos2);
-            //RegistrarNavegacion("Gastos");
+            RegistrarNavegacion("Gastos");
         }
 
         private void btnCajaChica_Click(object sender, EventArgs e)
         {
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelCajaChica2);
-            // RegistrarNavegacion("Caja Chica");
+            RegistrarNavegacion("Caja Chica");
 
         }
         private void btnIngresos_Click_1(object sender, EventArgs e)
         {
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelIngresos);
-            //RegistrarNavegacion("Ingresos");
+            RegistrarNavegacion("Ingresos");
         }
 
         private void btnBancos_Click_1(object sender, EventArgs e)
         {
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelBancos2);
-            //RegistrarNavegacion("Bancos");
+            RegistrarNavegacion("Bancos");
         }
 
 
@@ -263,20 +273,20 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
 
 
-            // Si no hay nada seleccionado, no hace nada.
+            // Si no hay nada seleccionado, no hace nada
             if (cmbCuentas.SelectedIndex < 0 || cmbCuentas.SelectedValue == null)
             {
                 return;
             }
 
-            // Obtiene el ID de la cuenta desde el valor seleccionado
+            
             int idSeleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
 
-            // Crea y muestra TU formulario existente, pasándole el ID
-            var frm = new BancosCuentaAhorro(idSeleccionado) // <-- CAMBIO REALIZADO AQUÍ
+            
+            var frm = new BancosCuentaAhorro(idSeleccionado) 
             {
                 StartPosition = FormStartPosition.Manual,
-                // Mantengo las coordenadas que has usado para consistencia
+                
                 Location = new Point(414, 101)
             };
 
@@ -420,7 +430,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 if (lector.Read())
                 {
-                    //convertir el valor string a decimal
                     decimal saldo = Convert.ToDecimal(lector["saldo"]);
                     //n2 formatea a dos digitos despues del "."
                     txtSaldoActual.Text = saldo.ToString("N2");
@@ -724,7 +733,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     return;
                 }
 
-                // 🔹 Corrige posible celda invisible
+                
                 if (dataGridView1.CurrentRow == null && dataGridView1.SelectedRows.Count > 0)
                 {
                     DataGridViewColumn primeraVisible = dataGridView1.Columns
@@ -773,7 +782,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     foreach (DataGridViewColumn col in dataGridView1.Columns)
                         col.ReadOnly = true;
 
-                    //Actualiza el Id_Origen en la fila actual (para que el lápiz lea el correcto)
+                    //Actualiza el Id_Origen en la fila actual 
                     if (dataGridView1.CurrentRow != null)
                         dataGridView1.CurrentRow.Cells["Id_Origen"].Value = idOrigen;
 
@@ -791,7 +800,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         cmbOrigen.Refresh();                 // Refresca el control en pantalla
                     }));
 
-                    // 🔹 Actualizar saldo después de recargar origen
+                    //Actualizar saldo después de recargar origen
                     ActualizarSaldo();
 
                     MessageBox.Show("Transacción editada correctamente.", "Éxito",
@@ -1035,7 +1044,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     return;
                 }
 
-                // 🔹 Corrige posible celda invisible
+                // Corrige posible celda invisible
                 if (dgvGastos.CurrentRow == null && dgvGastos.SelectedRows.Count > 0)
                 {
                     DataGridViewColumn primeraVisible = dgvGastos.Columns
@@ -1102,7 +1111,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         cmbOrigen2.Refresh();                 // Refresca el control en pantalla
                     }));
 
-                    // 🔹 Actualizar saldo después de recargar origen
+                    // Actualizar saldo después de recargar origen
                     ActualizarSaldo();
 
                     MessageBox.Show("Transacción editada correctamente.", "Éxito",
@@ -1334,15 +1343,22 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        private void cmbInteresesBancarios_SelectedIndexChanged(object sender, EventArgs e)
+        private void RegistrarNavegacion(string modulo)
         {
-            if (cmbInteresesBancarios.SelectedIndex == 0)
+            try
             {
-                Intereses_Por_Cds objI = new();
-                objI.Show();
-                this.Hide();
+                
+                clsCRUD_Historial historial = new clsCRUD_Historial();
 
+                historial.RegistrarAccionUsuario(
+                    Sesion1.UsuarioId,
+                    modulo,
+                    "Navegación",
+                    null,
+                    $"Ingresó al módulo de {modulo}"
+                );
             }
+            catch { }
         }
     }
 

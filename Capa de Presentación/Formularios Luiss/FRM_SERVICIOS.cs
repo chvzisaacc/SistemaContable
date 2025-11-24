@@ -55,7 +55,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 main?.Hide();
                 this.Hide();
 
-                // --- CORRECCIÓN: USAR LA VARIABLE GLOBAL DIRECTAMENTE ---
+                
                 using (var frm = new FRM_PG51(Sesion1.UsuarioId))
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
@@ -82,20 +82,20 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             try
             {
-                // 1) oculto el 42 para que no se vea atrás
+                // 1) oculta el 42 para que no se vea atrás
                 main?.Hide();
 
-                // 2) abro el 46 de forma modal
-                this.Hide(); // oculto el popup mientras estoy en 46
+                // 2) abre el 46 de forma modal
+                this.Hide(); // oculta el popup mientras estoy en 46
                 using (var frm = new FRM_PG46())
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
-                    frm.ShowDialog(this); // dueño = este popup (que está oculto)
+                    frm.ShowDialog(this); 
                 }
             }
             finally
             {
-                // 3) cierro el popup y vuelvo a mostrar el 42
+                // 3) cierra el popup y vuelvo a mostrar el 42
                 this.Close();
                 main?.Show();
             }
@@ -105,7 +105,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void textBox1_MouseClick(object sender, MouseEventArgs e)
         {
             RegistrarNavegacion("Reportes");
-            var main = this.Owner as Form; // esto es el FRM_42
+            var main = this.Owner as Form; // este es el FRM_42
 
             try
             {
@@ -132,7 +132,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void textBox3_MouseClick(object sender, MouseEventArgs e)
         {
             RegistrarNavegacion("Bitacora");
-            var main = this.Owner as Form; // esto es el FRM_42
+            var main = this.Owner as Form; // este es el FRM_42
 
             try
             {
@@ -160,10 +160,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                // Instanciamos la clase que contiene el método
+                
                 clsCRUD_Historial historial = new clsCRUD_Historial();
 
-                // Llamamos al método público
+                
                 historial.RegistrarAccionUsuario(
                     Sesion1.UsuarioId,
                     modulo,

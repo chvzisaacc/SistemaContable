@@ -46,7 +46,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 MessageBox.Show("El saldo ingresado no es válido.");
                 return;
             }
-            // ---------------------------------------------
+           
 
             bool ok = crud.CrearCuentaBanco(nombre, saldo, out int nuevo_Id);
 

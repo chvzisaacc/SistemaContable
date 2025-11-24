@@ -34,7 +34,6 @@ namespace Capa_de_procesamiento_de_datos
             // 1. Traer datos del SP de ingresos
             DataTable datos = _repo.ObtenerIngresosPorParroquia(parroquiaId, desde, hasta);
 
-            //System.Windows.Forms.MessageBox.Show("Filas encontradas: " + datos.Rows.Count);
             // 2. Generar PDF
             byte[] pdfBytes = GenerarPdf(datos, nombreParroquia, desde, hasta);
 

@@ -32,7 +32,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            if (!ValidarCampos())
+                return;
             Clsconexion objcone = new Clsconexion();
             SqlCommand comando = new SqlCommand("sp_Insertarsaldo", objcone.sc);
             comando.CommandType = CommandType.StoredProcedure;
@@ -82,7 +83,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 if (!Validaciones.EsNumeroDecimal(txtMonto.Text))
                 {
-                    MessageBox.Show("El detalle solo puede contener letras.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El monto solo puede contener numeros.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtMonto.Focus();
                     return false;
                 }
