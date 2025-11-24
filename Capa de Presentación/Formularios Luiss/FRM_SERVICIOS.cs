@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Capa_de_acceso_de_datos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,11 +13,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_SERVICIOS : Form
     {
-        private readonly int Id_Usuariologin;
+        //private readonly int Id_Usuariologin;
         public FRM_SERVICIOS(int Id_Usuario)
         {
             InitializeComponent();
-            Id_Usuariologin = Id_Usuario;
+            //Id_Usuariologin = Id_Usuario;
 
         }
 
@@ -54,10 +55,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 main?.Hide();
                 this.Hide();
 
-                // --- LÍNEA CORREGIDA ---
-                // Creamos el formulario de la bitácora pasándole el ID que guardamos.
-                // Asumo que FRM_PG51 es tu bitácora personal.
-                using (var frm = new FRM_PG51(Id_Usuariologin))
+                // --- CORRECCIÓN: USAR LA VARIABLE GLOBAL DIRECTAMENTE ---
+                using (var frm = new FRM_PG51(Sesion1.UsuarioId))
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
                     frm.ShowDialog(this);
@@ -70,6 +69,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
@@ -77,6 +77,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void textBox2_MouseClick(object sender, MouseEventArgs e)
         {
+            RegistrarNavegacion("Catálogo de Cuentas");
             var main = this.Owner as Form; // esto es el FRM_42
 
             try
@@ -103,6 +104,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void textBox1_MouseClick(object sender, MouseEventArgs e)
         {
+            RegistrarNavegacion("Reportes");
             var main = this.Owner as Form; // esto es el FRM_42
 
             try
@@ -129,16 +131,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void textBox3_MouseClick(object sender, MouseEventArgs e)
         {
+            RegistrarNavegacion("Bitacora");
             var main = this.Owner as Form; // esto es el FRM_42
 
             try
             {
-
                 main?.Hide();
-
-
                 this.Hide();
-                using (var frm = new FRM_PG51(Id_Usuariologin))
+
+                using (var frm = new FRM_PG51(Sesion1.UsuarioId))
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
                     frm.ShowDialog(this);
@@ -146,16 +147,32 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             finally
             {
-
                 this.Close();
                 main?.Show();
             }
-
         }
 
         private void FRM_SERVICIOS_Load(object sender, EventArgs e)
         {
 
+        }
+        private void RegistrarNavegacion(string modulo)
+        {
+            try
+            {
+                // Instanciamos la clase que contiene el método
+                clsCRUD_Historial historial = new clsCRUD_Historial();
+
+                // Llamamos al método público
+                historial.RegistrarAccionUsuario(
+                    Sesion1.UsuarioId,
+                    modulo,
+                    "Navegación",
+                    null,
+                    $"Ingresó al módulo de {modulo}"
+                );
+            }
+            catch { }
         }
     }
 }

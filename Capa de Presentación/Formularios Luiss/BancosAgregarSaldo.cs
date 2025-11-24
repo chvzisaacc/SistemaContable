@@ -85,14 +85,29 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private bool ValidarCampos()
         {
-            if (!string.IsNullOrWhiteSpace(txtMonto.Text) && !Validaciones.EsNumeroDecimal(txtMonto.Text))
+            ClsValidaciones val = Validaciones ?? new ClsValidaciones();
+
+           
+            string monto = txtMonto.Text.Trim();
+
+
+
+            if (cmbCuentas.SelectedValue == null)
             {
-                MessageBox.Show("El saldo debe ser un número válido (Ej: 100.00).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Debe seleccionar un rol.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbCuentas.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(monto) || !val.EsMontoPositivo(monto))
+            {
+                MessageBox.Show("El monto de la cuenta es requerido, solo puede contener numeros y debe ser mayor a 0.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMonto.Focus();
                 return false;
             }
             return true;
-
         }
         private void CargarDatos()
         {
