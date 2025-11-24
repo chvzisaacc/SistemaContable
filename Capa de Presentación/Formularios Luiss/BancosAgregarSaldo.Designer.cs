@@ -51,10 +51,10 @@
             panel2.Controls.Add(label7);
             panel2.Controls.Add(cmbCuentas);
             panel2.Controls.Add(label6);
-            panel2.Location = new Point(14, 15);
-            panel2.Margin = new Padding(4, 3, 4, 3);
+            panel2.Location = new Point(11, 12);
+            panel2.Margin = new Padding(3, 2, 3, 2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(647, 387);
+            panel2.Size = new Size(518, 310);
             panel2.TabIndex = 10;
             // 
             // txtMonto
@@ -63,10 +63,10 @@
             txtMonto.BorderStyle = BorderStyle.None;
             txtMonto.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtMonto.ForeColor = Color.Black;
-            txtMonto.Location = new Point(171, 167);
-            txtMonto.Margin = new Padding(4, 3, 4, 3);
+            txtMonto.Location = new Point(137, 134);
+            txtMonto.Margin = new Padding(3, 2, 3, 2);
             txtMonto.Name = "txtMonto";
-            txtMonto.Size = new Size(317, 37);
+            txtMonto.Size = new Size(254, 31);
             txtMonto.TabIndex = 19;
             // 
             // textBox2
@@ -76,10 +76,10 @@
             textBox2.Enabled = false;
             textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(223, 262);
-            textBox2.Margin = new Padding(4, 3, 4, 3);
+            textBox2.Location = new Point(178, 210);
+            textBox2.Margin = new Padding(3, 2, 3, 2);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(230, 32);
+            textBox2.Size = new Size(184, 27);
             textBox2.TabIndex = 14;
             textBox2.Text = "Guardar y cerrar";
             textBox2.TextChanged += textBox2_TextChanged;
@@ -87,10 +87,10 @@
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(171, 237);
-            pictureBox2.Margin = new Padding(4, 3, 4, 3);
+            pictureBox2.Location = new Point(137, 190);
+            pictureBox2.Margin = new Padding(3, 2, 3, 2);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(317, 83);
+            pictureBox2.Size = new Size(254, 66);
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.TabIndex = 13;
             pictureBox2.TabStop = false;
@@ -101,20 +101,19 @@
             textBox1.BackColor = Color.FromArgb(251, 203, 51);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(176, 167);
-            textBox1.Margin = new Padding(4, 3, 4, 3);
+            textBox1.Location = new Point(141, 134);
+            textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(256, 37);
+            textBox1.Size = new Size(205, 31);
             textBox1.TabIndex = 12;
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(21, 167);
-            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Location = new Point(17, 134);
             label7.Name = "label7";
-            label7.Size = new Size(114, 38);
+            label7.Size = new Size(93, 31);
             label7.TabIndex = 10;
             label7.Text = "Monto:";
             // 
@@ -124,11 +123,10 @@
             cmbCuentas.FlatStyle = FlatStyle.Flat;
             cmbCuentas.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbCuentas.FormattingEnabled = true;
-            cmbCuentas.Items.AddRange(new object[] { "Cuenta Cheque", "Cuenta Ahorro" });
-            cmbCuentas.Location = new Point(171, 93);
-            cmbCuentas.Margin = new Padding(4, 3, 4, 3);
+            cmbCuentas.Location = new Point(137, 74);
+            cmbCuentas.Margin = new Padding(3, 2, 3, 2);
             cmbCuentas.Name = "cmbCuentas";
-            cmbCuentas.Size = new Size(317, 46);
+            cmbCuentas.Size = new Size(254, 39);
             cmbCuentas.TabIndex = 11;
             cmbCuentas.Text = "      Cuentas";
             // 
@@ -136,21 +134,20 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(110, 25);
-            label6.Margin = new Padding(4, 0, 4, 0);
+            label6.Location = new Point(88, 20);
             label6.Name = "label6";
-            label6.Size = new Size(364, 45);
+            label6.Size = new Size(307, 38);
             label6.TabIndex = 10;
             label6.Text = "Seleccione una cuenta";
             // 
             // BancosAgregarSaldo
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(677, 417);
+            ClientSize = new Size(542, 334);
             Controls.Add(panel2);
-            Margin = new Padding(4, 3, 4, 3);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "BancosAgregarSaldo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Agregar_Saldo_Cuentas_Bancarias";

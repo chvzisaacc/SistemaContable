@@ -69,7 +69,6 @@
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(231, 31);
             txtMonto.TabIndex = 18;
-            txtMonto.Text = "Ingrese monto";
             // 
             // textBox2
             // 
