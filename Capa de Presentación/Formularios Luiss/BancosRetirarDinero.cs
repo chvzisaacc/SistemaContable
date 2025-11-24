@@ -1,4 +1,5 @@
-﻿using Capa_de_Presentación.CLASES;
+﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,11 +15,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
     public partial class BancosRetirarDinero : Form
     {
         private ClsValidaciones Validaciones;
+
+        private clsTransferenciaEntreCuentas crudTransferencia = new clsTransferenciaEntreCuentas();
         public BancosRetirarDinero()
         {
             InitializeComponent();
             Validaciones = new ClsValidaciones();
-            
+
+            CargarCuentas();
+
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -33,7 +38,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void FRM_BancosRetirarDinero_Load(object sender, EventArgs e)
         {
-            
+
         }
         private bool ValidarCampos()
         {
@@ -62,6 +67,29 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 txtMonto.Text = "Ingrese un monto";
                 txtMonto.ForeColor = Color.Gray;
             }
+        }
+
+        private void CargarCuentas()
+        {
+            try
+            {
+                DataTable dtCuentas = crudTransferencia.ObtenerCuentasBanco();
+
+                cmbCuentas.DataSource = dtCuentas.Copy();
+                cmbCuentas.DisplayMember = "NombreCompleto";
+                cmbCuentas.ValueMember = "Id_Origen";
+                cmbCuentas.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar las cuentas: " + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

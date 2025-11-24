@@ -145,7 +145,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void FRM_BancosTransferenciaEntreCuentas_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private bool ValidarCampos()
@@ -179,6 +179,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 txtMonto.Text = "Usuario";
                 txtMonto.ForeColor = Color.Gray;
             }
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
