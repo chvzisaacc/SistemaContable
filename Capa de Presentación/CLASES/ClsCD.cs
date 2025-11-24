@@ -356,7 +356,7 @@ namespace Capa_de_Presentación.CLASES
             string motivoCancelacion = string.Empty;
 
            
-            using (FRM_PG108 frmCancel = new FRM_PG108())
+            using (Cancelar_Certificados frmCancel = new Cancelar_Certificados())
             {
                 if (frmCancel.ShowDialog() == DialogResult.OK)
                 {

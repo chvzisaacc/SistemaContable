@@ -61,7 +61,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             //REDIRECCIONAR AL FORM SEGÚN ROL 
             if (rol == 1)
             {
-                FRM_PG5 admin = new FRM_PG5(idUsuario);
+                Ventana_Principal_Administrador admin = new Ventana_Principal_Administrador(idUsuario);
                 admin.Show();
                 this.Hide();
             }

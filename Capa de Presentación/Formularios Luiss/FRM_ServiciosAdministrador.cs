@@ -40,7 +40,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
                 this.Hide();
-                using (var frm = new FRM_PG10())
+                using (var frm = new Reportería_Administrador())
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
                     frm.ShowDialog(this);
@@ -75,7 +75,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
                 this.Hide();
-                using (var frm = new FRM_PG38())
+                using (var frm = new Bitacora_Admin())
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
                     frm.ShowDialog(this);

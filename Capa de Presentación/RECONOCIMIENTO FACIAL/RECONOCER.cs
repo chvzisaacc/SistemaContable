@@ -216,7 +216,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                             switch (rolId)
                             {
                                 case 1:
-                                    f = new FRM_PG5(predictedId);
+                                    f = new Ventana_Principal_Administrador(predictedId);
                                     break;
 
                                 case 2:

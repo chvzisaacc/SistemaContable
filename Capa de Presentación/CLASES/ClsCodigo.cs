@@ -26,7 +26,7 @@ namespace Capa_de_Presentación.CLASES
             {
                 case "CODIGO_VALIDO":
                     MessageBox.Show("Código verificado correctamente.");
-                    FRM_PG4 frm = new FRM_PG4(correo);
+                    Actualizar_Contraseña frm = new Actualizar_Contraseña(correo);
                     frm.Show();
                     formularioActual.Hide();
                     break;
