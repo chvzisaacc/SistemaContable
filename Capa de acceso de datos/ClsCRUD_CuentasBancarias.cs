@@ -12,7 +12,7 @@ namespace Capa_de_acceso_de_datos
             conexion = new Clsconexion();
         }
 
-        public int AgregarCuentaBancaria(int CuentaBancariaID, string Nombre, decimal? saldo)
+        public int AgregarCuentaBancaria(int cuenta_bancaria_id, string nombre, decimal? saldo)
         {
             try
             {
@@ -20,18 +20,18 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_AgregarCuentaBanco", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@id_Origen", CuentaBancariaID);
-                cmd.Parameters.AddWithValue("@Nombre", Nombre);
+                cmd.Parameters.AddWithValue("@id_Origen", cuenta_bancaria_id);
+                cmd.Parameters.AddWithValue("@Nombre", nombre);
                 cmd.Parameters.AddWithValue("@saldo", saldo);
                 ;
 
-                SqlParameter nuevoId = new SqlParameter("@nuevoId", SqlDbType.Int);
-                nuevoId.Direction = ParameterDirection.Output;
-                cmd.Parameters.Add(nuevoId);
+                SqlParameter nuevoid = new SqlParameter("@nuevoId", SqlDbType.Int);
+                nuevoid.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(nuevoid);
 
                 cmd.ExecuteNonQuery();
 
-                return Convert.ToInt32(nuevoId.Value);
+                return Convert.ToInt32(nuevoid.Value);
             }
             catch (Exception ex)
             {
@@ -68,7 +68,7 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
-        public bool ModificarSaldo(int Id_Origen, decimal saldo)
+        public bool ModificarSaldo(int id_origen, decimal saldo)
         {
             try
             {
@@ -76,12 +76,12 @@ namespace Capa_de_acceso_de_datos
                 using var cmd = new SqlCommand("sp_ModificarSaldo", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add("@Id_Origen", SqlDbType.Int).Value = Id_Origen;
+                cmd.Parameters.Add("@Id_Origen", SqlDbType.Int).Value = id_origen;
 
-                var pSaldo = cmd.Parameters.Add("@saldo", SqlDbType.Decimal);
-                pSaldo.Precision = 10;
-                pSaldo.Scale = 2;
-                pSaldo.Value = saldo;
+                var psaldo = cmd.Parameters.Add("@saldo", SqlDbType.Decimal);
+                psaldo.Precision = 10;
+                psaldo.Scale = 2;
+                psaldo.Value = saldo;
 
                 int filas = cmd.ExecuteNonQuery(); // esperado: 1 si actualiza una fila
                 return filas > 0;
@@ -95,7 +95,7 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
-        public bool AgregarSaldo(int Id_Origen, decimal monto)
+        public bool AgregarSaldo(int id_origen, decimal monto)
         {
             try
             {
@@ -103,12 +103,12 @@ namespace Capa_de_acceso_de_datos
                 using var cmd = new SqlCommand("dbo.sp_AgregarSaldo", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add("@Id_Origen", SqlDbType.Int).Value = Id_Origen;
+                cmd.Parameters.Add("@Id_Origen", SqlDbType.Int).Value = id_origen;
 
-                var pMonto = cmd.Parameters.Add("@monto", SqlDbType.Decimal);
-                pMonto.Precision = 10;
-                pMonto.Scale = 2;
-                pMonto.Value = monto;
+                var pmonto = cmd.Parameters.Add("@monto", SqlDbType.Decimal);
+                pmonto.Precision = 10;
+                pmonto.Scale = 2;
+                pmonto.Value = monto;
 
                 int filas = cmd.ExecuteNonQuery();   // esperado: 1 si actualiza una fila
                 return filas > 0;
@@ -122,9 +122,9 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
-        public bool CrearCuentaBanco(String Nombre, decimal saldo,  out int nuevo_Id)
+        public bool CrearCuentaBanco(String nombre, decimal saldo,  out int nuevo_id)
         {
-            nuevo_Id = 0;
+            nuevo_id = 0;
             try
             {
                 conexion.Abrir();
@@ -132,7 +132,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 //cmd.Parameters.Add("@Id_cuentaBanco", SqlDbType.Int).Value = idCuentaBanco;
-                var pNombre = cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar, 40).Value = Nombre ?? string.Empty;
+                var pNombre = cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar, 40).Value = nombre ?? string.Empty;
                 //pNombre.Value = Nombre ?? string.Empty;
 
                 var pSaldo = cmd.Parameters.Add("@saldo", SqlDbType.Decimal);
@@ -146,7 +146,7 @@ namespace Capa_de_acceso_de_datos
                 int filas = cmd.ExecuteNonQuery();
                 if (pOut.Value != DBNull.Value && (int)pOut.Value > 0)
                 {
-                    nuevo_Id = (int)pOut.Value;
+                    nuevo_id = (int)pOut.Value;
 
                     return true;
                 }

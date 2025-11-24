@@ -13,7 +13,7 @@ namespace Capa_de_acceso_de_datos
             conexion = new Clsconexion();
         }
         public int AgregarUsuario(string nombre, string apellido, string correo, string usuario,
-                                   string password, int idRol, int idParroquia, int idEstado)
+                                   string password, int idrol, int id_parroquia, int id_estado)
         {
             try
             {
@@ -28,18 +28,18 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@correo", string.IsNullOrEmpty(correo) ? (object)DBNull.Value : correo);
                 cmd.Parameters.AddWithValue("@usuario", usuario);
                 cmd.Parameters.AddWithValue("@password", password);
-                cmd.Parameters.AddWithValue("@idRol", idRol);
-                cmd.Parameters.AddWithValue("@idParroquia", idParroquia);
-                cmd.Parameters.AddWithValue("@idEstado", idEstado);
+                cmd.Parameters.AddWithValue("@idRol", idrol);
+                cmd.Parameters.AddWithValue("@idParroquia", id_parroquia);
+                cmd.Parameters.AddWithValue("@idEstado", id_estado);
 
                 // Parámetro de salida para obtener el ID generado
-                SqlParameter nuevoId = new SqlParameter("@nuevoId", SqlDbType.Int);
-                nuevoId.Direction = ParameterDirection.Output;
-                cmd.Parameters.Add(nuevoId);
+                SqlParameter nuevo_id = new SqlParameter("@nuevoId", SqlDbType.Int);
+                nuevo_id.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(nuevo_id);
 
                 cmd.ExecuteNonQuery();
 
-                return Convert.ToInt32(nuevoId.Value);
+                return Convert.ToInt32(nuevo_id.Value);
             }
             catch (Exception ex)
             {
@@ -109,7 +109,7 @@ namespace Capa_de_acceso_de_datos
 
         // MODIFICAR usuario
         public bool ModificarUsuario(int id, string nombre, string apellido, string correo,
-                                    string usuario, string password, int idRol, int idParroquia, int idEstado)
+                                    string usuario, string password, int id_rol, int id_parroquia, int id_estado)
         {
             try
             {
@@ -124,9 +124,9 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@correo", string.IsNullOrEmpty(correo) ? (object)DBNull.Value : correo);
                 cmd.Parameters.AddWithValue("@usuario", usuario);
                 cmd.Parameters.AddWithValue("@password", password);
-                cmd.Parameters.AddWithValue("@idRol", idRol);
-                cmd.Parameters.AddWithValue("@idParroquia", idParroquia);
-                cmd.Parameters.AddWithValue("@idEstado", idEstado);
+                cmd.Parameters.AddWithValue("@idRol", id_rol);
+                cmd.Parameters.AddWithValue("@idParroquia", id_parroquia);
+                cmd.Parameters.AddWithValue("@idEstado", id_estado);
 
                 int resultado = cmd.ExecuteNonQuery();
                 return resultado > 0;
@@ -166,7 +166,7 @@ namespace Capa_de_acceso_de_datos
         }
 
         // INHABILITAR usuario (soft delete)
-        public bool InhabilitarUsuario(int id, int nuevoEstado)
+        public bool InhabilitarUsuario(int id, int nuevo_estado)
         {
             try
             {
@@ -175,7 +175,7 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_InhabilitarUsuario", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id", id);
-                cmd.Parameters.AddWithValue("@nuevoEstado", nuevoEstado);
+                cmd.Parameters.AddWithValue("@nuevoEstado", nuevo_estado);
 
                 int resultado = cmd.ExecuteNonQuery();
                 return resultado > 0;
@@ -191,7 +191,7 @@ namespace Capa_de_acceso_de_datos
         }
 
 
-        public bool HabilitarUsuario(int id, int nuevoEstado)
+        public bool HabilitarUsuario(int id, int nuevo_estado)
         {
             try
             {
@@ -200,7 +200,7 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_InhabilitarUsuario", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id", id);
-                cmd.Parameters.AddWithValue("@nuevoEstado", nuevoEstado);
+                cmd.Parameters.AddWithValue("@nuevoEstado", nuevo_estado);
 
                 int resultado = cmd.ExecuteNonQuery();
                 return resultado > 0;
@@ -344,14 +344,14 @@ namespace Capa_de_acceso_de_datos
         }
 
 
-        public string ObtenerCorreoPorUsuario(int usuarioId)
+        public string ObtenerCorreoPorUsuario(int usuario_id)
         {
             try
             {
                 conexion.Abrir();
                 using var cmd = new SqlCommand("dbo.usp_GetCorreoUsuario", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@UsuarioId", SqlDbType.Int).Value = usuarioId;
+                cmd.Parameters.Add("@UsuarioId", SqlDbType.Int).Value = usuario_id;
 
                 var obj = cmd.ExecuteScalar();
                 return obj?.ToString() ?? string.Empty;

@@ -30,7 +30,7 @@ namespace Capa_de_acceso_de_datos
         }
 
 
-        public bool TransferirEntreCuentas(int cuentaOrigen, int cuentaDestino, decimal monto)
+        public bool TransferirEntreCuentas(int cuenta_origen, int cuenta_destino, decimal monto)
         {
             try
             {
@@ -38,8 +38,8 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_TransferirEntreCuentas", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@CuentaOrigen", cuentaOrigen);
-                cmd.Parameters.AddWithValue("@CuentaDestino", cuentaDestino);
+                cmd.Parameters.AddWithValue("@CuentaOrigen", cuenta_origen);
+                cmd.Parameters.AddWithValue("@CuentaDestino", cuenta_destino);
                 cmd.Parameters.AddWithValue("@Monto", monto);
 
                 cmd.ExecuteNonQuery();

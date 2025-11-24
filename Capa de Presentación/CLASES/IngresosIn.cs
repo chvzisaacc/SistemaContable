@@ -87,7 +87,7 @@ namespace Capa_de_Presentación.CLASES
 
                 int rowsAffected = ingresos.ModificarIngreso(
                     transaccionId, fechaTransaccion, detalle, saldo,
-                    Convert.ToInt32(referencia), Sesion1.UsuarioId, idOrigen, nombreCuenta
+                    Convert.ToInt32(referencia), Sesion1.usuario_id, idOrigen, nombreCuenta
                 );
 
                 if (rowsAffected > 0)

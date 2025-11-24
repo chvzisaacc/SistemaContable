@@ -72,6 +72,7 @@
             pictureBox1.Size = new Size(573, 417);
             pictureBox1.TabIndex = 9;
             pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click_1;
             // 
             // button4
             // 

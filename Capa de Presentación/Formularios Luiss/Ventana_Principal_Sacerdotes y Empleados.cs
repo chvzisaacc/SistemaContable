@@ -67,6 +67,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
         }
 
+        public FRM_42(int predictedId, int parroquiaId) : this(predictedId)
+        {
+        }
+
         private void FRM_42_Load(object sender, EventArgs e)
         {
             dgvGastos.AllowUserToAddRows = false;
@@ -867,7 +871,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 int referencia = 0;
                 int.TryParse(referenciaTexto, out referencia);
 
-                int idUsuario = Sesion1.UsuarioId;
+                int idUsuario = Sesion1.usuario_id;
                 string nombreCuenta = filaNueva.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
                 string descripcion = filaNueva.Cells["Detalle"].Value?.ToString() ?? string.Empty;
 
@@ -1178,7 +1182,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 int referencia = 0;
                 int.TryParse(referenciaTexto, out referencia);
 
-                int idUsuario = Sesion1.UsuarioId;
+                int idUsuario = Sesion1.usuario_id;
                 string nombreCuenta = filaNueva.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
                 string descripcion = filaNueva.Cells["Detalle"].Value?.ToString() ?? string.Empty;
 
@@ -1351,7 +1355,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 clsCRUD_Historial historial = new clsCRUD_Historial();
 
                 historial.RegistrarAccionUsuario(
-                    Sesion1.UsuarioId,
+                    Sesion1.usuario_id,
                     modulo,
                     "Navegación",
                     null,

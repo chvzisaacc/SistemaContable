@@ -8,9 +8,9 @@ namespace Capa_de_acceso_de_datos
 {
     public static class UsuarioLogueado
     {
-        public static int UsuarioId { get; set; }
-        public static string Nombre { get; set; }
-        public static int RolId { get; set; }
-        public static int ParroquiaId { get; set; }
+        public static int usuario_id { get; set; }
+        public static string nombre { get; set; }
+        public static int rol_id { get; set; }
+        public static int parroquia_id { get; set; }
     }
 }

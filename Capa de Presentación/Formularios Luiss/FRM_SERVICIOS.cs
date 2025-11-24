@@ -56,7 +56,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 this.Hide();
 
                 
-                using (var frm = new FRM_PG51(Sesion1.UsuarioId))
+                using (var frm = new FRM_PG51(Sesion1.usuario_id))
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
                     frm.ShowDialog(this);
@@ -139,7 +139,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 main?.Hide();
                 this.Hide();
 
-                using (var frm = new FRM_PG51(Sesion1.UsuarioId))
+                using (var frm = new FRM_PG51(Sesion1.usuario_id))
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
                     frm.ShowDialog(this);
@@ -165,7 +165,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 
                 historial.RegistrarAccionUsuario(
-                    Sesion1.UsuarioId,
+                    Sesion1.usuario_id,
                     modulo,
                     "Navegación",
                     null,

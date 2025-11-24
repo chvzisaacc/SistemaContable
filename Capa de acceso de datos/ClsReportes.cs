@@ -13,7 +13,7 @@ namespace Capa_de_acceso_de_datos
         private readonly Clsconexion _cn = new Clsconexion();
 
         
-        public DataSet ObtenerEstadoResultados(int parroquiaId, DateTime desde, DateTime hasta)
+        public DataSet ObtenerEstadoResultados(int parroquia_id, DateTime desde, DateTime hasta)
         {
             DataSet ds = new DataSet();
 
@@ -27,7 +27,7 @@ namespace Capa_de_acceso_de_datos
 
                     cmd.Parameters.AddWithValue("@fechaInicio", desde.Date);
                     cmd.Parameters.AddWithValue("@fechaFin", hasta.Date);
-                    cmd.Parameters.AddWithValue("@idParroquia", parroquiaId);
+                    cmd.Parameters.AddWithValue("@idParroquia", parroquia_id);
 
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
@@ -44,7 +44,7 @@ namespace Capa_de_acceso_de_datos
             return ds;
         }
 
-        public DataTable ObtenerIngresosPorParroquia(int parroquiaId, DateTime desde, DateTime hasta)
+        public DataTable ObtenerIngresosPorParroquia(int parroquia_id, DateTime desde, DateTime hasta)
         {
             DataTable dt = new DataTable();
 
@@ -55,7 +55,7 @@ namespace Capa_de_acceso_de_datos
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquiaId);
+                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquia_id);
                     cmd.Parameters.AddWithValue("@Desde", desde.Date);
                     cmd.Parameters.AddWithValue("@Hasta", hasta.Date);
 
@@ -77,7 +77,7 @@ namespace Capa_de_acceso_de_datos
 
 
 
-        public DataTable ObtenerGastosPorParroquia(int parroquiaId, DateTime desde, DateTime hasta)
+        public DataTable ObtenerGastosPorParroquia(int parroquia_id, DateTime desde, DateTime hasta)
         {
             DataTable dt = new DataTable();
 
@@ -88,7 +88,7 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("sp_ReporteGastos", _cn.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquiaId);
+                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquia_id);
                     cmd.Parameters.AddWithValue("@Desde", desde.Date);
                     cmd.Parameters.AddWithValue("@Hasta", hasta.Date);
 
@@ -132,7 +132,7 @@ namespace Capa_de_acceso_de_datos
             return dt;
         }
 
-        public string ObtenerNombreParroquia(int parroquiaId)
+        public string ObtenerNombreParroquia(int parroquia_id)
         {
             string nombre = null;
 
@@ -143,7 +143,7 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("sp_ObtenerNombreParroquia", _cn.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquiaId);
+                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquia_id);
 
                     object result = cmd.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
@@ -184,7 +184,7 @@ namespace Capa_de_acceso_de_datos
             return dt;
         }
 
-        public DataTable ObtenerBalanceGeneral(int parroquiaId, DateTime fechaInicio, DateTime fechaCorte)
+        public DataTable ObtenerBalanceGeneral(int parroquia_id, DateTime fecha_inicio, DateTime fecha_corte)
         {
             DataTable dt = new DataTable();
             try
@@ -193,9 +193,9 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("sp_GenerarBalanceGeneral", _cn.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquiaId); // Si usas parroquias
-                    cmd.Parameters.AddWithValue("@FechaInicio", fechaInicio.Date);
-                    cmd.Parameters.AddWithValue("@FechaCorte", fechaCorte.Date);
+                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquia_id); // Si usas parroquias
+                    cmd.Parameters.AddWithValue("@FechaInicio", fecha_inicio.Date);
+                    cmd.Parameters.AddWithValue("@FechaCorte", fecha_corte.Date);
 
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {

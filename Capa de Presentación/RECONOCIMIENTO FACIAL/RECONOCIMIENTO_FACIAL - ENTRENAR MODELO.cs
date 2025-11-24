@@ -458,7 +458,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         {
             if (comboBox1.SelectedItem is Usuario seleccionado)
             {
-                faceId = seleccionado.Usuario_id;
+                faceId = seleccionado.usuario_id;
                 faceName = seleccionado.usuario_nombre;
 
                 // *** REINICIAR BUFERS ***
@@ -528,7 +528,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             foreach (var usuario in usuarios)
             {
                 //obtener fotos del usuario directamente desde BD ***
-                List<byte[]> fotos = db.ObtenerRostrosPorUsuario(usuario.Usuario_id);
+                List<byte[]> fotos = db.ObtenerRostrosPorUsuario(usuario.usuario_id);
 
                 foreach (byte[] foto in fotos)
                 {
@@ -543,7 +543,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                     images.Add(faceImage);
 
                     // Obtener ID desde la BD
-                    labels.Add(usuario.Usuario_id);
+                    labels.Add(usuario.usuario_id);
                 }
             }
 
@@ -570,7 +570,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
             if (seleccionado != null)
             {
-                faceId = seleccionado.Usuario_id;
+                faceId = seleccionado.usuario_id;
                 faceName = seleccionado.usuario_nombre;
 
                 // esto indica que NO es una nueva cara
@@ -740,7 +740,10 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             }
         }
 
+        private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
 
+        }
     }
 
 }

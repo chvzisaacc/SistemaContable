@@ -43,8 +43,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
             InitializeComponent();
             this._usuarioID = usuarioID;
             this.idParroquia = idParroquia;
-            UsuarioLogueado.UsuarioId = usuarioID;
-            UsuarioLogueado.ParroquiaId = idParroquia;
+            UsuarioLogueado.usuario_id = usuarioID;
+            UsuarioLogueado.parroquia_id = idParroquia;
 
             this.FormClosing += cerrar.CerrarApp;
             // Agrega los paneles secundarios dentro del panel contenedor
@@ -546,7 +546,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         try
                         {
                             crudHistorial.RegistrarActividad(
-                                Sesion1.UsuarioId, 
+                                Sesion1.usuario_id, 
                                 7, 
                                 "Modificación de Usuario",
                                 $"Se modificaron los datos del usuario: '{usuario}' (ID: {usuarioIdSeleccionado})."
@@ -586,7 +586,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         try
                         {
                             crudHistorial.RegistrarActividad(
-                                Sesion1.UsuarioId, 
+                                Sesion1.usuario_id, 
                                 7, 
                                 "Creación de Usuario",
                                 $"Se creó el nuevo usuario: '{usuario}' (ID: {nuevoId})."
@@ -660,7 +660,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     try
                     {
                         crudHistorial.RegistrarActividad(
-                            Sesion1.UsuarioId, 
+                            Sesion1.usuario_id, 
                             7, // Módulo de Usuarios
                             "Inhabilitación de Usuario",
                             $"Se inhabilitó al usuario con ID: {id}."
@@ -707,7 +707,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     try
                     {
                         crudHistorial.RegistrarActividad(
-                            Sesion1.UsuarioId,
+                            Sesion1.usuario_id,
                             7, // Módulo de Usuarios
                             "Habilitación de Usuario",
                             $"Se habilitó al usuario con ID: {id}."

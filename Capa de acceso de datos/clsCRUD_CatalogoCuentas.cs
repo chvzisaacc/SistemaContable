@@ -12,7 +12,7 @@ namespace Capa_de_acceso_de_datos
             conexion = new Clsconexion();
         }
 
-        public int AgregarCatalogoCuenta(int idCuenta, string nombre, String detalle, decimal? saldo)
+        public int AgregarCatalogoCuenta(int id_cuenta, string nombre, String detalle, decimal? saldo)
         {
             try
             {
@@ -21,7 +21,7 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_AgregarCatalogoCuenta", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@idCuenta", idCuenta);
+                cmd.Parameters.AddWithValue("@idCuenta", id_cuenta);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
                 if (!string.IsNullOrWhiteSpace(detalle))
                     cmd.Parameters.AddWithValue("@detalle", detalle);
@@ -34,13 +34,13 @@ namespace Capa_de_acceso_de_datos
                 else
                     cmd.Parameters.AddWithValue("@saldo", DBNull.Value);
 
-                SqlParameter nuevoId = new SqlParameter("@nuevoId", SqlDbType.Int);
-                nuevoId.Direction = ParameterDirection.Output;
-                cmd.Parameters.Add(nuevoId);
+                SqlParameter nuevoid = new SqlParameter("@nuevoId", SqlDbType.Int);
+                nuevoid.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(nuevoid);
 
                 cmd.ExecuteNonQuery();
 
-                return Convert.ToInt32(nuevoId.Value);
+                return Convert.ToInt32(nuevoid.Value);
             }
             catch (Exception ex)
             {
@@ -77,7 +77,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public DataRow BuscarCatalogoCuentaPorId(int codCuenta)
+        public DataRow BuscarCatalogoCuentaPorId(int cod_cuenta)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace Capa_de_acceso_de_datos
 
                 SqlCommand cmd = new SqlCommand("sp_BuscarCatalogoCuentaPorId", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id", codCuenta);
+                cmd.Parameters.AddWithValue("@id", cod_cuenta);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
@@ -106,7 +106,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public bool ModificarCatalogoCuenta(int codCuenta, int idCuenta, string nombre, String detalle, decimal? saldo)
+        public bool ModificarCatalogoCuenta(int cod_cuenta, int id_cuenta, string nombre, String detalle, decimal? saldo)
         {
             try
             {
@@ -115,8 +115,8 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ModificarCatalogoCuenta", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@codCuenta", codCuenta);
-                cmd.Parameters.AddWithValue("@idCuenta", idCuenta);
+                cmd.Parameters.AddWithValue("@codCuenta", cod_cuenta);
+                cmd.Parameters.AddWithValue("@idCuenta", id_cuenta);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
                 if (!string.IsNullOrWhiteSpace(detalle))
                     cmd.Parameters.AddWithValue("@detalle", detalle);
@@ -140,7 +140,7 @@ namespace Capa_de_acceso_de_datos
 
 
 
-        public bool CatalogoCuentaExiste(string nombreCuenta)
+        public bool CatalogoCuentaExiste(string nombre_cuenta)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace Capa_de_acceso_de_datos
 
                 SqlCommand cmd = new SqlCommand("sp_CatalogoCuentaExiste", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@nombreCuenta", nombreCuenta);
+                cmd.Parameters.AddWithValue("@nombreCuenta", nombre_cuenta);
 
                 SqlParameter existe = new SqlParameter("@existe", SqlDbType.Bit);
                 existe.Direction = ParameterDirection.Output;
@@ -177,8 +177,8 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ObtenerProximoCodigoCatalogo", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                int proximoCodigo = (int)cmd.ExecuteScalar();
-                return proximoCodigo;
+                int proximo_codigo = (int)cmd.ExecuteScalar();
+                return proximo_codigo;
             }
             catch (Exception ex)
             {

@@ -12,7 +12,7 @@ namespace Capa_de_acceso_de_datos
             conexion = new Clsconexion();
         }
 
-        public DataTable ObtenerHistorial(int? parroquiaId = null, int? usuarioId = null)
+        public DataTable ObtenerHistorial(int? parroquia_id = null, int? usuario_id = null)
         {
             try
             {
@@ -21,8 +21,8 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ObtenerHistorial", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@parroquiaId", parroquiaId ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@usuarioId", usuarioId ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@parroquiaId", parroquia_id ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@usuarioId", usuario_id ?? (object)DBNull.Value);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
@@ -40,7 +40,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public DataTable ObtenerUsuariosPorParroquia(int? parroquiaId = null)
+        public DataTable ObtenerUsuariosPorParroquia(int? parroquia_id = null)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace Capa_de_acceso_de_datos
 
                 SqlCommand cmd = new SqlCommand("sp_ObtenerUsuariosPorParroquia", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@parroquiaId", parroquiaId ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@parroquiaId", parroquia_id ?? (object)DBNull.Value);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
@@ -66,7 +66,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public void RegistrarInicioSesion(int usuarioId)
+        public void RegistrarInicioSesion(int usuario_id)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Capa_de_acceso_de_datos
 
                 SqlCommand cmd = new SqlCommand("sp_RegistrarInicioSesion", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@usuario_id", usuarioId);
+                cmd.Parameters.AddWithValue("@usuario_id", usuario_id);
 
                 cmd.ExecuteNonQuery();
             }
@@ -113,7 +113,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public void RegistrarActividad(int usuarioId, int moduloId, string tarea, string descripcion)
+        public void RegistrarActividad(int usuario_id, int modulo_id, string tarea, string descripcion)
         {
             try
             {
@@ -123,8 +123,8 @@ namespace Capa_de_acceso_de_datos
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@id_usuario", usuarioId);
-                    cmd.Parameters.AddWithValue("@id_modulo", moduloId);
+                    cmd.Parameters.AddWithValue("@id_usuario", usuario_id);
+                    cmd.Parameters.AddWithValue("@id_modulo", modulo_id);
                     cmd.Parameters.AddWithValue("@tarea_realizada", tarea);
                     cmd.Parameters.AddWithValue("@descripcion_tarea", descripcion);
 
@@ -142,7 +142,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public void RegistrarAccionUsuario(int usuarioId, string modulo, string accion, decimal? monto, string descripcion)
+        public void RegistrarAccionUsuario(int usuario_id, string modulo, string accion, decimal? monto, string descripcion)
         {
             try
             {
@@ -150,7 +150,7 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("sp_RegistrarAccionUsuario", conexion.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@UsuarioID", usuarioId);
+                    cmd.Parameters.AddWithValue("@UsuarioID", usuario_id);
                     cmd.Parameters.AddWithValue("@Modulo", modulo);
                     cmd.Parameters.AddWithValue("@Accion", accion);
                     cmd.Parameters.AddWithValue("@Monto", (object)monto ?? DBNull.Value);
@@ -171,7 +171,7 @@ namespace Capa_de_acceso_de_datos
         /// <summary>
         /// Obtiene el historial de acciones para un usuario específico.
         /// </summary>
-        public DataTable ObtenerHistorialUsuario(int usuarioId)
+        public DataTable ObtenerHistorialUsuario(int usuario_id)
         {
             try
             {
@@ -179,7 +179,7 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("sp_ObtenerHistorialUsuario", conexion.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@UsuarioID", usuarioId);
+                    cmd.Parameters.AddWithValue("@UsuarioID", usuario_id);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);

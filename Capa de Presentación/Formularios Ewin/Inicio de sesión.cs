@@ -58,7 +58,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // Guardar sesión con ambos valores
             Sesion1.IniciarSesion(idUsuario, rol, parroquiaId);
 
-            //REDIRECCIONAR AL FORM SEGÚN ROL 
+            //REDIRECCIONAR AL FORM SEGÚN Roles 
             if (rol == 1)
             {
                 Ventana_Principal_Administrador admin = new Ventana_Principal_Administrador(idUsuario,parroquiaId);

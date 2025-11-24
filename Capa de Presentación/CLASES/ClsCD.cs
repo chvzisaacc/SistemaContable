@@ -96,7 +96,7 @@ namespace Capa_de_Presentación.CLASES
 
         public void GuardarCD(DataTable dtDatosCertificados, DataGridView dataGridView1, bool datosGuardados)
         {
-            int idParroquia = Capa_de_acceso_de_datos.Sesion1.IdParroquia;
+            int idParroquia = Capa_de_acceso_de_datos.Sesion1.id_parroquia;
 
             if (dataGridView1.Rows.Count == 0 || (dataGridView1.Rows.Count == 1 && dataGridView1.Rows[0].IsNewRow))
             {

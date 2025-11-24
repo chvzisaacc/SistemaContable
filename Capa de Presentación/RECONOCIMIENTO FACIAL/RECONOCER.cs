@@ -190,15 +190,15 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                         var datos = db.ObtenerUsuarioReconocimiento(predictedId);
 
                         string nombre = datos.nombre;
-                        int rolId = datos.rolId;
-                        int estadoCuenta = datos.estadoCuenta;
-                        int parroquiaId = datos.parroquiaId;
+                        int rolId = datos.rol_id;
+                        int estadoCuenta = datos.estado_cuenta;
+                        int parroquiaId = datos.parroquia_id;
 
                         // Almacenar datos en la clase estática UsuarioLogueado
-                        UsuarioLogueado.UsuarioId = predictedId;
-                        UsuarioLogueado.Nombre = nombre;
-                        UsuarioLogueado.RolId = rolId;
-                        UsuarioLogueado.ParroquiaId = parroquiaId;
+                        UsuarioLogueado.usuario_id = predictedId;
+                        UsuarioLogueado.nombre = nombre;
+                        UsuarioLogueado.rol_id = rolId;
+                        UsuarioLogueado.parroquia_id = parroquiaId;
 
                         if (!accesoConcedido)
                             detectedUserName = nombre;

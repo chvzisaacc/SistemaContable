@@ -9,12 +9,12 @@ namespace Capa_de_acceso_de_datos
 
     public class Parroquia
     {
-        public string Nombre { get; set; }
+        public string nombre { get; set; }
 
         public Parroquia(int id, string nombre)
         {
 
-            this.Nombre = nombre;
+            this.nombre = nombre;
         }
     }
 
@@ -29,26 +29,26 @@ namespace Capa_de_acceso_de_datos
     }
     public class Origen
     {
-        public int ID { get; set; }
-        public string Nombre { get; set; }
+        public int id { get; set; }
+        public string nombre { get; set; }
 
         public Origen(int id, string nombre)
         {
-            this.ID = id;
-            this.Nombre = nombre;
+            this.id = id;
+            this.nombre = nombre;
         }
     }
 
     public class ResultadoLogin
     {
-        public int UsuarioID { get; set; } = 0;
-        public int RolID { get; set; } = 0;
-        public int IdParroquia { get; internal set; } = 0;
+        public int usuario_id { get; set; } = 0;
+        public int rol_id { get; set; } = 0;
+        public int id_parroquia { get; internal set; } = 0;
     }
 
     public class ClsAccionesDB : Clsconexion
     {
-        public ResultadoLogin ValidarCredenciales(string usuario, string contraseña, int parroquiaId)
+        public ResultadoLogin ValidarCredenciales(string usuario, string contraseña, int parroquia_id)
         {
             // Inicialización simplificada
             ResultadoLogin resultado = new ResultadoLogin();
@@ -70,11 +70,11 @@ namespace Capa_de_acceso_de_datos
                         if (dr.Read())
                         {
                             // Asegúrate que el SP devuelva estas columnas.
-                            resultado.UsuarioID = dr.GetInt32(dr.GetOrdinal("UsuarioID"));
-                            resultado.RolID = dr.GetInt32(dr.GetOrdinal("RolID"));
+                            resultado.usuario_id = dr.GetInt32(dr.GetOrdinal("UsuarioID"));
+                            resultado.rol_id = dr.GetInt32(dr.GetOrdinal("RolID"));
 
-                            int parroquiaOrdinal = dr.GetOrdinal("Parroquia_ID");
-                            resultado.IdParroquia = dr.IsDBNull(parroquiaOrdinal) ? 0 : dr.GetInt32(parroquiaOrdinal);
+                            int parroquia_ordinal = dr.GetOrdinal("Parroquia_ID");
+                            resultado.id_parroquia = dr.IsDBNull(parroquia_ordinal) ? 0 : dr.GetInt32(parroquia_ordinal);
                         }
                     }
                 }
@@ -92,7 +92,7 @@ namespace Capa_de_acceso_de_datos
             return resultado;
         }
 
-        public bool CambiarContraseña(string correo, string nuevaContraseña)
+        public bool CambiarContraseña(string correo, string nuevaa_contraseña)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace Capa_de_acceso_de_datos
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Correo", correo);
-                    cmd.Parameters.AddWithValue("@NuevaContraseña", nuevaContraseña);
+                    cmd.Parameters.AddWithValue("@NuevaContraseña", nuevaa_contraseña);
                     int filas = cmd.ExecuteNonQuery();
                     return filas > 0;
                 }
@@ -143,7 +143,7 @@ namespace Capa_de_acceso_de_datos
             return id;
         }
 
-        public void GuardarCodigoRecuperacion(int usuarioId, string codigo)
+        public void GuardarCodigoRecuperacion(int usuario_id, string codigo)
         {
             try
             {
@@ -151,7 +151,7 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("GuardarCodigoRecuperacion", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
+                    cmd.Parameters.AddWithValue("@UsuarioId", usuario_id);
                     cmd.Parameters.AddWithValue("@Codigo", codigo);
                     cmd.ExecuteNonQuery();
                 }
@@ -167,7 +167,7 @@ namespace Capa_de_acceso_de_datos
         }
 
 
-        public string ValidarCodigoRecuperacion(int usuarioId, string codigo)
+        public string ValidarCodigoRecuperacion(int usuario_id, string codigo)
         {
             string resultado = string.Empty;
 
@@ -177,7 +177,7 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("ValidarCodigoRecuperacion", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
+                    cmd.Parameters.AddWithValue("@UsuarioId", usuario_id);
                     cmd.Parameters.AddWithValue("@Codigo", codigo);
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
@@ -201,9 +201,9 @@ namespace Capa_de_acceso_de_datos
             return resultado;
         }
 
-        public int GuardarCertificado(string nombreCertificado, decimal depositoInicial, int plazo, decimal tasa, int idParroquia, DateTime fecha)
+        public int GuardarCertificado(string nombre_certificado, decimal deposito_inicial, int plazo, decimal tasa, int id_parroquia, DateTime fecha)
         {
-            int idGenerado = 0;
+            int idgenerado = 0;
 
             try
             {
@@ -211,11 +211,11 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("sp_guardar_certificado", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Nombre_certificado", nombreCertificado);
-                    cmd.Parameters.AddWithValue("@deposito_inicial", depositoInicial);
+                    cmd.Parameters.AddWithValue("@Nombre_certificado", nombre_certificado);
+                    cmd.Parameters.AddWithValue("@deposito_inicial", deposito_inicial);
                     cmd.Parameters.AddWithValue("@plazo", plazo);
                     cmd.Parameters.AddWithValue("@tasa", tasa);
-                    cmd.Parameters.AddWithValue("@IdParroquia", idParroquia);
+                    cmd.Parameters.AddWithValue("@IdParroquia", id_parroquia);
                     cmd.Parameters.AddWithValue("@Fecha", fecha);
 
                     // ExecuteScalar devuelve un objeto; se debe manejar DBNull si aplica, aunque para un ID serial es improbable.
@@ -223,7 +223,7 @@ namespace Capa_de_acceso_de_datos
 
                     if (result != null && result != DBNull.Value)
                     {
-                        idGenerado = Convert.ToInt32(result);
+                        idgenerado = Convert.ToInt32(result);
                     }
                 }
             }
@@ -235,7 +235,7 @@ namespace Capa_de_acceso_de_datos
             {
                 Cerrar();
             }
-            return idGenerado;
+            return idgenerado;
         }
 
         public DataTable CargarCertificados()
@@ -291,7 +291,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public bool editarcertificado(int codigocertificado, string nombreCertificado, decimal depositoInicial, int plazo, decimal tasa)
+        public bool editarcertificado(int codigo_certificado, string nombre_certificado, decimal deposito_inicial, int plazo, decimal tasa)
         {
             try
             {
@@ -299,9 +299,9 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("sp_editar_certificado", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Id_Certificado", codigocertificado);
-                    cmd.Parameters.AddWithValue("@Nombre_certificado", nombreCertificado);
-                    cmd.Parameters.AddWithValue("@deposito_inicial", depositoInicial);
+                    cmd.Parameters.AddWithValue("@Id_Certificado", codigo_certificado);
+                    cmd.Parameters.AddWithValue("@Nombre_certificado", nombre_certificado);
+                    cmd.Parameters.AddWithValue("@deposito_inicial", deposito_inicial);
                     cmd.Parameters.AddWithValue("@plazo", plazo);
                     cmd.Parameters.AddWithValue("@tasa", tasa);
                     int filas = cmd.ExecuteNonQuery();
@@ -318,7 +318,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public bool renovarCertificado(int codigocertificado, decimal depositoInicial, int plazo, decimal tasa)
+        public bool renovarCertificado(int codigo_certificado, decimal deposito_inicial, int plazo, decimal tasa)
         {
             try
             {
@@ -326,8 +326,8 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("sp_renovar_Certificado", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Id_Certificado", codigocertificado);
-                    cmd.Parameters.AddWithValue("@deposito_inicial", depositoInicial);
+                    cmd.Parameters.AddWithValue("@Id_Certificado", codigo_certificado);
+                    cmd.Parameters.AddWithValue("@deposito_inicial", deposito_inicial);
                     cmd.Parameters.AddWithValue("@plazo", plazo);
                     cmd.Parameters.AddWithValue("@tasa", tasa);
                     int filas = cmd.ExecuteNonQuery();
@@ -344,7 +344,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public void cancelarCertificado(int codigocertificado, string detalle)
+        public void cancelarCertificado(int codigo_certificado, string detalle)
         {
             try
             {
@@ -352,7 +352,7 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("sp_cancelar_Certificado", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Id_Certificado", codigocertificado);
+                    cmd.Parameters.AddWithValue("@Id_Certificado", codigo_certificado);
                     cmd.Parameters.AddWithValue("@Detalle", detalle);
                     cmd.ExecuteNonQuery();
                 }
@@ -369,7 +369,7 @@ namespace Capa_de_acceso_de_datos
 
         public List<Origen> ObtenerListaOrigenes()
         {
-            List<Origen> listaOrigenes = new List<Origen>();
+            List<Origen> listaorigenes = new List<Origen>();
 
             try
             {
@@ -387,7 +387,7 @@ namespace Capa_de_acceso_de_datos
                             int id = reader.GetInt32(reader.GetOrdinal("ID"));
                             string nombre = reader.GetString(reader.GetOrdinal("NombreOrigen"));
 
-                            listaOrigenes.Add(new Origen(id, nombre));
+                            listaorigenes.Add(new Origen(id, nombre));
                         }
                     }
                 }
@@ -401,13 +401,13 @@ namespace Capa_de_acceso_de_datos
                 Cerrar();
             }
 
-            return listaOrigenes;
+            return listaorigenes;
         }
 
 
         public List<string> ObtenerListaParroquias()
         {
-            List<string> listaParroquias = new List<string>();
+            List<string> listaparroquias = new List<string>();
 
             try
             {
@@ -422,7 +422,7 @@ namespace Capa_de_acceso_de_datos
                         while (reader.Read())
                         {
                             string nombre = reader["Parroquia_nombre"].ToString();
-                            listaParroquias.Add(nombre);
+                            listaparroquias.Add(nombre);
                         }
                     }
                 }
@@ -436,12 +436,12 @@ namespace Capa_de_acceso_de_datos
                 Cerrar();
             }
 
-            return listaParroquias;
+            return listaparroquias;
         }
 
         public List<string> ObtenerTipoReporte()
         {
-            List<string> Reportes = new List<string>();
+            List<string> reportes = new List<string>();
 
             try
             {
@@ -456,7 +456,7 @@ namespace Capa_de_acceso_de_datos
                         while (reader.Read())
                         {
                             string nombre = reader["descripcion"].ToString();
-                            Reportes.Add(nombre);
+                            reportes.Add(nombre);
                         }
                     }
                 }
@@ -470,11 +470,11 @@ namespace Capa_de_acceso_de_datos
                 Cerrar();
             }
 
-            return Reportes;
+            return reportes;
         }
         public DataTable ObtenerCuentasIngreso()
         {
-            DataTable dtCuentas = new DataTable();
+            DataTable dtcuentas = new DataTable();
 
             try
             {
@@ -485,10 +485,10 @@ namespace Capa_de_acceso_de_datos
 
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
-                        da.Fill(dtCuentas);
+                        da.Fill(dtcuentas);
                     }
                 }
-                return dtCuentas;
+                return dtcuentas;
             }
             catch (Exception ex)
             {
@@ -502,7 +502,7 @@ namespace Capa_de_acceso_de_datos
 
         public DataTable ObtenerCuentasGastos()
         {
-            DataTable dtCuentas = new DataTable();
+            DataTable dtcuentas = new DataTable();
 
             try
             {
@@ -513,10 +513,10 @@ namespace Capa_de_acceso_de_datos
 
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
-                        da.Fill(dtCuentas);
+                        da.Fill(dtcuentas);
                     }
                 }
-                return dtCuentas;
+                return dtcuentas;
             }
             catch (Exception ex)
             {
@@ -530,25 +530,25 @@ namespace Capa_de_acceso_de_datos
         }
 
 
-        public Tuple<int, int> ObtenerUsuarioIdPorNombreUsuario(string nombreUsuario)
+        public Tuple<int, int> ObtenerUsuarioIdPorNombreUsuario(string nombre_usuario)
         {
-            int idUsuario = 0;
-            int parroquiaId = 0;
+            int id_usuario = 0;
+            int parroquia_id = 0;
             try
             {
                 Abrir();
                 using (SqlCommand cmd = new SqlCommand("SP_ObtenerUsuarioId", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@NombreUsuario", nombreUsuario);
+                    cmd.Parameters.AddWithValue("@NombreUsuario", nombre_usuario);
 
                     // Usamos ExecuteReader para obtener ambas columnas
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.Read()) // Si encuentra al menos una fila
                         {
-                            idUsuario = reader.GetInt32(reader.GetOrdinal("Usuario_id"));
-                            parroquiaId = reader.IsDBNull(reader.GetOrdinal("Parroquia_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("Parroquia_id"));
+                            id_usuario = reader.GetInt32(reader.GetOrdinal("Usuario_id"));
+                            parroquia_id = reader.IsDBNull(reader.GetOrdinal("Parroquia_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("Parroquia_id"));
                         }
                     }
                 }
@@ -562,7 +562,7 @@ namespace Capa_de_acceso_de_datos
                 Cerrar();
             }
 
-            return Tuple.Create(idUsuario, parroquiaId);  // Tuple con ambos valores
+            return Tuple.Create(id_usuario, parroquia_id);  // Tuple con ambos valores
         }
         public List<Usuario> ObtenerUsuarios()
         {
@@ -600,7 +600,7 @@ namespace Capa_de_acceso_de_datos
             return usuarios;
         }
 
-        public int GuardarFotoRostro(int usuarioId, byte[] rostroData)
+        public int GuardarFotoRostro(int usuario_id, byte[] rostro_data)
         {
             int nuevoRostroId = 0;
 
@@ -612,8 +612,8 @@ namespace Capa_de_acceso_de_datos
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("@Usuario_id", usuarioId);
-                    command.Parameters.AddWithValue("@RostroData", rostroData);
+                    command.Parameters.AddWithValue("@Usuario_id", usuario_id);
+                    command.Parameters.AddWithValue("@RostroData", rostro_data);
 
                     object result = command.ExecuteScalar();
 
@@ -633,7 +633,7 @@ namespace Capa_de_acceso_de_datos
             return nuevoRostroId;
         }
 
-        public int ContarFotosUsuario(int usuarioId)
+        public int ContarFotosUsuario(int usuario_id)
         {
             int total = 0;
 
@@ -644,7 +644,7 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("SP_ContarFotosUsuario", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
+                    cmd.Parameters.AddWithValue("@Usuario_id", usuario_id);
 
                     object result = cmd.ExecuteScalar();
 
@@ -664,7 +664,7 @@ namespace Capa_de_acceso_de_datos
             return total;
         }
 
-        public void BorrarFotosUsuario(int usuarioId)
+        public void BorrarFotosUsuario(int usuario_id)
         {
             try
             {
@@ -672,7 +672,7 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("SP_BorrarFotosUsuario", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
+                    cmd.Parameters.AddWithValue("@Usuario_id", usuario_id);
                     cmd.ExecuteNonQuery();
 
                 }
@@ -688,7 +688,7 @@ namespace Capa_de_acceso_de_datos
 
         }
 
-        public string ObtenerNombreUsuario(int usuarioId)
+        public string ObtenerNombreUsuario(int usuario_id)
         {
             string nombre = "Desconocido";
             try
@@ -697,7 +697,7 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("SP_ObtenerNombreUsuario", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
+                    cmd.Parameters.AddWithValue("@Usuario_id", usuario_id);
                     object result = cmd.ExecuteScalar();
 
 
@@ -716,7 +716,7 @@ namespace Capa_de_acceso_de_datos
             return nombre;
         }
 
-        public List<byte[]> ObtenerRostrosPorUsuario(int usuarioId)
+        public List<byte[]> ObtenerRostrosPorUsuario(int usuario_id)
         {
             List<byte[]> lista = new List<byte[]>();
 
@@ -727,7 +727,7 @@ namespace Capa_de_acceso_de_datos
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
+                    cmd.Parameters.AddWithValue("@Usuario_id", usuario_id);
                     SqlDataReader dr = cmd.ExecuteReader();
 
                     while (dr.Read())
@@ -749,12 +749,12 @@ namespace Capa_de_acceso_de_datos
 
             return lista;
         }
-        public (string nombre, int rolId, int estadoCuenta, int parroquiaId) ObtenerUsuarioReconocimiento(int usuarioId)
+        public (string nombre, int rol_id, int estado_cuenta, int parroquia_id) ObtenerUsuarioReconocimiento(int usuario_id)
         {
             string nombre = "";
-            int rolId = 0;
-            int estadoCuenta = 0;
-            int parroquiaId = 0;
+            int rol_id = 0;
+            int estado_cuenta = 0;
+            int parroquia_id = 0;
 
             try
             {
@@ -763,16 +763,16 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("SP_ObtenerUsuarioReconocimiento", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
+                    cmd.Parameters.AddWithValue("@Usuario_id", usuario_id);
 
                     SqlDataReader dr = cmd.ExecuteReader();
 
                     if (dr.Read())
                     {
                         nombre = dr["usuario_nombre"].ToString();
-                        rolId = Convert.ToInt32(dr["Rol_id"]);
-                        estadoCuenta = Convert.ToInt32(dr["Id_estado_cuenta"]);
-                        parroquiaId = Convert.ToInt32(dr["parroquia_id"]);
+                        rol_id = Convert.ToInt32(dr["Rol_id"]);
+                        estado_cuenta = Convert.ToInt32(dr["Id_estado_cuenta"]);
+                        parroquia_id = Convert.ToInt32(dr["parroquia_id"]);
                     }
                 }
             }
@@ -781,7 +781,7 @@ namespace Capa_de_acceso_de_datos
                 Cerrar();
             }
 
-            return (nombre, rolId, estadoCuenta, parroquiaId);
+            return (nombre, rol_id, estado_cuenta, parroquia_id);
         }
     }
 }

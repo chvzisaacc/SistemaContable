@@ -63,7 +63,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public bool EnviarDineroCajaChica(int idOrigen, decimal monto)
+        public bool EnviarDineroCajaChica(int id_origen, decimal monto)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_EnviarDineroCajaChica", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@IdOrigen", idOrigen);
+                cmd.Parameters.AddWithValue("@IdOrigen", id_origen);
                 cmd.Parameters.AddWithValue("@Monto", monto);
 
                 SqlParameter paramExitoso = new SqlParameter("@Exitoso", SqlDbType.Bit)

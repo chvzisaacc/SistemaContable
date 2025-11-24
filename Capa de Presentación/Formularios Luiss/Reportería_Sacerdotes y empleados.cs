@@ -50,7 +50,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void FRM_PG49_Load(object sender, EventArgs e)
         {
 
-            Sesion1.IdParroquia = 1;
+            Sesion1.id_parroquia = 1;
             CargarReportes();
             cmbFormatoDescarga.Items.Clear();
             cmbFormatoDescarga.Items.Add("PDF");
@@ -84,7 +84,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
 
             int tipoReporteId = Convert.ToInt32(cmbTipoReporte.SelectedValue);
-            int parroquiaId = Sesion1.IdParroquia;
+            int parroquiaId = Sesion1.id_parroquia;
             string parroquiaNombre = _gastosService.ObtenerNombreParroquia(parroquiaId);
 
             DateTime desde = dtpDesde.Value.Date;
@@ -123,7 +123,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                               parroquiaNombre,
                               desde,
                               hasta,
-                              Sesion1.UsuarioId);
+                              Sesion1.usuario_id);
 
                     nombreReporte = "Estado de Resultados";
                     break;
@@ -134,7 +134,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                               parroquiaNombre,
                               desde,
                               hasta,
-                              Sesion1.UsuarioId);
+                              Sesion1.usuario_id);
 
                     nombreReporte = "Balance General";
                     break;
@@ -144,7 +144,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                               parroquiaNombre,
                               desde,
                               hasta,
-                              Sesion1.UsuarioId);
+                              Sesion1.usuario_id);
                     nombreReporte = "Ingresos";
                     break;
 
@@ -156,7 +156,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     parroquiaNombre,
                     desde,
                     hasta,
-                    Sesion1.UsuarioId);
+                    Sesion1.usuario_id);
 
                     nombreReporte = "Gastos";
                     break;

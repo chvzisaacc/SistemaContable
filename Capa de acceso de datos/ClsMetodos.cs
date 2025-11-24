@@ -2,7 +2,7 @@
 {
     public class ClsMetodos : ClsAccionesDB
     {
-        public int IniciarSesion(string usuario, string contraseña, int IdParroquia)
+        public int IniciarSesion(string usuario, string contraseña, int id_parroquia)
         {
 
             ResultadoLogin resultado = null;
@@ -12,16 +12,16 @@
                 Abrir();
 
 
-                resultado = ValidarCredenciales(usuario, contraseña, IdParroquia);
+                resultado = ValidarCredenciales(usuario, contraseña, id_parroquia);
 
-                if (resultado != null && resultado.UsuarioID > 0)
+                if (resultado != null && resultado.usuario_id > 0)
                 {
 
-                    Sesion1.IniciarSesion(resultado.UsuarioID, resultado.RolID, resultado.IdParroquia);
+                    Sesion1.IniciarSesion(resultado.usuario_id, resultado.rol_id, resultado.id_parroquia);
 
 
-                    return resultado.RolID;
-                    return resultado.IdParroquia;
+                    return resultado.rol_id;
+                    return resultado.id_parroquia;
                 }
 
                 return 0;
