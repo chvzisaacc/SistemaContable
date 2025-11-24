@@ -106,20 +106,20 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             if (cmbDestino.SelectedValue == null)
             {
-                MessageBox.Show("Debe seleccionar un rol.",
+                MessageBox.Show("Debe seleccionar un Destino.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbDestino.Focus();
                 return false;
             }
             if (cmbOrigen.SelectedValue == null)
             {
-                MessageBox.Show("Debe seleccionar un rol.",
+                MessageBox.Show("Debe seleccionar un Origen.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbOrigen.Focus();
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(monto) || !val.EsMontoPositivo(monto))
+            if (string.IsNullOrWhiteSpace(monto) || !val.EsNumeroDecimal(monto))
             {
                 MessageBox.Show("El monto de la cuenta es requerido, solo puede contener numeros y debe ser mayor a 0.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -130,22 +130,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            ValidarCampos();
-            if (cmbOrigen.SelectedIndex == -1)
-            {
-                MessageBox.Show("Debe seleccionar una cuenta de origen",
-                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbOrigen.Focus();
+            if (!ValidarCampos())
                 return;
-            }
-
-            if (cmbDestino.SelectedIndex == -1)
-            {
-                MessageBox.Show("Debe seleccionar una cuenta de destino",
-                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbDestino.Focus();
-                return;
-            }
+            
 
             if (cmbOrigen.SelectedValue.ToString() == cmbDestino.SelectedValue.ToString())
             {
@@ -154,7 +141,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            decimal monto;
+            decimal monto ;
             if (!decimal.TryParse(txtMonto.Text, out monto) || monto <= 0)
             {
                 MessageBox.Show("Debe ingresar un monto válido mayor a cero",

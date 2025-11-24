@@ -153,7 +153,6 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@UsuarioID", usuarioId);
                     cmd.Parameters.AddWithValue("@Modulo", modulo);
                     cmd.Parameters.AddWithValue("@Accion", accion);
-                    // Manejo de valor nulo para el monto
                     cmd.Parameters.AddWithValue("@Monto", (object)monto ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@Descripcion", descripcion);
                     cmd.ExecuteNonQuery();

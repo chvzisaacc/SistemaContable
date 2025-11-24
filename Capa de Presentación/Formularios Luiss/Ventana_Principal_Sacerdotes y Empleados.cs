@@ -59,7 +59,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelContenedor.Controls.Add(panelIngresos);
             //panelContenedor.Controls.Add(panelMensaje);
 
-            // Opcional: muestra uno por defecto
+            // muestra uno por defecto
             MostrarSoloEstePanel(panel1);
         }
 
@@ -273,20 +273,20 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
 
 
-            // Si no hay nada seleccionado, no hace nada.
+            // Si no hay nada seleccionado, no hace nada
             if (cmbCuentas.SelectedIndex < 0 || cmbCuentas.SelectedValue == null)
             {
                 return;
             }
 
-            // Obtiene el ID de la cuenta desde el valor seleccionado
+            
             int idSeleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
 
-            // Crea y muestra TU formulario existente, pasándole el ID
-            var frm = new BancosCuentaAhorro(idSeleccionado) // <-- CAMBIO REALIZADO AQUÍ
+            
+            var frm = new BancosCuentaAhorro(idSeleccionado) 
             {
                 StartPosition = FormStartPosition.Manual,
-                // Mantengo las coordenadas que has usado para consistencia
+                
                 Location = new Point(414, 101)
             };
 
@@ -430,7 +430,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 if (lector.Read())
                 {
-                    //convertir el valor string a decimal
                     decimal saldo = Convert.ToDecimal(lector["saldo"]);
                     //n2 formatea a dos digitos despues del "."
                     txtSaldoActual.Text = saldo.ToString("N2");
@@ -734,7 +733,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     return;
                 }
 
-                // 🔹 Corrige posible celda invisible
+                
                 if (dataGridView1.CurrentRow == null && dataGridView1.SelectedRows.Count > 0)
                 {
                     DataGridViewColumn primeraVisible = dataGridView1.Columns
@@ -783,7 +782,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     foreach (DataGridViewColumn col in dataGridView1.Columns)
                         col.ReadOnly = true;
 
-                    //Actualiza el Id_Origen en la fila actual (para que el lápiz lea el correcto)
+                    //Actualiza el Id_Origen en la fila actual 
                     if (dataGridView1.CurrentRow != null)
                         dataGridView1.CurrentRow.Cells["Id_Origen"].Value = idOrigen;
 
@@ -801,7 +800,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         cmbOrigen.Refresh();                 // Refresca el control en pantalla
                     }));
 
-                    // 🔹 Actualizar saldo después de recargar origen
+                    //Actualizar saldo después de recargar origen
                     ActualizarSaldo();
 
                     MessageBox.Show("Transacción editada correctamente.", "Éxito",
@@ -1045,7 +1044,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     return;
                 }
 
-                // 🔹 Corrige posible celda invisible
+                // Corrige posible celda invisible
                 if (dgvGastos.CurrentRow == null && dgvGastos.SelectedRows.Count > 0)
                 {
                     DataGridViewColumn primeraVisible = dgvGastos.Columns
@@ -1112,7 +1111,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         cmbOrigen2.Refresh();                 // Refresca el control en pantalla
                     }));
 
-                    // 🔹 Actualizar saldo después de recargar origen
+                    // Actualizar saldo después de recargar origen
                     ActualizarSaldo();
 
                     MessageBox.Show("Transacción editada correctamente.", "Éxito",
@@ -1348,10 +1347,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                // Instanciamos la clase que contiene el método
+                
                 clsCRUD_Historial historial = new clsCRUD_Historial();
 
-                // Llamamos al método público
                 historial.RegistrarAccionUsuario(
                     Sesion1.UsuarioId,
                     modulo,

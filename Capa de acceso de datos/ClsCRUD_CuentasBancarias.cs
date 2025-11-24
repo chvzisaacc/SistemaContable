@@ -79,7 +79,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.Add("@Id_Origen", SqlDbType.Int).Value = Id_Origen;
 
                 var pSaldo = cmd.Parameters.Add("@saldo", SqlDbType.Decimal);
-                pSaldo.Precision = 18;
+                pSaldo.Precision = 10;
                 pSaldo.Scale = 2;
                 pSaldo.Value = saldo;
 
@@ -106,7 +106,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.Add("@Id_Origen", SqlDbType.Int).Value = Id_Origen;
 
                 var pMonto = cmd.Parameters.Add("@monto", SqlDbType.Decimal);
-                pMonto.Precision = 18;
+                pMonto.Precision = 10;
                 pMonto.Scale = 2;
                 pMonto.Value = monto;
 
