@@ -27,21 +27,6 @@ namespace Capa_de_procesamiento_de_datos
 
             Directory.CreateDirectory(_carpetaReportes);
         }
-        public string ObtenerNombreParroquia(int parroquiaId)
-        {
-            return _repo.ObtenerNombreParroquia(parroquiaId);
-        }
-        public DataTable ObtenerTiposReporte()
-        {
-            return _repo.ObtenerTiposReporte();
-
-        }
-        public DataTable ObtenerParroquias()
-        {
-            return _repo.ObtenerParroquias();
-        }
-
-
 
         public string GenerarInformeGastos(
             int parroquiaId,
@@ -121,6 +106,21 @@ namespace Capa_de_procesamiento_de_datos
 
             return document.GeneratePdf();
         }
+
+        public string ObtenerNombreParroquia(int parroquiaId)
+        {
+            return _repo.ObtenerNombreParroquia(parroquiaId);
+        }
+        public DataTable ObtenerTiposReporte()
+        {
+            return _repo.ObtenerTiposReporte();
+
+        }
+        public DataTable ObtenerParroquias()
+        {
+            return _repo.ObtenerParroquias();
+        }
+
 
     }
 
