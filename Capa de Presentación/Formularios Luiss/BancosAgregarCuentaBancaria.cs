@@ -20,38 +20,36 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             InitializeComponent();
             crud = new ClsCRUD_CuentasBancarias();
-           
+
             Validaciones = new ClsValidaciones();
         }
 
 
-
-
-
-
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            ValidarCampos();
+            if (!ValidarCampos())
+                return;
+
             var nombre = txtCuenta.Text.Trim();
             if (string.IsNullOrWhiteSpace(nombre))
             {
-                MessageBox.Show("Ingrese un nombre de cuenta. ");
+                MessageBox.Show("Ingrese un nombre de cuenta.");
                 return;
-
             }
+
+
             decimal saldo = 0m;
 
-            bool ok = crud.CrearCuentaBanco(nombre, saldo,  out int nuevo_Id);
-            /* if (ok)
-             {
-                 MessageBox.Show($"Cuenta creada. Id: {nuevo_Id}");
-                 this.Close();
-             }
-             else
-             {
-                 MessageBox.Show("No se pudo crear la cuenta.");
-             }
-            */
+
+            if (!decimal.TryParse(txtMonto.Text.Trim(), out saldo))
+            {
+                MessageBox.Show("El saldo ingresado no es válido.");
+                return;
+            }
+            // ---------------------------------------------
+
+            bool ok = crud.CrearCuentaBanco(nombre, saldo, out int nuevo_Id);
+
             if (ok)
             {
                 MessageBox.Show(this, $"Cuenta creada. Id: {nuevo_Id}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -63,9 +61,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+
         private void FRM_BancosAgregarCuentaBancaria_Load(object sender, EventArgs e)
         {
-            
+
         }
         private bool ValidarCampos()
         {
@@ -73,9 +72,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             string cuenta = txtCuenta.Text.Trim();
             string monto = txtMonto.Text.Trim();
-            
 
-            
+
+
 
             if (string.IsNullOrWhiteSpace(cuenta) || !val.EsTextoValido(cuenta))
             {
@@ -123,7 +122,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        private void txtMonto_Click(object sender, EventArgs e)
+        
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtMonto_Click_1(object sender, EventArgs e)
         {
             if (txtMonto.Text == "Ingrese un Monto")
             {
@@ -132,7 +138,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        private void txtMonto_Leave(object sender, EventArgs e)
+        private void txtMonto_Leave_1(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtCuenta.Text))
             {
