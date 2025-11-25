@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
+using Capa_de_Presentación.Formularios_Ewin;
+using Capa_de_Presentación.Formularios_Luiss;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,9 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Capa_de_acceso_de_datos;
-using Capa_de_Presentación.CLASES;
-using Capa_de_Presentación.Formularios_Luiss;
 
 namespace Capa_de_Presentación.Formularios_Diego
 {
@@ -30,21 +31,22 @@ namespace Capa_de_Presentación.Formularios_Diego
             CargarDatos();
         }
 
-        public void CargarDatos()
+        public async void CargarDatos()
         {
             try
             {
                 ClsAccionesDB acciones = new ClsAccionesDB();
 
-                dtDatosCertificados = acciones.CargarCertificados();
+                // Ejecutar la carga de datos en un hilo de fondo
+                dtDatosCertificados = await Task.Run(() => acciones.CargarCertificados());
+
                 dataGridView1.Columns.Clear();
-
                 dataGridView1.DataSource = dtDatosCertificados;
-
                 dataGridView1.AllowUserToAddRows = false;
                 dataGridView1.AutoResizeColumns();
                 dataGridView1.ReadOnly = true;
 
+                // Ocultar columnas innecesarias
                 if (dataGridView1.Columns.Contains("Id_certificado"))
                 {
                     dataGridView1.Columns["Id_certificado"].Visible = false;
@@ -53,8 +55,6 @@ namespace Capa_de_Presentación.Formularios_Diego
                 {
                     dataGridView1.Columns["FechaTransaccion"].Visible = false;
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -186,7 +186,19 @@ namespace Capa_de_Presentación.Formularios_Diego
 
         private void pictureBox9_Click(object sender, EventArgs e)
         {
-          
+            FRM_42 obj42 = new();
+            obj42.Show();
+            this.Hide();
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

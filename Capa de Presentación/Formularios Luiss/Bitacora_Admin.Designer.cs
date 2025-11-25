@@ -111,13 +111,13 @@
             // 
             cmbUsuario.BackColor = Color.Gold;
             cmbUsuario.FlatStyle = FlatStyle.Popup;
-            cmbUsuario.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
+            cmbUsuario.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbUsuario.FormattingEnabled = true;
             cmbUsuario.Items.AddRange(new object[] { "", "Isaac Chavez", "Diego Muñoz" });
-            cmbUsuario.Location = new Point(1286, 670);
+            cmbUsuario.Location = new Point(1286, 653);
             cmbUsuario.Margin = new Padding(4, 5, 4, 5);
             cmbUsuario.Name = "cmbUsuario";
-            cmbUsuario.Size = new Size(224, 53);
+            cmbUsuario.Size = new Size(224, 40);
             cmbUsuario.TabIndex = 6;
             cmbUsuario.Text = "Seleccionar";
             cmbUsuario.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
@@ -125,11 +125,11 @@
             // lblRealizadopor
             // 
             lblRealizadopor.AutoSize = true;
-            lblRealizadopor.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblRealizadopor.Location = new Point(1284, 598);
+            lblRealizadopor.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRealizadopor.Location = new Point(1284, 616);
             lblRealizadopor.Margin = new Padding(4, 0, 4, 0);
             lblRealizadopor.Name = "lblRealizadopor";
-            lblRealizadopor.Size = new Size(241, 45);
+            lblRealizadopor.Size = new Size(179, 32);
             lblRealizadopor.TabIndex = 5;
             lblRealizadopor.Text = "Realizado por:";
             lblRealizadopor.TextAlign = ContentAlignment.BottomCenter;
@@ -168,11 +168,11 @@
             // lblParroquia
             // 
             lblParroquia.AutoSize = true;
-            lblParroquia.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblParroquia.Location = new Point(1284, 388);
+            lblParroquia.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblParroquia.Location = new Point(1284, 424);
             lblParroquia.Margin = new Padding(4, 0, 4, 0);
             lblParroquia.Name = "lblParroquia";
-            lblParroquia.Size = new Size(179, 45);
+            lblParroquia.Size = new Size(133, 32);
             lblParroquia.TabIndex = 3;
             lblParroquia.Text = "Parroquia:";
             // 
@@ -180,13 +180,13 @@
             // 
             cmbParroquia.BackColor = Color.Gold;
             cmbParroquia.FlatStyle = FlatStyle.Popup;
-            cmbParroquia.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbParroquia.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbParroquia.FormattingEnabled = true;
             cmbParroquia.Items.AddRange(new object[] { "", "SCJ", "El Calvario" });
             cmbParroquia.Location = new Point(1285, 461);
             cmbParroquia.Margin = new Padding(4, 5, 4, 5);
             cmbParroquia.Name = "cmbParroquia";
-            cmbParroquia.Size = new Size(225, 53);
+            cmbParroquia.Size = new Size(225, 40);
             cmbParroquia.TabIndex = 2;
             cmbParroquia.Text = "Seleccionar";
             cmbParroquia.SelectedIndexChanged += cmbParroquia_SelectedIndexChanged;

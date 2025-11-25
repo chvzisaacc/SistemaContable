@@ -21,36 +21,36 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             training = 0,
             recognition = 1
         }
-        RecordingType recordingType;
+        RecordingType recording_type;
 
         // Tamaño para redimensionar rostros (si los quisieras almacenar)
-        int modelWidth = 100;
-        int modelHeight = 100;
+        int model_width = 100;
+        int model_height = 100;
 
         // Rutas de guardado
-        string pathSavedFaces = $"{Application.StartupPath}\\Faces\\";
-        string pathTrainedFaceModel = $"{Application.StartupPath}\\Faces\\stateModel.yaml";
+        string path_saved_faces = $"{Application.StartupPath}\\Faces\\";
+        string path_trained_face_model = $"{Application.StartupPath}\\Faces\\stateModel.yaml";
 
         // HaarCascade (OpenCvSharp)
-        string pathReconzierFacesModel = $"{Application.StartupPath}\\haarcascade_frontalface_default.xml";
+        string path_reconzier_facesModel = $"{Application.StartupPath}\\haarcascade_frontalface_default.xml";
 
         // Cámara y detector
         VideoCapture cam;
         Mat frame;
-        CascadeClassifier faceDetector;
+        CascadeClassifier face_detector;
         bool running = false;
 
         List<Mat> trainedImages = new List<Mat>();
         List<string> labels = new List<string>();
 
-        EigenFaceRecognizer eigenFaceRecognizer;
+        EigenFaceRecognizer eigen_face_recognizer;
         //Indexar cada rostro empezando desde el 1
-        int faceId = 1;
-        string faceName = "";
+        int face_id = 1;
+        string face_name = "";
         //Detectar si es una cara nueva si escribimos el nombre en la textbox
-        bool isAnewFace = false;
+        bool is_anew_face = false;
         //componentes
-        int EigenFaceRecognizerComponentes = 80;
+        int eigen_face_recognizer_componentes = 80;
         //margen de error o de fallo = 5000
         int threshold = 5000;
 
@@ -64,13 +64,13 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             //MessageBox.Show("StartupPath: " + Application.StartupPath);
 
             // Verificación del XML
-            if (!File.Exists(pathReconzierFacesModel))
+            if (!File.Exists(path_reconzier_facesModel))
             {
                 MessageBox.Show("No se encontró el archivo haarcascade_frontalface_default.xml");
             }
             else
             {
-                faceDetector = new CascadeClassifier(pathReconzierFacesModel);
+                face_detector = new CascadeClassifier(path_reconzier_facesModel);
             }
 
             TurnOffCamera();
@@ -79,7 +79,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
             //inicializamos el objeto que ejecutara el algoritmo EIGEN
             //Pero primero necesitamos especificar el numero de componentes y el margen de error
-            eigenFaceRecognizer = EigenFaceRecognizer.Create(EigenFaceRecognizerComponentes, threshold);
+            eigen_face_recognizer = EigenFaceRecognizer.Create(eigen_face_recognizer_componentes, threshold);
 
 
         }
@@ -87,7 +87,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         //reseteamos
         private void ResetInitValues()
         {
-            isAnewFace = true;
+            is_anew_face = true;
         }
 
         public void CargarUsuariosCombo()
@@ -119,45 +119,45 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             string name = "unknown";
 
             // Capturar frame
-            Mat imageFrame = new Mat();
-            cam.Read(imageFrame);
+            Mat image_frame = new Mat();
+            cam.Read(image_frame);
 
-            if (imageFrame.Empty())
+            if (image_frame.Empty())
                 return;
 
             // Convertir a gris
-            Mat grayFrame = new Mat();
-            Cv2.CvtColor(imageFrame, grayFrame, ColorConversionCodes.BGR2GRAY);
+            Mat gray_frame = new Mat();
+            Cv2.CvtColor(image_frame, gray_frame, ColorConversionCodes.BGR2GRAY);
 
             // Detectar rostros
-            Rect[] faces = faceDetector.DetectMultiScale(
-                grayFrame,
+            Rect[] faces = face_detector.DetectMultiScale(
+                gray_frame,
                 1.4,
                 4,
                 OpenCvSharp.HaarDetectionTypes.ScaleImage,
-                new OpenCvSharp.Size(imageFrame.Width / 8, imageFrame.Height / 8)
+                new OpenCvSharp.Size(image_frame.Width / 8, image_frame.Height / 8)
             );
 
             foreach (var face in faces)
             {
                 // Recorte del rostro
-                Mat faceRegion = new Mat(grayFrame, face);
+                Mat face_region = new Mat(gray_frame, face);
 
                 // Redimensionar
-                Mat imageToCompare = new Mat();
-                Cv2.Resize(faceRegion, imageToCompare,
-                    new OpenCvSharp.Size(modelWidth, modelHeight),
+                Mat image_to_compare = new Mat();
+                Cv2.Resize(face_region, image_to_compare,
+                    new OpenCvSharp.Size(model_width, model_height),
                     0, 0, InterpolationFlags.Cubic);
 
                 // PROTECCIÓN CONTRA CRASH EN PREDICT()
                 try
                 {
-                    eigenFaceRecognizer.Predict(imageToCompare,
-                        out int predictedLabel,
+                    eigen_face_recognizer.Predict(image_to_compare,
+                        out int predicted_label,
                         out double confidence);
 
-                    if (predictedLabel > 0 && confidence < threshold)
-                        name = GetFacesName(predictedLabel);
+                    if (predicted_label > 0 && confidence < threshold)
+                        name = GetFacesName(predicted_label);
                     else
                         name = "unknown";
                 }
@@ -169,35 +169,35 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                 }
 
                 // Dibujar contorno
-                Cv2.Rectangle(imageFrame, face, Scalar.BurlyWood, 3);
+                Cv2.Rectangle(image_frame, face, Scalar.BurlyWood, 3);
             }
 
             // Mostrar imagen
-            pictureBox1.Image = BitmapConverter.ToBitmap(imageFrame);
+            pictureBox1.Image = BitmapConverter.ToBitmap(image_frame);
         }
 
         private int GetNextFaceId()
         {
-            int faceId = 0;
+            int face_id = 0;
             var paths = GetAllFacesPath();
             foreach (var p in paths)
             {
                 int cId = int.Parse(GetfaceIdFromPath(p));
-                if (cId > faceId)
+                if (cId > face_id)
                 {
-                    faceId = cId;
+                    face_id = cId;
                 }
             }
-            return Math.Max(faceId, 1) + 1;
+            return Math.Max(face_id, 1) + 1;
         }
 
         //distinguir nombres de las caras
         private KeyValuePair<string, int> GetItemListFace(string path)
         {
             var slices = path.Split('\\');
-            var nameAndIndex = slices[slices.Length - 1].Replace(".bmp", "");
+            var name_and_index = slices[slices.Length - 1].Replace(".bmp", "");
 
-            var parts = nameAndIndex.Split('_');
+            var parts = name_and_index.Split('_');
 
             // si el archivo NO cumple el formato ID_Nombre_Indice → evitar crash
             if (parts.Length < 3)
@@ -226,14 +226,14 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             {
                 Cv2.CvtColor(frame, gray, ColorConversionCodes.BGR2GRAY);
 
-                var faces = faceDetector.DetectMultiScale(gray, 1.3, 4);
+                var faces = face_detector.DetectMultiScale(gray, 1.3, 4);
 
                 foreach (var face in faces)
                 {
                     Cv2.Rectangle(frame, face, Scalar.Red, 2);
 
                     Mat faceCrop = new Mat(gray, face);
-                    Cv2.Resize(faceCrop, faceCrop, new OpenCvSharp.Size(modelWidth, modelHeight));
+                    Cv2.Resize(faceCrop, faceCrop, new OpenCvSharp.Size(model_width, model_height));
 
                     // *** aseguro que se usan fotos del usuario correcto ***
                     trainedImages.Add(faceCrop.Clone());
@@ -243,19 +243,19 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                     {
                         ClsAccionesDB db = new ClsAccionesDB();
 
-                        int fotosSQL = db.ContarFotosUsuario(faceId);
+                        int fotosSQL = db.ContarFotosUsuario(face_id);
 
                         if (fotosSQL < 30)
                         {
                             try
                             {
                                 byte[] data = MatToByteArray(faceCrop);
-                                int newPhotoId = db.GuardarFotoRostro(faceId, data);
+                                int new_photo_id = db.GuardarFotoRostro(face_id, data);
 
                                 // Guardar también en carpeta local
-                                string folder = GetLocalUserFolder(faceId);
-                                string filePath = Path.Combine(folder, $"{newPhotoId}.bmp");
-                                File.WriteAllBytes(filePath, data);
+                                string folder = GetLocalUserFolder(face_id);
+                                string file_path = Path.Combine(folder, $"{new_photo_id}.bmp");
+                                File.WriteAllBytes(file_path, data);
 
                                 lastSave = DateTime.Now;
                             }
@@ -296,9 +296,9 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                 {
                     while (running)
                     {
-                        if (recordingType == RecordingType.training)
+                        if (recording_type == RecordingType.training)
                             Spotface();
-                        else if (recordingType == RecordingType.recognition)
+                        else if (recording_type == RecordingType.recognition)
                             RecognizeFace();
                     }
                 });
@@ -341,7 +341,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         //obtenemos las imagenes de rostros
         private string[] GetAllFacesPath()
         {
-            return Directory.GetFiles(pathSavedFaces, "*.bmp");
+            return Directory.GetFiles(path_saved_faces, "*.bmp");
         }
 
         //obtenemos el id de un rostro existente
@@ -349,10 +349,10 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         {
             // Extraer solo el nombre del archivo sin extensión
             var slices = path.Split("\\");
-            var nameAndIndex = slices[slices.Length - 1].Replace(".bmp", "");
+            var name_and_index = slices[slices.Length - 1].Replace(".bmp", "");
 
             // Separar por "_"
-            var parts = nameAndIndex.Split('_');
+            var parts = name_and_index.Split('_');
 
             //si el archivo NO cumple el formato ID_Nombre_Indice
             // evitar crashear y devolver "-1" (así se ignora en el entrenamiento)
@@ -371,35 +371,35 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         {
 
             var slices = path.Split("\\");
-            var nameAndIndex = slices[slices.Length - 1].Replace(".bmp", "");
-            if (faceId == int.Parse(nameAndIndex.Split("_")[0]))
-                return nameAndIndex.Split("_")[2];
+            var name_and_index = slices[slices.Length - 1].Replace(".bmp", "");
+            if (face_id == int.Parse(name_and_index.Split("_")[0]))
+                return name_and_index.Split("_")[2];
             return "";
 
         }
         //se guardaran cuando la camara deje de grabar
 
-        private void SaveFaces(string FacesName)
+        private void SaveFaces(string faces_name)
         {
-            if (trainedImages.Any() && !string.IsNullOrEmpty(FacesName))
+            if (trainedImages.Any() && !string.IsNullOrEmpty(faces_name))
             {
-                FacesName = FacesName.Replace("_", "");
+                faces_name = faces_name.Replace("_", "");
             }
 
-            int currentCount = CountFacesOfId(faceId);
+            int current_count = CountFacesOfId(face_id);
 
             int indx = GetNextIndexFace();
-            var facesToSave = trainedImages.ToList();
+            var faces_to_save = trainedImages.ToList();
 
-            foreach (var face in facesToSave)
+            foreach (var face in faces_to_save)
             {
-                if (currentCount >= 30)
+                if (current_count >= 30)
                     break;
 
-                face.SaveImage($"{pathSavedFaces}/{faceId}_{FacesName}_{indx}.bmp");
+                face.SaveImage($"{path_saved_faces}/{face_id}_{faces_name}_{indx}.bmp");
 
                 indx++;
-                currentCount++;
+                current_count++;
             }
         }
 
@@ -407,20 +407,20 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         private int NextIndexFromAnExistingFace()
         {
             int index = -1;
-            var allfaces = GetAllFacesPath();
-            foreach (var p in allfaces)
+            var all_faces = GetAllFacesPath();
+            foreach (var p in all_faces)
             {
-                var faceindex = GetAIndexFaceFromPath(p);
-                if (!string.IsNullOrEmpty(faceindex))
-                    if (int.Parse(faceindex) > index)
-                        index = int.Parse(faceindex);
+                var face_index = GetAIndexFaceFromPath(p);
+                if (!string.IsNullOrEmpty(face_index))
+                    if (int.Parse(face_index) > index)
+                        index = int.Parse(face_index);
             }
             return index + 1;
         }
 
         int GetNextIndexFace()
         {
-            if (!isAnewFace)
+            if (!is_anew_face)
             {
                 return NextIndexFromAnExistingFace();
             }
@@ -437,18 +437,18 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             //revisamos si el archivo que guarda el resultado del entrenamiento y se borra porque se
             //tiene que actualizar el resultado
 
-            if (File.Exists(pathTrainedFaceModel))
+            if (File.Exists(path_trained_face_model))
             {
-                File.Delete(pathTrainedFaceModel);
+                File.Delete(path_trained_face_model);
             }
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (recordingType == RecordingType.training)
+            if (recording_type == RecordingType.training)
             {
                 Spotface();
             }
-            if (recordingType == RecordingType.recognition)
+            if (recording_type == RecordingType.recognition)
             {
                 RecognizeFace();
             }
@@ -458,14 +458,14 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         {
             if (comboBox1.SelectedItem is Usuario seleccionado)
             {
-                faceId = seleccionado.usuario_id;
-                faceName = seleccionado.usuario_nombre;
+                face_id = seleccionado.usuario_id;
+                face_name = seleccionado.usuario_nombre;
 
                 // *** REINICIAR BUFERS ***
                 trainedImages.Clear();
-                isAnewFace = false;
+                is_anew_face = false;
 
-                recordingType = RecordingType.training;
+                recording_type = RecordingType.training;
                 TurnOnCamera();
             }
             else
@@ -500,21 +500,21 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             //salvamos las imagenes
             //etiquetar las caras por las que no preguntamos nombres.
 
-            SaveFaces(faceName);
+            SaveFaces(face_name);
 
             comboBox1.SelectedIndex = comboBox1.Items.Count - 1;
 
-            isAnewFace = false;
-            faceId = GetNextFaceId();
+            is_anew_face = false;
+            face_id = GetNextFaceId();
         }
 
         //Entrenamiento de rostros
         private bool TrainDataSetWithEigenFaceRecognizer()
         {
             //En caso de que exista un archivo de entrenamiento removerlo
-            if (File.Exists(pathTrainedFaceModel))
+            if (File.Exists(path_trained_face_model))
             {
-                File.Delete(pathTrainedFaceModel);
+                File.Delete(path_trained_face_model);
             }
 
             // Obtener TODAS las fotos desde SQL
@@ -533,14 +533,14 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                 foreach (byte[] foto in fotos)
                 {
                     // obtenemos el rostro en el mismo tamaño que hemos estado guardandolo
-                    Mat faceImage = Mat.FromImageData(foto, ImreadModes.Grayscale);
+                    Mat face_image = Mat.FromImageData(foto, ImreadModes.Grayscale);
 
                     // Redimensionar igual que en EmguCV
-                    Cv2.Resize(faceImage, faceImage, new OpenCvSharp.Size(modelWidth, modelHeight),
+                    Cv2.Resize(face_image, face_image, new OpenCvSharp.Size(model_width, model_height),
                                0, 0, InterpolationFlags.Cubic);
 
                     //guardamos el rostro
-                    images.Add(faceImage);
+                    images.Add(face_image);
 
                     // Obtener ID desde la BD
                     labels.Add(usuario.usuario_id);
@@ -552,10 +552,10 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                 return false;
 
             // entrenar
-            eigenFaceRecognizer.Train(images, labels);
+            eigen_face_recognizer.Train(images, labels);
 
             // guardar
-            eigenFaceRecognizer.Write(pathTrainedFaceModel);
+            eigen_face_recognizer.Write(path_trained_face_model);
 
             return true;
         }
@@ -570,17 +570,17 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
             if (seleccionado != null)
             {
-                faceId = seleccionado.usuario_id;
-                faceName = seleccionado.usuario_nombre;
+                face_id = seleccionado.usuario_id;
+                face_name = seleccionado.usuario_nombre;
 
                 // esto indica que NO es una nueva cara
-                isAnewFace = false;
+                is_anew_face = false;
             }
         }
 
         private string GetFacesName(int label)
         {
-            string[] files = Directory.GetFiles(pathSavedFaces, "*.bmp");
+            string[] files = Directory.GetFiles(path_saved_faces, "*.bmp");
 
             foreach (string f in files)
             {
@@ -602,8 +602,8 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
         private void button4_Click(object sender, EventArgs e)
         {
-            bool wasTrained = TrainDataSetWithEigenFaceRecognizer();
-            if (wasTrained)
+            bool was_trained = TrainDataSetWithEigenFaceRecognizer();
+            if (was_trained)
             {
                 MessageBox.Show("Entrenamiendo exitoso");
             }
@@ -616,7 +616,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         private int CountFacesOfId(int id)
         {
             int count = 0;
-            var files = Directory.GetFiles(pathSavedFaces, "*.bmp");
+            var files = Directory.GetFiles(path_saved_faces, "*.bmp");
 
             foreach (var f in files)
             {
@@ -636,14 +636,14 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         private void button3_Click(object sender, EventArgs e)
         {
             cam = new VideoCapture();
-            recordingType = RecordingType.recognition;
+            recording_type = RecordingType.recognition;
 
 
             //antes de encender la camara debemos decirle a eigen donde esta el archivo preentrenado sino
             //existe no existira el reconocimiento
-            if (File.Exists(pathTrainedFaceModel))
+            if (File.Exists(path_trained_face_model))
             {
-                eigenFaceRecognizer.Read(pathTrainedFaceModel);
+                eigen_face_recognizer.Read(path_trained_face_model);
                 TurnOnCamera();
 
             }
@@ -664,7 +664,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             }
         }
 
-        private void BorrarFotosLocales(int usuarioId)
+        private void BorrarFotosLocales(int usuario_id)
         {
             string folder = Path.Combine(Application.StartupPath, "Faces");
 
@@ -672,7 +672,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                 return;
 
             // Buscar archivos del usuario (2_*.bmp)
-            string patron = $"{usuarioId}_*.bmp";
+            string patron = $"{usuario_id}_*.bmp";
 
             string[] archivos = Directory.GetFiles(folder, patron);
 
@@ -718,11 +718,11 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                 GC.Collect();
 
                 // 5. Eliminar archivos locales
-                BorrarFotosLocales(faceId);
+                BorrarFotosLocales(face_id);
 
                 // 6. Eliminar fotos en BD
                 ClsAccionesDB db = new ClsAccionesDB();
-                db.BorrarFotosUsuario(faceId);
+                db.BorrarFotosUsuario(face_id);
 
                 // 7. REENTRENAR el sistema para eliminar el modelo del usuario
                 if (TrainDataSetWithEigenFaceRecognizer())

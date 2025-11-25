@@ -63,7 +63,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             MostrarSoloEstePanel(panel1);
         }
 
-        public FRM_42()
+        public FRM_42() : this(0)
         {
         }
 
@@ -86,6 +86,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             if (dateTimePicker1.Value < dateTimePicker1.MinDate || dateTimePicker1.Value > dateTimePicker1.MaxDate)
                 dateTimePicker1.Value = DateTime.Today;
+
+
 
 
 
@@ -152,19 +154,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             try
             {
                 cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
-
-                //aqui es para ocultar algunos campos (los ids y las contraseñas)
-                /*
-                if (dgvUsuarios.Columns["Contraseña"] != null)
-                    dgvUsuarios.Columns["Contraseña"].Visible = false;
-
-                if (dgvUsuarios.Columns["RolID"] != null)
-                    dgvUsuarios.Columns["RolID"].Visible = false;
-                if (dgvUsuarios.Columns["parroquia_id"] != null)
-                    dgvUsuarios.Columns["parroquia_id"].Visible = false;
-                if (dgvUsuarios.Columns["EstadoID"] != null)
-                    dgvUsuarios.Columns["EstadoID"].Visible = false;
-                */
             }
             catch (Exception ex)
             {
@@ -283,14 +272,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            
+
             int id_seleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
 
-            
-            var frm = new BancosCuentaAhorro(id_seleccionado) 
+
+            var frm = new BancosCuentaAhorro(id_seleccionado)
             {
                 StartPosition = FormStartPosition.Manual,
-                
+
                 Location = new Point(414, 101)
             };
 
@@ -737,7 +726,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     return;
                 }
 
-                
+
                 if (dataGridView1.CurrentRow == null && dataGridView1.SelectedRows.Count > 0)
                 {
                     DataGridViewColumn primera_visible = dataGridView1.Columns
@@ -1351,7 +1340,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                
+
                 clsCRUD_Historial historial = new clsCRUD_Historial();
 
                 historial.RegistrarAccionUsuario(
@@ -1363,6 +1352,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 );
             }
             catch { }
+        }
+
+        private void cmbInteresesBancarios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cmbInteresesBancarios.SelectedIndex == 0)
+            {
+                Intereses_Por_Cds intereses_Por_Cds = new();
+                intereses_Por_Cds.Show();
+                this.Hide();
+            }
         }
     }
 
