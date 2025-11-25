@@ -50,10 +50,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             // OBTENER ID DE USUARIO Y PARROQUIA
             ClsAccionesDB acciones = new ClsAccionesDB();
-            var resultadoTuple = acciones.ObtenerUsuarioIdPorNombreUsuario(txt_usuario.Text);
+            var resultado_tuple = acciones.ObtenerUsuarioIdPorNombreUsuario(txt_usuario.Text);
 
-            int id_usuario = resultadoTuple.Item1;
-            int parroquia_id = resultadoTuple.Item2;
+            int id_usuario = resultado_tuple.Item1;
+            int parroquia_id = resultado_tuple.Item2;
 
             // Guardar sesión con ambos valores
             Sesion1.IniciarSesion(id_usuario, rol, parroquia_id);

@@ -141,49 +141,49 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
 
 
-            string rutaPdf = string.Empty;
-            string nombreReporte = string.Empty;
+            string ruta_pdf = string.Empty;
+            string nombre_reporte = string.Empty;
 
             switch (tipo_reporte_id)
             {
                 case 1:
-                    rutaPdf = _estadoResultadosService.GenerarInformeEstadoResultados(
+                    ruta_pdf = _estadoResultadosService.GenerarInformeEstadoResultados(
                               parroquia_id,
                               parroquia_nombre,
                               desde,
                               hasta,
                               Sesion1.usuario_id);
 
-                    nombreReporte = "Estado de Resultados";
+                    nombre_reporte = "Estado de Resultados";
                     break;
                 case 2:
-                    rutaPdf = _balanceGeneralService.GenerarBalanceGeneral(
+                    ruta_pdf = _balanceGeneralService.GenerarBalanceGeneral(
                               parroquia_id,
                               parroquia_nombre,
                               desde,
                               hasta,
                               Sesion1.usuario_id);
 
-                    nombreReporte = "Balance General";
+                    nombre_reporte = "Balance General";
                     break;
                 case 3:
-                    rutaPdf = _ingresosService.GenerarReporteIngresos(
+                    ruta_pdf = _ingresosService.GenerarReporteIngresos(
                               parroquia_id,
                               parroquia_nombre,
                               desde,
                               hasta,
                               Sesion1.usuario_id);
-                    nombreReporte = "Ingresos";
+                    nombre_reporte = "Ingresos";
                     break;
                 case 4:
-                    rutaPdf = _gastosService.GenerarInformeGastos(
+                    ruta_pdf = _gastosService.GenerarInformeGastos(
                               parroquia_id,
                               parroquia_nombre,
                               desde,
                               hasta,
                               Sesion1.usuario_id);
 
-                    nombreReporte = "Gastos";
+                    nombre_reporte = "Gastos";
                     break;
 
                 default:
@@ -192,7 +192,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
 
             string nombreVisible = ConstruirNombreReporteVisible(
-                nombreReporte,
+                nombre_reporte,
                 desde,
                 hasta
             );
@@ -201,7 +201,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 tipo_reporte_id = tipo_reporte_id,
                 nombre_visible = nombreVisible,
-                ruta_pdf = rutaPdf,
+                ruta_pdf = ruta_pdf,
                 parroquia_id = parroquia_id,
                 desde = desde,
                 hasta = hasta
@@ -211,7 +211,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
             {
-                FileName = rutaPdf,
+                FileName = ruta_pdf,
                 UseShellExecute = true
             });
         }
