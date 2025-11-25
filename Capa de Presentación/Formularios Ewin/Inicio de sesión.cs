@@ -29,13 +29,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             ClsValidaciones validaciones = new ClsValidaciones();
 
-            if (!validaciones.EsUsuarioValido(txtUsuario.Text))
+            if (!validaciones.EsUsuarioValido(txt_usuario.Text))
             {
                 MessageBox.Show("Por favor, ingrese un usuario válido.");
                 return;
             }
 
-            if (!validaciones.EsContraseñaValida(txtContraseña.Text))
+            if (!validaciones.EsContraseñaValida(txt_contraseña.Text))
             {
                 MessageBox.Show("La contraseña debe tener entre 4 y 25 caracteres.");
                 return;
@@ -43,14 +43,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             // VALIDAR LOGIN
             ClsRecuperacion login = new ClsRecuperacion();
-            int rol = login.IniciarSesion(txtUsuario.Text, txtContraseña.Text, 0, this, label1);
+            int rol = login.IniciarSesion(txt_usuario.Text, txt_contraseña.Text, 0, this, label1);
 
             if (rol <= 0)
                 return;
 
             // OBTENER ID DE USUARIO Y PARROQUIA
             ClsAccionesDB acciones = new ClsAccionesDB();
-            var resultadoTuple = acciones.ObtenerUsuarioIdPorNombreUsuario(txtUsuario.Text);
+            var resultadoTuple = acciones.ObtenerUsuarioIdPorNombreUsuario(txt_usuario.Text);
 
             int idUsuario = resultadoTuple.Item1;
             int parroquiaId = resultadoTuple.Item2;
@@ -85,37 +85,37 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void txtUsuario_Click(object sender, EventArgs e)
         {
-            if (txtUsuario.Text == "Usuario")
+            if (txt_usuario.Text == "Usuario")
             {
-                txtUsuario.Text = "";
-                txtUsuario.ForeColor = Color.Black;
+                txt_usuario.Text = "";
+                txt_usuario.ForeColor = Color.Black;
             }
         }
 
         private void txtUsuario_Leave(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtUsuario.Text))
+            if (string.IsNullOrWhiteSpace(txt_usuario.Text))
             {
-                txtUsuario.Text = "Usuario";
-                txtUsuario.ForeColor = Color.Gray;
+                txt_usuario.Text = "Usuario";
+                txt_usuario.ForeColor = Color.Gray;
             }
         }
 
         private void txtContraseña_Click(object sender, EventArgs e)
         {
-            if (txtContraseña.Text == "Contraseña")
+            if (txt_contraseña.Text == "Contraseña")
             {
-                txtContraseña.Text = "";
-                txtContraseña.ForeColor = Color.Black;
+                txt_contraseña.Text = "";
+                txt_contraseña.ForeColor = Color.Black;
             }
         }
 
         private void txtContraseña_Leave(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtContraseña.Text))
+            if (string.IsNullOrWhiteSpace(txt_contraseña.Text))
             {
-                txtContraseña.Text = "Contraseña";
-                txtContraseña.ForeColor = Color.Gray;
+                txt_contraseña.Text = "Contraseña";
+                txt_contraseña.ForeColor = Color.Gray;
             }
         }
 

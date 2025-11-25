@@ -45,18 +45,18 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             CargarParroquias();
             CargarReportes();
-            cmbFormatoDescarga.Items.Clear();
-            cmbFormatoDescarga.Items.Add("PDF");
-            cmbFormatoDescarga.Items.Add("DOCX");
-            cmbFormatoDescarga.Items.Add("JPG");
+            cmb_formato_descarga.Items.Clear();
+            cmb_formato_descarga.Items.Add("PDF");
+            cmb_formato_descarga.Items.Add("DOCX");
+            cmb_formato_descarga.Items.Add("JPG");
 
             // Tipos de reporte desde la BD
             DataTable dtTipos = _gastosService.ObtenerTiposReporte();
 
-            cmbTipoReporte.DataSource = dtTipos;
-            cmbTipoReporte.DisplayMember = "descripcion";     // lo que ve el usuario (Estado..., Balance..., etc.)
-            cmbTipoReporte.ValueMember = "TipoReporte_id";    // el int 1,2,3,4
-            cmbTipoReporte.SelectedIndex = -1;                // ninguno seleccionado al inicio
+            cmb_tipo_reporte.DataSource = dtTipos;
+            cmb_tipo_reporte.DisplayMember = "descripcion";     // lo que ve el usuario (Estado..., Balance..., etc.)
+            cmb_tipo_reporte.ValueMember = "TipoReporte_id";    // el int 1,2,3,4
+            cmb_tipo_reporte.SelectedIndex = -1;                // ninguno seleccionado al inicio
 
             
         }
@@ -77,18 +77,18 @@ namespace Capa_de_Presentación.Formularios_Ewin
             DataTable dt = _gastosService.ObtenerParroquias();
 
 
-            cmbParroquia.DataSource = null;
-            cmbParroquia.Items.Clear();
+            cmb_parroquia.DataSource = null;
+            cmb_parroquia.Items.Clear();
 
 
-            cmbParroquia.DisplayMember = "Parroquia_nombre";
-            cmbParroquia.ValueMember = "Parroquia_ID";
+            cmb_parroquia.DisplayMember = "Parroquia_nombre";
+            cmb_parroquia.ValueMember = "Parroquia_ID";
 
 
-            cmbParroquia.DataSource = dt;
+            cmb_parroquia.DataSource = dt;
 
 
-            cmbParroquia.SelectedIndex = -1;
+            cmb_parroquia.SelectedIndex = -1;
         }
 
 
@@ -99,7 +99,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 ClsAccionesDB db = new ClsAccionesDB();
                 List<string> lista = db.ObtenerTipoReporte();
 
-                cmbTipoReporte.DataSource = lista;
+                cmb_tipo_reporte.DataSource = lista;
             }
             catch (Exception ex)
             {
@@ -110,28 +110,28 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void button2_Click(object sender, EventArgs e)
         {
 
-            int tipoReporteId = Convert.ToInt32(cmbTipoReporte.SelectedValue);
-            int parroquiaId = Convert.ToInt32(cmbParroquia.SelectedValue);
-            string parroquiaNombre = cmbParroquia.Text;
+            int tipoReporteId = Convert.ToInt32(cmb_tipo_reporte.SelectedValue);
+            int parroquiaId = Convert.ToInt32(cmb_parroquia.SelectedValue);
+            string parroquiaNombre = cmb_parroquia.Text;
 
-            DateTime desde = dtpDesde.Value.Date;
-            DateTime hasta = dtpHasta.Value.Date;
+            DateTime desde = dtp_desde.Value.Date;
+            DateTime hasta = dtp_hasta.Value.Date;
 
-            if (!Validaciones.ComboSeleccionado(cmbParroquia))
+            if (!Validaciones.ComboSeleccionado(cmb_parroquia))
             {
                 MessageBox.Show("Seleccione una parroquia.", "Validación",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (!Validaciones.ComboSeleccionado(cmbTipoReporte))
+            if (!Validaciones.ComboSeleccionado(cmb_tipo_reporte))
             {
                 MessageBox.Show("Seleccione un tipo de reporte.", "Validación",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (!Validaciones.FechaRangoValido(dtpDesde.Value, dtpHasta.Value))
+            if (!Validaciones.FechaRangoValido(dtp_desde.Value, dtp_hasta.Value))
             {
                 MessageBox.Show("La fecha 'Desde' no puede ser mayor que 'Hasta'.", "Validación",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -207,7 +207,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 hasta = hasta
             };
 
-            lstReportes.Items.Add(item);
+            lst_reportes.Items.Add(item);
 
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
             {
@@ -219,22 +219,22 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!Validaciones.ListBoxSeleccionado(lstReportes))
+            if (!Validaciones.ListBoxSeleccionado(lst_reportes))
             {
                 MessageBox.Show("Seleccione un reporte generado de la lista.", "Validación",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (!Validaciones.ComboSeleccionado(cmbFormatoDescarga))
+            if (!Validaciones.ComboSeleccionado(cmb_formato_descarga))
             {
                 MessageBox.Show("Seleccione un formato de descarga.", "Validación",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            var item = (ReporteUIItem)lstReportes.SelectedItem;
-            string formato = cmbFormatoDescarga.SelectedItem.ToString(); // "PDF", "DOCX" o "JPG"
+            var item = (ReporteUIItem)lst_reportes.SelectedItem;
+            string formato = cmb_formato_descarga.SelectedItem.ToString(); // "PDF", "DOCX" o "JPG"
 
             if (!File.Exists(item.ruta_pdf))
             {

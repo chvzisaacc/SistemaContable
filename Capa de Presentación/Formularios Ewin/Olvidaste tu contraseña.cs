@@ -56,7 +56,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
 
             ClsValidaciones validar = new ClsValidaciones();
-            string correo = txtCorreo.Text.Trim();
+            string correo = txt_correo_electronico.Text.Trim();
 
             // Validar que no esté vacío
             if (string.IsNullOrWhiteSpace(correo))

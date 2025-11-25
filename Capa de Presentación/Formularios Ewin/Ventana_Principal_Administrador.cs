@@ -113,19 +113,19 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 DataTable dt = crudUsuarios.ObtenerUsuarios();
                 bindingSource.DataSource = dt;
-                dgvUsuarios.DataSource = bindingSource;
+                dgv_usuarios.DataSource = bindingSource;
 
                 //aqui es para ocultar algunos campos (los ids y las contraseñas)
 
-                if (dgvUsuarios.Columns["Contraseña"] != null)
-                    dgvUsuarios.Columns["Contraseña"].Visible = false;
+                if (dgv_usuarios.Columns["Contraseña"] != null)
+                    dgv_usuarios.Columns["Contraseña"].Visible = false;
 
-                if (dgvUsuarios.Columns["RolID"] != null)
-                    dgvUsuarios.Columns["RolID"].Visible = false;
-                if (dgvUsuarios.Columns["ParroquiaID"] != null)
-                    dgvUsuarios.Columns["ParroquiaID"].Visible = false;
-                if (dgvUsuarios.Columns["EstadoID"] != null)
-                    dgvUsuarios.Columns["EstadoID"].Visible = false;
+                if (dgv_usuarios.Columns["RolID"] != null)
+                    dgv_usuarios.Columns["RolID"].Visible = false;
+                if (dgv_usuarios.Columns["ParroquiaID"] != null)
+                    dgv_usuarios.Columns["ParroquiaID"].Visible = false;
+                if (dgv_usuarios.Columns["EstadoID"] != null)
+                    dgv_usuarios.Columns["EstadoID"].Visible = false;
 
             }
             catch (Exception ex)
@@ -139,17 +139,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                cmbRol.DataSource = crudUsuarios.ObtenerRoles();
-                cmbRol.DisplayMember = "Rol_descripcion";
-                cmbRol.ValueMember = "Rol_Id";
+                cmb_rol.DataSource = crudUsuarios.ObtenerRoles();
+                cmb_rol.DisplayMember = "Rol_descripcion";
+                cmb_rol.ValueMember = "Rol_Id";
 
-                cmbParroquia.DataSource = crudUsuarios.ObtenerParroquias();
-                cmbParroquia.DisplayMember = "Parroquia_nombre";
-                cmbParroquia.ValueMember = "Parroquia_id";
+                cmb_parroquia.DataSource = crudUsuarios.ObtenerParroquias();
+                cmb_parroquia.DisplayMember = "Parroquia_nombre";
+                cmb_parroquia.ValueMember = "Parroquia_id";
 
-                cmbEstado.DataSource = crudUsuarios.ObtenerEstados();
-                cmbEstado.DisplayMember = "descripcion";
-                cmbEstado.ValueMember = "Id_estado_cuenta";
+                cmb_estado.DataSource = crudUsuarios.ObtenerEstados();
+                cmb_estado.DisplayMember = "descripcion";
+                cmb_estado.ValueMember = "Id_estado_cuenta";
             }
             catch (Exception ex)
             {
@@ -166,17 +166,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                 if (usuario != null)
                 {
-                    txtId.Text = usuario["Usuario_id"].ToString();
-                    txtNombre.Text = usuario["usuario_nombre"].ToString();
-                    txtApellido.Text = usuario["usuario_apellido"].ToString();
-                    txtCorreo.Text = usuario["usuario_correo"] != DBNull.Value
+                    txt_id.Text = usuario["Usuario_id"].ToString();
+                    txt_nombre.Text = usuario["usuario_nombre"].ToString();
+                    txt_apellido.Text = usuario["usuario_apellido"].ToString();
+                    txt_correo.Text = usuario["usuario_correo"] != DBNull.Value
                         ? usuario["usuario_correo"].ToString()
                         : "";
-                    txtUsuario.Text = usuario["usuario"].ToString();
-                    txtContraseña.Text = usuario["usuario_password"].ToString();
-                    cmbRol.SelectedValue = usuario["Rol_Id"];
-                    cmbParroquia.SelectedValue = usuario["Parroquia_Id"];
-                    cmbEstado.SelectedValue = usuario["Id_estado_cuenta"];
+                    txt_usuario.Text = usuario["usuario"].ToString();
+                    txt_contraseña.Text = usuario["usuario_password"].ToString();
+                    cmb_rol.SelectedValue = usuario["Rol_Id"];
+                    cmb_parroquia.SelectedValue = usuario["Parroquia_Id"];
+                    cmb_estado.SelectedValue = usuario["Id_estado_cuenta"];
                 }
             }
             catch (Exception ex)
@@ -190,18 +190,18 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
 
-            string nombre = txtNombre.Text.Trim();
-            string apellido = txtApellido.Text.Trim();
-            string correo = txtCorreo.Text.Trim();
-            string usuario = txtUsuario.Text.Trim();
-            string contraseña = txtContraseña.Text.Trim();
+            string nombre = txt_nombre.Text.Trim();
+            string apellido = txt_apellido.Text.Trim();
+            string correo = txt_correo.Text.Trim();
+            string usuario = txt_usuario.Text.Trim();
+            string contraseña = txt_contraseña.Text.Trim();
 
             // Nombre
             if (string.IsNullOrWhiteSpace(nombre) || !val.EsTextoValido(nombre))
             {
                 MessageBox.Show("El nombre es requerido y solo puede contener letras.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNombre.Focus();
+                txt_nombre.Focus();
                 return false;
             }
 
@@ -210,7 +210,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 MessageBox.Show("El apellido es requerido y solo puede contener letras.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtApellido.Focus();
+                txt_apellido.Focus();
                 return false;
             }
 
@@ -219,7 +219,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 MessageBox.Show("El correo es requerido y debe tener un formato válido.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCorreo.Focus();
+                txt_correo.Focus();
                 return false;
             }
 
@@ -228,7 +228,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 MessageBox.Show("El nombre de usuario es requerido y solo puede tener letras, números, puntos o guiones bajos.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtUsuario.Focus();
+                txt_usuario.Focus();
                 return false;
             }
 
@@ -237,34 +237,34 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 MessageBox.Show("La contraseña es requerida y debe tener entre 4 y 25 caracteres.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtContraseña.Focus();
+                txt_contraseña.Focus();
                 return false;
             }
 
             // Combo Rol
-            if (cmbRol.SelectedValue == null)
+            if (cmb_rol.SelectedValue == null)
             {
                 MessageBox.Show("Debe seleccionar un rol.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbRol.Focus();
+                cmb_rol.Focus();
                 return false;
             }
 
             // Combo Parroquia
-            if (cmbParroquia.SelectedValue == null)
+            if (cmb_parroquia.SelectedValue == null)
             {
                 MessageBox.Show("Debe seleccionar una parroquia.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbParroquia.Focus();
+                cmb_parroquia.Focus();
                 return false;
             }
 
             // Combo Estado
-            if (cmbEstado.SelectedValue == null)
+            if (cmb_estado.SelectedValue == null)
             {
                 MessageBox.Show("Debe seleccionar un estado de cuenta.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbEstado.Focus();
+                cmb_estado.Focus();
                 return false;
             }
 
@@ -273,19 +273,19 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void LimpiarCamposUsuario()
         {
-            txtId.Clear();
-            txtNombre.Clear();
-            txtApellido.Clear();
-            txtCorreo.Clear();
-            txtUsuario.Clear();
-            txtContraseña.Clear();
+            txt_id.Clear();
+            txt_nombre.Clear();
+            txt_apellido.Clear();
+            txt_correo.Clear();
+            txt_usuario.Clear();
+            txt_contraseña.Clear();
 
-            if (cmbRol.Items.Count > 0)
-                cmbRol.SelectedIndex = 0;
-            if (cmbParroquia.Items.Count > 0)
-                cmbParroquia.SelectedIndex = 0;
-            if (cmbEstado.Items.Count > 0)
-                cmbEstado.SelectedIndex = 0;
+            if (cmb_rol.Items.Count > 0)
+                cmb_rol.SelectedIndex = 0;
+            if (cmb_parroquia.Items.Count > 0)
+                cmb_parroquia.SelectedIndex = 0;
+            if (cmb_estado.Items.Count > 0)
+                cmb_estado.SelectedIndex = 0;
 
             usuarioIdSeleccionado = 0;
             modoEdicionUsuario = false;
@@ -293,15 +293,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void HabilitarControlesUsuario(bool habilitar)
         {
-            txtId.Enabled = false;
-            txtNombre.Enabled = habilitar;
-            txtApellido.Enabled = habilitar;
-            txtCorreo.Enabled = habilitar;
-            txtUsuario.Enabled = habilitar;
-            txtContraseña.Enabled = habilitar;
-            cmbRol.Enabled = habilitar;
-            cmbParroquia.Enabled = habilitar;
-            cmbEstado.Enabled = habilitar;
+            txt_id.Enabled = false;
+            txt_nombre.Enabled = habilitar;
+            txt_apellido.Enabled = habilitar;
+            txt_correo.Enabled = habilitar;
+            txt_usuario.Enabled = habilitar;
+            txt_contraseña.Enabled = habilitar;
+            cmb_rol.Enabled = habilitar;
+            cmb_parroquia.Enabled = habilitar;
+            cmb_estado.Enabled = habilitar;
             btnGuardar.Enabled = habilitar;
         }
 
@@ -503,7 +503,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             try
             {
                 int proximoId = crudUsuarios.ObtenerProximoId();
-                txtId.Text = proximoId.ToString();
+                txt_id.Text = proximoId.ToString();
             }
             catch (Exception ex)
             {
@@ -511,7 +511,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            txtNombre.Focus();
+            txt_nombre.Focus();
         }
 
 
@@ -523,14 +523,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             try
             {
-                string nombre = txtNombre.Text.Trim();
-                string apellido = txtApellido.Text.Trim();
-                string correo = txtCorreo.Text.Trim();
-                string usuario = txtUsuario.Text.Trim();
-                string password = txtContraseña.Text.Trim();
-                int idRol = Convert.ToInt32(cmbRol.SelectedValue);
-                int idParroquia = Convert.ToInt32(cmbParroquia.SelectedValue);
-                int idEstado = Convert.ToInt32(cmbEstado.SelectedValue);
+                string nombre = txt_nombre.Text.Trim();
+                string apellido = txt_apellido.Text.Trim();
+                string correo = txt_correo.Text.Trim();
+                string usuario = txt_usuario.Text.Trim();
+                string password = txt_contraseña.Text.Trim();
+                int idRol = Convert.ToInt32(cmb_rol.SelectedValue);
+                int idParroquia = Convert.ToInt32(cmb_parroquia.SelectedValue);
+                int idEstado = Convert.ToInt32(cmb_estado.SelectedValue);
 
                 if (modoEdicionUsuario)
                 {
@@ -620,7 +620,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void btnModificarCuentaUsuario_Click(object sender, EventArgs e)
         {
-            if (dgvUsuarios.CurrentRow == null)
+            if (dgv_usuarios.CurrentRow == null)
             {
                 MessageBox.Show("Seleccione un usuario para modificar", "Advertencia",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -628,17 +628,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
 
             // Capturar el ID del usuario seleccionado
-            usuarioIdSeleccionado = Convert.ToInt32(dgvUsuarios.CurrentRow.Cells["ID"].Value);
+            usuarioIdSeleccionado = Convert.ToInt32(dgv_usuarios.CurrentRow.Cells["ID"].Value);
 
             HabilitarControlesUsuario(true);
             modoEdicionUsuario = true;
             CargarDatosUsuario();
-            txtNombre.Focus();
+            txt_nombre.Focus();
         }
 
         private void btnInhabilitarUsuario_Click(object sender, EventArgs e)
         {
-            if (dgvUsuarios.CurrentRow == null)
+            if (dgv_usuarios.CurrentRow == null)
             {
                 MessageBox.Show("Seleccione un usuario para inhabilitar", "Advertencia",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -647,7 +647,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             try
             {
-                int id = Convert.ToInt32(dgvUsuarios.CurrentRow.Cells["ID"].Value);
+                int id = Convert.ToInt32(dgv_usuarios.CurrentRow.Cells["ID"].Value);
                 int estadoInactivo = 2; 
 
                 bool resultado = crudUsuarios.InhabilitarUsuario(id, estadoInactivo);
@@ -684,7 +684,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void btnHabilitar_Click(object sender, EventArgs e)
         {
-            if (dgvUsuarios.CurrentRow == null)
+            if (dgv_usuarios.CurrentRow == null)
             {
                 MessageBox.Show("Seleccione un usuario para habilitar", "Advertencia",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -693,7 +693,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             try
             {
-                int id = Convert.ToInt32(dgvUsuarios.CurrentRow.Cells["ID"].Value);
+                int id = Convert.ToInt32(dgv_usuarios.CurrentRow.Cells["ID"].Value);
                 int estadoInactivo = 1; 
 
                 bool resultado = crudUsuarios.InhabilitarUsuario(id, estadoInactivo);
@@ -736,7 +736,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             try
             {
                 int proximoId = crudUsuarios.ObtenerProximoId();
-                txtId.Text = proximoId.ToString();
+                txt_id.Text = proximoId.ToString();
             }
             catch (Exception ex)
             {
@@ -744,7 +744,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            txtNombre.Focus();
+            txt_nombre.Focus();
         }
 
         //catalogo
@@ -876,7 +876,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                string textoBusqueda = txtBuscar.Text.Trim();
+                string textoBusqueda = txt_buscar.Text.Trim();
 
                 if (string.IsNullOrEmpty(textoBusqueda))
                 {

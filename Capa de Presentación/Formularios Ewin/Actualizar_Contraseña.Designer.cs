@@ -30,12 +30,12 @@
         {
             panel1 = new Panel();
             panel2 = new Panel();
-            label4 = new Label();
-            btnConfirmar = new Button();
-            txtConfirmarContraseña = new TextBox();
+            lbl_volver = new Label();
+            btn_confirmar = new Button();
+            txt_confirmar_contrasena = new TextBox();
             label3 = new Label();
-            button1 = new Button();
-            txtNuevaContraseña = new TextBox();
+            btn_cancelar = new Button();
+            txt_nueva_contrasena = new TextBox();
             label2 = new Label();
             label1 = new Label();
             panel1.SuspendLayout();
@@ -47,108 +47,101 @@
             panel1.BackColor = Color.Yellow;
             panel1.BorderStyle = BorderStyle.Fixed3D;
             panel1.Controls.Add(panel2);
-            panel1.Location = new Point(496, 162);
-            panel1.Margin = new Padding(4);
+            panel1.Location = new Point(397, 130);
             panel1.Name = "panel1";
-            panel1.Size = new Size(808, 403);
+            panel1.Size = new Size(647, 323);
             panel1.TabIndex = 1;
             // 
             // panel2
             // 
             panel2.BackColor = Color.White;
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(label4);
-            panel2.Controls.Add(btnConfirmar);
-            panel2.Controls.Add(txtConfirmarContraseña);
+            panel2.Controls.Add(lbl_volver);
+            panel2.Controls.Add(btn_confirmar);
+            panel2.Controls.Add(txt_confirmar_contrasena);
             panel2.Controls.Add(label3);
-            panel2.Controls.Add(button1);
-            panel2.Controls.Add(txtNuevaContraseña);
+            panel2.Controls.Add(btn_cancelar);
+            panel2.Controls.Add(txt_nueva_contrasena);
             panel2.Controls.Add(label2);
             panel2.Controls.Add(label1);
-            panel2.Location = new Point(4, 4);
-            panel2.Margin = new Padding(4);
+            panel2.Location = new Point(3, 3);
             panel2.Name = "panel2";
             panel2.RightToLeft = RightToLeft.No;
-            panel2.Size = new Size(796, 391);
+            panel2.Size = new Size(637, 313);
             panel2.TabIndex = 0;
             // 
-            // label4
+            // lbl_volver
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(3, 364);
-            label4.Name = "label4";
-            label4.Size = new Size(61, 25);
-            label4.TabIndex = 8;
-            label4.Text = "Volver";
-            label4.Click += label4_Click;
+            lbl_volver.AutoSize = true;
+            lbl_volver.Location = new Point(2, 291);
+            lbl_volver.Margin = new Padding(2, 0, 2, 0);
+            lbl_volver.Name = "lbl_volver";
+            lbl_volver.Size = new Size(50, 20);
+            lbl_volver.TabIndex = 8;
+            lbl_volver.Text = "Volver";
+            lbl_volver.Click += label4_Click;
             // 
-            // btnConfirmar
+            // btn_confirmar
             // 
-            btnConfirmar.BackColor = Color.FromArgb(43, 56, 143);
-            btnConfirmar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnConfirmar.ForeColor = Color.White;
-            btnConfirmar.ImageAlign = ContentAlignment.TopCenter;
-            btnConfirmar.Location = new Point(475, 179);
-            btnConfirmar.Margin = new Padding(4);
-            btnConfirmar.Name = "btnConfirmar";
-            btnConfirmar.Size = new Size(284, 49);
-            btnConfirmar.TabIndex = 7;
-            btnConfirmar.Text = "Confirmar";
-            btnConfirmar.UseVisualStyleBackColor = false;
-            btnConfirmar.UseWaitCursor = true;
-            btnConfirmar.Click += btnConfirmar_Click;
+            btn_confirmar.BackColor = Color.FromArgb(43, 56, 143);
+            btn_confirmar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_confirmar.ForeColor = Color.White;
+            btn_confirmar.ImageAlign = ContentAlignment.TopCenter;
+            btn_confirmar.Location = new Point(380, 143);
+            btn_confirmar.Name = "btn_confirmar";
+            btn_confirmar.Size = new Size(227, 39);
+            btn_confirmar.TabIndex = 7;
+            btn_confirmar.Text = "Confirmar";
+            btn_confirmar.UseVisualStyleBackColor = false;
+            btn_confirmar.UseWaitCursor = true;
+            btn_confirmar.Click += btnConfirmar_Click;
             // 
-            // txtConfirmarContraseña
+            // txt_confirmar_contrasena
             // 
-            txtConfirmarContraseña.BorderStyle = BorderStyle.FixedSingle;
-            txtConfirmarContraseña.Location = new Point(70, 271);
-            txtConfirmarContraseña.Margin = new Padding(4);
-            txtConfirmarContraseña.Name = "txtConfirmarContraseña";
-            txtConfirmarContraseña.Size = new Size(386, 31);
-            txtConfirmarContraseña.TabIndex = 6;
+            txt_confirmar_contrasena.BorderStyle = BorderStyle.FixedSingle;
+            txt_confirmar_contrasena.Location = new Point(56, 217);
+            txt_confirmar_contrasena.Name = "txt_confirmar_contrasena";
+            txt_confirmar_contrasena.Size = new Size(309, 27);
+            txt_confirmar_contrasena.TabIndex = 6;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(81, 242);
-            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Location = new Point(65, 194);
             label3.Name = "label3";
-            label3.Size = new Size(182, 25);
+            label3.Size = new Size(151, 20);
             label3.TabIndex = 5;
             label3.Text = "Confirmar contraseña";
             // 
-            // button1
+            // btn_cancelar
             // 
-            button1.BackColor = Color.FromArgb(43, 56, 143);
-            button1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.White;
-            button1.ImageAlign = ContentAlignment.TopCenter;
-            button1.Location = new Point(475, 256);
-            button1.Margin = new Padding(4);
-            button1.Name = "button1";
-            button1.Size = new Size(284, 49);
-            button1.TabIndex = 4;
-            button1.Text = "Cancelar";
-            button1.UseVisualStyleBackColor = false;
-            button1.UseWaitCursor = true;
-            button1.Click += button1_Click;
+            btn_cancelar.BackColor = Color.FromArgb(43, 56, 143);
+            btn_cancelar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_cancelar.ForeColor = Color.White;
+            btn_cancelar.ImageAlign = ContentAlignment.TopCenter;
+            btn_cancelar.Location = new Point(380, 205);
+            btn_cancelar.Name = "btn_cancelar";
+            btn_cancelar.Size = new Size(227, 39);
+            btn_cancelar.TabIndex = 4;
+            btn_cancelar.Text = "Cancelar";
+            btn_cancelar.UseVisualStyleBackColor = false;
+            btn_cancelar.UseWaitCursor = true;
+            btn_cancelar.Click += button1_Click;
             // 
-            // txtNuevaContraseña
+            // txt_nueva_contrasena
             // 
-            txtNuevaContraseña.BorderStyle = BorderStyle.FixedSingle;
-            txtNuevaContraseña.Location = new Point(70, 194);
-            txtNuevaContraseña.Margin = new Padding(4);
-            txtNuevaContraseña.Name = "txtNuevaContraseña";
-            txtNuevaContraseña.Size = new Size(386, 31);
-            txtNuevaContraseña.TabIndex = 2;
+            txt_nueva_contrasena.BorderStyle = BorderStyle.FixedSingle;
+            txt_nueva_contrasena.Location = new Point(56, 155);
+            txt_nueva_contrasena.Name = "txt_nueva_contrasena";
+            txt_nueva_contrasena.Size = new Size(309, 27);
+            txt_nueva_contrasena.TabIndex = 2;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(81, 165);
-            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Location = new Point(65, 132);
             label2.Name = "label2";
-            label2.Size = new Size(153, 25);
+            label2.Size = new Size(127, 20);
             label2.TabIndex = 1;
             label2.Text = "Nueva contraseña";
             label2.Click += label2_Click;
@@ -157,23 +150,21 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(204, 42);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(163, 34);
             label1.Name = "label1";
-            label1.Size = new Size(384, 45);
+            label1.Size = new Size(321, 38);
             label1.TabIndex = 0;
             label1.Text = "Restablecer Contraseña";
             label1.TextAlign = ContentAlignment.TopCenter;
             // 
             // Actualizar_Contraseña
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Imagen_de_WhatsApp_2025_10_22_a_las_17_39_32_e87a041a;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(1602, 899);
+            ClientSize = new Size(1282, 719);
             Controls.Add(panel1);
-            Margin = new Padding(4);
             Name = "Actualizar_Contraseña";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Actualizar_Contraseña";
@@ -188,13 +179,13 @@
 
         private Panel panel1;
         private Panel panel2;
-        private TextBox txtConfirmarContraseña;
+        private TextBox txt_confirmar_contrasena;
         private Label label3;
-        private Button button1;
-        private TextBox txtNuevaContraseña;
+        private Button btn_cancelar;
+        private TextBox txt_nueva_contrasena;
         private Label label2;
         private Label label1;
-        private Button btnConfirmar;
-        private Label label4;
+        private Button btn_confirmar;
+        private Label lbl_volver;
     }
 }
