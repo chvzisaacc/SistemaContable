@@ -44,8 +44,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string codigo = (txt1.Text + txt2.Text + txt3.Text + txt4.Text +
-                            txt5.Text + txt6.Text + txt7.Text + txt8.Text)
+            string codigo = (txt_1.Text + txt_2.Text + txt_3.Text + txt_4.Text +
+                            txt_5.Text + txt_6.Text + txt_7.Text + txt_8.Text)
                             .Replace(" ", "");
 
             if (codigo.Length != 8)
@@ -60,49 +60,49 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void txt1_TextChanged(object sender, EventArgs e)
         {
-            if (txt1.Text.Length == 1)
-                txt2.Focus();
+            if (txt_1.Text.Length == 1)
+                txt_2.Focus();
         }
 
         private void txt2_TextChanged(object sender, EventArgs e)
         {
-            if (txt2.Text.Length == 1)
-                txt3.Focus();
+            if (txt_2.Text.Length == 1)
+                txt_3.Focus();
         }
 
         private void txt3_TextChanged(object sender, EventArgs e)
         {
-            if (txt3.Text.Length == 1)
-                txt4.Focus();
+            if (txt_3.Text.Length == 1)
+                txt_4.Focus();
         }
 
         private void txt4_TextChanged(object sender, EventArgs e)
         {
-            if (txt4.Text.Length == 1)
-                txt5.Focus();
+            if (txt_4.Text.Length == 1)
+                txt_5.Focus();
         }
 
         private void txt5_TextChanged(object sender, EventArgs e)
         {
-            if (txt5.Text.Length == 1)
-                txt6.Focus();
+            if (txt_5.Text.Length == 1)
+                txt_6.Focus();
         }
 
         private void txt6_TextChanged(object sender, EventArgs e)
         {
-            if (txt6.Text.Length == 1)
-                txt7.Focus();
+            if (txt_6.Text.Length == 1)
+                txt_7.Focus();
         }
 
         private void txt7_TextChanged(object sender, EventArgs e)
         {
-            if (txt7.Text.Length == 1)
-                txt8.Focus();
+            if (txt_7.Text.Length == 1)
+                txt_8.Focus();
         }
 
         private void txt8_TextChanged(object sender, EventArgs e)
         {
-            if (txt8.Text.Length == 1)
+            if (txt_8.Text.Length == 1)
                 btn_restablecer_contrasena.Focus();
         }
 

@@ -110,9 +110,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void button2_Click(object sender, EventArgs e)
         {
 
-            int tipoReporteId = Convert.ToInt32(cmb_tipo_reporte.SelectedValue);
-            int parroquiaId = Convert.ToInt32(cmb_parroquia.SelectedValue);
-            string parroquiaNombre = cmb_parroquia.Text;
+            int tipo_reporte_id = Convert.ToInt32(cmb_tipo_reporte.SelectedValue);
+            int parroquia_id = Convert.ToInt32(cmb_parroquia.SelectedValue);
+            string parroquia_nombre = cmb_parroquia.Text;
 
             DateTime desde = dtp_desde.Value.Date;
             DateTime hasta = dtp_hasta.Value.Date;
@@ -144,12 +144,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
             string rutaPdf = string.Empty;
             string nombreReporte = string.Empty;
 
-            switch (tipoReporteId)
+            switch (tipo_reporte_id)
             {
                 case 1:
                     rutaPdf = _estadoResultadosService.GenerarInformeEstadoResultados(
-                              parroquiaId,
-                              parroquiaNombre,
+                              parroquia_id,
+                              parroquia_nombre,
                               desde,
                               hasta,
                               Sesion1.usuario_id);
@@ -158,8 +158,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     break;
                 case 2:
                     rutaPdf = _balanceGeneralService.GenerarBalanceGeneral(
-                              parroquiaId,
-                              parroquiaNombre,
+                              parroquia_id,
+                              parroquia_nombre,
                               desde,
                               hasta,
                               Sesion1.usuario_id);
@@ -168,8 +168,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     break;
                 case 3:
                     rutaPdf = _ingresosService.GenerarReporteIngresos(
-                              parroquiaId,
-                              parroquiaNombre,
+                              parroquia_id,
+                              parroquia_nombre,
                               desde,
                               hasta,
                               Sesion1.usuario_id);
@@ -177,8 +177,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     break;
                 case 4:
                     rutaPdf = _gastosService.GenerarInformeGastos(
-                              parroquiaId,
-                              parroquiaNombre,
+                              parroquia_id,
+                              parroquia_nombre,
                               desde,
                               hasta,
                               Sesion1.usuario_id);
@@ -199,10 +199,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             var item = new ReporteUIItem
             {
-                tipo_reporte_id = tipoReporteId,
+                tipo_reporte_id = tipo_reporte_id,
                 nombre_visible = nombreVisible,
                 ruta_pdf = rutaPdf,
-                parroquia_id = parroquiaId,
+                parroquia_id = parroquia_id,
                 desde = desde,
                 hasta = hasta
             };
