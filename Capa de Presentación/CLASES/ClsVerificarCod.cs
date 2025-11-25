@@ -5,20 +5,20 @@ namespace Capa_de_Presentación.CLASES
 {
     public class ClsVerificarCod
     {
-        public void ProcesarCodigoRecuperacion(int usuarioId, string codigo, string correoUsuario, Form formularioActual)
+        public void ProcesarCodigoRecuperacion(int usuario_id, string codigo, string correo_usuario, Form formulario_actual)
         {
             try
             {
                 ClsAccionesDB acciones = new ClsAccionesDB();
-                string resultado = acciones.ValidarCodigoRecuperacion(usuarioId, codigo);
+                string resultado = acciones.ValidarCodigoRecuperacion(usuario_id, codigo);
 
                 switch (resultado)
                 {
                     case "CODIGO_VALIDO":
                         MessageBox.Show("Código verificado correctamente.");
-                        Actualizar_Contraseña frm = new(correoUsuario);
+                        Actualizar_Contraseña frm = new(correo_usuario);
                         frm.Show();
-                        formularioActual.Hide();
+                        formulario_actual.Hide();
                         break;
 
                     case "CODIGO_INCORRECTO":

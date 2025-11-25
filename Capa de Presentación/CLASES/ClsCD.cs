@@ -94,9 +94,9 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
-        public void GuardarCD(DataTable dtDatosCertificados, DataGridView dataGridView1, bool datosGuardados)
+        public void GuardarCD(DataTable dtDatosCertificados, DataGridView dataGridView1, bool datos_guardados)
         {
-            int idParroquia = Capa_de_acceso_de_datos.Sesion1.id_parroquia;
+            int id_parroquia = Capa_de_acceso_de_datos.Sesion1.id_parroquia;
 
             if (dataGridView1.Rows.Count == 0 || (dataGridView1.Rows.Count == 1 && dataGridView1.Rows[0].IsNewRow))
             {
@@ -109,19 +109,19 @@ namespace Capa_de_Presentación.CLASES
                 : dataGridView1.Rows[dataGridView1.Rows.Count - 1];
 
             // Validación de Nulos y Celdas Vacías
-            string[] columnasObligatorias = new string[] { "Nombre_certificado", "deposito_inicial", "Plazo", "Tasa" };
+            string[] columnas_obligatorias = new string[] { "Nombre_certificado", "deposito_inicial", "Plazo", "Tasa" };
 
-            foreach (string nombreColumna in columnasObligatorias)
+            foreach (string nombre_columna in columnas_obligatorias)
             {
-                object cellValue = fila.Cells[nombreColumna]?.Value;
+                object cellValue = fila.Cells[nombre_columna]?.Value;
                 if (cellValue == null || cellValue == DBNull.Value || string.IsNullOrWhiteSpace(cellValue.ToString()))
                 {
-                    MessageBox.Show($"El campo '{nombreColumna}' está vacío. Llenalos todos antes de guardar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"El campo '{nombre_columna}' está vacío. Llenalos todos antes de guardar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
 
-            if (idParroquia <= 0)
+            if (id_parroquia <= 0)
             {
                 MessageBox.Show("Error: No se pudo obtener el ID de Parroquia del usuario logeado. Reinicie la sesión.", "Error de Sesión", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -129,10 +129,10 @@ namespace Capa_de_Presentación.CLASES
 
             try
             {
-                string nombreCertificado = fila.Cells["Nombre_certificado"].Value.ToString();
+                string nombre_certificado = fila.Cells["Nombre_certificado"].Value.ToString();
 
-                decimal depositoInicial;
-                if (!decimal.TryParse(fila.Cells["deposito_inicial"].Value.ToString(), out depositoInicial))
+                decimal deposito_inicial;
+                if (!decimal.TryParse(fila.Cells["deposito_inicial"].Value.ToString(), out deposito_inicial))
                 {
                     throw new FormatException("El Depósito Inicial no es un número válido.");
                 }
@@ -149,15 +149,15 @@ namespace Capa_de_Presentación.CLASES
                     throw new FormatException("La Tasa no es un número válido.");
                 }
 
-                DateTime fechaTransaccionActual = DateTime.Now;
+                DateTime fecha_transaccion_actual = DateTime.Now;
 
                 // Aquí se guarda el certificado y recupera el ID generado
                 ClsAccionesDB acciones = new ClsAccionesDB();
-                int idCertificadoGenerado = acciones.GuardarCertificado(nombreCertificado, depositoInicial, plazo, tasa, idParroquia, fechaTransaccionActual);
+                int idCertificadoGenerado = acciones.GuardarCertificado(nombre_certificado, deposito_inicial, plazo, tasa, id_parroquia, fecha_transaccion_actual);
 
                 // Asignar el Id generado a la fila
                 fila.Cells["Id_Certificado"].Value = idCertificadoGenerado;
-                fila.Cells["FechaTransaccion"].Value = fechaTransaccionActual;
+                fila.Cells["FechaTransaccion"].Value = fecha_transaccion_actual;
 
                 MessageBox.Show("Última fila guardada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -167,7 +167,7 @@ namespace Capa_de_Presentación.CLASES
                     cell.ReadOnly = true;
                 }
 
-                datosGuardados = true;
+                datos_guardados = true;
             }
             catch (Exception ex)
             {
@@ -206,7 +206,7 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
-        public void guardaredic(DataTable dtDatosCertificados, DataGridView dataGridView1, ref bool modoEdicionActivo)
+        public void guardaredic(DataTable dtDatosCertificados, DataGridView dataGridView1, ref bool modo_edicion_activo)
         {
             if (dataGridView1.SelectedRows.Count == 0)
             {
@@ -214,7 +214,7 @@ namespace Capa_de_Presentación.CLASES
                 return;
             }
 
-            if (modoEdicionActivo)
+            if (modo_edicion_activo)
             {
                 try
                 {
@@ -224,7 +224,7 @@ namespace Capa_de_Presentación.CLASES
                     }
 
                     DataGridViewRow fila = dataGridView1.SelectedRows[0];
-                    int codigocertificado = 0;
+                    int codigo_certificado = 0;
 
                     // Verificar si el campo "Id_Certificado" tiene un valor válido
                     DataGridViewCell pkCell = fila.Cells["Id_Certificado"];
@@ -236,22 +236,22 @@ namespace Capa_de_Presentación.CLASES
                     }
 
                     // Verificar si el valor del "Id_Certificado" es un número válido
-                    if (!int.TryParse(pkCell.Value.ToString(), out codigocertificado))
+                    if (!int.TryParse(pkCell.Value.ToString(), out codigo_certificado))
                     {
                         MessageBox.Show("El código del certificado no tiene un formato numérico válido.", "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    string nombreCertificado = fila.Cells["Nombre_certificado"].Value?.ToString() ?? string.Empty;
-                    decimal depositoInicial = Convert.ToDecimal(fila.Cells["deposito_inicial"].Value);
+                    string nombre_certificado = fila.Cells["Nombre_certificado"].Value?.ToString() ?? string.Empty;
+                    decimal deposito_inicial = Convert.ToDecimal(fila.Cells["deposito_inicial"].Value);
                     int plazo = Convert.ToInt32(fila.Cells["Plazo"].Value);
                     decimal tasa = Convert.ToDecimal(fila.Cells["Tasa"].Value);
 
                     ClsAccionesDB accionesDB = new ClsAccionesDB();
-                    accionesDB.editarcertificado(codigocertificado, nombreCertificado, depositoInicial, plazo, tasa);
+                    accionesDB.editarcertificado(codigo_certificado, nombre_certificado, deposito_inicial, plazo, tasa);
 
                     dataGridView1.ReadOnly = true;
-                    modoEdicionActivo = false;
+                    modo_edicion_activo = false;
 
                     MessageBox.Show("Cambios guardados exitosamente.", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -264,11 +264,11 @@ namespace Capa_de_Presentación.CLASES
             {
                 // Si no está en modo de edición, se llama al método para activar la edición
                 editarCD(dtDatosCertificados, dataGridView1);
-                modoEdicionActivo = true;
+                modo_edicion_activo = true;
             }
         }
 
-        public void renovarCD(DataTable dtDatosCertificados, DataGridView dataGridView1, ref bool modoEdicionActivo)
+        public void renovarCD(DataTable dtDatosCertificados, DataGridView dataGridView1, ref bool modo_edicion_activo)
         {
             if (dataGridView1.SelectedRows.Count == 0)
             {
@@ -276,7 +276,7 @@ namespace Capa_de_Presentación.CLASES
                 return;
             }
 
-            if (modoEdicionActivo)
+            if (modo_edicion_activo)
             {
                 try
                 {
@@ -293,23 +293,23 @@ namespace Capa_de_Presentación.CLASES
 
                     DataGridViewRow fila = dataGridView1.SelectedRows[0];
 
-                    int codigocertificado = Convert.ToInt32(fila.Cells["Id_certificado"].Value);
-                    decimal depositoInicial = Convert.ToDecimal(fila.Cells["deposito_inicial"].Value);
+                    int codigo_certificado = Convert.ToInt32(fila.Cells["Id_certificado"].Value);
+                    decimal deposito_inicial = Convert.ToDecimal(fila.Cells["deposito_inicial"].Value);
                     int plazo = Convert.ToInt32(fila.Cells["plazo"].Value);
                     decimal tasa = Convert.ToDecimal(fila.Cells["tasa"].Value);
 
                     ClsAccionesDB accionesDB = new ClsAccionesDB();
-                    accionesDB.renovarCertificado(codigocertificado, depositoInicial, plazo, tasa);
+                    accionesDB.renovarCertificado(codigo_certificado, deposito_inicial, plazo, tasa);
 
                     dataGridView1.ReadOnly = true;
-                    modoEdicionActivo = false;
+                    modo_edicion_activo = false;
 
                     MessageBox.Show("Cambios guardados exitosamente. El certificado ha sido renovado.", "Renovación Completada", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
                     dataGridView1.ReadOnly = true;
-                    modoEdicionActivo = false;
+                    modo_edicion_activo = false;
                     MessageBox.Show("Error al guardar la renovación: " + ex.Message, "Error al guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -328,11 +328,11 @@ namespace Capa_de_Presentación.CLASES
                         dataGridView1.Columns["Id_certificado"].ReadOnly = true;
                     }
 
-                    DataGridViewRow filaSeleccionada = dataGridView1.SelectedRows[0];
-                    dataGridView1.CurrentCell = filaSeleccionada.Cells["deposito_inicial"];
-                    dataGridView1.BeginEdit(true); 
+                    DataGridViewRow fila_seleccionada = dataGridView1.SelectedRows[0];
+                    dataGridView1.CurrentCell = fila_seleccionada.Cells["deposito_inicial"];
+                    dataGridView1.BeginEdit(true);
 
-                    modoEdicionActivo = true;
+                    modo_edicion_activo = true;
                     MessageBox.Show("Modo de edición activado. Modifique los datos y vuelva a presionar el botón para guardar.", "Edición Activada", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
@@ -351,17 +351,17 @@ namespace Capa_de_Presentación.CLASES
                 return;
             }
 
-            DataGridViewRow filaSeleccionada = dataGridView1.SelectedRows[0];
-            int codigoCertificado = Convert.ToInt32(filaSeleccionada.Cells["Id_Certificado"].Value);
-            string motivoCancelacion = string.Empty;
+            DataGridViewRow fila_seleccionada = dataGridView1.SelectedRows[0];
+            int codigo_certificado = Convert.ToInt32(fila_seleccionada.Cells["Id_Certificado"].Value);
+            string motivo_cancelacion = string.Empty;
 
            
             using (Cancelar_Certificados frmCancel = new Cancelar_Certificados())
             {
                 if (frmCancel.ShowDialog() == DialogResult.OK)
                 {
-         
-                    motivoCancelacion = frmCancel.ObtenerMotivo();
+
+                    motivo_cancelacion = frmCancel.ObtenerMotivo();
                 }
                 else
                 {
@@ -370,7 +370,7 @@ namespace Capa_de_Presentación.CLASES
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(motivoCancelacion))
+            if (string.IsNullOrWhiteSpace(motivo_cancelacion))
             {
                 MessageBox.Show("Debe ingresar un motivo. Cancelación abortada.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -380,10 +380,10 @@ namespace Capa_de_Presentación.CLASES
             {
                 ClsAccionesDB objAcciones = new ClsAccionesDB();
 
-                objAcciones.cancelarCertificado(codigoCertificado, motivoCancelacion);
+                objAcciones.cancelarCertificado(codigo_certificado, motivo_cancelacion);
 
                 
-                dataGridView1.Rows.Remove(filaSeleccionada);
+                dataGridView1.Rows.Remove(fila_seleccionada);
 
                 MessageBox.Show("Certificado cancelado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -415,14 +415,14 @@ namespace Capa_de_Presentación.CLASES
                     int plazo = Convert.ToInt32(row["plazo"]);
                     //dtDatosCertificados.Columns.Add("FechaTransaccion", typeof(DateTime));
 
-                    decimal gananciaSinRedondear = deposito * (tasa / 100) * plazo;
-                    decimal totalSinRedondear = deposito + gananciaSinRedondear;
+                    decimal ganancia_sin_redondear = deposito * (tasa / 100) * plazo;
+                    decimal total_sin_redondear = deposito + ganancia_sin_redondear;
 
-                    decimal ganancia = Math.Round(gananciaSinRedondear, 2);
-                    decimal totalAcumulado = Math.Round(totalSinRedondear, 2);
+                    decimal ganancia = Math.Round(ganancia_sin_redondear, 2);
+                    decimal total_acumulado = Math.Round(total_sin_redondear, 2);
 
                     row["Ganancia_Generado"] = ganancia;
-                    row["Total_Acumulado"] = totalAcumulado;
+                    row["Total_Acumulado"] = total_acumulado;
                 }
 
                 dgv.Columns.Clear();
@@ -480,12 +480,12 @@ namespace Capa_de_Presentación.CLASES
                 decimal saldo = Convert.ToDecimal(row["Saldo"]);
                 decimal tasa = Convert.ToDecimal(row["tasa_interes"]);
 
-                decimal gananciaSinRedondear = saldo * (tasa / 100);
-                decimal totalacumuladoSinRedondear = gananciaSinRedondear + saldo;
+                decimal ganancia_sin_redondear = saldo * (tasa / 100);
+                decimal total_acumulado_sin_redondear = ganancia_sin_redondear + saldo;
 
 
-                decimal ganancia = Math.Round(gananciaSinRedondear, 2);
-                decimal total = Math.Round(totalacumuladoSinRedondear, 2);
+                decimal ganancia = Math.Round(ganancia_sin_redondear, 2);
+                decimal total = Math.Round(total_acumulado_sin_redondear, 2);
 
                 row["GananciaGenerada"] = ganancia;
                 row["TotalAcumulado"] = total;

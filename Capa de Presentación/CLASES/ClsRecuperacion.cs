@@ -15,10 +15,10 @@ namespace Capa_de_Presentación.CAPAS
     public class ClsRecuperacion
     {
 
-        public int IniciarSesion(string usuario, string contraseña, int idparroquia, FRM_PG1 fRM_PG1, Label lblMensaje)
+        public int IniciarSesion(string usuario, string contraseña, int id_parroquia, FRM_PG1 fRM_PG1, Label lblMensaje)
         {
             ClsMetodos metodos = new ClsMetodos();
-            int rol = metodos.IniciarSesion(usuario, contraseña, idparroquia);
+            int rol = metodos.IniciarSesion(usuario, contraseña, id_parroquia);
 
             var ids = metodos.ObtenerUsuarioIdPorNombreUsuario(usuario);
             if (rol == -1)
@@ -36,12 +36,12 @@ namespace Capa_de_Presentación.CAPAS
         }
 
 
-        public void ProcesarCodigoRecuperacion(int usuarioId, string codigo, Form formularioActual)
+        public void ProcesarCodigoRecuperacion(int usuario_id, string codigo, Form formulario_actual)
         {
             try
             {
                 ClsAccionesDB acciones = new ClsAccionesDB();
-                string resultado = acciones.ValidarCodigoRecuperacion(usuarioId, codigo);
+                string resultado = acciones.ValidarCodigoRecuperacion(usuario_id, codigo);
 
                 switch (resultado)
                 {
@@ -49,7 +49,7 @@ namespace Capa_de_Presentación.CAPAS
                         MessageBox.Show("Código verificado correctamente.");
                         Actualizar_Contraseña frm = new Actualizar_Contraseña();
                         frm.Show();
-                        formularioActual.Hide();
+                        formulario_actual.Hide();
                         break;
 
                     case "CODIGO_INCORRECTO":

@@ -8,12 +8,12 @@ namespace Capa_de_Presentación.CLASES
 {
     public class ParroquiaItem
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
+        public int id { get; set; }
+        public string nombre { get; set; }
 
         public override string ToString()
         {
-            return Nombre; // esto hace que el combo muestre solo el nombre
+            return nombre; // esto hace que el combo muestre solo el nombre
         }
     }
 }

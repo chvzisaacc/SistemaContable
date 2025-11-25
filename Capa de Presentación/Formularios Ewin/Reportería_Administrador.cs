@@ -199,12 +199,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             var item = new ReporteUIItem
             {
-                TipoReporteId = tipoReporteId,
-                NombreVisible = nombreVisible,
-                RutaPdf = rutaPdf,
-                ParroquiaId = parroquiaId,
-                Desde = desde,
-                Hasta = hasta
+                tipo_reporte_id = tipoReporteId,
+                nombre_visible = nombreVisible,
+                ruta_pdf = rutaPdf,
+                parroquia_id = parroquiaId,
+                desde = desde,
+                hasta = hasta
             };
 
             lstReportes.Items.Add(item);
@@ -236,13 +236,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
             var item = (ReporteUIItem)lstReportes.SelectedItem;
             string formato = cmbFormatoDescarga.SelectedItem.ToString(); // "PDF", "DOCX" o "JPG"
 
-            if (!File.Exists(item.RutaPdf))
+            if (!File.Exists(item.ruta_pdf))
             {
                 MessageBox.Show("No se encontró el archivo del reporte en disco.");
                 return;
             }
 
-            string nombreSeguro = item.NombreVisible
+            string nombreSeguro = item.nombre_visible
             .Replace("/", "-")
             .Replace("\\", "-")
             .Replace(":", "-")
@@ -278,19 +278,19 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                 if (formato == "PDF")
                 {
-                    File.Copy(item.RutaPdf, sfd.FileName, true);
+                    File.Copy(item.ruta_pdf, sfd.FileName, true);
                 }
                 else if (formato == "DOCX")
                 {
                     PdfDocument pdf = new PdfDocument();
-                    pdf.LoadFromFile(item.RutaPdf);
+                    pdf.LoadFromFile(item.ruta_pdf);
                     pdf.SaveToFile(sfd.FileName, FileFormat.DOCX);
                     pdf.Close();
                 }
                 else if (formato == "JPG")
                 {
                     PdfDocument pdf = new PdfDocument();
-                    pdf.LoadFromFile(item.RutaPdf);
+                    pdf.LoadFromFile(item.ruta_pdf);
                     var image = pdf.SaveAsImage(0);
                     image.Save(sfd.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
                     pdf.Close();

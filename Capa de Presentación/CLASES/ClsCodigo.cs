@@ -18,9 +18,9 @@ namespace Capa_de_Presentación.CLASES
             acciones = new ClsAccionesDB();
         }
 
-        public void ProcesarCodigoRecuperacion(int usuarioId, string codigo,string correo, Form formularioActual)
+        public void ProcesarCodigoRecuperacion(int usuario_id, string codigo,string correo, Form formulario_actual)
         {
-            string resultado = acciones.ValidarCodigoRecuperacion(usuarioId, codigo);
+            string resultado = acciones.ValidarCodigoRecuperacion(usuario_id, codigo);
 
             switch (resultado)
             {
@@ -28,7 +28,7 @@ namespace Capa_de_Presentación.CLASES
                     MessageBox.Show("Código verificado correctamente.");
                     Actualizar_Contraseña frm = new Actualizar_Contraseña(correo);
                     frm.Show();
-                    formularioActual.Hide();
+                    formulario_actual.Hide();
                     break;
 
                 case "CODIGO_INCORRECTO":

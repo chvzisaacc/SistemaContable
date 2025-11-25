@@ -42,8 +42,8 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
-        public bool GuardarEdicion2(DataTable dtGasto, string nombreCuenta, string detalle, decimal saldo,
-        DateTime fechaTransaccion, string referencia, int idOrigen,
+        public bool GuardarEdicion2(DataTable dtGasto, string nombre_cuenta, string detalle, decimal saldo,
+        DateTime fecha_transaccion, string referencia, int id_origen,
         TextBox txtNoReferencia = null, ComboBox cmbOrigen = null,
         DataGridView dgvGastos = null, DateTimePicker dtpFecha = null)
         {
@@ -68,13 +68,13 @@ namespace Capa_de_Presentación.CLASES
                     return false;
                 }
 
-                int transaccionId = Convert.ToInt32(fila.Cells["Id_transaccion"].Value);
+                int transaccion_id = Convert.ToInt32(fila.Cells["Id_transaccion"].Value);
 
                 Capa_de_procesamiento_de_datos.Gastos gastos = new Capa_de_procesamiento_de_datos.Gastos();
 
                 int rowsAffected = gastos.ModificarGastos(
-                    transaccionId, fechaTransaccion, detalle, saldo,
-                    Convert.ToInt32(referencia), Sesion1.usuario_id, idOrigen, nombreCuenta
+                    transaccion_id, fecha_transaccion, detalle, saldo,
+                    Convert.ToInt32(referencia), Sesion1.usuario_id, id_origen, nombre_cuenta
                 );
 
                 if (rowsAffected > 0)
