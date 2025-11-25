@@ -26,11 +26,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private int _usuario_id;
 
         //Catalogo
-        private clsCRUD_CatalogoCuentas crudCatalogoCuentas;
-        private bool modoEdicionCatalogo = false;
-        private int codigoCuentaSeleccionado = 0;
+        private clsCRUD_CatalogoCuentas crud_catalogo_cuentas;
+        private bool modo_edicion_catalogo = false;
+        private int codigo_cuenta_seleccionado = 0;
         //BITACORA
-        private clsCRUD_Historial crudHistorial;
+        private clsCRUD_Historial crud_historial;
         //Validaciones
        private ClsValidaciones Validaciones;
 
@@ -59,10 +59,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             crud_usuarios = new clsCRUD_Usuarios();
 
             //catalogo
-            crudCatalogoCuentas = new clsCRUD_CatalogoCuentas();
+            crud_catalogo_cuentas = new clsCRUD_CatalogoCuentas();
 
             //bitacora
-            crudHistorial = new clsCRUD_Historial();
+            crud_historial = new clsCRUD_Historial();
             //validaciones
                         Validaciones = new ClsValidaciones();
             //Para busqueda de usuarios
@@ -336,17 +336,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             try
             {
-                int idCuenta = Convert.ToInt32(cmbCuenta.SelectedValue);
-                string nombreCuenta = txtNombreCuenta.Text.Trim();
+                int id_cuenta = Convert.ToInt32(cmbCuenta.SelectedValue);
+                string nombre_cuenta = txtNombreCuenta.Text.Trim();
                 string detalle = txtDetalle.Text.Trim();
 
-                if (modoEdicionCatalogo)
+                if (modo_edicion_catalogo)
                 {
                     // MODIFICAR cuenta existente
-                    bool resultado = crudCatalogoCuentas.ModificarCatalogoCuenta(
-                        codigoCuentaSeleccionado,
-                        idCuenta,
-                        nombreCuenta,
+                    bool resultado = crud_catalogo_cuentas.ModificarCatalogoCuenta(
+                        codigo_cuenta_seleccionado,
+                        id_cuenta,
+                        nombre_cuenta,
                         detalle,
                         null // saldo siempre null
                     );
@@ -358,11 +358,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                         try
                         {
-                            crudHistorial.RegistrarActividad(
+                            crud_historial.RegistrarActividad(
                                 1,
                                 8,
                                 "Modificación de Cuenta",
-                                $"Se modificó la cuenta: '{nombreCuenta}' (Código: {codigoCuentaSeleccionado})."
+                                $"Se modificó la cuenta: '{nombre_cuenta}' (Código: {codigo_cuenta_seleccionado})."
                             );
                         }
                         catch (Exception exBitacora)
@@ -383,16 +383,16 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 else
                 {
                     // AGREGAR nueva cuenta
-                    if (crudCatalogoCuentas.CatalogoCuentaExiste(nombreCuenta))
+                    if (crud_catalogo_cuentas.CatalogoCuentaExiste(nombre_cuenta))
                     {
                         MessageBox.Show("El nombre de la cuenta ya existe", "Advertencia",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    int nuevoCodigo = crudCatalogoCuentas.AgregarCatalogoCuenta(
-                        idCuenta,
-                        nombreCuenta,
+                    int nuevoCodigo = crud_catalogo_cuentas.AgregarCatalogoCuenta(
+                        id_cuenta,
+                        nombre_cuenta,
                         detalle,
                         null // saldo siempre null
                     );
@@ -404,11 +404,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                         try
                         {
-                            crudHistorial.RegistrarActividad(
+                            crud_historial.RegistrarActividad(
                                 1,
                                 8,
                                 "Creación de Cuenta",
-                                $"Se creó la nueva cuenta: '{nombreCuenta}' (Código: {nuevoCodigo})."
+                                $"Se creó la nueva cuenta: '{nombre_cuenta}' (Código: {nuevoCodigo})."
                             );
                         }
                         catch (Exception exBitacora)
@@ -438,7 +438,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                cmbCuenta.DataSource = crudCatalogoCuentas.ObtenerCuentas();
+                cmbCuenta.DataSource = crud_catalogo_cuentas.ObtenerCuentas();
                 cmbCuenta.DisplayMember = "descripcion";
                 cmbCuenta.ValueMember = "id_cuenta";
             }
@@ -453,7 +453,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                var cuenta = crudCatalogoCuentas.BuscarCatalogoCuentaPorId(codigoCuentaSeleccionado);
+                var cuenta = crud_catalogo_cuentas.BuscarCatalogoCuentaPorId(codigo_cuenta_seleccionado);
 
                 if (cuenta != null)
                 {
@@ -477,11 +477,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             LimpiarCamposCatalogo();
             HabilitarControlesCatalogo(true);
-            modoEdicionCatalogo = false; // Debes agregar esta variable global
+            modo_edicion_catalogo = false; // Debes agregar esta variable global
 
             try
             {
-                int proximoCodigo = crudCatalogoCuentas.ObtenerProximoCodigo();
+                int proximoCodigo = crud_catalogo_cuentas.ObtenerProximoCodigo();
                 txtIdCuenta.Text = proximoCodigo.ToString();
             }
             catch (Exception ex)
@@ -545,7 +545,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                         try
                         {
-                            crudHistorial.RegistrarActividad(
+                            crud_historial.RegistrarActividad(
                                 Sesion1.usuario_id, 
                                 7, 
                                 "Modificación de Usuario",
@@ -585,7 +585,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         
                         try
                         {
-                            crudHistorial.RegistrarActividad(
+                            crud_historial.RegistrarActividad(
                                 Sesion1.usuario_id, 
                                 7, 
                                 "Creación de Usuario",
@@ -659,7 +659,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     // --- **NUEVO** REGISTRO DE BITÁCORA (INHABILITAR) ---
                     try
                     {
-                        crudHistorial.RegistrarActividad(
+                        crud_historial.RegistrarActividad(
                             Sesion1.usuario_id, 
                             7, // Módulo de Usuarios
                             "Inhabilitación de Usuario",
@@ -706,7 +706,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     
                     try
                     {
-                        crudHistorial.RegistrarActividad(
+                        crud_historial.RegistrarActividad(
                             Sesion1.usuario_id,
                             7, // Módulo de Usuarios
                             "Habilitación de Usuario",
@@ -752,7 +752,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                dgvCatalogoCuentas.DataSource = crudCatalogoCuentas.ObtenerCatalogoCuentas();
+                dgvCatalogoCuentas.DataSource = crud_catalogo_cuentas.ObtenerCatalogoCuentas();
 
                 if (dgvCatalogoCuentas.Columns["CuentaID"] != null)
                     dgvCatalogoCuentas.Columns["CuentaID"].Visible = false;
@@ -783,7 +783,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                cmbTipoCuenta.DataSource = crudCatalogoCuentas.ObtenerTipoTransaccion();
+                cmbTipoCuenta.DataSource = crud_catalogo_cuentas.ObtenerTipoTransaccion();
                 cmbTipoCuenta.DisplayMember = "descripcion";
                 cmbTipoCuenta.ValueMember = "Cod_tipo";
             }
