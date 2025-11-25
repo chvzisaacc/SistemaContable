@@ -21,10 +21,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private readonly int cuentaId;
         private DataRow _cuentaActual; // Para guardar los datos de la cuenta cargada
 
-        public BancosCuentaAhorro(int idOrigen)
+        public BancosCuentaAhorro(int id_origen)
         {
             InitializeComponent();
-            cuentaId = idOrigen;
+            cuentaId = id_origen;
             CRUD_CuentasBancarias = new ClsCRUD_CuentasBancarias();
 
         }
@@ -153,14 +153,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // Ejemplo de cómo usarías tu CRUD para guardar cambios.
             try
             {
-                if (!decimal.TryParse(txtMonto.Text, out decimal nuevoSaldo))
+                if (!decimal.TryParse(txtMonto.Text, out decimal nuevo_saldo))
                 {
                     MessageBox.Show("El saldo ingresado no es un número válido.");
                     return;
                 }
 
                 // Llama al método para modificar el saldo
-                bool exito = CRUD_CuentasBancarias.ModificarSaldo(cuentaId, nuevoSaldo);
+                bool exito = CRUD_CuentasBancarias.ModificarSaldo(cuentaId, nuevo_saldo);
 
                 if (exito)
                 {

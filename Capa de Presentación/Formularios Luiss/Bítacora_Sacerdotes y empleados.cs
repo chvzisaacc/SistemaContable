@@ -13,13 +13,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
 {
     public partial class FRM_PG51 : Form
     {
-        private int Id_UsuarioLogin;
+        private int id_usuario_login;
         private clsCRUD_Historial crudHistorial;
 
-        public FRM_PG51(int Id_Usuario)
+        public FRM_PG51(int id_usuario)
         {
             InitializeComponent();
-            Id_UsuarioLogin =Id_Usuario;
+            id_usuario_login =id_usuario;
             crudHistorial = new clsCRUD_Historial();
         }
        
@@ -35,7 +35,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             try
             {
                 // Llama al nuevo método para obtener solo el historial de este usuario
-                dgvBitacora.DataSource = crudHistorial.ObtenerHistorialUsuario(Id_UsuarioLogin);
+                dgvBitacora.DataSource = crudHistorial.ObtenerHistorialUsuario(id_usuario_login);
 
                 // Formatear columnas 
                 if (dgvBitacora.Columns["Monto"] != null)

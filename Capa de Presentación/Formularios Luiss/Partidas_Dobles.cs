@@ -16,12 +16,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
     public partial class Partidas_Dobles : Form
     {
         Clsconexion cn = new Clsconexion();
-        private int idTransaccion;
+        private int id_transaccion;
 
-        public Partidas_Dobles(int idTransaccion)
+        public Partidas_Dobles(int id_transaccion)
         {
             InitializeComponent();
-            this.idTransaccion = idTransaccion;
+            this.id_transaccion = id_transaccion;
 
         }
 
@@ -43,7 +43,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void CargarPartidas()
         {
             PatidasDobles pa = new();
-            DataTable dt = pa.CargarPartidas(idTransaccion);
+            DataTable dt = pa.CargarPartidas(id_transaccion);
             dgvPartidas.DataSource = dt;
         }
 

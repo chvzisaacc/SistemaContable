@@ -28,14 +28,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                DataTable dtCuentas = crudTransferencia.ObtenerCuentasBanco();
+                DataTable dt_cuentas = crudTransferencia.ObtenerCuentasBanco();
 
-                cmbOrigen.DataSource = dtCuentas.Copy();
+                cmbOrigen.DataSource = dt_cuentas.Copy();
                 cmbOrigen.DisplayMember = "NombreCompleto";
                 cmbOrigen.ValueMember = "Id_Origen";
                 cmbOrigen.SelectedIndex = -1;
 
-                cmbDestino.DataSource = dtCuentas.Copy();
+                cmbDestino.DataSource = dt_cuentas.Copy();
                 cmbDestino.DisplayMember = "NombreCompleto";
                 cmbDestino.ValueMember = "Id_Origen";
                 cmbDestino.SelectedIndex = -1;
@@ -51,11 +51,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                int cuentaOrigen = Convert.ToInt32(cmbOrigen.SelectedValue);
-                int cuentaDestino = Convert.ToInt32(cmbDestino.SelectedValue);
+                int cuenta_origen = Convert.ToInt32(cmbOrigen.SelectedValue);
+                int cuenta_destino = Convert.ToInt32(cmbDestino.SelectedValue);
                 decimal monto = Convert.ToDecimal(txtMonto.Text);
 
-                bool exito = crudTransferencia.TransferirEntreCuentas(cuentaOrigen, cuentaDestino, monto);
+                bool exito = crudTransferencia.TransferirEntreCuentas(cuenta_origen, cuenta_destino, monto);
 
                 if (exito)
                 {

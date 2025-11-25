@@ -94,6 +94,7 @@
             pibGenerarReportes.SizeMode = PictureBoxSizeMode.Zoom;
             pibGenerarReportes.TabIndex = 27;
             pibGenerarReportes.TabStop = false;
+            pibGenerarReportes.Click += pibGenerarReportes_Click;
             // 
             // pictureBox1
             // 

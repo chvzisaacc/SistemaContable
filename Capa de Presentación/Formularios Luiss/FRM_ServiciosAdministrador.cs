@@ -123,5 +123,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
 
         }
+
+        private void pibGenerarReportes_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

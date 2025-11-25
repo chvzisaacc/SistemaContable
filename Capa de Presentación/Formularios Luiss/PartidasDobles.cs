@@ -4,7 +4,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 {
     public class PartidasDobles
     {
-        public DataTable CargarPartidas(int idTransaccion)
+        public DataTable CargarPartidas(int id_transaccion)
         {
             throw new NotImplementedException();
         }

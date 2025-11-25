@@ -38,10 +38,10 @@ namespace Capa_de_Presentación
             /*
             if (cmbParroquia.SelectedValue == null) return;
 
-            int parroquiaSeleccionada = Convert.ToInt32(cmbParroquia.SelectedValue);
-            int? parroquiaId = parroquiaSeleccionada == -1 ? null : (int?)parroquiaSeleccionada;
+            int parroquia_seleccionada = Convert.ToInt32(cmbParroquia.SelectedValue);
+            int? parroquia_id = parroquia_seleccionada == -1 ? null : (int?)parroquia_seleccionada;
 
-            CargarUsuarios(parroquiaId);
+            CargarUsuarios(parroquia_id);
             CargarHistorial();
             */
 
@@ -49,26 +49,26 @@ namespace Capa_de_Presentación
             if (cmbParroquia.SelectedValue == null || cmbParroquia.SelectedValue is DataRowView)
                 return;
 
-            int parroquiaSeleccionada = Convert.ToInt32(cmbParroquia.SelectedValue);
-            int? parroquiaId = parroquiaSeleccionada == -1 ? null : (int?)parroquiaSeleccionada;
+            int parroquia_seleccionada = Convert.ToInt32(cmbParroquia.SelectedValue);
+            int? parroquia_id = parroquia_seleccionada == -1 ? null : (int?)parroquia_seleccionada;
 
-            CargarUsuarios(parroquiaId);
+            CargarUsuarios(parroquia_id);
             CargarHistorial();*/
 
             if (isLoading) return;
 
             // Obtener la parroquia seleccionada
-            int parroquiaSeleccionada = -1;
+            int parroquia_seleccionada = -1;
             if (cmbParroquia.SelectedValue != null &&
                 !(cmbParroquia.SelectedValue is DataRowView))
             {
-                parroquiaSeleccionada = Convert.ToInt32(cmbParroquia.SelectedValue);
+                parroquia_seleccionada = Convert.ToInt32(cmbParroquia.SelectedValue);
             }
 
-            int? parroquiaId = parroquiaSeleccionada == -1 ? null : (int?)parroquiaSeleccionada;
+            int? parroquia_id = parroquia_seleccionada == -1 ? null : (int?)parroquia_seleccionada;
 
             // Recargar usuarios según la parroquia seleccionada
-            CargarUsuarios(parroquiaId);
+            CargarUsuarios(parroquia_id);
 
             // Recargar historial
             CargarHistorial();
@@ -116,23 +116,23 @@ namespace Capa_de_Presentación
 
             try
             {
-                DataTable dtParroquias = crudUsuarios.ObtenerParroquias();
+                DataTable dt_parroquias = crudUsuarios.ObtenerParroquias();
 
                 // Crear un nuevo DataTable con la estructura correcta
-                DataTable dtFinal = new DataTable();
-                dtFinal.Columns.Add("Parroquia_id", typeof(int));
-                dtFinal.Columns.Add("Parroquia_nombre", typeof(string));
+                DataTable dt_final = new DataTable();
+                dt_final.Columns.Add("Parroquia_id", typeof(int));
+                dt_final.Columns.Add("Parroquia_nombre", typeof(string));
 
                 // Agregar fila "Todas"
-                dtFinal.Rows.Add(-1, "-- Todas las Parroquias --");
+                dt_final.Rows.Add(-1, "-- Todas las Parroquias --");
 
                 // Copiar las demás filas
-                foreach (DataRow row in dtParroquias.Rows)
+                foreach (DataRow row in dt_parroquias.Rows)
                 {
-                    dtFinal.Rows.Add(row["Parroquia_id"], row["Parroquia_nombre"]);
+                    dt_final.Rows.Add(row["Parroquia_id"], row["Parroquia_nombre"]);
                 }
 
-                cmbParroquia.DataSource = dtFinal;
+                cmbParroquia.DataSource = dt_final;
                 cmbParroquia.DisplayMember = "Parroquia_nombre";
                 cmbParroquia.ValueMember = "Parroquia_id";
             }
@@ -142,29 +142,29 @@ namespace Capa_de_Presentación
             }
         }
 
-        private void CargarUsuarios(int? parroquiaId = null)
+        private void CargarUsuarios(int? parroquia_id = null)
         {
             try
             {
                 isLoading = true; // Evitar que el evento SelectedIndexChanged se dispare
 
-                DataTable dtUsuarios = crudHistorial.ObtenerUsuariosPorParroquia(parroquiaId);
+                DataTable dt_usuarios = crudHistorial.ObtenerUsuariosPorParroquia(parroquia_id);
 
                 // Crear nuevo DataTable
-                DataTable dtFinal = new DataTable();
-                dtFinal.Columns.Add("Usuario_id", typeof(int));
-                dtFinal.Columns.Add("usuario", typeof(string));
+                DataTable dt_final = new DataTable();
+                dt_final.Columns.Add("Usuario_id", typeof(int));
+                dt_final.Columns.Add("usuario", typeof(string));
 
                 // Agregar fila "Todos"
-                dtFinal.Rows.Add(-1, "-- Todos los Usuarios --");
+                dt_final.Rows.Add(-1, "-- Todos los Usuarios --");
 
                 // Copiar las demás filas
-                foreach (DataRow row in dtUsuarios.Rows)
+                foreach (DataRow row in dt_usuarios.Rows)
                 {
-                    dtFinal.Rows.Add(row["Usuario_id"], row["usuario"]);
+                    dt_final.Rows.Add(row["Usuario_id"], row["usuario"]);
                 }
 
-                cmbUsuario.DataSource = dtFinal;
+                cmbUsuario.DataSource = dt_final;
                 cmbUsuario.DisplayMember = "usuario";
                 cmbUsuario.ValueMember = "Usuario_id";
                 cmbUsuario.SelectedIndex = 0; // Seleccionar "Todos"
@@ -185,25 +185,25 @@ namespace Capa_de_Presentación
             try
             {
                 // Validar que SelectedValue no sea null ni DataRowView
-                int parroquiaSeleccionada = -1;
-                int usuarioSeleccionado = -1;
+                int parroquia_seleccionada = -1;
+                int usuario_seleccionado = -1;
 
                 if (cmbParroquia.SelectedValue != null &&
                     !(cmbParroquia.SelectedValue is DataRowView))
                 {
-                    parroquiaSeleccionada = Convert.ToInt32(cmbParroquia.SelectedValue);
+                    parroquia_seleccionada = Convert.ToInt32(cmbParroquia.SelectedValue);
                 }
 
                 if (cmbUsuario.SelectedValue != null &&
                     !(cmbUsuario.SelectedValue is DataRowView))
                 {
-                    usuarioSeleccionado = Convert.ToInt32(cmbUsuario.SelectedValue);
+                    usuario_seleccionado = Convert.ToInt32(cmbUsuario.SelectedValue);
                 }
 
-                int? parroquiaId = parroquiaSeleccionada == -1 ? null : (int?)parroquiaSeleccionada;
-                int? usuarioId = usuarioSeleccionado == -1 ? null : (int?)usuarioSeleccionado;
+                int? parroquia_id = parroquia_seleccionada == -1 ? null : (int?)parroquia_seleccionada;
+                int? usuarioId = usuario_seleccionado == -1 ? null : (int?)usuario_seleccionado;
 
-                DataTable dt = crudHistorial.ObtenerHistorial(parroquiaId, usuarioId);
+                DataTable dt = crudHistorial.ObtenerHistorial(parroquia_id, usuarioId);
                 bindingSource.DataSource = dt;
                 dgvBitacora.DataSource = bindingSource;
 

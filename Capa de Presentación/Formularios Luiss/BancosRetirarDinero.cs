@@ -105,8 +105,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                DataTable dtCuentas = crudCajaChica.ObtenerCuentasDisponibles();
-                cmbCuentas.DataSource = dtCuentas.Copy();
+                DataTable dt_cuentas = crudCajaChica.ObtenerCuentasDisponibles();
+                cmbCuentas.DataSource = dt_cuentas.Copy();
                 cmbCuentas.DisplayMember = "NombreCompleto";
                 cmbCuentas.ValueMember = "Id_Origen";
                 cmbCuentas.SelectedIndex = -1;
@@ -122,10 +122,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                int idOrigen = Convert.ToInt32(cmbCuentas.SelectedValue);
+                int id_origen = Convert.ToInt32(cmbCuentas.SelectedValue);
                 decimal monto = Convert.ToDecimal(txtMonto.Text);
 
-                bool exito = crudCajaChica.EnviarDineroCajaChica(idOrigen, monto);
+                bool exito = crudCajaChica.EnviarDineroCajaChica(id_origen, monto);
 
                 if (exito)
                 {

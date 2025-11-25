@@ -27,12 +27,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
             InitializeComponent();
             Validaciones = new ClsValidaciones();
         }
-        private string ConstruirNombreReporteVisible(string tipoTexto, DateTime desde, DateTime hasta)
+        private string Construirnombre_reporteVisible(string tipo_texto, DateTime desde, DateTime hasta)
         {
             if (desde.Month == hasta.Month && desde.Year == hasta.Year)
-                return $"{tipoTexto} - {desde:MMMM-yyyy}";
+                return $"{tipo_texto} - {desde:MMMM-yyyy}";
 
-            return $"{tipoTexto} - {desde:dd/MM/yyyy} a {hasta:dd/MM/yyyy}";
+            return $"{tipo_texto} - {desde:dd/MM/yyyy} a {hasta:dd/MM/yyyy}";
         }
 
 
@@ -57,9 +57,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbFormatoDescarga.Items.Add("DOCX");
             cmbFormatoDescarga.Items.Add("JPG");
 
-            DataTable dtTipos = _gastosService.ObtenerTiposReporte();
+            DataTable dt_tipos = _gastosService.ObtenerTiposReporte();
 
-            cmbTipoReporte.DataSource = dtTipos;
+            cmbTipoReporte.DataSource = dt_tipos;
             cmbTipoReporte.DisplayMember = "descripcion";
             cmbTipoReporte.ValueMember = "TipoReporte_id";
             cmbTipoReporte.SelectedIndex = -1;
@@ -83,9 +83,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void button2_Click(object sender, EventArgs e)
         {
 
-            int tipoReporteId = Convert.ToInt32(cmbTipoReporte.SelectedValue);
-            int parroquiaId = Sesion1.id_parroquia;
-            string parroquiaNombre = _gastosService.ObtenerNombreParroquia(parroquiaId);
+            int tipo_reporte_id = Convert.ToInt32(cmbTipoReporte.SelectedValue);
+            int parroquia_id = Sesion1.id_parroquia;
+            string parroquia_nombre = _gastosService.ObtenerNombreParroquia(parroquia_id);
 
             DateTime desde = dtpDesde.Value.Date;
             DateTime hasta = dtpHasta.Value.Date;
@@ -112,53 +112,53 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
 
-            string rutaPdf = string.Empty;
-            string nombreReporte = string.Empty;
+            string ruta_pdf = string.Empty;
+            string nombre_reporte = string.Empty;
 
-            switch (tipoReporteId)
+            switch (tipo_reporte_id)
             {
                 case 1:
-                    rutaPdf = _estadoResultadosService.GenerarInformeEstadoResultados(
-                              parroquiaId,
-                              parroquiaNombre,
+                    ruta_pdf = _estadoResultadosService.GenerarInformeEstadoResultados(
+                              parroquia_id,
+                              parroquia_nombre,
                               desde,
                               hasta,
                               Sesion1.usuario_id);
 
-                    nombreReporte = "Estado de Resultados";
+                    nombre_reporte = "Estado de Resultados";
                     break;
 
                 case 2:
-                    rutaPdf = _balanceGeneralService.GenerarBalanceGeneral(
-                              parroquiaId,
-                              parroquiaNombre,
+                    ruta_pdf = _balanceGeneralService.GenerarBalanceGeneral(
+                              parroquia_id,
+                              parroquia_nombre,
                               desde,
                               hasta,
                               Sesion1.usuario_id);
 
-                    nombreReporte = "Balance General";
+                    nombre_reporte = "Balance General";
                     break;
                 case 3:
-                    rutaPdf = _ingresosService.GenerarReporteIngresos(
-                              parroquiaId,
-                              parroquiaNombre,
+                    ruta_pdf = _ingresosService.GenerarReporteIngresos(
+                              parroquia_id,
+                              parroquia_nombre,
                               desde,
                               hasta,
                               Sesion1.usuario_id);
-                    nombreReporte = "Ingresos";
+                    nombre_reporte = "Ingresos";
                     break;
 
 
 
                 case 4: // Gastos
-                    rutaPdf = _gastosService.GenerarInformeGastos(
-                    parroquiaId,
-                    parroquiaNombre,
+                    ruta_pdf = _gastosService.GenerarInformeGastos(
+                    parroquia_id,
+                    parroquia_nombre,
                     desde,
                     hasta,
                     Sesion1.usuario_id);
 
-                    nombreReporte = "Gastos";
+                    nombre_reporte = "Gastos";
                     break;
 
                 default:
@@ -167,18 +167,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
 
 
-            string nombreVisible = ConstruirNombreReporteVisible(
-                nombreReporte,
+            string nombre_visible = Construirnombre_reporteVisible(
+                nombre_reporte,
                 desde,
                 hasta
             );
 
             var item = new ReporteUIItem
             {
-                tipo_reporte_id = tipoReporteId,
-                nombre_visible = nombreVisible,
-                ruta_pdf = rutaPdf,
-                parroquia_id = parroquiaId,
+                tipo_reporte_id = tipo_reporte_id,
+                nombre_visible = nombre_visible,
+                ruta_pdf = ruta_pdf,
+                parroquia_id = parroquia_id,
                 desde = desde,
                 hasta = hasta
             };
@@ -188,7 +188,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // Abrir automáticamente el PDF
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
             {
-                FileName = rutaPdf,
+                FileName = ruta_pdf,
                 UseShellExecute = true
             });
 
@@ -217,7 +217,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            string nombreSeguro = item.nombre_visible
+            string nombre_seguro = item.nombre_visible
                 .Replace("/", "-")
                 .Replace("\\", "-")
                 .Replace(":", "-")
@@ -234,17 +234,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     case "PDF":
                         sfd.Filter = "Archivo PDF|*.pdf";
-                        sfd.FileName = nombreSeguro + ".pdf";
+                        sfd.FileName = nombre_seguro + ".pdf";
                         break;
 
                     case "DOCX":
                         sfd.Filter = "Documento Word|*.docx";
-                        sfd.FileName = nombreSeguro + ".docx";
+                        sfd.FileName = nombre_seguro + ".docx";
                         break;
 
                     case "JPG":
                         sfd.Filter = "Imagen JPG|*.jpg";
-                        sfd.FileName = nombreSeguro + ".jpg";
+                        sfd.FileName = nombre_seguro + ".jpg";
                         break;
                 }
 

@@ -47,12 +47,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            int Id_Origen = Convert.ToInt32(cmbCuentas.SelectedValue);
+            int id_origen = Convert.ToInt32(cmbCuentas.SelectedValue);
 
             try
             {
                 var crud = new ClsCRUD_CuentasBancarias();
-                bool exito = crud.AgregarSaldo(Id_Origen, monto);
+                bool exito = crud.AgregarSaldo(id_origen, monto);
 
                 if (exito)
                 {
@@ -140,7 +140,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
                 cmbCuentas.DisplayMember = "Nombre";
-                cmbCuentas.ValueMember = "Id_Origen";
+                cmbCuentas.ValueMember = "id_origen";
 
 
             }
