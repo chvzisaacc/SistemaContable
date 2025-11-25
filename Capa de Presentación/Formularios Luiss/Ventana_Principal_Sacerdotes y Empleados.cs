@@ -505,7 +505,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtDatosIngresos = new DataTable("Ingresos");
             dtDatosIngresos.Columns.Add("Id_transaccion", typeof(int));
             dtDatosIngresos.Columns.Add("Id_Origen", typeof(int));
-            dtDatosIngresos.Columns.Add("nombre_cuenta", typeof(string));
+            dtDatosIngresos.Columns.Add("NombreCuenta", typeof(string));
             dtDatosIngresos.Columns.Add("Detalle", typeof(string));
             dtDatosIngresos.Columns.Add("Saldo", typeof(string));
             dtDatosIngresos.Columns.Add("fecha_transaccion", typeof(DateTime));
@@ -530,7 +530,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtDatosGastos = new DataTable("Gastos");
             dtDatosGastos.Columns.Add("Id_transaccion", typeof(int));
             dtDatosGastos.Columns.Add("Id_Origen", typeof(int));
-            dtDatosGastos.Columns.Add("nombre_cuenta", typeof(string));
+            dtDatosGastos.Columns.Add("NombreCuenta", typeof(string));
             dtDatosGastos.Columns.Add("Detalle", typeof(string));
             dtDatosGastos.Columns.Add("Saldo", typeof(string));
             dtDatosGastos.Columns.Add("fecha_transaccion", typeof(DateTime));
@@ -629,7 +629,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (dataGridView1.CurrentCell.OwningColumn.Name == "nombre_cuenta")
+            if (dataGridView1.CurrentCell.OwningColumn.Name == "NombreCuenta")
             {
                 TextBox auto_text = e.Control as TextBox;
                 if (auto_text != null)
@@ -700,7 +700,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
 
             // Verifica por nombre de columna, no por índice
-            if (dgvGastos.CurrentCell.OwningColumn.Name == "nombre_cuenta")
+            if (dgvGastos.CurrentCell.OwningColumn.Name == "NombreCuenta")
             {
                 TextBox auto_text = e.Control as TextBox;
                 if (auto_text != null)
@@ -750,7 +750,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 DataGridViewRow fila = dataGridView1.CurrentRow;
 
-                string nombre_cuenta = fila.Cells["nombre_cuenta"].Value?.ToString() ?? "";
+                string nombre_cuenta = fila.Cells["NombreCuenta"].Value?.ToString() ?? "";
                 string detalle = fila.Cells["Detalle"].Value?.ToString() ?? "";
                 decimal saldo = 0;
                 decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out saldo);
@@ -872,12 +872,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 int.TryParse(referencia_texto, out referencia);
 
                 int id_usuario = Sesion1.usuario_id;
-                string nombre_cuenta = fila_nueva.Cells["nombre_cuenta"].Value?.ToString() ?? string.Empty;
+                string nombre_cuenta = fila_nueva.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
                 string descripcion = fila_nueva.Cells["Detalle"].Value?.ToString() ?? string.Empty;
 
                 if (!decimal.TryParse(fila_nueva.Cells["Saldo"].Value?.ToString(), out decimal monto) || monto <= 0)
                 {
-                    MessageBox.Show($"Monto inválido para la cuenta: {nombre_cuenta}", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"Monto inválido para la cuenta: {NombreCuenta}", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -1061,7 +1061,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 DataGridViewRow fila = dgvGastos.CurrentRow;
 
-                string nombre_cuenta = fila.Cells["nombre_cuenta"].Value?.ToString() ?? "";
+                string nombre_cuenta = fila.Cells["NombreCuenta"].Value?.ToString() ?? "";
                 string detalle = fila.Cells["Detalle"].Value?.ToString() ?? "";
                 decimal saldo = 0;
                 decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out saldo);
@@ -1183,12 +1183,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 int.TryParse(referencia_texto, out referencia);
 
                 int id_usuario = Sesion1.usuario_id;
-                string nombre_cuenta = fila_nueva.Cells["nombre_cuenta"].Value?.ToString() ?? string.Empty;
+                string nombre_cuenta = fila_nueva.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
                 string descripcion = fila_nueva.Cells["Detalle"].Value?.ToString() ?? string.Empty;
 
                 if (!decimal.TryParse(fila_nueva.Cells["Saldo"].Value?.ToString(), out decimal monto) || monto <= 0)
                 {
-                    MessageBox.Show($"Monto inválido para la cuenta: {nombre_cuenta}", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"Monto inválido para la cuenta: {NombreCuenta}", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
