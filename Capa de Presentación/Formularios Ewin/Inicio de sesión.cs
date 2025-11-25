@@ -52,22 +52,22 @@ namespace Capa_de_Presentación.Formularios_Ewin
             ClsAccionesDB acciones = new ClsAccionesDB();
             var resultadoTuple = acciones.ObtenerUsuarioIdPorNombreUsuario(txt_usuario.Text);
 
-            int idUsuario = resultadoTuple.Item1;
-            int parroquiaId = resultadoTuple.Item2;
+            int id_usuario = resultadoTuple.Item1;
+            int parroquia_id = resultadoTuple.Item2;
 
             // Guardar sesión con ambos valores
-            Sesion1.IniciarSesion(idUsuario, rol, parroquiaId);
+            Sesion1.IniciarSesion(id_usuario, rol, parroquia_id);
 
             //REDIRECCIONAR AL FORM SEGÚN Roles 
             if (rol == 1)
             {
-                Ventana_Principal_Administrador admin = new Ventana_Principal_Administrador(idUsuario,parroquiaId);
+                Ventana_Principal_Administrador admin = new Ventana_Principal_Administrador(id_usuario, parroquia_id);
                 admin.Show();
                 this.Hide();
             }
             else if (rol == 2 || rol == 3)
             {
-                FRM_42 empleado = new FRM_42(idUsuario, parroquiaId);
+                FRM_42 empleado = new FRM_42(id_usuario, parroquia_id);
                 empleado.Show();
                 this.Hide();
             }

@@ -18,12 +18,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
     public partial class Ventana_Principal_Administrador : Form
     {
         //usuarios
-        private clsCRUD_Usuarios crudUsuarios;
-        private bool modoEdicionUsuario = false;
-        private int usuarioIdSeleccionado = 0;
+        private clsCRUD_Usuarios crud_usuarios;
+        private bool modo_edicion_usuario = false;
+        private int usuario_id_seleccionado = 0;
         private BindingSource bindingSource;
-        private int idParroquia;
-        private int _usuarioID;
+        private int id_parroquia;
+        private int _usuario_id;
 
         //Catalogo
         private clsCRUD_CatalogoCuentas crudCatalogoCuentas;
@@ -41,8 +41,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
         public Ventana_Principal_Administrador(int usuarioID, int idParroquia)
         {
             InitializeComponent();
-            this._usuarioID = usuarioID;
-            this.idParroquia = idParroquia;
+            this._usuario_id = usuarioID;
+            this.id_parroquia = idParroquia;
             UsuarioLogueado.usuario_id = usuarioID;
             UsuarioLogueado.parroquia_id = idParroquia;
 
@@ -56,7 +56,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             MostrarSoloEstePanel(panel1);
 
             //usuarios
-            crudUsuarios = new clsCRUD_Usuarios();
+            crud_usuarios = new clsCRUD_Usuarios();
 
             //catalogo
             crudCatalogoCuentas = new clsCRUD_CatalogoCuentas();
@@ -111,7 +111,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                DataTable dt = crudUsuarios.ObtenerUsuarios();
+                DataTable dt = crud_usuarios.ObtenerUsuarios();
                 bindingSource.DataSource = dt;
                 dgv_usuarios.DataSource = bindingSource;
 
@@ -139,15 +139,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                cmb_rol.DataSource = crudUsuarios.ObtenerRoles();
+                cmb_rol.DataSource = crud_usuarios.ObtenerRoles();
                 cmb_rol.DisplayMember = "Rol_descripcion";
                 cmb_rol.ValueMember = "Rol_Id";
 
-                cmb_parroquia.DataSource = crudUsuarios.ObtenerParroquias();
+                cmb_parroquia.DataSource = crud_usuarios.ObtenerParroquias();
                 cmb_parroquia.DisplayMember = "Parroquia_nombre";
                 cmb_parroquia.ValueMember = "Parroquia_id";
 
-                cmb_estado.DataSource = crudUsuarios.ObtenerEstados();
+                cmb_estado.DataSource = crud_usuarios.ObtenerEstados();
                 cmb_estado.DisplayMember = "descripcion";
                 cmb_estado.ValueMember = "Id_estado_cuenta";
             }
@@ -162,7 +162,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                var usuario = crudUsuarios.BuscarUsuarioPorId(usuarioIdSeleccionado);
+                var usuario = crud_usuarios.BuscarUsuarioPorId(usuario_id_seleccionado);
 
                 if (usuario != null)
                 {
@@ -287,8 +287,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
             if (cmb_estado.Items.Count > 0)
                 cmb_estado.SelectedIndex = 0;
 
-            usuarioIdSeleccionado = 0;
-            modoEdicionUsuario = false;
+            usuario_id_seleccionado = 0;
+            modo_edicion_usuario = false;
         }
 
         private void HabilitarControlesUsuario(bool habilitar)
@@ -498,11 +498,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             LimpiarCamposUsuario();
             HabilitarControlesUsuario(true);
-            modoEdicionUsuario = false;
+            modo_edicion_usuario = false;
 
             try
             {
-                int proximoId = crudUsuarios.ObtenerProximoId();
+                int proximoId = crud_usuarios.ObtenerProximoId();
                 txt_id.Text = proximoId.ToString();
             }
             catch (Exception ex)
@@ -532,10 +532,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 int idParroquia = Convert.ToInt32(cmb_parroquia.SelectedValue);
                 int idEstado = Convert.ToInt32(cmb_estado.SelectedValue);
 
-                if (modoEdicionUsuario)
+                if (modo_edicion_usuario)
                 {
-                    bool resultado = crudUsuarios.ModificarUsuario(
-                        usuarioIdSeleccionado, nombre, apellido,
+                    bool resultado = crud_usuarios.ModificarUsuario(
+                        usuario_id_seleccionado, nombre, apellido,
                         correo, usuario, password, idRol, idParroquia, idEstado);
 
                     if (resultado)
@@ -549,7 +549,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                                 Sesion1.usuario_id, 
                                 7, 
                                 "Modificación de Usuario",
-                                $"Se modificaron los datos del usuario: '{usuario}' (ID: {usuarioIdSeleccionado})."
+                                $"Se modificaron los datos del usuario: '{usuario}' (ID: {usuario_id_seleccionado})."
                             );
                         }
                         catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
@@ -568,14 +568,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 }
                 else
                 {
-                    if (crudUsuarios.UsuarioExiste(usuario))
+                    if (crud_usuarios.UsuarioExiste(usuario))
                     {
                         MessageBox.Show("El nombre de usuario ya existe", "Advertencia",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    int nuevoId = crudUsuarios.AgregarUsuario(nombre, apellido, correo,
+                    int nuevoId = crud_usuarios.AgregarUsuario(nombre, apellido, correo,
                         usuario, password, idRol, idParroquia, idEstado);
 
                     if (nuevoId > 0)
@@ -628,10 +628,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
 
             // Capturar el ID del usuario seleccionado
-            usuarioIdSeleccionado = Convert.ToInt32(dgv_usuarios.CurrentRow.Cells["ID"].Value);
+            usuario_id_seleccionado = Convert.ToInt32(dgv_usuarios.CurrentRow.Cells["ID"].Value);
 
             HabilitarControlesUsuario(true);
-            modoEdicionUsuario = true;
+            modo_edicion_usuario = true;
             CargarDatosUsuario();
             txt_nombre.Focus();
         }
@@ -650,7 +650,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 int id = Convert.ToInt32(dgv_usuarios.CurrentRow.Cells["ID"].Value);
                 int estadoInactivo = 2; 
 
-                bool resultado = crudUsuarios.InhabilitarUsuario(id, estadoInactivo);
+                bool resultado = crud_usuarios.InhabilitarUsuario(id, estadoInactivo);
 
                 if (resultado)
                 {
@@ -696,7 +696,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 int id = Convert.ToInt32(dgv_usuarios.CurrentRow.Cells["ID"].Value);
                 int estadoInactivo = 1; 
 
-                bool resultado = crudUsuarios.InhabilitarUsuario(id, estadoInactivo);
+                bool resultado = crud_usuarios.InhabilitarUsuario(id, estadoInactivo);
 
                 if (resultado)
                 {
@@ -731,11 +731,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             LimpiarCamposUsuario();
             HabilitarControlesUsuario(true);
-            modoEdicionUsuario = false;
+            modo_edicion_usuario = false;
 
             try
             {
-                int proximoId = crudUsuarios.ObtenerProximoId();
+                int proximoId = crud_usuarios.ObtenerProximoId();
                 txt_id.Text = proximoId.ToString();
             }
             catch (Exception ex)

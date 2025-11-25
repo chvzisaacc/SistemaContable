@@ -49,20 +49,20 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void btnConfirmar_Click(object sender, EventArgs e)
         {
-            string nuevaContraseña = txt_nueva_contrasena.Text.Trim();
-            string confirmarContraseña = txt_confirmar_contrasena.Text.Trim();
+            string nueva_contraseña = txt_nueva_contrasena.Text.Trim();
+            string confirmar_contraseña = txt_confirmar_contrasena.Text.Trim();
 
-            Validacion val = new Validacion(nuevaContraseña, confirmarContraseña);
+            Validacion val = new Validacion(nueva_contraseña, confirmar_contraseña);
             ClsValidaciones validar = new ClsValidaciones();
 
             // Validar longitud de la contraseña
-            if (!validar.EsContraseñaValida(nuevaContraseña))
+            if (!validar.EsContraseñaValida(nueva_contraseña))
             {
                 MessageBox.Show("La contraseña debe tener entre 4 y 25 caracteres.");
                 return;
             }
 
-            if (!val.CamposIguales(nuevaContraseña))
+            if (!val.CamposIguales(nueva_contraseña))
             {
                 MessageBox.Show("Las contraseñas no coinciden o están vacías.");
                 return;
@@ -71,7 +71,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 ClsAccionesDB acciones = new ClsAccionesDB();
 
-                acciones.CambiarContraseña(correoUsuario, nuevaContraseña);
+                acciones.CambiarContraseña(correoUsuario, nueva_contraseña);
 
                 MessageBox.Show("Contraseña actualizada correctamente.");
 

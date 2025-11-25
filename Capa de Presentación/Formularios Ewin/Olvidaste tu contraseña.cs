@@ -80,9 +80,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
 
             ClsAccionesDB acciones = new ClsAccionesDB();
-            int usuarioId = acciones.ObtenerUsuarioIdPorCorreo(correo);
+            int usuario_id = acciones.ObtenerUsuarioIdPorCorreo(correo);
 
-            if (usuarioId == 0)
+            if (usuario_id == 0)
             {
                 MessageBox.Show("Este correo no está registrado.");
                 return;
@@ -91,12 +91,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
             var sistema = new Capa_de_acceso_de_datos.CORREO.Sistema();
 
             string codigo = sistema.GenerarCodigo();
-            acciones.GuardarCodigoRecuperacion(usuarioId, codigo);
+            acciones.GuardarCodigoRecuperacion(usuario_id, codigo);
             sistema.EnviarCodigoVerificacion(correo, codigo);
 
             MessageBox.Show("Se ha enviado un código de verificación a su correo.");
 
-            FRM_PG3 objingresar = new FRM_PG3(usuarioId, correo);
+            FRM_PG3 objingresar = new FRM_PG3(usuario_id, correo);
             objingresar.Show();
             this.Hide();
         }
