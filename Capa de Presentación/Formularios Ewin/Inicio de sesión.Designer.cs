@@ -29,88 +29,84 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG1));
-            txtUsuario = new TextBox();
-            txtContraseña = new TextBox();
-            button1 = new Button();
-            label3 = new Label();
+            txt_usuario = new TextBox();
+            txt_contraseña = new TextBox();
+            btn_iniciar_sesion = new Button();
+            lbl_olvidaste_contrasena = new Label();
             label1 = new Label();
             pictureBox1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
-            // txtUsuario
+            // txt_usuario
             // 
-            txtUsuario.BackColor = Color.White;
-            txtUsuario.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtUsuario.Location = new Point(178, 178);
-            txtUsuario.Margin = new Padding(3, 2, 3, 2);
-            txtUsuario.Name = "txtUsuario";
-            txtUsuario.Size = new Size(363, 29);
-            txtUsuario.TabIndex = 0;
-            txtUsuario.Text = "Usuario";
-            txtUsuario.Click += txtUsuario_Click;
-            //txtUsuario.TextChanged += txtUsuario_TextChanged;
-            txtUsuario.Leave += txtUsuario_Leave;
+            txt_usuario.BackColor = Color.White;
+            txt_usuario.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txt_usuario.Location = new Point(203, 237);
+            txt_usuario.Name = "txt_usuario";
+            txt_usuario.Size = new Size(414, 34);
+            txt_usuario.TabIndex = 0;
+            txt_usuario.Text = "Usuario";
+            txt_usuario.Click += txtUsuario_Click;
+            txt_usuario.Leave += txtUsuario_Leave;
             // 
-            // txtContraseña
+            // txt_contraseña
             // 
-            txtContraseña.BackColor = Color.White;
-            txtContraseña.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtContraseña.Location = new Point(178, 223);
-            txtContraseña.Margin = new Padding(3, 2, 3, 2);
-            txtContraseña.Name = "txtContraseña";
-            txtContraseña.Size = new Size(363, 29);
-            txtContraseña.TabIndex = 2;
-            txtContraseña.Text = "Contraseña";
-            txtContraseña.Click += txtContraseña_Click;
-            txtContraseña.Leave += txtContraseña_Leave;
+            txt_contraseña.BackColor = Color.White;
+            txt_contraseña.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txt_contraseña.Location = new Point(203, 297);
+            txt_contraseña.Name = "txt_contraseña";
+            txt_contraseña.Size = new Size(414, 34);
+            txt_contraseña.TabIndex = 2;
+            txt_contraseña.Text = "Contraseña";
+            txt_contraseña.Click += txtContraseña_Click;
+            txt_contraseña.Leave += txtContraseña_Leave;
             // 
-            // button1
+            // btn_iniciar_sesion
             // 
-            button1.BackColor = Color.FromArgb(43, 56, 143);
-            button1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.Transparent;
-            button1.Location = new Point(237, 300);
-            button1.Margin = new Padding(3, 2, 3, 2);
-            button1.Name = "button1";
-            button1.Size = new Size(232, 53);
-            button1.TabIndex = 4;
-            button1.Text = "Iniciar Sesión";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            btn_iniciar_sesion.BackColor = Color.FromArgb(43, 56, 143);
+            btn_iniciar_sesion.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_iniciar_sesion.ForeColor = Color.Transparent;
+            btn_iniciar_sesion.Location = new Point(271, 400);
+            btn_iniciar_sesion.Name = "btn_iniciar_sesion";
+            btn_iniciar_sesion.Size = new Size(265, 71);
+            btn_iniciar_sesion.TabIndex = 4;
+            btn_iniciar_sesion.Text = "Iniciar Sesión";
+            btn_iniciar_sesion.UseVisualStyleBackColor = false;
+            btn_iniciar_sesion.Click += button1_Click;
             // 
-            // label3
+            // lbl_olvidaste_contrasena
             // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.Transparent;
-            label3.Location = new Point(259, 355);
-            label3.Name = "label3";
-            label3.Size = new Size(172, 19);
-            label3.TabIndex = 5;
-            label3.Text = "¿Olvidaste tu contraseña?";
-            label3.TextAlign = ContentAlignment.TopRight;
-            label3.Click += label3_Click;
+            lbl_olvidaste_contrasena.AutoSize = true;
+            lbl_olvidaste_contrasena.BackColor = Color.Transparent;
+            lbl_olvidaste_contrasena.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            lbl_olvidaste_contrasena.ForeColor = Color.Transparent;
+            lbl_olvidaste_contrasena.Location = new Point(296, 473);
+            lbl_olvidaste_contrasena.Name = "lbl_olvidaste_contrasena";
+            lbl_olvidaste_contrasena.Size = new Size(213, 23);
+            lbl_olvidaste_contrasena.TabIndex = 5;
+            lbl_olvidaste_contrasena.Text = "¿Olvidaste tu contraseña?";
+            lbl_olvidaste_contrasena.TextAlign = ContentAlignment.TopRight;
+            lbl_olvidaste_contrasena.Click += label3_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Location = new Point(338, 256);
+            label1.Location = new Point(386, 341);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(10, 15);
+            label1.Size = new Size(12, 20);
             label1.TabIndex = 6;
             label1.Text = ".";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(201, 311);
-            pictureBox1.Margin = new Padding(2, 2, 2, 2);
+            pictureBox1.Location = new Point(230, 415);
+            pictureBox1.Margin = new Padding(2, 3, 2, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(32, 28);
+            pictureBox1.Size = new Size(37, 37);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 7;
             pictureBox1.TabStop = false;
@@ -118,18 +114,17 @@
             // 
             // FRM_PG1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Imagen_de_WhatsApp_2025_10_21_a_las_22_22_16_14a2ddba;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(1121, 539);
+            ClientSize = new Size(1281, 719);
             Controls.Add(pictureBox1);
             Controls.Add(label1);
-            Controls.Add(txtContraseña);
-            Controls.Add(txtUsuario);
-            Controls.Add(label3);
-            Controls.Add(button1);
-            Margin = new Padding(3, 2, 3, 2);
+            Controls.Add(txt_contraseña);
+            Controls.Add(txt_usuario);
+            Controls.Add(lbl_olvidaste_contrasena);
+            Controls.Add(btn_iniciar_sesion);
             Name = "FRM_PG1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Inicio de Sesión";
@@ -141,10 +136,10 @@
 
         #endregion
 
-        private TextBox txtUsuario;
-        private TextBox txtContraseña;
-        private Button button1;
-        private Label label3;
+        private TextBox txt_usuario;
+        private TextBox txt_contraseña;
+        private Button btn_iniciar_sesion;
+        private Label lbl_olvidaste_contrasena;
         private Label label1;
         private PictureBox pictureBox1;
     }

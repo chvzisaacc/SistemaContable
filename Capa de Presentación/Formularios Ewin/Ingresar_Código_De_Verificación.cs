@@ -103,7 +103,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void txt8_TextChanged(object sender, EventArgs e)
         {
             if (txt8.Text.Length == 1)
-                button1.Focus();
+                btn_restablecer_contrasena.Focus();
         }
 
         private void txt1_KeyPress(object sender, KeyPressEventArgs e)

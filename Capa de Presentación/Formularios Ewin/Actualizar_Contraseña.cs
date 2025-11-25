@@ -49,8 +49,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void btnConfirmar_Click(object sender, EventArgs e)
         {
-            string nuevaContraseña = txtNuevaContraseña.Text.Trim();
-            string confirmarContraseña = txtConfirmarContraseña.Text.Trim();
+            string nuevaContraseña = txt_nueva_contrasena.Text.Trim();
+            string confirmarContraseña = txt_confirmar_contrasena.Text.Trim();
 
             Validacion val = new Validacion(nuevaContraseña, confirmarContraseña);
             ClsValidaciones validar = new ClsValidaciones();
