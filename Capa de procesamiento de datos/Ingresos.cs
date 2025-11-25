@@ -6,22 +6,22 @@ namespace Capa_de_procesamiento_de_datos
 {
     public class DetalleIngreso
     {
-        public string NombreCuenta { get; set; }
-        public string Descripcion { get; set; }
-        public decimal Monto { get; set; }
+        public string nombre_cuenta { get; set; }
+        public string descripcion { get; set; }
+        public decimal monto { get; set; }
 
     }
 
     public class ResultadoGuardado
     {
-        public int FilasGuardadas { get; set; }
-        public bool HuboError { get; set; }
-        public string Mensaje { get; set; }
+        public int filas_guardadas { get; set; }
+        public bool hubo_error { get; set; }
+        public string mensaje { get; set; }
     }
 
     public class Ingresos : Clsconexion
     {
-        public int IngresarIngresos(DateTime fecha, string descripcion, decimal monto, int referencia, int usuarioId, int idOrigen, string nombre)
+        public int IngresarIngresos(DateTime fecha, string descripcion, decimal monto, int referencia, int usuario_id, int id_origen, string nombre)
         {
             int nuevaTransa = 0;
             try
@@ -36,8 +36,8 @@ namespace Capa_de_procesamiento_de_datos
                     command.Parameters.AddWithValue("@descripcion", descripcion);
                     command.Parameters.AddWithValue("@monto_historico", monto);
                     command.Parameters.AddWithValue("@Numero_de_Referencia", referencia);
-                    command.Parameters.AddWithValue("@Usuario_id", usuarioId);
-                    command.Parameters.AddWithValue("@Id_Origen", idOrigen);
+                    command.Parameters.AddWithValue("@Usuario_id", usuario_id);
+                    command.Parameters.AddWithValue("@Id_Origen", id_origen);
                     command.Parameters.AddWithValue("@Nombre", nombre);
 
                     object result = command.ExecuteScalar();
@@ -60,9 +60,9 @@ namespace Capa_de_procesamiento_de_datos
             return nuevaTransa;
         }
 
-        public int ModificarIngreso(int idTransaccion, DateTime fecha, string descripcion, decimal monto, int referencia, int usuarioId, int idOrigen, string nombre)
+        public int ModificarIngreso(int id_transaccion, DateTime fecha, string descripcion, decimal monto, int referencia, int usuario_id, int id_origen, string nombre)
         {
-            int filasAfectadas = 0;
+            int filas_afectadas = 0;
             try
             {
                 Abrir();
@@ -71,20 +71,20 @@ namespace Capa_de_procesamiento_de_datos
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("@id_transaccion", idTransaccion);
+                    command.Parameters.AddWithValue("@id_transaccion", id_transaccion);
 
                     command.Parameters.AddWithValue("@fecha_transaccion", fecha);
                     command.Parameters.AddWithValue("@descripcion", descripcion);
                     command.Parameters.AddWithValue("@monto_nuevo", monto);
                     command.Parameters.AddWithValue("@Numero_de_Referencia", referencia);
-                    command.Parameters.AddWithValue("@Usuario_id", usuarioId);
-                    command.Parameters.AddWithValue("@Id_Origen", idOrigen);
+                    command.Parameters.AddWithValue("@Usuario_id", usuario_id);
+                    command.Parameters.AddWithValue("@Id_Origen", id_origen);
                     command.Parameters.AddWithValue("@Nombre", nombre);
 
                     object result = command.ExecuteScalar();
 
                     if (result != null && int.TryParse(result.ToString(), out int count))
-                        filasAfectadas = count;
+                        filas_afectadas = count;
                 }
 
             }
@@ -97,7 +97,7 @@ namespace Capa_de_procesamiento_de_datos
                 Cerrar();
             }
 
-            return filasAfectadas;
+            return filas_afectadas;
 
         }
     }

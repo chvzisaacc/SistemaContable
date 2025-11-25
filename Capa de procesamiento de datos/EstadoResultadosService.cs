@@ -28,9 +28,9 @@ namespace Capa_de_procesamiento_de_datos
             Directory.CreateDirectory(_carpetaReportes);
         }
 
-        public string ObtenerNombreParroquia(int parroquiaId)
+        public string ObtenerNombreParroquia(int parroquia_id)
         {
-            return _repo.ObtenerNombreParroquia(parroquiaId);
+            return _repo.ObtenerNombreParroquia(parroquia_id);
         }
 
         public DataTable ObtenerTiposReporte()
@@ -47,20 +47,20 @@ namespace Capa_de_procesamiento_de_datos
 
 
         public string GenerarInformeEstadoResultados(
-     int parroquiaId,
-     string nombreParroquia,
+     int parroquia_id,
+     string nombre_parroquia,
      DateTime desde,
      DateTime hasta,
-     int usuarioId)
+     int usuario_id)
         {
-            DataSet datos = _repo.ObtenerEstadoResultados(parroquiaId, desde, hasta);
+            DataSet datos = _repo.ObtenerEstadoResultados(parroquia_id, desde, hasta);
 
             DataTable totales = datos.Tables[0];
             DataTable detalle = datos.Tables[1];
 
-            byte[] pdfBytes = GenerarPdf(totales, detalle, nombreParroquia, desde, hasta);
+            byte[] pdfBytes = GenerarPdf(totales, detalle, nombre_parroquia, desde, hasta);
 
-            string nombreArchivo = $"EstadoResultados_{nombreParroquia}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
+            string nombreArchivo = $"EstadoResultados_{nombre_parroquia}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
             string rutaCompleta = Path.Combine(_carpetaReportes, nombreArchivo);
 
             File.WriteAllBytes(rutaCompleta, pdfBytes);
@@ -74,7 +74,7 @@ namespace Capa_de_procesamiento_de_datos
         public byte[] GenerarPdf(
     DataTable totales,
     DataTable detalle,
-    string nombreParroquia,
+    string nombre_parroquia,
     DateTime desde,
     DateTime hasta)
         {
@@ -88,7 +88,7 @@ namespace Capa_de_procesamiento_de_datos
                     page.Header().Column(col =>
                     {
                         col.Item().Text("ESTADO DE RESULTADOS").FontSize(18).Bold();
-                        col.Item().Text(nombreParroquia).FontSize(12);
+                        col.Item().Text(nombre_parroquia).FontSize(12);
                         col.Item().Text($"Periodo: {desde:dd/MM/yyyy} al {hasta:dd/MM/yyyy}");
                     });
 

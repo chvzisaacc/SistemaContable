@@ -6,7 +6,7 @@ namespace Capa_de_procesamiento_de_datos
 {
     public class PatidasDobles : Clsconexion
     {
-        public DataTable CargarPartidas(int idTransaccion)
+        public DataTable CargarPartidas(int id_transaccion)
         {
             DataTable dtPartidas = new DataTable();
 
@@ -17,7 +17,7 @@ namespace Capa_de_procesamiento_de_datos
                 using (SqlCommand command = new SqlCommand("SP_CargarPartidas", sc))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@Id_Transaccion", idTransaccion);
+                    command.Parameters.AddWithValue("@Id_Transaccion", id_transaccion);
 
                     using (SqlDataAdapter da = new SqlDataAdapter(command))
                     {

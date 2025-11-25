@@ -7,21 +7,21 @@ namespace Capa_de_procesamiento_de_datos
 
     public class Detalle_gasto
     {
-        public string NombreCuenta { get; set; }
-        public string Descripcion { get; set; }
-        public decimal Monto { get; set; }
+        public string nombre_cuenta { get; set; }
+        public string descripcion { get; set; }
+        public decimal monto { get; set; }
 
     }
     public class Resultado
     {
-        public int FilasGuardadas { get; set; }
-        public bool HuboError { get; set; }
-        public string Mensaje { get; set; }
+        public int filas_guardadas { get; set; }
+        public bool hubo_error { get; set; }
+        public string mensaje { get; set; }
     }
 
     public class Gastos : Clsconexion
     {
-        public int IngresarGastos(DateTime fechaTransaccion, string descripcion, decimal monto, int referencia, int idUsuario, int idOrigenNuevo, string nombreCuenta)
+        public int IngresarGastos(DateTime fecha_transaccion, string descripcion, decimal monto, int referencia, int idUsuario, int id_origen_nuevo, string nombre_cuenta)
         {
             int nuevaTransaccion = 0;
 
@@ -33,13 +33,13 @@ namespace Capa_de_procesamiento_de_datos
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("@fecha_transaccion", fechaTransaccion);
+                    command.Parameters.AddWithValue("@fecha_transaccion", fecha_transaccion);
                     command.Parameters.AddWithValue("@descripcion", descripcion);
                     command.Parameters.AddWithValue("@monto_historico", monto);
                     command.Parameters.AddWithValue("@numero_de_referencia", referencia);
                     command.Parameters.AddWithValue("@usuario_id", idUsuario);
-                    command.Parameters.AddWithValue("@id_origen", idOrigenNuevo);
-                    command.Parameters.AddWithValue("@nombre", nombreCuenta);
+                    command.Parameters.AddWithValue("@id_origen", id_origen_nuevo);
+                    command.Parameters.AddWithValue("@nombre", nombre_cuenta);
 
                     object result = command.ExecuteScalar();
 
@@ -60,9 +60,9 @@ namespace Capa_de_procesamiento_de_datos
         }
 
 
-        public int ModificarGastos(int idTransaccion, DateTime fecha, string descripcion, decimal monto, int referencia, int usuarioId, int idOrigen, string nombre)
+        public int ModificarGastos(int id_tansaccion, DateTime fecha, string descripcion, decimal monto, int referencia, int usuario_id, int id_origen, string nombre)
         {
-            int filasAfectadas = 0;
+            int filas_afectadas = 0;
             try
             {
                 Abrir();
@@ -71,20 +71,20 @@ namespace Capa_de_procesamiento_de_datos
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("@id_transaccion", idTransaccion);
+                    command.Parameters.AddWithValue("@id_transaccion", id_tansaccion);
 
                     command.Parameters.AddWithValue("@fecha_transaccion", fecha);
                     command.Parameters.AddWithValue("@descripcion", descripcion);
                     command.Parameters.AddWithValue("@monto_nuevo", monto);
                     command.Parameters.AddWithValue("@Numero_de_Referencia", referencia);
-                    command.Parameters.AddWithValue("@Usuario_id", usuarioId);
-                    command.Parameters.AddWithValue("@Id_Origen", idOrigen);
+                    command.Parameters.AddWithValue("@Usuario_id", usuario_id);
+                    command.Parameters.AddWithValue("@Id_Origen", id_origen);
                     command.Parameters.AddWithValue("@Nombre", nombre);
 
                     object result = command.ExecuteScalar();
 
                     if (result != null && int.TryParse(result.ToString(), out int count))
-                        filasAfectadas = count;
+                        filas_afectadas = count;
                 }
 
             }
@@ -97,7 +97,7 @@ namespace Capa_de_procesamiento_de_datos
                 Cerrar();
             }
 
-            return filasAfectadas;
+            return filas_afectadas;
 
         }
     }

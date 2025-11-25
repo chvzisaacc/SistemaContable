@@ -29,27 +29,27 @@ namespace Capa_de_procesamiento_de_datos
         }
 
         public string GenerarInformeGastos(
-            int parroquiaId,
-            string nombreParroquia,
+            int parroquia_id,
+            string nombre_parroquia,
             DateTime desde,
             DateTime hasta,
-            int usuarioId)
+            int usuario_id)
         {
             // 1. Traer datos
-            DataTable datos = _repo.ObtenerGastosPorParroquia(parroquiaId, desde, hasta);
+            DataTable datos = _repo.ObtenerGastosPorParroquia(parroquia_id, desde, hasta);
 
             // 2. Crear PDF en memoria
-            byte[] pdfBytes = GenerarPdf(datos, nombreParroquia, desde, hasta);
+            byte[] pdfBytes = GenerarPdf(datos, nombre_parroquia, desde, hasta);
 
             // 3. Guardar archivo
-            string nombreArchivo = $"Gastos_{nombreParroquia}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
-            string rutaCompleta = Path.Combine(_carpetaReportes, nombreArchivo);
+            string nombre_archivo = $"Gastos_{nombre_parroquia}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
+            string ruta_completa = Path.Combine(_carpetaReportes, nombre_archivo);
 
-            File.WriteAllBytes(rutaCompleta, pdfBytes);
+            File.WriteAllBytes(ruta_completa, pdfBytes);
 
             // 4. Aquí podrías registrar en reportes_generados si luego lo necesitas
 
-            return rutaCompleta;
+            return ruta_completa;
         }
 
         private byte[] GenerarPdf(DataTable datos, string parroquia, DateTime desde, DateTime hasta)
@@ -107,9 +107,9 @@ namespace Capa_de_procesamiento_de_datos
             return document.GeneratePdf();
         }
 
-        public string ObtenerNombreParroquia(int parroquiaId)
+        public string ObtenerNombreParroquia(int parroquia_id)
         {
-            return _repo.ObtenerNombreParroquia(parroquiaId);
+            return _repo.ObtenerNombreParroquia(parroquia_id);
         }
         public DataTable ObtenerTiposReporte()
         {

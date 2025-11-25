@@ -25,25 +25,25 @@ namespace Capa_de_procesamiento_de_datos
         }
 
         public string GenerarBalanceGeneral(
-            int parroquiaId,
-            string nombreParroquia,
+            int parroquia_id,
+            string nombre_parroquia,
             DateTime desde,
             DateTime hasta,
-            int usuarioId)
+            int usuario_id)
         {
             // 1. Traer datos del SP
-            DataTable datos = _repo.ObtenerBalanceGeneral(parroquiaId, desde, hasta);
+            DataTable datos = _repo.ObtenerBalanceGeneral(parroquia_id, desde, hasta);
 
             // 2. Generar PDF
-            byte[] pdfBytes = GenerarPdf(datos, nombreParroquia, desde, hasta);
+            byte[] pdfBytes = GenerarPdf(datos, nombre_parroquia, desde, hasta);
 
             // 3. Guardar archivo
-            string nombreArchivo = $"BalanceGeneral_{nombreParroquia}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
-            string rutaCompleta = Path.Combine(_carpetaReportes, nombreArchivo);
+            string nombre_archivo = $"BalanceGeneral_{nombre_parroquia}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
+            string ruta_completa = Path.Combine(_carpetaReportes, nombre_archivo);
 
-            File.WriteAllBytes(rutaCompleta, pdfBytes);
+            File.WriteAllBytes(ruta_completa, pdfBytes);
 
-            return rutaCompleta;
+            return ruta_completa;
         }
 
         private byte[] GenerarPdf(DataTable datos, string parroquia, DateTime desde, DateTime hasta)

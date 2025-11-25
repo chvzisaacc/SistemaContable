@@ -25,25 +25,25 @@ namespace Capa_de_procesamiento_de_datos
         }
 
         public string GenerarReporteIngresos(
-            int parroquiaId,
-            string nombreParroquia,
+            int parroquia_id,
+            string nombre_parroquia,
             DateTime desde,
             DateTime hasta,
-            int usuarioId)
+            int usuario_id)
         {
             // 1. Traer datos del SP de ingresos
-            DataTable datos = _repo.ObtenerIngresosPorParroquia(parroquiaId, desde, hasta);
+            DataTable datos = _repo.ObtenerIngresosPorParroquia(parroquia_id, desde, hasta);
 
             // 2. Generar PDF
-            byte[] pdfBytes = GenerarPdf(datos, nombreParroquia, desde, hasta);
+            byte[] pdfBytes = GenerarPdf(datos, nombre_parroquia, desde, hasta);
 
             // 3. Guardar archivo
-            string nombreArchivo = $"Ingresos_{nombreParroquia}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
-            string rutaCompleta = Path.Combine(_carpetaReportes, nombreArchivo);
+            string nombre_archivo = $"Ingresos_{nombre_parroquia}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
+            string ruta_completa = Path.Combine(_carpetaReportes, nombre_archivo);
 
-            File.WriteAllBytes(rutaCompleta, pdfBytes);
+            File.WriteAllBytes(ruta_completa, pdfBytes);
 
-            return rutaCompleta;
+            return ruta_completa;
         }
 
         public byte[] GenerarPdf(DataTable datos, string parroquia, DateTime desde, DateTime hasta)
@@ -80,7 +80,7 @@ namespace Capa_de_procesamiento_de_datos
                         });
 
                         // Variables para calcular el total
-                        decimal totalIngresos = 0;
+                        decimal total_ingresos = 0;
 
                         foreach (DataRow row in datos.Rows)
                         {
@@ -91,14 +91,14 @@ namespace Capa_de_procesamiento_de_datos
                             decimal monto = Convert.ToDecimal(row["Monto"]);
                             table.Cell().Text(string.Format("{0:N2}", monto));
 
-                            totalIngresos += monto;
+                            total_ingresos += monto;
                         }
 
                         // Fila de total
                         table.Cell().Text("").Bold();
                         table.Cell().Text("").Bold();
                         table.Cell().Text("TOTAL").Bold();
-                        table.Cell().Text(string.Format("{0:N2}", totalIngresos)).Bold();
+                        table.Cell().Text(string.Format("{0:N2}", total_ingresos)).Bold();
                     });
 
                     page.Footer().AlignRight()
@@ -109,9 +109,9 @@ namespace Capa_de_procesamiento_de_datos
             return document.GeneratePdf();
         }
 
-        public string ObtenerNombreParroquia(int parroquiaId)
+        public string ObtenerNombreParroquia(int parroquia_id)
         {
-            return _repo.ObtenerNombreParroquia(parroquiaId);
+            return _repo.ObtenerNombreParroquia(parroquia_id);
         }
         public DataTable ObtenerTiposReporte()
         {
