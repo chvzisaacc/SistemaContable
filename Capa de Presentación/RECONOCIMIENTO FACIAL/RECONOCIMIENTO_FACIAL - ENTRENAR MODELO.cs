@@ -31,7 +31,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         string path_saved_faces = $"{Application.StartupPath}\\Faces\\";
         string path_trained_face_model = $"{Application.StartupPath}\\Faces\\stateModel.yaml";
 
-        // HaarCascade (OpenCvSharp)
+        // HaarCascade (OpenCvSharp) - DETECTOR DE ROSTROS EN IMAGENES XML
         string path_reconzier_facesModel = $"{Application.StartupPath}\\haarcascade_frontalface_default.xml";
 
         // Cámara y detector

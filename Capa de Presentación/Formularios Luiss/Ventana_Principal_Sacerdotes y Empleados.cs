@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Capa_de_Presentación.Formularios_Luiss
@@ -31,6 +32,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
 
         private clsCRUD_Historial crudHistorial;
+
+        private readonly Alerta _objalerta = new();
+        private readonly ControlarAlerta _controladorAlerta;
+        private readonly SoundPlayer _player = new SoundPlayer();
+
+        private System.Windows.Forms.Timer _animationTimer;
+        private const int _TARGET_HEIGHT = 40; // Altura final deseada del panel (ajustar si es necesario)
+        private const int _SLIDE_SPEED = 5;    // Velocidad de la animación 
+        private bool _isOpening = false;       // Indica si la alerta se está abriendo o cerrando
 
         private int PredictedId { get; set; }
         private int ParroquiaId { get; set; }
@@ -66,42 +76,52 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             // muestra uno por defecto
             MostrarSoloEstePanel(panel1);
+
+            _controladorAlerta = new ControlarAlerta(_objalerta);
+
+            _controladorAlerta.OnAlertaStateChanged += ManejarCambioEstadoAlerta;
+
+            _controladorAlerta.IniciarMonitoreo(intervaloMinutos: 5);
+
+            _animationTimer = new System.Windows.Forms.Timer();
+            _animationTimer.Interval = 10; // Rápido (10ms) para movimiento suave
+            _animationTimer.Tick += AnimationTimer_Tick;
+
+            // Inicializar el panel de alerta oculto
+            pnlAlertaDeslizante.Height = 0;
+            pnlAlertaDeslizante.Visible = true; // Lo dejamos Visible, pero con Altura 0
         }
 
-        public FRM_42() : this(0,0)
+        public FRM_42() : this(0, 0)
         {
         }
-
-        //public FRM_42(int predicted_id, int parroquia_id) : this(predicted_id)
-        //{
-        //}
 
         private void FRM_42_Load(object sender, EventArgs e)
         {
             dgvGastos.AllowUserToAddRows = false;
+
             DateTime mes_actual = DateTime.Now;
             DateTime mes_actual1 = new DateTime(mes_actual.Year, mes_actual.Month, 1);
+            DateTime hoy_sin_hora = DateTime.Today;
+
+            dtpFecha.Value = hoy_sin_hora;
+            dateTimePicker1.Value = hoy_sin_hora;
+            // ------------------------------------------
+
             dtpFecha.MinDate = mes_actual1;
-            dtpFecha.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
             dateTimePicker1.MinDate = mes_actual1;
-            dateTimePicker1.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
+            dtpFecha.MaxDate = hoy_sin_hora;
+            dateTimePicker1.MaxDate = hoy_sin_hora;
 
             if (dtpFecha.Value < dtpFecha.MinDate || dtpFecha.Value > dtpFecha.MaxDate)
-                dtpFecha.Value = DateTime.Today;
+                dtpFecha.Value = hoy_sin_hora;
 
             if (dateTimePicker1.Value < dateTimePicker1.MinDate || dateTimePicker1.Value > dateTimePicker1.MaxDate)
-                dateTimePicker1.Value = DateTime.Today;
-
-
-
-
-
+                dateTimePicker1.Value = hoy_sin_hora;
 
             ActualizarSaldo();
             CargarCuentasEnComboBox();
-
-
-
+            _controladorAlerta.ForzarVerificacionInmediata();
 
         }
 
@@ -130,6 +150,67 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 // 3. Vuelve a vincular el evento para que funcione cuando el usuario haga clic
                 cmbCuentas.SelectedIndexChanged += cmbCuentas_SelectedIndexChanged;
             }
+        }
+
+        private void ManejarCambioEstadoAlerta(bool activo, string mensaje)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => ManejarCambioEstadoAlerta(activo, mensaje)));
+                return;
+            }
+
+            if (activo && pnlAlertaDeslizante.Height == 0) // Si está activo y actualmente cerrado
+            {
+                // 3.1. CONFIGURACIÓN AL MOSTRAR
+                lblAlertaMensaje.Text = mensaje;
+                _isOpening = true;
+                _animationTimer.Start();
+
+                // Reproducir sonido
+                _player.Play();
+            }
+            else if (!activo && pnlAlertaDeslizante.Height > 0) // Si está inactivo y actualmente abierto
+            {
+                // 3.2. CONFIGURACIÓN AL OCULTAR
+                _isOpening = false;
+                _animationTimer.Start();
+            }
+        }
+
+        // 4. El corazón de la animación: mueve el panel en cada "tick"
+        private void AnimationTimer_Tick(object sender, EventArgs e)
+        {
+            if (_isOpening) // Deslizar hacia abajo (Mostrar)
+            {
+                if (pnlAlertaDeslizante.Height < _TARGET_HEIGHT)
+                {
+                    pnlAlertaDeslizante.Height += _SLIDE_SPEED;
+                    if (pnlAlertaDeslizante.Height >= _TARGET_HEIGHT)
+                    {
+                        pnlAlertaDeslizante.Height = _TARGET_HEIGHT; // Asegurar el tope
+                        _animationTimer.Stop();
+                    }
+                }
+            }
+            else // Deslizar hacia arriba (Ocultar)
+            {
+                if (pnlAlertaDeslizante.Height > 0)
+                {
+                    pnlAlertaDeslizante.Height -= _SLIDE_SPEED;
+                    if (pnlAlertaDeslizante.Height <= 0)
+                    {
+                        pnlAlertaDeslizante.Height = 0; // Asegurar que quede en cero
+                        _animationTimer.Stop();
+                    }
+                }
+            }
+        }
+
+        //Detener el Timer al cerrar el formulario para liberar recursos
+        private void Frm_42_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _controladorAlerta.DetenerMonitoreo();
         }
 
         private void CargarOrigenes()
@@ -803,6 +884,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                     MessageBox.Show("Transacción editada correctamente.", "Éxito",
                                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    _controladorAlerta.ForzarVerificacionInmediata();
                 }
                 else
                 {
@@ -906,6 +989,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
                 ActualizarSaldo();
+                _controladorAlerta.ForzarVerificacionInmediata();
             }
             catch (Exception ex)
             {
@@ -1114,6 +1198,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                     MessageBox.Show("Transacción editada correctamente.", "Éxito",
                                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    _controladorAlerta.ForzarVerificacionInmediata();
                 }
                 else
                 {
@@ -1217,6 +1303,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
                 ActualizarSaldo();
+                _controladorAlerta.ForzarVerificacionInmediata();
             }
             catch (Exception ex)
             {
@@ -1361,12 +1448,22 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void cmbInteresesBancarios_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cmbInteresesBancarios.SelectedIndex == 0)
+            if (cmbInteresesBancarios.SelectedIndex == 0)
             {
                 Intereses_Por_Cds intereses_Por_Cds = new();
                 intereses_Por_Cds.Show();
                 this.Hide();
             }
+        }
+
+        private void panelBancos2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnlAlertaDeslizante_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 

@@ -39,12 +39,18 @@
             pictureBox3 = new PictureBox();
             pictureBox4 = new PictureBox();
             textBox2 = new TextBox();
+            pictureBox5 = new PictureBox();
+            textBox4 = new TextBox();
+            pictureBox6 = new PictureBox();
+            textBox5 = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pibBitacora).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pibGenerarReportes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             SuspendLayout();
             // 
             // textBox3
@@ -53,9 +59,10 @@
             textBox3.BorderStyle = BorderStyle.None;
             textBox3.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox3.ForeColor = Color.White;
-            textBox3.Location = new Point(170, 358);
+            textBox3.Location = new Point(212, 448);
+            textBox3.Margin = new Padding(4);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(102, 32);
+            textBox3.Size = new Size(128, 38);
             textBox3.TabIndex = 30;
             textBox3.Text = "Bitácora";
             textBox3.MouseClick += textBox3_MouseClick;
@@ -63,9 +70,10 @@
             // 
             // pibBitacora
             // 
-            pibBitacora.Location = new Point(46, 324);
+            pibBitacora.Location = new Point(58, 405);
+            pibBitacora.Margin = new Padding(4);
             pibBitacora.Name = "pibBitacora";
-            pibBitacora.Size = new Size(367, 105);
+            pibBitacora.Size = new Size(459, 131);
             pibBitacora.SizeMode = PictureBoxSizeMode.Zoom;
             pibBitacora.TabIndex = 29;
             pibBitacora.TabStop = false;
@@ -77,9 +85,10 @@
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox1.ForeColor = Color.White;
-            textBox1.Location = new Point(125, 263);
+            textBox1.Location = new Point(156, 329);
+            textBox1.Margin = new Padding(4);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(220, 32);
+            textBox1.Size = new Size(275, 38);
             textBox1.TabIndex = 28;
             textBox1.Text = "Generar Reportes";
             textBox1.MouseClick += textBox1_MouseClick;
@@ -88,9 +97,10 @@
             // pibGenerarReportes
             // 
             pibGenerarReportes.Image = (Image)resources.GetObject("pibGenerarReportes.Image");
-            pibGenerarReportes.Location = new Point(46, 230);
+            pibGenerarReportes.Location = new Point(58, 288);
+            pibGenerarReportes.Margin = new Padding(4);
             pibGenerarReportes.Name = "pibGenerarReportes";
-            pibGenerarReportes.Size = new Size(367, 105);
+            pibGenerarReportes.Size = new Size(459, 131);
             pibGenerarReportes.SizeMode = PictureBoxSizeMode.Zoom;
             pibGenerarReportes.TabIndex = 27;
             pibGenerarReportes.TabStop = false;
@@ -99,10 +109,10 @@
             // pictureBox1
             // 
             pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
-            pictureBox1.Location = new Point(99, 41);
-            pictureBox1.Margin = new Padding(3, 4, 3, 4);
+            pictureBox1.Location = new Point(124, 51);
+            pictureBox1.Margin = new Padding(4, 5, 4, 5);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(246, 182);
+            pictureBox1.Size = new Size(308, 228);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 24;
             pictureBox1.TabStop = false;
@@ -112,19 +122,20 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(141, -2);
+            label1.Location = new Point(193, -2);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(170, 41);
+            label1.Size = new Size(198, 48);
             label1.TabIndex = 23;
             label1.Text = "SERVICIOS";
             // 
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(76, 41);
-            pictureBox2.Margin = new Padding(3, 4, 3, 4);
+            pictureBox2.Location = new Point(113, 51);
+            pictureBox2.Margin = new Padding(4, 5, 4, 5);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(287, 182);
+            pictureBox2.Size = new Size(359, 228);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 31;
             pictureBox2.TabStop = false;
@@ -132,9 +143,10 @@
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(46, 324);
+            pictureBox3.Location = new Point(58, 405);
+            pictureBox3.Margin = new Padding(4);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(367, 105);
+            pictureBox3.Size = new Size(459, 131);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 32;
             pictureBox3.TabStop = false;
@@ -143,12 +155,14 @@
             // pictureBox4
             // 
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(46, 427);
+            pictureBox4.Location = new Point(58, 534);
+            pictureBox4.Margin = new Padding(4);
             pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(367, 105);
+            pictureBox4.Size = new Size(459, 131);
             pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox4.TabIndex = 33;
             pictureBox4.TabStop = false;
+            pictureBox4.Click += pictureBox4_Click;
             // 
             // textBox2
             // 
@@ -156,18 +170,76 @@
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(130, 463);
+            textBox2.Location = new Point(162, 579);
+            textBox2.Margin = new Padding(4);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(200, 32);
+            textBox2.Size = new Size(250, 38);
             textBox2.TabIndex = 34;
             textBox2.Text = "Registrar Rostros";
             textBox2.Click += textBox2_Click;
+            textBox2.TextChanged += textBox2_TextChanged_1;
+            // 
+            // pictureBox5
+            // 
+            pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
+            pictureBox5.Location = new Point(58, 664);
+            pictureBox5.Margin = new Padding(4);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Size = new Size(459, 131);
+            pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox5.TabIndex = 35;
+            pictureBox5.TabStop = false;
+            pictureBox5.Click += pictureBox5_Click;
+            // 
+            // textBox4
+            // 
+            textBox4.BackColor = Color.FromArgb(43, 56, 143);
+            textBox4.BorderStyle = BorderStyle.None;
+            textBox4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox4.ForeColor = Color.White;
+            textBox4.Location = new Point(140, 710);
+            textBox4.Margin = new Padding(4);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(298, 32);
+            textBox4.TabIndex = 36;
+            textBox4.Text = "Certificados de depósito";
+            textBox4.TextChanged += textBox4_TextChanged;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
+            pictureBox6.Location = new Point(58, 791);
+            pictureBox6.Margin = new Padding(4);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(459, 131);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 37;
+            pictureBox6.TabStop = false;
+            // 
+            // textBox5
+            // 
+            textBox5.BackColor = Color.FromArgb(43, 56, 143);
+            textBox5.BorderStyle = BorderStyle.None;
+            textBox5.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox5.ForeColor = Color.White;
+            textBox5.Location = new Point(162, 836);
+            textBox5.Margin = new Padding(4);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(250, 38);
+            textBox5.TabIndex = 38;
+            textBox5.Text = "Alerta del sistema";
+            textBox5.MouseClick += textBox5_MouseClick;
+            textBox5.TextChanged += textBox5_TextChanged;
             // 
             // FRM_ServiciosAdministrador
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(442, 556);
+            ClientSize = new Size(552, 918);
+            Controls.Add(textBox5);
+            Controls.Add(pictureBox6);
+            Controls.Add(textBox4);
+            Controls.Add(pictureBox5);
             Controls.Add(textBox2);
             Controls.Add(pictureBox4);
             Controls.Add(textBox3);
@@ -178,14 +250,18 @@
             Controls.Add(pictureBox1);
             Controls.Add(label1);
             Controls.Add(pibBitacora);
+            Margin = new Padding(4);
             Name = "FRM_ServiciosAdministrador";
             Text = "FRM_ServiciosAdministrador";
+            Load += FRM_ServiciosAdministrador_Load;
             ((System.ComponentModel.ISupportInitialize)pibBitacora).EndInit();
             ((System.ComponentModel.ISupportInitialize)pibGenerarReportes).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -202,5 +278,9 @@
         private PictureBox pictureBox3;
         private PictureBox pictureBox4;
         private TextBox textBox2;
+        private PictureBox pictureBox5;
+        private TextBox textBox4;
+        private PictureBox pictureBox6;
+        private TextBox textBox5;
     }
 }

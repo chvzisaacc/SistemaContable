@@ -1,4 +1,5 @@
-﻿using Capa_de_Presentación.Formularios_Ewin;
+﻿using Capa_de_Presentación.ALERTA;
+using Capa_de_Presentación.Formularios_Ewin;
 using Capa_de_Presentación.RECONOCIMIENTO_FACIAL;
 using System;
 using System.Collections.Generic;
@@ -125,6 +126,59 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         private void pibGenerarReportes_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox5_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            this.Hide();
+
+            // 2. Creamos el nuevo formulario y lo manejamos con 'using' para asegurar su descarte.
+            using (var alerta = new Capa_de_Presentación.ALERTA.ALERTA_SISTEMA())
+            {
+                // 3. Lo mostramos de forma MODAL. El código se detiene aquí hasta que se cierra 'reconocimiento'.
+                alerta.ShowDialog(this);
+            }
+
+            // 4. Una vez que 'reconocimiento' se cierra, cerramos el formulario actual 'this'.
+            // Si este formulario (Servicios) fue abierto por otro (dueño/Owner), 
+            // el código del dueñó se encargará de mostrarlo de nuevo o cerrarlo.
+            this.Close();
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FRM_ServiciosAdministrador_Load(object sender, EventArgs e)
         {
 
         }
