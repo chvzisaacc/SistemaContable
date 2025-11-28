@@ -23,7 +23,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         }
         RecordingType recording_type;
 
-        // Tamaño para redimensionar rostros (si los quisieras almacenar)
+        // Tamaño para redimensionar rostros
         int model_width = 100;
         int model_height = 100;
 
@@ -47,12 +47,12 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         //Indexar cada rostro empezando desde el 1
         int face_id = 1;
         string face_name = "";
-        //Detectar si es una cara nueva si escribimos el nombre en la textbox
+        //Detectar si es una cara
         bool is_anew_face = false;
         //componentes
         int eigen_face_recognizer_componentes = 80;
         //margen de error o de fallo = 5000
-        int threshold = 5000;
+        int threshold = 3000;
 
 
 
@@ -232,24 +232,24 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                 {
                     Cv2.Rectangle(frame, face, Scalar.Red, 2);
 
-                    Mat faceCrop = new Mat(gray, face);
-                    Cv2.Resize(faceCrop, faceCrop, new OpenCvSharp.Size(model_width, model_height));
+                    Mat face_crop = new Mat(gray, face);
+                    Cv2.Resize(face_crop, face_crop, new OpenCvSharp.Size(model_width, model_height));
 
                     // *** aseguro que se usan fotos del usuario correcto ***
-                    trainedImages.Add(faceCrop.Clone());
+                    trainedImages.Add(face_crop.Clone());
 
                     // guardar cada 500ms
                     if ((DateTime.Now - lastSave).TotalMilliseconds >= 500)
                     {
                         ClsAccionesDB db = new ClsAccionesDB();
 
-                        int fotosSQL = db.ContarFotosUsuario(face_id);
+                        int fotos_sql = db.ContarFotosUsuario(face_id);
 
-                        if (fotosSQL < 30)
+                        if (fotos_sql < 30)
                         {
                             try
                             {
-                                byte[] data = MatToByteArray(faceCrop);
+                                byte[] data = MatToByteArray(face_crop);
                                 int new_photo_id = db.GuardarFotoRostro(face_id, data);
 
                                 // Guardar también en carpeta local

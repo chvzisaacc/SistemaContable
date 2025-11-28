@@ -31,7 +31,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
         int model_width = 100;
         int model_height = 100;
-        int threshold = 3000;
+        int threshold = 2500;
         private bool acceso_concedido = false;
         private bool mensaje_mostrado = false;
         private bool acceso_enproceso = false;
@@ -194,11 +194,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                         int estado_cuenta = datos.estado_cuenta;
                         int parroquia_id = datos.parroquia_id;
 
-                        // Almacenar datos en la clase estática UsuarioLogueado
-                        UsuarioLogueado.usuario_id = predicted_id;
-                        UsuarioLogueado.nombre = nombre;
-                        UsuarioLogueado.rol_id = rol_id;
-                        UsuarioLogueado.parroquia_id = parroquia_id;
+                        Capa_de_acceso_de_datos.Sesion1.IniciarSesion(predicted_id, rol_id, parroquia_id, nombre);
 
                         if (!acceso_concedido)
                             detected_username = nombre;

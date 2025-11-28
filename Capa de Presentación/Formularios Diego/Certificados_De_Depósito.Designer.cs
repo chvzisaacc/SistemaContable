@@ -101,6 +101,7 @@
             label8.Size = new Size(45, 32);
             label8.TabIndex = 12;
             label8.Text = "SD";
+            label8.Visible = false;
             // 
             // pictureBox4
             // 

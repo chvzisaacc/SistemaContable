@@ -32,10 +32,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private clsCRUD_Historial crudHistorial;
 
+        private int PredictedId { get; set; }
+        private int ParroquiaId { get; set; }
+
         ClsCerrar cerrar = new ClsCerrar();
-        public FRM_42(int predicted_id)
+        public FRM_42(int predicted_id, int parroquia_id)
         {
             InitializeComponent();
+            PredictedId = predicted_id;
+            ParroquiaId = parroquia_id;
 
             InicializarDGVIngr();
             InicializarDGVgastos();
@@ -63,13 +68,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
             MostrarSoloEstePanel(panel1);
         }
 
-        public FRM_42() : this(0)
+        public FRM_42() : this(0,0)
         {
         }
 
-        public FRM_42(int predicted_id, int parroquia_id) : this(predicted_id)
-        {
-        }
+        //public FRM_42(int predicted_id, int parroquia_id) : this(predicted_id)
+        //{
+        //}
 
         private void FRM_42_Load(object sender, EventArgs e)
         {
