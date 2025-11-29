@@ -53,16 +53,10 @@
             panel2.Controls.Add(label7);
             panel2.Controls.Add(cmbOrigen);
             panel2.Controls.Add(label6);
-<<<<<<< HEAD
             panel2.Location = new Point(15, 15);
             panel2.Margin = new Padding(4, 4, 4, 4);
             panel2.Name = "panel2";
             panel2.Size = new Size(648, 386);
-=======
-            panel2.Location = new Point(12, 12);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(518, 309);
->>>>>>> v
             panel2.TabIndex = 10;
             panel2.Paint += panel2_Paint;
             // 
@@ -72,16 +66,10 @@
             txtMonto.BorderStyle = BorderStyle.None;
             txtMonto.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtMonto.ForeColor = Color.Black;
-<<<<<<< HEAD
             txtMonto.Location = new Point(194, 212);
             txtMonto.Margin = new Padding(4, 4, 4, 4);
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(269, 37);
-=======
-            txtMonto.Location = new Point(155, 170);
-            txtMonto.Name = "txtMonto";
-            txtMonto.Size = new Size(215, 31);
->>>>>>> v
             txtMonto.TabIndex = 18;
             txtMonto.TextChanged += txtMonto_TextChanged;
             // 
@@ -92,16 +80,10 @@
             cmbDestino.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbDestino.FormattingEnabled = true;
             cmbDestino.Items.AddRange(new object[] { "Cuenta Ahorro", "Cuenta Cheque" });
-<<<<<<< HEAD
             cmbDestino.Location = new Point(108, 140);
             cmbDestino.Margin = new Padding(4, 4, 4, 4);
             cmbDestino.Name = "cmbDestino";
             cmbDestino.Size = new Size(442, 46);
-=======
-            cmbDestino.Location = new Point(86, 112);
-            cmbDestino.Name = "cmbDestino";
-            cmbDestino.Size = new Size(354, 39);
->>>>>>> v
             cmbDestino.TabIndex = 15;
             cmbDestino.Text = "            Destino";
             // 
@@ -112,16 +94,10 @@
             textBox2.Enabled = false;
             textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-<<<<<<< HEAD
             textBox2.Location = new Point(236, 298);
             textBox2.Margin = new Padding(4, 4, 4, 4);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(190, 32);
-=======
-            textBox2.Location = new Point(190, 238);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(152, 27);
->>>>>>> v
             textBox2.TabIndex = 14;
             textBox2.Text = "Guardar y cerrar";
             textBox2.TextChanged += textBox2_TextChanged;
@@ -129,16 +105,10 @@
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-<<<<<<< HEAD
             pictureBox2.Location = new Point(194, 284);
             pictureBox2.Margin = new Padding(4, 4, 4, 4);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(282, 64);
-=======
-            pictureBox2.Location = new Point(155, 227);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(226, 51);
->>>>>>> v
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.TabIndex = 13;
             pictureBox2.TabStop = false;
@@ -149,32 +119,20 @@
             textBox1.BackColor = Color.FromArgb(251, 203, 51);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-<<<<<<< HEAD
             textBox1.Location = new Point(194, 212);
             textBox1.Margin = new Padding(4, 4, 4, 4);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(251, 32);
-=======
-            textBox1.Location = new Point(155, 170);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(201, 27);
->>>>>>> v
             textBox1.TabIndex = 12;
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-<<<<<<< HEAD
             label7.Location = new Point(39, 212);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
             label7.Size = new Size(114, 38);
-=======
-            label7.Location = new Point(31, 170);
-            label7.Name = "label7";
-            label7.Size = new Size(93, 31);
->>>>>>> v
             label7.TabIndex = 10;
             label7.Text = "Monto:";
             // 
@@ -185,16 +143,10 @@
             cmbOrigen.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbOrigen.FormattingEnabled = true;
             cmbOrigen.Items.AddRange(new object[] { "Cuenta Cheque", "Cuenta Ahorro" });
-<<<<<<< HEAD
             cmbOrigen.Location = new Point(108, 84);
             cmbOrigen.Margin = new Padding(4, 4, 4, 4);
             cmbOrigen.Name = "cmbOrigen";
             cmbOrigen.Size = new Size(442, 46);
-=======
-            cmbOrigen.Location = new Point(86, 67);
-            cmbOrigen.Name = "cmbOrigen";
-            cmbOrigen.Size = new Size(354, 39);
->>>>>>> v
             cmbOrigen.TabIndex = 11;
             cmbOrigen.Text = "            Origen";
             cmbOrigen.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
@@ -203,35 +155,21 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-<<<<<<< HEAD
             label6.Location = new Point(80, 19);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Size = new Size(476, 45);
-=======
-            label6.Location = new Point(64, 15);
-            label6.Name = "label6";
-            label6.Size = new Size(401, 38);
->>>>>>> v
             label6.TabIndex = 10;
             label6.Text = "Transfiera de cuenta a cuenta";
             // 
             // BancosTransferenciaEntreCuentas
             // 
-<<<<<<< HEAD
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(678, 416);
             Controls.Add(panel2);
             Margin = new Padding(4, 4, 4, 4);
-=======
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(542, 333);
-            Controls.Add(panel2);
->>>>>>> v
             Name = "BancosTransferenciaEntreCuentas";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "BancosTransferencia_Entre_Cuentas";
