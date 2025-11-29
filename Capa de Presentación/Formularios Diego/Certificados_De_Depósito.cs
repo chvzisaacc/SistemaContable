@@ -115,6 +115,9 @@ namespace Capa_de_Presentación.Formularios_Diego
 
         }
         private bool datosGuardados = false;
+        private int predicted_id;
+        private int parroquia_id;
+
         private void textBox3_Click(object sender, EventArgs e)
         {
             ClsCD objCD = new();
@@ -186,7 +189,7 @@ namespace Capa_de_Presentación.Formularios_Diego
 
         private void pictureBox9_Click(object sender, EventArgs e)
         {
-            FRM_42 obj42 = new();
+            FRM_42 obj42 = new(predicted_id, parroquia_id);
             obj42.Show();
             this.Hide();
         }

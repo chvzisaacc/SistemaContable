@@ -9,22 +9,45 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FRM_PG1 : Form
     {
+        /// <summary>
+        /// The cerrar
+        /// </summary>
         ClsCerrar cerrar = new ClsCerrar();
+        /// <summary>
+        /// The usuario identifier
+        /// </summary>
         private int usuarioID;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FRM_PG1"/> class.
+        /// </summary>
         public FRM_PG1()
         {
             InitializeComponent();
             this.FormClosing += cerrar.CerrarApp;
         }
 
+        /// <summary>
+        /// Handles the Load event of the FRM_PG1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG1_Load(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the button1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
             ClsValidaciones validaciones = new ClsValidaciones();
@@ -76,6 +99,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
 
 
+        /// <summary>
+        /// Handles the Click event of the label3 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label3_Click(object sender, EventArgs e)
         {
             Olvidaste_tu_contraseña objrecu = new Olvidaste_tu_contraseña();
@@ -83,6 +111,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             this.Hide();
         }
 
+        /// <summary>
+        /// Handles the Click event of the txtUsuario control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtUsuario_Click(object sender, EventArgs e)
         {
             if (txt_usuario.Text == "Usuario")
@@ -92,6 +125,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Handles the Leave event of the txtUsuario control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtUsuario_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txt_usuario.Text))
@@ -101,6 +139,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the txtContraseña control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtContraseña_Click(object sender, EventArgs e)
         {
             if (txt_contraseña.Text == "Contraseña")
@@ -110,6 +153,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Handles the Leave event of the txtContraseña control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtContraseña_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txt_contraseña.Text))
@@ -119,6 +167,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             RECONOCIMIENTO_FACIAL.RECONOCER rECONOCER = new();

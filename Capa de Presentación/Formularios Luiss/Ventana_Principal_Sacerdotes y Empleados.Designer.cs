@@ -620,6 +620,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(345, 31);
             dateTimePicker1.TabIndex = 25;
+            dateTimePicker1.Value = new DateTime(2025, 11, 28, 0, 0, 0, 0);
             dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
             // 
             // button4
@@ -857,7 +858,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pnlAlertaDeslizante.Dock = DockStyle.Top;
             pnlAlertaDeslizante.Location = new Point(0, 0);
             pnlAlertaDeslizante.Name = "pnlAlertaDeslizante";
-            pnlAlertaDeslizante.Size = new Size(1570, 66);
+            pnlAlertaDeslizante.Size = new Size(1570, 50);
             pnlAlertaDeslizante.TabIndex = 26;
             pnlAlertaDeslizante.Paint += pnlAlertaDeslizante_Paint;
             // 
@@ -983,8 +984,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private DataGridViewTextBoxColumn cSaldo;
         private PictureBox pictureBox6;
         private PictureBox pictureBox8;
-        private System.Windows.Forms.Timer timer1;
         private Label lblAlertaMensaje;
         private Panel pnlAlertaDeslizante;
+        private System.Windows.Forms.Timer timer1;
     }
 }
