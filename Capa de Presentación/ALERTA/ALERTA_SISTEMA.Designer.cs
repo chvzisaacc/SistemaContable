@@ -28,100 +28,98 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
             LimiteDay = new NumericUpDown();
             label1 = new Label();
             Estado = new CheckBox();
             label2 = new Label();
-            btnModificar = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            button1 = new Button();
+            dataGridView1 = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)LimiteDay).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(420, 73);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.ScrollBars = ScrollBars.None;
-            dataGridView1.Size = new Size(944, 65);
-            dataGridView1.TabIndex = 0;
             // 
             // LimiteDay
             // 
-            LimiteDay.Location = new Point(178, 37);
-            LimiteDay.Maximum = new decimal(new int[] { 365, 0, 0, 0 });
+            LimiteDay.Location = new Point(199, 35);
             LimiteDay.Name = "LimiteDay";
             LimiteDay.Size = new Size(180, 31);
-            LimiteDay.TabIndex = 1;
+            LimiteDay.TabIndex = 0;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 39);
+            label1.Location = new Point(45, 41);
             label1.Name = "label1";
-            label1.Size = new Size(94, 25);
-            label1.TabIndex = 2;
-            label1.Text = "Días límite";
+            label1.Size = new Size(98, 25);
+            label1.TabIndex = 1;
+            label1.Text = "Días Limite";
             // 
             // Estado
             // 
             Estado.AutoSize = true;
-            Estado.Location = new Point(178, 83);
+            Estado.Location = new Point(199, 93);
             Estado.Name = "Estado";
-            Estado.Size = new Size(144, 29);
-            Estado.TabIndex = 3;
-            Estado.Text = "Alarma activa";
+            Estado.Size = new Size(180, 29);
+            Estado.TabIndex = 2;
+            Estado.Text = "Activar/Desactivar";
             Estado.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 83);
+            label2.Location = new Point(77, 94);
             label2.Name = "label2";
-            label2.Size = new Size(154, 25);
-            label2.TabIndex = 4;
-            label2.Text = "Activar/Desactivar";
+            label2.Size = new Size(66, 25);
+            label2.TabIndex = 3;
+            label2.Text = "Estado";
             // 
-            // btnModificar
+            // button1
             // 
-            btnModificar.Location = new Point(90, 139);
-            btnModificar.Name = "btnModificar";
-            btnModificar.Size = new Size(147, 49);
-            btnModificar.TabIndex = 5;
-            btnModificar.Text = "Modificar";
-            btnModificar.UseVisualStyleBackColor = true;
-            btnModificar.Click += button1_Click;
+            button1.Location = new Point(112, 146);
+            button1.Name = "button1";
+            button1.Size = new Size(150, 56);
+            button1.TabIndex = 4;
+            button1.Text = "Modificar";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(428, 74);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.Size = new Size(839, 94);
+            dataGridView1.TabIndex = 5;
             // 
             // ALERTA_SISTEMA
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1388, 200);
-            Controls.Add(btnModificar);
+            ClientSize = new Size(1321, 230);
+            Controls.Add(dataGridView1);
+            Controls.Add(button1);
             Controls.Add(label2);
             Controls.Add(Estado);
             Controls.Add(label1);
             Controls.Add(LimiteDay);
-            Controls.Add(dataGridView1);
             Name = "ALERTA_SISTEMA";
             Text = "ALERTA_SISTEMA";
             Load += ALERTA_SISTEMA_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)LimiteDay).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dataGridView1;
         private NumericUpDown LimiteDay;
         private Label label1;
         private CheckBox Estado;
         private Label label2;
-        private Button btnModificar;
+        private Button button1;
+        private DataGridView dataGridView1;
     }
 }

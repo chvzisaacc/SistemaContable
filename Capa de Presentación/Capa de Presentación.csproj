@@ -10,6 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Formularios Luiss\jaj2gnb4.yzy~" />
 	  <None Remove="Resources\haarcascade_frontalface_default.xml" />
 	</ItemGroup>
 

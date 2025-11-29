@@ -1,12 +1,8 @@
-<<<<<<< HEAD
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
 using Capa_de_Presentación.Formularios_Ewin;
 using Capa_de_Presentación.Formularios_Luiss;
 using System;
-=======
-﻿using System;
->>>>>>> v
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,12 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-<<<<<<< HEAD
-=======
-using Capa_de_acceso_de_datos;
-using Capa_de_Presentación.CLASES;
-using Capa_de_Presentación.Formularios_Luiss;
->>>>>>> v
 
 namespace Capa_de_Presentación.Formularios_Diego
 {
@@ -41,37 +31,22 @@ namespace Capa_de_Presentación.Formularios_Diego
             CargarDatos();
         }
 
-<<<<<<< HEAD
         public async void CargarDatos()
-=======
-        public void CargarDatos()
->>>>>>> v
         {
             try
             {
                 ClsAccionesDB acciones = new ClsAccionesDB();
 
-<<<<<<< HEAD
                 // Ejecutar la carga de datos en un hilo de fondo
                 dtDatosCertificados = await Task.Run(() => acciones.CargarCertificados());
 
                 dataGridView1.Columns.Clear();
                 dataGridView1.DataSource = dtDatosCertificados;
-=======
-                dtDatosCertificados = acciones.CargarCertificados();
-                dataGridView1.Columns.Clear();
-
-                dataGridView1.DataSource = dtDatosCertificados;
-
->>>>>>> v
                 dataGridView1.AllowUserToAddRows = false;
                 dataGridView1.AutoResizeColumns();
                 dataGridView1.ReadOnly = true;
 
-<<<<<<< HEAD
                 // Ocultar columnas innecesarias
-=======
->>>>>>> v
                 if (dataGridView1.Columns.Contains("Id_certificado"))
                 {
                     dataGridView1.Columns["Id_certificado"].Visible = false;
@@ -80,11 +55,6 @@ namespace Capa_de_Presentación.Formularios_Diego
                 {
                     dataGridView1.Columns["FechaTransaccion"].Visible = false;
                 }
-<<<<<<< HEAD
-=======
-
-
->>>>>>> v
             }
             catch (Exception ex)
             {
@@ -145,15 +115,9 @@ namespace Capa_de_Presentación.Formularios_Diego
 
         }
         private bool datosGuardados = false;
-<<<<<<< HEAD
-<<<<<<< HEAD
         private int predicted_id;
         private int parroquia_id;
 
-=======
->>>>>>> v
-=======
->>>>>>> parent of eebe7b3 (ALERTA FINALIZADA)
         private void textBox3_Click(object sender, EventArgs e)
         {
             ClsCD objCD = new();
@@ -225,12 +189,7 @@ namespace Capa_de_Presentación.Formularios_Diego
 
         private void pictureBox9_Click(object sender, EventArgs e)
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
             FRM_42 obj42 = new(predicted_id, parroquia_id);
-=======
-            FRM_42 obj42 = new();
->>>>>>> parent of eebe7b3 (ALERTA FINALIZADA)
             obj42.Show();
             this.Hide();
         }
@@ -243,9 +202,6 @@ namespace Capa_de_Presentación.Formularios_Diego
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
 
-=======
-          
->>>>>>> v
         }
     }
 

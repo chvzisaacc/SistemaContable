@@ -12,7 +12,7 @@ namespace Capa_de_acceso_de_datos
     {
         private readonly Clsconexion _cn = new Clsconexion();
 
-
+        
         public DataSet ObtenerEstadoResultados(int parroquia_id, DateTime desde, DateTime hasta)
         {
             DataSet ds = new DataSet();
@@ -31,8 +31,8 @@ namespace Capa_de_acceso_de_datos
 
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
-                        da.Fill(ds);
-
+                        da.Fill(ds);  
+                                       
                     }
                 }
             }
@@ -50,7 +50,7 @@ namespace Capa_de_acceso_de_datos
 
             try
             {
-                _cn.Abrir();
+                _cn.Abrir(); 
                 using (SqlCommand cmd = new SqlCommand("sp_ReporteIngresos", _cn.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -65,7 +65,7 @@ namespace Capa_de_acceso_de_datos
                     }
                 }
             }
-
+            
             finally
             {
                 _cn.Cerrar();
@@ -112,7 +112,7 @@ namespace Capa_de_acceso_de_datos
 
             try
             {
-                _cn.Abrir();
+                _cn.Abrir();   
 
                 using (SqlCommand cmd = new SqlCommand("sp_ObtenerParroquias", _cn.sc))
                 {
@@ -157,8 +157,8 @@ namespace Capa_de_acceso_de_datos
 
             return nombre;
         }
-
-        public DataTable ObtenerTiposReporte()
+    
+    public DataTable ObtenerTiposReporte()
         {
             DataTable dt = new DataTable();
 
@@ -209,64 +209,9 @@ namespace Capa_de_acceso_de_datos
             }
             return dt;
         }
-
-        public DataSet ObtenerDatosCuria(int parroquiaId, DateTime desde, DateTime hasta)
-        {
-            DataSet ds = new DataSet();
-
-            try
-            {
-                _cn.Abrir();
-
-                using (SqlCommand cmd = new SqlCommand("sp_ReporteCuria", _cn.sc))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquiaId);
-                    cmd.Parameters.AddWithValue("@Desde", desde.Date);
-                    cmd.Parameters.AddWithValue("@Hasta", hasta.Date);
-
-                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                    {
-                        da.Fill(ds);
-                    }
-                }
-            }
-            finally
-            {
-                _cn.Cerrar();
-            }
-
-            return ds;
-        }
-        public string ObtenerNombreSacerdote(int usuarioId)
-        {
-            string nombre = string.Empty;
-
-            try
-            {
-                _cn.Abrir();
-
-                using (SqlCommand cmd = new SqlCommand("sp_ObtenerNombreSacerdote", _cn.sc))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
-
-                    object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                        nombre = result.ToString();
-                }
-            }
-            finally
-            {
-                _cn.Cerrar();
-            }
-
-            return nombre;
-        }
-
     }
-    }
+
+}
 
 
 
