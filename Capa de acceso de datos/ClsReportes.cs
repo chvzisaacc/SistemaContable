@@ -209,6 +209,71 @@ namespace Capa_de_acceso_de_datos
             }
             return dt;
         }
+
+        public DataSet ObtenerDatosCuria(int parroquiaId, DateTime desde, DateTime hasta)
+        {
+            DataSet ds = new DataSet();
+
+            try
+            {
+                _cn.Abrir();
+
+                using (SqlCommand cmd = new SqlCommand("sp_ReporteCuria", _cn.sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquiaId);
+                    cmd.Parameters.AddWithValue("@Desde", desde.Date);
+                    cmd.Parameters.AddWithValue("@Hasta", hasta.Date);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(ds);   // ← Llena las 3 tablas del DataSet
+                    }
+                }
+            }
+            finally
+            {
+                _cn.Cerrar();
+            }
+
+            return ds;
+        }
+
+
+        public string ObtenerNombreSacerdote(int usuarioId)
+        {
+            string nombreCompleto = "";
+
+            try
+            {
+                _cn.Abrir();
+
+                using (SqlCommand cmd = new SqlCommand(
+                    "SELECT usuario_nombre, usuario_apellido FROM usuario WHERE Usuario_id = @id", _cn.sc))
+                {
+                    cmd.Parameters.AddWithValue("@id", usuarioId);
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            string nombre = dr["usuario_nombre"]?.ToString() ?? "";
+                            string apellido = dr["usuario_apellido"]?.ToString() ?? "";
+
+                            nombreCompleto = $"{nombre} {apellido}".Trim();
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                _cn.Cerrar();
+            }
+
+            return nombreCompleto;
+        }
+
     }
 
 }

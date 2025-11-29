@@ -25,6 +25,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private readonly IngresosService _ingresosService = new IngresosService();
         private readonly BalanceGeneralService _balanceGeneralService = new BalanceGeneralService();
         private ClsValidaciones Validaciones;
+        private readonly CuriaService _curiaService = new CuriaService();
+        private readonly ClsReportes _repo = new ClsReportes();
 
 
         private string ConstruirNombreReporteVisible(string tipoTexto, DateTime desde, DateTime hasta)
@@ -184,6 +186,21 @@ namespace Capa_de_Presentación.Formularios_Ewin
                               Sesion1.usuario_id);
 
                     nombre_reporte = "Gastos";
+                    break;
+
+                case 5:
+                    // Obtener el nombre del sacerdote desde la base de datos
+                    string nombreSacerdote = _repo.ObtenerNombreSacerdote(Sesion1.usuario_id);
+
+                    ruta_pdf = _curiaService.GenerarInformeCuria(
+                                  parroquia_id,
+                                  parroquia_nombre,
+                                  desde,
+                                  hasta,
+                                  Sesion1.usuario_id,
+                                  nombreSacerdote);
+
+                    nombre_reporte = "Informe de Curia";
                     break;
 
                 default:
