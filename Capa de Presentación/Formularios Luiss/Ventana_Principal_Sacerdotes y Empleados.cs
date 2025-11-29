@@ -12,7 +12,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+<<<<<<< HEAD
 using System.Media;
+=======
+>>>>>>> v
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Capa_de_Presentación.Formularios_Luiss
@@ -33,6 +36,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private clsCRUD_Historial crudHistorial;
 
+<<<<<<< HEAD
         private readonly Alerta _objalerta = new();
         private readonly ControlarAlerta _controladorAlerta;
         private readonly SoundPlayer _player = new SoundPlayer();
@@ -51,6 +55,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
             InitializeComponent();
             PredictedId = predicted_id;
             ParroquiaId = parroquia_id;
+=======
+        ClsCerrar cerrar = new ClsCerrar();
+        public FRM_42(int predicted_id)
+        {
+            InitializeComponent();
+>>>>>>> v
 
             InicializarDGVIngr();
             InicializarDGVgastos();
@@ -76,6 +86,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             // muestra uno por defecto
             MostrarSoloEstePanel(panel1);
+<<<<<<< HEAD
 
             _controladorAlerta = new ControlarAlerta(_objalerta);
 
@@ -95,6 +106,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+=======
+        }
+
+        public FRM_42()
+        {
+        }
+
+        public FRM_42(int predicted_id, int parroquia_id) : this(predicted_id)
+        {
+        }
+>>>>>>> v
 
         private void FRM_42_Load(object sender, EventArgs e)
         {
@@ -112,6 +134,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             if (dateTimePicker1.Value < dateTimePicker1.MinDate || dateTimePicker1.Value > dateTimePicker1.MaxDate)
                 dateTimePicker1.Value = DateTime.Today;
 
+<<<<<<< HEAD
             ActualizarSaldo();
             CargarCuentasEnComboBox();
             _controladorAlerta.ForzarVerificacionInmediata();
@@ -177,6 +200,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void Frm_42_FormClosing(object sender, FormClosingEventArgs e)
         {
             _controladorAlerta.DetenerMonitoreo();
+=======
+
+
+
+            ActualizarSaldo();
+            CargarCuentasEnComboBox();
+
+
+
+
+>>>>>>> v
         }
 
         private void CargarCuentasEnComboBox()
@@ -206,11 +240,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+<<<<<<< HEAD
         
 
         //Detener el Timer al cerrar el formulario para liberar recursos
       
 
+=======
+>>>>>>> v
         private void CargarOrigenes()
         {
             try
@@ -238,6 +275,22 @@ namespace Capa_de_Presentación.Formularios_Luiss
             try
             {
                 cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
+<<<<<<< HEAD
+=======
+
+                //aqui es para ocultar algunos campos (los ids y las contraseñas)
+                /*
+                if (dgvUsuarios.Columns["Contraseña"] != null)
+                    dgvUsuarios.Columns["Contraseña"].Visible = false;
+
+                if (dgvUsuarios.Columns["RolID"] != null)
+                    dgvUsuarios.Columns["RolID"].Visible = false;
+                if (dgvUsuarios.Columns["parroquia_id"] != null)
+                    dgvUsuarios.Columns["parroquia_id"].Visible = false;
+                if (dgvUsuarios.Columns["EstadoID"] != null)
+                    dgvUsuarios.Columns["EstadoID"].Visible = false;
+                */
+>>>>>>> v
             }
             catch (Exception ex)
             {
@@ -356,6 +409,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
+<<<<<<< HEAD
 
             int id_seleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
 
@@ -364,6 +418,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 StartPosition = FormStartPosition.Manual,
 
+=======
+            
+            int id_seleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
+
+            
+            var frm = new BancosCuentaAhorro(id_seleccionado) 
+            {
+                StartPosition = FormStartPosition.Manual,
+                
+>>>>>>> v
                 Location = new Point(414, 101)
             };
 
@@ -539,14 +603,26 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 MessageBox.Show("Error al actualizar el saldo: " + ex.Message);
             }
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> v
         private void txtSaldoActual_TextChanged(object sender, EventArgs e)
         {
 
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> v
         private void cmbOrigen_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> v
         private void button2_Click(object sender, EventArgs e)
         {
             cmbOrigen.Text = "Seleccionar";
@@ -556,22 +632,39 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> v
         private void dgvIngresos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> v
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
 
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> v
         private void InicializarDGVIngr()
         {
             dataGridView1.Columns.Clear();
             dtDatosIngresos = new DataTable("Ingresos");
             dtDatosIngresos.Columns.Add("Id_transaccion", typeof(int));
             dtDatosIngresos.Columns.Add("Id_Origen", typeof(int));
+<<<<<<< HEAD
             dtDatosIngresos.Columns.Add("NombreCuenta", typeof(string));
+=======
+            dtDatosIngresos.Columns.Add("nombre_cuenta", typeof(string));
+>>>>>>> v
             dtDatosIngresos.Columns.Add("Detalle", typeof(string));
             dtDatosIngresos.Columns.Add("Saldo", typeof(string));
             dtDatosIngresos.Columns.Add("fecha_transaccion", typeof(DateTime));
@@ -596,7 +689,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtDatosGastos = new DataTable("Gastos");
             dtDatosGastos.Columns.Add("Id_transaccion", typeof(int));
             dtDatosGastos.Columns.Add("Id_Origen", typeof(int));
+<<<<<<< HEAD
             dtDatosGastos.Columns.Add("NombreCuenta", typeof(string));
+=======
+            dtDatosGastos.Columns.Add("nombre_cuenta", typeof(string));
+>>>>>>> v
             dtDatosGastos.Columns.Add("Detalle", typeof(string));
             dtDatosGastos.Columns.Add("Saldo", typeof(string));
             dtDatosGastos.Columns.Add("fecha_transaccion", typeof(DateTime));
@@ -695,7 +792,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
+<<<<<<< HEAD
             if (dataGridView1.CurrentCell.OwningColumn.Name == "NombreCuenta")
+=======
+            if (dataGridView1.CurrentCell.OwningColumn.Name == "nombre_cuenta")
+>>>>>>> v
             {
                 TextBox auto_text = e.Control as TextBox;
                 if (auto_text != null)
@@ -766,7 +867,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
 
             // Verifica por nombre de columna, no por índice
+<<<<<<< HEAD
             if (dgvGastos.CurrentCell.OwningColumn.Name == "NombreCuenta")
+=======
+            if (dgvGastos.CurrentCell.OwningColumn.Name == "nombre_cuenta")
+>>>>>>> v
             {
                 TextBox auto_text = e.Control as TextBox;
                 if (auto_text != null)
@@ -793,6 +898,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             try
             {
                 if (modoEdicion)
@@ -1027,6 +1133,225 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
         
 
+=======
+
+            if (modoEdicion)
+            {
+                if (dataGridView1.CurrentRow == null)
+                {
+                    MessageBox.Show("Seleccione una fila para guardar la edición.", "Advertencia",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                
+                if (dataGridView1.CurrentRow == null && dataGridView1.SelectedRows.Count > 0)
+                {
+                    DataGridViewColumn primera_visible = dataGridView1.Columns
+                        .Cast<DataGridViewColumn>()
+                        .FirstOrDefault(c => c.Visible);
+
+                    if (primera_visible != null)
+                        dataGridView1.CurrentCell = dataGridView1.SelectedRows[0].Cells[primera_visible.Index];
+                }
+
+                DataGridViewRow fila = dataGridView1.CurrentRow;
+
+                string nombre_cuenta = fila.Cells["nombre_cuenta"].Value?.ToString() ?? "";
+                string detalle = fila.Cells["Detalle"].Value?.ToString() ?? "";
+                decimal saldo = 0;
+                decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out saldo);
+                DateTime fecha_tr = dtpFecha.Value;
+                string referencia_texto = txtNoReferencia.Text.Trim();
+                int referencia = 0;
+                int.TryParse(referencia_texto, out referencia);
+                int id_origen = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
+
+                if (string.IsNullOrEmpty(nombre_cuenta))
+                {
+                    MessageBox.Show("Debe ingresar el nombre de la cuenta.", "Advertencia",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (saldo <= 0)
+                {
+                    MessageBox.Show("El monto debe ser mayor que cero.", "Advertencia",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                //Llamar al método de edición
+                IngresosIn editar = new IngresosIn();
+                bool actualizado = editar.GuardarEdicion(dtDatosIngresos, nombre_cuenta, detalle, saldo, fecha_tr, referencia_texto, id_origen,
+                                    txtNoReferencia, cmbOrigen, dataGridView1, dtpFecha);
+
+                if (actualizado)
+                {
+                    modoEdicion = false;
+                    dataGridView1.ReadOnly = true;
+                    foreach (DataGridViewColumn col in dataGridView1.Columns)
+                        col.ReadOnly = true;
+
+                    //Actualiza el Id_Origen en la fila actual 
+                    if (dataGridView1.CurrentRow != null)
+                        dataGridView1.CurrentRow.Cells["Id_Origen"].Value = id_origen;
+
+                    txtNoReferencia.Clear();
+                    dtpFecha.Value = DateTime.Now;
+
+                    //Recargar los combos SIN perder la selección
+                    Transacciones obj_transa = new Transacciones();
+                    obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+
+                    //Forzar actualización visual segura del ComboBox
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        cmbOrigen.SelectedValue = id_origen;  // Selecciona el origen actualizado
+                        cmbOrigen.Refresh();                 // Refresca el control en pantalla
+                    }));
+
+                    //Actualizar saldo después de recargar origen
+                    ActualizarSaldo();
+
+                    MessageBox.Show("Transacción editada correctamente.", "Éxito",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo actualizar la transacción. Verifique los datos o la conexión.",
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return;
+            }
+            dataGridView1.EndEdit();
+            this.Validate();
+            this.BindingContext[dataGridView1.DataSource]?.EndCurrentEdit();
+
+            int id_origenNuevo = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
+            if (id_origenNuevo == 0)
+            {
+                MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridViewRow fila_nueva = null;
+            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
+            {
+                var row = dataGridView1.Rows[i];
+                if (!row.IsNewRow)
+                {
+                    bool tiene_datos = false;
+                    foreach (DataGridViewCell celda in row.Cells)
+                    {
+                        if (celda.Value != null && !string.IsNullOrWhiteSpace(celda.Value.ToString()))
+                        {
+                            tiene_datos = true;
+                            break;
+                        }
+                    }
+                    if (tiene_datos)
+                    {
+                        fila_nueva = row;
+                        break;
+                    }
+                }
+            }
+
+            if (fila_nueva == null)
+            {
+                MessageBox.Show("No hay ninguna fila válida para guardar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
+            //GUARDAR NUEVO INGRESO
+
+            Ingresos ingresos = new();
+            bool error_guardado = false;
+            int filas_guardadas = 0;
+
+            try
+            {
+                DateTime fecha_transaccion = dtpFecha.Value;
+                string referencia_texto = txtNoReferencia.Text.Trim();
+                int referencia = 0;
+                int.TryParse(referencia_texto, out referencia);
+
+                int id_usuario = Sesion1.usuario_id;
+                string nombre_cuenta = fila_nueva.Cells["nombre_cuenta"].Value?.ToString() ?? string.Empty;
+                string descripcion = fila_nueva.Cells["Detalle"].Value?.ToString() ?? string.Empty;
+
+                if (!decimal.TryParse(fila_nueva.Cells["Saldo"].Value?.ToString(), out decimal monto) || monto <= 0)
+                {
+                    MessageBox.Show($"Monto inválido para la cuenta: {nombre_cuenta}", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                int nuevo_id = ingresos.IngresarIngresos(fecha_transaccion, descripcion, monto, referencia, id_usuario, id_origenNuevo, nombre_cuenta);
+                if (nuevo_id <= 0)
+                {
+                    MessageBox.Show("No se recibió un ID válido desde la base de datos. Verifique el SP.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                filas_guardadas++;
+
+                if (!dtDatosIngresos.Columns.Contains("Id_transaccion"))
+                    dtDatosIngresos.Columns.Add("Id_transaccion", typeof(int));
+
+                if (dataGridView1.Columns.Contains("Id_transaccion"))
+                    fila_nueva.Cells["Id_transaccion"].Value = nuevo_id;
+
+                fila_nueva.Cells["fecha_transaccion"].Value = fecha_transaccion;
+                fila_nueva.Cells["NoReferencia"].Value = referencia;
+                fila_nueva.Cells["Id_Origen"].Value = id_origenNuevo;
+                fila_nueva.Cells["Saldo"].Style.ForeColor = Color.Green;
+
+                dataGridView1.Refresh();
+                dataGridView1.ClearSelection();
+
+                MessageBox.Show("Ingreso registrado correctamente.", "Éxito",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                Transacciones obj_transa = new Transacciones();
+                obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+
+
+                ActualizarSaldo();
+            }
+            catch (Exception ex)
+            {
+                error_guardado = true;
+                MessageBox.Show("Error al guardar la transacción: " + ex.Message,
+                                "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+            if (!error_guardado && filas_guardadas > 0)
+            {
+                modoEdicion = false;
+
+                foreach (DataGridViewColumn col in dataGridView1.Columns)
+                    col.ReadOnly = true;
+
+                dataGridView1.ReadOnly = false;
+                dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dataGridView1.MultiSelect = false;
+                dataGridView1.ClearSelection();
+
+                txtNoReferencia.Clear();
+                cmbOrigen.SelectedIndex = -1;
+                dtpFecha.Value = DateTime.Now;
+
+            }
+            else if (error_guardado)
+            {
+                MessageBox.Show("No se guardó la transacción debido a un error.", "Aviso",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+>>>>>>> v
 
 
 
@@ -1121,6 +1446,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void btnGuardar2_Click(object sender, EventArgs e)
         {
+<<<<<<< HEAD
             try
             {
                 if (modoEdicion)
@@ -1349,6 +1675,223 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
 
            
+=======
+
+            if (modoEdicion)
+            {
+                if (dgvGastos.CurrentRow == null)
+                {
+                    MessageBox.Show("Seleccione una fila para guardar la edición.", "Advertencia",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Corrige posible celda invisible
+                if (dgvGastos.CurrentRow == null && dgvGastos.SelectedRows.Count > 0)
+                {
+                    DataGridViewColumn primera_visible = dgvGastos.Columns
+                        .Cast<DataGridViewColumn>()
+                        .FirstOrDefault(c => c.Visible);
+
+                    if (primera_visible != null)
+                        dgvGastos.CurrentCell = dgvGastos.SelectedRows[0].Cells[primera_visible.Index];
+                }
+
+                DataGridViewRow fila = dgvGastos.CurrentRow;
+
+                string nombre_cuenta = fila.Cells["nombre_cuenta"].Value?.ToString() ?? "";
+                string detalle = fila.Cells["Detalle"].Value?.ToString() ?? "";
+                decimal saldo = 0;
+                decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out saldo);
+                DateTime fecha_tr = dateTimePicker1.Value;
+                string referencia_texto = txtNoReferencia2.Text.Trim();
+                int referencia = 0;
+                int.TryParse(referencia_texto, out referencia);
+                int id_origen = Convert.ToInt32(cmbOrigen2.SelectedValue ?? 0);
+
+                if (string.IsNullOrEmpty(nombre_cuenta))
+                {
+                    MessageBox.Show("Debe ingresar el nombre de la cuenta.", "Advertencia",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (saldo <= 0)
+                {
+                    MessageBox.Show("El monto debe ser mayor que cero.", "Advertencia",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                //Llamar al método de edición
+                GastosGa editar = new();
+                bool actualizado = editar.GuardarEdicion2(dtDatosGastos, nombre_cuenta, detalle, saldo, fecha_tr, referencia_texto, id_origen,
+                                    txtNoReferencia2, cmbOrigen2, dgvGastos, dateTimePicker1);
+
+                if (actualizado)
+                {
+                    modoEdicion = false;
+                    dgvGastos.ReadOnly = true;
+                    foreach (DataGridViewColumn col in dgvGastos.Columns)
+                        col.ReadOnly = true;
+
+                    //Actualiza el Id_Origen en la fila actual (para que el lápiz lea el correcto)
+                    if (dgvGastos.CurrentRow != null)
+                        dgvGastos.CurrentRow.Cells["Id_Origen"].Value = id_origen;
+
+                    txtNoReferencia.Clear();
+                    dateTimePicker1.Value = DateTime.Now;
+
+                    //Recargar los combos SIN perder la selección
+                    Transacciones obj_transa = new Transacciones();
+                    obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+
+                    //Forzar actualización visual segura del ComboBox
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        cmbOrigen2.SelectedValue = id_origen;  // Selecciona el origen actualizado
+                        cmbOrigen2.Refresh();                 // Refresca el control en pantalla
+                    }));
+
+                    // Actualizar saldo después de recargar origen
+                    ActualizarSaldo();
+
+                    MessageBox.Show("Transacción editada correctamente.", "Éxito",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo actualizar la transacción. Verifique los datos o la conexión.",
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return;
+            }
+            dgvGastos.EndEdit();
+            this.Validate();
+            this.BindingContext[dgvGastos.DataSource]?.EndCurrentEdit();
+
+            int id_origenNuevo = Convert.ToInt32(cmbOrigen2.SelectedValue ?? 0);
+            if (id_origenNuevo == 0)
+            {
+                MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridViewRow fila_nueva = null;
+            for (int i = dgvGastos.Rows.Count - 1; i >= 0; i--)
+            {
+                var row = dgvGastos.Rows[i];
+                if (!row.IsNewRow)
+                {
+                    bool tiene_datos = false;
+                    foreach (DataGridViewCell celda in row.Cells)
+                    {
+                        if (celda.Value != null && !string.IsNullOrWhiteSpace(celda.Value.ToString()))
+                        {
+                            tiene_datos = true;
+                            break;
+                        }
+                    }
+                    if (tiene_datos)
+                    {
+                        fila_nueva = row;
+                        break;
+                    }
+                }
+            }
+
+            if (fila_nueva == null)
+            {
+                MessageBox.Show("No hay ninguna fila válida para guardar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
+            //GUARDAR NUEVO GASTO
+
+            Gastos gasto = new();
+            bool error_guardado = false;
+            int filas_guardadas = 0;
+
+            try
+            {
+                DateTime fecha_transaccion = dtpFecha.Value;
+                string referencia_texto = txtNoReferencia.Text.Trim();
+                int referencia = 0;
+                int.TryParse(referencia_texto, out referencia);
+
+                int id_usuario = Sesion1.usuario_id;
+                string nombre_cuenta = fila_nueva.Cells["nombre_cuenta"].Value?.ToString() ?? string.Empty;
+                string descripcion = fila_nueva.Cells["Detalle"].Value?.ToString() ?? string.Empty;
+
+                if (!decimal.TryParse(fila_nueva.Cells["Saldo"].Value?.ToString(), out decimal monto) || monto <= 0)
+                {
+                    MessageBox.Show($"Monto inválido para la cuenta: {nombre_cuenta}", "Error de Dato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                int nuevo_id = gasto.IngresarGastos(fecha_transaccion, descripcion, monto, referencia, id_usuario, id_origenNuevo, nombre_cuenta);
+                if (nuevo_id <= 0)
+                {
+                    MessageBox.Show("No se recibió un ID válido desde la base de datos. Verifique el SP.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                filas_guardadas++;
+
+                if (!dtDatosGastos.Columns.Contains("Id_transaccion"))
+                    dtDatosGastos.Columns.Add("Id_transaccion", typeof(int));
+
+                if (dgvGastos.Columns.Contains("Id_transaccion"))
+                    fila_nueva.Cells["Id_transaccion"].Value = nuevo_id;
+
+                fila_nueva.Cells["fecha_transaccion"].Value = fecha_transaccion;
+                fila_nueva.Cells["NoReferencia"].Value = referencia;
+                fila_nueva.Cells["Id_Origen"].Value = id_origenNuevo;
+                fila_nueva.Cells["Saldo"].Style.ForeColor = Color.Green;
+
+                dgvGastos.Refresh();
+                dgvGastos.ClearSelection();
+
+                MessageBox.Show("Gasto registrado correctamente.", "Éxito",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                Transacciones obj_transa = new Transacciones();
+                obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+
+
+                ActualizarSaldo();
+            }
+            catch (Exception ex)
+            {
+                error_guardado = true;
+                MessageBox.Show("Error al guardar la transacción: " + ex.Message,
+                                "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+            if (!error_guardado && filas_guardadas > 0)
+            {
+                modoEdicion = false;
+
+                foreach (DataGridViewColumn col in dgvGastos.Columns)
+                    col.ReadOnly = true;
+
+                dgvGastos.ReadOnly = false;
+                dgvGastos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvGastos.MultiSelect = false;
+                dgvGastos.ClearSelection();
+
+                txtNoReferencia2.Clear();
+                cmbOrigen2.SelectedIndex = -1;
+                dateTimePicker1.Value = DateTime.Now;
+            }
+            else if (error_guardado)
+            {
+                MessageBox.Show("No se guardó la transacción debido a un error.", "Aviso",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+>>>>>>> v
         }
 
         private void dtpFecha_ValueChanged(object sender, EventArgs e)
@@ -1447,7 +1990,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> v
                 clsCRUD_Historial historial = new clsCRUD_Historial();
 
                 historial.RegistrarAccionUsuario(
@@ -1460,6 +2007,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             catch { }
         }
+<<<<<<< HEAD
 
         private void cmbInteresesBancarios_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1485,6 +2033,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
 
         }
+=======
+>>>>>>> v
     }
 
 }

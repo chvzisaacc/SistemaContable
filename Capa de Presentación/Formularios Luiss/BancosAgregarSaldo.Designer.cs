@@ -74,12 +74,21 @@
             textBox2.BackColor = Color.FromArgb(43, 56, 143);
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Enabled = false;
+<<<<<<< HEAD
             textBox2.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
             textBox2.Location = new Point(244, 264);
             textBox2.Margin = new Padding(4, 2, 4, 2);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(166, 27);
+=======
+            textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox2.ForeColor = Color.White;
+            textBox2.Location = new Point(222, 262);
+            textBox2.Margin = new Padding(4, 2, 4, 2);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(230, 32);
+>>>>>>> v
             textBox2.TabIndex = 14;
             textBox2.Text = "Guardar y cerrar";
             textBox2.TextChanged += textBox2_TextChanged;

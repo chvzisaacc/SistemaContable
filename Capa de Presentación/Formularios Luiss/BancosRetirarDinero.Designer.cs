@@ -74,12 +74,21 @@
             // 
             textBox2.BackColor = Color.FromArgb(43, 56, 143);
             textBox2.BorderStyle = BorderStyle.None;
+<<<<<<< HEAD
             textBox2.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
             textBox2.Location = new Point(256, 276);
             textBox2.Margin = new Padding(4, 2, 4, 2);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(155, 27);
+=======
+            textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox2.ForeColor = Color.White;
+            textBox2.Location = new Point(229, 272);
+            textBox2.Margin = new Padding(4, 2, 4, 2);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(206, 32);
+>>>>>>> v
             textBox2.TabIndex = 14;
             textBox2.Text = " Enviar y cerrar";
             textBox2.TextChanged += textBox2_TextChanged;

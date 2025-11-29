@@ -22,6 +22,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             training = 0,
             recognition = 1
         }
+<<<<<<< HEAD
         RecordingType recording_type;
         VideoCapture cam;
         Mat frame;
@@ -40,6 +41,26 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
         string path_trained_faceModel = $"{Application.StartupPath}\\Faces\\stateModel.yaml";
         string path_reconzier_faces_model = $"{Application.StartupPath}\\haarcascade_frontalface_default.xml";
+=======
+        RecordingType recordingType;
+        VideoCapture cam;
+        Mat frame;
+        CascadeClassifier faceDetector;
+        EigenFaceRecognizer eigenFaceRecognizer;
+        bool running = false;
+
+        int modelWidth = 100;
+        int modelHeight = 100;
+        int threshold = 3000;
+        private bool accesoConcedido = false;
+        private bool mensajeMostrado = false;
+        private bool accesoEnProceso = false;
+
+
+
+        string pathTrainedFaceModel = $"{Application.StartupPath}\\Faces\\stateModel.yaml";
+        string pathReconzierFacesModel = $"{Application.StartupPath}\\haarcascade_frontalface_default.xml";
+>>>>>>> v
 
         public RECONOCER()
         {
@@ -47,6 +68,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             frame = new Mat();
 
             // Cargar HaarCascade
+<<<<<<< HEAD
             if (!File.Exists(path_reconzier_faces_model))
                 MessageBox.Show("No se encontró haarcascade_frontalface_default.xml");
             else
@@ -58,6 +80,19 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             // Cargar modelo entrenado
             if (File.Exists(path_trained_faceModel))
                 eigen_face_recognizer.Read(path_trained_faceModel);
+=======
+            if (!File.Exists(pathReconzierFacesModel))
+                MessageBox.Show("No se encontró haarcascade_frontalface_default.xml");
+            else
+                faceDetector = new CascadeClassifier(pathReconzierFacesModel);
+
+            // Crear el recognizer
+            eigenFaceRecognizer = EigenFaceRecognizer.Create(80, threshold);
+
+            // Cargar modelo entrenado
+            if (File.Exists(pathTrainedFaceModel))
+                eigenFaceRecognizer.Read(pathTrainedFaceModel);
+>>>>>>> v
             TurnOffCamera(); ;
 
         }
@@ -82,6 +117,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                 running = true;
 
                 //MOSTRAR CÁMARA POR 5 SEGUNDOS SIN RECONOCER
+<<<<<<< HEAD
                 int temp_time = Environment.TickCount;
 
                 while (Environment.TickCount - temp_time < 5000) // 5 segundos
@@ -94,6 +130,20 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                         Invoke(new Action(() =>
                         {
                             pictureBox1.Image = BitmapConverter.ToBitmap(tmp_frame);
+=======
+                int tempTime = Environment.TickCount;
+
+                while (Environment.TickCount - tempTime < 5000) // 5 segundos
+                {
+                    Mat tmpFrame = new Mat();
+                    cam.Read(tmpFrame);
+
+                    if (!tmpFrame.Empty())
+                    {
+                        Invoke(new Action(() =>
+                        {
+                            pictureBox1.Image = BitmapConverter.ToBitmap(tmpFrame);
+>>>>>>> v
                         }));
                     }
 
@@ -147,6 +197,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         }
         private void RecognizeFace()
         {
+<<<<<<< HEAD
             if (cam == null || acceso_concedido) return;
 
             Mat image_frame = new Mat();
@@ -201,48 +252,137 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
                         // Validar estado de cuenta
                         if (estado_cuenta != 1)
+=======
+            if (cam == null || accesoConcedido) return;
+
+            Mat imageFrame = new Mat();
+            cam.Read(imageFrame);
+
+            if (imageFrame.Empty())
+                return;
+
+            Mat grayFrame = new Mat();
+            Cv2.CvtColor(imageFrame, grayFrame, ColorConversionCodes.BGR2GRAY);
+
+            var faces = faceDetector.DetectMultiScale(
+                grayFrame,
+                1.4,
+                4,
+                HaarDetectionTypes.ScaleImage,
+                new OpenCvSharp.Size(imageFrame.Width / 8, imageFrame.Height / 8)
+            );
+
+            string detectedUserName = accesoConcedido ? label1.Text : "Desconocido";
+
+            foreach (var face in faces)
+            {
+                Cv2.Rectangle(imageFrame, face, Scalar.Blue, 2);
+
+                Mat faceRegion = new Mat(grayFrame, face);
+                Mat resizedFace = new Mat();
+                Cv2.Resize(faceRegion, resizedFace,
+                    new OpenCvSharp.Size(modelWidth, modelHeight));
+
+                try
+                {
+                    eigenFaceRecognizer.Predict(resizedFace,
+                        out int predictedId,
+                        out double confidence);
+
+                    if (predictedId > 0 && confidence < threshold)
+                    {
+                        // Obtener datos del usuario
+                        ClsAccionesDB db = new ClsAccionesDB();
+                        var datos = db.ObtenerUsuarioReconocimiento(predictedId);
+
+                        string nombre = datos.nombre;
+                        int rolId = datos.rol_id;
+                        int estadoCuenta = datos.estado_cuenta;
+                        int parroquiaId = datos.parroquia_id;
+
+                        // Almacenar datos en la clase estática UsuarioLogueado
+                        UsuarioLogueado.usuario_id = predictedId;
+                        UsuarioLogueado.nombre = nombre;
+                        UsuarioLogueado.rol_id = rolId;
+                        UsuarioLogueado.parroquia_id = parroquiaId;
+
+                        if (!accesoConcedido)
+                            detectedUserName = nombre;
+
+                        // Validar estado de cuenta
+                        if (estadoCuenta != 1)
+>>>>>>> v
                         {
                             Invoke(new Action(() =>
                             {
                                 MessageBox.Show("La cuenta del usuario está inactiva o bloqueada.",
                                                 "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }));
+<<<<<<< HEAD
                             acceso_concedido = false;
+=======
+>>>>>>> v
                             continue;
                         }
 
                         // Evitar abrir más de una vez
+<<<<<<< HEAD
                         acceso_concedido = true;
+=======
+                        accesoConcedido = true;
+>>>>>>> v
 
                         // Abrir formulario según el rol
                         Invoke(new Action(async () =>
                         {
                             Form f = null;
 
+<<<<<<< HEAD
                             switch (rol_id)
                             {
                                 case 1:
                                     // Para el rol de administrador
                                     f = new Ventana_Principal_Administrador(predicted_id, parroquia_id);
+=======
+                            switch (rolId)
+                            {
+                                case 1:
+                                    // Para el rol de administrador
+                                    f = new Ventana_Principal_Administrador(predictedId, parroquiaId);
+>>>>>>> v
                                     break;
 
                                 case 2:
                                 case 3:
                                     // Para otros roles (empleado)
+<<<<<<< HEAD
                                     f = new FRM_42(predicted_id, parroquia_id); // Pasa el ID y parroquiaId aquí
+=======
+                                    f = new FRM_42(predictedId, parroquiaId); // Pasa el ID y parroquiaId aquí
+>>>>>>> v
                                     break;
 
                                 default:
                                     MessageBox.Show("Rol no reconocido.", "Error",
                                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+<<<<<<< HEAD
                                     acceso_concedido = false;
+=======
+                                    accesoConcedido = false;
+>>>>>>> v
                                     return;
                             }
 
                             // Mostrar mensaje de bienvenida
+<<<<<<< HEAD
                             if (!mensaje_mostrado)
                             {
                                 mensaje_mostrado = true;
+=======
+                            if (!mensajeMostrado)
+                            {
+                                mensajeMostrado = true;
+>>>>>>> v
                                 MessageBox.Show("Bienvenido " + nombre, "Acceso concedido");
                             }
 
@@ -267,8 +407,13 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             // Mostrar imagen y nombre en pantalla
             Invoke(new Action(() =>
             {
+<<<<<<< HEAD
                 label1.Text = detected_username;
                 pictureBox1.Image = BitmapConverter.ToBitmap(image_frame);
+=======
+                label1.Text = detectedUserName;
+                pictureBox1.Image = BitmapConverter.ToBitmap(imageFrame);
+>>>>>>> v
             }));
         }
 
