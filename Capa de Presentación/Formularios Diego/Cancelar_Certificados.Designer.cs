@@ -84,6 +84,7 @@
             label8.Size = new Size(45, 32);
             label8.TabIndex = 12;
             label8.Text = "SD";
+            label8.Visible = false;
             // 
             // pictureBox4
             // 
@@ -106,6 +107,7 @@
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 10;
             pictureBox3.TabStop = false;
+            pictureBox3.Visible = false;
             // 
             // panel2
             // 

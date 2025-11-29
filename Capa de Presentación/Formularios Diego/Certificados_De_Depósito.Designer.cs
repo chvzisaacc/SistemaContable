@@ -101,10 +101,7 @@
             label8.Size = new Size(45, 32);
             label8.TabIndex = 12;
             label8.Text = "SD";
-<<<<<<< HEAD
             label8.Visible = false;
-=======
->>>>>>> v
             // 
             // pictureBox4
             // 
@@ -116,10 +113,7 @@
             pictureBox4.SizeMode = PictureBoxSizeMode.AutoSize;
             pictureBox4.TabIndex = 11;
             pictureBox4.TabStop = false;
-<<<<<<< HEAD
             pictureBox4.Visible = false;
-=======
->>>>>>> v
             // 
             // pictureBox3
             // 
@@ -131,11 +125,8 @@
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 10;
             pictureBox3.TabStop = false;
-<<<<<<< HEAD
             pictureBox3.Visible = false;
             pictureBox3.Click += pictureBox3_Click;
-=======
->>>>>>> v
             // 
             // panel2
             // 
@@ -163,11 +154,7 @@
             // 
             button1.BackColor = Color.Transparent;
             button1.BackgroundImageLayout = ImageLayout.Center;
-<<<<<<< HEAD
             button1.Location = new Point(35, 263);
-=======
-            button1.Location = new Point(102, 263);
->>>>>>> v
             button1.Name = "button1";
             button1.Size = new Size(22, 34);
             button1.TabIndex = 31;
@@ -184,19 +171,11 @@
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Id_Certificado, Nombre_certificado, deposito_inicial, Plazo, Tasa, FechaTransaccion });
-<<<<<<< HEAD
             dataGridView1.Location = new Point(63, 99);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.Size = new Size(759, 198);
-=======
-            dataGridView1.Location = new Point(130, 99);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(650, 198);
->>>>>>> v
             dataGridView1.TabIndex = 30;
             dataGridView1.CellBeginEdit += dataGridView1_CellBeginEdit;
             dataGridView1.CellClick += dataGridView1_CellClick;
@@ -252,20 +231,13 @@
             textBox4.BorderStyle = BorderStyle.None;
             textBox4.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox4.ForeColor = Color.White;
-<<<<<<< HEAD
             textBox4.Location = new Point(72, 43);
-=======
-            textBox4.Location = new Point(80, 44);
->>>>>>> v
             textBox4.Margin = new Padding(4);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(50, 21);
             textBox4.TabIndex = 29;
             textBox4.Text = "Volver";
-<<<<<<< HEAD
             textBox4.TextChanged += textBox4_TextChanged;
-=======
->>>>>>> v
             // 
             // pictureBox9
             // 

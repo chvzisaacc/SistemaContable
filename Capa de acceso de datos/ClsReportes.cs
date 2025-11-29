@@ -12,7 +12,7 @@ namespace Capa_de_acceso_de_datos
     {
         private readonly Clsconexion _cn = new Clsconexion();
 
-
+        
         public DataSet ObtenerEstadoResultados(int parroquia_id, DateTime desde, DateTime hasta)
         {
             DataSet ds = new DataSet();
@@ -31,8 +31,8 @@ namespace Capa_de_acceso_de_datos
 
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
-                        da.Fill(ds);
-
+                        da.Fill(ds);  
+                                       
                     }
                 }
             }
@@ -50,7 +50,7 @@ namespace Capa_de_acceso_de_datos
 
             try
             {
-                _cn.Abrir();
+                _cn.Abrir(); 
                 using (SqlCommand cmd = new SqlCommand("sp_ReporteIngresos", _cn.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -65,7 +65,7 @@ namespace Capa_de_acceso_de_datos
                     }
                 }
             }
-
+            
             finally
             {
                 _cn.Cerrar();
@@ -112,7 +112,7 @@ namespace Capa_de_acceso_de_datos
 
             try
             {
-                _cn.Abrir();
+                _cn.Abrir();   
 
                 using (SqlCommand cmd = new SqlCommand("sp_ObtenerParroquias", _cn.sc))
                 {
@@ -157,8 +157,8 @@ namespace Capa_de_acceso_de_datos
 
             return nombre;
         }
-
-        public DataTable ObtenerTiposReporte()
+    
+    public DataTable ObtenerTiposReporte()
         {
             DataTable dt = new DataTable();
 
@@ -228,7 +228,7 @@ namespace Capa_de_acceso_de_datos
 
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
-                        da.Fill(ds);
+                        da.Fill(ds);   // ← Llena las 3 tablas del DataSet
                     }
                 }
             }
@@ -239,22 +239,31 @@ namespace Capa_de_acceso_de_datos
 
             return ds;
         }
+
+
         public string ObtenerNombreSacerdote(int usuarioId)
         {
-            string nombre = string.Empty;
+            string nombreCompleto = "";
 
             try
             {
                 _cn.Abrir();
 
-                using (SqlCommand cmd = new SqlCommand("sp_ObtenerNombreSacerdote", _cn.sc))
+                using (SqlCommand cmd = new SqlCommand(
+                    "SELECT usuario_nombre, usuario_apellido FROM usuario WHERE Usuario_id = @id", _cn.sc))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
+                    cmd.Parameters.AddWithValue("@id", usuarioId);
 
-                    object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                        nombre = result.ToString();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            string nombre = dr["usuario_nombre"]?.ToString() ?? "";
+                            string apellido = dr["usuario_apellido"]?.ToString() ?? "";
+
+                            nombreCompleto = $"{nombre} {apellido}".Trim();
+                        }
+                    }
                 }
             }
             finally
@@ -262,11 +271,12 @@ namespace Capa_de_acceso_de_datos
                 _cn.Cerrar();
             }
 
-            return nombre;
+            return nombreCompleto;
         }
 
     }
-    }
+
+}
 
 
 

@@ -9,7 +9,6 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
-<<<<<<< HEAD
     /// <summary>
     /// 
     /// </summary>
@@ -28,40 +27,27 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <summary>
         /// Initializes a new instance of the <see cref="FRM_PG1"/> class.
         /// </summary>
-=======
-    public partial class FRM_PG1 : Form
-    {
-        ClsCerrar cerrar = new ClsCerrar();
-        private int usuarioID;
-
->>>>>>> v
         public FRM_PG1()
         {
             InitializeComponent();
             this.FormClosing += cerrar.CerrarApp;
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Handles the Load event of the FRM_PG1 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-=======
->>>>>>> v
         private void FRM_PG1_Load(object sender, EventArgs e)
         {
 
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Handles the Click event of the button1 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-=======
->>>>>>> v
         private void button1_Click(object sender, EventArgs e)
         {
             ClsValidaciones validaciones = new ClsValidaciones();
@@ -87,17 +73,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             // OBTENER ID DE USUARIO Y PARROQUIA
             ClsAccionesDB acciones = new ClsAccionesDB();
-<<<<<<< HEAD
             var resultado_tuple = acciones.ObtenerUsuarioIdPorNombreUsuario(txt_usuario.Text);
 
             int id_usuario = resultado_tuple.Item1;
             int parroquia_id = resultado_tuple.Item2;
-=======
-            var resultadoTuple = acciones.ObtenerUsuarioIdPorNombreUsuario(txt_usuario.Text);
-
-            int id_usuario = resultadoTuple.Item1;
-            int parroquia_id = resultadoTuple.Item2;
->>>>>>> v
 
             // Guardar sesión con ambos valores
             Sesion1.IniciarSesion(id_usuario, rol, parroquia_id);
@@ -120,14 +99,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
 
 
-<<<<<<< HEAD
         /// <summary>
         /// Handles the Click event of the label3 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-=======
->>>>>>> v
         private void label3_Click(object sender, EventArgs e)
         {
             Olvidaste_tu_contraseña objrecu = new Olvidaste_tu_contraseña();
@@ -135,14 +111,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             this.Hide();
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Handles the Click event of the txtUsuario control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-=======
->>>>>>> v
         private void txtUsuario_Click(object sender, EventArgs e)
         {
             if (txt_usuario.Text == "Usuario")
@@ -152,14 +125,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Handles the Leave event of the txtUsuario control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-=======
->>>>>>> v
         private void txtUsuario_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txt_usuario.Text))
@@ -169,14 +139,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Handles the Click event of the txtContraseña control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-=======
->>>>>>> v
         private void txtContraseña_Click(object sender, EventArgs e)
         {
             if (txt_contraseña.Text == "Contraseña")
@@ -186,14 +153,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Handles the Leave event of the txtContraseña control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-=======
->>>>>>> v
         private void txtContraseña_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txt_contraseña.Text))
@@ -203,14 +167,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
-<<<<<<< HEAD
         /// <summary>
         /// Handles the Click event of the pictureBox1 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-=======
->>>>>>> v
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             RECONOCIMIENTO_FACIAL.RECONOCER rECONOCER = new();

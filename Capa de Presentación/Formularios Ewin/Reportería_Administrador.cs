@@ -24,11 +24,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
         private readonly IngresosService _ingresosService = new IngresosService();
         private readonly BalanceGeneralService _balanceGeneralService = new BalanceGeneralService();
-<<<<<<< HEAD
-=======
-        private readonly CuriaService _curiaService = new CuriaService();
->>>>>>> v
         private ClsValidaciones Validaciones;
+        private readonly CuriaService _curiaService = new CuriaService();
+        private readonly ClsReportes _repo = new ClsReportes();
 
 
         private string ConstruirNombreReporteVisible(string tipoTexto, DateTime desde, DateTime hasta)
@@ -190,10 +188,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     nombre_reporte = "Gastos";
                     break;
 
-<<<<<<< HEAD
-=======
                 case 5:
-                    string nombreSacerdote = Sesion1.nombre + " " + Sesion1.apellido;
+                    // Obtener el nombre del sacerdote desde la base de datos
+                    string nombreSacerdote = _repo.ObtenerNombreSacerdote(Sesion1.usuario_id);
 
                     ruta_pdf = _curiaService.GenerarInformeCuria(
                                   parroquia_id,
@@ -202,10 +199,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
                                   hasta,
                                   Sesion1.usuario_id,
                                   nombreSacerdote);
+
                     nombre_reporte = "Informe de Curia";
                     break;
 
->>>>>>> v
                 default:
                     MessageBox.Show("Tipo de reporte no válido.");
                     return;
