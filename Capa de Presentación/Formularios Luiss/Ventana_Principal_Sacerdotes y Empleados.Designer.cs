@@ -894,6 +894,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(345, 31);
             dateTimePicker1.TabIndex = 25;
+<<<<<<< HEAD
             dateTimePicker1.Value = new DateTime(2025, 11, 28, 0, 0, 0, 0);
 =======
             dateTimePicker1.Location = new Point(153, 94);
@@ -902,6 +903,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dateTimePicker1.Size = new Size(277, 27);
             dateTimePicker1.TabIndex = 25;
 >>>>>>> v
+=======
+>>>>>>> parent of eebe7b3 (ALERTA FINALIZADA)
             dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
             // 
             // button4
@@ -1233,7 +1236,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pnlAlertaDeslizante.Dock = DockStyle.Top;
             pnlAlertaDeslizante.Location = new Point(0, 0);
             pnlAlertaDeslizante.Name = "pnlAlertaDeslizante";
-            pnlAlertaDeslizante.Size = new Size(1570, 50);
+            pnlAlertaDeslizante.Size = new Size(1570, 66);
             pnlAlertaDeslizante.TabIndex = 26;
             pnlAlertaDeslizante.Paint += pnlAlertaDeslizante_Paint;
             // 
@@ -1388,10 +1391,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private PictureBox pictureBox6;
         private PictureBox pictureBox8;
 <<<<<<< HEAD
+<<<<<<< HEAD
         private Label lblAlertaMensaje;
         private Panel pnlAlertaDeslizante;
         private System.Windows.Forms.Timer timer1;
 =======
 >>>>>>> v
+=======
+        private System.Windows.Forms.Timer timer1;
+        private Label lblAlertaMensaje;
+        private Panel pnlAlertaDeslizante;
+>>>>>>> parent of eebe7b3 (ALERTA FINALIZADA)
     }
 }

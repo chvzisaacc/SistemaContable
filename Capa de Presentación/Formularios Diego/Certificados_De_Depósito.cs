@@ -146,11 +146,14 @@ namespace Capa_de_Presentación.Formularios_Diego
         }
         private bool datosGuardados = false;
 <<<<<<< HEAD
+<<<<<<< HEAD
         private int predicted_id;
         private int parroquia_id;
 
 =======
 >>>>>>> v
+=======
+>>>>>>> parent of eebe7b3 (ALERTA FINALIZADA)
         private void textBox3_Click(object sender, EventArgs e)
         {
             ClsCD objCD = new();
@@ -223,7 +226,11 @@ namespace Capa_de_Presentación.Formularios_Diego
         private void pictureBox9_Click(object sender, EventArgs e)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             FRM_42 obj42 = new(predicted_id, parroquia_id);
+=======
+            FRM_42 obj42 = new();
+>>>>>>> parent of eebe7b3 (ALERTA FINALIZADA)
             obj42.Show();
             this.Hide();
         }

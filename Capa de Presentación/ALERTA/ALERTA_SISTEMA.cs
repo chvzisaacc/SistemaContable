@@ -45,9 +45,9 @@ namespace Capa_de_Presentación.ALERTA
                                 "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        
         //SOLO ADMITE DIAS - ES EL METODO FINAL
-        private void button1_Click(object sender, EventArgs e)
+       private void button1_Click(object sender, EventArgs e)
         {
             int diasLimite = (int)LimiteDay.Value;
             bool alarmaActiva = Estado.Checked;
@@ -64,9 +64,6 @@ namespace Capa_de_Presentación.ALERTA
                 MessageBox.Show($"Error al guardar la configuración: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-        }
+       
     }
 }

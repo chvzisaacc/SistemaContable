@@ -9,7 +9,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Capa_de_procesamiento_de_datos
 {
-    public class Alerta : Clsconexion
+    public class Alerta:Clsconexion
     {
         public DataTable CargarAlerta()
         {

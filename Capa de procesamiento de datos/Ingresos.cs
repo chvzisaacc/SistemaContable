@@ -26,31 +26,19 @@ namespace Capa_de_procesamiento_de_datos
             int nuevaTransa = 0;
             try
             {
-                // ✅ VALIDACIÓN CRÍTICA: Asegurar que la fecha sea válida para SQL Server
-                DateTime fechaValidada = fecha;
-
-                // Si la fecha es menor a 1753-01-01 (mínimo de SQL Server) o es DateTime.MinValue
-                if (fecha < new DateTime(1753, 1, 1) || fecha == DateTime.MinValue)
-                {
-                    fechaValidada = DateTime.Now; // Usar fecha y hora actual como fallback
-                }
-
-                // ✅ MANTENER fecha y hora completa (no usar .Date)
-
                 Abrir();
 
                 using (SqlCommand command = new SqlCommand("IngresarIngresos", sc))
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    // ✅ Usar la fecha validada con hora completa
-                    command.Parameters.AddWithValue("@fecha_transaccion", fechaValidada);
-                    command.Parameters.AddWithValue("@descripcion", descripcion ?? "");
+                    command.Parameters.AddWithValue("@fecha_transaccion", fecha);
+                    command.Parameters.AddWithValue("@descripcion", descripcion);
                     command.Parameters.AddWithValue("@monto_historico", monto);
                     command.Parameters.AddWithValue("@Numero_de_Referencia", referencia);
                     command.Parameters.AddWithValue("@Usuario_id", usuario_id);
                     command.Parameters.AddWithValue("@Id_Origen", id_origen);
-                    command.Parameters.AddWithValue("@Nombre", nombre ?? "");
+                    command.Parameters.AddWithValue("@Nombre", nombre);
 
                     object result = command.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
@@ -58,6 +46,7 @@ namespace Capa_de_procesamiento_de_datos
                         nuevaTransa = Convert.ToInt32(result);
                     }
                 }
+
             }
             catch (Exception ex)
             {
@@ -76,13 +65,6 @@ namespace Capa_de_procesamiento_de_datos
             int filas_afectadas = 0;
             try
             {
-                
-                DateTime fechaValidada = fecha;
-                if (fecha < new DateTime(1753, 1, 1) || fecha == DateTime.MinValue)
-                {
-                    fechaValidada = DateTime.Now; 
-                }
-
                 Abrir();
 
                 using (SqlCommand command = new SqlCommand("sp_ModificarIngresos", sc))
@@ -90,18 +72,21 @@ namespace Capa_de_procesamiento_de_datos
                     command.CommandType = CommandType.StoredProcedure;
 
                     command.Parameters.AddWithValue("@id_transaccion", id_transaccion);
-                    command.Parameters.AddWithValue("@fecha_transaccion", fechaValidada);
-                    command.Parameters.AddWithValue("@descripcion", descripcion ?? "");
+
+                    command.Parameters.AddWithValue("@fecha_transaccion", fecha);
+                    command.Parameters.AddWithValue("@descripcion", descripcion);
                     command.Parameters.AddWithValue("@monto_nuevo", monto);
                     command.Parameters.AddWithValue("@Numero_de_Referencia", referencia);
                     command.Parameters.AddWithValue("@Usuario_id", usuario_id);
                     command.Parameters.AddWithValue("@Id_Origen", id_origen);
-                    command.Parameters.AddWithValue("@Nombre", nombre ?? "");
+                    command.Parameters.AddWithValue("@Nombre", nombre);
 
                     object result = command.ExecuteScalar();
+
                     if (result != null && int.TryParse(result.ToString(), out int count))
                         filas_afectadas = count;
                 }
+
             }
             catch (Exception ex)
             {
@@ -111,7 +96,9 @@ namespace Capa_de_procesamiento_de_datos
             {
                 Cerrar();
             }
+
             return filas_afectadas;
+
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿using Capa_de_Presentación.ALERTA;
 using Capa_de_Presentación.Formularios_Ewin;
 using Capa_de_Presentación.RECONOCIMIENTO_FACIAL;
 using System;
@@ -140,14 +140,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             this.Hide();
 
-           
+            // 2. Creamos el nuevo formulario y lo manejamos con 'using' para asegurar su descarte.
             using (var alerta = new Capa_de_Presentación.ALERTA.ALERTA_SISTEMA())
             {
-               
+                // 3. Lo mostramos de forma MODAL. El código se detiene aquí hasta que se cierra 'reconocimiento'.
                 alerta.ShowDialog(this);
             }
 
-           
+            // 4. Una vez que 'reconocimiento' se cierra, cerramos el formulario actual 'this'.
+            // Si este formulario (Servicios) fue abierto por otro (dueño/Owner), 
+            // el código del dueñó se encargará de mostrarlo de nuevo o cerrarlo.
             this.Close();
         }
 
