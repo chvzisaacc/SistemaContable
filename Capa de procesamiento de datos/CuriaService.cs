@@ -63,18 +63,48 @@ namespace Capa_de_procesamiento_de_datos
             if (tabla == null || tabla.Rows.Count == 0)
                 return 0;
 
+            // Normalizar plantilla
+            string clave = NormalizarTexto(nombreCuenta);
+
             decimal total = 0;
 
             foreach (DataRow row in tabla.Rows)
             {
-                string cuenta = row["NombreCuenta"]?.ToString() ?? "";
-                if (cuenta.Equals(nombreCuenta, StringComparison.OrdinalIgnoreCase))
-                {
+                string cuentaBD = NormalizarTexto(row["NombreCuenta"]?.ToString() ?? "");
+
+                // Si la cuenta BD contiene o empieza con la plantilla, cuenta
+                if (cuentaBD.StartsWith(clave) || cuentaBD.Contains(clave))
                     total += Convert.ToDecimal(row["Monto"]);
-                }
             }
 
             return total;
+        }
+
+        // Normalizador universal
+        private string NormalizarTexto(string texto)
+        {
+            if (string.IsNullOrWhiteSpace(texto))
+                return "";
+
+            texto = texto.ToLowerInvariant();
+
+            // quitar "(ingreso)" "(gasto)" etc.
+            texto = texto.Replace("(ingreso)", "")
+                         .Replace("(gasto)", "")
+                         .Replace("(", "")
+                         .Replace(")", "");
+
+            // quitar acentos
+            texto = texto
+                .Replace("á", "a").Replace("é", "e").Replace("í", "i")
+                .Replace("ó", "o").Replace("ú", "u").Replace("ñ", "n");
+
+            // quitar comas y unificar espacios
+            texto = texto.Replace(",", " ")
+                         .Replace("  ", " ")
+                         .Trim();
+
+            return texto;
         }
 
         private byte[] GenerarPdfCuria(
