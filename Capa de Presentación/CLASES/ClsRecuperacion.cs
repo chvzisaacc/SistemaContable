@@ -12,9 +12,21 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.CAPAS
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ClsRecuperacion
     {
 
+        /// <summary>
+        /// Iniciars the sesion.
+        /// </summary>
+        /// <param name="usuario">The usuario.</param>
+        /// <param name="contraseña">The contraseña.</param>
+        /// <param name="id_parroquia">The identifier parroquia.</param>
+        /// <param name="fRM_PG1">The f rm p g1.</param>
+        /// <param name="lblMensaje">The label mensaje.</param>
+        /// <returns></returns>
         public int IniciarSesion(string usuario, string contraseña, int id_parroquia, FRM_PG1 fRM_PG1, Label lblMensaje)
         {
             ClsMetodos metodos = new ClsMetodos();
@@ -36,6 +48,12 @@ namespace Capa_de_Presentación.CAPAS
         }
 
 
+        /// <summary>
+        /// Procesars the codigo recuperacion.
+        /// </summary>
+        /// <param name="usuario_id">The usuario identifier.</param>
+        /// <param name="codigo">The codigo.</param>
+        /// <param name="formulario_actual">The formulario actual.</param>
         public void ProcesarCodigoRecuperacion(int usuario_id, string codigo, Form formulario_actual)
         {
             try
@@ -80,6 +98,16 @@ namespace Capa_de_Presentación.CAPAS
             }
         }
 
+        /// <summary>
+        /// Iniciars the sesion.
+        /// </summary>
+        /// <param name="text1">The text1.</param>
+        /// <param name="text2">The text2.</param>
+        /// <param name="v">The v.</param>
+        /// <param name="rECONOCER">The r econocer.</param>
+        /// <param name="label1">The label1.</param>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
         internal int IniciarSesion(string text1, string text2, int v, RECONOCIMIENTO_FACIAL.RECONOCER rECONOCER, Label label1)
         {
             throw new NotImplementedException();

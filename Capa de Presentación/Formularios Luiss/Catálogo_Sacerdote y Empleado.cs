@@ -11,26 +11,49 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FRM_PG46 : Form
     {
 
+        /// <summary>
+        /// The crud catalogo cuentas
+        /// </summary>
         private clsCRUD_CatalogoCuentas crudCatalogoCuentas;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FRM_PG46"/> class.
+        /// </summary>
         public FRM_PG46()
         {
             InitializeComponent();
             crudCatalogoCuentas = new clsCRUD_CatalogoCuentas();
         }
 
+        /// <summary>
+        /// Handles the CellContentClick event of the dgvBitacora control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dgvBitacora_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Load event of the FRM_PG46 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG46_Load(object sender, EventArgs e)
         {
             CargarDatos();
         }
 
+        /// <summary>
+        /// Cargars the datos.
+        /// </summary>
         private void CargarDatos()
         {
             try
@@ -55,6 +78,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnVolver control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();

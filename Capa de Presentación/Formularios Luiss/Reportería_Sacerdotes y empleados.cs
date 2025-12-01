@@ -14,22 +14,57 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FRM_PG49 : Form
     {
 
+        /// <summary>
+        /// The gastos service
+        /// </summary>
         private readonly GastosService _gastosService = new GastosService();
+        /// <summary>
+        /// The estado resultados service
+        /// </summary>
         private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
+        /// <summary>
+        /// The ingresos service
+        /// </summary>
         private readonly IngresosService _ingresosService = new IngresosService();
+        /// <summary>
+        /// The balance general service
+        /// </summary>
         private readonly BalanceGeneralService _balanceGeneralService = new BalanceGeneralService();
+        /// <summary>
+        /// The curia service
+        /// </summary>
         private readonly CuriaService _curiaService = new CuriaService();
+        /// <summary>
+        /// The repo
+        /// </summary>
         private readonly ClsReportes _repo = new ClsReportes();
 
+        /// <summary>
+        /// The validaciones
+        /// </summary>
         private ClsValidaciones Validaciones;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FRM_PG49"/> class.
+        /// </summary>
         public FRM_PG49()
         {
             InitializeComponent();
             Validaciones = new ClsValidaciones();
         }
+        /// <summary>
+        /// Construirnombres the reporte visible.
+        /// </summary>
+        /// <param name="tipo_texto">The tipo texto.</param>
+        /// <param name="desde">The desde.</param>
+        /// <param name="hasta">The hasta.</param>
+        /// <returns></returns>
         private string Construirnombre_reporteVisible(string tipo_texto, DateTime desde, DateTime hasta)
         {
             if (desde.Month == hasta.Month && desde.Year == hasta.Year)
@@ -39,17 +74,32 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
 
+        /// <summary>
+        /// Handles the Click event of the label8 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label8_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the label4 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label4_Click(object sender, EventArgs e)
         {
             this.Close();
 
         }
 
+        /// <summary>
+        /// Handles the Load event of the FRM_PG49 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG49_Load(object sender, EventArgs e)
         {
 
@@ -68,6 +118,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbTipoReporte.SelectedIndex = -1;
         }
 
+        /// <summary>
+        /// Cargars the reportes.
+        /// </summary>
         private void CargarReportes()
         {
             try
@@ -83,6 +136,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the button2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button2_Click(object sender, EventArgs e)
         {
 
@@ -212,6 +270,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the button1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
             if (lstReportes.SelectedItem == null)
@@ -291,11 +354,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of the lstReportes control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void lstReportes_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of the cmbTipoReporte control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbTipoReporte_SelectedIndexChanged(object sender, EventArgs e)
         {
 

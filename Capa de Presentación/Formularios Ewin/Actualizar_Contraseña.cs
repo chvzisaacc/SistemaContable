@@ -14,10 +14,24 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Actualizar_Contraseña : Form
     {
+        /// <summary>
+        /// The correo usuario
+        /// </summary>
         private string correoUsuario;
+        /// <summary>
+        /// The cerrar
+        /// </summary>
         ClsCerrar cerrar = new ClsCerrar();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Actualizar_Contraseña"/> class.
+        /// </summary>
+        /// <param name="correo">The correo.</param>
         public Actualizar_Contraseña(string correo)
         {
             InitializeComponent();
@@ -25,21 +39,39 @@ namespace Capa_de_Presentación.Formularios_Ewin
             correoUsuario = correo;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Actualizar_Contraseña"/> class.
+        /// </summary>
         public Actualizar_Contraseña()
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the label2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label2_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Load event of the FRM_PG4 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG4_Load(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the button1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
             FRM_PG1 fRM_PG1 = new();
@@ -47,6 +79,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             this.Hide();
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnConfirmar control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnConfirmar_Click(object sender, EventArgs e)
         {
             string nueva_contraseña = txt_nueva_contrasena.Text.Trim();
@@ -85,6 +122,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the label4 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label4_Click(object sender, EventArgs e)
         {
             FRM_PG3 fRM_PG3 = new FRM_PG3();

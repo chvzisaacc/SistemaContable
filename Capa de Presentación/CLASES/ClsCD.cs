@@ -11,12 +11,23 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.CLASES
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ClsCD
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClsCD"/> class.
+        /// </summary>
         public ClsCD()
         {
         }
 
+        /// <summary>
+        /// Agregarfilas the specified dt datos certificados.
+        /// </summary>
+        /// <param name="dtDatosCertificados">The dt datos certificados.</param>
+        /// <param name="dataGridView1">The data grid view1.</param>
         public void Agregarfila(DataTable dtDatosCertificados, DataGridView dataGridView1)
         {
             if (dtDatosCertificados != null)
@@ -44,6 +55,12 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        /// <summary>
+        /// Bloquears the desbloquear data.
+        /// </summary>
+        /// <param name="dtDatosCertificados">The dt datos certificados.</param>
+        /// <param name="dataGridView1">The data grid view1.</param>
+        /// <param name="RowIndex">Index of the row.</param>
         public void BloquearDesbloquearData(DataTable dtDatosCertificados, DataGridView dataGridView1, int RowIndex)
         {
             if (RowIndex >= 0)
@@ -94,6 +111,19 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        /// <summary>
+        /// Guardars the cd.
+        /// </summary>
+        /// <param name="dtDatosCertificados">The dt datos certificados.</param>
+        /// <param name="dataGridView1">The data grid view1.</param>
+        /// <param name="datos_guardados">if set to <c>true</c> [datos guardados].</param>
+        /// <exception cref="System.FormatException">
+        /// El Depósito Inicial no es un número válido.
+        /// or
+        /// El Plazo no es un número entero válido.
+        /// or
+        /// La Tasa no es un número válido.
+        /// </exception>
         public void GuardarCD(DataTable dtDatosCertificados, DataGridView dataGridView1, bool datos_guardados)
         {
             int id_parroquia = Capa_de_acceso_de_datos.Sesion1.id_parroquia;
@@ -175,6 +205,11 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        /// <summary>
+        /// Editars the cd.
+        /// </summary>
+        /// <param name="dtDatosCertificados">The dt datos certificados.</param>
+        /// <param name="dataGridView1">The data grid view1.</param>
         public void editarCD(DataTable dtDatosCertificados, DataGridView dataGridView1)
         {
             if (dataGridView1.SelectedRows.Count > 0)
@@ -206,6 +241,12 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        /// <summary>
+        /// Guardaredics the specified dt datos certificados.
+        /// </summary>
+        /// <param name="dtDatosCertificados">The dt datos certificados.</param>
+        /// <param name="dataGridView1">The data grid view1.</param>
+        /// <param name="modo_edicion_activo">if set to <c>true</c> [modo edicion activo].</param>
         public void guardaredic(DataTable dtDatosCertificados, DataGridView dataGridView1, ref bool modo_edicion_activo)
         {
             if (dataGridView1.SelectedRows.Count == 0)
@@ -268,6 +309,12 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        /// <summary>
+        /// Renovars the cd.
+        /// </summary>
+        /// <param name="dtDatosCertificados">The dt datos certificados.</param>
+        /// <param name="dataGridView1">The data grid view1.</param>
+        /// <param name="modo_edicion_activo">if set to <c>true</c> [modo edicion activo].</param>
         public void renovarCD(DataTable dtDatosCertificados, DataGridView dataGridView1, ref bool modo_edicion_activo)
         {
             if (dataGridView1.SelectedRows.Count == 0)
@@ -343,6 +390,10 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        /// <summary>
+        /// Cancelars the certificado.
+        /// </summary>
+        /// <param name="dataGridView1">The data grid view1.</param>
         public void cancelarCertificado(DataGridView dataGridView1)
         {
             if (dataGridView1.SelectedRows.Count == 0)
@@ -392,12 +443,22 @@ namespace Capa_de_Presentación.CLASES
                 MessageBox.Show("Error al cancelar el certificado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
+        /// <summary>
+        /// Cancelars the certificado.
+        /// </summary>
+        /// <param name="dataGridView1">The data grid view1.</param>
+        /// <exception cref="System.NotImplementedException"></exception>
         public void cancelarCertificado(object dataGridView1)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Cargars the certificados intereses.
+        /// </summary>
+        /// <param name="dgv">The DGV.</param>
+        /// <exception cref="System.Exception">Error en la carga y cálculo de certificados: " + ex.Message</exception>
         public void CargarCertificadosIntereses(DataGridView dgv)
         {
             try
@@ -468,6 +529,10 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        /// <summary>
+        /// Cargars the cuentas bancarias.
+        /// </summary>
+        /// <param name="dgv">The DGV.</param>
         public void CargarCuentasBancarias(DataGridView dgv)
         {
             ClsAccionesDB acciones = new ClsAccionesDB();

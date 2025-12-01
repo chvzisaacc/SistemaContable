@@ -6,25 +6,45 @@ using Capa_de_procesamiento_de_datos;
 
 namespace Capa_de_Presentación.CLASES
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ControlarAlerta
     {
         // Instancia de tu capa de negocio/DAL para acceder a la base de datos
+        /// <summary>
+        /// The objalerta
+        /// </summary>
         private readonly Alerta objalerta = new();
 
         // Objeto Timer para la ejecución periódica
+        /// <summary>
+        /// The timer verificacion
+        /// </summary>
         private readonly System.Windows.Forms.Timer _timerVerificacion;
 
         // Delegado/Evento para notificar al formulario (UI) sobre el cambio de estado
         // (bool: true=mostrar, false=ocultar; string: mensaje a mostrar)
+        /// <summary>
+        /// Occurs when [on alerta state changed].
+        /// </summary>
         public event Action<bool, string> OnAlertaStateChanged;
 
         // Constructor: Recibe la instancia de la clase que maneja las operaciones de DB
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ControlarAlerta"/> class.
+        /// </summary>
+        /// <param name="alertaBLInstance">The alerta bl instance.</param>
         public ControlarAlerta(Alerta alertaBLInstance)
         {
             objalerta = alertaBLInstance;
             _timerVerificacion = new System.Windows.Forms.Timer();
         }
 
+        /// <summary>
+        /// Iniciars the monitoreo.
+        /// </summary>
+        /// <param name="intervaloMinutos">The intervalo minutos.</param>
         public void IniciarMonitoreo(int intervaloMinutos = 5)
         {
             if (intervaloMinutos <= 0) intervaloMinutos = 5;
@@ -44,18 +64,29 @@ namespace Capa_de_Presentación.CLASES
             Debug.WriteLine($"Monitoreo de alerta iniciado. Intervalo: {intervaloMinutos} minutos.");
         }
 
+        /// <summary>
+        /// Deteners the monitoreo.
+        /// </summary>
         public void DetenerMonitoreo()
         {
             _timerVerificacion.Stop();
         }
 
         // Método que se llama cuando el Timer se dispara
+        /// <summary>
+        /// Handles the Tick event of the TimerVerificacion control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void TimerVerificacion_Tick(object sender, EventArgs e)
         {
             VerificarYNotificarEstado();
         }
 
         // Lógica principal: Llama al SP y determina si hay inactividad
+        /// <summary>
+        /// Verificars the y notificar estado.
+        /// </summary>
         private void VerificarYNotificarEstado()
         {
             try
@@ -83,6 +114,9 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        /// <summary>
+        /// Forzars the verificacion inmediata.
+        /// </summary>
         public void ForzarVerificacionInmediata()
         {
             VerificarYNotificarEstado();

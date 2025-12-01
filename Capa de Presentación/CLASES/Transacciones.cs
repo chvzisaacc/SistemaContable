@@ -9,8 +9,17 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.CLASES
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Capa_de_acceso_de_datos.Clsconexion" />
     public class Transacciones : Clsconexion
     {
+        /// <summary>
+        /// Cargars the ComboBox origen.
+        /// </summary>
+        /// <param name="cmbOrigen">The CMB origen.</param>
+        /// <param name="cmbOrigen2">The CMB origen2.</param>
         public void CargarComboBoxOrigen(ComboBox cmbOrigen, ComboBox cmbOrigen2)
         {
             ClsAccionesDB clsAccionesDB = new ClsAccionesDB();
@@ -41,6 +50,10 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        /// <summary>
+        /// Cargars the ComboBox cuentas.
+        /// </summary>
+        /// <param name="cmbCuentas">The CMB cuentas.</param>
         public void CargarComboBoxCuentas(ComboBox cmbCuentas)
         {
                 cmbCuentas.Items.Clear();
@@ -48,6 +61,11 @@ namespace Capa_de_Presentación.CLASES
                 cmbCuentas.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// Agregarfilas the specified dt datos ingresos.
+        /// </summary>
+        /// <param name="dtDatosIngresos">The dt datos ingresos.</param>
+        /// <param name="dataGridView1">The data grid view1.</param>
         public void Agregarfila(DataTable dtDatosIngresos, DataGridView dataGridView1)
         {
             if (dtDatosIngresos != null)
@@ -93,6 +111,11 @@ namespace Capa_de_Presentación.CLASES
                 MessageBox.Show("No se puede añadir la fila.", "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+        /// <summary>
+        /// Agregarfila2s the specified dt datos gastos.
+        /// </summary>
+        /// <param name="dtDatosGastos">The dt datos gastos.</param>
+        /// <param name="dgvGastos">The DGV gastos.</param>
         public void Agregarfila2(DataTable dtDatosGastos, DataGridView dgvGastos)
         {
             if (dtDatosGastos != null)
@@ -123,6 +146,12 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        /// <summary>
+        /// Bloquears the desbloquear data ingresos.
+        /// </summary>
+        /// <param name="dtDatosIngresos">The dt datos ingresos.</param>
+        /// <param name="dataGridView1">The data grid view1.</param>
+        /// <param name="RowIndex">Index of the row.</param>
         public void BloquearDesbloquearDataIngresos(DataTable dtDatosIngresos, DataGridView dataGridView1, int RowIndex)
         {
             if (RowIndex >= 0)
@@ -172,6 +201,12 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        /// <summary>
+        /// Bloquears the desbloquear data gastos.
+        /// </summary>
+        /// <param name="dtDatosGastos">The dt datos gastos.</param>
+        /// <param name="dgvgastos">The dgvgastos.</param>
+        /// <param name="RowIndex">Index of the row.</param>
         public void BloquearDesbloquearDataGastos(DataTable dtDatosGastos, DataGridView dgvgastos, int RowIndex)
         {
             if (RowIndex >= 0)
@@ -221,11 +256,23 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        /// <summary>
+        /// Agregarfila2s the specified dt datos gastos.
+        /// </summary>
+        /// <param name="dtDatosGastos">The dt datos gastos.</param>
+        /// <param name="dgvGastos">The DGV gastos.</param>
+        /// <exception cref="System.NotImplementedException"></exception>
         internal void Agregarfila2(object dtDatosGastos, DataGridView dgvGastos)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Cargars the ComboBox origen.
+        /// </summary>
+        /// <param name="cmbOrigen">The CMB origen.</param>
+        /// <param name="cmbOrigen2">The CMB origen2.</param>
+        /// <exception cref="System.NotImplementedException"></exception>
         internal void CargarComboBoxOrigen(object cmbOrigen, object cmbOrigen2)
         {
             throw new NotImplementedException();

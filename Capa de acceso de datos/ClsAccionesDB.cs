@@ -7,10 +7,24 @@ using System.Drawing;
 namespace Capa_de_acceso_de_datos
 {
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class Parroquia
     {
+        /// <summary>
+        /// Gets or sets the nombre.
+        /// </summary>
+        /// <value>
+        /// The nombre.
+        /// </value>
         public string nombre { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Parroquia"/> class.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="nombre">The nombre.</param>
         public Parroquia(int id, string nombre)
         {
 
@@ -18,20 +32,53 @@ namespace Capa_de_acceso_de_datos
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class Reporte
     {
+        /// <summary>
+        /// Gets or sets the nombre.
+        /// </summary>
+        /// <value>
+        /// The nombre.
+        /// </value>
         public string nombre { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Reporte"/> class.
+        /// </summary>
+        /// <param name="nombre">The nombre.</param>
         public Reporte(string nombre)
         {
             this.nombre = nombre;
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public class Origen
     {
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         public int id { get; set; }
+        /// <summary>
+        /// Gets or sets the nombre.
+        /// </summary>
+        /// <value>
+        /// The nombre.
+        /// </value>
         public string nombre { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Origen"/> class.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="nombre">The nombre.</param>
         public Origen(int id, string nombre)
         {
             this.id = id;
@@ -39,15 +86,48 @@ namespace Capa_de_acceso_de_datos
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class ResultadoLogin
     {
+        /// <summary>
+        /// Gets or sets the usuario identifier.
+        /// </summary>
+        /// <value>
+        /// The usuario identifier.
+        /// </value>
         public int usuario_id { get; set; } = 0;
+        /// <summary>
+        /// Gets or sets the rol identifier.
+        /// </summary>
+        /// <value>
+        /// The rol identifier.
+        /// </value>
         public int rol_id { get; set; } = 0;
+        /// <summary>
+        /// Gets the identifier parroquia.
+        /// </summary>
+        /// <value>
+        /// The identifier parroquia.
+        /// </value>
         public int id_parroquia { get; internal set; } = 0;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Capa_de_acceso_de_datos.Clsconexion" />
     public class ClsAccionesDB : Clsconexion
     {
+        /// <summary>
+        /// Validars the credenciales.
+        /// </summary>
+        /// <param name="usuario">The usuario.</param>
+        /// <param name="contraseña">The contraseña.</param>
+        /// <param name="parroquia_id">The parroquia identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al validar usuario: " + ex.Message</exception>
         public ResultadoLogin ValidarCredenciales(string usuario, string contraseña, int parroquia_id)
         {
             // Inicialización simplificada
@@ -92,6 +172,13 @@ namespace Capa_de_acceso_de_datos
             return resultado;
         }
 
+        /// <summary>
+        /// Cambiars the contraseña.
+        /// </summary>
+        /// <param name="correo">The correo.</param>
+        /// <param name="nuevaa_contraseña">The nuevaa contraseña.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al cambiar la contraseña: " + ex.Message</exception>
         public bool CambiarContraseña(string correo, string nuevaa_contraseña)
         {
             try
@@ -117,6 +204,12 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Obteners the usuario identifier por correo.
+        /// </summary>
+        /// <param name="correo">The correo.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener ID de usuario por correo: " + ex.Message</exception>
         public int ObtenerUsuarioIdPorCorreo(string correo)
         {
             int id = 0;
@@ -143,6 +236,12 @@ namespace Capa_de_acceso_de_datos
             return id;
         }
 
+        /// <summary>
+        /// Guardars the codigo recuperacion.
+        /// </summary>
+        /// <param name="usuario_id">The usuario identifier.</param>
+        /// <param name="codigo">The codigo.</param>
+        /// <exception cref="System.Exception">Error al guardar código de recuperación: " + ex.Message</exception>
         public void GuardarCodigoRecuperacion(int usuario_id, string codigo)
         {
             try
@@ -167,6 +266,13 @@ namespace Capa_de_acceso_de_datos
         }
 
 
+        /// <summary>
+        /// Validars the codigo recuperacion.
+        /// </summary>
+        /// <param name="usuario_id">The usuario identifier.</param>
+        /// <param name="codigo">The codigo.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al validar el código: " + ex.Message</exception>
         public string ValidarCodigoRecuperacion(int usuario_id, string codigo)
         {
             string resultado = string.Empty;
@@ -201,6 +307,17 @@ namespace Capa_de_acceso_de_datos
             return resultado;
         }
 
+        /// <summary>
+        /// Guardars the certificado.
+        /// </summary>
+        /// <param name="nombre_certificado">The nombre certificado.</param>
+        /// <param name="deposito_inicial">The deposito inicial.</param>
+        /// <param name="plazo">The plazo.</param>
+        /// <param name="tasa">The tasa.</param>
+        /// <param name="id_parroquia">The identifier parroquia.</param>
+        /// <param name="fecha">The fecha.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al guardar certificado de depósito: " + ex.Message</exception>
         public int GuardarCertificado(string nombre_certificado, decimal deposito_inicial, int plazo, decimal tasa, int id_parroquia, DateTime fecha)
         {
             int idgenerado = 0;
@@ -238,6 +355,11 @@ namespace Capa_de_acceso_de_datos
             return idgenerado;
         }
 
+        /// <summary>
+        /// Cargars the certificados.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al cargar los certificados: " + ex.Message</exception>
         public DataTable CargarCertificados()
         {
             DataTable dt = new DataTable();
@@ -264,6 +386,11 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Cargars the cuentas bancarias.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al cargar las cuentas bancarias: " + ex.Message</exception>
         public DataTable CargarCuentasBancarias()
         {
             DataTable dt = new DataTable();
@@ -291,6 +418,16 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Editarcertificadoes the specified codigo certificado.
+        /// </summary>
+        /// <param name="codigo_certificado">The codigo certificado.</param>
+        /// <param name="nombre_certificado">The nombre certificado.</param>
+        /// <param name="deposito_inicial">The deposito inicial.</param>
+        /// <param name="plazo">The plazo.</param>
+        /// <param name="tasa">The tasa.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al editar certificado de depósito: " + ex.Message</exception>
         public bool editarcertificado(int codigo_certificado, string nombre_certificado, decimal deposito_inicial, int plazo, decimal tasa)
         {
             try
@@ -318,6 +455,15 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Renovars the certificado.
+        /// </summary>
+        /// <param name="codigo_certificado">The codigo certificado.</param>
+        /// <param name="deposito_inicial">The deposito inicial.</param>
+        /// <param name="plazo">The plazo.</param>
+        /// <param name="tasa">The tasa.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al renovar el certificado de depósito: " + ex.Message</exception>
         public bool renovarCertificado(int codigo_certificado, decimal deposito_inicial, int plazo, decimal tasa)
         {
             try
@@ -344,6 +490,12 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Cancelars the certificado.
+        /// </summary>
+        /// <param name="codigo_certificado">The codigo certificado.</param>
+        /// <param name="detalle">The detalle.</param>
+        /// <exception cref="System.Exception">Error al cancelar el certificado de depósito: " + ex.Message</exception>
         public void cancelarCertificado(int codigo_certificado, string detalle)
         {
             try
@@ -367,6 +519,11 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Obteners the lista origenes.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al cargar origen de fondos: " + ex.Message</exception>
         public List<Origen> ObtenerListaOrigenes()
         {
             List<Origen> listaorigenes = new List<Origen>();
@@ -405,6 +562,11 @@ namespace Capa_de_acceso_de_datos
         }
 
 
+        /// <summary>
+        /// Obteners the lista parroquias.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al cargar parroquias: " + ex.Message</exception>
         public List<string> ObtenerListaParroquias()
         {
             List<string> listaparroquias = new List<string>();
@@ -439,6 +601,11 @@ namespace Capa_de_acceso_de_datos
             return listaparroquias;
         }
 
+        /// <summary>
+        /// Obteners the tipo reporte.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al cargar los reportes: " + ex.Message</exception>
         public List<string> ObtenerTipoReporte()
         {
             List<string> reportes = new List<string>();
@@ -472,6 +639,11 @@ namespace Capa_de_acceso_de_datos
 
             return reportes;
         }
+        /// <summary>
+        /// Obteners the cuentas ingreso.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener las cuentas de ingresos: " + ex.Message</exception>
         public DataTable ObtenerCuentasIngreso()
         {
             DataTable dtcuentas = new DataTable();
@@ -500,6 +672,11 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Obteners the cuentas gastos.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener las cuentas de gastos: " + ex.Message</exception>
         public DataTable ObtenerCuentasGastos()
         {
             DataTable dtcuentas = new DataTable();
@@ -530,6 +707,12 @@ namespace Capa_de_acceso_de_datos
         }
 
 
+        /// <summary>
+        /// Obteners the usuario identifier por nombre usuario.
+        /// </summary>
+        /// <param name="nombre_usuario">The nombre usuario.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener ID de usuario por nombre de usuario: " + ex.Message</exception>
         public Tuple<int, int> ObtenerUsuarioIdPorNombreUsuario(string nombre_usuario)
         {
             int id_usuario = 0;
@@ -564,6 +747,11 @@ namespace Capa_de_acceso_de_datos
 
             return Tuple.Create(id_usuario, parroquia_id);  // Tuple con ambos valores
         }
+        /// <summary>
+        /// Obteners the usuarios.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al cargar los usuarios: " + ex.Message</exception>
         public List<Usuario> ObtenerUsuarios()
         {
             List<Usuario> usuarios = new List<Usuario>();
@@ -600,6 +788,13 @@ namespace Capa_de_acceso_de_datos
             return usuarios;
         }
 
+        /// <summary>
+        /// Guardars the foto rostro.
+        /// </summary>
+        /// <param name="usuario_id">The usuario identifier.</param>
+        /// <param name="rostro_data">The rostro data.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al guardar la foto del rostro: " + ex.Message</exception>
         public int GuardarFotoRostro(int usuario_id, byte[] rostro_data)
         {
             int nuevoRostroId = 0;
@@ -633,6 +828,12 @@ namespace Capa_de_acceso_de_datos
             return nuevoRostroId;
         }
 
+        /// <summary>
+        /// Contars the fotos usuario.
+        /// </summary>
+        /// <param name="usuario_id">The usuario identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al contar fotos del usuario: " + ex.Message</exception>
         public int ContarFotosUsuario(int usuario_id)
         {
             int total = 0;
@@ -664,6 +865,11 @@ namespace Capa_de_acceso_de_datos
             return total;
         }
 
+        /// <summary>
+        /// Borrars the fotos usuario.
+        /// </summary>
+        /// <param name="usuario_id">The usuario identifier.</param>
+        /// <exception cref="System.Exception">Error al borrar fotos del usuario: " + ex.Message</exception>
         public void BorrarFotosUsuario(int usuario_id)
         {
             try
@@ -688,6 +894,12 @@ namespace Capa_de_acceso_de_datos
 
         }
 
+        /// <summary>
+        /// Obteners the nombre usuario.
+        /// </summary>
+        /// <param name="usuario_id">The usuario identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener nombre de usuario: " + ex.Message</exception>
         public string ObtenerNombreUsuario(int usuario_id)
         {
             string nombre = "Desconocido";
@@ -716,6 +928,12 @@ namespace Capa_de_acceso_de_datos
             return nombre;
         }
 
+        /// <summary>
+        /// Obteners the rostros por usuario.
+        /// </summary>
+        /// <param name="usuario_id">The usuario identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener el rostro: " + ex.Message</exception>
         public List<byte[]> ObtenerRostrosPorUsuario(int usuario_id)
         {
             List<byte[]> lista = new List<byte[]>();
@@ -749,6 +967,11 @@ namespace Capa_de_acceso_de_datos
 
             return lista;
         }
+        /// <summary>
+        /// Obteners the usuario reconocimiento.
+        /// </summary>
+        /// <param name="usuario_id">The usuario identifier.</param>
+        /// <returns></returns>
         public (string nombre, int rol_id, int estado_cuenta, int parroquia_id) ObtenerUsuarioReconocimiento(int usuario_id)
         {
             string nombre = "";

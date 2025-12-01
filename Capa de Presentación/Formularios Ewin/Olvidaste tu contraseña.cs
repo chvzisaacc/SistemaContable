@@ -13,45 +13,90 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Olvidaste_tu_contraseña : Form
     {
+        /// <summary>
+        /// The cerrar
+        /// </summary>
         ClsCerrar cerrar = new ClsCerrar();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Olvidaste_tu_contraseña"/> class.
+        /// </summary>
         public Olvidaste_tu_contraseña()
         {
             InitializeComponent();
             this.FormClosing += cerrar.CerrarApp;
         }
 
+        /// <summary>
+        /// Handles the Load event of the FRM_PG2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG2_Load(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the 1 event of the FRM_PG2_Load control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG2_Load_1(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the label2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label2_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the button1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the textBox1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the 1 event of the button1_Click control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click_1(object sender, EventArgs e)
         {
 
@@ -101,6 +146,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             this.Hide();
         }
 
+        /// <summary>
+        /// Handles the Click event of the label4 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label4_Click(object sender, EventArgs e)
         {
             FRM_PG1 fRM_PG1 = new();

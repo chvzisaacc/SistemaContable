@@ -8,11 +8,24 @@ using System.Threading.Tasks;
 
 namespace Capa_de_acceso_de_datos
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ClsReportes
     {
+        /// <summary>
+        /// The cn
+        /// </summary>
         private readonly Clsconexion _cn = new Clsconexion();
 
-        
+
+        /// <summary>
+        /// Obteners the estado resultados.
+        /// </summary>
+        /// <param name="parroquia_id">The parroquia identifier.</param>
+        /// <param name="desde">The desde.</param>
+        /// <param name="hasta">The hasta.</param>
+        /// <returns></returns>
         public DataSet ObtenerEstadoResultados(int parroquia_id, DateTime desde, DateTime hasta)
         {
             DataSet ds = new DataSet();
@@ -44,6 +57,13 @@ namespace Capa_de_acceso_de_datos
             return ds;
         }
 
+        /// <summary>
+        /// Obteners the ingresos por parroquia.
+        /// </summary>
+        /// <param name="parroquia_id">The parroquia identifier.</param>
+        /// <param name="desde">The desde.</param>
+        /// <param name="hasta">The hasta.</param>
+        /// <returns></returns>
         public DataTable ObtenerIngresosPorParroquia(int parroquia_id, DateTime desde, DateTime hasta)
         {
             DataTable dt = new DataTable();
@@ -77,6 +97,13 @@ namespace Capa_de_acceso_de_datos
 
 
 
+        /// <summary>
+        /// Obteners the gastos por parroquia.
+        /// </summary>
+        /// <param name="parroquia_id">The parroquia identifier.</param>
+        /// <param name="desde">The desde.</param>
+        /// <param name="hasta">The hasta.</param>
+        /// <returns></returns>
         public DataTable ObtenerGastosPorParroquia(int parroquia_id, DateTime desde, DateTime hasta)
         {
             DataTable dt = new DataTable();
@@ -106,6 +133,10 @@ namespace Capa_de_acceso_de_datos
             return dt;
         }
 
+        /// <summary>
+        /// Obteners the parroquias.
+        /// </summary>
+        /// <returns></returns>
         public DataTable ObtenerParroquias()
         {
             DataTable dt = new DataTable();
@@ -132,6 +163,11 @@ namespace Capa_de_acceso_de_datos
             return dt;
         }
 
+        /// <summary>
+        /// Obteners the nombre parroquia.
+        /// </summary>
+        /// <param name="parroquia_id">The parroquia identifier.</param>
+        /// <returns></returns>
         public string ObtenerNombreParroquia(int parroquia_id)
         {
             string nombre = null;
@@ -157,8 +193,12 @@ namespace Capa_de_acceso_de_datos
 
             return nombre;
         }
-    
-    public DataTable ObtenerTiposReporte()
+
+        /// <summary>
+        /// Obteners the tipos reporte.
+        /// </summary>
+        /// <returns></returns>
+        public DataTable ObtenerTiposReporte()
         {
             DataTable dt = new DataTable();
 
@@ -184,6 +224,13 @@ namespace Capa_de_acceso_de_datos
             return dt;
         }
 
+        /// <summary>
+        /// Obteners the balance general.
+        /// </summary>
+        /// <param name="parroquia_id">The parroquia identifier.</param>
+        /// <param name="fecha_inicio">The fecha inicio.</param>
+        /// <param name="fecha_corte">The fecha corte.</param>
+        /// <returns></returns>
         public DataTable ObtenerBalanceGeneral(int parroquia_id, DateTime fecha_inicio, DateTime fecha_corte)
         {
             DataTable dt = new DataTable();
@@ -210,6 +257,13 @@ namespace Capa_de_acceso_de_datos
             return dt;
         }
 
+        /// <summary>
+        /// Obteners the datos curia.
+        /// </summary>
+        /// <param name="parroquiaId">The parroquia identifier.</param>
+        /// <param name="desde">The desde.</param>
+        /// <param name="hasta">The hasta.</param>
+        /// <returns></returns>
         public DataSet ObtenerDatosCuria(int parroquiaId, DateTime desde, DateTime hasta)
         {
             DataSet ds = new DataSet();
@@ -241,6 +295,11 @@ namespace Capa_de_acceso_de_datos
         }
 
 
+        /// <summary>
+        /// Obteners the nombre sacerdote.
+        /// </summary>
+        /// <param name="usuarioId">The usuario identifier.</param>
+        /// <returns></returns>
         public string ObtenerNombreSacerdote(int usuarioId)
         {
             string nombreCompleto = "";

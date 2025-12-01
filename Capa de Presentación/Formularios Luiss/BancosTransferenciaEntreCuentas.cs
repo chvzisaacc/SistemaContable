@@ -12,11 +12,24 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosTransferenciaEntreCuentas : Form
     {
+        /// <summary>
+        /// The crud transferencia
+        /// </summary>
         private clsTransferenciaEntreCuentas crudTransferencia = new clsTransferenciaEntreCuentas();
+        /// <summary>
+        /// The validaciones
+        /// </summary>
         private ClsValidaciones Validaciones;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BancosTransferenciaEntreCuentas"/> class.
+        /// </summary>
         public BancosTransferenciaEntreCuentas()
         {
             InitializeComponent();
@@ -24,6 +37,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             Validaciones = new ClsValidaciones();
         }
 
+        /// <summary>
+        /// Cargars the cuentas.
+        /// </summary>
         private void CargarCuentas()
         {
             try
@@ -47,6 +63,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Realizars the transferencia.
+        /// </summary>
         private void RealizarTransferencia()
         {
             try
@@ -71,6 +90,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the KeyPress event of the txtMonto control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
         private void txtMonto_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
@@ -85,16 +109,30 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of the comboBox1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the textBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Validars the campos.
+        /// </summary>
+        /// <returns></returns>
         private bool ValidarCampos()
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
@@ -128,6 +166,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             return true;
         }
+        /// <summary>
+        /// Handles the Click event of the pictureBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             if (!ValidarCampos())
@@ -163,16 +206,31 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Load event of the FRM_BancosTransferenciaEntreCuentas control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_BancosTransferenciaEntreCuentas_Load(object sender, EventArgs e)
         {
 
         }
 
-       
+
+        /// <summary>
+        /// Handles the TextChanged event of the txtMonto control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtMonto_TextChanged(object sender, EventArgs e)
         {
 
         }
+        /// <summary>
+        /// Handles the Click event of the txtMonto control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtMonto_Click(object sender, EventArgs e)
         {
             if (txtMonto.Text == "Usuario")
@@ -182,6 +240,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Leave event of the txtMonto control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtMonto_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtMonto.Text))
@@ -191,6 +254,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Paint event of the panel2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
 

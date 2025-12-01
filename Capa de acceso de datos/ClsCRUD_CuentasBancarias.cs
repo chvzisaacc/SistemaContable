@@ -3,15 +3,32 @@ using System.Data;
 
 namespace Capa_de_acceso_de_datos
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ClsCRUD_CuentasBancarias
     {
+        /// <summary>
+        /// The conexion
+        /// </summary>
         private Clsconexion conexion;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClsCRUD_CuentasBancarias"/> class.
+        /// </summary>
         public ClsCRUD_CuentasBancarias()
         {
             conexion = new Clsconexion();
         }
 
+        /// <summary>
+        /// Agregars the cuenta bancaria.
+        /// </summary>
+        /// <param name="cuenta_bancaria_id">The cuenta bancaria identifier.</param>
+        /// <param name="nombre">The nombre.</param>
+        /// <param name="saldo">The saldo.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al agregar cuenta bancaria: " + ex.Message</exception>
         public int AgregarCuentaBancaria(int cuenta_bancaria_id, string nombre, decimal? saldo)
         {
             try
@@ -44,6 +61,11 @@ namespace Capa_de_acceso_de_datos
 
         }
 
+        /// <summary>
+        /// Obteners the cuentas bancarias.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener Cuentas Bancarias: " + ex.Message</exception>
         public DataTable ObtenerCuentasBancarias()
         {
             try
@@ -68,6 +90,13 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
+        /// <summary>
+        /// Modificars the saldo.
+        /// </summary>
+        /// <param name="id_origen">The identifier origen.</param>
+        /// <param name="saldo">The saldo.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al modificar saldo: " + ex.Message</exception>
         public bool ModificarSaldo(int id_origen, decimal saldo)
         {
             try
@@ -95,6 +124,13 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
+        /// <summary>
+        /// Agregars the saldo.
+        /// </summary>
+        /// <param name="id_origen">The identifier origen.</param>
+        /// <param name="monto">The monto.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al agregar saldo: " + ex.Message</exception>
         public bool AgregarSaldo(int id_origen, decimal monto)
         {
             try
@@ -122,6 +158,14 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
+        /// <summary>
+        /// Crears the cuenta banco.
+        /// </summary>
+        /// <param name="nombre">The nombre.</param>
+        /// <param name="saldo">The saldo.</param>
+        /// <param name="nuevo_id">The nuevo identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al crear cuenta bancaria: " + ex.Message</exception>
         public bool CrearCuentaBanco(String nombre, decimal saldo,  out int nuevo_id)
         {
             nuevo_id = 0;

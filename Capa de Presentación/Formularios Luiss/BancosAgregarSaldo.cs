@@ -12,10 +12,23 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosAgregarSaldo : Form
     {
+        /// <summary>
+        /// The crud cuentas bancarias
+        /// </summary>
         private ClsCRUD_CuentasBancarias crudCuentasBancarias;
+        /// <summary>
+        /// The validaciones
+        /// </summary>
         private ClsValidaciones Validaciones;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BancosAgregarSaldo"/> class.
+        /// </summary>
         public BancosAgregarSaldo()
         {
             InitializeComponent();
@@ -23,10 +36,20 @@ namespace Capa_de_Presentación.Formularios_Luiss
             Validaciones = new ClsValidaciones();
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the textBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             ValidarCampos();
@@ -73,8 +96,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
 
+
+        /// <summary>
+        /// Handles the Load event of the FRM_BancosAgregarSaldo control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_BancosAgregarSaldo_Load(object sender, EventArgs e)
         {
             CargarDatos();
@@ -83,11 +111,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
             //HabilitarControles(false);
         }
 
+        /// <summary>
+        /// Validars the campos.
+        /// </summary>
+        /// <returns></returns>
         private bool ValidarCampos()
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
 
-           
+
             string monto = txtMonto.Text.Trim();
 
 
@@ -109,6 +141,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             return true;
         }
+        /// <summary>
+        /// Cargars the datos.
+        /// </summary>
         private void CargarDatos()
         {
             try
@@ -134,6 +169,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        /// <summary>
+        /// Cargars the combo boxes.
+        /// </summary>
         private void CargarComboBoxes()
         {
             try
@@ -150,6 +188,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        /// <summary>
+        /// Handles the Click event of the txtMonto control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtMonto_Click(object sender, EventArgs e)
         {
             if (txtMonto.Text == "Ingrese un monto")
@@ -159,6 +202,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Leave event of the txtMonto control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtMonto_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtMonto.Text))
@@ -166,6 +214,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 txtMonto.Text = "Ingrese un monto";
                 txtMonto.ForeColor = Color.Gray;
             }
+        }
+
+        /// <summary>
+        /// Handles the Paint event of the panel2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

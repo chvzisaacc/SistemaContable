@@ -7,8 +7,16 @@ using System.Threading.Tasks;
 
 namespace Capa_de_Presentación.CLASES
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ClsCerrar
     {
+        /// <summary>
+        /// Cerrars the application.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
         public void CerrarApp(object? sender, FormClosingEventArgs e)
         {
             try

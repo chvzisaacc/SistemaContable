@@ -9,8 +9,17 @@ using Microsoft.Data.SqlClient;
 
 namespace Capa_de_procesamiento_de_datos
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Capa_de_acceso_de_datos.Clsconexion" />
     public class Alerta : Clsconexion
     {
+        /// <summary>
+        /// Cargars the alerta.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al cargar la alerta: " + ex.Message</exception>
         public DataTable CargarAlerta()
         {
             DataTable dt = new DataTable();
@@ -36,6 +45,12 @@ namespace Capa_de_procesamiento_de_datos
                 Cerrar();
             }
         }
+        /// <summary>
+        /// Modificars the configuracion alerta.
+        /// </summary>
+        /// <param name="diasLimite">The dias limite.</param>
+        /// <param name="alarmaActiva">if set to <c>true</c> [alarma activa].</param>
+        /// <exception cref="System.Exception">Error al modificar la configuración de la alerta: " + ex.Message</exception>
         public void ModificarConfiguracionAlerta(int diasLimite, bool alarmaActiva)
         {
             try
@@ -64,6 +79,11 @@ namespace Capa_de_procesamiento_de_datos
             }
         }
 
+        /// <summary>
+        /// Mensajes the alerta.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al verificar la alerta: " + ex.Message</exception>
         public DataTable MensajeAlerta()
         {
             DataTable dtResultado = new DataTable();

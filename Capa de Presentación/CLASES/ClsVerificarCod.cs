@@ -3,8 +3,18 @@ using Capa_de_Presentación.Formularios_Ewin;
 
 namespace Capa_de_Presentación.CLASES
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ClsVerificarCod
     {
+        /// <summary>
+        /// Procesars the codigo recuperacion.
+        /// </summary>
+        /// <param name="usuario_id">The usuario identifier.</param>
+        /// <param name="codigo">The codigo.</param>
+        /// <param name="correo_usuario">The correo usuario.</param>
+        /// <param name="formulario_actual">The formulario actual.</param>
         public void ProcesarCodigoRecuperacion(int usuario_id, string codigo, string correo_usuario, Form formulario_actual)
         {
             try

@@ -12,12 +12,25 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosRetirarDinero : Form
     {
 
+        /// <summary>
+        /// The crud caja chica
+        /// </summary>
         private clsEnviarACajaChica crudCajaChica = new clsEnviarACajaChica();
+        /// <summary>
+        /// The validaciones
+        /// </summary>
         private ClsValidaciones Validaciones;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BancosRetirarDinero"/> class.
+        /// </summary>
         public BancosRetirarDinero()
         {
             InitializeComponent();
@@ -26,11 +39,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the textBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             ValidarCampos();
@@ -66,10 +89,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
             
         }
 
+        /// <summary>
+        /// Handles the Load event of the FRM_BancosRetirarDinero control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_BancosRetirarDinero_Load(object sender, EventArgs e)
         {
 
         }
+        /// <summary>
+        /// Validars the campos.
+        /// </summary>
+        /// <returns></returns>
         private bool ValidarCampos()
         {
             if (!string.IsNullOrWhiteSpace(txtMonto.Text) && !Validaciones.EsNumeroDecimal(txtMonto.Text))
@@ -83,6 +115,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
 
+        /// <summary>
+        /// Handles the Click event of the txtMonto control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtMonto_Click(object sender, EventArgs e)
         {
             if (txtMonto.Text == "Ingrese un monto")
@@ -92,6 +129,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Leave event of the txtMonto control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtMonto_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtMonto.Text))
@@ -101,6 +143,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Cargars the cuentas.
+        /// </summary>
         private void CargarCuentas()
         {
             try
@@ -118,6 +163,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Realizars the transferencia.
+        /// </summary>
         private void RealizarTransferencia()
         {
             try
@@ -141,6 +189,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Paint event of the panel2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
 

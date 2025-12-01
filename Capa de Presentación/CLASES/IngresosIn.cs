@@ -11,8 +11,17 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.CLASES
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Capa_de_acceso_de_datos.Clsconexion" />
     public class IngresosIn : Clsconexion
     {
+        /// <summary>
+        /// Editars the ingreso.
+        /// </summary>
+        /// <param name="dtIngresos">The dt ingresos.</param>
+        /// <param name="dataGridView1">The data grid view1.</param>
         public void editarIngreso(DataTable dtIngresos, DataGridView dataGridView1)
         {
             if (dataGridView1.Rows.Count == 0)
@@ -55,6 +64,21 @@ namespace Capa_de_Presentación.CLASES
                 "Modo Edición Activado", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        /// <summary>
+        /// Guardars the edicion.
+        /// </summary>
+        /// <param name="dtIngresos">The dt ingresos.</param>
+        /// <param name="nombre_cuenta">The nombre cuenta.</param>
+        /// <param name="detalle">The detalle.</param>
+        /// <param name="saldo">The saldo.</param>
+        /// <param name="fecha_transaccion">The fecha transaccion.</param>
+        /// <param name="referencia">The referencia.</param>
+        /// <param name="id_origen">The identifier origen.</param>
+        /// <param name="txtNoReferencia">The text no referencia.</param>
+        /// <param name="cmbOrigen">The CMB origen.</param>
+        /// <param name="dataGridView1">The data grid view1.</param>
+        /// <param name="dtpFecha">The DTP fecha.</param>
+        /// <returns></returns>
         public bool GuardarEdicion(DataTable dtIngresos, string nombre_cuenta, string detalle, decimal saldo,
         DateTime fecha_transaccion, string referencia, int id_origen,
         TextBox txtNoReferencia = null, ComboBox cmbOrigen = null,

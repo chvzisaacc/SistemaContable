@@ -17,35 +17,107 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FRM_42 : Form
     {
 
+        /// <summary>
+        /// The dt datos ingresos
+        /// </summary>
         private DataTable dtDatosIngresos = new DataTable("Ingresos");
+        /// <summary>
+        /// The dt datos gastos
+        /// </summary>
         private DataTable dtDatosGastos = new DataTable("Gastos");
+        /// <summary>
+        /// The crud catalo cuentas
+        /// </summary>
         private clsCRUD_CatalogoCuentas crudCataloCuentas;
 
+        /// <summary>
+        /// The crud cuentas bancarias
+        /// </summary>
         private ClsCRUD_CuentasBancarias crudCuentasBancarias;
 
+        /// <summary>
+        /// The modo edicion
+        /// </summary>
         private bool modoEdicion = false;
+        /// <summary>
+        /// The cuenta bancoid seleccionado
+        /// </summary>
         private int cuentaBancoid_seleccionado = 0;
+        /// <summary>
+        /// The subcuentas
+        /// </summary>
         private AutoCompleteStringCollection Subcuentas = new AutoCompleteStringCollection();
+        /// <summary>
+        /// The object sub cuentas
+        /// </summary>
         private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
 
+        /// <summary>
+        /// The crud historial
+        /// </summary>
         private clsCRUD_Historial crudHistorial;
 
+        /// <summary>
+        /// The objalerta
+        /// </summary>
         private readonly Alerta _objalerta = new();
+        /// <summary>
+        /// The controlador alerta
+        /// </summary>
         private readonly ControlarAlerta _controladorAlerta;
+        /// <summary>
+        /// The player
+        /// </summary>
         private readonly SoundPlayer _player = new SoundPlayer();
 
+        /// <summary>
+        /// The animation timer
+        /// </summary>
         private System.Windows.Forms.Timer _animationTimer;
+        /// <summary>
+        /// The target height
+        /// </summary>
         private const int _TARGET_HEIGHT = 40; // Altura final deseada del panel (ajustar si es necesario)
+        /// <summary>
+        /// The slide speed
+        /// </summary>
         private const int _SLIDE_SPEED = 5;    // Velocidad de la animación 
+        /// <summary>
+        /// The is opening
+        /// </summary>
         private bool _isOpening = false;       // Indica si la alerta se está abriendo o cerrando
 
+        /// <summary>
+        /// Gets or sets the predicted identifier.
+        /// </summary>
+        /// <value>
+        /// The predicted identifier.
+        /// </value>
         private int PredictedId { get; set; }
+        /// <summary>
+        /// Gets or sets the parroquia identifier.
+        /// </summary>
+        /// <value>
+        /// The parroquia identifier.
+        /// </value>
         private int ParroquiaId { get; set; }
 
+        /// <summary>
+        /// The cerrar
+        /// </summary>
         ClsCerrar cerrar = new ClsCerrar();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FRM_42"/> class.
+        /// </summary>
+        /// <param name="predicted_id">The predicted identifier.</param>
+        /// <param name="parroquia_id">The parroquia identifier.</param>
         public FRM_42(int predicted_id, int parroquia_id)
         {
             InitializeComponent();
@@ -96,6 +168,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
 
+        /// <summary>
+        /// Handles the Load event of the FRM_42 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_42_Load(object sender, EventArgs e)
         {
             dgvGastos.AllowUserToAddRows = false;
@@ -119,6 +196,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        /// <summary>
+        /// Manejars the cambio estado alerta.
+        /// </summary>
+        /// <param name="activo">if set to <c>true</c> [activo].</param>
+        /// <param name="mensaje">The mensaje.</param>
         private void ManejarCambioEstadoAlerta(bool activo, string mensaje)
         {
             if (this.InvokeRequired)
@@ -145,6 +227,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Tick event of the AnimationTimer control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void AnimationTimer_Tick(object sender, EventArgs e)
         {
             if (_isOpening) // Deslizar hacia abajo (Mostrar)
@@ -174,11 +261,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         //Detener el Timer al cerrar el formulario para liberar recursos
+        /// <summary>
+        /// Handles the FormClosing event of the Frm_42 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
         private void Frm_42_FormClosing(object sender, FormClosingEventArgs e)
         {
             _controladorAlerta.DetenerMonitoreo();
         }
 
+        /// <summary>
+        /// Cargars the cuentas en ComboBox.
+        /// </summary>
         private void CargarCuentasEnComboBox()
         {
             try
@@ -206,11 +301,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        
+
 
         //Detener el Timer al cerrar el formulario para liberar recursos
-      
 
+
+        /// <summary>
+        /// Cargars the origenes.
+        /// </summary>
         private void CargarOrigenes()
         {
             try
@@ -233,6 +331,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Cargars the datos.
+        /// </summary>
         private void CargarDatos()
         {
             try
@@ -247,6 +348,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
 
+        /// <summary>
+        /// Cargars the combo boxes.
+        /// </summary>
         private void CargarComboBoxes()
         {
             try
@@ -267,6 +371,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
 
+        /// <summary>
+        /// Mostrars the solo este panel.
+        /// </summary>
+        /// <param name="panel_mostrar">The panel mostrar.</param>
         private void MostrarSoloEstePanel(Panel panel_mostrar)
         {
             foreach (Control ctrl in panelContenedor.Controls)
@@ -280,6 +388,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
 
+        /// <summary>
+        /// Handles the Click event of the btnGastos control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnGastos_Click(object sender, EventArgs e)
         {
             //panelMensaje.Visible = false;
@@ -287,6 +400,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             RegistrarNavegacion("Gastos");
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnCajaChica control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnCajaChica_Click(object sender, EventArgs e)
         {
             //panelMensaje.Visible = false;
@@ -294,6 +412,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             RegistrarNavegacion("Caja Chica");
 
         }
+        /// <summary>
+        /// Handles the 1 event of the btnIngresos_Click control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnIngresos_Click_1(object sender, EventArgs e)
         {
             //panelMensaje.Visible = false;
@@ -301,6 +424,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             RegistrarNavegacion("Ingresos");
         }
 
+        /// <summary>
+        /// Handles the 1 event of the btnBancos_Click control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnBancos_Click_1(object sender, EventArgs e)
         {
             //panelMensaje.Visible = false;
@@ -314,6 +442,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             FRM_SERVICIOS popup = new FRM_SERVICIOS();
@@ -326,6 +459,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             Cerrar_Sesión popup = new Cerrar_Sesión();
@@ -337,6 +475,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
 
+        /// <summary>
+        /// Handles the Click event of the btnDetalle control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnDetalle_Click(object sender, EventArgs e)
         {
             using (var frm = new Partidas_Dobles())
@@ -346,6 +489,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of the cmbCuentas control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbCuentas_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -371,6 +519,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of the cmbAcciones control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbAcciones_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbAcciones.SelectedIndex < 0) return;
@@ -451,11 +604,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Paint event of the panel1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the 1 event of the btnDetalle_Click control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnDetalle_Click_1(object sender, EventArgs e)
         {
             //llamar form 69,
@@ -463,6 +626,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             obj_frm69.ShowDialog();
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of the chkSaldoInicial control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void chkSaldoInicial_CheckedChanged(object sender, EventArgs e)
         {
             CajaChicaMonto obj_caja = new CajaChicaMonto();
@@ -492,6 +660,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
         }
+        /// <summary>
+        /// Mostrars the saldo actual.
+        /// </summary>
         private void MostrarSaldoActual()
         {
             Clsconexion obj_con = new Clsconexion();
@@ -528,6 +699,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
         //Actualiza el saldo que se muestra en pantalla
+        /// <summary>
+        /// Actualizars the saldo.
+        /// </summary>
         private void ActualizarSaldo()
         {
             try
@@ -539,14 +713,29 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 MessageBox.Show("Error al actualizar el saldo: " + ex.Message);
             }
         }
+        /// <summary>
+        /// Handles the TextChanged event of the txtSaldoActual control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtSaldoActual_TextChanged(object sender, EventArgs e)
         {
 
         }
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of the cmbOrigen control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbOrigen_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
+        /// <summary>
+        /// Handles the Click event of the button2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button2_Click(object sender, EventArgs e)
         {
             cmbOrigen.Text = "Seleccionar";
@@ -556,15 +745,28 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
         }
+        /// <summary>
+        /// Handles the CellContentClick event of the dgvIngresos control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dgvIngresos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the CellValidating event of the dataGridView1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellValidatingEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
 
         }
+        /// <summary>
+        /// Inicializars the DGV ingr.
+        /// </summary>
         private void InicializarDGVIngr()
         {
             dataGridView1.Columns.Clear();
@@ -590,6 +792,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 dataGridView1.Columns["NoReferencia"].Visible = false;
         }
 
+        /// <summary>
+        /// Inicializars the dg vgastos.
+        /// </summary>
         private void InicializarDGVgastos()
         {
             dgvGastos.Columns.Clear();
@@ -616,6 +821,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
 
+        /// <summary>
+        /// Handles the CellClick event of the dataGridView1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || dataGridView1.Rows.Count == 0)
@@ -644,12 +854,20 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        /// <summary>
+        /// Handles the Paint event of the panelIngresos control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panelIngresos_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
 
+        /// <summary>
+        /// Cargars the datos autocompletado.
+        /// </summary>
         private void CargarDatosAutocompletado()
         {
             Subcuentas.Clear();
@@ -671,6 +889,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
         }
+        /// <summary>
+        /// Cargars the datos autocompletado gastos.
+        /// </summary>
         private void CargarDatosAutocompletadoGastos()
         {
             Subcuentas.Clear();
@@ -693,6 +914,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
 
+        /// <summary>
+        /// Handles the EditingControlShowing event of the dataGridView1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewEditingControlShowingEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             if (dataGridView1.CurrentCell.OwningColumn.Name == "NombreCuenta")
@@ -727,6 +953,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
 
+        /// <summary>
+        /// Handles the Click event of the button3 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button3_Click(object sender, EventArgs e)
         {
             Certificados_De_Depósito fRM_PG103 = new Certificados_De_Depósito();
@@ -734,16 +965,31 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.Hide();
         }
 
+        /// <summary>
+        /// Handles the Click event of the button1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of the cmbOrigen2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbOrigen2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the button4 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button4_Click(object sender, EventArgs e)
         {
             cmbOrigen2.Text = "Seleccionar";
@@ -752,6 +998,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             transa.Agregarfila2(dtDatosGastos, dgvGastos);
         }
 
+        /// <summary>
+        /// Handles the 1 event of the button4_Click control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button4_Click_1(object sender, EventArgs e)
         {
             cmbOrigen2.Text = "Seleccionar";
@@ -760,6 +1011,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             transa.Agregarfila2(dtDatosGastos, dgvGastos);
         }
 
+        /// <summary>
+        /// Handles the EditingControlShowing event of the dgvGastos control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewEditingControlShowingEventArgs"/> instance containing the event data.</param>
         private void dgvGastos_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             if (dgvGastos.CurrentCell == null)
@@ -791,6 +1047,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        /// <summary>
+        /// Handles the 1 event of the button1_Click control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click_1(object sender, EventArgs e)
         {
             try
@@ -1025,26 +1286,46 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             
         }
-        
 
 
 
 
+
+        /// <summary>
+        /// Handles the 1 event of the cmbOrigen2_SelectedIndexChanged control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbOrigen2_SelectedIndexChanged_1(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Paint event of the panelGastos2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panelGastos2_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of the dateTimePicker1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the CellClick event of the dgvGastos control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dgvGastos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             Transacciones obj_transa = new();
@@ -1052,13 +1333,26 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        /// <summary>
+        /// Handles the CellContentClick event of the dgvGastos control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dgvGastos_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
+        /// <summary>
+        /// The identifier transaccion a editar
+        /// </summary>
         private int id_transaccionAEditar = 0;
 
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox5 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox5_Click(object sender, EventArgs e)
         {
             if (modoEdicion)
@@ -1112,6 +1406,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                             "Modo Edición", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        /// <summary>
+        /// Handles the CellEndEdit event of the dataGridView1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -1119,6 +1418,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             //ing.BloquearDesbloquearIngresos(dtDatosIngresos, dataGridView1, e.RowIndex);
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnGuardar2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnGuardar2_Click(object sender, EventArgs e)
         {
             try
@@ -1351,11 +1655,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
            
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of the dtpFecha control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void dtpFecha_ValueChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox7 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox7_Click(object sender, EventArgs e)
         {
             if (modoEdicion)
@@ -1409,6 +1723,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                             "Modo Edición", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox6 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox6_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
@@ -1426,6 +1745,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox8 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox8_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
@@ -1443,6 +1767,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Registrars the navegacion.
+        /// </summary>
+        /// <param name="modulo">The modulo.</param>
         private void RegistrarNavegacion(string modulo)
         {
             try
@@ -1461,6 +1789,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             catch { }
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of the cmbInteresesBancarios control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbInteresesBancarios_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbInteresesBancarios.SelectedIndex == 0)
@@ -1471,16 +1804,31 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Paint event of the panelBancos2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panelBancos2_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Paint event of the pnlAlertaDeslizante control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void pnlAlertaDeslizante_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Tick event of the timer1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void timer1_Tick(object sender, EventArgs e)
         {
 

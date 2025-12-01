@@ -11,11 +11,23 @@ using System.Threading.Tasks;
 
 namespace Capa_de_procesamiento_de_datos
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CuriaService
     {
+        /// <summary>
+        /// The repo
+        /// </summary>
         private readonly ClsReportes _repo = new ClsReportes();
+        /// <summary>
+        /// The carpeta reportes
+        /// </summary>
         private readonly string _carpetaReportes;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CuriaService"/> class.
+        /// </summary>
         public CuriaService()
         {
             _carpetaReportes = Path.Combine(
@@ -26,6 +38,16 @@ namespace Capa_de_procesamiento_de_datos
         }
 
         // Genera el PDF y devuelve la ruta
+        /// <summary>
+        /// Generars the informe curia.
+        /// </summary>
+        /// <param name="parroquiaId">The parroquia identifier.</param>
+        /// <param name="nombreParroquia">The nombre parroquia.</param>
+        /// <param name="desde">The desde.</param>
+        /// <param name="hasta">The hasta.</param>
+        /// <param name="usuarioId">The usuario identifier.</param>
+        /// <param name="nombreSacerdote">The nombre sacerdote.</param>
+        /// <returns></returns>
         public string GenerarInformeCuria(
             int parroquiaId,
             string nombreParroquia,
@@ -58,6 +80,12 @@ namespace Capa_de_procesamiento_de_datos
             return rutaCompleta;
         }
 
+        /// <summary>
+        /// Obteners the monto por cuenta.
+        /// </summary>
+        /// <param name="tabla">The tabla.</param>
+        /// <param name="nombreCuenta">The nombre cuenta.</param>
+        /// <returns></returns>
         private decimal ObtenerMontoPorCuenta(DataTable tabla, string nombreCuenta)
         {
             if (tabla == null || tabla.Rows.Count == 0)
@@ -81,6 +109,11 @@ namespace Capa_de_procesamiento_de_datos
         }
 
         // Normalizador universal
+        /// <summary>
+        /// Normalizars the texto.
+        /// </summary>
+        /// <param name="texto">The texto.</param>
+        /// <returns></returns>
         private string NormalizarTexto(string texto)
         {
             if (string.IsNullOrWhiteSpace(texto))
@@ -107,6 +140,17 @@ namespace Capa_de_procesamiento_de_datos
             return texto;
         }
 
+        /// <summary>
+        /// Generars the PDF curia.
+        /// </summary>
+        /// <param name="dtEntradas">The dt entradas.</param>
+        /// <param name="dtSalidas">The dt salidas.</param>
+        /// <param name="dtTotales">The dt totales.</param>
+        /// <param name="parroquia">The parroquia.</param>
+        /// <param name="desde">The desde.</param>
+        /// <param name="hasta">The hasta.</param>
+        /// <param name="nombreSacerdote">The nombre sacerdote.</param>
+        /// <returns></returns>
         private byte[] GenerarPdfCuria(
             DataTable dtEntradas,
             DataTable dtSalidas,

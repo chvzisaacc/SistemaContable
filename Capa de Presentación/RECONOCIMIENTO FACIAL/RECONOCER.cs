@@ -15,32 +15,90 @@ using System.Xml.Linq;
 
 namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class RECONOCER : Form
     {
+        /// <summary>
+        /// 
+        /// </summary>
         enum RecordingType
         {
+            /// <summary>
+            /// The training
+            /// </summary>
             training = 0,
+            /// <summary>
+            /// The recognition
+            /// </summary>
             recognition = 1
         }
+        /// <summary>
+        /// The recording type
+        /// </summary>
         RecordingType recording_type;
+        /// <summary>
+        /// The cam
+        /// </summary>
         VideoCapture cam;
+        /// <summary>
+        /// The frame
+        /// </summary>
         Mat frame;
+        /// <summary>
+        /// The face detector
+        /// </summary>
         CascadeClassifier face_detector;
+        /// <summary>
+        /// The eigen face recognizer
+        /// </summary>
         EigenFaceRecognizer eigen_face_recognizer;
+        /// <summary>
+        /// The running
+        /// </summary>
         bool running = false;
 
+        /// <summary>
+        /// The model width
+        /// </summary>
         int model_width = 100;
+        /// <summary>
+        /// The model height
+        /// </summary>
         int model_height = 100;
+        /// <summary>
+        /// The threshold
+        /// </summary>
         int threshold = 2500;
+        /// <summary>
+        /// The acceso concedido
+        /// </summary>
         private bool acceso_concedido = false;
+        /// <summary>
+        /// The mensaje mostrado
+        /// </summary>
         private bool mensaje_mostrado = false;
+        /// <summary>
+        /// The acceso enproceso
+        /// </summary>
         private bool acceso_enproceso = false;
 
 
 
+        /// <summary>
+        /// The path trained face model
+        /// </summary>
         string path_trained_faceModel = $"{Application.StartupPath}\\Faces\\stateModel.yaml";
+        /// <summary>
+        /// The path reconzier faces model
+        /// </summary>
         string path_reconzier_faces_model = $"{Application.StartupPath}\\haarcascade_frontalface_default.xml";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RECONOCER"/> class.
+        /// </summary>
         public RECONOCER()
         {
             InitializeComponent();
@@ -62,11 +120,19 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the button1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
             TurnOnCamera();
         }
 
+        /// <summary>
+        /// Turns the on camera.
+        /// </summary>
         private async void TurnOnCamera()
         {
             try
@@ -116,11 +182,19 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         }
 
 
+        /// <summary>
+        /// Handles the Click event of the button2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button2_Click(object sender, EventArgs e)
         {
             TurnOffCamera();
         }
 
+        /// <summary>
+        /// Turns the off camera.
+        /// </summary>
         private async void TurnOffCamera()
         {
             running = false;
@@ -145,6 +219,9 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             }
             catch { }
         }
+        /// <summary>
+        /// Recognizes the face.
+        /// </summary>
         private void RecognizeFace()
         {
             if (cam == null || acceso_concedido) return;
@@ -275,16 +352,31 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
 
 
+        /// <summary>
+        /// Handles the Load event of the RECONOCER control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void RECONOCER_Load(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the 1 event of the RECONOCER_Load control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void RECONOCER_Load_1(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the label1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label1_Click(object sender, EventArgs e)
         {
 

@@ -13,23 +13,45 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FRM_ServiciosAdministrador : Form
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FRM_ServiciosAdministrador"/> class.
+        /// </summary>
         public FRM_ServiciosAdministrador()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the textBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the textBox1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the MouseClick event of the textBox1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void textBox1_MouseClick(object sender, MouseEventArgs e)
         {
             var main = this.Owner as Form; // este es el FRM_42
@@ -55,16 +77,31 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the MouseDoubleClick event of the textBox3 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void textBox3_MouseDoubleClick(object sender, MouseEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the textBox3 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the MouseClick event of the textBox3 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void textBox3_MouseClick(object sender, MouseEventArgs e)
         {
             var main = this.Owner as Form;
@@ -91,16 +128,31 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the pibBitacora control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pibBitacora_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the textBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -120,21 +172,41 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox3 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox3_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the pibGenerarReportes control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pibGenerarReportes_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the textBox5 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox5_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the MouseClick event of the textBox5 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void textBox5_MouseClick(object sender, MouseEventArgs e)
         {
 
@@ -151,31 +223,61 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.Close();
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox6 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox6_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the textBox4 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox5 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox5_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox4 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox4_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the 1 event of the textBox2_TextChanged control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_TextChanged_1(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Load event of the FRM_ServiciosAdministrador control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_ServiciosAdministrador_Load(object sender, EventArgs e)
         {
 

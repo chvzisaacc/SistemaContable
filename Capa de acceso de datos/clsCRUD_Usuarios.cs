@@ -3,15 +3,37 @@ using System.Data;
 
 namespace Capa_de_acceso_de_datos
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class clsCRUD_Usuarios
     {
 
+        /// <summary>
+        /// The conexion
+        /// </summary>
         private Clsconexion conexion;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="clsCRUD_Usuarios"/> class.
+        /// </summary>
         public clsCRUD_Usuarios()
         {
             conexion = new Clsconexion();
         }
+        /// <summary>
+        /// Agregars the usuario.
+        /// </summary>
+        /// <param name="nombre">The nombre.</param>
+        /// <param name="apellido">The apellido.</param>
+        /// <param name="correo">The correo.</param>
+        /// <param name="usuario">The usuario.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="idrol">The idrol.</param>
+        /// <param name="id_parroquia">The identifier parroquia.</param>
+        /// <param name="id_estado">The identifier estado.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al agregar usuario: " + ex.Message</exception>
         public int AgregarUsuario(string nombre, string apellido, string correo, string usuario,
                                    string password, int idrol, int id_parroquia, int id_estado)
         {
@@ -52,6 +74,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         // OBTENER todos los usuarios
+        /// <summary>
+        /// Obteners the usuarios.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener usuarios: " + ex.Message</exception>
         public DataTable ObtenerUsuarios()
         {
             try
@@ -78,6 +105,12 @@ namespace Capa_de_acceso_de_datos
         }
 
         // BUSCAR usuario por ID
+        /// <summary>
+        /// Buscars the usuario por identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al buscar usuario: " + ex.Message</exception>
         public DataRow BuscarUsuarioPorId(int id)
         {
             try
@@ -108,6 +141,20 @@ namespace Capa_de_acceso_de_datos
         }
 
         // MODIFICAR usuario
+        /// <summary>
+        /// Modificars the usuario.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="nombre">The nombre.</param>
+        /// <param name="apellido">The apellido.</param>
+        /// <param name="correo">The correo.</param>
+        /// <param name="usuario">The usuario.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="id_rol">The identifier rol.</param>
+        /// <param name="id_parroquia">The identifier parroquia.</param>
+        /// <param name="id_estado">The identifier estado.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al modificar usuario: " + ex.Message</exception>
         public bool ModificarUsuario(int id, string nombre, string apellido, string correo,
                                     string usuario, string password, int id_rol, int id_parroquia, int id_estado)
         {
@@ -142,6 +189,12 @@ namespace Capa_de_acceso_de_datos
         }
 
         // ELIMINAR usuario
+        /// <summary>
+        /// Eliminars the usuario.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al eliminar usuario: " + ex.Message</exception>
         public bool EliminarUsuario(int id)
         {
             try
@@ -166,6 +219,13 @@ namespace Capa_de_acceso_de_datos
         }
 
         // INHABILITAR usuario (soft delete)
+        /// <summary>
+        /// Inhabilitars the usuario.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="nuevo_estado">The nuevo estado.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al inhabilitar usuario: " + ex.Message</exception>
         public bool InhabilitarUsuario(int id, int nuevo_estado)
         {
             try
@@ -191,6 +251,13 @@ namespace Capa_de_acceso_de_datos
         }
 
 
+        /// <summary>
+        /// Habilitars the usuario.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="nuevo_estado">The nuevo estado.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al inhabilitar usuario: " + ex.Message</exception>
         public bool HabilitarUsuario(int id, int nuevo_estado)
         {
             try
@@ -216,6 +283,12 @@ namespace Capa_de_acceso_de_datos
         }
 
         // VALIDAR si usuario existe
+        /// <summary>
+        /// Usuarioes the existe.
+        /// </summary>
+        /// <param name="usuario">The usuario.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al validar usuario: " + ex.Message</exception>
         public bool UsuarioExiste(string usuario)
         {
             try
@@ -244,6 +317,11 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Obteners the proximo identifier.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener próximo ID: " + ex.Message</exception>
         public int ObtenerProximoId()
         {
             try
@@ -267,6 +345,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         // OBTENER roles para ComboBox
+        /// <summary>
+        /// Obteners the roles.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener roles: " + ex.Message</exception>
         public DataTable ObtenerRoles()
         {
             try
@@ -293,6 +376,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         // OBTENER parroquias para ComboBox
+        /// <summary>
+        /// Obteners the parroquias.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener parroquias: " + ex.Message</exception>
         public DataTable ObtenerParroquias()
         {
             try
@@ -318,6 +406,11 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Obteners the estados.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener estados: " + ex.Message</exception>
         public DataTable ObtenerEstados()
         {
             try
@@ -344,6 +437,11 @@ namespace Capa_de_acceso_de_datos
         }
 
 
+        /// <summary>
+        /// Obteners the correo por usuario.
+        /// </summary>
+        /// <param name="usuario_id">The usuario identifier.</param>
+        /// <returns></returns>
         public string ObtenerCorreoPorUsuario(int usuario_id)
         {
             try

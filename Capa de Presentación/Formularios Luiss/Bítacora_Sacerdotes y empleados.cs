@@ -11,25 +11,47 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FRM_PG51 : Form
     {
+        /// <summary>
+        /// The identifier usuario login
+        /// </summary>
         private int id_usuario_login;
+        /// <summary>
+        /// The crud historial
+        /// </summary>
         private clsCRUD_Historial crudHistorial;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FRM_PG51"/> class.
+        /// </summary>
+        /// <param name="id_usuario">The identifier usuario.</param>
         public FRM_PG51(int id_usuario)
         {
             InitializeComponent();
             id_usuario_login =id_usuario;
             crudHistorial = new clsCRUD_Historial();
         }
-       
 
+
+        /// <summary>
+        /// Handles the Load event of the FRM_PG51 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG51_Load(object sender, EventArgs e)
         {
            // CargarDatos();
             CargarMiHistorial();
         }
 
+        /// <summary>
+        /// Cargars the mi historial.
+        /// </summary>
         private void CargarMiHistorial()
         {
             try
@@ -54,6 +76,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Cargars the datos.
+        /// </summary>
         private void CargarDatos()
         {
             try
@@ -72,6 +97,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnVolver control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();

@@ -3,15 +3,33 @@ using System.Data;
 
 namespace Capa_de_acceso_de_datos
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class clsCRUD_CatalogoCuentas
     {
+        /// <summary>
+        /// The conexion
+        /// </summary>
         private Clsconexion conexion;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="clsCRUD_CatalogoCuentas"/> class.
+        /// </summary>
         public clsCRUD_CatalogoCuentas()
         {
             conexion = new Clsconexion();
         }
 
+        /// <summary>
+        /// Agregars the catalogo cuenta.
+        /// </summary>
+        /// <param name="id_cuenta">The identifier cuenta.</param>
+        /// <param name="nombre">The nombre.</param>
+        /// <param name="detalle">The detalle.</param>
+        /// <param name="saldo">The saldo.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al agregar cuenta al catálogo: " + ex.Message</exception>
         public int AgregarCatalogoCuenta(int id_cuenta, string nombre, String detalle, decimal? saldo)
         {
             try
@@ -52,6 +70,11 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Obteners the catalogo cuentas.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener catálogo de cuentas: " + ex.Message</exception>
         public DataTable ObtenerCatalogoCuentas()
         {
             try
@@ -77,6 +100,12 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Buscars the catalogo cuenta por identifier.
+        /// </summary>
+        /// <param name="cod_cuenta">The cod cuenta.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al buscar cuenta: " + ex.Message</exception>
         public DataRow BuscarCatalogoCuentaPorId(int cod_cuenta)
         {
             try
@@ -106,6 +135,16 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Modificars the catalogo cuenta.
+        /// </summary>
+        /// <param name="cod_cuenta">The cod cuenta.</param>
+        /// <param name="id_cuenta">The identifier cuenta.</param>
+        /// <param name="nombre">The nombre.</param>
+        /// <param name="detalle">The detalle.</param>
+        /// <param name="saldo">The saldo.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al modificar cuenta: " + ex.Message</exception>
         public bool ModificarCatalogoCuenta(int cod_cuenta, int id_cuenta, string nombre, String detalle, decimal? saldo)
         {
             try
@@ -140,6 +179,12 @@ namespace Capa_de_acceso_de_datos
 
 
 
+        /// <summary>
+        /// Catalogoes the cuenta existe.
+        /// </summary>
+        /// <param name="nombre_cuenta">The nombre cuenta.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al validar cuenta: " + ex.Message</exception>
         public bool CatalogoCuentaExiste(string nombre_cuenta)
         {
             try
@@ -168,6 +213,11 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Obteners the proximo codigo.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener próximo código: " + ex.Message</exception>
         public int ObtenerProximoCodigo()
         {
             try
@@ -190,6 +240,11 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Obteners the cuentas.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener cuentas: " + ex.Message</exception>
         public DataTable ObtenerCuentas()
         {
             try
@@ -215,6 +270,11 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Obteners the tipo transaccion.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener cuentas: " + ex.Message</exception>
         public DataTable ObtenerTipoTransaccion()
         {
             try

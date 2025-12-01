@@ -4,8 +4,18 @@ using Microsoft.Data.SqlClient;
 
 namespace Capa_de_procesamiento_de_datos
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Capa_de_acceso_de_datos.Clsconexion" />
     public class PatidasDobles : Clsconexion
     {
+        /// <summary>
+        /// Cargars the partidas.
+        /// </summary>
+        /// <param name="id_transaccion">The identifier transaccion.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al cargar las partidas: " + ex.Message</exception>
         public DataTable CargarPartidas(int id_transaccion)
         {
             DataTable dtPartidas = new DataTable();

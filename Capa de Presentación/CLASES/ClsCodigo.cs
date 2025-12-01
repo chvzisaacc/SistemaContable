@@ -8,16 +8,33 @@ using System.Threading.Tasks;
 
 namespace Capa_de_Presentación.CLASES
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Capa_de_acceso_de_datos.Clsconexion" />
     public class ClsCodigo:Clsconexion
     {
 
+        /// <summary>
+        /// The acciones
+        /// </summary>
         private ClsAccionesDB acciones;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClsCodigo"/> class.
+        /// </summary>
         public ClsCodigo()
         {
             acciones = new ClsAccionesDB();
         }
 
+        /// <summary>
+        /// Procesars the codigo recuperacion.
+        /// </summary>
+        /// <param name="usuario_id">The usuario identifier.</param>
+        /// <param name="codigo">The codigo.</param>
+        /// <param name="correo">The correo.</param>
+        /// <param name="formulario_actual">The formulario actual.</param>
         public void ProcesarCodigoRecuperacion(int usuario_id, string codigo,string correo, Form formulario_actual)
         {
             string resultado = acciones.ValidarCodigoRecuperacion(usuario_id, codigo);

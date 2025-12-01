@@ -10,11 +10,23 @@ using QuestPDF.Infrastructure;
 
 namespace Capa_de_procesamiento_de_datos
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class IngresosService
     {
+        /// <summary>
+        /// The repo
+        /// </summary>
         private readonly ClsReportes _repo = new ClsReportes();
+        /// <summary>
+        /// The carpeta reportes
+        /// </summary>
         private readonly string _carpetaReportes;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IngresosService"/> class.
+        /// </summary>
         public IngresosService()
         {
             _carpetaReportes = Path.Combine(
@@ -24,6 +36,15 @@ namespace Capa_de_procesamiento_de_datos
             Directory.CreateDirectory(_carpetaReportes);
         }
 
+        /// <summary>
+        /// Generars the reporte ingresos.
+        /// </summary>
+        /// <param name="parroquia_id">The parroquia identifier.</param>
+        /// <param name="nombre_parroquia">The nombre parroquia.</param>
+        /// <param name="desde">The desde.</param>
+        /// <param name="hasta">The hasta.</param>
+        /// <param name="usuario_id">The usuario identifier.</param>
+        /// <returns></returns>
         public string GenerarReporteIngresos(
             int parroquia_id,
             string nombre_parroquia,
@@ -46,6 +67,14 @@ namespace Capa_de_procesamiento_de_datos
             return ruta_completa;
         }
 
+        /// <summary>
+        /// Generars the PDF.
+        /// </summary>
+        /// <param name="datos">The datos.</param>
+        /// <param name="parroquia">The parroquia.</param>
+        /// <param name="desde">The desde.</param>
+        /// <param name="hasta">The hasta.</param>
+        /// <returns></returns>
         public byte[] GenerarPdf(DataTable datos, string parroquia, DateTime desde, DateTime hasta)
         {
             var document = Document.Create(container =>
@@ -109,15 +138,28 @@ namespace Capa_de_procesamiento_de_datos
             return document.GeneratePdf();
         }
 
+        /// <summary>
+        /// Obteners the nombre parroquia.
+        /// </summary>
+        /// <param name="parroquia_id">The parroquia identifier.</param>
+        /// <returns></returns>
         public string ObtenerNombreParroquia(int parroquia_id)
         {
             return _repo.ObtenerNombreParroquia(parroquia_id);
         }
+        /// <summary>
+        /// Obteners the tipos reporte.
+        /// </summary>
+        /// <returns></returns>
         public DataTable ObtenerTiposReporte()
         {
             return _repo.ObtenerTiposReporte();
 
         }
+        /// <summary>
+        /// Obteners the parroquias.
+        /// </summary>
+        /// <returns></returns>
         public DataTable ObtenerParroquias()
         {
             return _repo.ObtenerParroquias();

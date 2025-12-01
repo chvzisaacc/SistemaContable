@@ -11,9 +11,17 @@ using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FRM_SERVICIOS : Form
     {
         //private readonly int Id_Usuariologin;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FRM_SERVICIOS"/> class.
+        /// </summary>
+        /// <param name="Id_Usuario">The identifier usuario.</param>
         public FRM_SERVICIOS(int Id_Usuario)
         {
             InitializeComponent();
@@ -21,16 +29,29 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FRM_SERVICIOS"/> class.
+        /// </summary>
         public FRM_SERVICIOS()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the textBox3 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the pibCataloCuentas control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pibCataloCuentas_Click(object sender, EventArgs e)
         {
             FRM_PG46 frm = new FRM_PG46();
@@ -39,6 +60,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.Close();
         }
 
+        /// <summary>
+        /// Handles the Click event of the pibGenerarReportes control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pibGenerarReportes_Click(object sender, EventArgs e)
         {
             FRM_PG49 frm = new FRM_PG49();
@@ -46,6 +72,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.Close();
         }
 
+        /// <summary>
+        /// Handles the Click event of the pibBitacora control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pibBitacora_Click(object sender, EventArgs e)
         {
             var main = this.Owner as Form;
@@ -70,11 +101,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
 
+        /// <summary>
+        /// Handles the TextChanged event of the textBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the MouseClick event of the textBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void textBox2_MouseClick(object sender, MouseEventArgs e)
         {
             RegistrarNavegacion("Catálogo de Cuentas");
@@ -102,6 +143,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        /// <summary>
+        /// Handles the MouseClick event of the textBox1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void textBox1_MouseClick(object sender, MouseEventArgs e)
         {
             RegistrarNavegacion("Reportes");
@@ -129,6 +175,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        /// <summary>
+        /// Handles the MouseClick event of the textBox3 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void textBox3_MouseClick(object sender, MouseEventArgs e)
         {
             RegistrarNavegacion("Bitacora");
@@ -152,10 +203,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Load event of the FRM_SERVICIOS control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_SERVICIOS_Load(object sender, EventArgs e)
         {
 
         }
+        /// <summary>
+        /// Registrars the navegacion.
+        /// </summary>
+        /// <param name="modulo">The modulo.</param>
         private void RegistrarNavegacion(string modulo)
         {
             try

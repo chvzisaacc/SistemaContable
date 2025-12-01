@@ -15,29 +15,74 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Ventana_Principal_Administrador : Form
     {
         //usuarios
+        /// <summary>
+        /// The crud usuarios
+        /// </summary>
         private clsCRUD_Usuarios crud_usuarios;
+        /// <summary>
+        /// The modo edicion usuario
+        /// </summary>
         private bool modo_edicion_usuario = false;
+        /// <summary>
+        /// The usuario identifier seleccionado
+        /// </summary>
         private int usuario_id_seleccionado = 0;
+        /// <summary>
+        /// The binding source
+        /// </summary>
         private BindingSource bindingSource;
+        /// <summary>
+        /// The identifier parroquia
+        /// </summary>
         private int id_parroquia;
+        /// <summary>
+        /// The usuario identifier
+        /// </summary>
         private int _usuario_id;
 
         //Catalogo
+        /// <summary>
+        /// The crud catalogo cuentas
+        /// </summary>
         private clsCRUD_CatalogoCuentas crud_catalogo_cuentas;
+        /// <summary>
+        /// The modo edicion catalogo
+        /// </summary>
         private bool modo_edicion_catalogo = false;
+        /// <summary>
+        /// The codigo cuenta seleccionado
+        /// </summary>
         private int codigo_cuenta_seleccionado = 0;
         //BITACORA
+        /// <summary>
+        /// The crud historial
+        /// </summary>
         private clsCRUD_Historial crud_historial;
         //Validaciones
-       private ClsValidaciones Validaciones;
+        /// <summary>
+        /// The validaciones
+        /// </summary>
+        private ClsValidaciones Validaciones;
 
+        /// <summary>
+        /// The cerrar
+        /// </summary>
         ClsCerrar cerrar = new ClsCerrar();
 
-     
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ventana_Principal_Administrador"/> class.
+        /// </summary>
+        /// <param name="usuarioID">The usuario identifier.</param>
+        /// <param name="idParroquia">The identifier parroquia.</param>
         public Ventana_Principal_Administrador(int usuarioID, int idParroquia)
         {
             InitializeComponent();
@@ -69,6 +114,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             bindingSource = new BindingSource();
         }
 
+        /// <summary>
+        /// Mostrars the solo este panel.
+        /// </summary>
+        /// <param name="panelAMostrar">The panel a mostrar.</param>
         private void MostrarSoloEstePanel(Panel panelAMostrar)
         {
             foreach (Control ctrl in panelContenedor.Controls)
@@ -80,15 +129,30 @@ namespace Capa_de_Presentación.Formularios_Ewin
             panelAMostrar.BringToFront();
         }
 
+        /// <summary>
+        /// Handles the Click event of the label2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label2_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Paint event of the panel5 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panel5_Paint(object sender, PaintEventArgs e)
         {
         }
 
+        /// <summary>
+        /// Handles the Load event of the FRM_PG5 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG5_Load(object sender, EventArgs e)
         {
             //usuarios
@@ -107,6 +171,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         //usuarios
+        /// <summary>
+        /// Cargars the datos usuario DGV.
+        /// </summary>
         private void CargarDatosUsuarioDGV()
         {
             try
@@ -135,6 +202,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Cargars the combo boxes usuario.
+        /// </summary>
         private void CargarComboBoxesUsuario()
         {
             try
@@ -158,6 +228,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Cargars the datos usuario.
+        /// </summary>
         private void CargarDatosUsuario()
         {
             try
@@ -186,6 +259,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Validars the campos usuario.
+        /// </summary>
+        /// <returns></returns>
         private bool ValidarCamposUsuario()
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
@@ -271,6 +348,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             return true;
         }
 
+        /// <summary>
+        /// Limpiars the campos usuario.
+        /// </summary>
         private void LimpiarCamposUsuario()
         {
             txt_id.Clear();
@@ -291,6 +371,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             modo_edicion_usuario = false;
         }
 
+        /// <summary>
+        /// Habilitars the controles usuario.
+        /// </summary>
+        /// <param name="habilitar">if set to <c>true</c> [habilitar].</param>
         private void HabilitarControlesUsuario(bool habilitar)
         {
             txt_id.Enabled = false;
@@ -307,28 +391,53 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
 
 
+        /// <summary>
+        /// Handles the Paint event of the panel1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the 1 event of the panel5_Paint control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panel5_Paint_1(object sender, PaintEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnUsuario control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnUsuario_Click(object sender, EventArgs e)
         {
             panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelUsuario);
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnCatalagoCuenta control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnCatalagoCuenta_Click(object sender, EventArgs e)
         {
             panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelCatalogoCuentas);
         }
 
+        /// <summary>
+        /// Handles the Click event of the button6 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button6_Click(object sender, EventArgs e)
         {
             if (!ValidarCamposCatalogo())
@@ -434,6 +543,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Cargars the ComboBox cuentas.
+        /// </summary>
         private void CargarComboBoxCuentas()
         {
             try
@@ -449,6 +561,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Cargars the datos catalogo cuenta.
+        /// </summary>
         private void CargarDatosCatalogoCuenta()
         {
             try
@@ -473,6 +588,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnNuevaCuenta control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnNuevaCuenta_Click(object sender, EventArgs e)
         {
             LimpiarCamposCatalogo();
@@ -494,6 +614,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             txtNombreCuenta.Focus();
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnAgregar control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             LimpiarCamposUsuario();
@@ -516,6 +641,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
 
 
+        /// <summary>
+        /// Handles the Click event of the btnGuardarUsuario control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnGuardarUsuario_Click(object sender, EventArgs e)
         {
             if (!ValidarCamposUsuario())
@@ -613,11 +743,21 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Handles the Paint event of the panelUsuario control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panelUsuario_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnModificarCuentaUsuario control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnModificarCuentaUsuario_Click(object sender, EventArgs e)
         {
             if (dgv_usuarios.CurrentRow == null)
@@ -636,6 +776,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             txt_nombre.Focus();
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnInhabilitarUsuario control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnInhabilitarUsuario_Click(object sender, EventArgs e)
         {
             if (dgv_usuarios.CurrentRow == null)
@@ -682,6 +827,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnHabilitar control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnHabilitar_Click(object sender, EventArgs e)
         {
             if (dgv_usuarios.CurrentRow == null)
@@ -727,6 +877,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Handles the 1 event of the btnAgregar_Click control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnAgregar_Click_1(object sender, EventArgs e)
         {
             LimpiarCamposUsuario();
@@ -748,6 +903,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         //catalogo
+        /// <summary>
+        /// Cargars the datos catalogo DGV.
+        /// </summary>
         private void CargarDatosCatalogoDGV()
         {
             try
@@ -779,6 +937,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Cargars the ComboBox tipo transaccion.
+        /// </summary>
         private void CargarComboBoxTipoTransaccion()
         {
             try
@@ -794,6 +955,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Validars the campos catalogo.
+        /// </summary>
+        /// <returns></returns>
         private bool ValidarCamposCatalogo()
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
@@ -849,6 +1014,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             return true;
         }
 
+        /// <summary>
+        /// Limpiars the campos catalogo.
+        /// </summary>
         private void LimpiarCamposCatalogo()
         {
             txtIdCuenta.Clear();
@@ -862,6 +1030,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 cmbTipoCuenta.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// Habilitars the controles catalogo.
+        /// </summary>
+        /// <param name="habilitar">if set to <c>true</c> [habilitar].</param>
         private void HabilitarControlesCatalogo(bool habilitar)
         {
             txtIdCuenta.Enabled = false;
@@ -872,6 +1044,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             btnGuardarCuenta.Enabled = habilitar;
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of the txtBuscar control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtBuscar_TextChanged(object sender, EventArgs e)
         {
             try
@@ -898,27 +1075,52 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Handles the CellContentClick event of the dgvCatalogoCuentas control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dgvCatalogoCuentas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the DataBindingComplete event of the dataGridView1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewBindingCompleteEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of the cmbParroquia control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbParroquia_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox3 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox3_Click(object sender, EventArgs e)
         {
             FRM_ServiciosAdministrador popup = new FRM_ServiciosAdministrador();
             popup.ShowDialog();
         }
 
+        /// <summary>
+        /// Handles the Click event of the pictureBox4 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox4_Click(object sender, EventArgs e)
         {
             Cerrar_Sesión popup = new Cerrar_Sesión();
@@ -928,6 +1130,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             popup.ShowDialog();
         }
 
+        /// <summary>
+        /// Handles the KeyPress event of the txtNombre control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
         private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
             

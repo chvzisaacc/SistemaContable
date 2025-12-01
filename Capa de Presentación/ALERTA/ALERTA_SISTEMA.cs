@@ -11,9 +11,19 @@ using Capa_de_procesamiento_de_datos;
 
 namespace Capa_de_Presentación.ALERTA
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class ALERTA_SISTEMA : Form
     {
+        /// <summary>
+        /// The objalerta
+        /// </summary>
         private readonly Alerta objalerta = new();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ALERTA_SISTEMA"/> class.
+        /// </summary>
         public ALERTA_SISTEMA()
         {
             InitializeComponent();
@@ -21,12 +31,20 @@ namespace Capa_de_Presentación.ALERTA
 
         }
 
+        /// <summary>
+        /// Handles the Load event of the ALERTA_SISTEMA control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void ALERTA_SISTEMA_Load(object sender, EventArgs e)
         {
             CargarDatosAlerta();
 
         }
 
+        /// <summary>
+        /// Cargars the datos alerta.
+        /// </summary>
         private void CargarDatosAlerta()
         {
             try
@@ -47,6 +65,11 @@ namespace Capa_de_Presentación.ALERTA
         }
 
         //SOLO ADMITE DIAS - ES EL METODO FINAL
+        /// <summary>
+        /// Handles the Click event of the button1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
             int diasLimite = (int)LimiteDay.Value;
@@ -65,6 +88,11 @@ namespace Capa_de_Presentación.ALERTA
             }
         }
 
+        /// <summary>
+        /// Handles the 1 event of the button1_Click control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click_1(object sender, EventArgs e)
         {
         }

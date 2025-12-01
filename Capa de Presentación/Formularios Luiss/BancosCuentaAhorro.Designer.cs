@@ -56,6 +56,7 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(646, 387);
             panel2.TabIndex = 10;
+            panel2.Paint += panel2_Paint_1;
             // 
             // lblTitulo
             // 

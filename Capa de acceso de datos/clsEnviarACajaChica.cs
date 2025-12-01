@@ -8,12 +8,23 @@ using System.Threading.Tasks;
 
 namespace Capa_de_acceso_de_datos
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class clsEnviarACajaChica
     {
 
 
+        /// <summary>
+        /// The conexion
+        /// </summary>
         private Clsconexion conexion = new Clsconexion();
 
+        /// <summary>
+        /// Obteners the cuentas disponibles.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener cuentas disponibles: " + ex.Message</exception>
         public DataTable ObtenerCuentasDisponibles()
         {
             try
@@ -36,6 +47,11 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Obteners the saldo caja chica.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">Error al obtener saldo de caja chica: " + ex.Message</exception>
         public decimal ObtenerSaldoCajaChica()
         {
             try
@@ -63,6 +79,15 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Enviars the dinero caja chica.
+        /// </summary>
+        /// <param name="id_origen">The identifier origen.</param>
+        /// <param name="monto">The monto.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">
+        /// Error al enviar dinero a caja chica: " + ex.Message
+        /// </exception>
         public bool EnviarDineroCajaChica(int id_origen, decimal monto)
         {
             try

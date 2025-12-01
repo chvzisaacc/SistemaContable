@@ -115,6 +115,7 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(643, 377);
             panel1.TabIndex = 27;
+            panel1.Paint += panel1_Paint;
             // 
             // Btnguardar
             // 

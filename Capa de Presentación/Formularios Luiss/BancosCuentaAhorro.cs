@@ -13,14 +13,34 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosCuentaAhorro : Form
     {
+        /// <summary>
+        /// The crud cuentas bancarias
+        /// </summary>
         private ClsCRUD_CuentasBancarias CRUD_CuentasBancarias;
+        /// <summary>
+        /// The modo edicion
+        /// </summary>
         private bool modoEdicion = false;
         //private int CuentaBancoID = 1;
+        /// <summary>
+        /// The cuenta identifier
+        /// </summary>
         private readonly int cuentaId;
+        /// <summary>
+        /// The cuenta actual
+        /// </summary>
         private DataRow _cuentaActual; // Para guardar los datos de la cuenta cargada
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BancosCuentaAhorro"/> class.
+        /// </summary>
+        /// <param name="id_origen">The identifier origen.</param>
         public BancosCuentaAhorro(int id_origen)
         {
             InitializeComponent();
@@ -29,6 +49,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        /// <summary>
+        /// Handles the Load event of the FRM_PG42BancosCuentaCheque control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG42BancosCuentaCheque_Load(object sender, EventArgs e)
         {
             //Si _cuentaId tiene un valor, carga los datos
@@ -38,6 +63,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Cargars the datos de la cuenta.
+        /// </summary>
         private void CargarDatosDeLaCuenta()
         {
             try
@@ -60,6 +88,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Load event of the FRM_PG6 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG6_Load(object sender, EventArgs e)
         {
             // CargarDatos();
@@ -105,6 +138,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
              }
          }
         */
+        /// <summary>
+        /// Validars the campos.
+        /// </summary>
+        /// <returns></returns>
         private bool ValidarCampos()
         {
             if (string.IsNullOrWhiteSpace(txtMonto.Text))
@@ -117,6 +154,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             return true;
         }
+        /// <summary>
+        /// Habilitars the controles.
+        /// </summary>
+        /// <param name="habilitar">if set to <c>true</c> [habilitar].</param>
         private void HabilitarControles(bool habilitar)
         {
             txtMonto.Enabled = habilitar;
@@ -143,11 +184,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
         */
+        /// <summary>
+        /// Handles the Click event of the pictureBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the 1 event of the pictureBox2_Click control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox2_Click_1(object sender, EventArgs e)
         {
             // Ejemplo de cómo usarías tu CRUD para guardar cambios.
@@ -178,17 +229,35 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Handles the Paint event of the panel2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the Load event of the FRM_PG42BancosCuentaAhorro control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG42BancosCuentaAhorro_Load(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Handles the 1 event of the panel2_Paint control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
+        private void panel2_Paint_1(object sender, PaintEventArgs e)
+        {
 
+        }
     }
 
 
