@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Capa_de_Presentación.CLASES;
 using Capa_de_procesamiento_de_datos;
 
 namespace Capa_de_Presentación.ALERTA
@@ -72,8 +73,17 @@ namespace Capa_de_Presentación.ALERTA
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
-            int diasLimite = (int)LimiteDay.Value;
+            string diasLimiteTexto = LimiteDay.Value.ToString();
             bool alarmaActiva = Estado.Checked;
+
+            ClsValidaciones validar = new ClsValidaciones();
+
+            if (!validar.EsMontoPositivo(diasLimiteTexto))
+            {
+                MessageBox.Show("El límite de días debe ser un número válido y positivo.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; // Detiene la ejecución si falla la validación
+            }
+            int diasLimite = (int)LimiteDay.Value;
 
             try
             {
@@ -95,6 +105,11 @@ namespace Capa_de_Presentación.ALERTA
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click_1(object sender, EventArgs e)
         {
+        }
+
+        private void LimiteDay_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -154,10 +154,8 @@ namespace Capa_de_Presentación.CLASES
         /// <param name="RowIndex">Index of the row.</param>
         public void BloquearDesbloquearDataIngresos(DataTable dtDatosIngresos, DataGridView dataGridView1, int RowIndex)
         {
-            if (RowIndex >= 0)
-            {
-                dataGridView1.ReadOnly = true;
-            }
+            // Asegúrate de que el DataGridView se desbloquee para edición
+            dataGridView1.ReadOnly = false;
 
             if (RowIndex >= 0 && dtDatosIngresos != null)
             {
@@ -170,16 +168,16 @@ namespace Capa_de_Presentación.CLASES
 
                     string[] columnasAComprobar = new string[]
                     {
-                        "NombreCuenta",
-                        "Detalle",
-                        "Saldo",
-
+                "NombreCuenta",
+                "Detalle",
+                "Saldo",
                     };
 
                     foreach (string nombreColumna in columnasAComprobar)
                     {
                         object cellValue = currentRow.Cells[nombreColumna].Value;
 
+                        // Verifica si alguna celda está vacía
                         if (cellValue == null || string.IsNullOrEmpty(cellValue.ToString()))
                         {
                             algunCampoVacio = true;
@@ -187,16 +185,49 @@ namespace Capa_de_Presentación.CLASES
                         }
                     }
 
+                    // Si algún campo está vacío, se desbloquean todas las celdas para permitir la edición
                     if (algunCampoVacio)
                     {
-                        dataGridView1.ReadOnly = false;
-
                         foreach (DataGridViewColumn column in dataGridView1.Columns)
                         {
                             column.ReadOnly = false;
                         }
                     }
+                    else
+                    {
+                        // Verifica si el saldo es negativo o no válido
+                        string saldoTexto = currentRow.Cells["Saldo"].Value?.ToString() ?? "";
+                        decimal saldo = 0;
+                        if (decimal.TryParse(saldoTexto, out saldo) && saldo <= 0)
+                        {
+                            MessageBox.Show("El saldo no puede ser negativo.", "Advertencia",
+                                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            // Si el saldo es negativo, no bloqueamos las celdas
+                            foreach (DataGridViewColumn column in dataGridView1.Columns)
+                            {
+                                column.ReadOnly = false;
+                            }
+                        }
+                        else if (saldo > 100000000)
+                        {
+                            MessageBox.Show("El saldo no puede ser mayor a 100,000,000.", "Advertencia",
+                                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+                            // Si el saldo es mayor al límite, no bloqueamos las celdas
+                            foreach (DataGridViewColumn column in dataGridView1.Columns)
+                            {
+                                column.ReadOnly = false;
+                            }
+                        }
+                        else
+                        {
+                            // Si no hay campos vacíos y el saldo es válido, bloqueamos las celdas
+                            foreach (DataGridViewColumn column in dataGridView1.Columns)
+                            {
+                                column.ReadOnly = true;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -209,10 +240,8 @@ namespace Capa_de_Presentación.CLASES
         /// <param name="RowIndex">Index of the row.</param>
         public void BloquearDesbloquearDataGastos(DataTable dtDatosGastos, DataGridView dgvgastos, int RowIndex)
         {
-            if (RowIndex >= 0)
-            {
-                dgvgastos.ReadOnly = false;
-            }
+            // Asegúrate de que el DataGridView se desbloquee para edición
+            dgvgastos.ReadOnly = false;
 
             if (RowIndex >= 0 && dtDatosGastos != null)
             {
@@ -225,12 +254,12 @@ namespace Capa_de_Presentación.CLASES
 
                     string[] columnasAComprobar = new string[]
                     {
-                        "NombreCuenta",
-                        "Detalle",
-                        "Saldo",
-
+                "NombreCuenta",
+                "Detalle",
+                "Saldo",
                     };
 
+                    // Recorre las celdas para verificar si alguna está vacía
                     foreach (string nombreColumna in columnasAComprobar)
                     {
                         object cellValue = currentRow.Cells[nombreColumna].Value;
@@ -242,19 +271,53 @@ namespace Capa_de_Presentación.CLASES
                         }
                     }
 
+                    // Si algún campo está vacío, se desbloquean todas las celdas para permitir la edición
                     if (algunCampoVacio)
                     {
-                        dgvgastos.ReadOnly = false;
-
                         foreach (DataGridViewColumn column in dgvgastos.Columns)
                         {
                             column.ReadOnly = false;
                         }
                     }
+                    else
+                    {
+                        // Verifica si el saldo es negativo o no válido
+                        string saldoTexto = currentRow.Cells["Saldo"].Value?.ToString() ?? "";
+                        decimal saldo = 0;
+                        if (decimal.TryParse(saldoTexto, out saldo) && saldo <= 0)
+                        {
+                            MessageBox.Show("El saldo no puede ser negativo.", "Advertencia",
+                                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            // Si el saldo es negativo, no bloqueamos las celdas
+                            foreach (DataGridViewColumn column in dgvgastos.Columns)
+                            {
+                                column.ReadOnly = false;
+                            }
+                        }
+                        else if (saldo > 100000000)
+                        {
+                            MessageBox.Show("El saldo no puede ser mayor a 100,000,000.", "Advertencia",
+                                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+                            // Si el saldo es mayor al límite, no bloqueamos las celdas
+                            foreach (DataGridViewColumn column in dgvgastos.Columns)
+                            {
+                                column.ReadOnly = false;
+                            }
+                        }
+                        else
+                        {
+                            // Si no hay campos vacíos y el saldo es válido, bloqueamos las celdas
+                            foreach (DataGridViewColumn column in dgvgastos.Columns)
+                            {
+                                column.ReadOnly = true;
+                            }
+                        }
+                    }
                 }
             }
         }
+        
 
         /// <summary>
         /// Agregarfila2s the specified dt datos gastos.

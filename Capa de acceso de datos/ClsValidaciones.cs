@@ -212,6 +212,19 @@ namespace Capa_de_Presentación.CLASES
             return monto > 0;
         }
 
+        public bool EsMontoDentroDelRango(string texto)
+        {
+            if (string.IsNullOrWhiteSpace(texto))
+                return false;
+
+            if (!EsNumeroDecimal(texto))
+                return false;
+
+            // Si llegó aquí, es número decimal, ahora veo si es <= 100,000,000
+            decimal monto = decimal.Parse(texto);
+            return monto <= 100000000;
+        }
+
 
 
     }

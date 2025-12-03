@@ -44,6 +44,7 @@
             LimiteDay.Name = "LimiteDay";
             LimiteDay.Size = new Size(180, 31);
             LimiteDay.TabIndex = 0;
+            LimiteDay.ValueChanged += LimiteDay_ValueChanged;
             // 
             // label1
             // 

@@ -86,13 +86,18 @@ namespace Capa_de_Presentación.CLASES
         {
             try
             {
-                // Validar selección de fila
-                if (dataGridView1 != null && dataGridView1.CurrentRow == null && dataGridView1.SelectedRows.Count > 0)
+                if (dataGridView1 == null || (dataGridView1.CurrentRow == null && dataGridView1.SelectedRows.Count == 0))
                 {
-                    dataGridView1.CurrentCell = dataGridView1.SelectedRows[0].Cells[0];
+                    dataGridView1?.EndEdit();
                     MessageBox.Show("No se seleccionó ninguna fila válida.", "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
+                }
+
+                // Si no hay CurrentRow pero hay filas seleccionadas
+                if (dataGridView1.CurrentRow == null && dataGridView1.SelectedRows.Count > 0)
+                {
+                    dataGridView1.CurrentCell = dataGridView1.SelectedRows[0].Cells[0];
                 }
 
                 DataGridViewRow fila = dataGridView1.CurrentRow;
@@ -100,6 +105,7 @@ namespace Capa_de_Presentación.CLASES
                 // Validar ID
                 if (fila.Cells["Id_transaccion"].Value == null || fila.Cells["Id_transaccion"].Value == DBNull.Value)
                 {
+                    dataGridView1?.EndEdit();
                     MessageBox.Show("La fila seleccionada no tiene un ID válido.", "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -125,7 +131,7 @@ namespace Capa_de_Presentación.CLASES
                     if (cmbOrigen != null) cmbOrigen.SelectedIndex = -1;
                     if (dtpFecha != null) dtpFecha.Value = DateTime.Now;
 
-                    // 🔹 Dejar el DataGridView bloqueado para edición,
+                    // Dejar el DataGridView bloqueado para edición,
                     // pero habilitado para selección y navegación.
                     if (dataGridView1 != null)
                     {
@@ -147,6 +153,7 @@ namespace Capa_de_Presentación.CLASES
                 }
                 else
                 {
+                    dataGridView1?.EndEdit();
                     MessageBox.Show("No se pudo actualizar la transacción.",
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -154,12 +161,48 @@ namespace Capa_de_Presentación.CLASES
             }
             catch (Exception ex)
             {
+                dataGridView1?.EndEdit();
                 MessageBox.Show("Error al guardar la edición: " + ex.Message,
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
 
+        /*public void BloquearDesbloquearIngresos(DataTable dtDatosIngresos, DataGridView dataGridView1, int rowIndex)
+        {
+            
+            DataGridViewRow row = dataGridView1.Rows[rowIndex];
+
+            
+            object idTransaccionValue = row.Cells["Id_transaccion"].Value;
+
+            int idTransaccion = 0;
+
+           
+            bool yaEstaGuardada = idTransaccionValue != null &&
+                                  idTransaccionValue != DBNull.Value &&
+                                  int.TryParse(idTransaccionValue.ToString(), out idTransaccion) &&
+                                  idTransaccion > 0;
+
+           
+            if (yaEstaGuardada)
+            { 
+               
+                row.Cells["NombreCuenta"].ReadOnly = true;
+                row.Cells["Detalle"].ReadOnly = true;
+                row.Cells["Saldo"].ReadOnly = true;
+               
+            }
+            else 
+            {
+                
+                row.Cells["NombreCuenta"].ReadOnly = false;
+                row.Cells["Detalle"].ReadOnly = false;
+                row.Cells["Saldo"].ReadOnly = false;
+
+            }
+        }
+        */
 
 
     }
