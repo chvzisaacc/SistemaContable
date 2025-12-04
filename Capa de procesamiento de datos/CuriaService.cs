@@ -91,9 +91,6 @@ namespace Capa_de_procesamiento_de_datos
             if (tabla == null || tabla.Rows.Count == 0)
                 return 0;
 
-            // Normalizar plantilla
-            string clave = NormalizarTexto(nombreCuenta);
-
             decimal total = 0;
 
             foreach (DataRow row in tabla.Rows)
