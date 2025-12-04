@@ -50,8 +50,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
+            //Instancia
             ClsValidaciones validaciones = new ClsValidaciones();
 
+
+            //Validaciones
             if (!validaciones.EsUsuarioValido(txt_usuario.Text))
             {
                 MessageBox.Show("Por favor, ingrese un usuario válido.");
@@ -106,6 +109,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label3_Click(object sender, EventArgs e)
         {
+            //moviminento de frm
             Olvidaste_tu_contraseña objrecu = new Olvidaste_tu_contraseña();
             objrecu.Show();
             this.Hide();
@@ -174,6 +178,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            //Instancia del reconocimineto facial
             RECONOCIMIENTO_FACIAL.RECONOCER rECONOCER = new();
             rECONOCER.Show();
             this.Hide();

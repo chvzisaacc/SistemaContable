@@ -86,19 +86,18 @@ namespace Capa_de_procesamiento_de_datos
         /// <param name="tabla">The tabla.</param>
         /// <param name="nombreCuenta">The nombre cuenta.</param>
         /// <returns></returns>
-        private decimal ObtenerMontoPorCuenta(DataTable tabla, string nombreCuenta)
+        private decimal ObtenerMontoPorCuenta(DataTable tabla, string etiquetaPlantilla)
         {
-            if (tabla == null || tabla.Rows.Count == 0)
+            if (!MapaCuentas.TryGetValue(etiquetaPlantilla, out string nombreBD))
                 return 0;
 
             decimal total = 0;
 
             foreach (DataRow row in tabla.Rows)
             {
-                string cuentaBD = NormalizarTexto(row["NombreCuenta"]?.ToString() ?? "");
+                string cuentaBD = row["NombreCuenta"]?.ToString();
 
-                // Si la cuenta BD contiene o empieza con la plantilla, cuenta
-                if (cuentaBD.StartsWith(clave) || cuentaBD.Contains(clave))
+                if (cuentaBD.Equals(nombreBD, StringComparison.OrdinalIgnoreCase))
                     total += Convert.ToDecimal(row["Monto"]);
             }
 
@@ -406,5 +405,53 @@ namespace Capa_de_procesamiento_de_datos
 
             return document.GeneratePdf();
         }
+
+        private readonly Dictionary<string, string> MapaCuentas = new()
+{
+    // ENTRADAS
+    { "Bautismos", "Bautismos" },
+    { "Misas, Fiestas, Funerales", "Misas,Fiestas,Funerales" },
+    { "Matrimonios", "Matrimonios" },
+    { "Donativos, Alcancias,Bendiciones", "Donativos,Alcancias,Bendiciones" },
+    { "Colectas ordinarias", "Colectas Ordinarias" },
+    { "Permisos, Certificaciones", "Permisos,Certificaciones" },
+    { "Profesorados, capellanias", "Profesorados, Capellanias" },
+    { "Otros (explicar)Tienda Parroquial", "Otros Ingresos(Explicar)" },
+    { "Otros", "Otros Ingresos" },
+
+    // COLECTAS 100%
+    { "Colecta de Adviento y Sta. Infancia", "Colectas Especiales (Ingreso)" },
+    { "Colecta de Cuaresma", "Caja Chica" }, // ← REVISAR si esto corresponde
+    { "Colecta de Viernes Santo", "Administrador-Oficina" }, // ← revisar
+    { "Colecta de San Pedro", "Agua" }, // ← revisar
+    { "Colecta de Vocaciones", "Carro-Transporte" }, // ← revisar
+    { "Colecta Domund", "Comida-Cocina" },
+    { "Colectas Extraordinarias (Medios)", "Lavado Ropa" },
+    { "Donativos Seminario", "Luz" },
+    { "Dispensas", "Mantenimiento-Limpieza" },
+    { "Confirmas", "Sueldos" },
+
+    // SALIDAS
+    { "Administracion - Oficina", "Administrador-Oficina" },
+    { "Agua", "Agua" },
+    { "Carro - Transporte", "Carro-Transporte" },
+    { "Comida - Cocina", "Comida-Cocina" },
+    { "Luz", "Luz" },
+    { "Mantenimiento - Limpieza", "Mantenimiento-Limpieza" },
+    { "Sueldos", "Sueldos" },
+    { "IHSS + Medicinas", "IHSS+Medicinas" },
+    { "Internet y Servicio de Cable tv", "Internet y Servicio de Cable TV" },
+    { "Telefono", "Telefono" },
+    { "Ayuda (Donativos, Limosnas)", "Ayuda(Donativos,Limosnas)" },
+    { "Culto", "Culto" },
+    { "Pastoral - Formacion", "Pastoral-Formacion" },
+    { "Muebles - Enseres", "Muebles-Enseres" },
+    { "Remuneracion Sacerdotes", "Remuneracion Sacerdotes" },
+    { "Papel sellado", "Papel sellado" },
+    { "Impuestos", "Impuestos" },
+    { "Otros (explicar)", "Otros Gastos" }
+};
+
     }
+
 }

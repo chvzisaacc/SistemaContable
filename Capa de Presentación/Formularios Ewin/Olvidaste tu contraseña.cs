@@ -117,13 +117,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return;
             }
 
-
+            //Validar que no este vacio
             if (string.IsNullOrEmpty(correo))
             {
                 MessageBox.Show("Por favor ingrese su correo electrónico.");
                 return;
             }
-
+            //instacnia 
             ClsAccionesDB acciones = new ClsAccionesDB();
             int usuario_id = acciones.ObtenerUsuarioIdPorCorreo(correo);
 
@@ -132,7 +132,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 MessageBox.Show("Este correo no está registrado.");
                 return;
             }
-
+            //metodo de generar codigo login
             var sistema = new Capa_de_acceso_de_datos.CORREO.Sistema();
 
             string codigo = sistema.GenerarCodigo();

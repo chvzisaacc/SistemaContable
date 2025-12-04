@@ -106,6 +106,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
             try
             {
+
+                //Metodo para cambio
                 ClsAccionesDB acciones = new ClsAccionesDB();
 
                 acciones.CambiarContraseña(correoUsuario, nueva_contraseña);
@@ -129,6 +131,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label4_Click(object sender, EventArgs e)
         {
+            //Movimineto de frm
             FRM_PG3 fRM_PG3 = new FRM_PG3();
             fRM_PG3.Show();
             this.Hide();

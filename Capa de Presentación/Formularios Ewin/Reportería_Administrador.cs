@@ -85,6 +85,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG10_Load(object sender, EventArgs e)
         {
+            //cargar los nombres de los reportes
             CargarParroquias();
             CargarReportes();
             cmb_formato_descarga.Items.Clear();
@@ -128,7 +129,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// </summary>
         private void CargarParroquias()
         {
-
+            //metodo para obtener de la bd las parroquias
             DataTable dt = _gastosService.ObtenerParroquias();
 
 
@@ -172,7 +173,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button2_Click(object sender, EventArgs e)
         {
-
+            //metodos para jalar de la base de datos 
             int tipo_reporte_id = Convert.ToInt32(cmb_tipo_reporte.SelectedValue);
             int parroquia_id = Convert.ToInt32(cmb_parroquia.SelectedValue);
             string parroquia_nombre = cmb_parroquia.Text;
@@ -203,7 +204,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
 
 
-
+            //metodos para crear los pdf 
             string ruta_pdf = string.Empty;
             string nombre_reporte = string.Empty;
 
@@ -277,6 +278,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             var item = new ReporteUIItem
             {
+                //metodo que genera oo que llevara el reporte
                 tipo_reporte_id = tipo_reporte_id,
                 nombre_visible = nombreVisible,
                 ruta_pdf = ruta_pdf,

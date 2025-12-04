@@ -90,6 +90,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return;
             }
 
+            //Metodo para verificar 
+
             ClsVerificarCod verificador = new ClsVerificarCod();
             verificador.ProcesarCodigoRecuperacion(_usuarioId, codigo, _correoUsuario, this);
         }
@@ -303,6 +305,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label2_Click(object sender, EventArgs e)
         {
+
+            //Movimiento de frm
             Olvidaste_tu_contraseña fRM_PG2 = new();
             fRM_PG2.Show();
             this.Hide();
