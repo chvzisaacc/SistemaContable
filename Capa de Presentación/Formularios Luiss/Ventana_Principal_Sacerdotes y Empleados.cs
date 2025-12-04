@@ -157,9 +157,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             _controladorAlerta.IniciarMonitoreo(intervaloMinutos: 5);
 
-            //_animationTimer = new System.Windows.Forms.Timer();
-            //_animationTimer.Interval = 10; // Rápido (10ms) para movimiento suave
-            //_animationTimer.Tick += AnimationTimer_Tick;
+            _animationTimer = new System.Windows.Forms.Timer();
+            _animationTimer.Interval = 10; // Rápido (10ms) para movimiento suave
+            _animationTimer.Tick += AnimationTimer_Tick;
 
             // Inicializar el panel de alerta oculto
             pnlAlertaDeslizante.Height = 0;
