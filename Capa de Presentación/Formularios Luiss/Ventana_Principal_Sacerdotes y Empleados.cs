@@ -231,6 +231,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 // 3.2. CONFIGURACIÓN AL OCULTAR
                 _isOpening = false;
+                _animationTimer = new System.Windows.Forms.Timer();
                 _animationTimer.Start();
             }
         }
