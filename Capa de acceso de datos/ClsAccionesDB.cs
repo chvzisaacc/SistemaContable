@@ -355,24 +355,26 @@ namespace Capa_de_acceso_de_datos
         /// <param name="fecha">The fecha.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al guardar certificado de depósito: " + ex.Message</exception>
-        public int GuardarCertificado(string nombre_certificado, decimal deposito_inicial, int plazo, decimal tasa, int id_parroquia, DateTime fecha)
+        public int GuardarCertificado(string nombre_certificado, int id_parroquia, DateTime fecha)
         {
             int idgenerado = 0;
 
             try
             {
+                // Abrir la conexión a la base de datos
                 Abrir();
+
+                // El 'sc' es tu objeto SqlConnection
                 using (SqlCommand cmd = new SqlCommand("sp_guardar_certificado", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+
+                    // 1. Parámetros Requeridos
                     cmd.Parameters.AddWithValue("@Nombre_certificado", nombre_certificado);
-                    cmd.Parameters.AddWithValue("@deposito_inicial", deposito_inicial);
-                    cmd.Parameters.AddWithValue("@plazo", plazo);
-                    cmd.Parameters.AddWithValue("@tasa", tasa);
                     cmd.Parameters.AddWithValue("@IdParroquia", id_parroquia);
                     cmd.Parameters.AddWithValue("@Fecha", fecha);
 
-                    // ExecuteScalar devuelve un objeto; se debe manejar DBNull si aplica, aunque para un ID serial es improbable.
+                    // Ejecutar el procedimiento. Se espera que devuelva el nuevo ID.
                     object result = cmd.ExecuteScalar();
 
                     if (result != null && result != DBNull.Value)
@@ -383,10 +385,12 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
+                // Es buena práctica lanzar una excepción más específica o registrar el error.
                 throw new Exception("Error al guardar certificado de depósito: " + ex.Message, ex);
             }
             finally
             {
+                // Cerrar la conexión
                 Cerrar();
             }
             return idgenerado;
@@ -465,7 +469,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="tasa">The tasa.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al editar certificado de depósito: " + ex.Message</exception>
-        public bool editarcertificado(int codigo_certificado, string nombre_certificado, decimal deposito_inicial, int plazo, decimal tasa)
+        public bool editarcertificado(int codigo_certificado, string nombre_certificado, int id_parroquia)
         {
             try
             {
@@ -473,11 +477,14 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("sp_editar_certificado", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Parámetros de edición
                     cmd.Parameters.AddWithValue("@Id_Certificado", codigo_certificado);
                     cmd.Parameters.AddWithValue("@Nombre_certificado", nombre_certificado);
-                    cmd.Parameters.AddWithValue("@deposito_inicial", deposito_inicial);
-                    cmd.Parameters.AddWithValue("@plazo", plazo);
-                    cmd.Parameters.AddWithValue("@tasa", tasa);
+                    cmd.Parameters.AddWithValue("@IdParroquia", id_parroquia); // Nuevo: Incluir el ID de la Parroquia
+
+                    // --- Parámetros eliminados: deposito_inicial, plazo, tasa ---
+
                     int filas = cmd.ExecuteNonQuery();
                     return filas > 0;
                 }
@@ -501,18 +508,23 @@ namespace Capa_de_acceso_de_datos
         /// <param name="tasa">The tasa.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al renovar el certificado de depósito: " + ex.Message</exception>
-        public bool renovarCertificado(int codigo_certificado, decimal deposito_inicial, int plazo, decimal tasa)
+        public bool renovarCertificado(int codigo_certificado, int nuevo_estado_cd, string detalle_renovacion)
         {
             try
             {
+                // Abrir la conexión
                 Abrir();
                 using (SqlCommand cmd = new SqlCommand("sp_renovar_Certificado", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Parámetros obligatorios
                     cmd.Parameters.AddWithValue("@Id_Certificado", codigo_certificado);
-                    cmd.Parameters.AddWithValue("@deposito_inicial", deposito_inicial);
-                    cmd.Parameters.AddWithValue("@plazo", plazo);
-                    cmd.Parameters.AddWithValue("@tasa", tasa);
+
+                    // Parámetros para la renovación
+                    cmd.Parameters.AddWithValue("@Id_estadoCD", nuevo_estado_cd);
+                    cmd.Parameters.AddWithValue("@Detalle", detalle_renovacion);
+
                     int filas = cmd.ExecuteNonQuery();
                     return filas > 0;
                 }
@@ -523,6 +535,7 @@ namespace Capa_de_acceso_de_datos
             }
             finally
             {
+                // Cerrar la conexión
                 Cerrar();
             }
         }

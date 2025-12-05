@@ -203,6 +203,7 @@
             textBox4.Size = new Size(298, 32);
             textBox4.TabIndex = 36;
             textBox4.Text = "Certificados de depósito";
+            textBox4.MouseClick += textBox4_MouseClick;
             textBox4.TextChanged += textBox4_TextChanged;
             // 
             // pictureBox6

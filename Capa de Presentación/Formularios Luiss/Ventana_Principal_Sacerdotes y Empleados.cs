@@ -972,9 +972,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button3_Click(object sender, EventArgs e)
         {
-            Certificados_De_Depósito fRM_PG103 = new Certificados_De_Depósito();
-            fRM_PG103.Show();
-            this.Hide();
+            
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿
+using Capa_de_Presentación.Formularios_Diego;
 using Capa_de_Presentación.Formularios_Ewin;
 using Capa_de_Presentación.RECONOCIMIENTO_FACIAL;
 using System;
@@ -213,14 +214,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             this.Hide();
 
-           
+
             using (var alerta = new Capa_de_Presentación.ALERTA.ALERTA_SISTEMA())
             {
-               
+
                 alerta.ShowDialog(this);
             }
 
-           
+
             this.Close();
         }
 
@@ -241,7 +242,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         /// <summary>
@@ -282,6 +282,35 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void FRM_ServiciosAdministrador_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox4_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            var main = this.Owner as Form;
+
+            try
+            {
+                // Oculta el formulario principal (main) y el formulario actual (this)
+                main?.Hide();
+                this.Hide();
+
+                // Abre el formulario Certificados_De_Depósito de forma modal.
+                // Usamos 'using' para asegurar que el formulario se deseche correctamente al cerrarse.
+                using (var frm = new Certificados_De_Depósito()) //
+                {
+                    frm.StartPosition = FormStartPosition.CenterParent;
+                    frm.ShowDialog(this);
+                }
+            }
+            finally
+            {
+                // Cierra el formulario actual.
+                this.Close();
+
+                // Muestra el formulario principal que se había ocultado.
+                main?.Show();
+            }
         }
     }
 }

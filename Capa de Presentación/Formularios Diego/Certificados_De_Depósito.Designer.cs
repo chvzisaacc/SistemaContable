@@ -30,17 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Certificados_De_Depósito));
             panel1 = new Panel();
-            label8 = new Label();
-            pictureBox4 = new PictureBox();
-            pictureBox3 = new PictureBox();
             panel2 = new Panel();
             button1 = new Button();
             dataGridView1 = new DataGridView();
             Id_Certificado = new DataGridViewTextBoxColumn();
             Nombre_certificado = new DataGridViewTextBoxColumn();
-            deposito_inicial = new DataGridViewTextBoxColumn();
-            Plazo = new DataGridViewTextBoxColumn();
-            Tasa = new DataGridViewTextBoxColumn();
+            ParroquiaID = new DataGridViewTextBoxColumn();
             FechaTransaccion = new DataGridViewTextBoxColumn();
             textBox4 = new TextBox();
             pictureBox9 = new PictureBox();
@@ -58,8 +53,6 @@
             pictureBox1 = new PictureBox();
             panel5 = new Panel();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
@@ -74,9 +67,6 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
-            panel1.Controls.Add(label8);
-            panel1.Controls.Add(pictureBox4);
-            panel1.Controls.Add(pictureBox3);
             panel1.Controls.Add(panel2);
             panel1.Controls.Add(panel4);
             panel1.Controls.Add(label1);
@@ -88,45 +78,6 @@
             panel1.Size = new Size(1056, 620);
             panel1.TabIndex = 3;
             panel1.Paint += panel1_Paint;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.BackColor = Color.FromArgb(251, 203, 51);
-            label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.ForeColor = Color.FromArgb(43, 56, 143);
-            label8.Location = new Point(944, 35);
-            label8.Margin = new Padding(4, 0, 4, 0);
-            label8.Name = "label8";
-            label8.Size = new Size(45, 32);
-            label8.TabIndex = 12;
-            label8.Text = "SD";
-            label8.Visible = false;
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(919, 4);
-            pictureBox4.Margin = new Padding(4);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(95, 88);
-            pictureBox4.SizeMode = PictureBoxSizeMode.AutoSize;
-            pictureBox4.TabIndex = 11;
-            pictureBox4.TabStop = false;
-            pictureBox4.Visible = false;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(815, 18);
-            pictureBox3.Margin = new Padding(4);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(96, 82);
-            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox3.TabIndex = 10;
-            pictureBox3.TabStop = false;
-            pictureBox3.Visible = false;
-            pictureBox3.Click += pictureBox3_Click;
             // 
             // panel2
             // 
@@ -170,7 +121,7 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Id_Certificado, Nombre_certificado, deposito_inicial, Plazo, Tasa, FechaTransaccion });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Id_Certificado, Nombre_certificado, ParroquiaID, FechaTransaccion });
             dataGridView1.Location = new Point(63, 99);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
@@ -196,26 +147,12 @@
             Nombre_certificado.Name = "Nombre_certificado";
             Nombre_certificado.ReadOnly = true;
             // 
-            // deposito_inicial
+            // ParroquiaID
             // 
-            deposito_inicial.HeaderText = "deposito_inicial";
-            deposito_inicial.MinimumWidth = 8;
-            deposito_inicial.Name = "deposito_inicial";
-            deposito_inicial.ReadOnly = true;
-            // 
-            // Plazo
-            // 
-            Plazo.HeaderText = "Plazo(meses)";
-            Plazo.MinimumWidth = 8;
-            Plazo.Name = "Plazo";
-            Plazo.ReadOnly = true;
-            // 
-            // Tasa
-            // 
-            Tasa.HeaderText = "Tasa";
-            Tasa.MinimumWidth = 8;
-            Tasa.Name = "Tasa";
-            Tasa.ReadOnly = true;
+            ParroquiaID.HeaderText = "Parroquia";
+            ParroquiaID.MinimumWidth = 8;
+            ParroquiaID.Name = "ParroquiaID";
+            ParroquiaID.ReadOnly = true;
             // 
             // FechaTransaccion
             // 
@@ -423,8 +360,6 @@
             Load += FRM_PG103_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -441,9 +376,6 @@
         #endregion
 
         private Panel panel1;
-        private Label label8;
-        private PictureBox pictureBox4;
-        private PictureBox pictureBox3;
         private Panel panel2;
         private Label label6;
         private Panel panel4;
@@ -464,9 +396,7 @@
         private Button button1;
         private DataGridViewTextBoxColumn Id_Certificado;
         private DataGridViewTextBoxColumn Nombre_certificado;
-        private DataGridViewTextBoxColumn deposito_inicial;
-        private DataGridViewTextBoxColumn Plazo;
-        private DataGridViewTextBoxColumn Tasa;
+        private DataGridViewTextBoxColumn ParroquiaID;
         private DataGridViewTextBoxColumn FechaTransaccion;
     }
 }

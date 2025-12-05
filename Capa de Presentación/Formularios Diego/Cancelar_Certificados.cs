@@ -48,7 +48,7 @@
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG108_Load(object sender, EventArgs e)
         {
-
+            this.CenterToScreen();
         }
 
         /// <summary>

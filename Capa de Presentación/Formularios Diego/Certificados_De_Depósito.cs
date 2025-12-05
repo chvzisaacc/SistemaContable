@@ -36,6 +36,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
             CargarDatos();
         }
 
@@ -141,7 +142,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG103_Load(object sender, EventArgs e)
         {
-
+            this.CenterToScreen();
         }
 
         /// <summary>
