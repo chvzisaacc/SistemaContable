@@ -1194,10 +1194,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         ClsValidaciones validar = new();
                         DateTime fecha_transaccion = dtpFecha.Value;
                         string referencia_texto = txtNoReferencia.Text.Trim();
+                        int referencia = 0;
                         string saldo_texto = fila_nueva.Cells["Saldo"].Value?.ToString() ?? "";
                         decimal saldo = 0;
-                        int referencia = 0;
                         int.TryParse(referencia_texto, out referencia);
+
+                        string montoParaConversion = saldo_texto.Replace(',', '.');
+                        decimal.TryParse(montoParaConversion,
+                         System.Globalization.NumberStyles.Any,
+                         System.Globalization.CultureInfo.InvariantCulture,
+                         out saldo);
 
                         if (!validar.EsMontoPositivo(saldo_texto))
                         {
@@ -1595,6 +1601,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     decimal saldo = 0;
                     int.TryParse(referencia_texto, out referencia);
 
+                    string montoParaConversion = saldo_texto.Replace(',', '.');
+                    decimal.TryParse(montoParaConversion,
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     out saldo);
+
+                    int.TryParse(referencia_texto, out referencia);
+
                     int id_usuario = Sesion1.usuario_id;
                     string nombre_cuenta = fila_nueva.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
                     string descripcion = fila_nueva.Cells["Detalle"].Value?.ToString() ?? string.Empty;
@@ -1764,9 +1778,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox6_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count > 0)
+            if (dgvGastos.SelectedRows.Count > 0)
             {
-                int id_transaccion = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id_Transaccion"].Value);
+                int id_transaccion = Convert.ToInt32(dgvGastos.SelectedRows[0].Cells["Id_Transaccion"].Value);
+                
 
 
                 Partidas_Dobles frm = new Partidas_Dobles(id_transaccion);
@@ -1789,6 +1804,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 int id_transaccion = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id_Transaccion"].Value);
+          
 
 
                 Partidas_Dobles frm = new Partidas_Dobles(id_transaccion);

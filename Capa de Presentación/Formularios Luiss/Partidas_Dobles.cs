@@ -27,6 +27,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// The identifier transaccion
         /// </summary>
         private int id_transaccion;
+       
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Partidas_Dobles"/> class.
@@ -38,7 +39,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.id_transaccion = id_transaccion;
-
+            
         }
 
         /// <summary>
