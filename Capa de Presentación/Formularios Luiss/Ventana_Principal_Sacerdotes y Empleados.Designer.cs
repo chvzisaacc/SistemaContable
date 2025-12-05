@@ -281,6 +281,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             txtNoReferencia2.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtNoReferencia2.Location = new Point(859, 38);
             txtNoReferencia2.Margin = new Padding(4, 5, 4, 5);
+            txtNoReferencia2.MaxLength = 10;
             txtNoReferencia2.Multiline = true;
             txtNoReferencia2.Name = "txtNoReferencia2";
             txtNoReferencia2.Size = new Size(542, 32);
