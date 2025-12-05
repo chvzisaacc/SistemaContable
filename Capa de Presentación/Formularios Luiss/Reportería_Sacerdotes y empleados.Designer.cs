@@ -109,7 +109,6 @@
             // 
             lstReportes.FormattingEnabled = true;
             lstReportes.ItemHeight = 25;
-            lstReportes.Items.AddRange(new object[] { "Balance General - Junio-2025" });
             lstReportes.Location = new Point(4, 72);
             lstReportes.Margin = new Padding(4, 3, 4, 3);
             lstReportes.Name = "lstReportes";
@@ -234,7 +233,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(1579, 35);
+            label4.Location = new Point(1341, 9);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new Size(247, 54);
@@ -299,7 +298,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1863, 1050);
+            ClientSize = new Size(1601, 899);
             Controls.Add(label10);
             Controls.Add(label8);
             Controls.Add(button1);

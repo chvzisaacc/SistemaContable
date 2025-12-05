@@ -34,6 +34,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public BancosRetirarDinero()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             Validaciones = new ClsValidaciones();
             CargarCuentas();
 
@@ -96,7 +97,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_BancosRetirarDinero_Load(object sender, EventArgs e)
         {
-
+            this.CenterToScreen();
         }
         /// <summary>
         /// Validars the campos.

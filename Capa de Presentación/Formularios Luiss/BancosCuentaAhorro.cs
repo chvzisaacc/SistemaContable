@@ -44,6 +44,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public BancosCuentaAhorro(int id_origen)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             cuentaId = id_origen;
             CRUD_CuentasBancarias = new ClsCRUD_CuentasBancarias();
 
@@ -186,7 +187,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG42BancosCuentaAhorro_Load(object sender, EventArgs e)
         {
-
+            this.CenterToScreen();
         }
 
         /// <summary>

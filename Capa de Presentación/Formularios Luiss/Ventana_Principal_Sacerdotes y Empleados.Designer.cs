@@ -891,7 +891,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(1602, 898);
+            ClientSize = new Size(1601, 899);
             Controls.Add(panel1);
             Margin = new Padding(4, 5, 4, 5);
             Name = "FRM_42";

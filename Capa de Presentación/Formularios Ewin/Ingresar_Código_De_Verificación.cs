@@ -40,6 +40,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         public FRM_PG3(int usuarioId, string correoUsuario)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.FormClosing += cerrar.CerrarApp;
             _usuarioId = usuarioId;
             _correoUsuario = correoUsuario;

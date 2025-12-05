@@ -35,6 +35,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         public Actualizar_Contraseña(string correo)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.FormClosing += cerrar.CerrarApp;
             correoUsuario = correo;
         }

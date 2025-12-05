@@ -1,4 +1,5 @@
 ﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.Formularios_Ewin;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using OpenCvSharp.Face;
@@ -129,6 +130,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         public RECONOCIMIENTO_FACIAL()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             frame = new Mat();
 
             //MessageBox.Show("StartupPath: " + Application.StartupPath);
@@ -718,7 +720,10 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void RECONOCIMIENTO_FACIAL_Load(object sender, EventArgs e) { }
+        private void RECONOCIMIENTO_FACIAL_Load(object sender, EventArgs e)
+        {
+            this.CenterToScreen();
+        }
 
         /// <summary>
         /// Handles the Click event of the PictureBox1 control.
@@ -950,6 +955,11 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         private void pictureBox1_Click_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 

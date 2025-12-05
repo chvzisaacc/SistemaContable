@@ -40,6 +40,7 @@ namespace Capa_de_Presentación.ALERTA
         private void ALERTA_SISTEMA_Load(object sender, EventArgs e)
         {
             CargarDatosAlerta();
+            this.CenterToScreen();
 
         }
 

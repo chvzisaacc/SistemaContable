@@ -33,6 +33,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public BancosTransferenciaEntreCuentas()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             CargarCuentas();
             Validaciones = new ClsValidaciones();
         }
@@ -213,7 +214,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_BancosTransferenciaEntreCuentas_Load(object sender, EventArgs e)
         {
-
+            this.CenterToScreen();
         }
 
 

@@ -29,6 +29,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         public Olvidaste_tu_contraseña()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.FormClosing += cerrar.CerrarApp;
         }
 

@@ -56,6 +56,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_PG49()
         {
             InitializeComponent();
+            this.Left = (Screen.PrimaryScreen.Bounds.Width - this.Width) / 2;
+            this.Top = (Screen.PrimaryScreen.Bounds.Height - this.Height) / 2;
+
             Validaciones = new ClsValidaciones();
         }
         /// <summary>
@@ -102,8 +105,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG49_Load(object sender, EventArgs e)
         {
-
             Sesion1.id_parroquia = 1;
+            this.CenterToScreen();
             CargarReportes();
             cmbFormatoDescarga.Items.Clear();
             cmbFormatoDescarga.Items.Add("PDF");

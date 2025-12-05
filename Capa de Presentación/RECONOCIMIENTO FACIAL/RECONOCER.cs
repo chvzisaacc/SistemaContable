@@ -102,6 +102,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         public RECONOCER()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             frame = new Mat();
 
             // Cargar HaarCascade
@@ -369,7 +370,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void RECONOCER_Load_1(object sender, EventArgs e)
         {
-
+            this.CenterToScreen();
         }
 
         /// <summary>
@@ -380,6 +381,13 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            FRM_PG1 fRM_PG1 = new();
+            fRM_PG1.Show();
+            this.Hide();
         }
     }
 }

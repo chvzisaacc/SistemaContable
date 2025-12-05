@@ -33,6 +33,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_PG51(int id_usuario)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             id_usuario_login =id_usuario;
             crudHistorial = new clsCRUD_Historial();
         }
@@ -45,8 +46,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG51_Load(object sender, EventArgs e)
         {
-           // CargarDatos();
             CargarMiHistorial();
+            this.CenterToScreen();
         }
 
         /// <summary>

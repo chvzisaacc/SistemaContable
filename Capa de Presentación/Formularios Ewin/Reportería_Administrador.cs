@@ -75,6 +75,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         public Reportería_Administrador()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             Validaciones = new ClsValidaciones();
         }
 

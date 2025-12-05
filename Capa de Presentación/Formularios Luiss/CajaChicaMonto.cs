@@ -33,6 +33,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public CajaChicaMonto()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             Validaciones = new ClsValidaciones();
         }
 
@@ -107,6 +108,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void FRM_CajaChicaMonto_Load(object sender, EventArgs e)
         {
             ValidarCampos();
+            this.CenterToScreen();
         }
 
         /// <summary>

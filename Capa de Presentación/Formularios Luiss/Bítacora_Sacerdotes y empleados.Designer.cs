@@ -122,7 +122,7 @@
             btnVolver.FlatStyle = FlatStyle.Popup;
             btnVolver.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnVolver.ForeColor = SystemColors.ControlText;
-            btnVolver.Location = new Point(1371, 16);
+            btnVolver.Location = new Point(1331, 14);
             btnVolver.Margin = new Padding(4, 5, 4, 5);
             btnVolver.Name = "btnVolver";
             btnVolver.Size = new Size(232, 64);
@@ -135,7 +135,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1602, 899);
+            ClientSize = new Size(1601, 899);
             Controls.Add(btnVolver);
             Controls.Add(pictureBox3);
             Controls.Add(label1);

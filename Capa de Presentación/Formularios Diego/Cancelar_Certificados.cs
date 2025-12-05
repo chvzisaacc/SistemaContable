@@ -17,6 +17,7 @@
         public Cancelar_Certificados()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         /// <summary>
@@ -79,13 +80,13 @@
 
             if (string.IsNullOrWhiteSpace(this.textBox1.Text))
             {
-                MessageBox.Show("Ingresar el motivo de la cancelación para continuar.","Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Ingresar el motivo de la cancelación para continuar.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             this.DialogResult = DialogResult.OK;
 
-            
+
             this.Close();
 
         }
@@ -97,6 +98,11 @@
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
         {
 
         }

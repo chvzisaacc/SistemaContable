@@ -1,8 +1,10 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
 using Capa_de_Presentación.Formularios_Diego;
+using Capa_de_Presentación.Formularios_Ewin;
 using Capa_de_procesamiento_de_datos;
 using Microsoft.Data.SqlClient;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,7 +25,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// 
     /// </summary>
     /// <seealso cref="System.Windows.Forms.Form" />
-    public partial class FRM_42 : Form
+    public partial class FRM_42 : Form, ICierreSesionHandler
     {
 
         /// <summary>
@@ -123,6 +125,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_42(int predicted_id, int parroquia_id)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             PredictedId = predicted_id;
             ParroquiaId = parroquia_id;
 
@@ -165,10 +168,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pnlAlertaDeslizante.Height = 0;
             pnlAlertaDeslizante.Visible = true; // Lo dejamos Visible, pero con Altura 0
 
-
-
         }
 
+        public void ManejarCierreSesion()
+        {
+            this.Hide();
+            using (var login = new FRM_PG1())
+            {
+                if (login.ShowDialog() == DialogResult.OK)
+                {
+                    this.Show();
+                }
+                else
+                {
+                    Application.Exit();
+                }
+            }
+        }
 
         /// <summary>
         /// Handles the Load event of the FRM_42 control.
@@ -476,10 +492,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             Cerrar_Sesión popup = new Cerrar_Sesión();
-            var button_screen_position = pictureBox2.PointToScreen(Point.Empty);
+            var btnPos = pictureBox2.PointToScreen(Point.Empty);
+
             popup.StartPosition = FormStartPosition.Manual;
-            popup.Location = new Point(button_screen_position.X, button_screen_position.Y + pictureBox2.Height);
-            popup.ShowDialog();
+            popup.Location = new Point(btnPos.X, btnPos.Y + pictureBox2.Height);
+
+            if (popup.ShowDialog() == DialogResult.OK)
+            {
+                ManejarCierreSesion();
+            }
         }
 
 
@@ -1808,12 +1829,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbInteresesBancarios_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbInteresesBancarios.SelectedIndex == 0)
-            {
-                Intereses_Por_Cds intereses_Por_Cds = new();
-                intereses_Por_Cds.Show();
-                this.Hide();
-            }
+            
         }
 
         /// <summary>

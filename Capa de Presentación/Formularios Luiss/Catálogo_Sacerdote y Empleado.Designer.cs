@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG46));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             pictureBox3 = new PictureBox();
             label1 = new Label();
             dgvBitacora = new DataGridView();
@@ -71,14 +71,14 @@
             dgvBitacora.AllowUserToDeleteRows = false;
             dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvBitacora.BackgroundColor = SystemColors.ControlLightLight;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.MenuText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvBitacora.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.MenuText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvBitacora.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvBitacora.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvBitacora.Dock = DockStyle.Fill;
             dgvBitacora.EnableHeadersVisualStyles = false;
@@ -95,11 +95,11 @@
             // lblConsulte
             // 
             lblConsulte.AutoSize = true;
-            lblConsulte.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblConsulte.Location = new Point(32, 309);
+            lblConsulte.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblConsulte.Location = new Point(184, 282);
             lblConsulte.Margin = new Padding(4, 0, 4, 0);
             lblConsulte.Name = "lblConsulte";
-            lblConsulte.Size = new Size(1750, 48);
+            lblConsulte.Size = new Size(1366, 38);
             lblConsulte.TabIndex = 11;
             lblConsulte.Text = "Observa cada una de las cuentas y subcuentas que existen en el sistema y como su saldo se ve afectado\r\n";
             // 
@@ -107,7 +107,7 @@
             // 
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitulo.Location = new Point(182, 236);
+            lblTitulo.Location = new Point(216, 222);
             lblTitulo.Margin = new Padding(4, 0, 4, 0);
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(1321, 48);
@@ -122,7 +122,7 @@
             btnVolver.FlatStyle = FlatStyle.Popup;
             btnVolver.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnVolver.ForeColor = SystemColors.ControlText;
-            btnVolver.Location = new Point(1566, 20);
+            btnVolver.Location = new Point(1397, 14);
             btnVolver.Margin = new Padding(4, 5, 4, 5);
             btnVolver.Name = "btnVolver";
             btnVolver.Size = new Size(191, 64);
@@ -134,7 +134,7 @@
             // panel1
             // 
             panel1.Controls.Add(dgvBitacora);
-            panel1.Location = new Point(248, 385);
+            panel1.Location = new Point(227, 342);
             panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(1272, 544);
@@ -142,7 +142,7 @@
             // 
             // panel2
             // 
-            panel2.Location = new Point(309, 405);
+            panel2.Location = new Point(288, 362);
             panel2.Margin = new Padding(2);
             panel2.Name = "panel2";
             panel2.Size = new Size(1188, 462);
@@ -152,7 +152,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1834, 1050);
+            ClientSize = new Size(1601, 899);
             Controls.Add(panel1);
             Controls.Add(panel2);
             Controls.Add(btnVolver);

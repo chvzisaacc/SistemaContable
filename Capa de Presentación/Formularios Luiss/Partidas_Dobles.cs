@@ -35,6 +35,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public Partidas_Dobles(int id_transaccion)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.id_transaccion = id_transaccion;
 
         }
@@ -64,6 +65,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void FRM_PG69_Load(object sender, EventArgs e)
         {
             CargarPartidas();
+            this.CenterToScreen();
 
         }
 

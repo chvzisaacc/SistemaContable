@@ -19,7 +19,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
     /// 
     /// </summary>
     /// <seealso cref="System.Windows.Forms.Form" />
-    public partial class Ventana_Principal_Administrador : Form
+    public partial class Ventana_Principal_Administrador : Form, ICierreSesionHandler
     {
         //usuarios
         /// <summary>
@@ -86,6 +86,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         public Ventana_Principal_Administrador(int usuarioID, int idParroquia)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             this._usuario_id = usuarioID;
             this.id_parroquia = idParroquia;
             UsuarioLogueado.usuario_id = usuarioID;
@@ -109,7 +110,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             //bitacora
             crud_historial = new clsCRUD_Historial();
             //validaciones
-                        Validaciones = new ClsValidaciones();
+            Validaciones = new ClsValidaciones();
             //Para busqueda de usuarios
             bindingSource = new BindingSource();
         }
@@ -174,6 +175,26 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <summary>
         /// Cargars the datos usuario DGV.
         /// </summary>
+        /// 
+
+        public void ManejarCierreSesion()
+        {
+            // Ocultar el formulario principal
+            this.Hide(); // Ocultar, NO cerrar
+
+            using (var login = new FRM_PG1())
+            {
+                if (login.ShowDialog() == DialogResult.OK)
+                {
+                    this.Show();
+                }
+                else
+                {
+                    Application.Exit();
+                }
+            }
+        }
+
         private void CargarDatosUsuarioDGV()
         {
             try
@@ -696,14 +717,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         try
                         {
                             crud_historial.RegistrarActividad(
-                                Sesion1.usuario_id, 
-                                7, 
+                                Sesion1.usuario_id,
+                                7,
                                 "Modificación de Usuario",
                                 $"Se modificaron los datos del usuario: '{usuario}' (ID: {usuario_id_seleccionado})."
                             );
                         }
                         catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
-                        
+
 
                         CargarDatosUsuarioDGV();
                         LimpiarCamposUsuario();
@@ -732,18 +753,18 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     {
                         MessageBox.Show($"Usuario agregado exitosamente con ID: {nuevoId}", "Éxito",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        
+
                         try
                         {
                             crud_historial.RegistrarActividad(
-                                Sesion1.usuario_id, 
-                                7, 
+                                Sesion1.usuario_id,
+                                7,
                                 "Creación de Usuario",
                                 $"Se creó el nuevo usuario: '{usuario}' (ID: {nuevoId})."
                             );
                         }
                         catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
-                        
+
 
                         CargarDatosUsuarioDGV();
                         LimpiarCamposUsuario();
@@ -813,7 +834,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             try
             {
                 int id = Convert.ToInt32(dgv_usuarios.CurrentRow.Cells["ID"].Value);
-                int estadoInactivo = 2; 
+                int estadoInactivo = 2;
 
                 bool resultado = crud_usuarios.InhabilitarUsuario(id, estadoInactivo);
 
@@ -825,14 +846,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     try
                     {
                         crud_historial.RegistrarActividad(
-                            Sesion1.usuario_id, 
+                            Sesion1.usuario_id,
                             7, // Módulo de Usuarios
                             "Inhabilitación de Usuario",
                             $"Se inhabilitó al usuario con ID: {id}."
                         );
                     }
                     catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
-                    
+
 
                     CargarDatosUsuarioDGV();
                     LimpiarCamposUsuario();
@@ -864,7 +885,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             try
             {
                 int id = Convert.ToInt32(dgv_usuarios.CurrentRow.Cells["ID"].Value);
-                int estadoInactivo = 1; 
+                int estadoInactivo = 1;
 
                 bool resultado = crud_usuarios.InhabilitarUsuario(id, estadoInactivo);
 
@@ -873,7 +894,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     MessageBox.Show("Usuario habilitado exitosamente", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    
+
                     try
                     {
                         crud_historial.RegistrarActividad(
@@ -884,7 +905,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         );
                     }
                     catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
-                    
+
 
                     CargarDatosUsuarioDGV();
                     LimpiarCamposUsuario();
@@ -1144,10 +1165,16 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void pictureBox4_Click(object sender, EventArgs e)
         {
             Cerrar_Sesión popup = new Cerrar_Sesión();
-            var buttonScreenPosition = pictureBox4.PointToScreen(Point.Empty);
+            var btnPos = pictureBox4.PointToScreen(Point.Empty);
+
             popup.StartPosition = FormStartPosition.Manual;
-            popup.Location = new Point(buttonScreenPosition.X, buttonScreenPosition.Y + pictureBox4.Height);
-            popup.ShowDialog();
+            popup.Location = new Point(btnPos.X, btnPos.Y + pictureBox4.Height);
+
+            if (popup.ShowDialog() == DialogResult.OK)
+            {
+                ManejarCierreSesion();
+            }
+
         }
 
         /// <summary>
@@ -1157,7 +1184,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
         private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

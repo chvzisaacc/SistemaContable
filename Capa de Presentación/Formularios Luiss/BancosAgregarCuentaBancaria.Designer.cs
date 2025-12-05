@@ -56,7 +56,7 @@
             panel2.Location = new Point(14, 15);
             panel2.Margin = new Padding(4, 3, 4, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(647, 387);
+            panel2.Size = new Size(599, 303);
             panel2.TabIndex = 10;
             panel2.Paint += panel2_Paint;
             // 
@@ -66,7 +66,7 @@
             txtMonto.BorderStyle = BorderStyle.None;
             txtMonto.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtMonto.ForeColor = Color.Black;
-            txtMonto.Location = new Point(244, 175);
+            txtMonto.Location = new Point(244, 149);
             txtMonto.Margin = new Padding(4, 3, 4, 3);
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(270, 37);
@@ -81,7 +81,7 @@
             txtCuenta.BorderStyle = BorderStyle.None;
             txtCuenta.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtCuenta.ForeColor = Color.Black;
-            txtCuenta.Location = new Point(244, 115);
+            txtCuenta.Location = new Point(244, 96);
             txtCuenta.Margin = new Padding(4, 3, 4, 3);
             txtCuenta.Name = "txtCuenta";
             txtCuenta.Size = new Size(270, 37);
@@ -94,7 +94,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(111, 175);
+            label9.Location = new Point(111, 148);
             label9.Margin = new Padding(4, 0, 4, 0);
             label9.Name = "label9";
             label9.Size = new Size(114, 38);
@@ -108,7 +108,7 @@
             textBox2.Enabled = false;
             textBox2.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(263, 285);
+            textBox2.Location = new Point(270, 240);
             textBox2.Margin = new Padding(4, 3, 4, 3);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(160, 27);
@@ -119,7 +119,7 @@
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(204, 268);
+            pictureBox2.Location = new Point(212, 224);
             pictureBox2.Margin = new Padding(4, 3, 4, 3);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(283, 63);
@@ -133,7 +133,7 @@
             textBox1.BackColor = Color.FromArgb(251, 203, 51);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(244, 115);
+            textBox1.Location = new Point(244, 96);
             textBox1.Margin = new Padding(4, 3, 4, 3);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(251, 37);
@@ -143,7 +143,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(109, 112);
+            label7.Location = new Point(108, 95);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
             label7.Size = new Size(117, 38);
@@ -154,7 +154,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(134, 42);
+            label6.Location = new Point(130, 24);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Size = new Size(375, 45);
@@ -166,7 +166,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(677, 417);
+            ClientSize = new Size(626, 330);
             Controls.Add(panel2);
             Margin = new Padding(4, 3, 4, 3);
             Name = "BancosAgregarCuentaBancaria";
