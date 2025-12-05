@@ -51,10 +51,10 @@
             panel2.Controls.Add(textBox1);
             panel2.Controls.Add(label7);
             panel2.Controls.Add(label6);
-            panel2.Location = new Point(14, 15);
+            panel2.Location = new Point(13, 12);
             panel2.Margin = new Padding(4, 3, 4, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(646, 387);
+            panel2.Size = new Size(600, 306);
             panel2.TabIndex = 10;
             panel2.Paint += panel2_Paint_1;
             // 
@@ -62,7 +62,7 @@
             // 
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblTitulo.Location = new Point(306, 32);
+            lblTitulo.Location = new Point(361, 32);
             lblTitulo.Margin = new Padding(4, 0, 4, 0);
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(113, 45);
@@ -75,7 +75,7 @@
             txtMonto.BorderStyle = BorderStyle.None;
             txtMonto.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
             txtMonto.ForeColor = Color.Black;
-            txtMonto.Location = new Point(281, 135);
+            txtMonto.Location = new Point(257, 115);
             txtMonto.Margin = new Padding(4, 3, 4, 3);
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(256, 44);
@@ -112,7 +112,7 @@
             textBox1.BackColor = Color.FromArgb(251, 203, 51);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(281, 135);
+            textBox1.Location = new Point(257, 122);
             textBox1.Margin = new Padding(4, 3, 4, 3);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(256, 37);
@@ -122,7 +122,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            label7.Location = new Point(131, 128);
+            label7.Location = new Point(108, 114);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
             label7.Size = new Size(134, 45);
@@ -133,7 +133,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(34, 32);
+            label6.Location = new Point(108, 32);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Size = new Size(245, 45);
@@ -145,7 +145,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(677, 417);
+            ClientSize = new Size(626, 330);
             Controls.Add(panel2);
             Margin = new Padding(4, 3, 4, 3);
             Name = "BancosCuentaAhorro";

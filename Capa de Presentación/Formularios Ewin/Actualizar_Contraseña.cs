@@ -24,6 +24,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// The correo usuario
         /// </summary>
         private string correoUsuario;
+        private int usuarioId;
         /// <summary>
         /// The cerrar
         /// </summary>
@@ -32,11 +33,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// Initializes a new instance of the <see cref="Actualizar_Contraseña"/> class.
         /// </summary>
         /// <param name="correo">The correo.</param>
-        public Actualizar_Contraseña(string correo)
+        public Actualizar_Contraseña(int id, string correo)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+
             this.FormClosing += cerrar.CerrarApp;
-            correoUsuario = correo;
+            this.usuarioId = id;
+            this.correoUsuario = correo;
         }
 
         /// <summary>
@@ -44,7 +48,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// </summary>
         public Actualizar_Contraseña()
         {
-
+            InitializeComponent();
         }
 
         /// <summary>
@@ -95,7 +99,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // Validar longitud de la contraseña
             if (!validar.EsContraseñaValida(nueva_contraseña))
             {
-                MessageBox.Show("La contraseña debe tener entre 4 y 25 caracteres.");
+                MessageBox.Show("La contraseña debe tener entre 6 y 30 caracteres.");
                 return;
             }
 
@@ -132,7 +136,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void label4_Click(object sender, EventArgs e)
         {
             //Movimineto de frm
-            FRM_PG3 fRM_PG3 = new FRM_PG3();
+            FRM_PG3 fRM_PG3 = new FRM_PG3(this.usuarioId, this.correoUsuario);
             fRM_PG3.Show();
             this.Hide();
         }

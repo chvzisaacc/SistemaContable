@@ -28,6 +28,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_PG46()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             crudCatalogoCuentas = new clsCRUD_CatalogoCuentas();
         }
 
@@ -49,6 +51,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void FRM_PG46_Load(object sender, EventArgs e)
         {
             CargarDatos();
+            this.CenterToScreen();
         }
 
         /// <summary>

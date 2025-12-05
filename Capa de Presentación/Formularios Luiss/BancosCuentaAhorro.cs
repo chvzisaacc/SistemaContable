@@ -44,6 +44,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public BancosCuentaAhorro(int id_origen)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             cuentaId = id_origen;
             CRUD_CuentasBancarias = new ClsCRUD_CuentasBancarias();
 
@@ -102,46 +104,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             //CargarDatosCuenta();
         }
 
-
-
-        /* private void CargarDatosCuenta()
-         {
-             try
-             {
-                 // Obtiene todas las cuentas
-                 DataTable dt = CRUD_CuentasBancarias.ObtenerCuentasBancarias();
-
-                 // Busca la fila específica que corresponde a nuestro ID
-                 // Nota: Lo ideal sería tener un método en tu CRUD que obtenga una sola cuenta por ID.
-                 DataRow[] rows = dt.Select($"Id_Origen = {cuentaId}");
-
-                 if (rows.Length > 0)
-                 {
-                     _cuentaActual = rows[0];
-
-                     // Llena los controles del formulario con los datos
-                     this.Text = $"Editando Cuenta: {_cuentaActual["Nombre"]}";
-                     txtNombre.Text = _cuentaActual["Nombre"].ToString();
-                     txtSaldo.Text = _cuentaActual["saldo"].ToString();
-                     txtTasaInteres.Text = _cuentaActual["tasa_interes"].ToString();
-                     // ...y así con los demás controles que tengas.
-                 }
-                 else
-                 {
-                     MessageBox.Show("No se encontraron los datos para la cuenta seleccionada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                     this.Close();
-                 }
-             }
-             catch (Exception ex)
-             {
-                 MessageBox.Show("Error al cargar los datos de la cuenta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-             }
-         }
-        */
-        /// <summary>
-        /// Validars the campos.
-        /// </summary>
-        /// <returns></returns>
         private bool ValidarCampos()
         {
             if (string.IsNullOrWhiteSpace(txtMonto.Text))
@@ -163,27 +125,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             txtMonto.Enabled = habilitar;
 
         }
-        /*private void ModificarSaldo()
-        {
-            try
-            {
-                decimal saldo = decimal.Parse(txtMonto.Text.Trim());
-                bool exito = CRUD_CuentasBancarias.ModificarSaldo(saldo);
-
-                if (exito)
-                {
-                    MessageBox.Show("Saldo modificado exitosamente", "Éxito",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("No se pudo modificar el saldo", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        */
+        
         /// <summary>
         /// Handles the Click event of the pictureBox2 control.
         /// </summary>
@@ -246,7 +188,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG42BancosCuentaAhorro_Load(object sender, EventArgs e)
         {
-
+            this.CenterToScreen();
         }
 
         /// <summary>

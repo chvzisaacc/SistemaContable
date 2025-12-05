@@ -30,6 +30,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
         public FRM_PG1()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.FormClosing += cerrar.CerrarApp;
         }
 
@@ -41,6 +43,33 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void FRM_PG1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void FRM_PG1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Si la aplicación se está cerrando completamente (por el usuario en X o Alt+F4),
+            // debemos permitirlo. Si es por el botón de Login/Logout, solo queremos ocultarlo.
+
+            // Comprueba si no hay otros formularios abiertos (solo el Login)
+            if (Application.OpenForms.Count == 1 && Application.OpenForms[0] == this)
+            {
+                // Si el usuario presiona X y es el último formulario, permite el cierre de la aplicación
+                // o pide confirmación.
+            }
+            // Si el Login se está cerrando después de un login exitoso, 
+            // solo ocúltalo si no hay otra razón explícita para cerrarlo.
+        }
+
+        // Opcional: Define explícitamente el comportamiento de cierre del Login
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            // Ocultar en lugar de cerrar si no se está cerrando la aplicación por completo
+            //if (e.CloseReason == CloseReason.UserClosing)
+            //{
+                // En un login, si presiona X, podemos querer cerrar la app. 
+                // Pero si se cierra al hacer Login exitoso, se maneja con this.Hide() desde el botón.
+            //}
+            //base.OnFormClosing(e);
         }
 
         /// <summary>
@@ -55,13 +84,22 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
 
             //Validaciones
-            if (!validaciones.EsUsuarioValido(txt_usuario.Text))
+            if (string.IsNullOrWhiteSpace(txt_usuario.Text))
             {
-                MessageBox.Show("Por favor, ingrese un usuario válido.");
+                MessageBox.Show("Por favor, ingrese un nombre de usuario.");
                 return;
             }
-
-            if (!validaciones.EsContraseñaValida(txt_contraseña.Text))
+            else if (!validaciones.EsUsuarioValido(txt_usuario.Text))  
+            {
+                MessageBox.Show("El nombre de usuario contiene caracteres no permitidos.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txt_contraseña.Text))
+            {
+                MessageBox.Show("Por favor, ingrese una contraseña.");
+                return;
+            }
+            else if (!validaciones.EsContraseñaValida(txt_contraseña.Text)) // Escenarios 5, 6
             {
                 MessageBox.Show("La contraseña debe tener entre 4 y 25 caracteres.");
                 return;
@@ -87,15 +125,21 @@ namespace Capa_de_Presentación.Formularios_Ewin
             //REDIRECCIONAR AL FORM SEGÚN Roles 
             if (rol == 1)
             {
-                Ventana_Principal_Administrador admin = new Ventana_Principal_Administrador(id_usuario, parroquia_id);
-                admin.Show();
                 this.Hide();
+                using (var admin = new Ventana_Principal_Administrador(id_usuario, parroquia_id))
+                {
+                    admin.ShowDialog();
+                }
+                this.Show();
             }
             else if (rol == 2 || rol == 3)
             {
-                FRM_42 empleado = new FRM_42(id_usuario, parroquia_id);
-                empleado.Show();
                 this.Hide();
+                using (var emp = new FRM_42(id_usuario, parroquia_id))
+                {
+                    emp.ShowDialog();
+                }
+                this.Show();
             }
         }
 

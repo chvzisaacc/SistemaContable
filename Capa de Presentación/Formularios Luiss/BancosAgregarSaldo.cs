@@ -32,6 +32,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public BancosAgregarSaldo()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             crudCuentasBancarias = new ClsCRUD_CuentasBancarias();
             Validaciones = new ClsValidaciones();
         }
@@ -105,10 +107,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_BancosAgregarSaldo_Load(object sender, EventArgs e)
         {
+            this.CenterToScreen();
             CargarDatos();
             CargarComboBoxes();
-            // LimpiarCampos();
-            //HabilitarControles(false);
+            
         }
 
         /// <summary>

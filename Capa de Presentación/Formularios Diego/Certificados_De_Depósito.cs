@@ -34,6 +34,8 @@ namespace Capa_de_Presentación.Formularios_Diego
         public Certificados_De_Depósito()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             CargarDatos();
         }
 
@@ -215,9 +217,6 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox8_Click(object sender, EventArgs e)
         {
-            Intereses_Por_Cds objICD = new();
-            objICD.Show();
-            this.Hide();
         }
 
         /// <summary>

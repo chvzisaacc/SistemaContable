@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Bitacora_Admin));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             panel1 = new Panel();
             pictureBox3 = new PictureBox();
             label1 = new Label();
@@ -65,7 +65,7 @@
             panel1.Location = new Point(18, 20);
             panel1.Margin = new Padding(4, 5, 4, 5);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1553, 862);
+            panel1.Size = new Size(1623, 955);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
@@ -114,7 +114,7 @@
             cmbUsuario.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbUsuario.FormattingEnabled = true;
             cmbUsuario.Items.AddRange(new object[] { "", "Isaac Chavez", "Diego Muñoz" });
-            cmbUsuario.Location = new Point(1286, 653);
+            cmbUsuario.Location = new Point(1345, 653);
             cmbUsuario.Margin = new Padding(4, 5, 4, 5);
             cmbUsuario.Name = "cmbUsuario";
             cmbUsuario.Size = new Size(224, 40);
@@ -126,7 +126,7 @@
             // 
             lblRealizadopor.AutoSize = true;
             lblRealizadopor.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblRealizadopor.Location = new Point(1284, 616);
+            lblRealizadopor.Location = new Point(1345, 616);
             lblRealizadopor.Margin = new Padding(4, 0, 4, 0);
             lblRealizadopor.Name = "lblRealizadopor";
             lblRealizadopor.Size = new Size(179, 32);
@@ -138,30 +138,30 @@
             // dgvBitacora
             // 
             dgvBitacora.BackgroundColor = SystemColors.ControlLightLight;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Times New Roman", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvBitacora.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Times New Roman", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvBitacora.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvBitacora.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvBitacora.EnableHeadersVisualStyles = false;
             dgvBitacora.GridColor = SystemColors.MenuText;
             dgvBitacora.Location = new Point(84, 340);
             dgvBitacora.Margin = new Padding(4, 5, 4, 5);
             dgvBitacora.Name = "dgvBitacora";
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgvBitacora.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dgvBitacora.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dgvBitacora.RowHeadersWidth = 51;
-            dgvBitacora.Size = new Size(1192, 500);
+            dgvBitacora.Size = new Size(1231, 500);
             dgvBitacora.TabIndex = 4;
             dgvBitacora.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -169,7 +169,7 @@
             // 
             lblParroquia.AutoSize = true;
             lblParroquia.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblParroquia.Location = new Point(1284, 424);
+            lblParroquia.Location = new Point(1345, 424);
             lblParroquia.Margin = new Padding(4, 0, 4, 0);
             lblParroquia.Name = "lblParroquia";
             lblParroquia.Size = new Size(133, 32);
@@ -183,7 +183,7 @@
             cmbParroquia.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbParroquia.FormattingEnabled = true;
             cmbParroquia.Items.AddRange(new object[] { "", "SCJ", "El Calvario" });
-            cmbParroquia.Location = new Point(1285, 461);
+            cmbParroquia.Location = new Point(1345, 461);
             cmbParroquia.Margin = new Padding(4, 5, 4, 5);
             cmbParroquia.Name = "cmbParroquia";
             cmbParroquia.Size = new Size(225, 40);

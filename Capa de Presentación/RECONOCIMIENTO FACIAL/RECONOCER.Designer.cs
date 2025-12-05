@@ -33,6 +33,7 @@
             button2 = new Button();
             label2 = new Label();
             label1 = new Label();
+            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -48,22 +49,28 @@
             // 
             // button1
             // 
+            button1.BackColor = Color.FromArgb(43, 56, 143);
+            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.ForeColor = SystemColors.ButtonHighlight;
             button1.Location = new Point(12, 493);
             button1.Name = "button1";
             button1.Size = new Size(187, 60);
             button1.TabIndex = 11;
             button1.Text = "Encender Cámara";
-            button1.UseVisualStyleBackColor = true;
+            button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
             // button2
             // 
+            button2.BackColor = Color.FromArgb(43, 56, 143);
+            button2.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button2.ForeColor = SystemColors.Control;
             button2.Location = new Point(736, 493);
             button2.Name = "button2";
             button2.Size = new Size(187, 60);
             button2.TabIndex = 12;
             button2.Text = "Detener Cámara";
-            button2.UseVisualStyleBackColor = true;
+            button2.UseVisualStyleBackColor = false;
             button2.Click += button2_Click;
             // 
             // label2
@@ -87,11 +94,22 @@
             label1.Text = "...";
             label1.Click += label1_Click;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(5, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(61, 25);
+            label3.TabIndex = 16;
+            label3.Text = "Volver";
+            label3.Click += label3_Click;
+            // 
             // RECONOCER
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(935, 565);
+            Controls.Add(label3);
             Controls.Add(label1);
             Controls.Add(label2);
             Controls.Add(button2);
@@ -112,5 +130,6 @@
         private Button button2;
         private Label label2;
         private Label label1;
+        private Label label3;
     }
 }

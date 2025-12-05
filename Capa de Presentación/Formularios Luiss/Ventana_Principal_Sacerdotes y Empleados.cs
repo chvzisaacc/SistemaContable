@@ -1,8 +1,10 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
 using Capa_de_Presentación.Formularios_Diego;
+using Capa_de_Presentación.Formularios_Ewin;
 using Capa_de_procesamiento_de_datos;
 using Microsoft.Data.SqlClient;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,7 +25,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// 
     /// </summary>
     /// <seealso cref="System.Windows.Forms.Form" />
-    public partial class FRM_42 : Form
+    public partial class FRM_42 : Form, ICierreSesionHandler
     {
 
         /// <summary>
@@ -123,6 +125,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_42(int predicted_id, int parroquia_id)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             PredictedId = predicted_id;
             ParroquiaId = parroquia_id;
 
@@ -165,10 +169,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pnlAlertaDeslizante.Height = 0;
             pnlAlertaDeslizante.Visible = true; // Lo dejamos Visible, pero con Altura 0
 
-
-
         }
 
+        public void ManejarCierreSesion()
+        {
+            this.Hide();
+            using (var login = new FRM_PG1())
+            {
+                if (login.ShowDialog() == DialogResult.OK)
+                {
+                    this.Show();
+                }
+                else
+                {
+                    Application.Exit();
+                }
+            }
+        }
 
         /// <summary>
         /// Handles the Load event of the FRM_42 control.
@@ -182,18 +199,24 @@ namespace Capa_de_Presentación.Formularios_Luiss
             DateTime mes_actual1 = new DateTime(mes_actual.Year, mes_actual.Month, 1);
             dtpFecha.MinDate = mes_actual1;
             dtpFecha.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
-            dateTimePicker1.MinDate = mes_actual1;
-            dateTimePicker1.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
+            dateTimePicker2.MinDate = mes_actual1;
+            dateTimePicker2.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
 
             if (dtpFecha.Value < dtpFecha.MinDate || dtpFecha.Value > dtpFecha.MaxDate)
                 dtpFecha.Value = DateTime.Today;
 
-            if (dateTimePicker1.Value < dateTimePicker1.MinDate || dateTimePicker1.Value > dateTimePicker1.MaxDate)
-                dateTimePicker1.Value = DateTime.Today;
+            if (dateTimePicker2.Value < dateTimePicker2.MinDate || dateTimePicker2.Value > dateTimePicker2.MaxDate)
+                dateTimePicker2.Value = DateTime.Today;
 
             ActualizarSaldo();
             CargarCuentasEnComboBox();
             _controladorAlerta.ForzarVerificacionInmediata();
+
+            _animationTimer = new System.Windows.Forms.Timer();
+            _animationTimer.Interval = 10;
+            _animationTimer.Tick += AnimationTimer_Tick;
+            _animationTimer.Start();
+
 
 
         }
@@ -225,6 +248,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 // 3.2. CONFIGURACIÓN AL OCULTAR
                 _isOpening = false;
+                _animationTimer = new System.Windows.Forms.Timer();
                 _animationTimer.Start();
             }
         }
@@ -469,10 +493,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             Cerrar_Sesión popup = new Cerrar_Sesión();
-            var button_screen_position = pictureBox2.PointToScreen(Point.Empty);
+            var btnPos = pictureBox2.PointToScreen(Point.Empty);
+
             popup.StartPosition = FormStartPosition.Manual;
-            popup.Location = new Point(button_screen_position.X, button_screen_position.Y + pictureBox2.Height);
-            popup.ShowDialog();
+            popup.Location = new Point(btnPos.X, btnPos.Y + pictureBox2.Height);
+
+            if (popup.ShowDialog() == DialogResult.OK)
+            {
+                ManejarCierreSesion();
+            }
         }
 
 
@@ -1030,6 +1059,233 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        //----------------------------------------------------------------------
+        //----------------------VALIDACIONES DEL DGV
+        // VALIDACIÓN PARA EL PANEL DE GASTOS
+        private bool ValidarPanelGastos()
+        {
+            try
+            {
+                // 1. Validar que el ComboBox de Origen esté seleccionado
+                if (cmbOrigen2.SelectedIndex == -1 || cmbOrigen2.SelectedValue == null)
+                {
+                    MessageBox.Show("Debe seleccionar una cuenta de origen.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbOrigen2.Focus();
+                    return false;
+                }
+
+                // 2. Validar que la fecha esté seleccionada
+                if (dateTimePicker2.Value == null)
+                {
+                    MessageBox.Show("Debe seleccionar una fecha.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    dateTimePicker2.Focus();
+                    return false;
+                }
+
+                // 3. Validar que el número de referencia no esté vacío
+                if (string.IsNullOrWhiteSpace(txtNoReferencia2.Text))
+                {
+                    MessageBox.Show("Debe ingresar un número de referencia.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNoReferencia2.Focus();
+                    return false;
+                }
+
+                // 4. Validar que haya al menos una fila en el DataGridView
+                if (dgvGastos.Rows.Count == 0 || (dgvGastos.Rows.Count == 1 && dgvGastos.Rows[0].IsNewRow))
+                {
+                    MessageBox.Show("Debe agregar al menos una cuenta con su monto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                // 5. Obtener el saldo disponible de la cuenta origen seleccionada
+                decimal saldoDisponible = 0;
+                if (cmbOrigen2.SelectedValue != null)
+                {
+                    int idOrigen = Convert.ToInt32(cmbOrigen2.SelectedValue);
+                    DataTable dtCuenta = crudCuentasBancarias.ObtenerCuentasBancarias();
+                    DataRow[] rows = dtCuenta.Select($"Id_Origen = {idOrigen}");
+
+                    if (rows.Length > 0 && rows[0]["saldo"] != DBNull.Value)
+                    {
+                        saldoDisponible = Convert.ToDecimal(rows[0]["saldo"]);
+                    }
+                }
+
+                // 6. Validar cada fila del DataGridView y sumar los montos
+                decimal totalGastos = 0;
+                for (int i = 0; i < dgvGastos.Rows.Count; i++)
+                {
+                    if (dgvGastos.Rows[i].IsNewRow) continue;
+
+                    // Validar que la columna NombreCuenta no esté vacía
+                    if (dgvGastos.Rows[i].Cells["NombreCuenta"].Value == null ||
+                        string.IsNullOrWhiteSpace(dgvGastos.Rows[i].Cells["NombreCuenta"].Value.ToString()))
+                    {
+                        MessageBox.Show($"La fila {i + 1} debe tener un nombre de cuenta.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dgvGastos.CurrentCell = dgvGastos.Rows[i].Cells["NombreCuenta"];
+                        dgvGastos.BeginEdit(true);
+                        return false;
+                    }
+
+                    // Validar que la columna Detalle no esté vacía
+                    if (dgvGastos.Rows[i].Cells["Detalle"].Value == null ||
+                        string.IsNullOrWhiteSpace(dgvGastos.Rows[i].Cells["Detalle"].Value.ToString()))
+                    {
+                        MessageBox.Show($"La fila {i + 1} debe tener un detalle.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dgvGastos.CurrentCell = dgvGastos.Rows[i].Cells["Detalle"];
+                        dgvGastos.BeginEdit(true);
+                        return false;
+                    }
+
+                    // Validar que la columna Saldo (monto) no esté vacía y sea válida
+                    if (dgvGastos.Rows[i].Cells["Saldo"].Value == null ||
+                        string.IsNullOrWhiteSpace(dgvGastos.Rows[i].Cells["Saldo"].Value.ToString()))
+                    {
+                        MessageBox.Show($"La fila {i + 1} debe tener un monto válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dgvGastos.CurrentCell = dgvGastos.Rows[i].Cells["Saldo"];
+                        dgvGastos.BeginEdit(true);
+                        return false;
+                    }
+
+                    decimal monto = 0;
+                    if (!decimal.TryParse(dgvGastos.Rows[i].Cells["Saldo"].Value.ToString(), out monto))
+                    {
+                        MessageBox.Show($"El monto en la fila {i + 1} no es válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dgvGastos.CurrentCell = dgvGastos.Rows[i].Cells["Saldo"];
+                        dgvGastos.BeginEdit(true);
+                        return false;
+                    }
+
+                    if (monto <= 0)
+                    {
+                        MessageBox.Show($"El monto en la fila {i + 1} debe ser mayor a cero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dgvGastos.CurrentCell = dgvGastos.Rows[i].Cells["Saldo"];
+                        dgvGastos.BeginEdit(true);
+                        return false;
+                    }
+
+                    totalGastos += monto;
+                }
+
+                // 7. Validar que el total de gastos no exceda el saldo disponible
+                if (totalGastos > saldoDisponible)
+                {
+                    MessageBox.Show($"El total de gastos ({totalGastos:C2}) excede el saldo disponible ({saldoDisponible:C2}) en la cuenta de origen.\n\n" +
+                                  $"Saldo insuficiente para realizar esta transacción.",
+                                  "Saldo Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al validar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        // VALIDACIÓN PARA EL PANEL DE INGRESOS
+        private bool ValidarPanelIngresos()
+        {
+            try
+            {
+                // 1. Validar que el ComboBox de Origen esté seleccionado
+                if (cmbOrigen.SelectedIndex == -1 || cmbOrigen.SelectedValue == null)
+                {
+                    MessageBox.Show("Debe seleccionar una cuenta de origen.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbOrigen.Focus();
+                    return false;
+                }
+
+                // 2. Validar que la fecha esté seleccionada
+                if (dtpFecha.Value == null)
+                {
+                    MessageBox.Show("Debe seleccionar una fecha.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    dtpFecha.Focus();
+                    return false;
+                }
+
+                // 3. Validar que el número de referencia no esté vacío
+                if (string.IsNullOrWhiteSpace(txtNoReferencia.Text))
+                {
+                    MessageBox.Show("Debe ingresar un número de referencia.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNoReferencia.Focus();
+                    return false;
+                }
+
+                // 4. Validar que haya al menos una fila en el DataGridView
+                if (dataGridView1.Rows.Count == 0 || (dataGridView1.Rows.Count == 1 && dataGridView1.Rows[0].IsNewRow))
+                {
+                    MessageBox.Show("Debe agregar al menos una cuenta con su monto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                // 5. Validar cada fila del DataGridView
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    if (dataGridView1.Rows[i].IsNewRow) continue;
+
+                    // Validar que la columna NombreCuenta no esté vacía
+                    if (dataGridView1.Rows[i].Cells["NombreCuenta"].Value == null ||
+                        string.IsNullOrWhiteSpace(dataGridView1.Rows[i].Cells["NombreCuenta"].Value.ToString()))
+                    {
+                        MessageBox.Show($"La fila {i + 1} debe tener un nombre de cuenta.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["NombreCuenta"];
+                        dataGridView1.BeginEdit(true);
+                        return false;
+                    }
+
+                    // Validar que la columna Detalle no esté vacía
+                    if (dataGridView1.Rows[i].Cells["Detalle"].Value == null ||
+                        string.IsNullOrWhiteSpace(dataGridView1.Rows[i].Cells["Detalle"].Value.ToString()))
+                    {
+                        MessageBox.Show($"La fila {i + 1} debe tener un detalle.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["Detalle"];
+                        dataGridView1.BeginEdit(true);
+                        return false;
+                    }
+
+                    // Validar que la columna Saldo (monto) no esté vacía y sea válida
+                    if (dataGridView1.Rows[i].Cells["Saldo"].Value == null ||
+                        string.IsNullOrWhiteSpace(dataGridView1.Rows[i].Cells["Saldo"].Value.ToString()))
+                    {
+                        MessageBox.Show($"La fila {i + 1} debe tener un monto válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["Saldo"];
+                        dataGridView1.BeginEdit(true);
+                        return false;
+                    }
+
+                    decimal monto = 0;
+                    if (!decimal.TryParse(dataGridView1.Rows[i].Cells["Saldo"].Value.ToString(), out monto))
+                    {
+                        MessageBox.Show($"El monto en la fila {i + 1} no es válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["Saldo"];
+                        dataGridView1.BeginEdit(true);
+                        return false;
+                    }
+
+                    if (monto <= 0)
+                    {
+                        MessageBox.Show($"El monto en la fila {i + 1} debe ser mayor a cero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["Saldo"];
+                        dataGridView1.BeginEdit(true);
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al validar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        //-------------------------------------------------
+
+
         /// <summary>
         /// Handles the 1 event of the button1_Click control.
         /// </summary>
@@ -1037,6 +1293,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click_1(object sender, EventArgs e)
         {
+            if (!ValidarPanelIngresos())
+            {
+                return; // Si la validación falla, no continúa
+            }
+
             try
             {
                 // Asegura que el DataGridView esté editable al inicio, si no lo estaba.
@@ -1165,10 +1426,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         ClsValidaciones validar = new();
                         DateTime fecha_transaccion = dtpFecha.Value;
                         string referencia_texto = txtNoReferencia.Text.Trim();
+                        int referencia = 0;
                         string saldo_texto = fila_nueva.Cells["Saldo"].Value?.ToString() ?? "";
                         decimal saldo = 0;
-                        int referencia = 0;
                         int.TryParse(referencia_texto, out referencia);
+
+                        string montoParaConversion = saldo_texto.Replace(',', '.');
+                        decimal.TryParse(montoParaConversion,
+                         System.Globalization.NumberStyles.Any,
+                         System.Globalization.CultureInfo.InvariantCulture,
+                         out saldo);
 
                         if (!validar.EsMontoPositivo(saldo_texto))
                         {
@@ -1415,6 +1682,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnGuardar2_Click(object sender, EventArgs e)
         {
+            if (!ValidarPanelGastos())
+            {
+                return; // Si la validación falla, no continúa
+            }
+
             try
             {
                 if (modoEdicion)
@@ -1443,7 +1715,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     string detalle = fila.Cells["Detalle"].Value?.ToString() ?? "";
                     decimal saldo = 0;
                     decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out saldo);
-                    DateTime fecha_tr = dateTimePicker1.Value;
+                    DateTime fecha_tr = dateTimePicker2.Value;
                     string referencia_texto = txtNoReferencia2.Text.Trim();
                     int referencia = 0;
                     int.TryParse(referencia_texto, out referencia);
@@ -1466,7 +1738,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     //Llamar al método de edición
                     GastosGa editar = new();
                     bool actualizado = editar.GuardarEdicion2(dtDatosGastos, nombre_cuenta, detalle, saldo, fecha_tr, referencia_texto, id_origen,
-                                        txtNoReferencia2, cmbOrigen2, dgvGastos, dateTimePicker1);
+                                        txtNoReferencia2, cmbOrigen2, dgvGastos, dateTimePicker2);
 
                     if (actualizado)
                     {
@@ -1480,7 +1752,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                             dgvGastos.CurrentRow.Cells["Id_Origen"].Value = id_origen;
 
                         txtNoReferencia.Clear();
-                        dateTimePicker1.Value = DateTime.Now;
+                        dateTimePicker2.Value = DateTime.Now;
 
                         //Recargar los combos SIN perder la selección
                         Transacciones obj_transa = new Transacciones();
@@ -1566,6 +1838,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     decimal saldo = 0;
                     int.TryParse(referencia_texto, out referencia);
 
+                    string montoParaConversion = saldo_texto.Replace(',', '.');
+                    decimal.TryParse(montoParaConversion,
+                     System.Globalization.NumberStyles.Any,
+                     System.Globalization.CultureInfo.InvariantCulture,
+                     out saldo);
+
+                    int.TryParse(referencia_texto, out referencia);
+
                     int id_usuario = Sesion1.usuario_id;
                     string nombre_cuenta = fila_nueva.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
                     string descripcion = fila_nueva.Cells["Detalle"].Value?.ToString() ?? string.Empty;
@@ -1644,7 +1924,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                     txtNoReferencia2.Clear();
                     cmbOrigen2.SelectedIndex = -1;
-                    dateTimePicker1.Value = DateTime.Now;
+                    dateTimePicker2.Value = DateTime.Now;
                 }
                 else if (error_guardado)
                 {
@@ -1710,7 +1990,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 cmbOrigen2.SelectedIndex = -1;
 
             txtNoReferencia2.Text = referencia_value?.ToString() ?? "";
-            dateTimePicker1.Value = fecha_value != null && DateTime.TryParse(fecha_value.ToString(), out DateTime fecha)
+            dateTimePicker2.Value = fecha_value != null && DateTime.TryParse(fecha_value.ToString(), out DateTime fecha)
                 ? fecha : DateTime.Now;
 
             //Desbloquear todas las columnas para edición libre
@@ -1735,9 +2015,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox6_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count > 0)
+            if (dgvGastos.SelectedRows.Count > 0)
             {
-                int id_transaccion = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id_Transaccion"].Value);
+                int id_transaccion = Convert.ToInt32(dgvGastos.SelectedRows[0].Cells["Id_Transaccion"].Value);
+                
 
 
                 Partidas_Dobles frm = new Partidas_Dobles(id_transaccion);
@@ -1760,6 +2041,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 int id_transaccion = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id_Transaccion"].Value);
+          
 
 
                 Partidas_Dobles frm = new Partidas_Dobles(id_transaccion);
@@ -1801,12 +2083,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbInteresesBancarios_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbInteresesBancarios.SelectedIndex == 0)
-            {
-                Intereses_Por_Cds intereses_Por_Cds = new();
-                intereses_Por_Cds.Show();
-                this.Hide();
-            }
+            
         }
 
         /// <summary>

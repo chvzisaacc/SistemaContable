@@ -32,6 +32,8 @@ namespace Capa_de_Presentación
         public Bitacora_Admin()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             crudHistorial = new clsCRUD_Historial();
             crudUsuarios = new clsCRUD_Usuarios();
             bindingSource = new BindingSource();
@@ -169,6 +171,7 @@ namespace Capa_de_Presentación
         private void FRM_PG38_Load(object sender, EventArgs e)
         {
             isLoading = true;
+            this.CenterToScreen();
             CargarParroquias();
             CargarUsuarios(null); // Cargar todos los usuarios inicialmente
             CargarHistorial();

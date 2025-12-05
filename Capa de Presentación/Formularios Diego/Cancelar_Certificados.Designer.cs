@@ -30,9 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cancelar_Certificados));
             panel1 = new Panel();
-            label8 = new Label();
-            pictureBox4 = new PictureBox();
-            pictureBox3 = new PictureBox();
             panel2 = new Panel();
             panel3 = new Panel();
             panel6 = new Panel();
@@ -46,8 +43,6 @@
             pictureBox1 = new PictureBox();
             panel5 = new Panel();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
             panel6.SuspendLayout();
@@ -58,9 +53,6 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
-            panel1.Controls.Add(label8);
-            panel1.Controls.Add(pictureBox4);
-            panel1.Controls.Add(pictureBox3);
             panel1.Controls.Add(panel2);
             panel1.Controls.Add(panel4);
             panel1.Controls.Add(label1);
@@ -71,43 +63,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1056, 620);
             panel1.TabIndex = 3;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.BackColor = Color.FromArgb(251, 203, 51);
-            label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.ForeColor = Color.FromArgb(43, 56, 143);
-            label8.Location = new Point(945, 34);
-            label8.Margin = new Padding(4, 0, 4, 0);
-            label8.Name = "label8";
-            label8.Size = new Size(45, 32);
-            label8.TabIndex = 12;
-            label8.Text = "SD";
-            label8.Visible = false;
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(919, 4);
-            pictureBox4.Margin = new Padding(4);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(95, 88);
-            pictureBox4.SizeMode = PictureBoxSizeMode.AutoSize;
-            pictureBox4.TabIndex = 11;
-            pictureBox4.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(815, 4);
-            pictureBox3.Margin = new Padding(4);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(96, 88);
-            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox3.TabIndex = 10;
-            pictureBox3.TabStop = false;
-            pictureBox3.Visible = false;
             // 
             // panel2
             // 
@@ -255,8 +210,6 @@
             Load += FRM_PG108_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             panel3.ResumeLayout(false);
@@ -270,9 +223,6 @@
         #endregion
 
         private Panel panel1;
-        private Label label8;
-        private PictureBox pictureBox4;
-        private PictureBox pictureBox3;
         private Panel panel2;
         private TextBox textBox2;
         private PictureBox pictureBox2;

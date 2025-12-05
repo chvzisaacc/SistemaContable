@@ -1,4 +1,5 @@
 ﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
 using Capa_de_Presentación.Formularios_Ewin;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             InitializeComponent();
             this.Shown += (_, __) => CargarCorreo(); // síncrono para ir a juego con  CRUD
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         /// <summary>
@@ -83,8 +85,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-
-
         /// <summary>
         /// Handles the Click event of the button1 control.
         /// </summary>
@@ -92,17 +92,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
-            Sesion1.CerrarSesion();
-
-            var login = Application.OpenForms.OfType<FRM_PG1>().FirstOrDefault();
-            if (login == null) login = new FRM_PG1(); // por si lo cerraron por error
-
-            login.Show();
-            login.BringToFront();
-
-            // ahora sí, cierra todos los forms menos el login
-            foreach (var f in Application.OpenForms.Cast<Form>().ToList())
-                if (f != login) f.Close();
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
+
+
     }
 }

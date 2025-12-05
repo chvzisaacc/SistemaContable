@@ -32,6 +32,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public BancosAgregarCuentaBancaria()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             crud = new ClsCRUD_CuentasBancarias();
 
             Validaciones = new ClsValidaciones();
@@ -87,7 +89,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_BancosAgregarCuentaBancaria_Load(object sender, EventArgs e)
         {
-
+            this.CenterToScreen();
         }
         /// <summary>
         /// Validars the campos.
