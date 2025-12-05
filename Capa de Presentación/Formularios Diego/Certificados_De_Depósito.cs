@@ -313,9 +313,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox9_Click(object sender, EventArgs e)
         {
-            FRM_42 obj42 = new(predicted_id, parroquia_id);
-            obj42.Show();
-            this.Hide();
+            this.Close();
         }
 
         /// <summary>
@@ -336,6 +334,51 @@ namespace Capa_de_Presentación.Formularios_Diego
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void dataGridView1_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // 1. Verificación básica: Asegurarse de que el clic no sea en los encabezados
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            DataGridViewRow fila = dataGridView1.Rows[e.RowIndex];
+            DataGridViewCell celdaActual = fila.Cells[e.ColumnIndex];
+            
+            if (celdaActual.ReadOnly == true)
+            {
+                ClsCD.DesbloquearFila(fila);
+
+                // 3. Enfocar y activar la edición en la columna Nombre_Parroquia
+                if (dataGridView1.Columns.Contains("Nombre_Parroquia"))
+                {
+                    DataGridViewCell celdaParroquia = fila.Cells["Nombre_Parroquia"];
+                    dataGridView1.CurrentCell = celdaParroquia;
+                    dataGridView1.BeginEdit(true);
+
+                    MessageBox.Show("Fila desbloqueada. El cursor está listo para corregir el Nombre de la Parroquia.",
+                                    "Edición Rápida", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    // Si la columna de Parroquia no existe, solo iniciamos la edición normal en la celda del clic
+                    dataGridView1.CurrentCell = celdaActual;
+                    dataGridView1.BeginEdit(true);
+                }
+            }
+            else
+            {
+                // 4. Lógica de Edición Normal: Si la fila ya estaba desbloqueada, solo inicia la edición
+                dataGridView1.CurrentCell = celdaActual;
+                dataGridView1.BeginEdit(true);
+            }
         }
     }
 

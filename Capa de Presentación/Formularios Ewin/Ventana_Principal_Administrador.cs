@@ -112,6 +112,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             Validaciones = new ClsValidaciones();
             //Para busqueda de usuarios
             bindingSource = new BindingSource();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         /// <summary>

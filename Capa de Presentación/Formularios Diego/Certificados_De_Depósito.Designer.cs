@@ -39,7 +39,6 @@
             FechaTransaccion = new DataGridViewTextBoxColumn();
             textBox4 = new TextBox();
             pictureBox9 = new PictureBox();
-            pictureBox8 = new PictureBox();
             pictureBox7 = new PictureBox();
             textBox3 = new TextBox();
             pictureBox6 = new PictureBox();
@@ -56,7 +55,6 @@
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
@@ -85,7 +83,6 @@
             panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(textBox4);
             panel2.Controls.Add(pictureBox9);
-            panel2.Controls.Add(pictureBox8);
             panel2.Controls.Add(pictureBox7);
             panel2.Controls.Add(textBox3);
             panel2.Controls.Add(pictureBox6);
@@ -131,6 +128,8 @@
             dataGridView1.CellBeginEdit += dataGridView1_CellBeginEdit;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
+            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            dataGridView1.DoubleClick += dataGridView1_DoubleClick;
             // 
             // Id_Certificado
             // 
@@ -188,22 +187,10 @@
             pictureBox9.TabStop = false;
             pictureBox9.Click += pictureBox9_Click;
             // 
-            // pictureBox8
-            // 
-            pictureBox8.Image = (Image)resources.GetObject("pictureBox8.Image");
-            pictureBox8.Location = new Point(876, 162);
-            pictureBox8.Margin = new Padding(4);
-            pictureBox8.Name = "pictureBox8";
-            pictureBox8.Size = new Size(46, 44);
-            pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox8.TabIndex = 27;
-            pictureBox8.TabStop = false;
-            pictureBox8.Click += pictureBox8_Click;
-            // 
             // pictureBox7
             // 
             pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
-            pictureBox7.Location = new Point(829, 162);
+            pictureBox7.Location = new Point(849, 162);
             pictureBox7.Margin = new Padding(4);
             pictureBox7.Name = "pictureBox7";
             pictureBox7.Size = new Size(46, 44);
@@ -364,7 +351,6 @@
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
@@ -390,7 +376,6 @@
         private PictureBox pictureBox5;
         private TextBox textBox4;
         private PictureBox pictureBox9;
-        private PictureBox pictureBox8;
         private PictureBox pictureBox7;
         private DataGridView dataGridView1;
         private Button button1;

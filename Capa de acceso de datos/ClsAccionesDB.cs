@@ -508,7 +508,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="tasa">The tasa.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al renovar el certificado de depósito: " + ex.Message</exception>
-        public bool renovarCertificado(int codigo_certificado, int nuevo_estado_cd, string detalle_renovacion)
+        public bool renovarCertificado(int codigo_certificado)
         {
             try
             {
@@ -521,9 +521,6 @@ namespace Capa_de_acceso_de_datos
                     // Parámetros obligatorios
                     cmd.Parameters.AddWithValue("@Id_Certificado", codigo_certificado);
 
-                    // Parámetros para la renovación
-                    cmd.Parameters.AddWithValue("@Id_estadoCD", nuevo_estado_cd);
-                    cmd.Parameters.AddWithValue("@Detalle", detalle_renovacion);
 
                     int filas = cmd.ExecuteNonQuery();
                     return filas > 0;
@@ -567,6 +564,56 @@ namespace Capa_de_acceso_de_datos
             {
                 Cerrar();
             }
+        }
+
+        public int ObtenerIdParroquiaPorNombre(string nombreParroquia)
+        {
+            // Usamos 0 como valor de retorno si no se encuentra la parroquia.
+            int idParroquia = 0;
+
+            try
+            {
+                Abrir();
+
+                // 2. Crear el comando y asignarle el SP
+                using (SqlCommand cmd = new SqlCommand("sp_ObtenerIdParroquiaPorNombre", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Añadir el parámetro de entrada del nombre
+                    // Se usa el nombre de columna de tu tabla: Parroquia_nombre (aunque el SP lo espera como @NombreParroquia)
+                    cmd.Parameters.AddWithValue("@NombreParroquia", nombreParroquia);
+
+                    // Ejecutar ExecuteScalar para obtener el IdParroquia (un solo valor)
+                    object resultado = cmd.ExecuteScalar();
+
+                    if (resultado != null && resultado != DBNull.Value)
+                    {
+                        // Convertir el resultado a entero
+                        idParroquia = Convert.ToInt32(resultado);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                // Manejo de errores específicos de SQL (ej. timeout, problemas de conexión)
+                // Aquí puedes logear el error para el administrador del sistema
+                Console.WriteLine("Error SQL al obtener ID de parroquia: " + ex.Message);
+                // Opcional: Relanzar una excepción
+                throw new Exception("Error en la base de datos al buscar la parroquia: " + ex.Message, ex);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de otros errores (ej. problemas de conversión)
+                Console.WriteLine("Error general al obtener ID de parroquia: " + ex.Message);
+                throw; // Relanzar la excepción
+            }
+            finally
+            {
+                Cerrar();
+            }
+
+            return idParroquia;
         }
 
         /// <summary>
