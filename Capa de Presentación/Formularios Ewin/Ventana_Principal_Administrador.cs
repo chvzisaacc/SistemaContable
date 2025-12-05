@@ -473,7 +473,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 int id_cuenta = Convert.ToInt32(cmbCuenta.SelectedValue);
                 string nombre_cuenta = txtNombreCuenta.Text.Trim();
                 string detalle = txtDetalle.Text.Trim();
-                int id_estado = Convert.ToInt32(cmbEstadoCuenta.SelectedValue); 
+                int id_estado = Convert.ToInt32(cmbEstadoCuenta.SelectedValue);
 
 
                 if (modo_edicion_catalogo)
@@ -1168,10 +1168,33 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void pictureBox4_Click(object sender, EventArgs e)
         {
             Cerrar_Sesión popup = new Cerrar_Sesión();
-            var buttonScreenPosition = pictureBox4.PointToScreen(Point.Empty);
+            var btnPos = pictureBox4.PointToScreen(Point.Empty);
+
             popup.StartPosition = FormStartPosition.Manual;
-            popup.Location = new Point(buttonScreenPosition.X, buttonScreenPosition.Y + pictureBox4.Height);
-            popup.ShowDialog();
+            popup.Location = new Point(btnPos.X, btnPos.Y + pictureBox4.Height);
+
+            if (popup.ShowDialog() == DialogResult.OK)
+            {
+                ManejarCierreSesion();
+            }
+        }
+
+        public void ManejarCierreSesion()
+        {
+            // Ocultar el formulario principal
+            this.Hide(); // Ocultar, NO cerrar
+
+            using (var login = new FRM_PG1())
+            {
+                if (login.ShowDialog() == DialogResult.OK)
+                {
+                    this.Show();
+                }
+                else
+                {
+                    Application.Exit();
+                }
+            }
         }
 
         /// <summary>
@@ -1279,6 +1302,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 MessageBox.Show("Error al inhabilitar: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

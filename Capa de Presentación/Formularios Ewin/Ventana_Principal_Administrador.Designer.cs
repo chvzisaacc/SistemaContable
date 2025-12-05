@@ -34,6 +34,8 @@
             btn_usuario = new Button();
             panelContenedor = new Panel();
             panelCatalogoCuentas = new Panel();
+            cmbEstadoCuenta = new ComboBox();
+            label14 = new Label();
             btnInhabilitarCuenta = new Button();
             btnHabilitarCuenta = new Button();
             cmbCuenta = new ComboBox();
@@ -94,8 +96,6 @@
             label1 = new Label();
             pictureBox1 = new PictureBox();
             panelMensaje = new Panel();
-            cmbEstadoCuenta = new ComboBox();
-            label14 = new Label();
             panel1.SuspendLayout();
             panelContenedor.SuspendLayout();
             panelCatalogoCuentas.SuspendLayout();
@@ -192,6 +192,29 @@
             panelCatalogoCuentas.Size = new Size(1251, 512);
             panelCatalogoCuentas.TabIndex = 20;
             panelCatalogoCuentas.Paint += panelCatalogoCuentas_Paint;
+            // 
+            // cmbEstadoCuenta
+            // 
+            cmbEstadoCuenta.BackColor = Color.FromArgb(251, 203, 51);
+            cmbEstadoCuenta.FlatStyle = FlatStyle.Flat;
+            cmbEstadoCuenta.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbEstadoCuenta.FormattingEnabled = true;
+            cmbEstadoCuenta.Items.AddRange(new object[] { "Ingresos", "Egresos" });
+            cmbEstadoCuenta.Location = new Point(1042, 291);
+            cmbEstadoCuenta.Margin = new Padding(3, 2, 3, 2);
+            cmbEstadoCuenta.Name = "cmbEstadoCuenta";
+            cmbEstadoCuenta.Size = new Size(179, 33);
+            cmbEstadoCuenta.TabIndex = 51;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI", 10.8F);
+            label14.Location = new Point(902, 291);
+            label14.Name = "label14";
+            label14.Size = new Size(66, 25);
+            label14.TabIndex = 50;
+            label14.Text = "Estado";
             // 
             // btnInhabilitarCuenta
             // 
@@ -863,6 +886,7 @@
             label8.Size = new Size(39, 25);
             label8.TabIndex = 14;
             label8.Text = "AD";
+            label8.Click += label8_Click;
             // 
             // pictureBox4
             // 
@@ -934,29 +958,6 @@
             panelMensaje.Name = "panelMensaje";
             panelMensaje.Size = new Size(619, 340);
             panelMensaje.TabIndex = 22;
-            // 
-            // cmbEstadoCuenta
-            // 
-            cmbEstadoCuenta.BackColor = Color.FromArgb(251, 203, 51);
-            cmbEstadoCuenta.FlatStyle = FlatStyle.Flat;
-            cmbEstadoCuenta.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbEstadoCuenta.FormattingEnabled = true;
-            cmbEstadoCuenta.Items.AddRange(new object[] { "Ingresos", "Egresos" });
-            cmbEstadoCuenta.Location = new Point(1042, 291);
-            cmbEstadoCuenta.Margin = new Padding(3, 2, 3, 2);
-            cmbEstadoCuenta.Name = "cmbEstadoCuenta";
-            cmbEstadoCuenta.Size = new Size(179, 33);
-            cmbEstadoCuenta.TabIndex = 51;
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 10.8F);
-            label14.Location = new Point(902, 291);
-            label14.Name = "label14";
-            label14.Size = new Size(66, 25);
-            label14.TabIndex = 50;
-            label14.Text = "Estado";
             // 
             // Ventana_Principal_Administrador
             // 
