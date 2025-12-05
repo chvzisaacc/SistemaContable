@@ -11,17 +11,19 @@ namespace Capa_de_Presentación.Formularios_Diego
     public partial class Certificados_De_Depósito_User : Form
     {
         private object dataGridView1;
-        private readonly FRM_42 _formularioAnterior;
+       
 
-        public Certificados_De_Depósito_User(FRM_42 form42)
+        public Certificados_De_Depósito_User()
         {
             InitializeComponent();
-            _formularioAnterior = form42;
-        }
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
+
+        }
         private void Certificados_De_Depósito_User_Load(object sender, EventArgs e)
         {
             CargarCertificados();
+            this.CenterToScreen();
         }
 
         private void CargarCertificados()
@@ -63,11 +65,6 @@ namespace Capa_de_Presentación.Formularios_Diego
 
         private void textBox4_MouseClick(object sender, MouseEventArgs e)
         {
-            // Mostrar directamente la referencia guardada
-            _formularioAnterior.Show();
-
-            // Cerrar el formulario actual
-            this.Close();
         }
     }
     

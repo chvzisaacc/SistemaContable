@@ -51,7 +51,7 @@
             panel1.BorderStyle = BorderStyle.Fixed3D;
             panel1.Controls.Add(panel2);
             panel1.Location = new Point(176, 218);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(1266, 432);
             panel1.TabIndex = 1;
@@ -72,7 +72,7 @@
             panel2.Controls.Add(label1);
             panel2.Controls.Add(btn_restablecer_contrasena);
             panel2.Location = new Point(4, 4);
-            panel2.Margin = new Padding(4, 4, 4, 4);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
             panel2.RightToLeft = RightToLeft.No;
             panel2.Size = new Size(1254, 417);
@@ -95,7 +95,7 @@
             txt_6.BorderStyle = BorderStyle.FixedSingle;
             txt_6.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txt_6.Location = new Point(774, 131);
-            txt_6.Margin = new Padding(4, 4, 4, 4);
+            txt_6.Margin = new Padding(4);
             txt_6.Name = "txt_6";
             txt_6.Size = new Size(76, 87);
             txt_6.TabIndex = 14;
@@ -108,7 +108,7 @@
             txt_7.BorderStyle = BorderStyle.FixedSingle;
             txt_7.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txt_7.Location = new Point(914, 131);
-            txt_7.Margin = new Padding(4, 4, 4, 4);
+            txt_7.Margin = new Padding(4);
             txt_7.Name = "txt_7";
             txt_7.Size = new Size(76, 87);
             txt_7.TabIndex = 13;
@@ -122,7 +122,7 @@
             txt_8.BorderStyle = BorderStyle.FixedSingle;
             txt_8.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txt_8.Location = new Point(1058, 131);
-            txt_8.Margin = new Padding(4, 4, 4, 4);
+            txt_8.Margin = new Padding(4);
             txt_8.Name = "txt_8";
             txt_8.Size = new Size(76, 87);
             txt_8.TabIndex = 12;
@@ -135,7 +135,7 @@
             txt_2.BorderStyle = BorderStyle.FixedSingle;
             txt_2.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txt_2.Location = new Point(266, 131);
-            txt_2.Margin = new Padding(4, 4, 4, 4);
+            txt_2.Margin = new Padding(4);
             txt_2.Name = "txt_2";
             txt_2.Size = new Size(76, 87);
             txt_2.TabIndex = 11;
@@ -148,7 +148,7 @@
             txt_3.BorderStyle = BorderStyle.FixedSingle;
             txt_3.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txt_3.Location = new Point(396, 131);
-            txt_3.Margin = new Padding(4, 4, 4, 4);
+            txt_3.Margin = new Padding(4);
             txt_3.Name = "txt_3";
             txt_3.Size = new Size(76, 87);
             txt_3.TabIndex = 10;
@@ -161,7 +161,7 @@
             txt_4.BorderStyle = BorderStyle.FixedSingle;
             txt_4.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txt_4.Location = new Point(528, 131);
-            txt_4.Margin = new Padding(4, 4, 4, 4);
+            txt_4.Margin = new Padding(4);
             txt_4.Name = "txt_4";
             txt_4.Size = new Size(76, 87);
             txt_4.TabIndex = 9;
@@ -174,7 +174,7 @@
             txt_5.BorderStyle = BorderStyle.FixedSingle;
             txt_5.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txt_5.Location = new Point(651, 131);
-            txt_5.Margin = new Padding(4, 4, 4, 4);
+            txt_5.Margin = new Padding(4);
             txt_5.Name = "txt_5";
             txt_5.Size = new Size(76, 87);
             txt_5.TabIndex = 8;
@@ -187,7 +187,7 @@
             txt_1.BorderStyle = BorderStyle.FixedSingle;
             txt_1.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txt_1.Location = new Point(135, 131);
-            txt_1.Margin = new Padding(4, 4, 4, 4);
+            txt_1.Margin = new Padding(4);
             txt_1.Name = "txt_1";
             txt_1.Size = new Size(76, 87);
             txt_1.TabIndex = 7;
@@ -214,7 +214,7 @@
             btn_restablecer_contrasena.ForeColor = Color.White;
             btn_restablecer_contrasena.ImageAlign = ContentAlignment.TopCenter;
             btn_restablecer_contrasena.Location = new Point(435, 314);
-            btn_restablecer_contrasena.Margin = new Padding(4, 4, 4, 4);
+            btn_restablecer_contrasena.Margin = new Padding(4);
             btn_restablecer_contrasena.Name = "btn_restablecer_contrasena";
             btn_restablecer_contrasena.Size = new Size(448, 74);
             btn_restablecer_contrasena.TabIndex = 5;
@@ -231,7 +231,8 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1601, 899);
             Controls.Add(panel1);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
+            MaximizeBox = false;
             Name = "FRM_PG3";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ingresar_Código_De_Verificación";

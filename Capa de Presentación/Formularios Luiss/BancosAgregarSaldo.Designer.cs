@@ -151,6 +151,7 @@
             ClientSize = new Size(626, 330);
             Controls.Add(panel2);
             Margin = new Padding(4, 2, 4, 2);
+            MaximizeBox = false;
             Name = "BancosAgregarSaldo";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Agregar_Saldo_Cuentas_Bancarias";

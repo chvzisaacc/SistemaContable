@@ -150,6 +150,7 @@
             ClientSize = new Size(626, 330);
             Controls.Add(panel2);
             Margin = new Padding(4, 2, 4, 2);
+            MaximizeBox = false;
             Name = "BancosRetirarDinero";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Retirar_Dinero_Bancos";

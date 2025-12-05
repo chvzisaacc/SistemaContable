@@ -170,6 +170,7 @@
             ClientSize = new Size(626, 330);
             Controls.Add(panel2);
             Margin = new Padding(4);
+            MaximizeBox = false;
             Name = "BancosTransferenciaEntreCuentas";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "BancosTransferencia_Entre_Cuentas";

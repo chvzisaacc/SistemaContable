@@ -341,6 +341,7 @@
             ClientSize = new Size(1134, 685);
             Controls.Add(panel1);
             Margin = new Padding(4);
+            MinimizeBox = false;
             Name = "Certificados_De_Depósito";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Certificados_De_Depósito";

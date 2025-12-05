@@ -311,6 +311,7 @@
             Controls.Add(label1);
             Controls.Add(pictureBox1);
             Margin = new Padding(4, 5, 4, 5);
+            MaximizeBox = false;
             Name = "FRM_PG49";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Reportería_Sacerdotes y empleados";

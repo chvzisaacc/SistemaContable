@@ -123,9 +123,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             label1.Location = new Point(376, 94);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(255, 55);
+            label1.Size = new Size(560, 55);
             label1.TabIndex = 0;
-            label1.Text = "SACERDOTE";
+            label1.Text = "SACERDOTES - EMPLEADOS";
             // 
             // pictureBox1
             // 
@@ -903,6 +903,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ClientSize = new Size(1601, 899);
             Controls.Add(panel1);
             Margin = new Padding(4, 5, 4, 5);
+            MaximizeBox = false;
             Name = "FRM_42";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ventana_Principal_Sacerdotes y Empleados";

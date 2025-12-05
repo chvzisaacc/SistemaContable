@@ -73,7 +73,7 @@
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
-            // FRM_CERRARSESION
+            // Cerrar_Sesión
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -82,7 +82,8 @@
             Controls.Add(pictureBox1);
             Controls.Add(label1);
             Margin = new Padding(4, 5, 4, 5);
-            Name = "FRM_CERRARSESION";
+            MaximizeBox = false;
+            Name = "Cerrar_Sesión";
             Text = "Cerrar_Sesión";
             Load += FRM_CERRARSESION_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

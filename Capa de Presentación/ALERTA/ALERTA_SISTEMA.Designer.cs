@@ -105,6 +105,7 @@
             Controls.Add(Estado);
             Controls.Add(label1);
             Controls.Add(LimiteDay);
+            MaximizeBox = false;
             Name = "ALERTA_SISTEMA";
             Text = "ALERTA_SISTEMA";
             Load += ALERTA_SISTEMA_Load;

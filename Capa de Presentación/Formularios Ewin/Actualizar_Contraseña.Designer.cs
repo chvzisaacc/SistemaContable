@@ -48,7 +48,7 @@
             panel1.BorderStyle = BorderStyle.Fixed3D;
             panel1.Controls.Add(panel2);
             panel1.Location = new Point(496, 162);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(808, 403);
             panel1.TabIndex = 1;
@@ -66,7 +66,7 @@
             panel2.Controls.Add(label2);
             panel2.Controls.Add(label1);
             panel2.Location = new Point(4, 4);
-            panel2.Margin = new Padding(4, 4, 4, 4);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
             panel2.RightToLeft = RightToLeft.No;
             panel2.Size = new Size(796, 391);
@@ -90,7 +90,7 @@
             btn_confirmar.ForeColor = Color.White;
             btn_confirmar.ImageAlign = ContentAlignment.TopCenter;
             btn_confirmar.Location = new Point(475, 179);
-            btn_confirmar.Margin = new Padding(4, 4, 4, 4);
+            btn_confirmar.Margin = new Padding(4);
             btn_confirmar.Name = "btn_confirmar";
             btn_confirmar.Size = new Size(284, 49);
             btn_confirmar.TabIndex = 7;
@@ -103,7 +103,7 @@
             // 
             txt_confirmar_contrasena.BorderStyle = BorderStyle.FixedSingle;
             txt_confirmar_contrasena.Location = new Point(70, 271);
-            txt_confirmar_contrasena.Margin = new Padding(4, 4, 4, 4);
+            txt_confirmar_contrasena.Margin = new Padding(4);
             txt_confirmar_contrasena.Name = "txt_confirmar_contrasena";
             txt_confirmar_contrasena.Size = new Size(386, 31);
             txt_confirmar_contrasena.TabIndex = 6;
@@ -125,7 +125,7 @@
             btn_cancelar.ForeColor = Color.White;
             btn_cancelar.ImageAlign = ContentAlignment.TopCenter;
             btn_cancelar.Location = new Point(475, 256);
-            btn_cancelar.Margin = new Padding(4, 4, 4, 4);
+            btn_cancelar.Margin = new Padding(4);
             btn_cancelar.Name = "btn_cancelar";
             btn_cancelar.Size = new Size(284, 49);
             btn_cancelar.TabIndex = 4;
@@ -138,7 +138,7 @@
             // 
             txt_nueva_contrasena.BorderStyle = BorderStyle.FixedSingle;
             txt_nueva_contrasena.Location = new Point(70, 194);
-            txt_nueva_contrasena.Margin = new Padding(4, 4, 4, 4);
+            txt_nueva_contrasena.Margin = new Padding(4);
             txt_nueva_contrasena.Name = "txt_nueva_contrasena";
             txt_nueva_contrasena.Size = new Size(386, 31);
             txt_nueva_contrasena.TabIndex = 2;
@@ -174,7 +174,8 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1601, 899);
             Controls.Add(panel1);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
+            MaximizeBox = false;
             Name = "Actualizar_Contraseña";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Actualizar_Contraseña";

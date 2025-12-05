@@ -58,12 +58,12 @@
             dgvPartidas.BackgroundColor = SystemColors.Control;
             dgvPartidas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPartidas.Columns.AddRange(new DataGridViewColumn[] { cNombre, cDetalle, cSaldo });
-            dgvPartidas.Location = new Point(119, 114);
+            dgvPartidas.Location = new Point(57, 110);
             dgvPartidas.Margin = new Padding(4, 5, 4, 5);
             dgvPartidas.Name = "dgvPartidas";
             dgvPartidas.ReadOnly = true;
             dgvPartidas.RowHeadersWidth = 51;
-            dgvPartidas.Size = new Size(846, 133);
+            dgvPartidas.Size = new Size(956, 133);
             dgvPartidas.TabIndex = 1;
             dgvPartidas.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -115,6 +115,7 @@
             Controls.Add(dgvPartidas);
             Controls.Add(label1);
             Margin = new Padding(4, 5, 4, 5);
+            MaximizeBox = false;
             Name = "Partidas_Dobles";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Partidas_Dobles";

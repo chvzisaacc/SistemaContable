@@ -148,6 +148,7 @@
             ClientSize = new Size(626, 330);
             Controls.Add(panel2);
             Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
             Name = "BancosCuentaAhorro";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "BancosCuentaAhorro";

@@ -31,10 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Certificados_De_Depósito_User));
             dataGridView2 = new DataGridView();
             label1 = new Label();
-            textBox4 = new TextBox();
-            pictureBox9 = new PictureBox();
+            pictureBox1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // dataGridView2
@@ -58,46 +57,31 @@
             label1.TabIndex = 1;
             label1.Text = "CERTIFICADOS DE DEPÓSITO ACTIVOS\r\n";
             // 
-            // textBox4
+            // pictureBox1
             // 
-            textBox4.BackColor = Color.FromArgb(43, 56, 143);
-            textBox4.BorderStyle = BorderStyle.None;
-            textBox4.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox4.ForeColor = Color.White;
-            textBox4.Location = new Point(59, 35);
-            textBox4.Margin = new Padding(4);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(50, 21);
-            textBox4.TabIndex = 31;
-            textBox4.Text = "Volver";
-            textBox4.MouseClick += textBox4_MouseClick;
-            textBox4.TextChanged += textBox4_TextChanged;
-            // 
-            // pictureBox9
-            // 
-            pictureBox9.Image = (Image)resources.GetObject("pictureBox9.Image");
-            pictureBox9.Location = new Point(13, 13);
-            pictureBox9.Margin = new Padding(4);
-            pictureBox9.Name = "pictureBox9";
-            pictureBox9.Size = new Size(149, 71);
-            pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox9.TabIndex = 30;
-            pictureBox9.TabStop = false;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(21, 13);
+            pictureBox1.Margin = new Padding(4);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(91, 87);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 32;
+            pictureBox1.TabStop = false;
             // 
             // Certificados_De_Depósito_User
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1178, 724);
-            Controls.Add(textBox4);
-            Controls.Add(pictureBox9);
+            Controls.Add(pictureBox1);
             Controls.Add(label1);
             Controls.Add(dataGridView2);
+            MinimizeBox = false;
             Name = "Certificados_De_Depósito_User";
             Text = "Certificados_De_Depósito_User";
             Load += Certificados_De_Depósito_User_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -106,7 +90,6 @@
 
         private DataGridView dataGridView2;
         private Label label1;
-        private TextBox textBox4;
-        private PictureBox pictureBox9;
+        private PictureBox pictureBox1;
     }
 }

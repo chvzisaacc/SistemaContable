@@ -47,7 +47,7 @@
             panel1.BorderStyle = BorderStyle.Fixed3D;
             panel1.Controls.Add(panel2);
             panel1.Location = new Point(498, 144);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(632, 562);
             panel1.TabIndex = 0;
@@ -63,7 +63,7 @@
             panel2.Controls.Add(label2);
             panel2.Controls.Add(label1);
             panel2.Location = new Point(4, 4);
-            panel2.Margin = new Padding(4, 4, 4, 4);
+            panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
             panel2.RightToLeft = RightToLeft.No;
             panel2.Size = new Size(620, 550);
@@ -83,7 +83,7 @@
             // txt_correo_electronico
             // 
             txt_correo_electronico.Location = new Point(70, 194);
-            txt_correo_electronico.Margin = new Padding(4, 4, 4, 4);
+            txt_correo_electronico.Margin = new Padding(4);
             txt_correo_electronico.Name = "txt_correo_electronico";
             txt_correo_electronico.Size = new Size(495, 31);
             txt_correo_electronico.TabIndex = 2;
@@ -96,7 +96,7 @@
             btn_restablecer_contrasena.ForeColor = Color.White;
             btn_restablecer_contrasena.ImageAlign = ContentAlignment.TopCenter;
             btn_restablecer_contrasena.Location = new Point(81, 344);
-            btn_restablecer_contrasena.Margin = new Padding(4, 4, 4, 4);
+            btn_restablecer_contrasena.Margin = new Padding(4);
             btn_restablecer_contrasena.Name = "btn_restablecer_contrasena";
             btn_restablecer_contrasena.Size = new Size(448, 74);
             btn_restablecer_contrasena.TabIndex = 4;
@@ -147,7 +147,8 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1601, 899);
             Controls.Add(panel1);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
+            MaximizeBox = false;
             Name = "Olvidaste_tu_contraseña";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Olvisdaste tu contraseña";

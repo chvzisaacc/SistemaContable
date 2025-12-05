@@ -143,6 +143,7 @@
             Controls.Add(lblConsulte);
             Controls.Add(lblTitulo);
             Margin = new Padding(4, 5, 4, 5);
+            MaximizeBox = false;
             Name = "FRM_PG51";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Bítacora_Sacerdotes y empleados";

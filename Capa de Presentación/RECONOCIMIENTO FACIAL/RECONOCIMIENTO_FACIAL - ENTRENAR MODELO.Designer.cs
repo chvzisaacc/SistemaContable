@@ -148,6 +148,7 @@
             Controls.Add(pictureBox1);
             Controls.Add(button2);
             Controls.Add(button1);
+            MaximizeBox = false;
             Name = "RECONOCIMIENTO_FACIAL";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "RECONOCIMIENTO_FACIAL";

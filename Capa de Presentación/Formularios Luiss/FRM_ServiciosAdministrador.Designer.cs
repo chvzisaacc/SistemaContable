@@ -252,6 +252,7 @@
             Controls.Add(label1);
             Controls.Add(pibBitacora);
             Margin = new Padding(4);
+            MaximizeBox = false;
             Name = "FRM_ServiciosAdministrador";
             Text = "FRM_ServiciosAdministrador";
             Load += FRM_ServiciosAdministrador_Load;

@@ -170,8 +170,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        public FRM_42()
+        {
+        }
+
         public void ManejarCierreSesion()
         {
+            if (_estaNavegando)
+            {
+                return;
+            }
+
+            // Lógica NORMAL de cierre de sesión (solo se ejecuta si el usuario realmente cerró)
             this.Hide();
             using (var login = new FRM_PG1())
             {
@@ -970,18 +980,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button3_Click(object sender, EventArgs e)
         {
-            try
+            using (var frm = new Certificados_De_Depósito_User
             {
-                _estaNavegando = true; // ⬅️ Activamos la bandera
-                this.Hide();
-
-                var frmCertificados = new Certificados_De_Depósito_User(this);
-                frmCertificados.Show();
-            }
-
-            finally
+                StartPosition = FormStartPosition.Manual,
+                Location = new Point(430, 450)
+            })
             {
-                _estaNavegando = false; // ⬅️ Desactivamos la bandera
+                DialogResult result = frm.ShowDialog();
+
             }
         }
 
@@ -1067,9 +1073,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-        //----------------------------------------------------------------------
-        //----------------------VALIDACIONES DEL DGV
-        // VALIDACIÓN PARA EL PANEL DE GASTOS
+
         private bool ValidarPanelGastos()
         {
             try

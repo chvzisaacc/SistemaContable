@@ -204,6 +204,7 @@
             ClientSize = new Size(1134, 685);
             Controls.Add(panel1);
             Margin = new Padding(4);
+            MaximizeBox = false;
             Name = "Cancelar_Certificados";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Cancelar_Certificados";

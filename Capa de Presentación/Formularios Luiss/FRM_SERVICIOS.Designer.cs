@@ -158,6 +158,7 @@
             Controls.Add(pictureBox1);
             Controls.Add(label1);
             Margin = new Padding(4, 5, 4, 5);
+            MinimizeBox = false;
             Name = "FRM_SERVICIOS";
             Text = "FRM_SERVICIOS";
             Load += FRM_SERVICIOS_Load;

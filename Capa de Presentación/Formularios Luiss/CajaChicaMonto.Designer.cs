@@ -109,6 +109,7 @@
             ClientSize = new Size(626, 330);
             Controls.Add(panel1);
             Margin = new Padding(4, 5, 4, 5);
+            MaximizeBox = false;
             Name = "CajaChicaMonto";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Caja_Chica_Agregar_Monto";

@@ -115,6 +115,7 @@
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(pictureBox1);
+            MaximizeBox = false;
             Name = "RECONOCER";
             Text = "RECONOCER";
             Load += RECONOCER_Load_1;
