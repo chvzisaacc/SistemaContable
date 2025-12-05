@@ -95,7 +95,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // Validar longitud de la contraseña
             if (!validar.EsContraseñaValida(nueva_contraseña))
             {
-                MessageBox.Show("La contraseña debe tener entre 4 y 25 caracteres.");
+                MessageBox.Show("La contraseña debe tener entre 6 y 30 caracteres.");
                 return;
             }
 

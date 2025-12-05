@@ -55,13 +55,22 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
 
             //Validaciones
-            if (!validaciones.EsUsuarioValido(txt_usuario.Text))
+            if (string.IsNullOrWhiteSpace(txt_usuario.Text))
             {
-                MessageBox.Show("Por favor, ingrese un usuario válido.");
+                MessageBox.Show("Por favor, ingrese un nombre de usuario.");
                 return;
             }
-
-            if (!validaciones.EsContraseñaValida(txt_contraseña.Text))
+            else if (!validaciones.EsUsuarioValido(txt_usuario.Text))  
+            {
+                MessageBox.Show("El nombre de usuario contiene caracteres no permitidos.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txt_contraseña.Text))
+            {
+                MessageBox.Show("Por favor, ingrese una contraseña.");
+                return;
+            }
+            else if (!validaciones.EsContraseñaValida(txt_contraseña.Text)) // Escenarios 5, 6
             {
                 MessageBox.Show("La contraseña debe tener entre 4 y 25 caracteres.");
                 return;
