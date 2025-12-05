@@ -427,6 +427,36 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        public DataTable MostrarCertificadosUsuario(int idParroquia)
+        {
+            DataTable dtCertificados = new DataTable();
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_Mostrarcertificados_Usuario", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Parroquia_ID", idParroquia);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(dtCertificados);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                throw new Exception("Error al mostrar certificados del usuario: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+            return dtCertificados;
+        }
+
         /// <summary>
         /// Cargars the cuentas bancarias.
         /// </summary>

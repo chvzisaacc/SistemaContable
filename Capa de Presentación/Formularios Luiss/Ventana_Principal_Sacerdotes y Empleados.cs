@@ -27,7 +27,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FRM_42 : Form, ICierreSesionHandler
     {
-
+        private bool _estaNavegando = false;
         /// <summary>
         /// The dt datos ingresos
         /// </summary>
@@ -144,7 +144,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             crudHistorial = new clsCRUD_Historial();
 
-            this.FormClosing += cerrar.CerrarApp;
             // Agrega los paneles secundarios dentro del panel contenedor
             panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Controls.Add(panelCajaChica2);
@@ -964,7 +963,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-
         /// <summary>
         /// Handles the Click event of the button3 control.
         /// </summary>
@@ -972,7 +970,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button3_Click(object sender, EventArgs e)
         {
-            
+            try
+            {
+                _estaNavegando = true; // ⬅️ Activamos la bandera
+                this.Hide();
+
+                var frmCertificados = new Certificados_De_Depósito_User(this);
+                frmCertificados.Show();
+            }
+
+            finally
+            {
+                _estaNavegando = false; // ⬅️ Desactivamos la bandera
+            }
         }
 
         /// <summary>
