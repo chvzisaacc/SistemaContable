@@ -19,7 +19,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
     /// 
     /// </summary>
     /// <seealso cref="System.Windows.Forms.Form" />
-    public partial class Ventana_Principal_Administrador : Form, ICierreSesionHandler
+    public partial class Ventana_Principal_Administrador : Form
     {
         //usuarios
         /// <summary>
@@ -86,8 +86,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
         public Ventana_Principal_Administrador(int usuarioID, int idParroquia)
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this._usuario_id = usuarioID;
             this.id_parroquia = idParroquia;
             UsuarioLogueado.usuario_id = usuarioID;
@@ -167,6 +165,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             CargarDatosCatalogoDGV();
             CargarComboBoxTipoTransaccion();
             LimpiarCamposCatalogo();
+            CargarComboBoxEstadoCuenta();
             HabilitarControlesCatalogo(false);
             CargarComboBoxCuentas();
             //ValidarCamposCatalogo();
@@ -176,26 +175,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <summary>
         /// Cargars the datos usuario DGV.
         /// </summary>
-        /// 
-
-        public void ManejarCierreSesion()
-        {
-            // Ocultar el formulario principal
-            this.Hide(); // Ocultar, NO cerrar
-
-            using (var login = new FRM_PG1())
-            {
-                if (login.ShowDialog() == DialogResult.OK)
-                {
-                    this.Show();
-                }
-                else
-                {
-                    Application.Exit();
-                }
-            }
-        }
-
         private void CargarDatosUsuarioDGV()
         {
             try
@@ -220,6 +199,21 @@ namespace Capa_de_Presentación.Formularios_Ewin
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar datos: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarComboBoxEstadoCuenta()
+        {
+            try
+            {
+                cmbEstadoCuenta.DataSource = crud_usuarios.ObtenerEstados();
+                cmbEstadoCuenta.DisplayMember = "descripcion";
+                cmbEstadoCuenta.ValueMember = "Id_estado_cuenta";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar estados: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -479,6 +473,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 int id_cuenta = Convert.ToInt32(cmbCuenta.SelectedValue);
                 string nombre_cuenta = txtNombreCuenta.Text.Trim();
                 string detalle = txtDetalle.Text.Trim();
+                int id_estado = Convert.ToInt32(cmbEstadoCuenta.SelectedValue); 
+
 
                 if (modo_edicion_catalogo)
                 {
@@ -534,7 +530,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         id_cuenta,
                         nombre_cuenta,
                         detalle,
-                        null // saldo siempre null
+                        null, // saldo siempre null
+                        id_estado
                     );
 
                     if (nuevoCodigo > 0)
@@ -609,7 +606,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         ? cuenta["detalle"].ToString()
                         : "";
                     cmbCuenta.SelectedValue = cuenta["id_cuenta"];
-                    cmbTipoCuenta.SelectedValue = cuenta["cod_tipo"]; // Ajusta según tu stored procedure
+                    cmbTipoCuenta.SelectedValue = cuenta["cod_tipo"];
+                    cmbEstadoCuenta.SelectedValue = cuenta["Id_estado_cuenta"]; // AGREGAR ESTA LÍNEA
                 }
             }
             catch (Exception ex)
@@ -954,28 +952,25 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 dgvCatalogoCuentas.DataSource = crud_catalogo_cuentas.ObtenerCatalogoCuentas();
 
-                if (dgvCatalogoCuentas.Columns["CuentaID"] != null)
-                    dgvCatalogoCuentas.Columns["CuentaID"].Visible = false;
+                // Ocultar columna EstadoID
+                if (dgvCatalogoCuentas.Columns["EstadoID"] != null)
+                    dgvCatalogoCuentas.Columns["EstadoID"].Visible = false;
 
-                /*
-                if (dgvCatalogoCuentas.Columns["Detalle"] != null)
-                    dgvCatalogoCuentas.Columns["Detalle"].DefaultCellStyle.Format = "N2";
-                */
-
+                // Formato para saldo
                 if (dgvCatalogoCuentas.Columns["Saldo"] != null)
                     dgvCatalogoCuentas.Columns["Saldo"].DefaultCellStyle.Format = "N2";
+
+                // Ocultar columna Saldo
+                string nombreColumnaAOcultar = "Saldo";
+                if (dgvCatalogoCuentas.Columns.Contains(nombreColumnaAOcultar))
+                {
+                    dgvCatalogoCuentas.Columns[nombreColumnaAOcultar].Visible = false;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar datos: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            string nombreColumnaAOcultar = "Saldo";
-
-            if (dgvCatalogoCuentas.Columns.Contains(nombreColumnaAOcultar))
-            {
-                dgvCatalogoCuentas.Columns[nombreColumnaAOcultar].Visible = false;
             }
         }
 
@@ -1070,6 +1065,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             if (cmbTipoCuenta.Items.Count > 0)
                 cmbTipoCuenta.SelectedIndex = 0;
+
+            if (cmbEstadoCuenta.Items.Count > 0)
+                cmbEstadoCuenta.SelectedIndex = 0;
+
+            codigo_cuenta_seleccionado = 0;
+            modo_edicion_catalogo = false;
         }
 
         /// <summary>
@@ -1083,6 +1084,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             txtNombreCuenta.Enabled = habilitar;
             txtDetalle.Enabled = habilitar;
             cmbTipoCuenta.Enabled = habilitar;
+            cmbEstadoCuenta.Enabled = habilitar;
             btnGuardarCuenta.Enabled = habilitar;
         }
 
@@ -1166,16 +1168,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void pictureBox4_Click(object sender, EventArgs e)
         {
             Cerrar_Sesión popup = new Cerrar_Sesión();
-            var btnPos = pictureBox4.PointToScreen(Point.Empty);
-
+            var buttonScreenPosition = pictureBox4.PointToScreen(Point.Empty);
             popup.StartPosition = FormStartPosition.Manual;
-            popup.Location = new Point(btnPos.X, btnPos.Y + pictureBox4.Height);
-
-            if (popup.ShowDialog() == DialogResult.OK)
-            {
-                ManejarCierreSesion();
-            }
-
+            popup.Location = new Point(buttonScreenPosition.X, buttonScreenPosition.Y + pictureBox4.Height);
+            popup.ShowDialog();
         }
 
         /// <summary>
@@ -1188,9 +1184,101 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         }
 
-        private void label8_Click(object sender, EventArgs e)
+        private void btnHabilitarCuenta_Click(object sender, EventArgs e)
+        {
+            if (dgvCatalogoCuentas.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione una cuenta para habilitar", "Advertencia",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                int codigo = Convert.ToInt32(dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value);
+                int estadoActivo = 1; // Estado Activo
+
+                bool resultado = crud_catalogo_cuentas.CambiarEstadoCuenta(codigo, estadoActivo);
+
+                if (resultado)
+                {
+                    MessageBox.Show("Cuenta habilitada exitosamente", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    try
+                    {
+                        crud_historial.RegistrarActividad(
+                            UsuarioLogueado.usuario_id,
+                            8,
+                            "Habilitación de Cuenta",
+                            $"Se habilitó la cuenta con código: {codigo}."
+                        );
+                    }
+                    catch (Exception exBitacora)
+                    {
+                        Console.WriteLine("Error de Bitácora: " + exBitacora.Message);
+                    }
+
+                    CargarDatosCatalogoDGV();
+                    LimpiarCamposCatalogo();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al habilitar: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void panelCatalogoCuentas_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void btnInhabilitarCuenta_Click(object sender, EventArgs e)
+        {
+            if (dgvCatalogoCuentas.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione una cuenta para inhabilitar", "Advertencia",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                int codigo = Convert.ToInt32(dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value);
+                int estadoInactivo = 2; // Estado Inactivo
+
+                bool resultado = crud_catalogo_cuentas.CambiarEstadoCuenta(codigo, estadoInactivo);
+
+                if (resultado)
+                {
+                    MessageBox.Show("Cuenta inhabilitada exitosamente", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    try
+                    {
+                        crud_historial.RegistrarActividad(
+                            UsuarioLogueado.usuario_id,
+                            8,
+                            "Inhabilitación de Cuenta",
+                            $"Se inhabilitó la cuenta con código: {codigo}."
+                        );
+                    }
+                    catch (Exception exBitacora)
+                    {
+                        Console.WriteLine("Error de Bitácora: " + exBitacora.Message);
+                    }
+
+                    CargarDatosCatalogoDGV();
+                    LimpiarCamposCatalogo();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al inhabilitar: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
