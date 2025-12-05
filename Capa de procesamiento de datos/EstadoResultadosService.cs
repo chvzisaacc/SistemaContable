@@ -121,102 +121,176 @@ namespace Capa_de_procesamiento_de_datos
     DateTime desde,
     DateTime hasta)
         {
+            // Ruta automática hacia Resources/logo_arqui.png
+            string logoPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Resources",
+                "logo_arqui.png"
+            );
+
             var document = Document.Create(container =>
             {
                 container.Page(page =>
                 {
-                    page.Margin(25);
+                    page.Margin(30);
 
-                    // ENCABEZADO
-                    page.Header().Column(col =>
+                    // ==========================================================
+                    // ENCABEZADO (solo uno)
+                    // ==========================================================
+                    page.Header().Column(header =>
                     {
-                        col.Item().Text("ESTADO DE RESULTADOS").FontSize(18).Bold();
-                        col.Item().Text(nombre_parroquia).FontSize(12);
-                        col.Item().Text($"Periodo: {desde:dd/MM/yyyy} al {hasta:dd/MM/yyyy}");
-                    });
-
-                    // CONTENIDO
-                    page.Content().Column(col =>
-                    {
-                        // ----------------------------
-                        // RESUMEN DE TOTALES
-                        // ----------------------------
-                        DataRow t = totales.Rows[0];
-
-                        col.Item().PaddingBottom(10).Text("RESUMEN").Bold().FontSize(13);
-
-                        col.Item().Table(table =>
+                        header.Item().Row(row =>
                         {
-                            table.ColumnsDefinition(cols =>
+                            // IZQUIERDA
+                            row.RelativeItem().Column(col =>
                             {
-                                cols.RelativeColumn();
-                                cols.ConstantColumn(120);
+                                col.Item().Text("ESTADO DE RESULTADOS")
+                                    .FontSize(20).Bold().FontColor("#003399");
+
+                                col.Item().Text(nombre_parroquia)
+                                    .FontSize(12).FontColor("#444444");
+
+                                col.Item().Text($"Periodo: {desde:dd/MM/yyyy} al {hasta:dd/MM/yyyy}")
+                                    .FontSize(10).FontColor("#666666");
                             });
 
-                            table.Header(h =>
+                            // DERECHA: LOGO
+                            if (File.Exists(logoPath))
                             {
-                                h.Cell().Text("Descripción").Bold();
-                                h.Cell().Text("Monto").Bold().AlignRight();
-                            });
-
-                            table.Cell().Text("Total Ingresos");
-                            table.Cell().Text($"{Convert.ToDecimal(t["totalIngresos"]):N2}").AlignRight();
-
-                            table.Cell().Text("Total Gastos");
-                            table.Cell().Text($"{Convert.ToDecimal(t["totalGastos"]):N2}").AlignRight();
-
-                            table.Cell().Text("Resultado Final");
-                            table.Cell().Text($"{Convert.ToDecimal(t["resultadoFinal"]):N2}").AlignRight();
+                                row.ConstantItem(110)
+                                   .Height(90)
+                                   .Image(logoPath, ImageScaling.FitArea);
+                            }
                         });
 
-                        col.Item().PaddingVertical(15).LineHorizontal(1);
+                        // LÍNEA DORADA DEBAJO DEL ENCABEZADO
+                        header.Item()
+                            .PaddingTop(4)
+                            .LineHorizontal(1)
+                            .LineColor("#D4AF37");
+                    });
+
+                    // ==========================================================
+                    // CONTENIDO
+                    // ==========================================================
+                    page.Content().Column(col =>
+                    {
+                        DataRow t = totales.Rows[0];
 
                         // ----------------------------
-                        // DETALLE DE MOVIMIENTOS
+                        // RESUMEN
                         // ----------------------------
-                        col.Item().Text("DETALLE DE TRANSACCIONES").Bold().FontSize(13);
+                        col.Item().PaddingVertical(10)
+                            .Text("RESUMEN")
+                            .Bold().FontSize(15)
+                            .FontColor("#003399");
+
+                        col.Item()
+                            .Background("#E8F1FF")
+                            .Border(1).BorderColor("#003399")
+                            .Padding(15)
+                            .Table(table =>
+                            {
+                                table.ColumnsDefinition(c =>
+                                {
+                                    c.RelativeColumn();
+                                    c.ConstantColumn(120);
+                                });
+
+                                // Header
+                                table.Header(h =>
+                                {
+                                    h.Cell().Text("Descripción")
+                                        .Bold().FontColor("#003399");
+                                    h.Cell().Text("Monto")
+                                        .Bold().FontColor("#003399")
+                                        .AlignRight();
+                                });
+
+                                // Filas
+                                table.Cell().Text("Total Ingresos");
+                                table.Cell().Text($"{Convert.ToDecimal(t["totalIngresos"]):N2}")
+                                    .AlignRight();
+
+                                table.Cell().Text("Total Gastos");
+                                table.Cell().Text($"{Convert.ToDecimal(t["totalGastos"]):N2}")
+                                    .AlignRight();
+
+                                table.Cell().Text("Resultado Final")
+                                    .Bold().FontColor("#003399");
+
+                                table.Cell().Text($"{Convert.ToDecimal(t["resultadoFinal"]):N2}")
+                                    .Bold().FontColor("#003399")
+                                    .AlignRight();
+                            });
+
+                        col.Item().PaddingVertical(15)
+                            .LineHorizontal(1)
+                            .LineColor("#D4AF37");
+
+                        // ----------------------------
+                        // DETALLE DE TRANSACCIONES
+                        // ----------------------------
+                        col.Item().Text("DETALLE DE TRANSACCIONES")
+                            .Bold().FontSize(14)
+                            .FontColor("#003399");
 
                         col.Item().Table(table =>
                         {
                             table.ColumnsDefinition(cols =>
                             {
                                 cols.ConstantColumn(70);   // Tipo
-                                cols.ConstantColumn(90);   // Fecha
-                                cols.RelativeColumn();     // Cuenta + Detalle
+                                cols.ConstantColumn(80);   // Fecha
+                                cols.RelativeColumn();     // Cuenta / Detalle
                                 cols.ConstantColumn(100);  // Monto
                             });
 
+                            // CABECERA
                             table.Header(h =>
                             {
-                                h.Cell().Text("Tipo").Bold();
-                                h.Cell().Text("Fecha").Bold();
-                                h.Cell().Text("Cuenta / Detalle").Bold();
-                                h.Cell().Text("Monto").Bold().AlignRight();
+                                h.Cell().Background("#D4AF37").Padding(5)
+                                    .Text("Tipo").Bold().FontColor("#FFFFFF");
+
+                                h.Cell().Background("#D4AF37").Padding(5)
+                                    .Text("Fecha").Bold().FontColor("#FFFFFF");
+
+                                h.Cell().Background("#D4AF37").Padding(5)
+                                    .Text("Cuenta / Detalle").Bold().FontColor("#FFFFFF");
+
+                                h.Cell().Background("#D4AF37").Padding(5)
+                                    .Text("Monto").Bold().FontColor("#FFFFFF")
+                                    .AlignRight();
                             });
 
+
+                            // FILAS
+                            int i = 0;
                             foreach (DataRow row in detalle.Rows)
                             {
-                                string tipo = row["tipo"]?.ToString();
-                                string fecha = Convert.ToDateTime(row["fecha"]).ToString("dd/MM/yyyy");
-                                string cuenta = row["cuenta"]?.ToString();
-                                string det = row["detalle"]?.ToString();
-                                decimal monto = Convert.ToDecimal(row["monto"]);
+                                string fondo = (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5";
 
-                                table.Cell().Text(tipo);
-                                table.Cell().Text(fecha);
-                                table.Cell().Text($"{cuenta}\n{det}");
-                                table.Cell().Text($"{monto:N2}").AlignRight();
+                                table.Cell().Background(fondo).Padding(4).Text(row["tipo"]);
+                                table.Cell().Background(fondo).Padding(4).Text(Convert.ToDateTime(row["fecha"]).ToString("dd/MM/yyyy"));
+                                table.Cell().Background(fondo).Padding(4).Text($"{row["cuenta"]}\n{row["detalle"]}");
+                                table.Cell().Background(fondo).Padding(4).Text($"{Convert.ToDecimal(row["monto"]):N2}").AlignRight();
+
+                                i++;
                             }
                         });
                     });
 
+                    // ==========================================================
+                    // FOOTER
+                    // ==========================================================
                     page.Footer().AlignRight()
-                        .Text($"Generado el {DateTime.Now:dd/MM/yyyy HH:mm}");
+                        .Text($"Generado el {DateTime.Now:dd/MM/yyyy HH:mm}")
+                        .FontSize(9).FontColor("#666666");
                 });
             });
 
             return document.GeneratePdf();
         }
+
 
     }
 }

@@ -75,52 +75,158 @@ namespace Capa_de_procesamiento_de_datos
         /// <param name="desde">The desde.</param>
         /// <param name="hasta">The hasta.</param>
         /// <returns></returns>
-        private byte[] GenerarPdf(DataTable datos, string parroquia, DateTime desde, DateTime hasta)
+        public byte[] GenerarPdf(DataTable datos, string parroquia, DateTime desde, DateTime hasta)
         {
+            // Ruta del logo (opcional si deseas incluirlo)
+            string logoPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Resources",
+                "logo_arqui.png"
+            );
+
             var document = Document.Create(container =>
             {
                 container.Page(page =>
                 {
-                    page.Margin(20);
+                    page.Margin(30);
 
-                    page.Header().Column(col =>
+                    // ==========================================================
+                    // ENCABEZADO (ajustado a tu formato)
+                    // ==========================================================
+                    page.Header().Column(header =>
                     {
-                        col.Item().Text("BALANCE GENERAL").FontSize(16).Bold();
-                        col.Item().Text(parroquia);
-                        col.Item().Text($"Periodo: {desde:dd/MM/yyyy} al {hasta:dd/MM/yyyy}");
-                    });
-
-                    page.Content().Table(table =>
-                    {
-                        table.ColumnsDefinition(cols =>
+                        header.Item().Row(row =>
                         {
-                            cols.RelativeColumn();    // Cuenta
-                            cols.RelativeColumn();    // Detalle
-                            cols.ConstantColumn(100); // Saldo
+                            // IZQUIERDA
+                            row.RelativeItem().Column(col =>
+                            {
+                                col.Item().Text("BALANCE GENERAL")
+                                    .FontSize(20).Bold().FontColor("#003399");
+
+                                col.Item().Text(parroquia)
+                                    .FontSize(12).FontColor("#444444");
+
+                                col.Item().Text($"Periodo: {desde:dd/MM/yyyy} al {hasta:dd/MM/yyyy}")
+                                    .FontSize(10).FontColor("#666666");
+                            });
+
+                            // DERECHA: LOGO
+                            if (File.Exists(logoPath))
+                            {
+                                row.ConstantItem(110)
+                                   .Height(90)
+                                   .Image(logoPath, ImageScaling.FitArea);
+                            }
                         });
 
-                        table.Header(h =>
-                        {
-                            h.Cell().Text("Cuenta").Bold();
-                            h.Cell().Text("Detalle").Bold();
-                            h.Cell().Text("Saldo").Bold();
-                        });
-
-                        foreach (DataRow row in datos.Rows)
-                        {
-                            table.Cell().Text(row["Cuenta"]?.ToString());
-                            table.Cell().Text(row["Detalle"]?.ToString());
-                            table.Cell().Text(string.Format("{0:N2}", row["Saldo"]));
-                        }
+                        // LÍNEA DORADA DEBAJO DEL ENCABEZADO
+                        header.Item()
+                            .PaddingTop(4)
+                            .LineHorizontal(1)
+                            .LineColor("#D4AF37");
                     });
 
+                    // ==========================================================
+                    // CONTENIDO DEL REPORTE
+                    // ==========================================================
+                    page.Content().Column(col =>
+                    {
+                        // ----------------------------
+                        // RESUMEN
+                        // ----------------------------
+                        col.Item().PaddingVertical(10)
+                            .Text("RESUMEN DEL BALANCE GENERAL")
+                            .Bold().FontSize(15)
+                            .FontColor("#003399");
+
+                        col.Item()
+                            .Background("#E8F1FF")
+                            .Border(1).BorderColor("#003399")
+                            .Padding(15)
+                            .Table(table =>
+                            {
+                                table.ColumnsDefinition(c =>
+                                {
+                                    c.RelativeColumn();
+                                    c.ConstantColumn(120);
+                                });
+
+                                // Header
+                                table.Header(h =>
+                                {
+                                    h.Cell().Text("Cuenta").Bold().FontColor("#003399");
+                                    h.Cell().Text("Saldo").Bold().FontColor("#003399").AlignRight();
+                                });
+
+                                // Filas
+                                foreach (DataRow row in datos.Rows)
+                                {
+                                    table.Cell().Text(row["Cuenta"]?.ToString());
+                                    table.Cell().Text(string.Format("{0:N2}", row["Saldo"])).AlignRight();
+                                }
+                            });
+
+                        col.Item().PaddingVertical(15)
+                            .LineHorizontal(1)
+                            .LineColor("#D4AF37");
+
+                        // ----------------------------
+                        // DETALLE DE CUENTAS
+                        // ----------------------------
+                        col.Item().Text("DETALLE DE CUENTAS")
+                            .Bold().FontSize(14)
+                            .FontColor("#003399");
+
+                        col.Item().Table(table =>
+                        {
+                            table.ColumnsDefinition(cols =>
+                            {
+                                cols.ConstantColumn(70);   // Cuenta
+                                cols.ConstantColumn(80);   // Detalle
+                                cols.ConstantColumn(100);  // Saldo
+                            });
+
+                            // CABECERA
+                            table.Header(h =>
+                            {
+                                h.Cell().Background("#D4AF37").Padding(5)
+                                    .Text("Cuenta").Bold().FontColor("#FFFFFF");
+
+                                h.Cell().Background("#D4AF37").Padding(5)
+                                    .Text("Detalle").Bold().FontColor("#FFFFFF");
+
+                                h.Cell().Background("#D4AF37").Padding(5)
+                                    .Text("Saldo").Bold().FontColor("#FFFFFF")
+                                    .AlignRight();
+                            });
+
+                            // FILAS
+                            int i = 0;
+                            foreach (DataRow row in datos.Rows)
+                            {
+                                string fondo = (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5";
+
+                                table.Cell().Background(fondo).Padding(4).Text(row["Cuenta"]?.ToString());
+                                table.Cell().Background(fondo).Padding(4).Text(row["Detalle"]?.ToString());
+                                table.Cell().Background(fondo).Padding(4).Text(string.Format("{0:N2}", row["Saldo"])).AlignRight();
+
+                                i++;
+                            }
+                        });
+                    });
+
+                    // ==========================================================
+                    // FOOTER
+                    // ==========================================================
                     page.Footer().AlignRight()
-                        .Text($"Generado el {DateTime.Now:dd/MM/yyyy HH:mm}");
+                        .Text($"Generado el {DateTime.Now:dd/MM/yyyy HH:mm}")
+                        .FontSize(9).FontColor("#666666");
                 });
             });
 
             return document.GeneratePdf();
         }
+
 
     }
 }
