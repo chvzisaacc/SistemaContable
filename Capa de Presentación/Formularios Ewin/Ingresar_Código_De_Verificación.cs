@@ -41,6 +41,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.FormClosing += cerrar.CerrarApp;
             _usuarioId = usuarioId;
             _correoUsuario = correoUsuario;

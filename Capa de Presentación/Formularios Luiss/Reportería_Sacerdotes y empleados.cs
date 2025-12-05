@@ -56,8 +56,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_PG49()
         {
             InitializeComponent();
-            this.Left = (Screen.PrimaryScreen.Bounds.Width - this.Width) / 2;
-            this.Top = (Screen.PrimaryScreen.Bounds.Height - this.Height) / 2;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
 
             Validaciones = new ClsValidaciones();
         }

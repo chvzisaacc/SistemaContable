@@ -25,6 +25,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_ServiciosAdministrador()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         /// <summary>

@@ -126,6 +126,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             PredictedId = predicted_id;
             ParroquiaId = parroquia_id;
 

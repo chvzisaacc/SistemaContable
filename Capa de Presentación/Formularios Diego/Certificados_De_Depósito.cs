@@ -35,6 +35,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             CargarDatos();
         }
 

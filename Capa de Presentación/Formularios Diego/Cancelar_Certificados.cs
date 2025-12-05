@@ -17,6 +17,7 @@
         public Cancelar_Certificados()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.StartPosition = FormStartPosition.CenterScreen;
         }
 

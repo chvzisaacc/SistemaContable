@@ -32,6 +32,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             InitializeComponent();
             this.Shown += (_, __) => CargarCorreo(); // síncrono para ir a juego con  CRUD
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         /// <summary>

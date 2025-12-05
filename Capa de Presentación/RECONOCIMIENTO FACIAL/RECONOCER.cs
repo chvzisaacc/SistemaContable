@@ -273,6 +273,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
                         int parroquia_id = datos.parroquia_id;
 
                         Capa_de_acceso_de_datos.Sesion1.IniciarSesion(predicted_id, rol_id, parroquia_id, nombre);
+                        db.RegistrarInicioSesionBiometrico(predicted_id);
 
                         if (!acceso_concedido)
                             detected_username = nombre;
@@ -356,7 +357,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         /// <summary>
         /// Handles the Load event of the RECONOCER control.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
+        /// <param name="sender">The source of the event.</paramf
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void RECONOCER_Load(object sender, EventArgs e)
         {
@@ -371,6 +372,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         private void RECONOCER_Load_1(object sender, EventArgs e)
         {
             this.CenterToScreen();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         /// <summary>

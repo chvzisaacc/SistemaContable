@@ -87,6 +87,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this._usuario_id = usuarioID;
             this.id_parroquia = idParroquia;
             UsuarioLogueado.usuario_id = usuarioID;

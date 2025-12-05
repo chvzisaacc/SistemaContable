@@ -43,7 +43,7 @@ namespace Capa_de_Presentación.CLASES
             {
                 case "CODIGO_VALIDO":
                     MessageBox.Show("Código verificado correctamente.");
-                    Actualizar_Contraseña frm = new Actualizar_Contraseña(correo);
+                    Actualizar_Contraseña frm = new Actualizar_Contraseña(usuario_id, correo);
                     frm.Show();
                     formulario_actual.Hide();
                     break;

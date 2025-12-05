@@ -28,6 +28,7 @@ namespace Capa_de_Presentación.ALERTA
         public ALERTA_SISTEMA()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
 
         }

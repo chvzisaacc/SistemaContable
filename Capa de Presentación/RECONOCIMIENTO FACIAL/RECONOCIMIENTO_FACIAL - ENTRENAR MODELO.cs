@@ -131,6 +131,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             frame = new Mat();
 
             //MessageBox.Show("StartupPath: " + Application.StartupPath);

@@ -25,6 +25,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_SERVICIOS(int Id_Usuario)
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             //Id_Usuariologin = Id_Usuario;
 
         }

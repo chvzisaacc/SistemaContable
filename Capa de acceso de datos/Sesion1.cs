@@ -5,9 +5,6 @@
     /// </summary>
     public static class Sesion1
     {
-        public static int rol;
-        public static int parroquia_id;
-
         /// <summary>
         /// Gets the usuario identifier.
         /// </summary>

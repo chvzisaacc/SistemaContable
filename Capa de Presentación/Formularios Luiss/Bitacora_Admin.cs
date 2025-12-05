@@ -33,6 +33,7 @@ namespace Capa_de_Presentación
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             crudHistorial = new clsCRUD_Historial();
             crudUsuarios = new clsCRUD_Usuarios();
             bindingSource = new BindingSource();

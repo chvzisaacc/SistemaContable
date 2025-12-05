@@ -34,6 +34,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             id_usuario_login =id_usuario;
             crudHistorial = new clsCRUD_Historial();
         }

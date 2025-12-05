@@ -45,6 +45,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             cuentaId = id_origen;
             CRUD_CuentasBancarias = new ClsCRUD_CuentasBancarias();
 

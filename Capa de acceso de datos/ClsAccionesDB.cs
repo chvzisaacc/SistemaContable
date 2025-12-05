@@ -172,6 +172,43 @@ namespace Capa_de_acceso_de_datos
             return resultado;
         }
 
+        public void RegistrarInicioSesionBiometrico(int userId)
+        {
+
+            try
+            {
+                Abrir();
+                using (SqlCommand command = new SqlCommand("RegistrarInicioSesionBiometrico", sc))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    // Agregar el parámetro del usuario
+                    command.Parameters.AddWithValue("@UsuarioID", userId);
+
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Manejo de errores de base de datos
+                        throw new Exception("Error al registrar el inicio de sesión biométrico: " + ex.Message);
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores generales
+                throw new Exception("Error al conectar con la base de datos: " + ex.Message);
+            }
+            finally
+            {
+                Cerrar();
+            }
+        }
+
         /// <summary>
         /// Cambiars the contraseña.
         /// </summary>
