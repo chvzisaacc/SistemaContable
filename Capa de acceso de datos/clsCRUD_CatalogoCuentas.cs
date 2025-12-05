@@ -30,7 +30,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="saldo">The saldo.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al agregar cuenta al catálogo: " + ex.Message</exception>
-        public int AgregarCatalogoCuenta(int id_cuenta, string nombre, String detalle, decimal? saldo)
+        public int AgregarCatalogoCuenta(int id_cuenta, string nombre, String detalle, decimal? saldo, int id_estado)
         {
             try
             {
@@ -41,6 +41,7 @@ namespace Capa_de_acceso_de_datos
 
                 cmd.Parameters.AddWithValue("@idCuenta", id_cuenta);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
+
                 if (!string.IsNullOrWhiteSpace(detalle))
                     cmd.Parameters.AddWithValue("@detalle", detalle);
                 else
@@ -51,6 +52,9 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@saldo", saldo.Value);
                 else
                     cmd.Parameters.AddWithValue("@saldo", DBNull.Value);
+
+                cmd.Parameters.AddWithValue("@idEstado", id_estado); // NUEVO
+
 
                 SqlParameter nuevoid = new SqlParameter("@nuevoId", SqlDbType.Int);
                 nuevoid.Direction = ParameterDirection.Output;
@@ -93,6 +97,30 @@ namespace Capa_de_acceso_de_datos
             catch (Exception ex)
             {
                 throw new Exception("Error al obtener catálogo de cuentas: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+
+                public bool CambiarEstadoCuenta(int cod_cuenta, int nuevo_estado)
+        {
+            try
+            {
+                conexion.Abrir();
+
+                SqlCommand cmd = new SqlCommand("sp_CambiarEstadoCuenta", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@codCuenta", cod_cuenta);
+                cmd.Parameters.AddWithValue("@nuevoEstado", nuevo_estado);
+
+                int resultado = cmd.ExecuteNonQuery();
+                return resultado > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cambiar estado de cuenta: " + ex.Message, ex);
             }
             finally
             {
