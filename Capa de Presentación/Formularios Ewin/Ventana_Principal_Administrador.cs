@@ -440,6 +440,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button6_Click(object sender, EventArgs e)
         {
+
+            ClsValidaciones validaciones = new ClsValidaciones();
+
+            // Validamos el campo "Nombre"
+            if (!validaciones.ValidarEspacios(txtNombreCuenta.Text)) // Se asume que txtNombre es el campo de texto para el nombre
+            {
+                return; // Si no es válido, detiene la ejecución
+            }
+
             if (!ValidarCamposCatalogo())
                 return;
 

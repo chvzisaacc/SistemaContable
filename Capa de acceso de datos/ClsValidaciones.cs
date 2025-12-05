@@ -85,7 +85,7 @@ namespace Capa_de_Presentación.CLASES
         public bool EsContraseñaValida(string contraseña)
         {
             if (string.IsNullOrWhiteSpace(contraseña)) return false;
-            return contraseña.Length >= 4 && contraseña.Length <= 25;
+            return contraseña.Length >= 6 && contraseña.Length <= 30;
         }
 
         // 7.Valida longitud mínima y máxima para cualquier texto
@@ -223,6 +223,22 @@ namespace Capa_de_Presentación.CLASES
             // Si llegó aquí, es número decimal, ahora veo si es <= 100,000,000
             decimal monto = decimal.Parse(texto);
             return monto <= 100000000;
+        }
+
+        // Método para validar que no haya más de 3 espacios en un campo de texto
+        public bool ValidarEspacios(string texto)
+        {
+            if (string.IsNullOrWhiteSpace(texto)) return false;
+
+            // Contamos la cantidad de espacios en el texto
+            int espacios = texto.Split(' ').Length - 1;
+
+            if (espacios > 3)
+            {
+                MessageBox.Show("El texto no puede contener más de 3 espacios.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
         }
 
 
