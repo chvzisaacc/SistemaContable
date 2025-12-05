@@ -148,14 +148,14 @@ namespace Capa_de_procesamiento_de_datos
         /// <param name="nombreSacerdote">The nombre sacerdote.</param>
         /// <returns></returns>
         private byte[] GenerarPdfCuria(
-            DataTable dtEntradas,
-            DataTable dtSalidas,
-            DataTable dtTotales,
-            string parroquia,
-            DateTime desde,
-            DateTime hasta,
-            string nombreSacerdote
-        )
+    DataTable dtEntradas,
+    DataTable dtSalidas,
+    DataTable dtTotales,
+    string parroquia,
+    DateTime desde,
+    DateTime hasta,
+    string nombreSacerdote
+)
         {
             decimal totalEntradas = 0;
             decimal totalSalidas = 0;
@@ -173,55 +173,55 @@ namespace Capa_de_procesamiento_de_datos
 
             var filasEntradas = new (string Etiqueta, string Cuenta)[]
             {
-                ("Bautismos", "Bautismos"),
-                ("Misas, Fiestas, Funerales", "Misas, Fiestas, Funerales"),
-                ("Matrimonios", "Matrimonios"),
-                ("Donativos, Alcancias,Bendiciones", "Donativos, Alcancias,Bendiciones"),
-                ("Colectas ordinarias", "Colectas ordinarias"),
-                ("Permisos, Certificaciones", "Permisos, Certificaciones"),
-                ("Profesorados, capellanias", "Profesorados, capellanias"),
-                ("Otros (explicar)Tienda Parroquial", "Otros (explicar)Tienda Parroquial"),
-                ("Otros", "Otros")
+        ("Bautismos", "Bautismos"),
+        ("Misas, Fiestas, Funerales", "Misas, Fiestas, Funerales"),
+        ("Matrimonios", "Matrimonios"),
+        ("Donativos, Alcancias,Bendiciones", "Donativos, Alcancias,Bendiciones"),
+        ("Colectas ordinarias", "Colectas ordinarias"),
+        ("Permisos, Certificaciones", "Permisos, Certificaciones"),
+        ("Profesorados, capellanias", "Profesorados, capellanias"),
+        ("Otros (explicar)Tienda Parroquial", "Otros (explicar)Tienda Parroquial"),
+        ("Otros", "Otros")
             };
 
             var filasSalidas = new (string Etiqueta, string Cuenta)[]
             {
-                ("Administracion - Oficina", "Administracion - Oficina"),
-                ("Agua", "Agua"),
-                ("Carro - Transporte", "Carro - Transporte"),
-                ("Comida - Cocina", "Comida - Cocina"),
-                ("Luz", "Luz"),
-                ("Mantenimiento - Limpieza", "Mantenimiento - Limpieza"),
-                ("Sueldos", "Sueldos"),
-                ("IHSS + Medicinas", "IHSS + Medicinas"),
-                ("Internet y Servicio de Cable tv", "Internet y Servicio de Cable tv")
+        ("Administracion - Oficina", "Administracion - Oficina"),
+        ("Agua", "Agua"),
+        ("Carro - Transporte", "Carro - Transporte"),
+        ("Comida - Cocina", "Comida - Cocina"),
+        ("Luz", "Luz"),
+        ("Mantenimiento - Limpieza", "Mantenimiento - Limpieza"),
+        ("Sueldos", "Sueldos"),
+        ("IHSS + Medicinas", "IHSS + Medicinas"),
+        ("Internet y Servicio de Cable tv", "Internet y Servicio de Cable tv")
             };
 
             var filasColectas = new (string Etiqueta, string Cuenta)[]
             {
-                ("Colecta de Adviento y Sta. Infancia", "Colecta de Adviento y Sta. Infancia"),
-                ("Colecta de Cuaresma", "Colecta de Cuaresma"),
-                ("Colecta de Viernes Santo", "Colecta de Viernes Santo"),
-                ("Colecta de San Pedro", "Colecta de San Pedro"),
-                ("Colecta de Vocaciones", "Colecta de Vocaciones"),
-                ("Colecta Domund", "Colecta Domund"),
-                ("Colectas Extraordinarias (Medios)", "Colectas Extraordinarias (Medios)"),
-                ("Donativos Seminario", "Donativos Seminario"),
-                ("Dispensas", "Dispensas"),
-                ("Confirmas", "Confirmas")
+        ("Colecta de Adviento y Sta. Infancia", "Colecta de Adviento y Sta. Infancia"),
+        ("Colecta de Cuaresma", "Colecta de Cuaresma"),
+        ("Colecta de Viernes Santo", "Colecta de Viernes Santo"),
+        ("Colecta de San Pedro", "Colecta de San Pedro"),
+        ("Colecta de Vocaciones", "Colecta de Vocaciones"),
+        ("Colecta Domund", "Colecta Domund"),
+        ("Colectas Extraordinarias (Medios)", "Colectas Extraordinarias (Medios)"),
+        ("Donativos Seminario", "Donativos Seminario"),
+        ("Dispensas", "Dispensas"),
+        ("Confirmas", "Confirmas")
             };
 
             var filasSalidas2 = new (string Etiqueta, string Cuenta)[]
             {
-                ("Telefono", "Telefono"),
-                ("Ayuda (Donativos, Limosnas)", "Ayuda (Donativos, Limosnas)"),
-                ("Culto", "Culto"),
-                ("Pastoral - Formacion", "Pastoral - Formacion"),
-                ("Muebles - Enseres", "Muebles - Enseres"),
-                ("Remuneracion Sacerdotes", "Remuneracion Sacerdotes"),
-                ("Papel sellado", "Papel sellado"),
-                ("Impuestos", "Impuestos"),
-                ("Otros (explicar)", "Otros (explicar)")
+        ("Telefono", "Telefono"),
+        ("Ayuda (Donativos, Limosnas)", "Ayuda (Donativos, Limosnas)"),
+        ("Culto", "Culto"),
+        ("Pastoral - Formacion", "Pastoral - Formacion"),
+        ("Muebles - Enseres", "Muebles - Enseres"),
+        ("Remuneracion Sacerdotes", "Remuneracion Sacerdotes"),
+        ("Papel sellado", "Papel sellado"),
+        ("Impuestos", "Impuestos"),
+        ("Otros (explicar)", "Otros (explicar)")
             };
 
             var document = Document.Create(container =>
@@ -234,7 +234,8 @@ namespace Capa_de_procesamiento_de_datos
                     {
                         col.Item().Text("Arquidiocesis de Tegucigalpa")
                             .FontSize(16)
-                            .Bold();
+                            .Bold()
+                            .FontColor("#003399"); // Color en el título
 
                         col.Item().Row(row =>
                         {
@@ -256,11 +257,12 @@ namespace Capa_de_procesamiento_de_datos
                                 columns.ConstantColumn(70); // salidas monto
                             });
 
-                            void Celda(string texto, bool negrita = false)
+                            void Celda(string texto, bool negrita = false, string colorFondo = "#FFFFFF")
                             {
                                 var cell = table.Cell()
                                     .Border(0.5f)
-                                    .Padding(2);
+                                    .Padding(2)
+                                    .Background(colorFondo);
 
                                 var t = cell.Text(texto ?? string.Empty)
                                     .FontSize(9);
@@ -269,10 +271,10 @@ namespace Capa_de_procesamiento_de_datos
                                     t.Bold();
                             }
 
-                            // encabezados
-                            Celda("ENTRADAS PARA LA CURIA", true);
+                            // encabezados con fondo dorado
+                            Celda("ENTRADAS PARA LA CURIA", true, "#D4AF37");
                             Celda("", true);
-                            Celda("SALIDAS", true);
+                            Celda("SALIDAS", true, "#D4AF37");
                             Celda("", true);
 
                             int max1 = Math.Max(filasEntradas.Length, filasSalidas.Length);
@@ -283,39 +285,39 @@ namespace Capa_de_procesamiento_de_datos
                                 {
                                     var f = filasEntradas[i];
                                     decimal monto = ObtenerMontoPorCuenta(dtEntradas, f.Cuenta);
-                                    Celda(f.Etiqueta);
-                                    Celda(monto == 0 ? "" : monto.ToString("N2"));
+                                    Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                    Celda(monto == 0 ? "" : monto.ToString("N2"), false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
                                 }
                                 else
                                 {
-                                    Celda("");
-                                    Celda("");
+                                    Celda("", false);
+                                    Celda("", false);
                                 }
 
                                 if (i < filasSalidas.Length)
                                 {
                                     var f = filasSalidas[i];
                                     decimal monto = ObtenerMontoPorCuenta(dtSalidas, f.Cuenta);
-                                    Celda(f.Etiqueta);
-                                    Celda(monto == 0 ? "" : monto.ToString("N2"));
+                                    Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                    Celda(monto == 0 ? "" : monto.ToString("N2"), false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
                                 }
                                 else
                                 {
-                                    Celda("");
-                                    Celda("");
+                                    Celda("", false);
+                                    Celda("", false);
                                 }
                             }
 
                             // fila subtotal / 12%
-                            Celda("SUBTOTAL=", true);
-                            Celda(totalEntradas == 0 ? "" : totalEntradas.ToString("N2"), true);
-                            Celda("X 12%", true);
-                            Celda(docePorciento == 0 ? "" : docePorciento.ToString("N2"), true);
+                            Celda("SUBTOTAL=", true, "#D4AF37");
+                            Celda(totalEntradas == 0 ? "" : totalEntradas.ToString("N2"), true, "#D4AF37");
+                            Celda("X 12%", true, "#D4AF37");
+                            Celda(docePorciento == 0 ? "" : docePorciento.ToString("N2"), true, "#D4AF37");
 
                             // fila título sección curia arzobispal
                             Celda("", false);
                             Celda("", false);
-                            Celda("A LA CURIA ARZOBISPAL", true);
+                            Celda("A LA CURIA ARZOBISPAL", true, "#D4AF37");
                             Celda("", false);
 
                             int max2 = Math.Max(filasColectas.Length, filasSalidas2.Length);
@@ -326,34 +328,34 @@ namespace Capa_de_procesamiento_de_datos
                                 {
                                     var f = filasColectas[i];
                                     decimal monto = ObtenerMontoPorCuenta(dtEntradas, f.Cuenta);
-                                    Celda(f.Etiqueta);
-                                    Celda(monto == 0 ? "" : monto.ToString("N2"));
+                                    Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                    Celda(monto == 0 ? "" : monto.ToString("N2"), false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
                                 }
                                 else
                                 {
-                                    Celda("");
-                                    Celda("");
+                                    Celda("", false);
+                                    Celda("", false);
                                 }
 
                                 if (i < filasSalidas2.Length)
                                 {
                                     var f = filasSalidas2[i];
                                     decimal monto = ObtenerMontoPorCuenta(dtSalidas, f.Cuenta);
-                                    Celda(f.Etiqueta);
-                                    Celda(monto == 0 ? "" : monto.ToString("N2"));
+                                    Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                    Celda(monto == 0 ? "" : monto.ToString("N2"), false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
                                 }
                                 else
                                 {
-                                    Celda("");
-                                    Celda("");
+                                    Celda("", false);
+                                    Celda("", false);
                                 }
                             }
 
                             // fila total final
-                            Celda("TOTAL ENTRADAS =", true);
-                            Celda(totalEntradas == 0 ? "" : totalEntradas.ToString("N2"), true);
-                            Celda("TOTAL SALIDAS =", true);
-                            Celda(totalSalidas == 0 ? "" : totalSalidas.ToString("N2"), true);
+                            Celda("TOTAL ENTRADAS =", true, "#D4AF37");
+                            Celda(totalEntradas == 0 ? "" : totalEntradas.ToString("N2"), true, "#D4AF37");
+                            Celda("TOTAL SALIDAS =", true, "#D4AF37");
+                            Celda(totalSalidas == 0 ? "" : totalSalidas.ToString("N2"), true, "#D4AF37");
                         });
 
                         // resumen inferior
@@ -377,7 +379,7 @@ namespace Capa_de_procesamiento_de_datos
 
                             Celda2("Total entradas del mes", totalEntradas.ToString("N2"));
                             Celda2("Total salidas del mes", totalSalidas.ToString("N2"));
-                            Celda2("Ganancias (+) o perdidad (-) del mes", gananciaMes.ToString("N2"));
+                            Celda2("Ganancias (+) o perdidas (-) del mes", gananciaMes.ToString("N2"));
                         });
 
                         col.Item().Text("");
@@ -394,7 +396,7 @@ namespace Capa_de_procesamiento_de_datos
                         col.Item().Text("");
 
                         col.Item().Text(
-@"Recordamos que DEBEN ENTREGAR A LA CURIA, EL DOCE PORCIENTO (12%) sobre todas las entradas de la Parroquias, Iglesias o Capillas, y es de carácter obligatorio y nadie queda exento de esta obligacion.")
+                            @"Recordamos que DEBEN ENTREGAR A LA CURIA, EL DOCE PORCIENTO (12%) sobre todas las entradas de la Parroquias, Iglesias o Capillas, y es de carácter obligatorio y nadie queda exento de esta obligacion.")
                             .FontSize(8);
                     });
 
@@ -405,6 +407,7 @@ namespace Capa_de_procesamiento_de_datos
 
             return document.GeneratePdf();
         }
+
 
         private readonly Dictionary<string, string> MapaCuentas = new()
 {

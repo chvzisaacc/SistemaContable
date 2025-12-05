@@ -8,6 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Logo_Arqui.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Logo_Arqui.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="aSystem.Windows.Forms" Version="1.0.0" />
     <PackageReference Include="Emgu.CV" Version="4.12.0.5764" />
     <PackageReference Include="Emgu.CV.Bitmap" Version="4.12.0.5764" />
