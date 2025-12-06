@@ -312,7 +312,7 @@ namespace Capa_de_Presentación.Formularios_Diego
 
                 foreach (DataRow row in dt.Rows)
                 {
-                    Parroquia.Add(row["Parroquia"].ToString());
+                    Parroquia.Add(row["Nombre_Parroquia"].ToString());
                 }
             }
             catch (Exception ex)
@@ -414,7 +414,7 @@ namespace Capa_de_Presentación.Formularios_Diego
                 return;
 
             // Verifica por nombre de columna, no por índice
-            if (dataGridView1.CurrentCell.OwningColumn.Name == "Parroquia_nombre")
+            if (dataGridView1.CurrentCell.OwningColumn.Name == "Nombre_Parroquia")
             {
                 TextBox auto_text = e.Control as TextBox;
                 if (auto_text != null)
