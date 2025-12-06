@@ -72,11 +72,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
             comando.CommandType = CommandType.StoredProcedure;
 
             decimal saldo;
+            // Si ValidarCampos funciona bien, esto siempre será true, 
+            // pero es bueno dejar el return por seguridad.
             if (!decimal.TryParse(txtMonto.Text, out saldo))
             {
-                MessageBox.Show("Ingrese un valor numerico");
                 return;
             }
+
 
             comando.Parameters.AddWithValue("@monto", saldo);
 
@@ -108,7 +110,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_CajaChicaMonto_Load(object sender, EventArgs e)
         {
-            ValidarCampos();
             this.CenterToScreen();
         }
 
@@ -118,21 +119,39 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <returns></returns>
         private bool ValidarCampos()
         {
-            if (string.IsNullOrWhiteSpace(txtMonto.Text))
+            string textoMonto = txtMonto.Text.Trim();
+
+            // 1. Validar que no esté vacío ni tenga el texto de ayuda (placeholder)
+            if (string.IsNullOrWhiteSpace(textoMonto) || textoMonto == "Ingrese un monto")
             {
-                MessageBox.Show("El campo detalle es requerido", "Validación",
+                MessageBox.Show("El campo monto es requerido.", "Validación",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMonto.Focus();
-
-                if (!Validaciones.EsNumeroDecimal(txtMonto.Text))
-                {
-                    MessageBox.Show("El monto solo puede contener numeros.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtMonto.Focus();
-                    return false;
-                }
+                return false;
             }
+
+            // 2. Validar que sea un número válido y MAYOR a 0
+            // (Asumiendo que tu método EsMontoPositivo ya valida que sea > 0)
+            if (!Validaciones.EsMontoPositivo(textoMonto))
+            {
+                MessageBox.Show("El monto debe ser un número mayor a 0.", "Formato Incorrecto",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMonto.Focus();
+                return false;
+            }
+
+            // 3. Validar que no exceda el límite (Opcional, pero recomendado por tu consulta anterior)
+            if (!Validaciones.EsMontoDentroDelRango(textoMonto))
+            {
+                MessageBox.Show("El saldo no puede ser mayor a 100,000,000.", "Advertencia",
+                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMonto.Focus();
+                return false;
+            }
+
             return true;
         }
+
 
         /// <summary>
         /// Handles the Paint event of the panel1 control.
@@ -146,7 +165,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void txtMonto_Click(object sender, EventArgs e)
         {
-            if (txtMonto.Text == "Ingrese un monto")
+            if (txtMonto.Text == "Ingrese monto")
             {
                 txtMonto.Text = "";
                 txtMonto.ForeColor = Color.Black;
@@ -157,7 +176,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             if (string.IsNullOrWhiteSpace(txtMonto.Text))
             {
-                txtMonto.Text = "Ingrese un monto";
+                txtMonto.Text = "Ingrese monto";
                 txtMonto.ForeColor = Color.Gray;
             }
         }

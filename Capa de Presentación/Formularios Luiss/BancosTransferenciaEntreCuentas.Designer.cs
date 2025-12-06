@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BancosTransferenciaEntreCuentas));
             panel2 = new Panel();
+            label2 = new Label();
+            label1 = new Label();
             txtMonto = new TextBox();
             cmbDestino = new ComboBox();
             textBox2 = new TextBox();
@@ -38,8 +40,6 @@
             label7 = new Label();
             cmbOrigen = new ComboBox();
             label6 = new Label();
-            label1 = new Label();
-            label2 = new Label();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
@@ -64,6 +64,26 @@
             panel2.TabIndex = 10;
             panel2.Paint += panel2_Paint;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Location = new Point(76, 78);
+            label2.Name = "label2";
+            label2.Size = new Size(85, 25);
+            label2.TabIndex = 20;
+            label2.Text = "Destino:";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(76, 46);
+            label1.Name = "label1";
+            label1.Size = new Size(78, 25);
+            label1.TabIndex = 19;
+            label1.Text = "Origen:";
+            // 
             // txtMonto
             // 
             txtMonto.BackColor = Color.FromArgb(251, 203, 51);
@@ -72,7 +92,7 @@
             txtMonto.ForeColor = Color.Black;
             txtMonto.Location = new Point(161, 114);
             txtMonto.Margin = new Padding(3, 2, 3, 2);
-            txtMonto.MaxLength = 9;
+            txtMonto.MaxLength = 8;
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(216, 25);
             txtMonto.TabIndex = 18;
@@ -164,26 +184,6 @@
             label6.Size = new Size(317, 30);
             label6.TabIndex = 10;
             label6.Text = "Transfiera de cuenta a cuenta";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(76, 46);
-            label1.Name = "label1";
-            label1.Size = new Size(78, 25);
-            label1.TabIndex = 19;
-            label1.Text = "Origen:";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(76, 78);
-            label2.Name = "label2";
-            label2.Size = new Size(85, 25);
-            label2.TabIndex = 20;
-            label2.Text = "Destino:";
             // 
             // BancosTransferenciaEntreCuentas
             // 

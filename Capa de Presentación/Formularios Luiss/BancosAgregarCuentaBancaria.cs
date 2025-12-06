@@ -54,7 +54,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             if (!decimal.TryParse(txtMonto.Text.Trim(), out saldo))
             {
-                MessageBox.Show("El saldo ingresado no es válido.");
+               // MessageBox.Show("El saldo ingresado no es válido.");
                 return;
             }
 
@@ -111,6 +111,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 txtMonto.Focus();
                 return false;
             }
+
+            if (!val.EsMontoDentroDelRango(monto))
+            {
+                MessageBox.Show("El monto debe estar dentro del Rango",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMonto.Focus();
+                return false;
+            }
+
+
             return true;
         }
 

@@ -193,13 +193,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
             button5.BackColor = Color.FromArgb(251, 203, 51);
             button5.Font = new Font("Segoe UI Black", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button5.Location = new Point(305, 61);
-            button5.Margin = new Padding(1, 1, 1, 1);
+            button5.Margin = new Padding(1);
             button5.Name = "button5";
             button5.Size = new Size(280, 31);
             button5.TabIndex = 11;
             button5.Text = "Cuentas Bancarias";
             button5.UseVisualStyleBackColor = false;
-            button5.Click += button5_Click;
             // 
             // label6
             // 
@@ -228,7 +227,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             button3.BackColor = Color.FromArgb(251, 203, 51);
             button3.Font = new Font("Segoe UI Black", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button3.Location = new Point(301, 137);
-            button3.Margin = new Padding(1, 1, 1, 1);
+            button3.Margin = new Padding(1);
             button3.Name = "button3";
             button3.Size = new Size(280, 31);
             button3.TabIndex = 8;
@@ -418,7 +417,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             button4.BackColor = Color.Transparent;
             button4.BackgroundImageLayout = ImageLayout.Center;
             button4.Location = new Point(11, 269);
-            button4.Margin = new Padding(1, 1, 1, 1);
+            button4.Margin = new Padding(1);
             button4.Name = "button4";
             button4.Size = new Size(15, 19);
             button4.TabIndex = 33;
@@ -606,7 +605,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             button2.BackColor = Color.Transparent;
             button2.BackgroundImageLayout = ImageLayout.Center;
             button2.Location = new Point(15, 277);
-            button2.Margin = new Padding(1, 1, 1, 1);
+            button2.Margin = new Padding(1);
             button2.Name = "button2";
             button2.Size = new Size(15, 19);
             button2.TabIndex = 32;
@@ -851,7 +850,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pnlAlertaDeslizante.Controls.Add(lblAlertaMensaje);
             pnlAlertaDeslizante.Dock = DockStyle.Top;
             pnlAlertaDeslizante.Location = new Point(0, 0);
-            pnlAlertaDeslizante.Margin = new Padding(1, 1, 1, 1);
+            pnlAlertaDeslizante.Margin = new Padding(1);
             pnlAlertaDeslizante.Name = "pnlAlertaDeslizante";
             pnlAlertaDeslizante.Size = new Size(1099, 30);
             pnlAlertaDeslizante.TabIndex = 26;

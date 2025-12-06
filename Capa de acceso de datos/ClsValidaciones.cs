@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using System.Windows.Forms; 
-
+using System.Windows.Forms;
+using System.Linq;
 
 namespace Capa_de_Presentación.CLASES
 {
@@ -247,26 +247,106 @@ namespace Capa_de_Presentación.CLASES
 
         public void MaxlenghtDGV(DataGridView dgv)
         {
-            // Configurar columna SALDO
+            // 1. Configurar Longitud MÁXIMA (Lo que ya tenías)
             if (dgv.Columns.Contains("Saldo") && dgv.Columns["Saldo"] is DataGridViewTextBoxColumn colSaldo)
             {
-                
-                colSaldo.MaxInputLength = 9;
+                colSaldo.MaxInputLength = 8;
             }
 
-            // Configurar columna DETALLE
             if (dgv.Columns.Contains("Detalle") && dgv.Columns["Detalle"] is DataGridViewTextBoxColumn colDetalle)
             {
-               
                 colDetalle.MaxInputLength = 100;
             }
-            //  Configurar columna NombreCuenta
+
             if (dgv.Columns.Contains("NombreCuenta") && dgv.Columns["NombreCuenta"] is DataGridViewTextBoxColumn colNombreCuenta)
             {
-
                 colNombreCuenta.MaxInputLength = 100;
             }
 
+            // 2. Suscribir evento para Espacios (Tu código anterior)
+            dgv.EditingControlShowing -= Dgv_EditingControlShowing;
+            dgv.EditingControlShowing += Dgv_EditingControlShowing;
+
+            // 3. NUEVO: Suscribir evento para validar MÍNIMO DE CARACTERES al salir de la celda
+            dgv.CellValidating -= Dgv_CellValidating;
+            dgv.CellValidating += Dgv_CellValidating;
+        }
+
+        // Evento que impide salir de la celda si no cumple los requisitos
+        private void Dgv_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            DataGridView dgv = (DataGridView)sender;
+            string columnaNombre = dgv.Columns[e.ColumnIndex].Name;
+
+            // Solo validamos Detalle y NombreCuenta
+            if (columnaNombre == "Detalle" || columnaNombre == "NombreCuenta")
+            {
+                // Obtenemos el valor que el usuario intentó ingresar
+                string valorNuevo = e.FormattedValue.ToString().Trim();
+
+                // Si la celda está vacía, permitimos salir (o bloqueamos, depende de tu gusto). 
+                // Si quieres que sea OBLIGATORIO escribir algo, quita el "!string.IsNullOrEmpty(valorNuevo) &&"
+                if (!string.IsNullOrEmpty(valorNuevo) && valorNuevo.Length < 3)
+                {
+                    dgv.Rows[e.RowIndex].ErrorText = "Debe ingresar al menos 3 caracteres.";
+                    MessageBox.Show("El texto es muy corto. Ingrese al menos 3 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    e.Cancel = true; // ESTO ES LO IMPORTANTE: Impide que el usuario salga de la celda
+                }
+                else
+                {
+                    // Limpiar el mensaje de error si ya lo corrigió
+                    dgv.Rows[e.RowIndex].ErrorText = string.Empty;
+                }
+            }
+        }
+
+        private void Dgv_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            DataGridView dgv = (DataGridView)sender;
+
+            
+            string columnaActual = dgv.Columns[dgv.CurrentCell.ColumnIndex].Name;
+
+            if (columnaActual == "Detalle" || columnaActual == "NombreCuenta")
+            {
+                if (e.Control is TextBox tb)
+                {
+                    // Limpiamos eventos previos y asignamos la validación de tecla
+                    tb.KeyPress -= Tb_KeyPress_Espacios;
+                    tb.KeyPress += Tb_KeyPress_Espacios;
+                }
+            }
+        }
+
+       
+        private void Tb_KeyPress_Espacios(object sender, KeyPressEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+
+            
+            if (e.KeyChar != ' ') return;
+
+            // No permitir espacio al inicio
+            if (tb.SelectionStart == 0)
+            {
+                e.Handled = true; // Bloquea la tecla
+                return;
+            }
+
+            
+            int cantidadEspacios = tb.Text.Count(c => c == ' ');
+
+            
+            if (cantidadEspacios >= 3)
+            {
+                
+                if (tb.SelectionLength == 0)
+                {
+                    e.Handled = true; // Bloquea la tecla
+                                      
+                }
+            }
         }
 
     }
