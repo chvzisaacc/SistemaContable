@@ -257,7 +257,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             lstReportes.Items.Add(item);
 
-            // Abrir automáticamente el PDF
+            // Abrir el pdf de un solo
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
             {
                 FileName = ruta_pdf,

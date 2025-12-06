@@ -30,15 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BancosCuentaAhorro));
             panel2 = new Panel();
+            dataGridView1 = new DataGridView();
             txtMonto = new TextBox();
             textBox2 = new TextBox();
             pictureBox2 = new PictureBox();
             textBox1 = new TextBox();
             label7 = new Label();
-            dataGridView1 = new DataGridView();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // panel2
@@ -50,12 +50,23 @@
             panel2.Controls.Add(pictureBox2);
             panel2.Controls.Add(textBox1);
             panel2.Controls.Add(label7);
-            panel2.Location = new Point(13, 12);
-            panel2.Margin = new Padding(4, 3, 4, 3);
+            panel2.Location = new Point(9, 7);
+            panel2.Margin = new Padding(3, 2, 3, 2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(600, 306);
+            panel2.Size = new Size(420, 184);
             panel2.TabIndex = 10;
             panel2.Paint += panel2_Paint_1;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(15, 8);
+            dataGridView1.Margin = new Padding(2, 2, 2, 2);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.Size = new Size(391, 167);
+            dataGridView1.TabIndex = 21;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // txtMonto
             // 
@@ -63,10 +74,10 @@
             txtMonto.BorderStyle = BorderStyle.None;
             txtMonto.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
             txtMonto.ForeColor = Color.Black;
-            txtMonto.Location = new Point(257, 115);
-            txtMonto.Margin = new Padding(4, 3, 4, 3);
+            txtMonto.Location = new Point(180, 69);
+            txtMonto.Margin = new Padding(3, 2, 3, 2);
             txtMonto.Name = "txtMonto";
-            txtMonto.Size = new Size(256, 44);
+            txtMonto.Size = new Size(179, 29);
             txtMonto.TabIndex = 19;
             // 
             // textBox2
@@ -76,20 +87,20 @@
             textBox2.Enabled = false;
             textBox2.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(257, 233);
-            textBox2.Margin = new Padding(4, 3, 4, 3);
+            textBox2.Location = new Point(180, 140);
+            textBox2.Margin = new Padding(3, 2, 3, 2);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(162, 27);
+            textBox2.Size = new Size(113, 18);
             textBox2.TabIndex = 14;
             textBox2.Text = "Guardar y cerrar";
             // 
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(173, 208);
-            pictureBox2.Margin = new Padding(4, 3, 4, 3);
+            pictureBox2.Location = new Point(121, 125);
+            pictureBox2.Margin = new Padding(3, 2, 3, 2);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(317, 83);
+            pictureBox2.Size = new Size(222, 50);
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.TabIndex = 13;
             pictureBox2.TabStop = false;
@@ -100,40 +111,30 @@
             textBox1.BackColor = Color.FromArgb(251, 203, 51);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(257, 122);
-            textBox1.Margin = new Padding(4, 3, 4, 3);
+            textBox1.Location = new Point(180, 73);
+            textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(256, 37);
+            textBox1.Size = new Size(179, 25);
             textBox1.TabIndex = 12;
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            label7.Location = new Point(108, 114);
-            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Location = new Point(76, 68);
             label7.Name = "label7";
-            label7.Size = new Size(134, 45);
+            label7.Size = new Size(88, 30);
             label7.TabIndex = 10;
             label7.Text = "Monto:";
             // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(21, 14);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(558, 279);
-            dataGridView1.TabIndex = 21;
-            // 
             // BancosCuentaAhorro
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(626, 330);
+            ClientSize = new Size(438, 198);
             Controls.Add(panel2);
-            Margin = new Padding(4, 3, 4, 3);
+            Margin = new Padding(3, 2, 3, 2);
             MaximizeBox = false;
             Name = "BancosCuentaAhorro";
             StartPosition = FormStartPosition.CenterScreen;
@@ -141,8 +142,8 @@
             Load += FRM_PG42BancosCuentaAhorro_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
         }
 

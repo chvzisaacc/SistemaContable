@@ -228,7 +228,7 @@ namespace Capa_de_procesamiento_de_datos
                         col.Item().Text("Arquidiocesis de Tegucigalpa")
                             .FontSize(16)
                             .Bold()
-                            .FontColor("#003399"); // Color en el título
+                            .FontColor("#003399");  
 
                         col.Item().Row(row =>
                         {
@@ -239,7 +239,7 @@ namespace Capa_de_procesamiento_de_datos
 
                     page.Content().Column(col =>
                     {
-                        // tabla principal con líneas tipo hoja de cálculo
+                        
                         col.Item().Table(table =>
                         {
                             table.ColumnsDefinition(columns =>
@@ -351,7 +351,7 @@ namespace Capa_de_procesamiento_de_datos
                             Celda(totalSalidas == 0 ? "" : totalSalidas.ToString("N2"), true, "#D4AF37");
                         });
 
-                        // resumen inferior
+                      
                         col.Item().Text("");
 
                         col.Item().Table(table =>

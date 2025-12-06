@@ -47,10 +47,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG42BancosCuentaCheque_Load(object sender, EventArgs e)
         {
-            
+
             this.CenterToScreen();
         }
-        
+
 
         /// <summary>
         /// Cargars the datos de la cuenta.
@@ -58,7 +58,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// 
         private void CargarDatosDeLaCuenta()
         {
-            
+
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG6_Load(object sender, EventArgs e)
         {
-            
+
             HabilitarControles(false);
         }
 
@@ -195,6 +195,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panel2_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

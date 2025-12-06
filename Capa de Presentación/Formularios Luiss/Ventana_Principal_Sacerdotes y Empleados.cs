@@ -1041,7 +1041,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     auto_text.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                     auto_text.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
-                    // Usa la colección ya cargada desde CargarDatosAutocompletadoGastos()
+                    
                     auto_text.AutoCompleteCustomSource = Subcuentas;
                 }
             }
@@ -1063,7 +1063,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                // 1. Validar que el ComboBox de Origen esté seleccionado
+                
                 if (cmbOrigen2.SelectedIndex == -1 || cmbOrigen2.SelectedValue == null)
                 {
                     MessageBox.Show("Debe seleccionar una cuenta de origen.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1071,7 +1071,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     return false;
                 }
 
-                // 2. Validar que la fecha esté seleccionada
+                
                 if (dateTimePicker2.Value == null)
                 {
                     MessageBox.Show("Debe seleccionar una fecha.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1079,7 +1079,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     return false;
                 }
 
-                // 3. Validar que el número de referencia no esté vacío
+                
                 if (string.IsNullOrWhiteSpace(txtNoReferencia2.Text))
                 {
                     MessageBox.Show("Debe ingresar un número de referencia.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1087,14 +1087,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     return false;
                 }
 
-                // 4. Validar que haya al menos una fila en el DataGridView
+              
                 if (dgvGastos.Rows.Count == 0 || (dgvGastos.Rows.Count == 1 && dgvGastos.Rows[0].IsNewRow))
                 {
                     MessageBox.Show("Debe agregar al menos una cuenta con su monto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
 
-                // 5. Obtener el saldo disponible de la cuenta origen seleccionada
+               
                 decimal saldoDisponible = 0;
                 if (cmbOrigen2.SelectedValue != null)
                 {
@@ -1108,13 +1108,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     }
                 }
 
-                // 6. Validar cada fila del DataGridView y sumar los montos
+               
                 decimal totalGastos = 0;
                 for (int i = 0; i < dgvGastos.Rows.Count; i++)
                 {
                     if (dgvGastos.Rows[i].IsNewRow) continue;
 
-                    // Validar que la columna NombreCuenta no esté vacía
+                    
                     if (dgvGastos.Rows[i].Cells["NombreCuenta"].Value == null ||
                         string.IsNullOrWhiteSpace(dgvGastos.Rows[i].Cells["NombreCuenta"].Value.ToString()))
                     {
@@ -1134,7 +1134,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         return false;
                     }
 
-                    // Validar que la columna Saldo (monto) no esté vacía y sea válida
+                    // Validar que la columna Saldo  no esté vacía y sea válida
                     if (dgvGastos.Rows[i].Cells["Saldo"].Value == null ||
                         string.IsNullOrWhiteSpace(dgvGastos.Rows[i].Cells["Saldo"].Value.ToString()))
                     {

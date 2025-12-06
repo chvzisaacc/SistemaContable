@@ -114,7 +114,7 @@ namespace Capa_de_procesamiento_de_datos
     DateTime desde,
     DateTime hasta)
         {
-            // Ruta automática hacia Resources/logo_arqui.png
+            
             string logoPath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "Resources",
@@ -128,7 +128,7 @@ namespace Capa_de_procesamiento_de_datos
                     page.Margin(30);
 
                     // ==========================================================
-                    // ENCABEZADO (solo uno)
+                    // ENCABEZADO 
                     // ==========================================================
                     page.Header().Column(header =>
                     {
@@ -147,7 +147,7 @@ namespace Capa_de_procesamiento_de_datos
                                     .FontSize(10).FontColor("#666666");
                             });
 
-                            // DERECHA: LOGO
+                            // LOGO
                             if (File.Exists(logoPath))
                             {
                                 row.ConstantItem(110)

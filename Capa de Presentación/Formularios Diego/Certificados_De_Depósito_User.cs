@@ -30,7 +30,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         {
             try
             {
-                // 1. Obtener ID de la Parroquia del Usuario
+                
                 int id_parroquia_usuario = Capa_de_acceso_de_datos.Sesion1.id_parroquia;
 
                 if (id_parroquia_usuario <= 0)
@@ -40,14 +40,13 @@ namespace Capa_de_Presentación.Formularios_Diego
                     return;
                 }
 
-                // 2. Acceder a la Capa de Datos
+                
                 ClsAccionesDB accionesDB = new ClsAccionesDB();
 
-                // 3. Llamar a la función con el ID de la Parroquia (asumiendo que está corregida)
+               
                 DataTable dtDatosCertificados = accionesDB.MostrarCertificadosUsuario(id_parroquia_usuario);
 
-                // 4. Asignar al DataGridView
-                // 
+             
                 dataGridView2.DataSource = dtDatosCertificados;
 
             }

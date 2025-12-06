@@ -149,16 +149,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             this.Hide();
 
-            // 2. Creamos el nuevo formulario y lo manejamos con 'using' para asegurar su descarte.
+           
             using (var reconocimiento = new Capa_de_Presentación.RECONOCIMIENTO_FACIAL.RECONOCIMIENTO_FACIAL())
             {
-                // 3. Lo mostramos de forma MODAL. El código se detiene aquí hasta que se cierra 'reconocimiento'.
                 reconocimiento.ShowDialog(this);
             }
 
-            // 4. Una vez que 'reconocimiento' se cierra, cerramos el formulario actual 'this'.
-            // Si este formulario (Servicios) fue abierto por otro (dueño/Owner), 
-            // el código del dueñó se encargará de mostrarlo de nuevo o cerrarlo.
+         
             this.Close();
 
 
@@ -286,7 +283,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 this.Hide();
 
                 // Abre el formulario Certificados_De_Depósito de forma modal.
-                // Usamos 'using' para asegurar que el formulario se deseche correctamente al cerrarse.
                 using (var frm = new Certificados_De_Depósito()) //
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
