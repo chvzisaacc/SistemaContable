@@ -533,7 +533,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             int id_seleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
 
 
-            var frm = new BancosCuentaAhorro(id_seleccionado)
+            var frm = new BancosCuentaAhorro()
             {
                 StartPosition = FormStartPosition.Manual,
 
@@ -2133,7 +2133,42 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void dgvGastos_DoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+            // 1. Verificación básica: Asegurarse de que el clic no sea en los encabezados
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            DataGridViewRow fila = dgvGastos.Rows[e.RowIndex];
+            DataGridViewCell celdaActual = fila.Cells[e.ColumnIndex];
+
+            if (celdaActual.ReadOnly == true)
+            {
+                ClsCD.DesbloquearFila(fila);
+
+                // 3. Enfocar y activar la edición en la columna Nombre_Parroquia
+                if (dgvGastos.Columns.Contains("monto_historico"))
+                {
+                    DataGridViewCell celdaParroquia = fila.Cells["monto_historico"];
+                    dgvGastos.CurrentCell = celdaParroquia;
+                    dgvGastos.BeginEdit(true);
+
+                    MessageBox.Show("Fila desbloqueada. El cursor está listo para corregir el error",
+                                    "Edición Rápida", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    // Si la columna de Parroquia no existe, solo iniciamos la edición normal en la celda del clic
+                    dgvGastos.CurrentCell = celdaActual;
+                    dgvGastos.BeginEdit(true);
+                }
+            }
+            else
+            {
+                // 4. Lógica de Edición Normal: Si la fila ya estaba desbloqueada, solo inicia la edición
+                dgvGastos.CurrentCell = celdaActual;
+                dgvGastos.BeginEdit(true);
+            }
         }
     }
 
