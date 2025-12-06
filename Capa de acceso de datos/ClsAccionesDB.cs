@@ -747,7 +747,7 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener las cuentas de ingresos: " + ex.Message, ex);
+                throw new Exception("Error al obtener las parroquias " + ex.Message, ex);
             }
             finally
             {

@@ -21,7 +21,7 @@ namespace Capa_de_Presentación.Formularios_Diego
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Certificados_De_Depósito : Form
     {
-        private AutoCompleteStringCollection Parroquias = new AutoCompleteStringCollection();
+        private AutoCompleteStringCollection Parroquia = new AutoCompleteStringCollection();
         private ClsAccionesDB objParroquias = new ClsAccionesDB();
         /// <summary>
         /// The modo edicion activo
@@ -304,7 +304,7 @@ namespace Capa_de_Presentación.Formularios_Diego
 
         private void CargarDatosAutocompletadoParroquias()
         {
-            Parroquias.Clear();
+            Parroquia.Clear();
 
             try
             {
@@ -312,7 +312,7 @@ namespace Capa_de_Presentación.Formularios_Diego
 
                 foreach (DataRow row in dt.Rows)
                 {
-                    Parroquias.Add(row["Parroquia"].ToString());
+                    Parroquia.Add(row["Parroquia"].ToString());
                 }
             }
             catch (Exception ex)
@@ -423,7 +423,7 @@ namespace Capa_de_Presentación.Formularios_Diego
                     auto_text.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
                     // Usa la colección ya cargada desde CargarDatosAutocompletadoGastos()
-                    auto_text.AutoCompleteCustomSource = Parroquias;
+                    auto_text.AutoCompleteCustomSource = Parroquia;
                 }
             }
             else
