@@ -30,44 +30,32 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BancosCuentaAhorro));
             panel2 = new Panel();
-            lblTitulo = new Label();
             txtMonto = new TextBox();
             textBox2 = new TextBox();
             pictureBox2 = new PictureBox();
             textBox1 = new TextBox();
             label7 = new Label();
-            label6 = new Label();
+            dataGridView1 = new DataGridView();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panel2
             // 
             panel2.BackColor = SystemColors.Control;
-            panel2.Controls.Add(lblTitulo);
+            panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(txtMonto);
             panel2.Controls.Add(textBox2);
             panel2.Controls.Add(pictureBox2);
             panel2.Controls.Add(textBox1);
             panel2.Controls.Add(label7);
-            panel2.Controls.Add(label6);
             panel2.Location = new Point(13, 12);
             panel2.Margin = new Padding(4, 3, 4, 3);
             panel2.Name = "panel2";
             panel2.Size = new Size(600, 306);
             panel2.TabIndex = 10;
             panel2.Paint += panel2_Paint_1;
-            // 
-            // lblTitulo
-            // 
-            lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblTitulo.Location = new Point(361, 32);
-            lblTitulo.Margin = new Padding(4, 0, 4, 0);
-            lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(113, 45);
-            lblTitulo.TabIndex = 20;
-            lblTitulo.Text = "label1";
             // 
             // txtMonto
             // 
@@ -129,16 +117,14 @@
             label7.TabIndex = 10;
             label7.Text = "Monto:";
             // 
-            // label6
+            // dataGridView1
             // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(108, 32);
-            label6.Margin = new Padding(4, 0, 4, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(245, 45);
-            label6.TabIndex = 10;
-            label6.Text = "Saldo Actual - ";
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(21, 14);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.Size = new Size(558, 279);
+            dataGridView1.TabIndex = 21;
             // 
             // BancosCuentaAhorro
             // 
@@ -156,6 +142,7 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
@@ -167,7 +154,6 @@
         private PictureBox pictureBox2;
         private TextBox textBox1;
         private Label label7;
-        private Label label6;
-        private Label lblTitulo;
+        private DataGridView dataGridView1;
     }
 }

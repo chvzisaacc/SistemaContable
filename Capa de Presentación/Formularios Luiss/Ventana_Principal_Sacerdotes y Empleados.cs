@@ -531,7 +531,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             int id_seleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
 
 
-            var frm = new BancosCuentaAhorro(id_seleccionado)
+            var frm = new BancosCuentaAhorro()
             {
                 StartPosition = FormStartPosition.Manual,
 
@@ -1297,11 +1297,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             dataGridView1.ReadOnly = false;
 
-            
-            
+
+
             try
             {
-                
+
                 // Asegura que el DataGridView esté editable al inicio, si no lo estaba.
                 dataGridView1.ReadOnly = false;
 
@@ -1690,11 +1690,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             dataGridView1.ReadOnly = false;
 
-            
+
             try
             {
-                
-                
+
+
                 if (modoEdicion)
                 {
                     if (dgvGastos.CurrentRow == null)
@@ -2125,6 +2125,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
         {
 
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            using (var frm = new BancosCuentaAhorro
+            {
+                StartPosition = FormStartPosition.Manual,
+                Location = new Point(430, 450)
+            })
+            {
+                DialogResult result = frm.ShowDialog();
+
+            }
         }
     }
 

@@ -92,41 +92,6 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public DataTable ObtenerCuentaPorId(int idOrigen)
-        {
-            // Usamos el objeto DataTable para almacenar los resultados
-            DataTable dt = new DataTable();
-            try
-            {
-                conexion.Abrir();
-
-                // 1. Definición del comando: Indica el SP y la conexión
-                SqlCommand cmd = new SqlCommand("sp_ObtenerCuentaBancariaPorId", conexion.sc);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                // 2. Añadir el parámetro requerido por el Stored Procedure
-                // El nombre del parámetro debe coincidir con el del SP
-                cmd.Parameters.AddWithValue("@Id_Origen", idOrigen);
-
-                // 3. Adaptador para llenar el DataTable
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-
-                // 4. Llenar el DataTable con los resultados del SP
-                adapter.Fill(dt);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener la cuenta bancaria por ID: " + ex.Message, ex);
-            }
-            finally
-            {
-                // Asegura que la conexión se cierre después de su uso
-                conexion.Cerrar();
-            }
-
-            return dt;
-        }
-
         // ... (Tu método ModificarSaldo)
 
         /// <summary>

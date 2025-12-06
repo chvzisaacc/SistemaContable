@@ -31,12 +31,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// Initializes a new instance of the <see cref="BancosCuentaAhorro"/> class.
         /// </summary>
         /// <param name="id_origen">The identifier origen.</param>
-        public BancosCuentaAhorro(int id_origen)
+        public BancosCuentaAhorro()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            cuentaId = id_origen;
             CRUD_CuentasBancarias = new ClsCRUD_CuentasBancarias();
 
         }
@@ -48,36 +47,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG42BancosCuentaCheque_Load(object sender, EventArgs e)
         {
-            //Si _cuentaId tiene un valor, carga los datos
-            if (cuentaId > 0)
-            {
-                CargarDatosDeLaCuenta();
-            }
+            
+            this.CenterToScreen();
         }
+        
 
         /// <summary>
         /// Cargars the datos de la cuenta.
         /// </summary>
+        /// 
         private void CargarDatosDeLaCuenta()
         {
-            try
-            {
-                DataTable dt = CRUD_CuentasBancarias.ObtenerCuentasBancarias();
-                DataRow[] rows = dt.Select($"Id_Origen = {cuentaId}");
-
-                if (rows.Length > 0)
-                {
-                    var cuenta = rows[0];
-                    // Asigna los valores a tus TextBoxes y otros controles
-                    //txtNombreCuenta.Text = cuenta["Nombre"].ToString();
-                    txtMonto.Text = cuenta["saldo"].ToString();
-                    // ...etc.
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error");
-            }
+            
         }
 
         /// <summary>
@@ -87,11 +68,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG6_Load(object sender, EventArgs e)
         {
-            // CargarDatos();
-            //CargarComboBoxes();
-            //LimpiarCampos();
+            
             HabilitarControles(false);
-            //CargarDatosCuenta();
         }
 
         private bool ValidarCampos()
@@ -171,6 +149,35 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        private void CargarCuentasDataGridView()
+        {
+            try
+            {
+                // Llama al método de la Capa de Acceso de Datos que ejecuta sp_ObtenerCuentasBancarias
+                DataTable dtCuentas = CRUD_CuentasBancarias.ObtenerCuentasBancarias();
+
+                if (dtCuentas != null && dtCuentas.Rows.Count > 0)
+                {
+                    // Asigna el DataTable al DataGridView
+                    dataGridView1.DataSource = dtCuentas;
+
+                    // Configuración visual básica
+                    dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dataGridView1.ReadOnly = true;
+                    dataGridView1.AllowUserToAddRows = false;
+                }
+                else
+                {
+                    MessageBox.Show("No se encontraron cuentas bancarias.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    dataGridView1.DataSource = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar las cuentas: " + ex.Message, "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         /// <summary>
         /// Handles the Load event of the FRM_PG42BancosCuentaAhorro control.
         /// </summary>
@@ -179,6 +186,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void FRM_PG42BancosCuentaAhorro_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
+            CargarCuentasDataGridView();
         }
 
         /// <summary>
