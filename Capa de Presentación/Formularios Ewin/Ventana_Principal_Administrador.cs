@@ -1327,5 +1327,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 e.Handled = true;
             }
         }
+
+        private void txtNombreCuenta_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Validaciones.NoPermitirEspacioInicial(txt_nombre.Text, e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

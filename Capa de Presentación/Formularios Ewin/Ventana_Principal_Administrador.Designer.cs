@@ -155,8 +155,8 @@
             // 
             // panelContenedor
             // 
-            panelContenedor.Controls.Add(panelUsuario);
             panelContenedor.Controls.Add(panelCatalogoCuentas);
+            panelContenedor.Controls.Add(panelUsuario);
             panelContenedor.Location = new Point(3, 178);
             panelContenedor.Margin = new Padding(3, 4, 3, 4);
             panelContenedor.Name = "panelContenedor";
@@ -797,6 +797,7 @@
             txtNombreCuenta.Name = "txtNombreCuenta";
             txtNombreCuenta.Size = new Size(179, 31);
             txtNombreCuenta.TabIndex = 31;
+            txtNombreCuenta.KeyPress += txtNombreCuenta_KeyPress;
             // 
             // txtDetalle
             // 
