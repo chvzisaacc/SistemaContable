@@ -1,4 +1,6 @@
 ﻿using System.Text.RegularExpressions;
+using System.Windows.Forms; 
+
 
 namespace Capa_de_Presentación.CLASES
 {
@@ -243,7 +245,29 @@ namespace Capa_de_Presentación.CLASES
             return !(texto.Length == 0 && key == ' ');
         }
 
+        public void MaxlenghtDGV(DataGridView dgv)
+        {
+            // Configurar columna SALDO
+            if (dgv.Columns.Contains("Saldo") && dgv.Columns["Saldo"] is DataGridViewTextBoxColumn colSaldo)
+            {
+                
+                colSaldo.MaxInputLength = 9;
+            }
 
+            // Configurar columna DETALLE
+            if (dgv.Columns.Contains("Detalle") && dgv.Columns["Detalle"] is DataGridViewTextBoxColumn colDetalle)
+            {
+               
+                colDetalle.MaxInputLength = 100;
+            }
+            //  Configurar columna NombreCuenta
+            if (dgv.Columns.Contains("NombreCuenta") && dgv.Columns["NombreCuenta"] is DataGridViewTextBoxColumn colNombreCuenta)
+            {
+
+                colNombreCuenta.MaxInputLength = 100;
+            }
+
+        }
 
     }
 }

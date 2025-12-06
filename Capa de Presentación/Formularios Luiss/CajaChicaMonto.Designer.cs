@@ -42,33 +42,35 @@
             txtMonto.BorderStyle = BorderStyle.None;
             txtMonto.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtMonto.ForeColor = Color.Black;
-            txtMonto.Location = new Point(230, 80);
-            txtMonto.Margin = new Padding(4, 3, 4, 3);
+            txtMonto.Location = new Point(161, 48);
+            txtMonto.Margin = new Padding(3, 2, 3, 2);
+            txtMonto.MaxLength = 9;
             txtMonto.Name = "txtMonto";
-            txtMonto.Size = new Size(256, 37);
+            txtMonto.Size = new Size(179, 25);
             txtMonto.TabIndex = 26;
             txtMonto.Text = "Ingrese monto";
+            txtMonto.Click += txtMonto_Click;
             txtMonto.TextChanged += textBox4_TextChanged;
+            txtMonto.Leave += txtMonto_Leave;
             // 
             // textBox1
             // 
             textBox1.BackColor = Color.FromArgb(251, 203, 51);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(230, 81);
-            textBox1.Margin = new Padding(4, 3, 4, 3);
+            textBox1.Location = new Point(161, 49);
+            textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(256, 37);
+            textBox1.Size = new Size(179, 25);
             textBox1.TabIndex = 23;
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(112, 80);
-            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Location = new Point(78, 48);
             label7.Name = "label7";
-            label7.Size = new Size(114, 38);
+            label7.Size = new Size(78, 25);
             label7.TabIndex = 20;
             label7.Text = "Monto:";
             // 
@@ -79,10 +81,9 @@
             panel1.Controls.Add(label7);
             panel1.Controls.Add(txtMonto);
             panel1.Controls.Add(textBox1);
-            panel1.Location = new Point(17, 20);
-            panel1.Margin = new Padding(4, 5, 4, 5);
+            panel1.Location = new Point(12, 12);
             panel1.Name = "panel1";
-            panel1.Size = new Size(596, 296);
+            panel1.Size = new Size(417, 178);
             panel1.TabIndex = 27;
             panel1.Paint += panel1_Paint;
             // 
@@ -92,10 +93,9 @@
             Btnguardar.FlatStyle = FlatStyle.Flat;
             Btnguardar.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             Btnguardar.ForeColor = SystemColors.ButtonHighlight;
-            Btnguardar.Location = new Point(112, 172);
-            Btnguardar.Margin = new Padding(4, 5, 4, 5);
+            Btnguardar.Location = new Point(78, 103);
             Btnguardar.Name = "Btnguardar";
-            Btnguardar.Size = new Size(374, 100);
+            Btnguardar.Size = new Size(262, 60);
             Btnguardar.TabIndex = 27;
             Btnguardar.Text = "Guardar y cerrar";
             Btnguardar.UseVisualStyleBackColor = false;
@@ -103,12 +103,11 @@
             // 
             // CajaChicaMonto
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(626, 330);
+            ClientSize = new Size(438, 198);
             Controls.Add(panel1);
-            Margin = new Padding(4, 5, 4, 5);
             MaximizeBox = false;
             Name = "CajaChicaMonto";
             StartPosition = FormStartPosition.CenterScreen;

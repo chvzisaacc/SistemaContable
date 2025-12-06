@@ -208,6 +208,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             _animationTimer.Tick += AnimationTimer_Tick;
             _animationTimer.Start();
 
+            ClsValidaciones config = new ClsValidaciones();
+            config.MaxlenghtDGV(dgvGastos);
+            config.MaxlenghtDGV(dataGridView1);
 
 
         }
@@ -1292,8 +1295,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return; // Si la validación falla, no continúa
             }
 
+            dataGridView1.ReadOnly = false;
+
+            
+            
             try
             {
+                
                 // Asegura que el DataGridView esté editable al inicio, si no lo estaba.
                 dataGridView1.ReadOnly = false;
 
@@ -1680,9 +1688,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 return; // Si la validación falla, no continúa
             }
+            dataGridView1.ReadOnly = false;
 
+            
             try
             {
+                
+                
                 if (modoEdicion)
                 {
                     if (dgvGastos.CurrentRow == null)
