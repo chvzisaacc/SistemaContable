@@ -1,12 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_procesamiento_de_datos;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 
 namespace Capa_de_Presentación.CLASES
@@ -167,44 +161,6 @@ namespace Capa_de_Presentación.CLASES
                 return false;
             }
         }
-
-        /*public void BloquearDesbloquearIngresos(DataTable dtDatosIngresos, DataGridView dataGridView1, int rowIndex)
-        {
-            
-            DataGridViewRow row = dataGridView1.Rows[rowIndex];
-
-            
-            object idTransaccionValue = row.Cells["Id_transaccion"].Value;
-
-            int idTransaccion = 0;
-
-           
-            bool yaEstaGuardada = idTransaccionValue != null &&
-                                  idTransaccionValue != DBNull.Value &&
-                                  int.TryParse(idTransaccionValue.ToString(), out idTransaccion) &&
-                                  idTransaccion > 0;
-
-           
-            if (yaEstaGuardada)
-            { 
-               
-                row.Cells["NombreCuenta"].ReadOnly = true;
-                row.Cells["Detalle"].ReadOnly = true;
-                row.Cells["Saldo"].ReadOnly = true;
-               
-            }
-            else 
-            {
-                
-                row.Cells["NombreCuenta"].ReadOnly = false;
-                row.Cells["Detalle"].ReadOnly = false;
-                row.Cells["Saldo"].ReadOnly = false;
-
-            }
-        }
-        */
-
-
     }
 }
 

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
-using System.Drawing;
 
 // Nota: Asumo que Clsconexion es la clase base que contiene sc (SqlConnection), Abrir() y Cerrar().
 
@@ -728,6 +727,34 @@ namespace Capa_de_acceso_de_datos
             return listaparroquias;
         }
 
+        public DataTable ObtenerParroquias()
+        {
+            DataTable dtParroquia = new DataTable();
+
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("SP_autocompletar_parroquias", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(dtParroquia);
+                    }
+                }
+                return dtParroquia;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener las cuentas de ingresos: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+        }
+
         /// <summary>
         /// Obteners the tipo reporte.
         /// </summary>
@@ -798,6 +825,8 @@ namespace Capa_de_acceso_de_datos
                 Cerrar();
             }
         }
+
+
 
         /// <summary>
         /// Obteners the cuentas gastos.

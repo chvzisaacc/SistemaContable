@@ -1,15 +1,5 @@
 ﻿using Capa_de_acceso_de_datos;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -125,7 +115,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             txtMonto.Enabled = habilitar;
 
         }
-        
+
         /// <summary>
         /// Handles the Click event of the pictureBox2 control.
         /// </summary>

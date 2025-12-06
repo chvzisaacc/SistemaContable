@@ -1,6 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
-using System.Data;
 using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace Capa_de_procesamiento_de_datos
 {
@@ -84,7 +84,7 @@ namespace Capa_de_procesamiento_de_datos
             int nuevaTransa = 0;
             try
             {
-                // VALIDACIÓN CRÍTICA: Asegurar que la fecha sea válida para SQL Server
+                //Asegurar que la fecha sea válida para SQL Server
                 DateTime fechaValidada = fecha;
 
                 // Si la fecha es menor a 1753-01-01 (mínimo de SQL Server) o es DateTime.MinValue
@@ -147,11 +147,11 @@ namespace Capa_de_procesamiento_de_datos
             int filas_afectadas = 0;
             try
             {
-                
+
                 DateTime fechaValidada = fecha;
                 if (fecha < new DateTime(1753, 1, 1) || fecha == DateTime.MinValue)
                 {
-                    fechaValidada = DateTime.Now; 
+                    fechaValidada = DateTime.Now;
                 }
 
                 Abrir();

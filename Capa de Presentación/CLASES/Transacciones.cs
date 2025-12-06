@@ -1,11 +1,5 @@
 ﻿using Capa_de_acceso_de_datos;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Capa_de_Presentación.CLASES
 {
@@ -56,9 +50,9 @@ namespace Capa_de_Presentación.CLASES
         /// <param name="cmbCuentas">The CMB cuentas.</param>
         public void CargarComboBoxCuentas(ComboBox cmbCuentas)
         {
-                cmbCuentas.Items.Clear();
-                cmbCuentas.Items.Add("Cuentas Bancarias");
-                cmbCuentas.SelectedIndex = 0;
+            cmbCuentas.Items.Clear();
+            cmbCuentas.Items.Add("Cuentas Bancarias");
+            cmbCuentas.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -77,10 +71,10 @@ namespace Capa_de_Presentación.CLASES
                 DataRow newRow = dtDatosIngresos.NewRow();
                 dtDatosIngresos.Rows.Add(newRow);
 
-   
-                dataGridView1.DataSource = dtDatosIngresos; 
 
-   
+                dataGridView1.DataSource = dtDatosIngresos;
+
+
                 if (dataGridView1.Columns.Contains("HoraRegistro"))
                 {
                     dataGridView1.Columns["HoraRegistro"].Visible = false;
@@ -92,8 +86,8 @@ namespace Capa_de_Presentación.CLASES
                 if (lastIndex >= 0)
                 {
 
-                    dataGridView1.CurrentCell = null; 
-                    dataGridView1.ClearSelection(); 
+                    dataGridView1.CurrentCell = null;
+                    dataGridView1.ClearSelection();
 
                     dataGridView1.FirstDisplayedScrollingRowIndex = lastIndex;
 
@@ -129,13 +123,13 @@ namespace Capa_de_Presentación.CLASES
 
                 if (lastIndex >= 0)
                 {
-                    
+
                     DataGridViewColumn firstVisibleColumn = dgvGastos.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c.Visible);
                     if (firstVisibleColumn != null)
-                    { 
+                    {
 
                         dgvGastos.ClearSelection();
-                       dgvGastos.CurrentCell = dgvGastos.Rows[lastIndex].Cells[firstVisibleColumn.Index];
+                        dgvGastos.CurrentCell = dgvGastos.Rows[lastIndex].Cells[firstVisibleColumn.Index];
                         dgvGastos.BeginEdit(true);
                     }
                 }
@@ -317,7 +311,7 @@ namespace Capa_de_Presentación.CLASES
                 }
             }
         }
-        
+
 
         /// <summary>
         /// Agregarfila2s the specified dt datos gastos.

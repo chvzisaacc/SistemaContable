@@ -2,15 +2,7 @@
 using Capa_de_Presentación.CLASES;
 using Capa_de_procesamiento_de_datos;
 using Spire.Pdf;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -119,6 +111,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbTipoReporte.DisplayMember = "descripcion";
             cmbTipoReporte.ValueMember = "TipoReporte_id";
             cmbTipoReporte.SelectedIndex = -1;
+            this.CenterToScreen();
         }
 
         /// <summary>

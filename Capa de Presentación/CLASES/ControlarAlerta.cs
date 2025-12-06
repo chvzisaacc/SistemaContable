@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Capa_de_procesamiento_de_datos;
 using System.Data;
-using System.Windows.Forms;
 using System.Diagnostics;
-using Capa_de_procesamiento_de_datos;
 
 namespace Capa_de_Presentación.CLASES
 {

@@ -1,14 +1,5 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -110,7 +101,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.CenterToScreen();
             CargarDatos();
             CargarComboBoxes();
-            
+
         }
 
         /// <summary>

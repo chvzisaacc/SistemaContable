@@ -4,20 +4,8 @@ using Capa_de_Presentación.Formularios_Diego;
 using Capa_de_Presentación.Formularios_Ewin;
 using Capa_de_procesamiento_de_datos;
 using Microsoft.Data.SqlClient;
-using Microsoft.VisualBasic.Logging;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Media;
-using System.Security.Cryptography.Xml;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -27,7 +15,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FRM_42 : Form, ICierreSesionHandler
     {
-        private bool _estaNavegando = false;
         /// <summary>
         /// The dt datos ingresos
         /// </summary>
@@ -176,11 +163,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         public void ManejarCierreSesion()
         {
-            if (_estaNavegando)
-            {
-                return;
-            }
-
             // Lógica NORMAL de cierre de sesión (solo se ejecuta si el usuario realmente cerró)
             this.Hide();
             using (var login = new FRM_PG1())
@@ -868,10 +850,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            
-                Transacciones obj_transa = new();
-                obj_transa.BloquearDesbloquearDataIngresos(dtDatosIngresos, dataGridView1, e.RowIndex);
-            
+
+            Transacciones obj_transa = new();
+            obj_transa.BloquearDesbloquearDataIngresos(dtDatosIngresos, dataGridView1, e.RowIndex);
+
 
         }
 
@@ -933,6 +915,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
         }
+
+
 
 
         /// <summary>
@@ -1317,7 +1301,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 if (modoEdicion)
                 {
-  
+
                     if (dataGridView1.CurrentRow == null)
                     {
                         MessageBox.Show("Seleccione una fila para guardar la edición.", "Advertencia",
@@ -1387,7 +1371,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 }
                 else
                 {
-                    
+
                     dataGridView1.EndEdit();
                     this.Validate();
                     this.BindingContext[dataGridView1.DataSource]?.EndCurrentEdit();
@@ -2030,7 +2014,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             if (dgvGastos.SelectedRows.Count > 0)
             {
                 int id_transaccion = Convert.ToInt32(dgvGastos.SelectedRows[0].Cells["Id_Transaccion"].Value);
-                
+
 
 
                 Partidas_Dobles frm = new Partidas_Dobles(id_transaccion);
@@ -2053,7 +2037,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 int id_transaccion = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id_Transaccion"].Value);
-          
+
 
 
                 Partidas_Dobles frm = new Partidas_Dobles(id_transaccion);
@@ -2095,7 +2079,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbInteresesBancarios_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         /// <summary>
@@ -2130,7 +2114,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
         {
-           
+
         }
     }
 

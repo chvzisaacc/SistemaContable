@@ -57,6 +57,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Update="Formularios Diego\Certificados_De_Depósito.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Formularios Ewin\Inicio de sesión.resx">
 		  <Generator></Generator>
 		</EmbeddedResource>

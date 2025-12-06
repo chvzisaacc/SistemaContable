@@ -1,14 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -177,7 +169,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             if (!ValidarCampos())
                 return;
-            
+
 
             if (cmbOrigen.SelectedValue.ToString() == cmbDestino.SelectedValue.ToString())
             {
@@ -186,7 +178,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            decimal monto ;
+            decimal monto;
             if (!decimal.TryParse(txtMonto.Text, out monto) || monto <= 0)
             {
                 MessageBox.Show("Debe ingresar un monto válido mayor a cero",

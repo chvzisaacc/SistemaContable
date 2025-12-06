@@ -4,14 +4,6 @@ using Capa_de_Presentación.Formularios_Luiss;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using OpenCvSharp.Face;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 {

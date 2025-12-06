@@ -1,12 +1,5 @@
 ﻿using Capa_de_acceso_de_datos;
-using Capa_de_procesamiento_de_datos;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 
 namespace Capa_de_Presentación.CLASES
@@ -15,7 +8,7 @@ namespace Capa_de_Presentación.CLASES
     /// 
     /// </summary>
     /// <seealso cref="Capa_de_acceso_de_datos.Clsconexion" />
-    public class GastosGa: Clsconexion
+    public class GastosGa : Clsconexion
     {
 
         /// <summary>

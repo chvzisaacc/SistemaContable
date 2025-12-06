@@ -2,7 +2,14 @@
 using Capa_de_Presentación.CLASES;
 using Capa_de_Presentación.Formularios_Ewin;
 using Capa_de_Presentación.Formularios_Luiss;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
 using System;
+using System.Data;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,6 +21,8 @@ namespace Capa_de_Presentación.Formularios_Diego
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Certificados_De_Depósito : Form
     {
+        private AutoCompleteStringCollection Parroquias = new AutoCompleteStringCollection();
+        private ClsAccionesDB objParroquias = new ClsAccionesDB();
         /// <summary>
         /// The modo edicion activo
         /// </summary>
@@ -30,6 +39,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            CargarDatosAutocompletadoParroquias();
 
             CargarDatos();
         }
@@ -43,6 +53,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             InitializeComponent();
             Text = text;
             CargarDatos();
+
         }
 
         /// <summary>
@@ -290,6 +301,28 @@ namespace Capa_de_Presentación.Formularios_Diego
 
         }
 
+
+        private void CargarDatosAutocompletadoParroquias()
+        {
+            Parroquias.Clear();
+
+            try
+            {
+                DataTable dt = objParroquias.ObtenerParroquias();
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    Parroquias.Add(row["Parroquia"].ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+
+        }
         /// <summary>
         /// Handles the Paint event of the panel2 control.
         /// </summary>
@@ -345,7 +378,7 @@ namespace Capa_de_Presentación.Formularios_Diego
 
             DataGridViewRow fila = dataGridView1.Rows[e.RowIndex];
             DataGridViewCell celdaActual = fila.Cells[e.ColumnIndex];
-            
+
             if (celdaActual.ReadOnly == true)
             {
                 ClsCD.DesbloquearFila(fila);
@@ -372,6 +405,36 @@ namespace Capa_de_Presentación.Formularios_Diego
                 // 4. Lógica de Edición Normal: Si la fila ya estaba desbloqueada, solo inicia la edición
                 dataGridView1.CurrentCell = celdaActual;
                 dataGridView1.BeginEdit(true);
+            }
+        }
+
+        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (dataGridView1.CurrentCell == null)
+                return;
+
+            // Verifica por nombre de columna, no por índice
+            if (dataGridView1.CurrentCell.OwningColumn.Name == "Parroquia_nombre")
+            {
+                TextBox auto_text = e.Control as TextBox;
+                if (auto_text != null)
+                {
+                    auto_text.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    auto_text.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+                    // Usa la colección ya cargada desde CargarDatosAutocompletadoGastos()
+                    auto_text.AutoCompleteCustomSource = Parroquias;
+                }
+            }
+            else
+            {
+                TextBox auto_text = e.Control as TextBox;
+                if (auto_text != null)
+                {
+                    auto_text.AutoCompleteMode = AutoCompleteMode.None;
+                    auto_text.AutoCompleteSource = AutoCompleteSource.None;
+                    auto_text.AutoCompleteCustomSource = null;
+                }
             }
         }
     }

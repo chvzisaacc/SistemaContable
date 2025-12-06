@@ -1,13 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.Formularios_Diego;
-using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Capa_de_Presentación.CLASES
 {
@@ -155,7 +148,7 @@ namespace Capa_de_Presentación.CLASES
                 ? dataGridView1.Rows[dataGridView1.Rows.Count - 2]
                 : dataGridView1.Rows[dataGridView1.Rows.Count - 1];
 
-     
+
             string[] columnas_obligatorias = new string[] { "Nombre_certificado", "Nombre_Parroquia" };
 
             foreach (string nombre_columna in columnas_obligatorias)
@@ -197,7 +190,7 @@ namespace Capa_de_Presentación.CLASES
                 fila.Cells["Id_Certificado"].Value = idCertificadoGenerado;
                 fila.Cells["FechaTransaccion"].Value = fecha_transaccion_actual;
 
- 
+
 
                 MessageBox.Show("Última fila guardada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -413,7 +406,7 @@ namespace Capa_de_Presentación.CLASES
 
                     modo_edicion_activo = false;
 
-       
+
 
                     MessageBox.Show("¡El certificado ha sido marcado como renovado y los cambios guardados!", "Renovación Completada", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -453,7 +446,7 @@ namespace Capa_de_Presentación.CLASES
             int codigo_certificado = Convert.ToInt32(fila_seleccionada.Cells["Id_Certificado"].Value);
             string motivo_cancelacion = string.Empty;
 
-           
+
             using (Cancelar_Certificados frmCancel = new Cancelar_Certificados())
             {
                 if (frmCancel.ShowDialog() == DialogResult.OK)
@@ -463,7 +456,7 @@ namespace Capa_de_Presentación.CLASES
                 }
                 else
                 {
-                   
+
                     return;
                 }
             }
@@ -480,7 +473,7 @@ namespace Capa_de_Presentación.CLASES
 
                 objAcciones.cancelarCertificado(codigo_certificado, motivo_cancelacion);
 
-                
+
                 dataGridView1.Rows.Remove(fila_seleccionada);
 
                 MessageBox.Show("Certificado cancelado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);

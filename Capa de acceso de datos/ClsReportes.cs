@@ -1,10 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Capa_de_acceso_de_datos
 {
@@ -44,8 +39,8 @@ namespace Capa_de_acceso_de_datos
 
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
-                        da.Fill(ds);  
-                                       
+                        da.Fill(ds);
+
                     }
                 }
             }
@@ -70,7 +65,7 @@ namespace Capa_de_acceso_de_datos
 
             try
             {
-                _cn.Abrir(); 
+                _cn.Abrir();
                 using (SqlCommand cmd = new SqlCommand("sp_ReporteIngresos", _cn.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -85,7 +80,7 @@ namespace Capa_de_acceso_de_datos
                     }
                 }
             }
-            
+
             finally
             {
                 _cn.Cerrar();
@@ -143,7 +138,7 @@ namespace Capa_de_acceso_de_datos
 
             try
             {
-                _cn.Abrir();   
+                _cn.Abrir();
 
                 using (SqlCommand cmd = new SqlCommand("sp_ObtenerParroquias", _cn.sc))
                 {

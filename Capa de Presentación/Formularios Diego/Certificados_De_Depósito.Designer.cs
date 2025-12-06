@@ -1,4 +1,5 @@
-﻿namespace Capa_de_Presentación.Formularios_Diego
+﻿
+namespace Capa_de_Presentación.Formularios_Diego
 {
     partial class Certificados_De_Depósito
     {
@@ -75,6 +76,7 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1056, 620);
             panel1.TabIndex = 3;
+            panel1.Paint += panel1_Paint;
             // 
             // panel2
             // 
@@ -95,6 +97,7 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(926, 405);
             panel2.TabIndex = 8;
+            panel2.Paint += panel2_Paint;
             // 
             // button1
             // 
@@ -334,9 +337,17 @@
             // 
             // Certificados_De_Depósito
             // 
-            ClientSize = new Size(668, 420);
+            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(43, 56, 143);
+            ClientSize = new Size(1134, 685);
+            Controls.Add(panel1);
+            Margin = new Padding(4);
+            MaximizeBox = false;
             Name = "Certificados_De_Depósito";
-            Load += Certificados_De_Depósito_Load;
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Certificados_De_Depósito";
+            Load += FRM_PG103_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
@@ -349,7 +360,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
-            //ResumeLayout(false);
         }
 
         #endregion

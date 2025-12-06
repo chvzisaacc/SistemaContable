@@ -104,7 +104,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-                public bool CambiarEstadoCuenta(int cod_cuenta, int nuevo_estado)
+        public bool CambiarEstadoCuenta(int cod_cuenta, int nuevo_estado)
         {
             try
             {

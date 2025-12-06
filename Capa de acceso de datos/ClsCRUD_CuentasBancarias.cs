@@ -166,7 +166,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="nuevo_id">The nuevo identifier.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al crear cuenta bancaria: " + ex.Message</exception>
-        public bool CrearCuentaBanco(String nombre, decimal saldo,  out int nuevo_id)
+        public bool CrearCuentaBanco(String nombre, decimal saldo, out int nuevo_id)
         {
             nuevo_id = 0;
             try

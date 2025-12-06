@@ -1,19 +1,8 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
 using Capa_de_procesamiento_de_datos;
-using Stimulsoft.Report;
-using Stimulsoft.Report.Viewer;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Spire.Pdf;
-using System.Drawing.Imaging;
+using System.Data;
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
@@ -87,6 +76,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG10_Load(object sender, EventArgs e)
         {
+            this.CenterToScreen();
             //cargar los nombres de los reportes
             CargarParroquias();
             CargarReportes();
@@ -103,7 +93,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmb_tipo_reporte.ValueMember = "TipoReporte_id";    // el int 1,2,3,4
             cmb_tipo_reporte.SelectedIndex = -1;                // ninguno seleccionado al inicio
 
-            
+
         }
 
         /// <summary>

@@ -1,10 +1,5 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.Formularios_Ewin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Capa_de_Presentación.CLASES
 {
@@ -12,7 +7,7 @@ namespace Capa_de_Presentación.CLASES
     /// 
     /// </summary>
     /// <seealso cref="Capa_de_acceso_de_datos.Clsconexion" />
-    public class ClsCodigo:Clsconexion
+    public class ClsCodigo : Clsconexion
     {
 
         /// <summary>
@@ -35,7 +30,7 @@ namespace Capa_de_Presentación.CLASES
         /// <param name="codigo">The codigo.</param>
         /// <param name="correo">The correo.</param>
         /// <param name="formulario_actual">The formulario actual.</param>
-        public void ProcesarCodigoRecuperacion(int usuario_id, string codigo,string correo, Form formulario_actual)
+        public void ProcesarCodigoRecuperacion(int usuario_id, string codigo, string correo, Form formulario_actual)
         {
             string resultado = acciones.ValidarCodigoRecuperacion(usuario_id, codigo);
 

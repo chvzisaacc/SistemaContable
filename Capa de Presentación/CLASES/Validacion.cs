@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Capa_de_Presentación.CLASES
+﻿namespace Capa_de_Presentación.CLASES
 {
     /// <summary>
     /// 
@@ -25,7 +19,8 @@ namespace Capa_de_Presentación.CLASES
         /// </summary>
         /// <param name="np">The np.</param>
         /// <param name="cp">The cp.</param>
-        public Validacion(string np, string cp) {
+        public Validacion(string np, string cp)
+        {
 
             npassword = np;
             confipassword = cp;

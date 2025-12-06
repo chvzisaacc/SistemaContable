@@ -1,15 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
-using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Capa_de_procesamiento_de_datos;
+using System.Data;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -27,7 +18,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// The identifier transaccion
         /// </summary>
         private int id_transaccion;
-       
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Partidas_Dobles"/> class.
@@ -39,7 +30,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.id_transaccion = id_transaccion;
-            
+
         }
 
         /// <summary>

@@ -1,6 +1,4 @@
-﻿using Emgu.CV.PpfMatch3d;
-using Microsoft.Data.SqlClient;
-using Microsoft.VisualBasic.ApplicationServices;
+﻿using Microsoft.Data.SqlClient;
 using System.Data;
 
 

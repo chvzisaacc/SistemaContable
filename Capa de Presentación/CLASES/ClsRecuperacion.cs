@@ -1,14 +1,5 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.Formularios_Ewin;
-using Capa_de_Presentación.Formularios_Luiss;
-using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Capa_de_Presentación.CAPAS
 {

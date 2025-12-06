@@ -1,13 +1,4 @@
 ﻿using Capa_de_acceso_de_datos;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -87,7 +78,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 main?.Hide();
                 this.Hide();
 
-                
+
                 using (var frm = new FRM_PG51(Sesion1.usuario_id))
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
@@ -132,7 +123,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 using (var frm = new FRM_PG46())
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
-                    frm.ShowDialog(this); 
+                    frm.ShowDialog(this);
                 }
             }
             finally
@@ -221,10 +212,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                
+
                 clsCRUD_Historial historial = new clsCRUD_Historial();
 
-                
+
                 historial.RegistrarAccionUsuario(
                     Sesion1.usuario_id,
                     modulo,

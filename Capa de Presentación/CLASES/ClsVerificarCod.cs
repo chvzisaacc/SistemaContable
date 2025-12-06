@@ -57,6 +57,6 @@ namespace Capa_de_Presentación.CLASES
             {
                 MessageBox.Show("Error al verificar el código: " + ex.Message);
             }
-        } 
+        }
     }
 }

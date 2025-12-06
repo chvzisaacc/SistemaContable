@@ -2,10 +2,6 @@
 using Capa_de_Presentación.CAPAS;
 using Capa_de_Presentación.CLASES;
 using Capa_de_Presentación.Formularios_Luiss;
-using Capa_de_procesamiento_de_datos;
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
@@ -66,8 +62,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // Ocultar en lugar de cerrar si no se está cerrando la aplicación por completo
             //if (e.CloseReason == CloseReason.UserClosing)
             //{
-                // En un login, si presiona X, podemos querer cerrar la app. 
-                // Pero si se cierra al hacer Login exitoso, se maneja con this.Hide() desde el botón.
+            // En un login, si presiona X, podemos querer cerrar la app. 
+            // Pero si se cierra al hacer Login exitoso, se maneja con this.Hide() desde el botón.
             //}
             //base.OnFormClosing(e);
         }
@@ -89,7 +85,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 MessageBox.Show("Por favor, ingrese un nombre de usuario.");
                 return;
             }
-            else if (!validaciones.EsUsuarioValido(txt_usuario.Text))  
+            else if (!validaciones.EsUsuarioValido(txt_usuario.Text))
             {
                 MessageBox.Show("El nombre de usuario contiene caracteres no permitidos.");
                 return;

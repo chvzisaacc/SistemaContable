@@ -1,6 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
-using System.Data;
 using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace Capa_de_procesamiento_de_datos
 {
