@@ -41,6 +41,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
             panelContenedor = new Panel();
+            panel5 = new Panel();
             panelGastos2 = new Panel();
             pictureBox6 = new PictureBox();
             pictureBox7 = new PictureBox();
@@ -73,7 +74,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             NombreCuenta = new DataGridViewTextBoxColumn();
             cDetalle = new DataGridViewTextBoxColumn();
             cSaldo = new DataGridViewTextBoxColumn();
-            panel5 = new Panel();
             panelBancos2 = new Panel();
             label6 = new Label();
             label5 = new Label();
@@ -101,6 +101,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panelContenedor.SuspendLayout();
+            panelBancos2.SuspendLayout();
+            panelCajaChica2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             panelGastos2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
@@ -109,9 +112,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            panelBancos2.SuspendLayout();
-            panelCajaChica2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             panel1.SuspendLayout();
             pnlAlertaDeslizante.SuspendLayout();
             SuspendLayout();
@@ -161,15 +161,25 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // panelContenedor
             // 
+            panelContenedor.Controls.Add(panel5);
             panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Controls.Add(panelIngresos);
-            panelContenedor.Controls.Add(panel5);
             panelContenedor.Controls.Add(panelBancos2);
             panelContenedor.Controls.Add(panelCajaChica2);
-            panelContenedor.Location = new Point(3, 213);
+            panelContenedor.Location = new Point(4, 355);
+            panelContenedor.Margin = new Padding(4, 5, 4, 5);
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(1096, 301);
             panelContenedor.TabIndex = 8;
+            // 
+            // panel5
+            // 
+            panel5.BackgroundImageLayout = ImageLayout.Stretch;
+            panel5.Location = new Point(408, 25);
+            panel5.Margin = new Padding(4, 2, 4, 2);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(749, 368);
+            panel5.TabIndex = 49;
             // 
             // panelGastos2
             // 
@@ -577,15 +587,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cSaldo.Name = "cSaldo";
             cSaldo.ReadOnly = true;
             // 
-            // panel5
-            // 
-            panel5.BackgroundImageLayout = ImageLayout.Stretch;
-            panel5.Location = new Point(286, 15);
-            panel5.Margin = new Padding(3, 1, 3, 1);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(524, 221);
-            panel5.TabIndex = 49;
-            // 
             // panelBancos2
             // 
             panelBancos2.Controls.Add(label6);
@@ -595,8 +596,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelBancos2.Controls.Add(cmbCuentas);
             panelBancos2.Dock = DockStyle.Fill;
             panelBancos2.Location = new Point(0, 0);
+            panelBancos2.Margin = new Padding(4, 5, 4, 5);
             panelBancos2.Name = "panelBancos2";
-            panelBancos2.Size = new Size(1096, 301);
+            panelBancos2.Size = new Size(1566, 502);
             panelBancos2.TabIndex = 41;
             panelBancos2.Visible = false;
             panelBancos2.Paint += panelBancos2_Paint;
@@ -605,10 +607,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(334, 113);
-            label6.Margin = new Padding(2, 0, 2, 0);
+            label6.Location = new Point(477, 188);
             label6.Name = "label6";
-            label6.Size = new Size(195, 21);
+            label6.Size = new Size(293, 32);
             label6.TabIndex = 10;
             label6.Text = "Certificados de depósito";
             // 
@@ -616,10 +617,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(360, 39);
-            label5.Margin = new Padding(2, 0, 2, 0);
+            label5.Location = new Point(514, 65);
             label5.Name = "label5";
-            label5.Size = new Size(148, 21);
+            label5.Size = new Size(221, 32);
             label5.TabIndex = 9;
             label5.Text = "Cuentas Bancarias";
             // 
@@ -627,10 +627,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             button3.BackColor = Color.FromArgb(251, 203, 51);
             button3.Font = new Font("Segoe UI Black", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(301, 137);
-            button3.Margin = new Padding(1);
+            button3.Location = new Point(430, 229);
+            button3.Margin = new Padding(2);
             button3.Name = "button3";
-            button3.Size = new Size(280, 31);
+            button3.Size = new Size(400, 52);
             button3.TabIndex = 8;
             button3.Text = "Certificados de depósito";
             button3.UseVisualStyleBackColor = false;
@@ -643,9 +643,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbAcciones.ForeColor = SystemColors.ControlLightLight;
             cmbAcciones.FormattingEnabled = true;
             cmbAcciones.Items.AddRange(new object[] { "Agregar Saldo", "Transferencia entre cuentas", "Agregar cuenta bancaria", "Salida de dinero" });
-            cmbAcciones.Location = new Point(687, 56);
+            cmbAcciones.Location = new Point(981, 93);
+            cmbAcciones.Margin = new Padding(4, 5, 4, 5);
             cmbAcciones.Name = "cmbAcciones";
-            cmbAcciones.Size = new Size(319, 29);
+            cmbAcciones.Size = new Size(454, 40);
             cmbAcciones.TabIndex = 7;
             cmbAcciones.Text = "Acciones";
             cmbAcciones.SelectedIndexChanged += cmbAcciones_SelectedIndexChanged;
@@ -656,9 +657,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbCuentas.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbCuentas.FormattingEnabled = true;
             cmbCuentas.Items.AddRange(new object[] { "Cuentas de Ahorro", "Cuenta de Cheques" });
-            cmbCuentas.Location = new Point(305, 61);
+            cmbCuentas.Location = new Point(436, 102);
+            cmbCuentas.Margin = new Padding(4, 5, 4, 5);
             cmbCuentas.Name = "cmbCuentas";
-            cmbCuentas.Size = new Size(280, 38);
+            cmbCuentas.Size = new Size(398, 53);
             cmbCuentas.TabIndex = 4;
             cmbCuentas.Text = "Cuentas de Ahorro";
             cmbCuentas.SelectedIndexChanged += cmbCuentas_SelectedIndexChanged;
@@ -673,9 +675,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelCajaChica2.Controls.Add(label7);
             panelCajaChica2.Dock = DockStyle.Fill;
             panelCajaChica2.Location = new Point(0, 0);
-            panelCajaChica2.Margin = new Padding(3, 1, 3, 1);
+            panelCajaChica2.Margin = new Padding(4, 2, 4, 2);
             panelCajaChica2.Name = "panelCajaChica2";
-            panelCajaChica2.Size = new Size(1096, 301);
+            panelCajaChica2.Size = new Size(1566, 502);
             panelCajaChica2.TabIndex = 42;
             // 
             // textBox1
@@ -683,10 +685,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             textBox1.BackColor = Color.FromArgb(251, 203, 51);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(417, 133);
-            textBox1.Margin = new Padding(3, 1, 3, 1);
+            textBox1.Location = new Point(596, 222);
+            textBox1.Margin = new Padding(4, 2, 4, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(22, 32);
+            textBox1.Size = new Size(31, 48);
             textBox1.TabIndex = 40;
             textBox1.Text = "L";
             // 
@@ -694,10 +696,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             chkSaldoInicial.AutoSize = true;
             chkSaldoInicial.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            chkSaldoInicial.Location = new Point(365, 205);
-            chkSaldoInicial.Margin = new Padding(3, 1, 3, 1);
+            chkSaldoInicial.Location = new Point(522, 342);
+            chkSaldoInicial.Margin = new Padding(4, 2, 4, 2);
             chkSaldoInicial.Name = "chkSaldoInicial";
-            chkSaldoInicial.Size = new Size(245, 34);
+            chkSaldoInicial.Size = new Size(363, 49);
             chkSaldoInicial.TabIndex = 39;
             chkSaldoInicial.Text = "Ingresar saldo inicial";
             chkSaldoInicial.UseVisualStyleBackColor = true;
@@ -708,10 +710,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             txtSaldoActual.BackColor = Color.FromArgb(251, 203, 51);
             txtSaldoActual.BorderStyle = BorderStyle.None;
             txtSaldoActual.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtSaldoActual.Location = new Point(445, 133);
-            txtSaldoActual.Margin = new Padding(3, 1, 3, 1);
+            txtSaldoActual.Location = new Point(636, 222);
+            txtSaldoActual.Margin = new Padding(4, 2, 4, 2);
             txtSaldoActual.Name = "txtSaldoActual";
-            txtSaldoActual.Size = new Size(139, 32);
+            txtSaldoActual.Size = new Size(198, 48);
             txtSaldoActual.TabIndex = 38;
             txtSaldoActual.Text = "0.00";
             txtSaldoActual.TextChanged += txtSaldoActual_TextChanged;
@@ -719,10 +721,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // pictureBox4
             // 
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(360, 113);
-            pictureBox4.Margin = new Padding(3, 1, 3, 1);
+            pictureBox4.Location = new Point(514, 188);
+            pictureBox4.Margin = new Padding(4, 2, 4, 2);
             pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(276, 79);
+            pictureBox4.Size = new Size(394, 132);
             pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox4.TabIndex = 37;
             pictureBox4.TabStop = false;
@@ -735,9 +737,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             btnDetalle.FlatStyle = FlatStyle.Flat;
             btnDetalle.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnDetalle.ForeColor = SystemColors.Control;
-            btnDetalle.Location = new Point(687, 133);
+            btnDetalle.Location = new Point(981, 222);
+            btnDetalle.Margin = new Padding(4, 5, 4, 5);
             btnDetalle.Name = "btnDetalle";
-            btnDetalle.Size = new Size(133, 37);
+            btnDetalle.Size = new Size(190, 62);
             btnDetalle.TabIndex = 36;
             btnDetalle.Text = "Detalle";
             btnDetalle.UseVisualStyleBackColor = false;
@@ -748,9 +751,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(381, 31);
+            label7.Location = new Point(544, 52);
+            label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
-            label7.Size = new Size(257, 45);
+            label7.Size = new Size(382, 65);
             label7.TabIndex = 31;
             label7.Text = "SALDO ACTUAL";
             // 
@@ -880,6 +884,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panelContenedor.ResumeLayout(false);
+            panelBancos2.ResumeLayout(false);
+            panelBancos2.PerformLayout();
+            panelCajaChica2.ResumeLayout(false);
+            panelCajaChica2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             panelGastos2.ResumeLayout(false);
             panelGastos2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
@@ -890,11 +899,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            panelBancos2.ResumeLayout(false);
-            panelBancos2.PerformLayout();
-            panelCajaChica2.ResumeLayout(false);
-            panelCajaChica2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             pnlAlertaDeslizante.ResumeLayout(false);
