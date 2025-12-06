@@ -1196,7 +1196,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
         private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
-
+            if (!Validaciones.NoPermitirEspacioInicial(txt_nombre.Text, e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
 
         private void btnHabilitarCuenta_Click(object sender, EventArgs e)
@@ -1299,6 +1302,30 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void label8_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void txt_apellido_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Validaciones.NoPermitirEspacioInicial(txt_nombre.Text, e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_usuario_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Validaciones.NoPermitirEspacioInicial(txt_nombre.Text, e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txt_correo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Validaciones.NoPermitirEspacioInicial(txt_nombre.Text, e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

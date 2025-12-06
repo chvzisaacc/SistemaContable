@@ -236,6 +236,13 @@ namespace Capa_de_Presentación.CLASES
             return true;
         }
 
+        
+        //espacios
+        public bool NoPermitirEspacioInicial(string texto, char key)
+        {
+            return !(texto.Length == 0 && key == ' ');
+        }
+
 
 
     }
