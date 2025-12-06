@@ -68,7 +68,7 @@
             txtMonto.ForeColor = Color.Black;
             txtMonto.Location = new Point(171, 89);
             txtMonto.Margin = new Padding(3, 2, 3, 2);
-            txtMonto.MaxLength = 9;
+            txtMonto.MaxLength = 8;
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(189, 25);
             txtMonto.TabIndex = 18;

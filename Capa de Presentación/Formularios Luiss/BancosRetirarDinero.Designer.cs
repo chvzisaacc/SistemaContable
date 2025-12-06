@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BancosRetirarDinero));
             panel2 = new Panel();
+            label1 = new Label();
             txtMonto = new TextBox();
             textBox2 = new TextBox();
             pictureBox2 = new PictureBox();
@@ -37,7 +38,6 @@
             label7 = new Label();
             cmbCuentas = new ComboBox();
             label6 = new Label();
-            label1 = new Label();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
@@ -60,6 +60,16 @@
             panel2.TabIndex = 10;
             panel2.Paint += panel2_Paint;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(43, 66);
+            label1.Name = "label1";
+            label1.Size = new Size(78, 25);
+            label1.TabIndex = 19;
+            label1.Text = "Origen:";
+            // 
             // txtMonto
             // 
             txtMonto.BackColor = Color.FromArgb(251, 203, 51);
@@ -68,7 +78,7 @@
             txtMonto.ForeColor = Color.Black;
             txtMonto.Location = new Point(137, 98);
             txtMonto.Margin = new Padding(3, 1, 3, 1);
-            txtMonto.MaxLength = 9;
+            txtMonto.MaxLength = 8;
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(200, 25);
             txtMonto.TabIndex = 18;
@@ -142,16 +152,6 @@
             label6.Size = new Size(201, 30);
             label6.TabIndex = 10;
             label6.Text = "Enviar a caja chica";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(43, 66);
-            label1.Name = "label1";
-            label1.Size = new Size(78, 25);
-            label1.TabIndex = 19;
-            label1.Text = "Origen:";
             // 
             // BancosRetirarDinero
             // 

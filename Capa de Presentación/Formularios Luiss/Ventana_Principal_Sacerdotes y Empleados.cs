@@ -521,6 +521,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbCuentas_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+
             // Si no hay nada seleccionado, no hace nada
             if (cmbCuentas.SelectedIndex < 0 || cmbCuentas.SelectedValue == null)
             {
@@ -531,7 +533,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             int id_seleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
 
 
-            var frm = new BancosCuentaAhorro()
+            var frm = new BancosCuentaAhorro(id_seleccionado)
             {
                 StartPosition = FormStartPosition.Manual,
 
@@ -2127,17 +2129,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            using (var frm = new BancosCuentaAhorro
-            {
-                StartPosition = FormStartPosition.Manual,
-                Location = new Point(430, 450)
-            })
-            {
-                DialogResult result = frm.ShowDialog();
 
-            }
+
+        private void dgvGastos_DoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
         }
     }
 
