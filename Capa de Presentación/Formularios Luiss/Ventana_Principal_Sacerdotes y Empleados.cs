@@ -518,8 +518,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbCuentas_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-
             // Si no hay nada seleccionado, no hace nada
             if (cmbCuentas.SelectedIndex < 0 || cmbCuentas.SelectedValue == null)
             {
