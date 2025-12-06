@@ -75,7 +75,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1056, 620);
             panel1.TabIndex = 3;
-            panel1.Paint += panel1_Paint;
             // 
             // panel2
             // 
@@ -96,7 +95,6 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(926, 405);
             panel2.TabIndex = 8;
-            panel2.Paint += panel2_Paint;
             // 
             // button1
             // 
@@ -129,6 +127,7 @@
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            dataGridView1.EditingControlShowing += dataGridView1_EditingControlShowing;
             dataGridView1.DoubleClick += dataGridView1_DoubleClick;
             // 
             // Id_Certificado
@@ -335,17 +334,9 @@
             // 
             // Certificados_De_Depósito
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(1134, 685);
-            Controls.Add(panel1);
-            Margin = new Padding(4);
-            MinimizeBox = false;
+            ClientSize = new Size(668, 420);
             Name = "Certificados_De_Depósito";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Certificados_De_Depósito";
-            Load += FRM_PG103_Load;
+            Load += Certificados_De_Depósito_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
@@ -358,6 +349,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            //ResumeLayout(false);
         }
 
         #endregion
