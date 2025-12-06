@@ -143,5 +143,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
 
         }
+
+        private void txtMonto_Click(object sender, EventArgs e)
+        {
+            if (txtMonto.Text == "Ingrese un monto")
+            {
+                txtMonto.Text = "";
+                txtMonto.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtMonto_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtMonto.Text))
+            {
+                txtMonto.Text = "Ingrese un monto";
+                txtMonto.ForeColor = Color.Gray;
+            }
+        }
     }
 }
