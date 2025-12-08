@@ -249,6 +249,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             ClsValidaciones v = new ClsValidaciones();
             if (!v.NoPermitirEspacioInicial(txt_usuario.Text, e.KeyChar))
                 e.Handled = true;
+
+            if (e.KeyChar == ' ')
+                e.Handled = true;
         }
 
         private void txt_contraseña_KeyPress(object sender, KeyPressEventArgs e)
