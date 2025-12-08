@@ -309,7 +309,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
 
             // Usuario
-            if (string.IsNullOrWhiteSpace(usuario) || !val.EsUsuarioValido(usuario))
+            if (string.IsNullOrWhiteSpace(usuario) || !val.EsUsuarioValidoRango(usuario))
             {
                 MessageBox.Show("El nombre de usuario es requerido y solo puede tener letras, números, puntos o guiones bajos.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
