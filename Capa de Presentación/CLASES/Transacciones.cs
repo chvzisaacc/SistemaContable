@@ -234,82 +234,85 @@ namespace Capa_de_Presentación.CLASES
         /// <param name="RowIndex">Index of the row.</param>
         public void BloquearDesbloquearDataGastos(DataTable dtDatosGastos, DataGridView dgvgastos, int RowIndex)
         {
-            // Asegúrate de que el DataGridView se desbloquee para edición
+            // Siempre permitir editar salvo que se decida bloquear
             dgvgastos.ReadOnly = false;
 
-            if (RowIndex >= 0 && dtDatosGastos != null)
+            if (RowIndex < 0 || dtDatosGastos == null)
+                return;
+
+            int lastDataRowIndex = dtDatosGastos.Rows.Count - 1;
+
+            // ⚠️ Solo aplicar bloqueo automático en la ÚLTIMA fila
+            if (RowIndex != lastDataRowIndex)
+                return;
+
+            DataGridViewRow currentRow = dgvgastos.Rows[RowIndex];
+            bool algunCampoVacio = false;
+
+            string[] columnasAComprobar = new string[]
             {
-                int lastDataRowIndex = dtDatosGastos.Rows.Count - 1;
-
-                if (RowIndex == lastDataRowIndex)
-                {
-                    DataGridViewRow currentRow = dgvgastos.Rows[RowIndex];
-                    bool algunCampoVacio = false;
-
-                    string[] columnasAComprobar = new string[]
-                    {
                 "NombreCuenta",
                 "Detalle",
                 "Saldo",
-                    };
+            };
 
-                    // Recorre las celdas para verificar si alguna está vacía
-                    foreach (string nombreColumna in columnasAComprobar)
-                    {
-                        object cellValue = currentRow.Cells[nombreColumna].Value;
+            // Verificar si falta algún dato
+            foreach (string nombreColumna in columnasAComprobar)
+            {
+                object cellValue = currentRow.Cells[nombreColumna].Value;
 
-                        if (cellValue == null || string.IsNullOrEmpty(cellValue.ToString()))
-                        {
-                            algunCampoVacio = true;
-                            break;
-                        }
-                    }
-
-                    // Si algún campo está vacío, se desbloquean todas las celdas para permitir la edición
-                    if (algunCampoVacio)
-                    {
-                        foreach (DataGridViewColumn column in dgvgastos.Columns)
-                        {
-                            column.ReadOnly = false;
-                        }
-                    }
-                    else
-                    {
-                        // Verifica si el saldo es negativo o no válido
-                        string saldoTexto = currentRow.Cells["Saldo"].Value?.ToString() ?? "";
-                        decimal saldo = 0;
-                        if (decimal.TryParse(saldoTexto, out saldo) && saldo <= 0)
-                        {
-                            MessageBox.Show("El saldo no puede ser negativo.", "Advertencia",
-                                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            // Si el saldo es negativo, no bloqueamos las celdas
-                            foreach (DataGridViewColumn column in dgvgastos.Columns)
-                            {
-                                column.ReadOnly = false;
-                            }
-                        }
-                        else if (saldo > 100000000)
-                        {
-                            MessageBox.Show("El saldo no puede ser mayor a 100,000,000.", "Advertencia",
-                                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                            // Si el saldo es mayor al límite, no bloqueamos las celdas
-                            foreach (DataGridViewColumn column in dgvgastos.Columns)
-                            {
-                                column.ReadOnly = false;
-                            }
-                        }
-                        else
-                        {
-                            // Si no hay campos vacíos y el saldo es válido, bloqueamos las celdas
-                            foreach (DataGridViewColumn column in dgvgastos.Columns)
-                            {
-                                column.ReadOnly = true;
-                            }
-                        }
-                    }
+                if (cellValue == null || string.IsNullOrEmpty(cellValue.ToString()))
+                {
+                    algunCampoVacio = true;
+                    break;
                 }
             }
+
+            // Si falta un campo → dejar todo editable
+            if (algunCampoVacio)
+            {
+                foreach (DataGridViewColumn column in dgvgastos.Columns)
+                    column.ReadOnly = false;
+
+                return;
+            }
+
+            // Validar saldo
+            string saldoTexto = currentRow.Cells["Saldo"].Value?.ToString() ?? "";
+            decimal saldo = 0;
+
+            if (!decimal.TryParse(saldoTexto, out saldo))
+            {
+                foreach (DataGridViewColumn column in dgvgastos.Columns)
+                    column.ReadOnly = false;
+                return;
+            }
+
+            if (saldo <= 0)
+            {
+                MessageBox.Show("El saldo no puede ser negativo o cero.", "Advertencia",
+                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                foreach (DataGridViewColumn column in dgvgastos.Columns)
+                    column.ReadOnly = false;
+
+                return;
+            }
+
+            if (saldo > 100000000)
+            {
+                MessageBox.Show("El saldo no puede ser mayor a 100,000,000.", "Advertencia",
+                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                foreach (DataGridViewColumn column in dgvgastos.Columns)
+                    column.ReadOnly = false;
+
+                return;
+            }
+
+            // SOLO SI TODO ES CORRECTO,BLOQUEAR FILA
+            foreach (DataGridViewColumn column in dgvgastos.Columns)
+                column.ReadOnly = true;
         }
 
 

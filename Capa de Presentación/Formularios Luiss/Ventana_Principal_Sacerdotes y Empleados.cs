@@ -37,6 +37,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// The modo edicion
         /// </summary>
         private bool modoEdicion = false;
+        private bool _modoEdicionManual = false;
+        private bool _gridBloqueado = false;
+
         /// <summary>
         /// The cuenta bancoid seleccionado
         /// </summary>
@@ -49,6 +52,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// The object sub cuentas
         /// </summary>
         private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
+        private bool _ignorarBloqueo = false;
 
         /// <summary>
         /// The crud historial
@@ -1110,68 +1114,69 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     }
                 }
 
-                // 6. Validar cada fila del DataGridView y sumar los montos
-                decimal totalGastos = 0;
-                for (int i = 0; i < dgvGastos.Rows.Count; i++)
+                // 6. Validar SOLO LA ÚLTIMA FILA (la que se va a guardar)
+                dgvGastos.EndEdit();
+                dgvGastos.CommitEdit(DataGridViewDataErrorContexts.Commit);
+
+                DataGridViewRow filaActual = null;
+
+                // Buscar la última fila con datos reales
+                for (int i = dgvGastos.Rows.Count - 1; i >= 0; i--)
                 {
-                    if (dgvGastos.Rows[i].IsNewRow) continue;
-
-                    // Validar que la columna NombreCuenta no esté vacía
-                    if (dgvGastos.Rows[i].Cells["NombreCuenta"].Value == null ||
-                        string.IsNullOrWhiteSpace(dgvGastos.Rows[i].Cells["NombreCuenta"].Value.ToString()))
+                    if (!dgvGastos.Rows[i].IsNewRow)
                     {
-                        MessageBox.Show($"La fila {i + 1} debe tener un nombre de cuenta.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        dgvGastos.CurrentCell = dgvGastos.Rows[i].Cells["NombreCuenta"];
-                        dgvGastos.BeginEdit(true);
-                        return false;
+                        filaActual = dgvGastos.Rows[i];
+                        break;
                     }
-
-                    // Validar que la columna Detalle no esté vacía
-                    if (dgvGastos.Rows[i].Cells["Detalle"].Value == null ||
-                        string.IsNullOrWhiteSpace(dgvGastos.Rows[i].Cells["Detalle"].Value.ToString()))
-                    {
-                        MessageBox.Show($"La fila {i + 1} debe tener un detalle.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        dgvGastos.CurrentCell = dgvGastos.Rows[i].Cells["Detalle"];
-                        dgvGastos.BeginEdit(true);
-                        return false;
-                    }
-
-                    // Validar que la columna Saldo (monto) no esté vacía y sea válida
-                    if (dgvGastos.Rows[i].Cells["Saldo"].Value == null ||
-                        string.IsNullOrWhiteSpace(dgvGastos.Rows[i].Cells["Saldo"].Value.ToString()))
-                    {
-                        MessageBox.Show($"La fila {i + 1} debe tener un monto válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        dgvGastos.CurrentCell = dgvGastos.Rows[i].Cells["Saldo"];
-                        dgvGastos.BeginEdit(true);
-                        return false;
-                    }
-
-                    decimal monto = 0;
-                    if (!decimal.TryParse(dgvGastos.Rows[i].Cells["Saldo"].Value.ToString(), out monto))
-                    {
-                        MessageBox.Show($"El monto en la fila {i + 1} no es válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        dgvGastos.CurrentCell = dgvGastos.Rows[i].Cells["Saldo"];
-                        dgvGastos.BeginEdit(true);
-                        return false;
-                    }
-
-                    if (monto <= 0)
-                    {
-                        MessageBox.Show($"El monto en la fila {i + 1} debe ser mayor a cero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        dgvGastos.CurrentCell = dgvGastos.Rows[i].Cells["Saldo"];
-                        dgvGastos.BeginEdit(true);
-                        return false;
-                    }
-
-                    totalGastos += monto;
                 }
 
-                // 7. Validar que el total de gastos no exceda el saldo disponible
-                if (totalGastos > saldoDisponible)
+                if (filaActual == null)
                 {
-                    MessageBox.Show($"El total de gastos ({totalGastos:C2}) excede el saldo disponible ({saldoDisponible:C2}) en la cuenta de origen.\n\n" +
-                                  $"Saldo insuficiente para realizar esta transacción.",
-                                  "Saldo Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Debe ingresar una fila válida.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                // VALIDAR CAMPOS DE LA FILA
+
+                string nombreCuenta = filaActual.Cells["NombreCuenta"].Value?.ToString();
+                string detalle = filaActual.Cells["Detalle"].Value?.ToString();
+                string textoMonto = filaActual.Cells["Saldo"].Value?.ToString();
+
+                if (string.IsNullOrWhiteSpace(nombreCuenta))
+                {
+                    MessageBox.Show("Debe ingresar un nombre de cuenta.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    dgvGastos.CurrentCell = filaActual.Cells["NombreCuenta"];
+                    return false;
+                }
+
+                if (string.IsNullOrWhiteSpace(detalle))
+                {
+                    MessageBox.Show("Debe ingresar un detalle.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    dgvGastos.CurrentCell = filaActual.Cells["Detalle"];
+                    return false;
+                }
+
+                decimal monto = 0;
+                if (!decimal.TryParse(textoMonto, out monto))
+                {
+                    MessageBox.Show("Debe ingresar un monto válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    dgvGastos.CurrentCell = filaActual.Cells["Saldo"];
+                    return false;
+                }
+
+                if (monto <= 0)
+                {
+                    MessageBox.Show("El monto debe ser mayor que cero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    dgvGastos.CurrentCell = filaActual.Cells["Saldo"];
+                    return false;
+                }
+
+                // 7. Validar monto contra saldo disponible (SIN SUMAS)
+                if (monto > saldoDisponible)
+                {
+                    MessageBox.Show($"El monto ingresado ({monto:C2}) excede el saldo disponible ({saldoDisponible:C2}).\n\n" +
+                                    "Saldo insuficiente para realizar esta transacción.",
+                                    "Saldo Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
@@ -1431,6 +1436,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         DateTime fecha_transaccion = dtpFecha.Value;
                         string referencia_texto = txtNoReferencia.Text.Trim();
                         int referencia = 0;
+
+                        dgvGastos.EndEdit();
+                        dgvGastos.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                        this.Validate();
+                        BindingContext[dgvGastos.DataSource]?.EndCurrentEdit();
+
                         string saldo_texto = fila_nueva.Cells["Saldo"].Value?.ToString() ?? "";
                         decimal saldo = 0;
                         int.TryParse(referencia_texto, out referencia);
@@ -1589,6 +1600,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dgvGastos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (_gridBloqueado)
+                return; // ❌ NO PERMITIR DESBLOQUEAR NADA
+
+            if (e.RowIndex < 0)
+                return;
+
+            if (_modoEdicionManual)
+                return;
+
             Transacciones obj_transa = new();
             obj_transa.BloquearDesbloquearDataGastos(dtDatosGastos, dgvGastos, e.RowIndex);
 
@@ -1686,13 +1706,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnGuardar2_Click(object sender, EventArgs e)
         {
+
+            _modoEdicionManual = false;
             if (!ValidarPanelGastos())
             {
                 return; // Si la validación falla, no continúa
             }
-            dataGridView1.ReadOnly = false;
-
-
+            //dgvGastos.ReadOnly = false;
             try
             {
 
@@ -1751,13 +1771,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     if (actualizado)
                     {
                         modoEdicion = false;
-                        dgvGastos.ReadOnly = false;
+                        BloquearFilasGuardadas(fila);
+                        //dgvGastos.ReadOnly = false;
                         foreach (DataGridViewColumn col in dgvGastos.Columns)
                             col.ReadOnly = true;
 
                         //Actualiza el Id_Origen en la fila actual (para que el lápiz lea el correcto)
-                        if (dgvGastos.CurrentRow != null)
-                            dgvGastos.CurrentRow.Cells["Id_Origen"].Value = id_origen;
+                        //if (dgvGastos.CurrentRow != null)
+                            //dgvGastos.CurrentRow.Cells["Id_Origen"].Value = id_origen;
 
                         txtNoReferencia.Clear();
                         dateTimePicker2.Value = DateTime.Now;
@@ -1896,6 +1917,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     fila_nueva.Cells["Id_Origen"].Value = id_origenNuevo;
                     fila_nueva.Cells["Saldo"].Style.ForeColor = Color.Green;
 
+                    BloquearFilasGuardadas(fila_nueva);
+                    _gridBloqueado = true;
+                    dgvGastos.ReadOnly = true;
+
                     dgvGastos.Refresh();
                     dgvGastos.ClearSelection();
 
@@ -1922,10 +1947,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     modoEdicion = false;
 
-                    foreach (DataGridViewColumn col in dgvGastos.Columns)
-                        col.ReadOnly = true;
+                    //foreach (DataGridViewColumn col in dgvGastos.Columns)
+                      //  col.ReadOnly = true;
 
-                    dgvGastos.ReadOnly = false;
+                    //dgvGastos.ReadOnly = false;
                     dgvGastos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                     dgvGastos.MultiSelect = false;
                     dgvGastos.ClearSelection();
@@ -1946,6 +1971,24 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
 
 
+        }
+
+        private void BloquearFilasGuardadas(DataGridViewRow filaActual)
+        {
+            int limite = filaActual.Index;
+
+            for (int i = 0; i <= limite; i++)
+            {
+                DataGridViewRow fila = dgvGastos.Rows[i];
+
+                if (!fila.IsNewRow)
+                {
+                    foreach (DataGridViewCell celda in fila.Cells)
+                    {
+                        celda.ReadOnly = true; 
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -2129,46 +2172,38 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-
-
         private void dgvGastos_DoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            // 1. Verificación básica: Asegurarse de que el clic no sea en los encabezados
+         
+        }
+
+        private void dgvGastos_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvGastos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
-            {
                 return;
-            }
+
+            // Activar modo edición manual
+            _modoEdicionManual = true;
 
             DataGridViewRow fila = dgvGastos.Rows[e.RowIndex];
-            DataGridViewCell celdaActual = fila.Cells[e.ColumnIndex];
 
-            if (celdaActual.ReadOnly == true)
-            {
-                ClsCD.DesbloquearFila(fila);
+            // Desbloquear totalmente
+            dgvGastos.ReadOnly = false;
 
-                // 3. Enfocar y activar la edición en la columna Nombre_Parroquia
-                if (dgvGastos.Columns.Contains("monto_historico"))
-                {
-                    DataGridViewCell celdaParroquia = fila.Cells["monto_historico"];
-                    dgvGastos.CurrentCell = celdaParroquia;
-                    dgvGastos.BeginEdit(true);
+            foreach (DataGridViewColumn col in dgvGastos.Columns)
+                col.ReadOnly = false;
 
-                    MessageBox.Show("Fila desbloqueada. El cursor está listo para corregir el error",
-                                    "Edición Rápida", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    // Si la columna de Parroquia no existe, solo iniciamos la edición normal en la celda del clic
-                    dgvGastos.CurrentCell = celdaActual;
-                    dgvGastos.BeginEdit(true);
-                }
-            }
-            else
-            {
-                // 4. Lógica de Edición Normal: Si la fila ya estaba desbloqueada, solo inicia la edición
-                dgvGastos.CurrentCell = celdaActual;
-                dgvGastos.BeginEdit(true);
-            }
+            foreach (DataGridViewCell celda in fila.Cells)
+                celda.ReadOnly = false;
+
+            // Iniciar edición
+            dgvGastos.CurrentCell = fila.Cells[e.ColumnIndex];
+            dgvGastos.BeginEdit(true);
         }
     }
 

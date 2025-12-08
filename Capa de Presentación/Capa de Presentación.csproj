@@ -7,11 +7,18 @@
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<ApplicationIcon>ICONO-SOFTWARE.ico</ApplicationIcon>
+		<StartupObject>Capa_de_Presentación.Program</StartupObject>
+		<AssemblyName>Sistema Contable</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <None Remove="Formularios Luiss\jaj2gnb4.yzy~" />
 	  <None Remove="Resources\haarcascade_frontalface_default.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="ICONO-SOFTWARE.ico" />
 	</ItemGroup>
 
 	<ItemGroup>

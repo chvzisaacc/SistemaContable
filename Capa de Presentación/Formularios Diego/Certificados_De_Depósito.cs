@@ -437,6 +437,11 @@ namespace Capa_de_Presentación.Formularios_Diego
                 }
             }
         }
+
+        private void panel2_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }
