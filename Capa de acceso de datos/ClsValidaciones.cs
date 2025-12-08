@@ -15,6 +15,9 @@ namespace Capa_de_Presentación.CLASES
         /// </summary>
         /// <param name="texto">The texto.</param>
         /// <returns></returns>
+        /// 
+
+
         public bool EsNumeroEntero(string texto)
         {
             if (string.IsNullOrEmpty(texto)) return false;
@@ -66,11 +69,16 @@ namespace Capa_de_Presentación.CLASES
         /// </summary>
         /// <param name="usuario">The usuario.</param>
         /// <returns></returns>
-        public bool EsUsuarioValido(string usuario)
+        public bool EsUsuarioValidoRango(string usuario)
         {
             if (string.IsNullOrWhiteSpace(usuario)) return false;
-            // Validar solo letras y números, y permitir guiones bajos o puntos
-            return Regex.IsMatch(usuario, @"^[a-zA-Z0-9._]+$");
+
+            // Solo letras, números, punto, guion bajo
+            if (!Regex.IsMatch(usuario, @"^[a-zA-Z0-9._]+$"))
+                return false;
+
+            // Rango de caracteres 3 a 20
+            return usuario.Length >= 3 && usuario.Length <= 20;
         }
 
         // 6. Valida que la contraseña tenga entre 4 y 25 caracteres

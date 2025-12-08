@@ -85,9 +85,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 MessageBox.Show("Por favor, ingrese un nombre de usuario.");
                 return;
             }
-            else if (!validaciones.EsUsuarioValido(txt_usuario.Text))
+            else if (!validaciones.EsUsuarioValidoRango(txt_usuario.Text))
             {
-                MessageBox.Show("El nombre de usuario contiene caracteres no permitidos.");
+                MessageBox.Show("El usuario debe tener entre 3 y 20 caracteres y usar solo letras, números, punto o guion bajo.");
                 return;
             }
             if (string.IsNullOrWhiteSpace(txt_contraseña.Text))
@@ -95,9 +95,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 MessageBox.Show("Por favor, ingrese una contraseña.");
                 return;
             }
-            else if (!validaciones.EsContraseñaValida(txt_contraseña.Text)) // Escenarios 5, 6
+            else if (!validaciones.EsContraseñaValida(txt_contraseña.Text)) 
             {
-                MessageBox.Show("La contraseña debe tener entre 4 y 25 caracteres.");
+                MessageBox.Show("La contraseña debe tener entre 6 y 30 caracteres.");
                 return;
             }
 
