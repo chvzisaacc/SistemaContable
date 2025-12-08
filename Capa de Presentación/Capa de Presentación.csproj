@@ -10,6 +10,7 @@
 		<ApplicationIcon>ICONO-SOFTWARE.ico</ApplicationIcon>
 		<StartupObject>Capa_de_Presentación.Program</StartupObject>
 		<AssemblyName>Sistema Contable</AssemblyName>
+		<Platforms>AnyCPU;x64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>

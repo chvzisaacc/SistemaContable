@@ -1151,7 +1151,27 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void pictureBox3_Click(object sender, EventArgs e)
         {
             FRM_ServiciosAdministrador popup = new FRM_ServiciosAdministrador();
-            popup.ShowDialog();
+
+            // Obtener la posición del PictureBox en coordenadas de pantalla
+            var btnPos = pictureBox3.PointToScreen(Point.Empty);
+
+            // Desplazamiento horizontal (a la izquierda)
+            int desplazamientoIzquierda = 450;
+
+            // Desplazamiento vertical (hacia arriba)
+            int desplazamientoArriba = 30;
+
+            popup.StartPosition = FormStartPosition.Manual;
+
+            // Calculamos la nueva ubicación:
+            // X: Restamos el desplazamiento a la izquierda (450).
+            // Y: Restamos la altura del PictureBox (para subirlo a su nivel)
+            //    y restamos el desplazamiento hacia arriba (150).
+            popup.Location = new Point(
+                btnPos.X - desplazamientoIzquierda,
+                btnPos.Y - desplazamientoArriba
+            );
+            popup.ShowDialog(this);
         }
 
         /// <summary>
@@ -1164,8 +1184,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
             Cerrar_Sesión popup = new Cerrar_Sesión();
             var btnPos = pictureBox4.PointToScreen(Point.Empty);
 
+            // Cantidad de desplazamiento a la izquierda (en píxeles) 
+            int desplazamientoIzquierda = 450; // Ajusta este valor según tu necesidad
+
             popup.StartPosition = FormStartPosition.Manual;
-            popup.Location = new Point(btnPos.X, btnPos.Y + pictureBox4.Height);
+
+            popup.Location = new Point(
+                btnPos.X - desplazamientoIzquierda,
+                btnPos.Y + pictureBox4.Height
+            );
 
             if (popup.ShowDialog() == DialogResult.OK)
             {

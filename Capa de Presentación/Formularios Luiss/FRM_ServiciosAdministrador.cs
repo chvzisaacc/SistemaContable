@@ -149,13 +149,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             this.Hide();
 
-           
+
             using (var reconocimiento = new Capa_de_Presentación.RECONOCIMIENTO_FACIAL.RECONOCIMIENTO_FACIAL())
             {
                 reconocimiento.ShowDialog(this);
             }
 
-         
+
             this.Close();
 
 
@@ -297,6 +297,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 // Muestra el formulario principal que se había ocultado.
                 main?.Show();
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

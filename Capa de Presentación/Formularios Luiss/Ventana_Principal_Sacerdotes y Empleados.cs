@@ -474,11 +474,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             FRM_SERVICIOS popup = new FRM_SERVICIOS();
+            var btnPos = pictureBox1.PointToScreen(Point.Empty);
+            // Cantidad de desplazamiento a la izquierda (en píxeles) 
+            int desplazamientoIzquierda = 450; // Ajusta este valor según tu necesidad
+
             popup.StartPosition = FormStartPosition.Manual;
-            var button_screen_position = pictureBox1.PointToScreen(Point.Empty);
-            popup.StartPosition = FormStartPosition.Manual;
-            popup.Location = new Point(button_screen_position.X, button_screen_position.Y + pictureBox1.Height);
+
+            popup.Location = new Point(
+                btnPos.X - desplazamientoIzquierda,
+                btnPos.Y + pictureBox1.Height
+            );
+
             popup.ShowDialog(this);
+
         }
 
 
@@ -493,8 +501,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
             Cerrar_Sesión popup = new Cerrar_Sesión();
             var btnPos = pictureBox2.PointToScreen(Point.Empty);
 
+            // Cantidad de desplazamiento a la izquierda (en píxeles) 
+            int desplazamientoIzquierda = 450; // Ajusta este valor según tu necesidad
+
             popup.StartPosition = FormStartPosition.Manual;
-            popup.Location = new Point(btnPos.X, btnPos.Y + pictureBox2.Height);
+
+            // Se resta el desplazamiento a la coordenada X para mover a la izquierda
+            popup.Location = new Point(
+                btnPos.X - desplazamientoIzquierda,
+                btnPos.Y + pictureBox2.Height
+            );
 
             if (popup.ShowDialog() == DialogResult.OK)
             {
