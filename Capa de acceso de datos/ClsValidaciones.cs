@@ -77,6 +77,8 @@ namespace Capa_de_Presentación.CLASES
             if (!Regex.IsMatch(usuario, @"^[a-zA-Z0-9._]+$"))
                 return false;
 
+            if (usuario.Contains(" "))
+                return false;
 
             if (usuario.Contains("   ")) // tres espacios
                 return false;
