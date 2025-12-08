@@ -85,6 +85,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 MessageBox.Show("Por favor, ingrese un nombre de usuario.");
                 return;
             }
+
+            if (txt_usuario.Text == "Usuario")
+            {
+                MessageBox.Show("Por favor, ingrese un nombre de usuario.");
+                return;
+            }
+
             if (!validaciones.EsUsuarioValidoRango(txt_usuario.Text))
             {
                 MessageBox.Show("El usuario debe tener entre 3 y 20 caracteres y usar solo letras, números, punto o guion bajo.");
@@ -95,11 +102,24 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 MessageBox.Show("Por favor, ingrese una contraseña.");
                 return;
             }
-            else if (!validaciones.EsContraseñaValida(txt_contraseña.Text)) 
+            if (txt_contraseña.Text == "Contraseña")
+            {
+                MessageBox.Show("Por favor, ingrese una contraseña.");
+                return;
+            }
+
+            else if (!validaciones.EsContraseñaValida(txt_contraseña.Text))
             {
                 MessageBox.Show("La contraseña debe tener entre 6 y 30 caracteres.");
                 return;
             }
+
+            if (txt_contraseña.Text.Contains(" "))
+            {
+                MessageBox.Show("La contraseña no puede contener espacios.");
+                return;
+            }
+
 
             // VALIDAR LOGIN
             ClsRecuperacion login = new ClsRecuperacion();
@@ -222,6 +242,23 @@ namespace Capa_de_Presentación.Formularios_Ewin
             RECONOCIMIENTO_FACIAL.RECONOCER rECONOCER = new();
             rECONOCER.Show();
             this.Hide();
+        }
+
+        private void txt_usuario_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ClsValidaciones v = new ClsValidaciones();
+            if (!v.NoPermitirEspacioInicial(txt_usuario.Text, e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void txt_contraseña_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            ClsValidaciones val = new ClsValidaciones();
+            if (!val.NoPermitirEspacioInicial(txt_contraseña.Text, e.KeyChar))
+                e.Handled = true;
+
+            if (e.KeyChar == ' ')
+                e.Handled = true;
         }
     }
 }

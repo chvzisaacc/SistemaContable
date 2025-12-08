@@ -90,6 +90,9 @@ namespace Capa_de_Presentación.CLASES
         public bool EsContraseñaValida(string contraseña)
         {
             if (string.IsNullOrWhiteSpace(contraseña)) return false;
+
+            if (contraseña.Contains(" ")) return false; // sin espacios
+
             return contraseña.Length >= 6 && contraseña.Length <= 30;
         }
 

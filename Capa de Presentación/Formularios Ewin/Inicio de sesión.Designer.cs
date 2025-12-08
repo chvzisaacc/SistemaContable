@@ -49,6 +49,7 @@
             txt_usuario.TabIndex = 0;
             txt_usuario.Text = "Usuario";
             txt_usuario.Click += txtUsuario_Click;
+            txt_usuario.KeyPress += txt_usuario_KeyPress;
             txt_usuario.Leave += txtUsuario_Leave;
             // 
             // txt_contraseña
@@ -62,6 +63,7 @@
             txt_contraseña.TabIndex = 2;
             txt_contraseña.Text = "Contraseña";
             txt_contraseña.Click += txtContraseña_Click;
+            txt_contraseña.KeyPress += txt_contraseña_KeyPress;
             txt_contraseña.Leave += txtContraseña_Leave;
             // 
             // btn_iniciar_sesion
