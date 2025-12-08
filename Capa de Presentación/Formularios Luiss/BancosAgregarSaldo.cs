@@ -46,15 +46,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             ValidarCampos();
-            // 1) Validar selección de cuenta
+            
             if (cmbCuentas.SelectedValue == null)
             {
                 MessageBox.Show("Seleccione una cuenta.");
                 cmbCuentas.DroppedDown = true;
                 return;
             }
-
-            // 2) Validar monto
             if (!decimal.TryParse(txtMonto.Text.Trim(), out var monto) || monto <= 0m)
             {
                 MessageBox.Show("Ingrese un monto válido mayor a 0.");

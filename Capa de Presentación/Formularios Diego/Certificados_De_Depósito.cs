@@ -370,7 +370,7 @@ namespace Capa_de_Presentación.Formularios_Diego
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            // 1. Verificación básica: Asegurarse de que el clic no sea en los encabezados
+          //No se hagan clicks en los encabezados
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
             {
                 return;
@@ -383,7 +383,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             {
                 ClsCD.DesbloquearFila(fila);
 
-                // 3. Enfocar y activar la edición en la columna Nombre_Parroquia
+                
                 if (dataGridView1.Columns.Contains("Nombre_Parroquia"))
                 {
                     DataGridViewCell celdaParroquia = fila.Cells["Nombre_Parroquia"];
@@ -402,7 +402,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             }
             else
             {
-                // 4. Lógica de Edición Normal: Si la fila ya estaba desbloqueada, solo inicia la edición
+                //  Si la fila ya estaba desbloqueada, solo inicia la edición
                 dataGridView1.CurrentCell = celdaActual;
                 dataGridView1.BeginEdit(true);
             }

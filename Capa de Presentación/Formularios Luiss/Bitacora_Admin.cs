@@ -188,15 +188,15 @@ namespace Capa_de_Presentación
             {
                 DataTable dt_parroquias = crudUsuarios.ObtenerParroquias();
 
-                // Crear un nuevo DataTable con la estructura correcta
+               
                 DataTable dt_final = new DataTable();
                 dt_final.Columns.Add("Parroquia_id", typeof(int));
                 dt_final.Columns.Add("Parroquia_nombre", typeof(string));
 
-                // Agregar fila "Todas"
+              
                 dt_final.Rows.Add(-1, "-- Todas las Parroquias --");
 
-                // Copiar las demás filas
+              
                 foreach (DataRow row in dt_parroquias.Rows)
                 {
                     dt_final.Rows.Add(row["Parroquia_id"], row["Parroquia_nombre"]);

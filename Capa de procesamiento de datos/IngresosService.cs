@@ -72,7 +72,7 @@ namespace Capa_de_procesamiento_de_datos
         /// <returns></returns>
         public byte[] GenerarPdf(DataTable datos, string parroquia, DateTime desde, DateTime hasta)
         {
-            // Ruta del logo (opcional si deseas incluirlo)
+            
             string logoPath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "Resources",
@@ -86,7 +86,7 @@ namespace Capa_de_procesamiento_de_datos
                     page.Margin(30);
 
                     // ==========================================================
-                    // ENCABEZADO (ajustado al formato)
+                    // ENCABEZADO 
                     // ==========================================================
                     page.Header().Column(header =>
                     {
@@ -114,16 +114,13 @@ namespace Capa_de_procesamiento_de_datos
                             }
                         });
 
-                        // LÍNEA DORADA DEBAJO DEL ENCABEZADO
+                        
                         header.Item()
                             .PaddingTop(4)
                             .LineHorizontal(1)
                             .LineColor("#D4AF37");
                     });
 
-                    // ==========================================================
-                    // CONTENIDO DEL REPORTE
-                    // ==========================================================
                     page.Content().Column(col =>
                     {
                         // ----------------------------

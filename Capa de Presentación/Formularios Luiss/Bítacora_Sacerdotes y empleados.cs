@@ -49,10 +49,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                // Llama al nuevo método para obtener solo el historial de este usuario
+                
                 dgvBitacora.DataSource = crudHistorial.ObtenerHistorialUsuario(id_usuario_login);
 
-                // Formatear columnas 
+               
                 if (dgvBitacora.Columns["Monto"] != null)
                 {
                     dgvBitacora.Columns["Monto"].Visible = false;
