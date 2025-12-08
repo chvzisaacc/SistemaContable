@@ -248,7 +248,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 if (usuario != null)
                 {
                     txt_id.Text = usuario["Usuario_id"].ToString();
-                    txt_nombre.Text = usuario["usuario_nombre"].ToString();
+                    txt_nombreCuenta.Text = usuario["usuario_nombre"].ToString();
                     txt_apellido.Text = usuario["usuario_apellido"].ToString();
                     txt_correo.Text = usuario["usuario_correo"] != DBNull.Value
                         ? usuario["usuario_correo"].ToString()
@@ -275,7 +275,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
 
-            string nombre = txt_nombre.Text.Trim();
+            string nombre = txt_nombreCuenta.Text.Trim();
             string apellido = txt_apellido.Text.Trim();
             string correo = txt_correo.Text.Trim();
             string usuario = txt_usuario.Text.Trim();
@@ -286,7 +286,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 MessageBox.Show("El nombre es requerido y solo puede contener letras.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txt_nombre.Focus();
+                txt_nombreCuenta.Focus();
                 return false;
             }
 
@@ -362,7 +362,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void LimpiarCamposUsuario()
         {
             txt_id.Clear();
-            txt_nombre.Clear();
+            txt_nombreCuenta.Clear();
             txt_apellido.Clear();
             txt_correo.Clear();
             txt_usuario.Clear();
@@ -386,7 +386,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void HabilitarControlesUsuario(bool habilitar)
         {
             txt_id.Enabled = false;
-            txt_nombre.Enabled = habilitar;
+            txt_nombreCuenta.Enabled = habilitar;
             txt_apellido.Enabled = habilitar;
             txt_correo.Enabled = habilitar;
             txt_usuario.Enabled = habilitar;
@@ -657,7 +657,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            txt_nombre.Focus();
+            txt_nombreCuenta.Focus();
         }
 
 
@@ -673,7 +673,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             ClsValidaciones validaciones = new ClsValidaciones();
 
             // Validar los espacios en los campos de texto
-            if (!validaciones.ValidarEspacios(txt_nombre.Text)
+            if (!validaciones.ValidarEspacios(txt_nombreCuenta.Text)
                 || !validaciones.ValidarEspacios(txt_apellido.Text)
                 || !validaciones.ValidarEspacios(txt_contraseña.Text))
             {
@@ -685,7 +685,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             try
             {
-                string nombre = txt_nombre.Text.Trim();
+                string nombre = txt_nombreCuenta.Text.Trim();
                 string apellido = txt_apellido.Text.Trim();
                 string correo = txt_correo.Text.Trim();
                 string usuario = txt_usuario.Text.Trim();
@@ -805,7 +805,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             HabilitarControlesUsuario(true);
             modo_edicion_usuario = true;
             CargarDatosUsuario();
-            txt_nombre.Focus();
+            txt_nombreCuenta.Focus();
         }
 
         /// <summary>
@@ -931,7 +931,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            txt_nombre.Focus();
+            txt_nombreCuenta.Focus();
         }
 
         //catalogo
@@ -1196,7 +1196,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
         private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Validaciones.NoPermitirEspacioInicial(txt_nombre.Text, e.KeyChar))
+
+            if (!Validaciones.NoPermitirEspacioInicial(txt_nombreCuenta.Text, e.KeyChar))
             {
                 e.Handled = true;
             }
@@ -1306,7 +1307,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void txt_apellido_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Validaciones.NoPermitirEspacioInicial(txt_nombre.Text, e.KeyChar))
+            if (!Validaciones.NoPermitirEspacioInicial(txt_apellido.Text, e.KeyChar))
             {
                 e.Handled = true;
             }
@@ -1314,7 +1315,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void txt_usuario_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Validaciones.NoPermitirEspacioInicial(txt_nombre.Text, e.KeyChar))
+            if (!Validaciones.NoPermitirEspacioInicial(txt_usuario.Text, e.KeyChar))
             {
                 e.Handled = true;
             }
@@ -1322,7 +1323,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void txt_correo_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Validaciones.NoPermitirEspacioInicial(txt_nombre.Text, e.KeyChar))
+            if (!Validaciones.NoPermitirEspacioInicial(txt_correo.Text, e.KeyChar))
             {
                 e.Handled = true;
             }
@@ -1330,10 +1331,25 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void txtNombreCuenta_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Validaciones.NoPermitirEspacioInicial(txt_nombre.Text, e.KeyChar))
+            if (!Validaciones.NoPermitirEspacioInicial(txtNombreCuenta.Text, e.KeyChar))
             {
                 e.Handled = true;
             }
+        }
+
+        private void txtContraseña_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsWhiteSpace(e.KeyChar))
+                e.Handled = true; // bloquea cualquier espacis 
+        }
+
+        private void txtDetalle_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Validaciones.NoPermitirEspacioInicial(txtDetalle.Text, e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
         }
     }
 }
