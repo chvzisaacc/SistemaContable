@@ -85,7 +85,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 MessageBox.Show("Por favor, ingrese un nombre de usuario.");
                 return;
             }
-            else if (!validaciones.EsUsuarioValidoRango(txt_usuario.Text))
+            if (!validaciones.EsUsuarioValidoRango(txt_usuario.Text))
             {
                 MessageBox.Show("El usuario debe tener entre 3 y 20 caracteres y usar solo letras, números, punto o guion bajo.");
                 return;
