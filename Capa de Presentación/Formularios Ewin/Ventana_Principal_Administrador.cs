@@ -672,6 +672,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             ClsValidaciones validaciones = new ClsValidaciones();
 
+            if (!ValidarCamposUsuario())
+                return;
+
             // Validar los espacios en los campos de texto
             if (!validaciones.ValidarEspacios(txt_nombreCuenta.Text)
                 || !validaciones.ValidarEspacios(txt_apellido.Text)
@@ -680,8 +683,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return; // Si algún campo tiene más de tres espacios, se detiene la ejecución
             }
 
-            if (!ValidarCamposUsuario())
-                return;
+            
 
             try
             {
