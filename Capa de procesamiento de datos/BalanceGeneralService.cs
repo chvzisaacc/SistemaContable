@@ -24,10 +24,16 @@ namespace Capa_de_procesamiento_de_datos
         /// </summary>
         public BalanceGeneralService()
         {
-            _carpetaReportes = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "ReportesBalanceGeneral");
+            // Obtener la ruta base para Documentos del usuario
+            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+            // Definir la subcarpeta para todos los reportes de la aplicación
+            string baseReportsFolder = Path.Combine(documentsPath, "Sistema Contable - Reportes");
+
+            // Definir la carpeta específica para reportes de Balance General
+            _carpetaReportes = Path.Combine(baseReportsFolder, "BalanceGeneral");
+
+            // Crea el directorio. Si las carpetas padre no existen, también las crea (ej: Sistema Contable - Reportes)
             Directory.CreateDirectory(_carpetaReportes);
         }
 

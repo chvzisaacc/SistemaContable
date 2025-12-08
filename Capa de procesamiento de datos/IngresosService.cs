@@ -24,10 +24,16 @@ namespace Capa_de_procesamiento_de_datos
         /// </summary>
         public IngresosService()
         {
-            _carpetaReportes = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "ReportesIngresos");
+            // Obtener la ruta base para Documentos del usuario
+            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
+            // Definir la subcarpeta para todos los reportes de la aplicación
+            string baseReportsFolder = Path.Combine(documentsPath, "Sistema Contable - Reportes");
+
+            // Definir la carpeta específica para reportes de Ingresos
+            _carpetaReportes = Path.Combine(baseReportsFolder, "Ingresos");
+
+            // Crea el directorio. Si las carpetas padre no existen, también las crea.
             Directory.CreateDirectory(_carpetaReportes);
         }
 

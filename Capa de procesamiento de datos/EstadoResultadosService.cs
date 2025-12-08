@@ -26,10 +26,13 @@ namespace Capa_de_procesamiento_de_datos
         /// </summary>
         public EstadoResultadosService()
         {
-            _carpetaReportes = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "ReportesEstadoResultados");
+            //Usar una ruta segura (Documentos del usuario) para evitar errores de permisos.
+            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string baseReportsFolder = Path.Combine(documentsPath, "Sistema Contable - Reportes");
 
+            _carpetaReportes = Path.Combine(baseReportsFolder, "BalanceGeneral");
+
+            // Crea el directorio (recursivamente)
             Directory.CreateDirectory(_carpetaReportes);
         }
 

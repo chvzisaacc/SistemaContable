@@ -23,10 +23,12 @@ namespace Capa_de_procesamiento_de_datos
         /// </summary>
         public CuriaService()
         {
-            _carpetaReportes = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "ReportesCuria");
+            string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string baseReportsFolder = Path.Combine(documentsPath, "Sistema Contable - Reportes");
 
+            _carpetaReportes = Path.Combine(baseReportsFolder, "ReportesCuria");
+
+            // Crea el directorio (recursivamente, si es necesario)
             Directory.CreateDirectory(_carpetaReportes);
         }
 
