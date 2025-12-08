@@ -77,6 +77,10 @@ namespace Capa_de_Presentación.CLASES
             if (!Regex.IsMatch(usuario, @"^[a-zA-Z0-9._]+$"))
                 return false;
 
+
+            if (usuario.Contains("   ")) // tres espacios
+                return false;
+
             // Rango de caracteres 3 a 20
             return usuario.Length >= 3 && usuario.Length <= 20;
         }
@@ -92,6 +96,9 @@ namespace Capa_de_Presentación.CLASES
             if (string.IsNullOrWhiteSpace(contraseña)) return false;
 
             if (contraseña.Contains(" ")) return false; // sin espacios
+
+            if (contraseña.Contains("   ")) // tres espacios
+                return false;
 
             return contraseña.Length >= 6 && contraseña.Length <= 30;
         }
