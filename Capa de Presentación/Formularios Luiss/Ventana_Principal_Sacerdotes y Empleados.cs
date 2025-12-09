@@ -1794,7 +1794,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                         //Actualiza el Id_Origen en la fila actual (para que el lápiz lea el correcto)
                         //if (dgvGastos.CurrentRow != null)
-                            //dgvGastos.CurrentRow.Cells["Id_Origen"].Value = id_origen;
+                        //dgvGastos.CurrentRow.Cells["Id_Origen"].Value = id_origen;
 
                         txtNoReferencia.Clear();
                         dateTimePicker2.Value = DateTime.Now;
@@ -1964,7 +1964,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     modoEdicion = false;
 
                     //foreach (DataGridViewColumn col in dgvGastos.Columns)
-                      //  col.ReadOnly = true;
+                    //  col.ReadOnly = true;
 
                     //dgvGastos.ReadOnly = false;
                     dgvGastos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -2001,7 +2001,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     foreach (DataGridViewCell celda in fila.Cells)
                     {
-                        celda.ReadOnly = true; 
+                        celda.ReadOnly = true;
                     }
                 }
             }
@@ -2190,7 +2190,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void dgvGastos_DoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-         
+
         }
 
         private void dgvGastos_DoubleClick(object sender, EventArgs e)
@@ -2220,6 +2220,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // Iniciar edición
             dgvGastos.CurrentCell = fila.Cells[e.ColumnIndex];
             dgvGastos.BeginEdit(true);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var frm = new BancosCuentaAhorro();
+            frm.ShowDialog();
+
+           
         }
     }
 
