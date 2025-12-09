@@ -43,7 +43,7 @@
             txt_usuario.BackColor = Color.White;
             txt_usuario.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txt_usuario.Location = new Point(203, 237);
-            txt_usuario.MaxLength = 30;
+            txt_usuario.MaxLength = 20;
             txt_usuario.Name = "txt_usuario";
             txt_usuario.Size = new Size(414, 34);
             txt_usuario.TabIndex = 0;
