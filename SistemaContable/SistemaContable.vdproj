@@ -25,6 +25,12 @@
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_80F982AB05FD420FAAAC0369B4352051"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -43,6 +49,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -59,6 +81,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -94,6 +124,26 @@
             {
             "SourcePath" = "8:..\\..\\..\\Downloads\\ICONO-SOFTWARE.ico"
             "TargetName" = "8:ICONO-SOFTWARE.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_7278AC67EA4C4DD885A4A0C3107A7B08"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_80F982AB05FD420FAAAC0369B4352051"
+            {
+            "SourcePath" = "8:..\\Capa de Presentación\\bin\\Debug\\net8.0-windows\\haarcascade_frontalface_default.xml"
+            "TargetName" = "8:haarcascade_frontalface_default.xml"
             "Tag" = "8:"
             "Folder" = "8:_7278AC67EA4C4DD885A4A0C3107A7B08"
             "Condition" = "8:"
@@ -167,7 +217,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SistemaContable"
         "ProductCode" = "8:{EB140834-6AE3-46D2-A050-E7DA8734D25A}"
-        "PackageCode" = "8:{EB398993-A881-4EBC-B8B6-12038D101791}"
+        "PackageCode" = "8:{2E07CC27-50B0-48E4-A2D3-68836307302B}"
         "UpgradeCode" = "8:{D0EAC4A5-A628-4F33-896B-26B0C28B95CD}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -772,7 +822,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_768B623A6EB345BE9B2C8FAE627719DE"
             {
-            "SourcePath" = "8:..\\Capa de Presentación\\obj\\Release\\net8.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\Capa de Presentación\\obj\\x64\\Debug\\net8.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_7278AC67EA4C4DD885A4A0C3107A7B08"

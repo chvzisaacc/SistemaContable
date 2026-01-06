@@ -161,6 +161,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
             HabilitarControlesCatalogo(false);
             CargarComboBoxCuentas();
             //ValidarCamposCatalogo();
+
+            
         }
 
         //usuarios
@@ -174,6 +176,18 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 DataTable dt = crud_usuarios.ObtenerUsuarios();
                 bindingSource.DataSource = dt;
                 dgv_usuarios.DataSource = bindingSource;
+
+                dgv_usuarios.Columns["ID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgv_usuarios.Columns["ID"].Width = 40;
+
+
+                dgv_usuarios.Columns["Correo"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgv_usuarios.Columns["Correo"].Width = 250;
+
+                dgv_usuarios.Columns["Usuario"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgv_usuarios.Columns["Usuario"].Width = 220;
+
+                
 
                 //aqui es para ocultar algunos campos (los ids y las contraseñas)
 
@@ -589,7 +603,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             try
             {
                 var cuenta = crud_catalogo_cuentas.BuscarCatalogoCuentaPorId(codigo_cuenta_seleccionado);
-
+               
+                dgvCatalogoCuentas.Columns["Codigo"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgvCatalogoCuentas.Columns["Codigo"].Width = 20;
+                
                 if (cuenta != null)
                 {
                     txtIdCuenta.Text = cuenta["Cod_cuenta"].ToString();
@@ -683,7 +700,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return; // Si algún campo tiene más de tres espacios, se detiene la ejecución
             }
 
-            
+
 
             try
             {
@@ -946,6 +963,26 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 dgvCatalogoCuentas.DataSource = crud_catalogo_cuentas.ObtenerCatalogoCuentas();
 
+                if (dgvCatalogoCuentas.Columns["Codigo"] != null)
+                {
+                    dgvCatalogoCuentas.Columns["Codigo"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    dgvCatalogoCuentas.Columns["Codigo"].Width = 80;
+                }
+
+
+                if (dgvCatalogoCuentas.Columns["TipoCuenta"] != null)
+                {
+                    dgvCatalogoCuentas.Columns["TipoCuenta"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    dgvCatalogoCuentas.Columns["TipoCuenta"].Width = 140;
+                }
+
+                if (dgvCatalogoCuentas.Columns["Estado"] != null)
+                {
+                    dgvCatalogoCuentas.Columns["Estado"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    dgvCatalogoCuentas.Columns["Estado"].Width = 120;
+                }
+
+                
                 // Ocultar columna EstadoID
                 if (dgvCatalogoCuentas.Columns["EstadoID"] != null)
                     dgvCatalogoCuentas.Columns["EstadoID"].Visible = false;
@@ -1378,6 +1415,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 e.Handled = true;
             }
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
 
         }
     }

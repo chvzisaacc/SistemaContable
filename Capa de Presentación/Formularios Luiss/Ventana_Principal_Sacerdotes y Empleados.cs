@@ -2224,9 +2224,20 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button5_Click(object sender, EventArgs e)
         {
-            var frm = new BancosCuentaAhorro();
-            frm.ShowDialog();
+            using (var frm = new BancosCuentaAhorro
+            {
+                StartPosition = FormStartPosition.Manual,
+                Location = new Point(430, 450)
+            })
+            {
+                DialogResult result = frm.ShowDialog();
 
+            }
+
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
            
         }
     }
