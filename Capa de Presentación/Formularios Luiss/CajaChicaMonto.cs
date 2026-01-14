@@ -26,16 +26,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// The validaciones
         /// </summary>
         private ClsValidaciones Validaciones;
+        private int _parroquiaId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CajaChicaMonto"/> class.
         /// </summary>
-        public CajaChicaMonto()
+        public CajaChicaMonto(int parroquiaId)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             Validaciones = new ClsValidaciones();
+            _parroquiaId = parroquiaId;
         }
 
         /// <summary>
@@ -81,6 +83,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
             comando.Parameters.AddWithValue("@monto", saldo);
+            comando.Parameters.AddWithValue("@Parroquia_ID", _parroquiaId);
 
             try
             {
@@ -93,7 +96,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al insertar: " + ex.Message);
+                MessageBox.Show(ex.Message, "Alerta de Seguridad", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
             finally
             {

@@ -15,7 +15,7 @@ namespace Capa_de_Presentación.CLASES
         /// <param name="codigo">The codigo.</param>
         /// <param name="correo_usuario">The correo usuario.</param>
         /// <param name="formulario_actual">The formulario actual.</param>
-        public void ProcesarCodigoRecuperacion(int usuario_id, string codigo, string correo_usuario, Form formulario_actual)
+        public void ProcesarCodigoRecuperacion(int usuario_id, string codigo, string correo_usuario, string nombreUsuario, Form formulario_actual)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace Capa_de_Presentación.CLASES
                 {
                     case "CODIGO_VALIDO":
                         MessageBox.Show("Código verificado correctamente.");
-                        Actualizar_Contraseña frm = new(usuario_id, correo_usuario);
+                        Actualizar_Contraseña frm = new(usuario_id, correo_usuario, nombreUsuario);
                         frm.Show();
                         formulario_actual.Hide();
                         break;

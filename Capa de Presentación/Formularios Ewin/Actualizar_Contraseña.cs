@@ -13,6 +13,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <summary>
         /// The correo usuario
         /// </summary>
+        private string nombreUsuario;
         private string correoUsuario;
         private int usuarioId;
         /// <summary>
@@ -23,7 +24,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// Initializes a new instance of the <see cref="Actualizar_Contraseña"/> class.
         /// </summary>
         /// <param name="correo">The correo.</param>
-        public Actualizar_Contraseña(int id, string correo)
+        public Actualizar_Contraseña(int id, string correo, string nombreUsuario)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -31,6 +32,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
             this.FormClosing += cerrar.CerrarApp;
             this.usuarioId = id;
             this.correoUsuario = correo;
+            this.nombreUsuario = nombreUsuario;
+
         }
 
         /// <summary>
@@ -104,7 +107,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 //Metodo para cambio
                 ClsAccionesDB acciones = new ClsAccionesDB();
 
-                acciones.CambiarContraseña(correoUsuario, nueva_contraseña);
+                acciones.CambiarContraseña(nombreUsuario,correoUsuario, nueva_contraseña);
 
                 MessageBox.Show("Contraseña actualizada correctamente.");
 
@@ -126,7 +129,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void label4_Click(object sender, EventArgs e)
         {
             //Movimineto de frm
-            FRM_PG3 fRM_PG3 = new FRM_PG3(this.usuarioId, this.correoUsuario);
+            FRM_PG3 fRM_PG3 = new FRM_PG3(this.usuarioId, this.correoUsuario,this.nombreUsuario);
             fRM_PG3.Show();
             this.Hide();
         }

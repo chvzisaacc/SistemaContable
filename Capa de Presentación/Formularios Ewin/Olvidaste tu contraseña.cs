@@ -95,13 +95,22 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             ClsValidaciones validar = new ClsValidaciones();
             string correo = txt_correo_electronico.Text.Trim();
+            string usuario = txtUsuario.Text.Trim();
+
+            //Validar ambos campos al mismo tiempo
+
+            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(correo))
+            {
+                MessageBox.Show("Por favor complete todos los campos (Usuario y Correo).");
+                return;
+            }
 
             // Validar que no esté vacío
-            if (string.IsNullOrWhiteSpace(correo))
+            /*if (string.IsNullOrWhiteSpace(correo))
             {
                 MessageBox.Show("Por favor ingrese su correo electrónico.");
                 return;
-            }
+            }*/
 
             // Validar que el formato del correo sea válido
             if (!validar.EsCorreoValido(correo))
@@ -111,18 +120,24 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
 
             //Validar que no este vacio
-            if (string.IsNullOrEmpty(correo))
+            /*if (string.IsNullOrEmpty(correo))
             {
                 MessageBox.Show("Por favor ingrese su correo electrónico.");
                 return;
-            }
+            }*/
+
+            /*if (string.IsNullOrEmpty(usuario))
+            {
+                MessageBox.Show("Por favor ingrese su usuario.");
+                return;
+            }*/
             //instacnia 
             ClsAccionesDB acciones = new ClsAccionesDB();
-            int usuario_id = acciones.ObtenerUsuarioIdPorCorreo(correo);
+            int usuario_id = acciones.ObtenerUsuarioIdPorCorreo(usuario,correo);
 
             if (usuario_id == 0)
             {
-                MessageBox.Show("Este correo no está registrado.");
+                MessageBox.Show("Los datos ingresados no coinciden con ningún registro.");
                 return;
             }
             //metodo de generar codigo login
@@ -134,7 +149,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             MessageBox.Show("Se ha enviado un código de verificación a su correo.");
 
-            FRM_PG3 objingresar = new FRM_PG3(usuario_id, correo);
+            FRM_PG3 objingresar = new FRM_PG3(usuario_id, correo, usuario);
             objingresar.Show();
             this.Hide();
         }

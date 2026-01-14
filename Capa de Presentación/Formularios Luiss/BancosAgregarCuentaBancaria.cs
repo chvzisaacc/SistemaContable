@@ -1,5 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
+using System.Data;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -9,6 +10,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosAgregarCuentaBancaria : Form
     {
+        private int _parroquiaId;
         /// <summary>
         /// The crud
         /// </summary>
@@ -20,11 +22,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <summary>
         /// Initializes a new instance of the <see cref="BancosAgregarCuentaBancaria"/> class.
         /// </summary>
-        public BancosAgregarCuentaBancaria()
+        public BancosAgregarCuentaBancaria(int parroquiaId)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this._parroquiaId = parroquiaId;
             crud = new ClsCRUD_CuentasBancarias();
 
             Validaciones = new ClsValidaciones();
@@ -42,36 +45,36 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
 
             var nombre = txtCuenta.Text.Trim();
-            if (string.IsNullOrWhiteSpace(nombre))
+
+            if (!decimal.TryParse(txtMonto.Text.Trim(), out decimal saldo))
             {
-                MessageBox.Show("Ingrese un nombre de cuenta.");
                 return;
             }
 
-
-            decimal saldo = 0m;
-
-
-            if (!decimal.TryParse(txtMonto.Text.Trim(), out saldo))
+            // CAPTURA DEL CÓDIGO (Ahorro = 2, Cheque = 3)
+            if (cmbCuenta.SelectedValue == null)
             {
-               // MessageBox.Show("El saldo ingresado no es válido.");
+                MessageBox.Show("Seleccione un tipo de cuenta válido.");
                 return;
             }
 
+            int idTipoCuenta = Convert.ToInt32(cmbCuenta.SelectedValue);
 
-            bool ok = crud.CrearCuentaBanco(nombre, saldo, out int nuevo_Id);
+            bool ok = crud.CrearCuentaBanco(nombre, saldo, idTipoCuenta, this._parroquiaId, out int nuevo_Id);
 
             if (ok)
             {
-                MessageBox.Show(this, $"Cuenta creada. Id: {nuevo_Id}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(this, $"Cuenta creada: {nombre}\nTipo: {cmbCuenta.Text}\nID: {nuevo_Id}",
+                                "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             else
             {
-                MessageBox.Show(this, "No se pudo crear la cuenta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, "Error al guardar la cuenta en la base de datos.", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         /// <summary>
         /// Handles the Load event of the FRM_BancosAgregarCuentaBancaria control.
@@ -81,6 +84,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void FRM_BancosAgregarCuentaBancaria_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
+            LlenarComboTipos();
         }
         /// <summary>
         /// Validars the campos.
@@ -210,6 +214,20 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 txtMonto.Text = "Ingrese un monto";
                 txtMonto.ForeColor = Color.Gray;
             }
+        }
+
+        private void cmbCuenta_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LlenarComboTipos()
+        {
+            clsEnviarACajaChica db = new clsEnviarACajaChica();
+            DataTable dt = db.ObtenerTiposCuenta(); // El método que creamos antes
+            cmbCuenta.DataSource = dt;
+            cmbCuenta.DisplayMember = "TipoOrigen";
+            cmbCuenta.ValueMember = "IdOrigenTipo";
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosTransferenciaEntreCuentas : Form
     {
+        private int _parroquiaId;
         /// <summary>
         /// The crud transferencia
         /// </summary>
@@ -22,11 +23,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <summary>
         /// Initializes a new instance of the <see cref="BancosTransferenciaEntreCuentas"/> class.
         /// </summary>
-        public BancosTransferenciaEntreCuentas()
+        public BancosTransferenciaEntreCuentas(int parroquiaId)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this._parroquiaId = parroquiaId;
             CargarCuentas();
             Validaciones = new ClsValidaciones();
         }
@@ -38,7 +40,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                DataTable dt_cuentas = crudTransferencia.ObtenerCuentasBanco();
+                DataTable dt_cuentas = crudTransferencia.ObtenerCuentasBanco(this._parroquiaId);
 
                 cmbOrigen.DataSource = dt_cuentas.Copy();
                 cmbOrigen.DisplayMember = "NombreCompleto";

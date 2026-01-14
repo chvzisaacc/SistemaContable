@@ -20,13 +20,14 @@ namespace Capa_de_acceso_de_datos
         /// </summary>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al obtener cuentas disponibles: " + ex.Message</exception>
-        public DataTable ObtenerCuentasDisponibles()
+        public DataTable ObtenerCuentasDisponibles(int parroquiaId)
         {
             try
             {
                 conexion.Abrir();
                 SqlCommand cmd = new SqlCommand("sp_ObtenerCuentasDisponiblesCajaChica", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
@@ -83,7 +84,7 @@ namespace Capa_de_acceso_de_datos
         /// <exception cref="System.Exception">
         /// Error al enviar dinero a caja chica: " + ex.Message
         /// </exception>
-        public bool EnviarDineroCajaChica(int id_origen, decimal monto)
+        public bool EnviarDineroCajaChica(int id_origen, decimal monto, int parroquiaId)
         {
             try
             {
@@ -93,6 +94,7 @@ namespace Capa_de_acceso_de_datos
 
                 cmd.Parameters.AddWithValue("@IdOrigen", id_origen);
                 cmd.Parameters.AddWithValue("@Monto", monto);
+                cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
 
                 SqlParameter paramExitoso = new SqlParameter("@Exitoso", SqlDbType.Bit)
                 {
@@ -127,6 +129,34 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
+
+        public DataTable ObtenerTiposCuenta()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                conexion.Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_cargatipcuenta", conexion.sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(dt);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cargar tipos de cuenta: " + ex.Message);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+            return dt;
+        }
+
+
 
 
 

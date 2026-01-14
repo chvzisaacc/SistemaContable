@@ -14,27 +14,27 @@ namespace Capa_de_Presentación.CLASES
         /// </summary>
         /// <param name="cmbOrigen">The CMB origen.</param>
         /// <param name="cmbOrigen2">The CMB origen2.</param>
-        public void CargarComboBoxOrigen(ComboBox cmbOrigen, ComboBox cmbOrigen2)
+        public void CargarComboBoxOrigen(ComboBox cmbOrigen, ComboBox cmbOrigen2, int parroquiaId)
         {
             ClsAccionesDB clsAccionesDB = new ClsAccionesDB();
 
             try
             {
                 ClsAccionesDB db = new ClsAccionesDB();
-                List<Origen> lista = db.ObtenerListaOrigenes();
-                List<Origen> lista2 = db.ObtenerListaOrigenes();
+                List<Origen> lista = db.ObtenerListaOrigenes(parroquiaId);
+                List<Origen> lista2 = db.ObtenerListaOrigenes(parroquiaId);
 
                 lista.Insert(0, new Origen(0, "Seleccionar"));
                 lista2.Insert(0, new Origen(0, "Seleccionar"));
 
                 cmbOrigen.DataSource = lista;
-                cmbOrigen.DisplayMember = "Nombre";
-                cmbOrigen.ValueMember = "ID";
+                cmbOrigen.DisplayMember = "nombre";
+                cmbOrigen.ValueMember = "id";
                 cmbOrigen.SelectedIndex = 0;
 
                 cmbOrigen2.DataSource = lista2;
-                cmbOrigen2.DisplayMember = "Nombre";
-                cmbOrigen2.ValueMember = "ID";
+                cmbOrigen2.DisplayMember = "nombre";
+                cmbOrigen2.ValueMember = "id";
                 cmbOrigen2.SelectedIndex = 0;
 
             }
@@ -314,28 +314,6 @@ namespace Capa_de_Presentación.CLASES
             foreach (DataGridViewColumn column in dgvgastos.Columns)
                 column.ReadOnly = true;
         }
-
-
-        /// <summary>
-        /// Agregarfila2s the specified dt datos gastos.
-        /// </summary>
-        /// <param name="dtDatosGastos">The dt datos gastos.</param>
-        /// <param name="dgvGastos">The DGV gastos.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
-        internal void Agregarfila2(object dtDatosGastos, DataGridView dgvGastos)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Cargars the ComboBox origen.
-        /// </summary>
-        /// <param name="cmbOrigen">The CMB origen.</param>
-        /// <param name="cmbOrigen2">The CMB origen2.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
-        internal void CargarComboBoxOrigen(object cmbOrigen, object cmbOrigen2)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

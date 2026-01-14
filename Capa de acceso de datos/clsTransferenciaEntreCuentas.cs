@@ -18,13 +18,15 @@ namespace Capa_de_acceso_de_datos
         /// </summary>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al obtener cuentas bancarias: " + ex.Message</exception>
-        public DataTable ObtenerCuentasBanco()
+        public DataTable ObtenerCuentasBanco(int parroquiaId)
         {
             try
             {
                 conexion.Abrir();
                 SqlCommand cmd = new SqlCommand("sp_ObtenerOrigenFuentes", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
+
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);

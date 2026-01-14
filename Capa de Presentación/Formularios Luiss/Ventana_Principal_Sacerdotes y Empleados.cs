@@ -126,7 +126,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             CargarDatosAutocompletado();
             CargarDatosAutocompletadoGastos();
             Transacciones obj_transa = new();
-            obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+            obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, this.ParroquiaId);
 
 
             crudCataloCuentas = new clsCRUD_CatalogoCuentas();
@@ -305,8 +305,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 // 1. Desvincula el evento para que no se dispare
                 cmbCuentas.SelectedIndexChanged -= cmbCuentas_SelectedIndexChanged;
 
-                // Carga los datos como ya lo haces
-                DataTable dt_cuentas = crudCuentasBancarias.ObtenerCuentasBancarias();
+                // Carga los datos
+                DataTable dt_cuentas = crudCuentasBancarias.ObtenerCuentasBancarias((this.ParroquiaId));
                 cmbCuentas.DataSource = dt_cuentas;
                 cmbCuentas.DisplayMember = "Nombre";
                 cmbCuentas.ValueMember = "Id_Origen";
@@ -338,16 +338,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
             try
             {
                 ClsAccionesDB db = new ClsAccionesDB();
-                List<Origen> lista = db.ObtenerListaOrigenes();
-                List<Origen> lista2 = db.ObtenerListaOrigenes();
+                List<Origen> lista = db.ObtenerListaOrigenes(this.ParroquiaId);
+                List<Origen> lista2 = db.ObtenerListaOrigenes(this.ParroquiaId);
 
                 cmbOrigen.DataSource = lista;
-                cmbOrigen.DisplayMember = "Nombre";
-                cmbOrigen.ValueMember = "ID";
+                cmbOrigen.DisplayMember = "nombre";
+                cmbOrigen.ValueMember = "id";
 
                 cmbOrigen2.DataSource = lista2;
-                cmbOrigen2.DisplayMember = "Nombre";
-                cmbOrigen2.ValueMember = "ID";
+                cmbOrigen2.DisplayMember = "nombre";
+                cmbOrigen2.ValueMember = "id";
             }
             catch (Exception ex)
             {
@@ -362,7 +362,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
+                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias(this.ParroquiaId);
             }
             catch (Exception ex)
             {
@@ -379,7 +379,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
+                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias((this.ParroquiaId));
                 cmbCuentas.DisplayMember = "Nombre";
                 cmbCuentas.ValueMember = "Id_cuentaBanco";
 
@@ -553,7 +553,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             int id_seleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
 
 
-            var frm = new BancosCuentaAhorro()
+            var frm = new BancosCuentaAhorro((this.ParroquiaId))
             {
                 StartPosition = FormStartPosition.Manual,
 
@@ -578,7 +578,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 case 0: // Agregar Saldo
                     {
-                        using (var frm = new BancosAgregarSaldo
+                        using (var frm = new BancosAgregarSaldo(this.ParroquiaId)
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
@@ -588,7 +588,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                             if (result == DialogResult.OK)
                             {
-                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, this.ParroquiaId);
                             }
                         }
                     }
@@ -596,7 +596,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 case 1: // Transferencia entre cuentas
                     {
-                        using (var frm = new BancosTransferenciaEntreCuentas
+                        using (var frm = new BancosTransferenciaEntreCuentas(this.ParroquiaId)
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
@@ -606,43 +606,42 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                             if (result == DialogResult.OK)
                             {
-                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, this.ParroquiaId);
                             }
                         }
                     }
                     break;
                 case 2: // Agregar cuenta bancaria
                     {
-                        using (var frm = new BancosAgregarCuentaBancaria
+                        using (var frm = new BancosAgregarCuentaBancaria(this.ParroquiaId))
                         {
-                            StartPosition = FormStartPosition.Manual,
-                            Location = new Point(430, 450)
-                        })
-                        {
-                            DialogResult result = frm.ShowDialog();
+                            frm.StartPosition = FormStartPosition.Manual;
+                            frm.Location = new Point(430, 450);
 
-                            if (result == DialogResult.OK)
+                            // Si el usuario guardó con éxito
+                            if (frm.ShowDialog() == DialogResult.OK)
                             {
-                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
-                                CargarCuentasEnComboBox();
+                                CargarOrigenes();
+
+
                             }
                         }
                     }
                     break;
                 case 3: // Retirar dinero
                     {
-                        using (var frm = new BancosRetirarDinero
+                        using (var frm = new BancosRetirarDinero(this.ParroquiaId))
                         {
-                            StartPosition = FormStartPosition.Manual,
-                            Location = new Point(430, 450)
-                        })
-                        {
-                            DialogResult result = frm.ShowDialog();
+                            frm.StartPosition = FormStartPosition.Manual;
+                            frm.Location = new Point(430, 450);
 
-                            if (result == DialogResult.OK)
+                            frm.SaldoActualizado += () =>
                             {
-                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
-                            }
+                                ActualizarSaldo();
+                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, this.ParroquiaId);
+                            };
+
+                            frm.ShowDialog();
                         }
                     }
                     break;
@@ -678,7 +677,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void chkSaldoInicial_CheckedChanged(object sender, EventArgs e)
         {
-            CajaChicaMonto obj_caja = new CajaChicaMonto();
+            CajaChicaMonto obj_caja = new CajaChicaMonto(this.ParroquiaId);
             if (chkSaldoInicial.Checked)
             {
 
@@ -690,16 +689,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             ActualizarSaldo();
             Transacciones transacciones = new();
-            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, this.ParroquiaId);
 
-            if (txtSaldoActual.Text == "0.00")
+            if (txtSaldoActual.Text != "0.00")
             {
-                chkSaldoInicial.Visible = true;
-                obj_caja.ShowDialog();
+                chkSaldoInicial.Enabled = false; // Se queda visible pero bloqueado
+                chkSaldoInicial.Text = "Saldo inicial ingresado";
             }
             else
             {
-                chkSaldoInicial.Visible = false;
+                // Si el usuario cerró el form sin ingresar nada, desmarcamos para que pueda reintentar
+                chkSaldoInicial.Checked = false;
             }
 
 
@@ -716,16 +716,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 obj_con.Abrir();
 
-                string query = "exec saldo_actual";
-                SqlCommand comando = new SqlCommand(query, obj_con.sc);
+                // 1. Especificar solo el nombre del SP
+                SqlCommand comando = new SqlCommand("saldo_actual", obj_con.sc);
+                comando.CommandType = CommandType.StoredProcedure;
+
+                // 2. Pasar el ID de la parroquia del usuario logueado
+                // Reemplaza 'idParroquiaLogueada' por la variable donde guardas el ID al hacer Login
+                comando.Parameters.AddWithValue("@Parroquia_ID", this.ParroquiaId);
 
                 SqlDataReader lector = comando.ExecuteReader();
 
                 if (lector.Read())
                 {
-                    decimal saldo = Convert.ToDecimal(lector["saldo"]);
-                    //n2 formatea a dos digitos despues del "."
-                    txtSaldoActual.Text = saldo.ToString("N2");
+                    txtSaldoActual.Text = lector["Saldo"].ToString();
                 }
                 else
                 {
@@ -873,6 +876,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (_gridBloqueado)
+                return;
+            if (e.RowIndex < 0)
+                return;
+            if (_modoEdicionManual)
+                return;
 
             Transacciones obj_transa = new();
             obj_transa.BloquearDesbloquearDataIngresos(dtDatosIngresos, dataGridView1, e.RowIndex);
@@ -976,6 +985,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     auto_text.AutoCompleteMode = AutoCompleteMode.None;
                     auto_text.AutoCompleteSource = AutoCompleteSource.None;
+                    auto_text.AutoCompleteCustomSource = null;
                 }
             }
         }
@@ -1116,18 +1126,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     return false;
                 }
 
-                // 5. Obtener el saldo disponible de la cuenta origen seleccionada
+                // 5. Obtener el saldo disponible del origen seleccionado (incluye Caja Chica)
                 decimal saldoDisponible = 0;
-                if (cmbOrigen2.SelectedValue != null)
-                {
-                    int idOrigen = Convert.ToInt32(cmbOrigen2.SelectedValue);
-                    DataTable dtCuenta = crudCuentasBancarias.ObtenerCuentasBancarias();
-                    DataRow[] rows = dtCuenta.Select($"Id_Origen = {idOrigen}");
 
-                    if (rows.Length > 0 && rows[0]["saldo"] != DBNull.Value)
-                    {
-                        saldoDisponible = Convert.ToDecimal(rows[0]["saldo"]);
-                    }
+                if (cmbOrigen2.SelectedItem is Origen origenSeleccionado)
+                {
+                    saldoDisponible = origenSeleccionado.Saldo;
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo obtener el saldo del origen seleccionado. Recargue el ComboBox.", "Validación",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
                 }
 
                 // 6. Validar SOLO LA ÚLTIMA FILA (la que se va a guardar)
@@ -1153,7 +1163,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 }
 
                 // VALIDAR CAMPOS DE LA FILA
-
                 string nombreCuenta = filaActual.Cells["NombreCuenta"].Value?.ToString();
                 string detalle = filaActual.Cells["Detalle"].Value?.ToString();
                 string textoMonto = filaActual.Cells["Saldo"].Value?.ToString();
@@ -1374,7 +1383,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                                          MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
-
+                    if (cmbOrigen.SelectedValue != null && int.TryParse(cmbOrigen.SelectedValue.ToString(), out int idOrigenActual))
+                    {
+                        id_origen = idOrigenActual;
+                        fila.Cells["Id_Origen"].Value = idOrigenActual;
+                    }
                     // Llamar al método de edición
                     IngresosIn editar = new IngresosIn();
                     bool actualizado = editar.GuardarEdicion(dtDatosIngresos, nombre_cuenta, detalle, saldo, fecha_tr, referencia_texto, id_origen,
@@ -1388,6 +1401,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         dataGridView1.ReadOnly = false;
                         foreach (DataGridViewColumn col in dataGridView1.Columns)
                             col.ReadOnly = false;
+
+                        Transacciones obj_transa = new Transacciones();
+                        obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
 
                         MessageBox.Show("Transacción editada correctamente.", "Éxito",
                                          MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1453,10 +1469,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         string referencia_texto = txtNoReferencia.Text.Trim();
                         int referencia = 0;
 
-                        dgvGastos.EndEdit();
-                        dgvGastos.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                        dataGridView1.EndEdit();
+                        dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
                         this.Validate();
-                        BindingContext[dgvGastos.DataSource]?.EndCurrentEdit();
+                        BindingContext[dataGridView1.DataSource]?.EndCurrentEdit();
 
                         string saldo_texto = fila_nueva.Cells["Saldo"].Value?.ToString() ?? "";
                         decimal saldo = 0;
@@ -1526,7 +1542,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                                          MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         Transacciones obj_transa = new Transacciones();
-                        obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                        obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
 
                         ActualizarSaldo();
                         _controladorAlerta.ForzarVerificacionInmediata();
@@ -1570,6 +1586,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 _controladorAlerta.ForzarVerificacionInmediata();
             }
         }
+
+
 
 
 
@@ -1659,14 +1677,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            if (dataGridView1.SelectedRows.Count == 0)
+            DataGridViewRow fila_seleccionada = dataGridView1.CurrentRow;
+
+            if (fila_seleccionada == null)
             {
                 MessageBox.Show("Seleccione una fila para editar.", "Advertencia",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            DataGridViewRow fila_seleccionada = dataGridView1.SelectedRows[0];
             if (fila_seleccionada.IsNewRow)
             {
                 MessageBox.Show("No puede editar una fila vacía.", "Advertencia",
@@ -1685,14 +1704,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 cmbOrigen.SelectedIndex = -1;
 
             txtNoReferencia.Text = referencia_value?.ToString() ?? "";
-            dtpFecha.Value = fecha_value != null && DateTime.TryParse(fecha_value.ToString(), out DateTime fecha)
+            dtpFecha.Value = (fecha_value != null && DateTime.TryParse(fecha_value.ToString(), out DateTime fecha))
                 ? fecha : DateTime.Now;
 
-            //Desbloquear todas las columnas para edición libre
+            // Desbloquear grilla para edición libre
             dataGridView1.ReadOnly = false;
             foreach (DataGridViewColumn col in dataGridView1.Columns)
                 col.ReadOnly = false;
 
+            // Sincronización de comportamiento con el código exitoso
             dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dataGridView1.MultiSelect = false;
@@ -1728,7 +1748,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 return; // Si la validación falla, no continúa
             }
-            //dgvGastos.ReadOnly = false;
             try
             {
 
@@ -1763,7 +1782,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     string referencia_texto = txtNoReferencia2.Text.Trim();
                     int referencia = 0;
                     int.TryParse(referencia_texto, out referencia);
-                    int id_origen = Convert.ToInt32(cmbOrigen2.SelectedValue ?? 0);
+                    int id_origen = 0;
+                    if (cmbOrigen2.SelectedValue != null && int.TryParse(cmbOrigen2.SelectedValue.ToString(), out int temp))
+                        id_origen = temp;
+
+                    if (id_origen == 0)
+                    {
+                        MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
                     if (string.IsNullOrEmpty(nombre_cuenta))
                     {
@@ -1779,6 +1807,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         return;
                     }
 
+                    if (cmbOrigen2.SelectedValue != null && int.TryParse(cmbOrigen2.SelectedValue.ToString(), out int idOrigenActual))
+                    {
+                        id_origen = idOrigenActual;
+                        fila.Cells["Id_Origen"].Value = idOrigenActual;
+                    }
                     //Llamar al método de edición
                     GastosGa editar = new();
                     bool actualizado = editar.GuardarEdicion2(dtDatosGastos, nombre_cuenta, detalle, saldo, fecha_tr, referencia_texto, id_origen,
@@ -1792,16 +1825,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         foreach (DataGridViewColumn col in dgvGastos.Columns)
                             col.ReadOnly = true;
 
-                        //Actualiza el Id_Origen en la fila actual (para que el lápiz lea el correcto)
-                        //if (dgvGastos.CurrentRow != null)
-                        //dgvGastos.CurrentRow.Cells["Id_Origen"].Value = id_origen;
-
-                        txtNoReferencia.Clear();
+                        txtNoReferencia2.Clear();
                         dateTimePicker2.Value = DateTime.Now;
 
                         //Recargar los combos SIN perder la selección
                         Transacciones obj_transa = new Transacciones();
-                        obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                        obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
 
                         //Forzar actualización visual segura del ComboBox
                         this.BeginInvoke(new Action(() =>
@@ -1830,10 +1859,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 this.Validate();
                 this.BindingContext[dgvGastos.DataSource]?.EndCurrentEdit();
 
-                int id_origenNuevo = Convert.ToInt32(cmbOrigen2.SelectedValue ?? 0);
+                int id_origenNuevo = 0;
+                if (cmbOrigen2.SelectedValue != null && int.TryParse(cmbOrigen2.SelectedValue.ToString(), out int temp2))
+                    id_origenNuevo = temp2;
                 if (id_origenNuevo == 0)
                 {
-                    MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -1876,8 +1908,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 try
                 {
                     ClsValidaciones validar = new();
-                    DateTime fecha_transaccion = dtpFecha.Value;
-                    string referencia_texto = txtNoReferencia.Text.Trim();
+                    DateTime fecha_transaccion = dateTimePicker2.Value;
+                    string referencia_texto = txtNoReferencia2.Text.Trim();
                     int referencia = 0;
                     string saldo_texto = fila_nueva.Cells["Saldo"].Value?.ToString() ?? "";
                     decimal saldo = 0;
@@ -1913,7 +1945,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         return;
                     }
 
-                    int nuevo_id = gasto.IngresarGastos(fecha_transaccion, descripcion, saldo, referencia, id_usuario, id_origenNuevo, nombre_cuenta);
+                    int nuevo_id = gasto.IngresarGastos(fecha_transaccion, descripcion, saldo, referencia, id_usuario, id_origenNuevo, nombre_cuenta, ParroquiaId);
                     if (nuevo_id <= 0)
                     {
                         MessageBox.Show("No se recibió un ID válido desde la base de datos. Verifique el SP.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1944,7 +1976,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     Transacciones obj_transa = new Transacciones();
-                    obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                    obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
 
 
                     ActualizarSaldo();
@@ -1985,9 +2017,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 _controladorAlerta.ForzarVerificacionInmediata();
             }
-
-
         }
+
+
 
         private void BloquearFilasGuardadas(DataGridViewRow filaActual)
         {
@@ -2031,25 +2063,26 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            if (dgvGastos.SelectedRows.Count == 0)
+            DataGridViewRow fila = dgvGastos.CurrentRow;
+
+            if (fila == null)
             {
                 MessageBox.Show("Seleccione una fila para editar.", "Advertencia",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            DataGridViewRow fila_seleccionada = dgvGastos.SelectedRows[0];
-            if (fila_seleccionada.IsNewRow)
+            if (fila.IsNewRow)
             {
                 MessageBox.Show("No puede editar una fila vacía.", "Advertencia",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Cargar datos de la fila
-            object id_origenValue = fila_seleccionada.Cells["Id_Origen"]?.Value;
-            object referencia_value = fila_seleccionada.Cells["NoReferencia"]?.Value;
-            object fecha_value = fila_seleccionada.Cells["fecha_transaccion"]?.Value;
+            // Cargar datos de la fila (ACTUALES)
+            object id_origenValue = fila.Cells["Id_Origen"]?.Value;
+            object referencia_value = fila.Cells["NoReferencia"]?.Value;
+            object fecha_value = fila.Cells["fecha_transaccion"]?.Value;
 
             if (id_origenValue != null && id_origenValue != DBNull.Value)
                 cmbOrigen2.SelectedValue = Convert.ToInt32(id_origenValue);
@@ -2057,10 +2090,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 cmbOrigen2.SelectedIndex = -1;
 
             txtNoReferencia2.Text = referencia_value?.ToString() ?? "";
-            dateTimePicker2.Value = fecha_value != null && DateTime.TryParse(fecha_value.ToString(), out DateTime fecha)
-                ? fecha : DateTime.Now;
 
-            //Desbloquear todas las columnas para edición libre
+            dateTimePicker2.Value = (fecha_value != null && DateTime.TryParse(fecha_value.ToString(), out DateTime fecha))
+                ? fecha
+                : DateTime.Now;
+
+            // Desbloquear grilla
             dgvGastos.ReadOnly = false;
             foreach (DataGridViewColumn col in dgvGastos.Columns)
                 col.ReadOnly = false;
@@ -2224,7 +2259,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button5_Click(object sender, EventArgs e)
         {
-            using (var frm = new BancosCuentaAhorro
+            using (var frm = new BancosCuentaAhorro(this.ParroquiaId)
             {
                 StartPosition = FormStartPosition.Manual,
                 Location = new Point(430, 450)
@@ -2238,7 +2273,28 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button5_Click_1(object sender, EventArgs e)
         {
-           
+
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+            _modoEdicionManual = true;
+            DataGridViewRow fila = dataGridView1.Rows[e.RowIndex];
+            dataGridView1.ReadOnly = false;
+            foreach (DataGridViewColumn col in dataGridView1.Columns)
+                col.ReadOnly = false;
+            foreach (DataGridViewCell celda in fila.Cells)
+                celda.ReadOnly = false;
+            dataGridView1.CurrentCell = fila.Cells[e.ColumnIndex];
+            dataGridView1.BeginEdit(true);
+
         }
     }
 

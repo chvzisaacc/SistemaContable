@@ -10,7 +10,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosRetirarDinero : Form
     {
-
+        private int _parroquiaId;
+        public delegate void ActualizarSaldoDelegate();
+        public event ActualizarSaldoDelegate SaldoActualizado;
         /// <summary>
         /// The crud caja chica
         /// </summary>
@@ -23,12 +25,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <summary>
         /// Initializes a new instance of the <see cref="BancosRetirarDinero"/> class.
         /// </summary>
-        public BancosRetirarDinero()
+        public BancosRetirarDinero(int parroquiaId)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             Validaciones = new ClsValidaciones();
+            this._parroquiaId = parroquiaId;
             CargarCuentas();
 
         }
@@ -144,7 +147,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                DataTable dt_cuentas = crudCajaChica.ObtenerCuentasDisponibles();
+                DataTable dt_cuentas = crudCajaChica.ObtenerCuentasDisponibles(_parroquiaId);
                 cmbCuentas.DataSource = dt_cuentas.Copy();
                 cmbCuentas.DisplayMember = "NombreCompleto";
                 cmbCuentas.ValueMember = "Id_Origen";
@@ -167,12 +170,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 int id_origen = Convert.ToInt32(cmbCuentas.SelectedValue);
                 decimal monto = Convert.ToDecimal(txtMonto.Text);
 
-                bool exito = crudCajaChica.EnviarDineroCajaChica(id_origen, monto);
+                bool exito = crudCajaChica.EnviarDineroCajaChica(id_origen, monto, _parroquiaId);
 
                 if (exito)
                 {
                     MessageBox.Show("Dinero enviado a caja chica exitosamente",
                         "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    SaldoActualizado?.Invoke();
                     this.Close();
                 }
             }

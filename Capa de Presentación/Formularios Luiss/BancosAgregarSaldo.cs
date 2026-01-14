@@ -9,6 +9,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosAgregarSaldo : Form
     {
+        private readonly int _parroquiaId;
+        public delegate void ActualizarSaldoHandler();
+        public event ActualizarSaldoHandler SaldoActualizado;
         /// <summary>
         /// The crud cuentas bancarias
         /// </summary>
@@ -20,13 +23,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <summary>
         /// Initializes a new instance of the <see cref="BancosAgregarSaldo"/> class.
         /// </summary>
-        public BancosAgregarSaldo()
+        public BancosAgregarSaldo(int parroquiaId)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             crudCuentasBancarias = new ClsCRUD_CuentasBancarias();
             Validaciones = new ClsValidaciones();
+            this._parroquiaId = parroquiaId;
         }
 
         /// <summary>
@@ -83,8 +87,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Alarma de Sistema",MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
 
@@ -139,20 +142,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
-
-                //aqui es para ocultar algunos campos (los ids y las contraseñas)
-                /*
-                if (dgvUsuarios.Columns["Contraseña"] != null)
-                    dgvUsuarios.Columns["Contraseña"].Visible = false;
-
-                if (dgvUsuarios.Columns["RolID"] != null)
-                    dgvUsuarios.Columns["RolID"].Visible = false;
-                if (dgvUsuarios.Columns["ParroquiaID"] != null)
-                    dgvUsuarios.Columns["ParroquiaID"].Visible = false;
-                if (dgvUsuarios.Columns["EstadoID"] != null)
-                    dgvUsuarios.Columns["EstadoID"].Visible = false;
-                */
+                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias(_parroquiaId);
             }
             catch (Exception ex)
             {
@@ -167,7 +157,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
+                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias(_parroquiaId);
                 cmbCuentas.DisplayMember = "Nombre";
                 cmbCuentas.ValueMember = "id_origen";
 

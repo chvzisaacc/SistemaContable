@@ -21,12 +21,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// The correo usuario
         /// </summary>
         private string _correoUsuario;
+        private string _nombreUsuario;
         /// <summary>
         /// Initializes a new instance of the <see cref="FRM_PG3"/> class.
         /// </summary>
         /// <param name="usuarioId">The usuario identifier.</param>
         /// <param name="correoUsuario">The correo usuario.</param>
-        public FRM_PG3(int usuarioId, string correoUsuario)
+        public FRM_PG3(int usuarioId, string correoUsuario, string nombreUsuario)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -34,6 +35,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             this.FormClosing += cerrar.CerrarApp;
             _usuarioId = usuarioId;
             _correoUsuario = correoUsuario;
+            _nombreUsuario = nombreUsuario;
 
         }
 
@@ -84,7 +86,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             //Metodo para verificar 
 
             ClsVerificarCod verificador = new ClsVerificarCod();
-            verificador.ProcesarCodigoRecuperacion(_usuarioId, codigo, _correoUsuario, this);
+            verificador.ProcesarCodigoRecuperacion(_usuarioId, codigo, _correoUsuario, _nombreUsuario, this);
         }
 
         /// <summary>

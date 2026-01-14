@@ -72,16 +72,18 @@ namespace Capa_de_acceso_de_datos
         /// The nombre.
         /// </value>
         public string nombre { get; set; }
+        public decimal Saldo { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Origen"/> class.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="nombre">The nombre.</param>
-        public Origen(int id, string nombre)
+        public Origen(int id, string nombre, decimal saldo = 0)
         {
             this.id = id;
             this.nombre = nombre;
+            this.Saldo = saldo;
         }
     }
 
@@ -215,7 +217,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="nuevaa_contraseña">The nuevaa contraseña.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al cambiar la contraseña: " + ex.Message</exception>
-        public bool CambiarContraseña(string correo, string nuevaa_contraseña)
+        public bool CambiarContraseña(string usuario,string correo, string nuevaa_contraseña)
         {
             try
             {
@@ -223,6 +225,7 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("CambiarContraseña", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Usuario", usuario);
                     cmd.Parameters.AddWithValue("@Correo", correo);
                     cmd.Parameters.AddWithValue("@NuevaContraseña", nuevaa_contraseña);
                     int filas = cmd.ExecuteNonQuery();
@@ -246,7 +249,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="correo">The correo.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al obtener ID de usuario por correo: " + ex.Message</exception>
-        public int ObtenerUsuarioIdPorCorreo(string correo)
+        public int ObtenerUsuarioIdPorCorreo(string usuario,string correo)
         {
             int id = 0;
             try
@@ -255,6 +258,7 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("ObtenerUsuarioIdPorCorreo", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UsuarioNombre", usuario);
                     cmd.Parameters.AddWithValue("@CorreoParroquia", correo);
                     object result = cmd.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
@@ -650,7 +654,7 @@ namespace Capa_de_acceso_de_datos
         /// </summary>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al cargar origen de fondos: " + ex.Message</exception>
-        public List<Origen> ObtenerListaOrigenes()
+        public List<Origen> ObtenerListaOrigenes(int parroquiaId)
         {
             List<Origen> listaorigenes = new List<Origen>();
 
@@ -661,6 +665,7 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("SP_ObtenerFuentesDeFondos", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -669,8 +674,9 @@ namespace Capa_de_acceso_de_datos
                             // Uso de GetInt32 y GetString para robustez
                             int id = reader.GetInt32(reader.GetOrdinal("ID"));
                             string nombre = reader.GetString(reader.GetOrdinal("NombreOrigen"));
+                            decimal saldoReal = reader.GetDecimal(reader.GetOrdinal("saldo"));
 
-                            listaorigenes.Add(new Origen(id, nombre));
+                            listaorigenes.Add(new Origen(id, nombre, saldoReal));
                         }
                     }
                 }

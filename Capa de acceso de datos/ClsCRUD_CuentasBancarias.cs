@@ -67,7 +67,7 @@ namespace Capa_de_acceso_de_datos
         /// </summary>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al obtener Cuentas Bancarias: " + ex.Message</exception>
-        public DataTable ObtenerCuentasBancarias()
+        public DataTable ObtenerCuentasBancarias(int parroquiaId)
         {
             try
             {
@@ -75,6 +75,7 @@ namespace Capa_de_acceso_de_datos
 
                 SqlCommand cmd = new SqlCommand("sp_ObtenerCuentasBancarias", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
@@ -170,7 +171,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="nuevo_id">The nuevo identifier.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al crear cuenta bancaria: " + ex.Message</exception>
-        public bool CrearCuentaBanco(String nombre, decimal saldo, out int nuevo_id)
+        public bool CrearCuentaBanco(string nombre, decimal saldo, int idTipo, int parroquiaId, out int nuevo_id)
         {
             nuevo_id = 0;
             try
@@ -179,30 +180,33 @@ namespace Capa_de_acceso_de_datos
                 using var cmd = new SqlCommand("dbo.sp_AgregarCuentaBanco", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                //cmd.Parameters.Add("@Id_cuentaBanco", SqlDbType.Int).Value = idCuentaBanco;
-                var pNombre = cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar, 40).Value = nombre ?? string.Empty;
-                //pNombre.Value = Nombre ?? string.Empty;
+                // Parámetros existentes
+                cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar, 40).Value = nombre ?? string.Empty;
 
                 var pSaldo = cmd.Parameters.Add("@saldo", SqlDbType.Decimal);
                 pSaldo.Precision = 18;
                 pSaldo.Scale = 2;
                 pSaldo.Value = saldo;
 
+                //Parámetro para el tipo de cuenta (2 = Ahorro, 3 = Cheque, etc.)
+                cmd.Parameters.Add("@IdOrigenTipo", SqlDbType.Int).Value = idTipo;
+
+                //Parámetro para la Parroquia actual
+                cmd.Parameters.Add("@Parroquia_ID", SqlDbType.Int).Value = parroquiaId;
+
+                // Parámetro de salida
                 var pOut = cmd.Parameters.Add("@nuevo_Id", SqlDbType.Int);
                 pOut.Direction = ParameterDirection.Output;
 
-                int filas = cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
+
                 if (pOut.Value != DBNull.Value && (int)pOut.Value > 0)
                 {
                     nuevo_id = (int)pOut.Value;
-
                     return true;
                 }
-                else
-                {
-                    return false; // no hubo id generad
-                }
 
+                return false;
             }
             catch (Exception ex)
             {

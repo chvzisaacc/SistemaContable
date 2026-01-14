@@ -9,6 +9,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosCuentaAhorro : Form
     {
+        private int _parroquiaId;
         /// <summary>
         /// The crud cuentas bancarias
         /// </summary>
@@ -31,13 +32,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// Initializes a new instance of the <see cref="BancosCuentaAhorro"/> class.
         /// </summary>
         /// <param name="id_origen">The identifier origen.</param>
-        public BancosCuentaAhorro()
+        public BancosCuentaAhorro(int parroquiaId)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             CRUD_CuentasBancarias = new ClsCRUD_CuentasBancarias();
-
+            this._parroquiaId = parroquiaId;
         }
 
         /// <summary>
@@ -154,7 +155,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             try
             {
                 // Llama al método de la Capa de Acceso de Datos que ejecuta sp_ObtenerCuentasBancarias
-                DataTable dtCuentas = CRUD_CuentasBancarias.ObtenerCuentasBancarias();
+                DataTable dtCuentas = CRUD_CuentasBancarias.ObtenerCuentasBancarias(_parroquiaId);
 
                 if (dtCuentas != null && dtCuentas.Rows.Count > 0)
                 {
