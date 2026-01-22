@@ -50,7 +50,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <summary>
         /// The codigo cuenta seleccionado
         /// </summary>
-        private int codigo_cuenta_seleccionado = 0;
+        private String codigo_cuenta_seleccionado = "";
         //BITACORA
         /// <summary>
         /// The crud historial
@@ -162,7 +162,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             CargarComboBoxCuentas();
             //ValidarCamposCatalogo();
 
-            
+
         }
 
         //usuarios
@@ -187,7 +187,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 dgv_usuarios.Columns["Usuario"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                 dgv_usuarios.Columns["Usuario"].Width = 220;
 
-                
+
 
                 //aqui es para ocultar algunos campos (los ids y las contraseñas)
 
@@ -476,6 +476,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             try
             {
+                string codigo_cuenta = txtIdCuenta.Text.Trim();
                 int id_cuenta = Convert.ToInt32(cmbCuenta.SelectedValue);
                 string nombre_cuenta = txtNombreCuenta.Text.Trim();
                 string detalle = txtDetalle.Text.Trim();
@@ -532,17 +533,18 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         return;
                     }
 
-                    int nuevoCodigo = crud_catalogo_cuentas.AgregarCatalogoCuenta(
+                    bool resultado = crud_catalogo_cuentas.AgregarCatalogoCuenta(
+                        codigo_cuenta,
                         id_cuenta,
                         nombre_cuenta,
                         detalle,
-                        null, // saldo siempre null
+                        null,
                         id_estado
                     );
 
-                    if (nuevoCodigo > 0)
+                    if (resultado)
                     {
-                        MessageBox.Show($"Cuenta agregada exitosamente con código: {nuevoCodigo}",
+                        MessageBox.Show($"Cuenta agregada exitosamente con código: {codigo_cuenta}",
                             "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         try
@@ -551,7 +553,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                                 1,
                                 8,
                                 "Creación de Cuenta",
-                                $"Se creó la nueva cuenta: '{nombre_cuenta}' (Código: {nuevoCodigo})."
+                                $"Se creó la nueva cuenta: '{nombre_cuenta}' (Código: {codigo_cuenta})."
                             );
                         }
                         catch (Exception exBitacora)
@@ -603,10 +605,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             try
             {
                 var cuenta = crud_catalogo_cuentas.BuscarCatalogoCuentaPorId(codigo_cuenta_seleccionado);
-               
+
                 dgvCatalogoCuentas.Columns["Codigo"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                 dgvCatalogoCuentas.Columns["Codigo"].Width = 20;
-                
+
                 if (cuenta != null)
                 {
                     txtIdCuenta.Text = cuenta["Cod_cuenta"].ToString();
@@ -615,7 +617,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         ? cuenta["detalle"].ToString()
                         : "";
                     cmbCuenta.SelectedValue = cuenta["id_cuenta"];
-                    cmbTipoCuenta.SelectedValue = cuenta["cod_tipo"];
+                    //cmbTipoCuenta.SelectedValue = cuenta["cod_tipo"];
                     cmbEstadoCuenta.SelectedValue = cuenta["Id_estado_cuenta"]; // AGREGAR ESTA LÍNEA
                 }
             }
@@ -636,18 +638,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
             LimpiarCamposCatalogo();
             HabilitarControlesCatalogo(true);
             modo_edicion_catalogo = false; // Debes agregar esta variable global
-
-            try
-            {
-                int proximoCodigo = crud_catalogo_cuentas.ObtenerProximoCodigo();
-                txtIdCuenta.Text = proximoCodigo.ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al obtener código: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
 
             txtNombreCuenta.Focus();
         }
@@ -982,7 +972,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     dgvCatalogoCuentas.Columns["Estado"].Width = 120;
                 }
 
-                
+
                 // Ocultar columna EstadoID
                 if (dgvCatalogoCuentas.Columns["EstadoID"] != null)
                     dgvCatalogoCuentas.Columns["EstadoID"].Visible = false;
@@ -1100,7 +1090,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             if (cmbEstadoCuenta.Items.Count > 0)
                 cmbEstadoCuenta.SelectedIndex = 0;
 
-            codigo_cuenta_seleccionado = 0;
+            codigo_cuenta_seleccionado = "";
             modo_edicion_catalogo = false;
         }
 
@@ -1110,7 +1100,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="habilitar">if set to <c>true</c> [habilitar].</param>
         private void HabilitarControlesCatalogo(bool habilitar)
         {
-            txtIdCuenta.Enabled = false;
+            txtIdCuenta.Enabled = habilitar;
             cmbCuenta.Enabled = habilitar;
             txtNombreCuenta.Enabled = habilitar;
             txtDetalle.Enabled = habilitar;
@@ -1280,10 +1270,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             try
             {
-                int codigo = Convert.ToInt32(dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value);
-                int estadoActivo = 1; // Estado Activo
+                string codigo = dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value?.ToString() ?? "";
+                int estadoActivo = 1;
 
                 bool resultado = crud_catalogo_cuentas.CambiarEstadoCuenta(codigo, estadoActivo);
+
 
                 if (resultado)
                 {
@@ -1331,8 +1322,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             try
             {
-                int codigo = Convert.ToInt32(dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value);
-                int estadoInactivo = 2; // Estado Inactivo
+                string codigo = dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value?.ToString() ?? "";
+                int estadoInactivo = 2;
 
                 bool resultado = crud_catalogo_cuentas.CambiarEstadoCuenta(codigo, estadoInactivo);
 
@@ -1421,6 +1412,29 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnModificarCuenta_Click(object sender, EventArgs e)
+        {
+            if (dgvCatalogoCuentas.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione una cuenta para modificar", "Advertencia",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Capturar el ID del usuario seleccionado
+            codigo_cuenta_seleccionado = dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value.ToString();
+
+            HabilitarControlesCatalogo(true);
+            modo_edicion_catalogo = true;
+            CargarDatosCatalogoCuenta();
+            txtIdCuenta.Focus();
         }
     }
 }

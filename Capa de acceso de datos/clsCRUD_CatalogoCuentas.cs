@@ -30,7 +30,8 @@ namespace Capa_de_acceso_de_datos
         /// <param name="saldo">The saldo.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al agregar cuenta al catálogo: " + ex.Message</exception>
-        public int AgregarCatalogoCuenta(int id_cuenta, string nombre, String detalle, decimal? saldo, int id_estado)
+        // CAMBIAR TODO EL CONTENIDO DEL MÉTODO:
+        public bool AgregarCatalogoCuenta(string codigo_cuenta, int id_cuenta, string nombre, String detalle, decimal? saldo, int id_estado)
         {
             try
             {
@@ -39,6 +40,7 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_AgregarCatalogoCuenta", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
+                cmd.Parameters.AddWithValue("@codigoCuenta", codigo_cuenta);
                 cmd.Parameters.AddWithValue("@idCuenta", id_cuenta);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
 
@@ -47,22 +49,15 @@ namespace Capa_de_acceso_de_datos
                 else
                     cmd.Parameters.AddWithValue("@detalle", DBNull.Value);
 
-                // Parámetro saldo como decimal
                 if (saldo.HasValue)
                     cmd.Parameters.AddWithValue("@saldo", saldo.Value);
                 else
                     cmd.Parameters.AddWithValue("@saldo", DBNull.Value);
 
-                cmd.Parameters.AddWithValue("@idEstado", id_estado); // NUEVO
+                cmd.Parameters.AddWithValue("@idEstado", id_estado);
 
-
-                SqlParameter nuevoid = new SqlParameter("@nuevoId", SqlDbType.Int);
-                nuevoid.Direction = ParameterDirection.Output;
-                cmd.Parameters.Add(nuevoid);
-
-                cmd.ExecuteNonQuery();
-
-                return Convert.ToInt32(nuevoid.Value);
+                int resultado = cmd.ExecuteNonQuery();
+                return resultado > 0;
             }
             catch (Exception ex)
             {
@@ -104,7 +99,7 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public bool CambiarEstadoCuenta(int cod_cuenta, int nuevo_estado)
+        public bool CambiarEstadoCuenta(String cod_cuenta, int nuevo_estado)
         {
             try
             {
@@ -134,7 +129,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="cod_cuenta">The cod cuenta.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al buscar cuenta: " + ex.Message</exception>
-        public DataRow BuscarCatalogoCuentaPorId(int cod_cuenta)
+        public DataRow BuscarCatalogoCuentaPorId(String cod_cuenta)
         {
             try
             {
@@ -173,7 +168,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="saldo">The saldo.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al modificar cuenta: " + ex.Message</exception>
-        public bool ModificarCatalogoCuenta(int cod_cuenta, int id_cuenta, string nombre, String detalle, decimal? saldo)
+        public bool ModificarCatalogoCuenta(String cod_cuenta, int id_cuenta, string nombre, String detalle, decimal? saldo)
         {
             try
             {
