@@ -487,11 +487,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 {
                     // MODIFICAR cuenta existente
                     bool resultado = crud_catalogo_cuentas.ModificarCatalogoCuenta(
-                        codigo_cuenta_seleccionado,
-                        id_cuenta,
+                        codigo_cuenta_seleccionado,  // Código original
+                        codigo_cuenta,                // Código nuevo
+                        id_cuenta,                    // id_cuenta (tipo de cuenta)
                         nombre_cuenta,
-                        detalle,
-                        null // saldo siempre null
+                        detalle
+                    // ❌ ELIMINAR: null (saldo)
                     );
 
                     if (resultado)
@@ -617,7 +618,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         ? cuenta["detalle"].ToString()
                         : "";
                     cmbCuenta.SelectedValue = cuenta["id_cuenta"];
-                    //cmbTipoCuenta.SelectedValue = cuenta["cod_tipo"];
                     cmbEstadoCuenta.SelectedValue = cuenta["Id_estado_cuenta"]; // AGREGAR ESTA LÍNEA
                 }
             }
@@ -1104,7 +1104,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmbCuenta.Enabled = habilitar;
             txtNombreCuenta.Enabled = habilitar;
             txtDetalle.Enabled = habilitar;
-            cmbTipoCuenta.Enabled = habilitar;
+            cmbTipoCuenta.Enabled = false;
             cmbEstadoCuenta.Enabled = habilitar;
             btnGuardarCuenta.Enabled = habilitar;
         }
@@ -1435,6 +1435,29 @@ namespace Capa_de_Presentación.Formularios_Ewin
             modo_edicion_catalogo = true;
             CargarDatosCatalogoCuenta();
             txtIdCuenta.Focus();
+        }
+
+        private void cmbCuenta_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbCuenta.SelectedValue != null)
+            {
+                try
+                {
+                    int idCuenta = Convert.ToInt32(cmbCuenta.SelectedValue);
+                    // Obtener el tipo de cuenta asociado
+                    DataTable dtTipo = crud_catalogo_cuentas.ObtenerTipoPorCuenta(idCuenta);
+
+                    if (dtTipo.Rows.Count > 0)
+                    {
+                        cmbTipoCuenta.SelectedValue = dtTipo.Rows[0]["cod_tipo"];
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error al cargar tipo: " + ex.Message);
+                }
+            }
+
         }
     }
 }

@@ -168,7 +168,8 @@ namespace Capa_de_acceso_de_datos
         /// <param name="saldo">The saldo.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al modificar cuenta: " + ex.Message</exception>
-        public bool ModificarCatalogoCuenta(String cod_cuenta, int id_cuenta, string nombre, String detalle, decimal? saldo)
+        // Firma corregida (sin saldo):
+        public bool ModificarCatalogoCuenta(string cod_cuenta_original, string cod_cuenta_nuevo, int id_cuenta, string nombre, string detalle)
         {
             try
             {
@@ -177,15 +178,15 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ModificarCatalogoCuenta", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@codCuenta", cod_cuenta);
-                cmd.Parameters.AddWithValue("@idCuenta", id_cuenta);
+                cmd.Parameters.AddWithValue("@codCuentaOriginal", cod_cuenta_original);
+                cmd.Parameters.AddWithValue("@codCuentaNuevo", cod_cuenta_nuevo);
+                cmd.Parameters.AddWithValue("@idCuenta", id_cuenta);  // ✅ int
                 cmd.Parameters.AddWithValue("@nombre", nombre);
+
                 if (!string.IsNullOrWhiteSpace(detalle))
                     cmd.Parameters.AddWithValue("@detalle", detalle);
                 else
                     cmd.Parameters.AddWithValue("@detalle", DBNull.Value);
-
-                cmd.Parameters.AddWithValue("@saldo", saldo.HasValue ? (object)saldo.Value : DBNull.Value);
 
                 int resultado = cmd.ExecuteNonQuery();
                 return resultado > 0;
@@ -200,6 +201,31 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+
+        public DataTable ObtenerTipoPorCuenta(int id_cuenta)
+        {
+            try
+            {
+                conexion.Abrir();
+
+                SqlCommand cmd = new SqlCommand("SELECT cod_tipo FROM dbo.cuentas WHERE id_cuenta = @idCuenta", conexion.sc);
+                cmd.Parameters.AddWithValue("@idCuenta", id_cuenta);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener tipo de cuenta: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
 
 
         /// <summary>

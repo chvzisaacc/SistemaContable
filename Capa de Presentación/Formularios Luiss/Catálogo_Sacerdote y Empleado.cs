@@ -57,6 +57,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 if (dgvBitacora.Columns["CuentaID"] != null)
                     dgvBitacora.Columns["CuentaID"].Visible = false;
 
+                if (dgvBitacora.Columns["EstadoID"] != null)
+                    dgvBitacora.Columns["EstadoID"].Visible = false;
+
+
                 /*
                 if (dgvCatalogoCuentas.Columns["Detalle"] != null)
                     dgvCatalogoCuentas.Columns["Detalle"].DefaultCellStyle.Format = "N2";
