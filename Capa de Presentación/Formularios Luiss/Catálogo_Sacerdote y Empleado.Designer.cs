@@ -46,10 +46,9 @@
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(96, 0);
-            pictureBox3.Margin = new Padding(4, 5, 4, 5);
+            pictureBox3.Location = new Point(67, 0);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(188, 204);
+            pictureBox3.Size = new Size(132, 122);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 14;
             pictureBox3.TabStop = false;
@@ -58,10 +57,9 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(341, 70);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(239, 42);
             label1.Name = "label1";
-            label1.Size = new Size(222, 48);
+            label1.Size = new Size(150, 32);
             label1.TabIndex = 13;
             label1.Text = "SACERDOTE";
             // 
@@ -84,11 +82,10 @@
             dgvBitacora.EnableHeadersVisualStyles = false;
             dgvBitacora.GridColor = SystemColors.MenuText;
             dgvBitacora.Location = new Point(0, 0);
-            dgvBitacora.Margin = new Padding(4, 5, 4, 5);
             dgvBitacora.Name = "dgvBitacora";
             dgvBitacora.ReadOnly = true;
             dgvBitacora.RowHeadersWidth = 51;
-            dgvBitacora.Size = new Size(1272, 544);
+            dgvBitacora.Size = new Size(890, 326);
             dgvBitacora.TabIndex = 12;
             dgvBitacora.CellContentClick += dgvBitacora_CellContentClick;
             // 
@@ -96,10 +93,9 @@
             // 
             lblConsulte.AutoSize = true;
             lblConsulte.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblConsulte.Location = new Point(184, 282);
-            lblConsulte.Margin = new Padding(4, 0, 4, 0);
+            lblConsulte.Location = new Point(129, 169);
             lblConsulte.Name = "lblConsulte";
-            lblConsulte.Size = new Size(1366, 38);
+            lblConsulte.Size = new Size(919, 25);
             lblConsulte.TabIndex = 11;
             lblConsulte.Text = "Observa cada una de las cuentas y subcuentas que existen en el sistema y como su saldo se ve afectado\r\n";
             // 
@@ -107,12 +103,11 @@
             // 
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitulo.Location = new Point(216, 222);
-            lblTitulo.Margin = new Padding(4, 0, 4, 0);
+            lblTitulo.Location = new Point(151, 133);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(1321, 48);
+            lblTitulo.Size = new Size(890, 32);
             lblTitulo.TabIndex = 10;
-            lblTitulo.Text = "CATÁLOGO DE CUENTAS, TODO LO QUE SE PODRA INGRESAR EN EL SISTEMA\r\n";
+            lblTitulo.Text = "CATÁLOGO DE CUENTAS, TODO LO QUE SE PODRÁ INGRESAR EN EL SISTEMA\r\n";
             // 
             // btnVolver
             // 
@@ -122,10 +117,9 @@
             btnVolver.FlatStyle = FlatStyle.Popup;
             btnVolver.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnVolver.ForeColor = SystemColors.ControlText;
-            btnVolver.Location = new Point(1397, 14);
-            btnVolver.Margin = new Padding(4, 5, 4, 5);
+            btnVolver.Location = new Point(978, 8);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(191, 64);
+            btnVolver.Size = new Size(134, 38);
             btnVolver.TabIndex = 15;
             btnVolver.Text = "Volver Atrás";
             btnVolver.UseVisualStyleBackColor = true;
@@ -134,25 +128,25 @@
             // panel1
             // 
             panel1.Controls.Add(dgvBitacora);
-            panel1.Location = new Point(227, 342);
-            panel1.Margin = new Padding(4);
+            panel1.Location = new Point(159, 205);
+            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1272, 544);
+            panel1.Size = new Size(890, 326);
             panel1.TabIndex = 16;
             // 
             // panel2
             // 
-            panel2.Location = new Point(288, 362);
-            panel2.Margin = new Padding(2);
+            panel2.Location = new Point(202, 217);
+            panel2.Margin = new Padding(1, 1, 1, 1);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1188, 462);
+            panel2.Size = new Size(832, 277);
             panel2.TabIndex = 17;
             // 
             // FRM_PG46
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1601, 899);
+            ClientSize = new Size(1121, 539);
             Controls.Add(panel1);
             Controls.Add(panel2);
             Controls.Add(btnVolver);
@@ -160,7 +154,6 @@
             Controls.Add(label1);
             Controls.Add(lblConsulte);
             Controls.Add(lblTitulo);
-            Margin = new Padding(4, 5, 4, 5);
             MaximizeBox = false;
             Name = "FRM_PG46";
             StartPosition = FormStartPosition.CenterScreen;

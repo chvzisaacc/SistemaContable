@@ -40,21 +40,19 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(109, 200);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(76, 120);
             label1.Name = "label1";
-            label1.Size = new Size(306, 45);
+            label1.Size = new Size(204, 30);
             label1.TabIndex = 0;
-            label1.Text = "Correo Electronico";
+            label1.Text = "Correo Electrónico";
             label1.Click += label1_Click;
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(186, 40);
-            pictureBox1.Margin = new Padding(4, 5, 4, 5);
+            pictureBox1.Location = new Point(130, 24);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(165, 155);
+            pictureBox1.Size = new Size(116, 93);
             pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox1.TabIndex = 17;
             pictureBox1.TabStop = false;
@@ -64,10 +62,10 @@
             button1.BackColor = Color.FromArgb(43, 56, 143);
             button1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.Transparent;
-            button1.Location = new Point(129, 281);
-            button1.Margin = new Padding(2);
+            button1.Location = new Point(90, 169);
+            button1.Margin = new Padding(1, 1, 1, 1);
             button1.Name = "button1";
-            button1.Size = new Size(265, 71);
+            button1.Size = new Size(186, 43);
             button1.TabIndex = 18;
             button1.Text = "Cerrar Sesión";
             button1.UseVisualStyleBackColor = false;
@@ -75,13 +73,12 @@
             // 
             // Cerrar_Sesión
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(522, 415);
+            ClientSize = new Size(365, 249);
             Controls.Add(button1);
             Controls.Add(pictureBox1);
             Controls.Add(label1);
-            Margin = new Padding(4, 5, 4, 5);
             MaximizeBox = false;
             Name = "Cerrar_Sesión";
             Text = "Cerrar_Sesión";
