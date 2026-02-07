@@ -6,6 +6,7 @@ using Capa_de_procesamiento_de_datos;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Media;
+using static Stimulsoft.Report.Func;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -126,7 +127,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             CargarDatosAutocompletado();
             CargarDatosAutocompletadoGastos();
             Transacciones obj_transa = new();
-            obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2,ParroquiaId);
+            obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
 
 
             crudCataloCuentas = new clsCRUD_CatalogoCuentas();
@@ -550,7 +551,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
 
 
-            int id_seleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
+            int id_seleccionado = System.Convert.ToInt32(cmbCuentas.SelectedValue);
 
 
             var frm = new BancosCuentaAhorro(ParroquiaId)
@@ -1122,13 +1123,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 decimal saldoDisponible = 0;
                 if (cmbOrigen2.SelectedValue != null)
                 {
-                    int idOrigen = Convert.ToInt32(cmbOrigen2.SelectedValue);
+                    int idOrigen = System.Convert.ToInt32(cmbOrigen2.SelectedValue);
                     DataTable dtCuenta = crudCuentasBancarias.ObtenerCuentasBancarias(ParroquiaId);
                     DataRow[] rows = dtCuenta.Select($"Id_Origen = {idOrigen}");
 
                     if (rows.Length > 0 && rows[0]["saldo"] != DBNull.Value)
                     {
-                        saldoDisponible = Convert.ToDecimal(rows[0]["saldo"]);
+                        saldoDisponible = System.Convert.ToDecimal(rows[0]["saldo"]);
                     }
                 }
 
@@ -1368,7 +1369,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     string referencia_texto = txtNoReferencia.Text.Trim();
                     int referencia = 0;
                     int.TryParse(referencia_texto, out referencia);
-                    int id_origen = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
+                    int id_origen = System.Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
 
                     if (string.IsNullOrEmpty(nombre_cuenta))
                     {
@@ -1407,7 +1408,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     this.Validate();
                     this.BindingContext[dataGridView1.DataSource]?.EndCurrentEdit();
 
-                    int id_origenNuevo = Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
+                    int id_origenNuevo = System.Convert.ToInt32(cmbOrigen.SelectedValue ?? 0);
                     if (id_origenNuevo == 0)
                     {
                         MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1682,7 +1683,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             object fecha_value = fila_seleccionada.Cells["fecha_transaccion"]?.Value;
 
             if (id_origenValue != null && id_origenValue != DBNull.Value)
-                cmbOrigen.SelectedValue = Convert.ToInt32(id_origenValue);
+                cmbOrigen.SelectedValue = System.Convert.ToInt32(id_origenValue);
             else
                 cmbOrigen.SelectedIndex = -1;
 
@@ -1765,7 +1766,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     string referencia_texto = txtNoReferencia2.Text.Trim();
                     int referencia = 0;
                     int.TryParse(referencia_texto, out referencia);
-                    int id_origen = Convert.ToInt32(cmbOrigen2.SelectedValue ?? 0);
+                    int id_origen = System.Convert.ToInt32(cmbOrigen2.SelectedValue ?? 0);
 
                     if (string.IsNullOrEmpty(nombre_cuenta))
                     {
@@ -1832,7 +1833,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 this.Validate();
                 this.BindingContext[dgvGastos.DataSource]?.EndCurrentEdit();
 
-                int id_origenNuevo = Convert.ToInt32(cmbOrigen2.SelectedValue ?? 0);
+                int id_origenNuevo = System.Convert.ToInt32(cmbOrigen2.SelectedValue ?? 0);
                 if (id_origenNuevo == 0)
                 {
                     MessageBox.Show("Debe seleccionar un Origen de fondos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -2054,7 +2055,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             object fecha_value = fila_seleccionada.Cells["fecha_transaccion"]?.Value;
 
             if (id_origenValue != null && id_origenValue != DBNull.Value)
-                cmbOrigen2.SelectedValue = Convert.ToInt32(id_origenValue);
+                cmbOrigen2.SelectedValue = System.Convert.ToInt32(id_origenValue);
             else
                 cmbOrigen2.SelectedIndex = -1;
 
@@ -2086,7 +2087,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             if (dgvGastos.SelectedRows.Count > 0)
             {
-                int id_transaccion = Convert.ToInt32(dgvGastos.SelectedRows[0].Cells["Id_Transaccion"].Value);
+                int id_transaccion = System.Convert.ToInt32(dgvGastos.SelectedRows[0].Cells["Id_Transaccion"].Value);
 
 
 
@@ -2109,7 +2110,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                int id_transaccion = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id_Transaccion"].Value);
+                int id_transaccion = System.Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id_Transaccion"].Value);
 
 
 
@@ -2224,12 +2225,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dgvGastos.BeginEdit(true);
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button5_Click_1(object sender, EventArgs e)
         {
             var frm = new BancosCuentaAhorro(ParroquiaId);
             frm.ShowDialog();
-
-           
         }
     }
 

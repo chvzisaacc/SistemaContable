@@ -104,6 +104,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
             //Para busqueda de usuarios
             bindingSource = new BindingSource();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+
         }
 
         /// <summary>
@@ -160,11 +162,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             CargarComboBoxEstadoCuenta();
             HabilitarControlesCatalogo(false);
             CargarComboBoxCuentas();
-            //ValidarCamposCatalogo();
 
-
+            
         }
-
+       
         //usuarios
         /// <summary>
         /// Cargars the datos usuario DGV.
@@ -177,9 +178,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 bindingSource.DataSource = dt;
                 dgv_usuarios.DataSource = bindingSource;
 
-                dgv_usuarios.Columns["ID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                dgv_usuarios.Columns["ID"].Width = 40;
+                // CONFIGURACIÓN CRÍTICA
+                dgv_usuarios.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                dgv_usuarios.AllowUserToResizeRows = false;
 
+                dgv_usuarios.Columns["ID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgv_usuarios.Columns["ID"].Width = 70;
 
                 dgv_usuarios.Columns["Correo"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                 dgv_usuarios.Columns["Correo"].Width = 250;
@@ -187,13 +191,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 dgv_usuarios.Columns["Usuario"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                 dgv_usuarios.Columns["Usuario"].Width = 220;
 
-
+                //CENTRAR ENCABEZADOS
+                foreach (DataGridViewColumn col in dgv_usuarios.Columns)
+                {
+                    col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
 
                 //aqui es para ocultar algunos campos (los ids y las contraseñas)
-
                 if (dgv_usuarios.Columns["Contraseña"] != null)
                     dgv_usuarios.Columns["Contraseña"].Visible = false;
-
                 if (dgv_usuarios.Columns["RolID"] != null)
                     dgv_usuarios.Columns["RolID"].Visible = false;
                 if (dgv_usuarios.Columns["ParroquiaID"] != null)
@@ -208,7 +214,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void CargarComboBoxEstadoCuenta()
         {
             try
@@ -462,7 +467,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button6_Click(object sender, EventArgs e)
         {
-
+            CargarDatosCatalogoDGV();
             ClsValidaciones validaciones = new ClsValidaciones();
 
             // Validamos el campo "Nombre"
@@ -987,6 +992,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 {
                     dgvCatalogoCuentas.Columns[nombreColumnaAOcultar].Visible = false;
                 }
+
+                //CENTRAR ENCABEZADOS
+                foreach (DataGridViewColumn col in dgvCatalogoCuentas.Columns)
+                {
+                    col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+
             }
             catch (Exception ex)
             {
@@ -994,6 +1006,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
 
         /// <summary>
         /// Cargars the ComboBox tipo transaccion.
@@ -1421,6 +1435,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void btnModificarCuenta_Click(object sender, EventArgs e)
         {
+            CargarDatosCatalogoDGV();
             if (dgvCatalogoCuentas.CurrentRow == null)
             {
                 MessageBox.Show("Seleccione una cuenta para modificar", "Advertencia",
@@ -1458,6 +1473,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 }
             }
 
+        }
+
+        private void dgv_usuarios_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            
         }
     }
 }

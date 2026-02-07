@@ -55,7 +55,8 @@
             dgvPartidas.AllowUserToDeleteRows = false;
             dgvPartidas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvPartidas.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dgvPartidas.BackgroundColor = SystemColors.Control;
+            dgvPartidas.BackgroundColor = SystemColors.Window;
+            dgvPartidas.BorderStyle = BorderStyle.None;
             dgvPartidas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPartidas.Columns.AddRange(new DataGridViewColumn[] { cNombre, cDetalle, cSaldo });
             dgvPartidas.Location = new Point(57, 110);

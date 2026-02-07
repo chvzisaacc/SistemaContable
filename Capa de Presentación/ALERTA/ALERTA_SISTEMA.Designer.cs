@@ -40,7 +40,7 @@
             // 
             // LimiteDay
             // 
-            LimiteDay.Location = new Point(199, 35);
+            LimiteDay.Location = new Point(166, 36);
             LimiteDay.Name = "LimiteDay";
             LimiteDay.Size = new Size(180, 31);
             LimiteDay.TabIndex = 0;
@@ -49,7 +49,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(45, 41);
+            label1.Location = new Point(12, 42);
             label1.Name = "label1";
             label1.Size = new Size(98, 25);
             label1.TabIndex = 1;
@@ -58,7 +58,9 @@
             // Estado
             // 
             Estado.AutoSize = true;
-            Estado.Location = new Point(199, 93);
+            Estado.Checked = true;
+            Estado.CheckState = CheckState.Checked;
+            Estado.Location = new Point(166, 94);
             Estado.Name = "Estado";
             Estado.Size = new Size(180, 29);
             Estado.TabIndex = 2;
@@ -68,7 +70,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(77, 94);
+            label2.Location = new Point(44, 95);
             label2.Name = "label2";
             label2.Size = new Size(66, 25);
             label2.TabIndex = 3;
@@ -76,7 +78,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(112, 146);
+            button1.Location = new Point(79, 147);
             button1.Name = "button1";
             button1.Size = new Size(150, 56);
             button1.TabIndex = 4;
@@ -86,12 +88,14 @@
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(428, 74);
+            dataGridView1.Location = new Point(399, 70);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(839, 94);
+            dataGridView1.Size = new Size(910, 94);
             dataGridView1.TabIndex = 5;
             // 
             // ALERTA_SISTEMA

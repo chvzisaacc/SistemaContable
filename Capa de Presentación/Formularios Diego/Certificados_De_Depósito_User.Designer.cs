@@ -39,6 +39,8 @@
             // dataGridView2
             // 
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView2.BackgroundColor = SystemColors.Window;
+            dataGridView2.BorderStyle = BorderStyle.None;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView2.Location = new Point(21, 129);
             dataGridView2.Name = "dataGridView2";

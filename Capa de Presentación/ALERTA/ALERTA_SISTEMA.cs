@@ -45,17 +45,31 @@ namespace Capa_de_Presentación.ALERTA
             try
             {
                 DataTable datosalerta = objalerta.CargarAlerta();
-
                 this.dataGridView1.DataSource = datosalerta;
 
-                this.dataGridView1.Refresh();
-                this.dataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+                //AJUSTE DE COLUMNAS SEGÚN EL TEXTO
+                this.dataGridView1.Columns["Tarea"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                this.dataGridView1.Columns["Estado"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                this.dataGridView1.Columns["Limite(Días)"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                this.dataGridView1.Columns["Descripción"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
+                //CENTRAR ENCABEZADOS
+                foreach (DataGridViewColumn col in dataGridView1.Columns)
+                {
+                    col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+
+                // LIMPIEZA VISUAL
+                this.dataGridView1.AllowUserToAddRows = false; // Quita la fila con el asterisco (*)
+                this.dataGridView1.RowHeadersVisible = false; // Quita el borde gris izquierdo
+                
+
+                //AJUSTE DE LA ALTURA DEL CUADRO
+                AjustarAlturaDGV(this.dataGridView1);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro al cargar alerta" + ex.Message,
-                                "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al cargar alerta: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -104,6 +118,15 @@ namespace Capa_de_Presentación.ALERTA
         private void LimiteDay_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+        private void AjustarAlturaDGV(DataGridView dgv)
+        {
+            int alturaTotal = dgv.ColumnHeadersHeight;
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                alturaTotal += row.Height;
+            }
+            dgv.Height = alturaTotal + 2;
         }
     }
 }

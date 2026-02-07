@@ -93,6 +93,16 @@ namespace Capa_de_Presentación.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap esconder {
+            get {
+                object obj = ResourceManager.GetObject("esconder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Imagen_de_WhatsApp_2025_10_21_a_las_22_22_16_14a2ddba {
             get {
                 object obj = ResourceManager.GetObject("Imagen de WhatsApp 2025-10-21 a las 22.22.16_14a2ddba", resourceCulture);
@@ -123,6 +133,36 @@ namespace Capa_de_Presentación.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap images {
+            get {
+                object obj = ResourceManager.GetObject("images", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap invisible {
+            get {
+                object obj = ResourceManager.GetObject("invisible", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ocultar_contraseña {
+            get {
+                object obj = ResourceManager.GetObject("Ocultar contraseña", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ojo {
             get {
                 object obj = ResourceManager.GetObject("ojo", resourceCulture);
@@ -133,9 +173,59 @@ namespace Capa_de_Presentación.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ojo_bloqueado {
+            get {
+                object obj = ResourceManager.GetObject("ojo bloqueado", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ojo_desbloqueado {
+            get {
+                object obj = ResourceManager.GetObject("ojo desbloqueado", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ojo1 {
             get {
                 object obj = ResourceManager.GetObject("ojo1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ojo2 {
+            get {
+                object obj = ResourceManager.GetObject("ojo2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ojo3 {
+            get {
+                object obj = ResourceManager.GetObject("ojo3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap vista {
+            get {
+                object obj = ResourceManager.GetObject("vista", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

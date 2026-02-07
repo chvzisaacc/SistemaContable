@@ -119,6 +119,8 @@ namespace Capa_de_Presentación.Formularios_Diego
             dataGridView1.AllowUserToResizeRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
+            dataGridView1.BackgroundColor = SystemColors.Window;
+            dataGridView1.BorderStyle = BorderStyle.None;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Id_Certificado, Nombre_certificado, ParroquiaID, FechaTransaccion });
             dataGridView1.Location = new Point(63, 98);

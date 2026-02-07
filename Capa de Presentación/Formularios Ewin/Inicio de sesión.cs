@@ -270,5 +270,19 @@ namespace Capa_de_Presentación.Formularios_Ewin
             if (e.KeyChar == ' ')
                 e.Handled = true;
         }
+
+        private void pbMostrar_Click(object sender, EventArgs e)
+        {
+            //Imagen ocultar la mandamos al frente
+            pbOcultar.BringToFront();
+            txt_contraseña.PasswordChar = '\0'; // Mostrar contraseña
+        }
+
+        private void pbOcultar_Click(object sender, EventArgs e)
+        {
+            //Imagen mostrar la mandamos al frente
+            pbMostrar.BringToFront();
+            txt_contraseña.PasswordChar = '*'; // Ocultar contraseña
+        }
     }
 }

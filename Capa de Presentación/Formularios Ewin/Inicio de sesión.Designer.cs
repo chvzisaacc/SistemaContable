@@ -35,7 +35,11 @@
             lbl_olvidaste_contrasena = new Label();
             label1 = new Label();
             pictureBox1 = new PictureBox();
+            pbOcultar = new PictureBox();
+            pbMostrar = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbOcultar).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbMostrar).BeginInit();
             SuspendLayout();
             // 
             // txt_usuario
@@ -43,7 +47,7 @@
             txt_usuario.BackColor = Color.White;
             txt_usuario.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txt_usuario.Location = new Point(254, 296);
-            txt_usuario.Margin = new Padding(4, 4, 4, 4);
+            txt_usuario.Margin = new Padding(4);
             txt_usuario.MaxLength = 20;
             txt_usuario.Name = "txt_usuario";
             txt_usuario.Size = new Size(516, 39);
@@ -58,11 +62,11 @@
             txt_contraseña.BackColor = Color.White;
             txt_contraseña.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txt_contraseña.Location = new Point(254, 371);
-            txt_contraseña.Margin = new Padding(4, 4, 4, 4);
+            txt_contraseña.Margin = new Padding(4);
             txt_contraseña.MaxLength = 30;
             txt_contraseña.Name = "txt_contraseña";
             txt_contraseña.PasswordChar = '*';
-            txt_contraseña.Size = new Size(516, 39);
+            txt_contraseña.Size = new Size(470, 39);
             txt_contraseña.TabIndex = 2;
             txt_contraseña.Text = "Contraseña";
             txt_contraseña.Click += txtContraseña_Click;
@@ -75,7 +79,7 @@
             btn_iniciar_sesion.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_iniciar_sesion.ForeColor = Color.Transparent;
             btn_iniciar_sesion.Location = new Point(339, 500);
-            btn_iniciar_sesion.Margin = new Padding(4, 4, 4, 4);
+            btn_iniciar_sesion.Margin = new Padding(4);
             btn_iniciar_sesion.Name = "btn_iniciar_sesion";
             btn_iniciar_sesion.Size = new Size(331, 89);
             btn_iniciar_sesion.TabIndex = 4;
@@ -121,26 +125,52 @@
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click;
             // 
+            // pbOcultar
+            // 
+            pbOcultar.Image = Properties.Resources.esconder;
+            pbOcultar.Location = new Point(731, 371);
+            pbOcultar.Name = "pbOcultar";
+            pbOcultar.Size = new Size(39, 39);
+            pbOcultar.SizeMode = PictureBoxSizeMode.Zoom;
+            pbOcultar.TabIndex = 8;
+            pbOcultar.TabStop = false;
+            pbOcultar.Click += pbOcultar_Click;
+            // 
+            // pbMostrar
+            // 
+            pbMostrar.Image = Properties.Resources.vista;
+            pbMostrar.Location = new Point(731, 371);
+            pbMostrar.Name = "pbMostrar";
+            pbMostrar.Size = new Size(39, 39);
+            pbMostrar.SizeMode = PictureBoxSizeMode.Zoom;
+            pbMostrar.TabIndex = 9;
+            pbMostrar.TabStop = false;
+            pbMostrar.Click += pbMostrar_Click;
+            // 
             // FRM_PG1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = Properties.Resources.Imagen_de_WhatsApp_2025_10_21_a_las_22_22_16_14a2ddba;
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1601, 899);
+            Controls.Add(pbMostrar);
+            Controls.Add(pbOcultar);
             Controls.Add(txt_contraseña);
             Controls.Add(pictureBox1);
             Controls.Add(label1);
             Controls.Add(txt_usuario);
             Controls.Add(lbl_olvidaste_contrasena);
             Controls.Add(btn_iniciar_sesion);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             MaximizeBox = false;
             Name = "FRM_PG1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Inicio de Sesión";
             Load += FRM_PG1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbOcultar).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbMostrar).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -153,5 +183,7 @@
         private Label lbl_olvidaste_contrasena;
         private Label label1;
         private PictureBox pictureBox1;
+        private PictureBox pbOcultar;
+        private PictureBox pbMostrar;
     }
 }
