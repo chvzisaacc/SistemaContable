@@ -96,8 +96,12 @@
             // 
             // comboBox1
             // 
+            comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
             comboBox1.FormattingEnabled = true;
+            comboBox1.IntegralHeight = false;
             comboBox1.Location = new Point(12, 98);
+            comboBox1.MaxDropDownItems = 6;
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(187, 33);
             comboBox1.TabIndex = 11;

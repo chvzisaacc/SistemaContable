@@ -80,6 +80,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
+            Sesion1.CerrarSesion();
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

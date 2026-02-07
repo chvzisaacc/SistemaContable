@@ -277,28 +277,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// <param name="e">The <see cref="DataGridViewCellCancelEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            const string COLUMNA_FECHA = "FechaTransaccion"; // Asegúrate de que este sea el nombre real de tu columna
-
-
-            DataGridViewRow filaActual = dataGridView1.Rows[e.RowIndex];
-
-
-            if (filaActual.IsNewRow) return;
-
-
-            if (filaActual.Cells[COLUMNA_FECHA].Value != null &&
-                DateTime.TryParse(filaActual.Cells[COLUMNA_FECHA].Value.ToString(), out DateTime fechaTransaccion))
-            {
-                DateTime limiteEdicion = fechaTransaccion.AddMinutes(10);
-
-                if (DateTime.Now > limiteEdicion)
-                {
-                    e.Cancel = true;
-                    MessageBox.Show("No puedes editar esta transacción. Solo se permite la modificación durante los primeros 15 minutos del registro.",
-                                    "Edición Bloqueada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-
+            
         }
 
 

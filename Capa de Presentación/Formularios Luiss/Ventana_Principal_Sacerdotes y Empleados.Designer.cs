@@ -339,12 +339,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // cmbOrigen
             // 
+            cmbOrigen.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbOrigen.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbOrigen.BackColor = Color.FromArgb(251, 203, 51);
             cmbOrigen.FlatStyle = FlatStyle.Flat;
             cmbOrigen.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbOrigen.FormattingEnabled = true;
+            cmbOrigen.IntegralHeight = false;
             cmbOrigen.Location = new Point(191, 42);
             cmbOrigen.Margin = new Padding(4, 2, 4, 2);
+            cmbOrigen.MaxDropDownItems = 6;
             cmbOrigen.Name = "cmbOrigen";
             cmbOrigen.Size = new Size(345, 29);
             cmbOrigen.TabIndex = 13;
@@ -724,12 +728,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // cmbOrigen2
             // 
+            cmbOrigen2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbOrigen2.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbOrigen2.BackColor = Color.FromArgb(251, 203, 51);
             cmbOrigen2.FlatStyle = FlatStyle.Flat;
             cmbOrigen2.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbOrigen2.FormattingEnabled = true;
+            cmbOrigen2.IntegralHeight = false;
             cmbOrigen2.Location = new Point(189, 38);
             cmbOrigen2.Margin = new Padding(4, 2, 4, 2);
+            cmbOrigen2.MaxDropDownItems = 6;
             cmbOrigen2.Name = "cmbOrigen2";
             cmbOrigen2.Size = new Size(345, 29);
             cmbOrigen2.TabIndex = 22;
@@ -882,6 +890,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pnlAlertaDeslizante.Name = "pnlAlertaDeslizante";
             pnlAlertaDeslizante.Size = new Size(1570, 50);
             pnlAlertaDeslizante.TabIndex = 26;
+            pnlAlertaDeslizante.Visible = false;
             pnlAlertaDeslizante.Paint += pnlAlertaDeslizante_Paint;
             // 
             // lblAlertaMensaje

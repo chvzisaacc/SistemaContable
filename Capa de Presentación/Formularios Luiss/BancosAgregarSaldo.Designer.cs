@@ -134,12 +134,16 @@
             // 
             // cmbCuentas
             // 
+            cmbCuentas.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbCuentas.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbCuentas.BackColor = Color.FromArgb(251, 203, 51);
             cmbCuentas.FlatStyle = FlatStyle.Flat;
             cmbCuentas.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbCuentas.FormattingEnabled = true;
+            cmbCuentas.IntegralHeight = false;
             cmbCuentas.Location = new Point(171, 92);
             cmbCuentas.Margin = new Padding(4, 2, 4, 2);
+            cmbCuentas.MaxDropDownItems = 6;
             cmbCuentas.Name = "cmbCuentas";
             cmbCuentas.Size = new Size(315, 36);
             cmbCuentas.TabIndex = 11;

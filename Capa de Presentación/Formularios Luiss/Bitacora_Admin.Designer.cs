@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Bitacora_Admin));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             panel1 = new Panel();
             pictureBox3 = new PictureBox();
             label1 = new Label();
@@ -109,13 +109,17 @@
             // 
             // cmbUsuario
             // 
+            cmbUsuario.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbUsuario.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbUsuario.BackColor = Color.Gold;
             cmbUsuario.FlatStyle = FlatStyle.Popup;
             cmbUsuario.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             cmbUsuario.FormattingEnabled = true;
+            cmbUsuario.IntegralHeight = false;
             cmbUsuario.Items.AddRange(new object[] { "", "Isaac Chavez", "Diego Muñoz" });
             cmbUsuario.Location = new Point(1345, 653);
             cmbUsuario.Margin = new Padding(4, 5, 4, 5);
+            cmbUsuario.MaxDropDownItems = 6;
             cmbUsuario.Name = "cmbUsuario";
             cmbUsuario.Size = new Size(224, 29);
             cmbUsuario.TabIndex = 6;
@@ -138,28 +142,28 @@
             // dgvBitacora
             // 
             dgvBitacora.BackgroundColor = SystemColors.ControlLightLight;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Times New Roman", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvBitacora.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Times New Roman", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvBitacora.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvBitacora.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvBitacora.EnableHeadersVisualStyles = false;
             dgvBitacora.GridColor = SystemColors.MenuText;
             dgvBitacora.Location = new Point(84, 340);
             dgvBitacora.Margin = new Padding(4, 5, 4, 5);
             dgvBitacora.Name = "dgvBitacora";
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgvBitacora.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dgvBitacora.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dgvBitacora.RowHeadersWidth = 51;
             dgvBitacora.Size = new Size(1231, 500);
             dgvBitacora.TabIndex = 4;
@@ -178,13 +182,17 @@
             // 
             // cmbParroquia
             // 
+            cmbParroquia.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbParroquia.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbParroquia.BackColor = Color.Gold;
             cmbParroquia.FlatStyle = FlatStyle.Popup;
             cmbParroquia.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             cmbParroquia.FormattingEnabled = true;
+            cmbParroquia.IntegralHeight = false;
             cmbParroquia.Items.AddRange(new object[] { "", "SCJ", "El Calvario" });
             cmbParroquia.Location = new Point(1345, 461);
             cmbParroquia.Margin = new Padding(4, 5, 4, 5);
+            cmbParroquia.MaxDropDownItems = 6;
             cmbParroquia.Name = "cmbParroquia";
             cmbParroquia.Size = new Size(225, 29);
             cmbParroquia.TabIndex = 2;

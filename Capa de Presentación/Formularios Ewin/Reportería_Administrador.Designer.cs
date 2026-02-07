@@ -131,7 +131,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // 
             lst_reportes.FormattingEnabled = true;
             lst_reportes.ItemHeight = 25;
-            lst_reportes.Items.AddRange(new object[] { "Queso" });
             lst_reportes.Location = new Point(4, 71);
             lst_reportes.Margin = new Padding(4);
             lst_reportes.Name = "lst_reportes";
@@ -188,9 +187,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // 
             // cmb_tipo_reporte
             // 
+            cmb_tipo_reporte.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmb_tipo_reporte.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmb_tipo_reporte.FormattingEnabled = true;
+            cmb_tipo_reporte.IntegralHeight = false;
             cmb_tipo_reporte.Location = new Point(418, 159);
             cmb_tipo_reporte.Margin = new Padding(4);
+            cmb_tipo_reporte.MaxDropDownItems = 6;
             cmb_tipo_reporte.Name = "cmb_tipo_reporte";
             cmb_tipo_reporte.Size = new Size(235, 33);
             cmb_tipo_reporte.TabIndex = 9;
@@ -198,9 +201,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // 
             // cmb_parroquia
             // 
+            cmb_parroquia.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmb_parroquia.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmb_parroquia.FormattingEnabled = true;
+            cmb_parroquia.IntegralHeight = false;
             cmb_parroquia.Location = new Point(418, 105);
             cmb_parroquia.Margin = new Padding(4);
+            cmb_parroquia.MaxDropDownItems = 6;
             cmb_parroquia.Name = "cmb_parroquia";
             cmb_parroquia.Size = new Size(235, 33);
             cmb_parroquia.TabIndex = 8;

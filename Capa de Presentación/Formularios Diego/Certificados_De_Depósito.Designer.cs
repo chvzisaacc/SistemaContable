@@ -71,10 +71,10 @@ namespace Capa_de_Presentación.Formularios_Diego
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(panel5);
-            panel1.Location = new Point(25, 16);
-            panel1.Margin = new Padding(3, 2, 3, 2);
+            panel1.Location = new Point(36, 27);
+            panel1.Margin = new Padding(4, 3, 4, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(739, 372);
+            panel1.Size = new Size(1056, 620);
             panel1.TabIndex = 3;
             panel1.Paint += panel1_Paint;
             // 
@@ -92,10 +92,10 @@ namespace Capa_de_Presentación.Formularios_Diego
             panel2.Controls.Add(textBox2);
             panel2.Controls.Add(pictureBox2);
             panel2.Controls.Add(label6);
-            panel2.Location = new Point(43, 95);
-            panel2.Margin = new Padding(3, 2, 3, 2);
+            panel2.Location = new Point(61, 158);
+            panel2.Margin = new Padding(4, 3, 4, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(648, 243);
+            panel2.Size = new Size(926, 405);
             panel2.TabIndex = 8;
             panel2.Paint += panel2_Paint;
             panel2.DoubleClick += panel2_DoubleClick;
@@ -104,10 +104,9 @@ namespace Capa_de_Presentación.Formularios_Diego
             // 
             button1.BackColor = Color.Transparent;
             button1.BackgroundImageLayout = ImageLayout.Center;
-            button1.Location = new Point(24, 158);
-            button1.Margin = new Padding(2, 2, 2, 2);
+            button1.Location = new Point(34, 263);
             button1.Name = "button1";
-            button1.Size = new Size(15, 20);
+            button1.Size = new Size(21, 33);
             button1.TabIndex = 31;
             button1.Text = "+";
             button1.UseVisualStyleBackColor = false;
@@ -122,12 +121,11 @@ namespace Capa_de_Presentación.Formularios_Diego
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Id_Certificado, Nombre_certificado, ParroquiaID, FechaTransaccion });
-            dataGridView1.Location = new Point(44, 59);
-            dataGridView1.Margin = new Padding(2, 2, 2, 2);
+            dataGridView1.Location = new Point(63, 98);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(531, 119);
+            dataGridView1.Size = new Size(759, 198);
             dataGridView1.TabIndex = 30;
             dataGridView1.CellBeginEdit += dataGridView1_CellBeginEdit;
             dataGridView1.CellClick += dataGridView1_CellClick;
@@ -172,10 +170,10 @@ namespace Capa_de_Presentación.Formularios_Diego
             textBox4.BorderStyle = BorderStyle.None;
             textBox4.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox4.ForeColor = Color.White;
-            textBox4.Location = new Point(50, 26);
-            textBox4.Margin = new Padding(3, 2, 3, 2);
+            textBox4.Location = new Point(71, 46);
+            textBox4.Margin = new Padding(4, 3, 4, 3);
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(35, 14);
+            textBox4.Size = new Size(50, 21);
             textBox4.TabIndex = 29;
             textBox4.Text = "Volver";
             textBox4.TextChanged += textBox4_TextChanged;
@@ -183,10 +181,10 @@ namespace Capa_de_Presentación.Formularios_Diego
             // pictureBox9
             // 
             pictureBox9.Image = (Image)resources.GetObject("pictureBox9.Image");
-            pictureBox9.Location = new Point(18, 13);
-            pictureBox9.Margin = new Padding(3, 2, 3, 2);
+            pictureBox9.Location = new Point(26, 22);
+            pictureBox9.Margin = new Padding(4, 3, 4, 3);
             pictureBox9.Name = "pictureBox9";
-            pictureBox9.Size = new Size(104, 43);
+            pictureBox9.Size = new Size(149, 72);
             pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox9.TabIndex = 28;
             pictureBox9.TabStop = false;
@@ -195,10 +193,10 @@ namespace Capa_de_Presentación.Formularios_Diego
             // pictureBox7
             // 
             pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
-            pictureBox7.Location = new Point(594, 97);
-            pictureBox7.Margin = new Padding(3, 2, 3, 2);
+            pictureBox7.Location = new Point(849, 162);
+            pictureBox7.Margin = new Padding(4, 3, 4, 3);
             pictureBox7.Name = "pictureBox7";
-            pictureBox7.Size = new Size(32, 26);
+            pictureBox7.Size = new Size(46, 43);
             pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox7.TabIndex = 26;
             pictureBox7.TabStop = false;
@@ -210,10 +208,10 @@ namespace Capa_de_Presentación.Formularios_Diego
             textBox3.BorderStyle = BorderStyle.None;
             textBox3.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox3.ForeColor = Color.White;
-            textBox3.Location = new Point(475, 205);
-            textBox3.Margin = new Padding(3, 2, 3, 2);
+            textBox3.Location = new Point(679, 342);
+            textBox3.Margin = new Padding(4, 3, 4, 3);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(48, 14);
+            textBox3.Size = new Size(69, 21);
             textBox3.TabIndex = 24;
             textBox3.Text = "Guardar";
             textBox3.Click += textBox3_Click;
@@ -222,10 +220,10 @@ namespace Capa_de_Presentación.Formularios_Diego
             // pictureBox6
             // 
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(438, 186);
-            pictureBox6.Margin = new Padding(3, 2, 3, 2);
+            pictureBox6.Location = new Point(626, 310);
+            pictureBox6.Margin = new Padding(4, 3, 4, 3);
             pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(120, 55);
+            pictureBox6.Size = new Size(171, 92);
             pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox6.TabIndex = 25;
             pictureBox6.TabStop = false;
@@ -237,10 +235,10 @@ namespace Capa_de_Presentación.Formularios_Diego
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox1.ForeColor = Color.White;
-            textBox1.Location = new Point(297, 206);
-            textBox1.Margin = new Padding(3, 2, 3, 2);
+            textBox1.Location = new Point(424, 343);
+            textBox1.Margin = new Padding(4, 3, 4, 3);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(48, 14);
+            textBox1.Size = new Size(69, 21);
             textBox1.TabIndex = 22;
             textBox1.Text = "Cancelar";
             textBox1.Click += textBox1_Click;
@@ -249,10 +247,10 @@ namespace Capa_de_Presentación.Formularios_Diego
             // pictureBox5
             // 
             pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
-            pictureBox5.Location = new Point(262, 186);
-            pictureBox5.Margin = new Padding(3, 2, 3, 2);
+            pictureBox5.Location = new Point(374, 310);
+            pictureBox5.Margin = new Padding(4, 3, 4, 3);
             pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(120, 55);
+            pictureBox5.Size = new Size(171, 92);
             pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox5.TabIndex = 23;
             pictureBox5.TabStop = false;
@@ -263,10 +261,10 @@ namespace Capa_de_Presentación.Formularios_Diego
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(129, 205);
-            textBox2.Margin = new Padding(3, 2, 3, 2);
+            textBox2.Location = new Point(184, 342);
+            textBox2.Margin = new Padding(4, 3, 4, 3);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(48, 14);
+            textBox2.Size = new Size(69, 21);
             textBox2.TabIndex = 16;
             textBox2.Text = "Renovar";
             textBox2.Click += textBox2_Click;
@@ -275,10 +273,10 @@ namespace Capa_de_Presentación.Formularios_Diego
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(91, 186);
-            pictureBox2.Margin = new Padding(3, 2, 3, 2);
+            pictureBox2.Location = new Point(130, 310);
+            pictureBox2.Margin = new Padding(4, 3, 4, 3);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(120, 55);
+            pictureBox2.Size = new Size(171, 92);
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox2.TabIndex = 21;
             pictureBox2.TabStop = false;
@@ -288,17 +286,18 @@ namespace Capa_de_Presentación.Formularios_Diego
             label6.AutoSize = true;
             label6.FlatStyle = FlatStyle.Popup;
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(199, 14);
+            label6.Location = new Point(284, 23);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.RightToLeft = RightToLeft.No;
-            label6.Size = new Size(257, 30);
+            label6.Size = new Size(382, 45);
             label6.TabIndex = 10;
             label6.Text = "Certificado de depósito\r\n";
             // 
             // panel4
             // 
-            panel4.Location = new Point(134, 126);
-            panel4.Margin = new Padding(3, 2, 3, 2);
+            panel4.Location = new Point(191, 210);
+            panel4.Margin = new Padding(4, 3, 4, 3);
             panel4.Name = "panel4";
             panel4.Size = new Size(0, 0);
             panel4.TabIndex = 7;
@@ -307,19 +306,20 @@ namespace Capa_de_Presentación.Formularios_Diego
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(118, 31);
+            label1.Location = new Point(169, 52);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(117, 30);
+            label1.Size = new Size(175, 45);
             label1.TabIndex = 1;
             label1.Text = "Sacerdote";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(18, 11);
-            pictureBox1.Margin = new Padding(3, 2, 3, 2);
+            pictureBox1.Location = new Point(26, 18);
+            pictureBox1.Margin = new Padding(4, 3, 4, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(85, 66);
+            pictureBox1.Size = new Size(121, 110);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -327,20 +327,20 @@ namespace Capa_de_Presentación.Formularios_Diego
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(43, 56, 143);
-            panel5.Location = new Point(41, 93);
-            panel5.Margin = new Padding(3, 2, 3, 2);
+            panel5.Location = new Point(59, 155);
+            panel5.Margin = new Padding(4, 3, 4, 3);
             panel5.Name = "panel5";
-            panel5.Size = new Size(654, 247);
+            panel5.Size = new Size(934, 412);
             panel5.TabIndex = 9;
             // 
             // Certificados_De_Depósito
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(794, 411);
+            ClientSize = new Size(1134, 685);
             Controls.Add(panel1);
-            Margin = new Padding(3, 2, 3, 2);
+            Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             Name = "Certificados_De_Depósito";
             StartPosition = FormStartPosition.CenterScreen;

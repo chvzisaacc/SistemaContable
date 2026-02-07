@@ -19,7 +19,7 @@
         /// <value>
         /// The usuario nombre.
         /// </value>
-        public string usuario_nombre { get; set; }
+        public string NombreCompleto { get; set; }
         /// <summary>
         /// Gets or sets the rol identifier.
         /// </summary>
@@ -52,7 +52,7 @@
         public Usuario(int id, string nombre)
         {
             usuario_id = id;
-            usuario_nombre = nombre;
+            NombreCompleto = nombre;
         }
     }
 }

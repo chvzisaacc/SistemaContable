@@ -238,10 +238,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            //Instancia del reconocimineto facial
-            RECONOCIMIENTO_FACIAL.RECONOCER rECONOCER = new();
-            rECONOCER.Show();
-            this.Hide();
+            //Instancia Biometria
+            try
+            {
+                RECONOCIMIENTO_FACIAL.RECONOCER rECONOCER = new();
+                rECONOCER.Show();
+                this.Hide();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir biometría: " + ex.Message);
+            }
         }
 
         private void txt_usuario_KeyPress(object sender, KeyPressEventArgs e)

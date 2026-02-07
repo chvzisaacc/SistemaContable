@@ -931,7 +931,7 @@ namespace Capa_de_acceso_de_datos
                         while (reader.Read())
                         {
                             int id = Convert.ToInt32(reader["Usuario_id"]);
-                            string nombre = reader["usuario_nombre"].ToString();
+                            string nombre = reader["NombreCompleto"].ToString();
 
                             usuarios.Add(new Usuario(id, nombre));
                         }
@@ -1154,7 +1154,7 @@ namespace Capa_de_acceso_de_datos
 
                     if (dr.Read())
                     {
-                        nombre = dr["usuario_nombre"].ToString();
+                        nombre = dr["NombreCompleto"].ToString();
                         rol_id = Convert.ToInt32(dr["Rol_id"]);
                         estado_cuenta = Convert.ToInt32(dr["Id_estado_cuenta"]);
                         parroquia_id = Convert.ToInt32(dr["parroquia_id"]);

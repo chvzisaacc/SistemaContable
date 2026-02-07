@@ -167,19 +167,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         public void ManejarCierreSesion()
         {
-            // Lógica NORMAL de cierre de sesión (solo se ejecuta si el usuario realmente cerró)
             this.Hide();
-            using (var login = new FRM_PG1())
-            {
-                if (login.ShowDialog() == DialogResult.OK)
-                {
-                    this.Show();
-                }
-                else
-                {
-                    Application.Exit();
-                }
-            }
+
+            FRM_PG1 login = new FRM_PG1();
+
+            login.Show();
+
+            this.Close();
         }
 
         /// <summary>
@@ -1371,7 +1365,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         return;
                     }
 
-                    DateTime fecha_tr = dtpFecha.Value;
+                    DateTime fecha_tr = dtpFecha.Value.Date.Add(DateTime.Now.TimeOfDay);
                     string referencia_texto = txtNoReferencia.Text.Trim();
                     int referencia = 0;
                     int.TryParse(referencia_texto, out referencia);
@@ -1465,7 +1459,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     try
                     {
                         ClsValidaciones validar = new();
-                        DateTime fecha_transaccion = dtpFecha.Value;
+                        DateTime fecha_transaccion = dtpFecha.Value.Date.Add(DateTime.Now.TimeOfDay);
                         string referencia_texto = txtNoReferencia.Text.Trim();
                         int referencia = 0;
 
@@ -1778,7 +1772,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     string detalle = fila.Cells["Detalle"].Value?.ToString() ?? "";
                     decimal saldo = 0;
                     decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out saldo);
-                    DateTime fecha_tr = dateTimePicker2.Value;
+                    DateTime fecha_tr = dateTimePicker2.Value.Date.Add(DateTime.Now.TimeOfDay);
                     string referencia_texto = txtNoReferencia2.Text.Trim();
                     int referencia = 0;
                     int.TryParse(referencia_texto, out referencia);
@@ -1908,7 +1902,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 try
                 {
                     ClsValidaciones validar = new();
-                    DateTime fecha_transaccion = dateTimePicker2.Value;
+                    DateTime fecha_transaccion = dateTimePicker2.Value.Date.Add(DateTime.Now.TimeOfDay);
                     string referencia_texto = txtNoReferencia2.Text.Trim();
                     int referencia = 0;
                     string saldo_texto = fila_nueva.Cells["Saldo"].Value?.ToString() ?? "";

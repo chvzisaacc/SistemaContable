@@ -11,7 +11,7 @@
         /// <value>
         /// The usuario identifier.
         /// </value>
-        public static int usuario_id { get; private set; } = 0;
+        public static int usuario_id { get; set; } = 0;
 
         /// <summary>
         /// Gets the rol identifier.
@@ -19,7 +19,7 @@
         /// <value>
         /// The rol identifier.
         /// </value>
-        public static int rol_id { get; private set; } = 0;
+        public static int rol_id { get; set; } = 0;
         /// <summary>
         /// Gets or sets the identifier parroquia.
         /// </summary>

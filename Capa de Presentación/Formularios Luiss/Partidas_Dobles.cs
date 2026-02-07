@@ -58,6 +58,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void FRM_PG69_Load(object sender, EventArgs e)
         {
             CargarPartidas();
+            //Configurar el ajuste de texto
+            dgvPartidas.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            // Configurar que las filas ajusten su altura automáticamente
+            dgvPartidas.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            // las columnas también se ajusten al ancho
+            dgvPartidas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             this.CenterToScreen();
 
         }

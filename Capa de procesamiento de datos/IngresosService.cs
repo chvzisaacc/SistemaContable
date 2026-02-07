@@ -55,6 +55,7 @@ namespace Capa_de_procesamiento_de_datos
         {
             // 1. Traer datos del SP de ingresos
             DataTable datos = _repo.ObtenerIngresosPorParroquia(parroquia_id, desde, hasta);
+            Console.WriteLine($"Filas encontradas para parroquia {parroquia_id}: {datos.Rows.Count}");
 
             // 2. Generar PDF
             byte[] pdfBytes = GenerarPdf(datos, nombre_parroquia, desde, hasta);

@@ -53,10 +53,10 @@
             panel2.Controls.Add(label7);
             panel2.Controls.Add(cmbCuentas);
             panel2.Controls.Add(label6);
-            panel2.Location = new Point(10, 9);
-            panel2.Margin = new Padding(3, 1, 3, 1);
+            panel2.Location = new Point(14, 15);
+            panel2.Margin = new Padding(4, 2, 4, 2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(419, 182);
+            panel2.Size = new Size(599, 303);
             panel2.TabIndex = 10;
             panel2.Paint += panel2_Paint;
             // 
@@ -64,9 +64,10 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(43, 66);
+            label1.Location = new Point(61, 110);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(78, 25);
+            label1.Size = new Size(114, 38);
             label1.TabIndex = 19;
             label1.Text = "Origen:";
             // 
@@ -76,11 +77,11 @@
             txtMonto.BorderStyle = BorderStyle.None;
             txtMonto.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtMonto.ForeColor = Color.Black;
-            txtMonto.Location = new Point(137, 98);
-            txtMonto.Margin = new Padding(3, 1, 3, 1);
+            txtMonto.Location = new Point(196, 163);
+            txtMonto.Margin = new Padding(4, 2, 4, 2);
             txtMonto.MaxLength = 8;
             txtMonto.Name = "txtMonto";
-            txtMonto.Size = new Size(200, 25);
+            txtMonto.Size = new Size(286, 37);
             txtMonto.TabIndex = 18;
             // 
             // textBox2
@@ -89,10 +90,10 @@
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(179, 143);
-            textBox2.Margin = new Padding(3, 1, 3, 1);
+            textBox2.Location = new Point(256, 238);
+            textBox2.Margin = new Padding(4, 2, 4, 2);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(108, 18);
+            textBox2.Size = new Size(154, 27);
             textBox2.TabIndex = 14;
             textBox2.Text = " Enviar y cerrar";
             textBox2.TextChanged += textBox2_TextChanged;
@@ -100,10 +101,10 @@
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(137, 133);
-            pictureBox2.Margin = new Padding(3, 1, 3, 1);
+            pictureBox2.Location = new Point(196, 222);
+            pictureBox2.Margin = new Padding(4, 2, 4, 2);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(197, 37);
+            pictureBox2.Size = new Size(281, 62);
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.TabIndex = 13;
             pictureBox2.TabStop = false;
@@ -114,32 +115,37 @@
             textBox1.BackColor = Color.FromArgb(251, 203, 51);
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(161, 98);
-            textBox1.Margin = new Padding(3, 1, 3, 1);
+            textBox1.Location = new Point(230, 163);
+            textBox1.Margin = new Padding(4, 2, 4, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(176, 25);
+            textBox1.Size = new Size(251, 37);
             textBox1.TabIndex = 12;
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(43, 98);
+            label7.Location = new Point(61, 163);
+            label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
-            label7.Size = new Size(78, 25);
+            label7.Size = new Size(114, 38);
             label7.TabIndex = 10;
             label7.Text = "Monto:";
             // 
             // cmbCuentas
             // 
+            cmbCuentas.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbCuentas.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbCuentas.BackColor = Color.FromArgb(251, 203, 51);
             cmbCuentas.FlatStyle = FlatStyle.Flat;
             cmbCuentas.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbCuentas.FormattingEnabled = true;
-            cmbCuentas.Location = new Point(137, 66);
-            cmbCuentas.Margin = new Padding(3, 1, 3, 1);
+            cmbCuentas.IntegralHeight = false;
+            cmbCuentas.Location = new Point(196, 110);
+            cmbCuentas.Margin = new Padding(4, 2, 4, 2);
+            cmbCuentas.MaxDropDownItems = 6;
             cmbCuentas.Name = "cmbCuentas";
-            cmbCuentas.Size = new Size(201, 25);
+            cmbCuentas.Size = new Size(285, 36);
             cmbCuentas.TabIndex = 11;
             cmbCuentas.Text = "            Cuentas";
             // 
@@ -147,20 +153,21 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(130, 21);
+            label6.Location = new Point(186, 35);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
-            label6.Size = new Size(201, 30);
+            label6.Size = new Size(301, 45);
             label6.TabIndex = 10;
             label6.Text = "Enviar a caja chica";
             // 
             // BancosRetirarDinero
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(438, 198);
+            ClientSize = new Size(626, 330);
             Controls.Add(panel2);
-            Margin = new Padding(3, 1, 3, 1);
+            Margin = new Padding(4, 2, 4, 2);
             MaximizeBox = false;
             Name = "BancosRetirarDinero";
             StartPosition = FormStartPosition.CenterScreen;

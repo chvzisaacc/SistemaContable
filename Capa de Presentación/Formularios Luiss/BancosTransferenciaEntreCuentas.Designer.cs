@@ -103,13 +103,17 @@
             // 
             // cmbDestino
             // 
+            cmbDestino.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbDestino.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbDestino.BackColor = Color.FromArgb(251, 203, 51);
             cmbDestino.FlatStyle = FlatStyle.Flat;
             cmbDestino.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             cmbDestino.FormattingEnabled = true;
+            cmbDestino.IntegralHeight = false;
             cmbDestino.Items.AddRange(new object[] { "Cuenta Ahorro", "Cuenta Cheque" });
             cmbDestino.Location = new Point(230, 139);
             cmbDestino.Margin = new Padding(4, 3, 4, 3);
+            cmbDestino.MaxDropDownItems = 6;
             cmbDestino.Name = "cmbDestino";
             cmbDestino.Size = new Size(321, 29);
             cmbDestino.TabIndex = 15;
@@ -165,13 +169,17 @@
             // 
             // cmbOrigen
             // 
+            cmbOrigen.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbOrigen.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbOrigen.BackColor = Color.FromArgb(251, 203, 51);
             cmbOrigen.FlatStyle = FlatStyle.Flat;
             cmbOrigen.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             cmbOrigen.FormattingEnabled = true;
+            cmbOrigen.IntegralHeight = false;
             cmbOrigen.Items.AddRange(new object[] { "Cuenta Cheque", "Cuenta Ahorro" });
             cmbOrigen.Location = new Point(230, 88);
             cmbOrigen.Margin = new Padding(4, 3, 4, 3);
+            cmbOrigen.MaxDropDownItems = 6;
             cmbOrigen.Name = "cmbOrigen";
             cmbOrigen.Size = new Size(321, 29);
             cmbOrigen.TabIndex = 11;

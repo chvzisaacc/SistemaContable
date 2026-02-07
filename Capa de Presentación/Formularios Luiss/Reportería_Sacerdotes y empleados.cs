@@ -97,9 +97,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG49_Load(object sender, EventArgs e)
         {
-            Sesion1.id_parroquia = 1;
             this.CenterToScreen();
-            CargarReportes();
+            //CargarReportes();
             cmbFormatoDescarga.Items.Clear();
             cmbFormatoDescarga.Items.Add("PDF");
             cmbFormatoDescarga.Items.Add("DOCX");
@@ -112,6 +111,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbTipoReporte.ValueMember = "TipoReporte_id";
             cmbTipoReporte.SelectedIndex = -1;
             this.CenterToScreen();
+
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button2_Click(object sender, EventArgs e)
         {
-
+            
             int tipo_reporte_id = Convert.ToInt32(cmbTipoReporte.SelectedValue);
             int parroquia_id = Sesion1.id_parroquia;
             string parroquia_nombre = _gastosService.ObtenerNombreParroquia(parroquia_id);

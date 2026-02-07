@@ -45,7 +45,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         /// <summary>
         /// The path saved faces
         /// </summary>
-        string path_saved_faces = $"{Application.StartupPath}\\Faces\\";
+        string path_saved_faces = Path.Combine(Application.StartupPath, "Faces");
         /// <summary>
         /// The path trained face model
         /// </summary>
@@ -118,6 +118,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
         /// <summary>
         /// Initializes a new instance of the <see cref="RECONOCIMIENTO_FACIAL"/> class.
         /// </summary>
+        
         public RECONOCIMIENTO_FACIAL()
         {
             InitializeComponent();
@@ -165,7 +166,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             ClsAccionesDB objacciones = new();
             List<Usuario> usuarios = objacciones.ObtenerUsuarios();
 
-            comboBox1.DisplayMember = "usuario_nombre";
+            comboBox1.DisplayMember = "NombreCompleto";
             comboBox1.ValueMember = "Usuario_id";
             comboBox1.DataSource = usuarios;
         }
@@ -597,7 +598,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             if (comboBox1.SelectedItem is Usuario seleccionado)
             {
                 face_id = seleccionado.usuario_id;
-                face_name = seleccionado.usuario_nombre;
+                face_name = seleccionado.NombreCompleto;
 
                 // *** REINICIAR BUFERS ***
                 trainedImages.Clear();
@@ -736,7 +737,7 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             if (seleccionado != null)
             {
                 face_id = seleccionado.usuario_id;
-                face_name = seleccionado.usuario_nombre;
+                face_name = seleccionado.NombreCompleto;
 
                 // esto indica que NO es una nueva cara
                 is_anew_face = false;
