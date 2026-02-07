@@ -62,18 +62,20 @@
             panel1.Controls.Add(cmbParroquia);
             panel1.Controls.Add(lblConsulte);
             panel1.Controls.Add(lblTitulo);
-            panel1.Location = new Point(13, 12);
+            panel1.Location = new Point(19, 20);
+            panel1.Margin = new Padding(4, 5, 4, 5);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1137, 574);
+            panel1.Size = new Size(1623, 955);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(39, 0);
+            pictureBox3.Location = new Point(56, 0);
+            pictureBox3.Margin = new Padding(4, 5, 4, 5);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(132, 122);
+            pictureBox3.Size = new Size(189, 203);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 9;
             pictureBox3.TabStop = false;
@@ -82,9 +84,10 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            label1.Location = new Point(204, 30);
+            label1.Location = new Point(291, 50);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(197, 30);
+            label1.Size = new Size(299, 45);
             label1.TabIndex = 8;
             label1.Text = "ADMINISTRADOR";
             label1.Click += label1_Click_1;
@@ -95,9 +98,10 @@
             btnVolver.FlatStyle = FlatStyle.Flat;
             btnVolver.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
             btnVolver.ForeColor = SystemColors.ControlText;
-            btnVolver.Location = new Point(900, 23);
+            btnVolver.Location = new Point(1286, 38);
+            btnVolver.Margin = new Padding(4, 5, 4, 5);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(169, 38);
+            btnVolver.Size = new Size(241, 63);
             btnVolver.TabIndex = 7;
             btnVolver.Text = "Volver Atrás";
             btnVolver.UseVisualStyleBackColor = true;
@@ -105,14 +109,19 @@
             // 
             // cmbUsuario
             // 
+            cmbUsuario.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbUsuario.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbUsuario.BackColor = Color.Gold;
             cmbUsuario.FlatStyle = FlatStyle.Popup;
             cmbUsuario.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             cmbUsuario.FormattingEnabled = true;
+            cmbUsuario.IntegralHeight = false;
             cmbUsuario.Items.AddRange(new object[] { "", "Isaac Chavez", "Diego Muñoz" });
-            cmbUsuario.Location = new Point(942, 392);
+            cmbUsuario.Location = new Point(1346, 653);
+            cmbUsuario.Margin = new Padding(4, 5, 4, 5);
+            cmbUsuario.MaxDropDownItems = 6;
             cmbUsuario.Name = "cmbUsuario";
-            cmbUsuario.Size = new Size(158, 21);
+            cmbUsuario.Size = new Size(224, 29);
             cmbUsuario.TabIndex = 6;
             cmbUsuario.Text = "Seleccionar";
             cmbUsuario.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
@@ -121,9 +130,10 @@
             // 
             lblRealizadopor.AutoSize = true;
             lblRealizadopor.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblRealizadopor.Location = new Point(942, 370);
+            lblRealizadopor.Location = new Point(1346, 617);
+            lblRealizadopor.Margin = new Padding(4, 0, 4, 0);
             lblRealizadopor.Name = "lblRealizadopor";
-            lblRealizadopor.Size = new Size(120, 21);
+            lblRealizadopor.Size = new Size(179, 32);
             lblRealizadopor.TabIndex = 5;
             lblRealizadopor.Text = "Realizado por:";
             lblRealizadopor.TextAlign = ContentAlignment.BottomCenter;
@@ -143,7 +153,8 @@
             dgvBitacora.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvBitacora.EnableHeadersVisualStyles = false;
             dgvBitacora.GridColor = SystemColors.MenuText;
-            dgvBitacora.Location = new Point(59, 204);
+            dgvBitacora.Location = new Point(84, 340);
+            dgvBitacora.Margin = new Padding(4, 5, 4, 5);
             dgvBitacora.Name = "dgvBitacora";
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = SystemColors.Control;
@@ -154,7 +165,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dgvBitacora.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvBitacora.RowHeadersWidth = 51;
-            dgvBitacora.Size = new Size(862, 300);
+            dgvBitacora.Size = new Size(1231, 500);
             dgvBitacora.TabIndex = 4;
             dgvBitacora.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -162,22 +173,28 @@
             // 
             lblParroquia.AutoSize = true;
             lblParroquia.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblParroquia.Location = new Point(942, 254);
+            lblParroquia.Location = new Point(1346, 423);
+            lblParroquia.Margin = new Padding(4, 0, 4, 0);
             lblParroquia.Name = "lblParroquia";
-            lblParroquia.Size = new Size(89, 21);
+            lblParroquia.Size = new Size(133, 32);
             lblParroquia.TabIndex = 3;
             lblParroquia.Text = "Parroquia:";
             // 
             // cmbParroquia
             // 
+            cmbParroquia.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbParroquia.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbParroquia.BackColor = Color.Gold;
             cmbParroquia.FlatStyle = FlatStyle.Popup;
             cmbParroquia.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             cmbParroquia.FormattingEnabled = true;
+            cmbParroquia.IntegralHeight = false;
             cmbParroquia.Items.AddRange(new object[] { "", "SCJ", "El Calvario" });
-            cmbParroquia.Location = new Point(942, 277);
+            cmbParroquia.Location = new Point(1346, 462);
+            cmbParroquia.Margin = new Padding(4, 5, 4, 5);
+            cmbParroquia.MaxDropDownItems = 6;
             cmbParroquia.Name = "cmbParroquia";
-            cmbParroquia.Size = new Size(159, 21);
+            cmbParroquia.Size = new Size(225, 29);
             cmbParroquia.TabIndex = 2;
             cmbParroquia.Text = "Seleccionar";
             cmbParroquia.SelectedIndexChanged += cmbParroquia_SelectedIndexChanged;
@@ -186,9 +203,10 @@
             // 
             lblConsulte.AutoSize = true;
             lblConsulte.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblConsulte.Location = new Point(59, 173);
+            lblConsulte.Location = new Point(84, 288);
+            lblConsulte.Margin = new Padding(4, 0, 4, 0);
             lblConsulte.Name = "lblConsulte";
-            lblConsulte.Size = new Size(791, 30);
+            lblConsulte.Size = new Size(1182, 45);
             lblConsulte.TabIndex = 1;
             lblConsulte.Text = "Consulte en cualquier momento que hizo cada encargado de las parroquias";
             lblConsulte.Click += lblConsulte_Click;
@@ -197,20 +215,22 @@
             // 
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblTitulo.Location = new Point(59, 125);
+            lblTitulo.Location = new Point(84, 208);
+            lblTitulo.Margin = new Padding(4, 0, 4, 0);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(770, 30);
+            lblTitulo.Size = new Size(1163, 45);
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "BITÁCORA DEL SISTEMA, CADA ACCIÓN DEL SISTEMA REGISTRADA AQUÍ";
             lblTitulo.Click += lblTitulo_Click;
             // 
             // Bitacora_Admin
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(1121, 539);
+            ClientSize = new Size(1601, 898);
             Controls.Add(panel1);
+            Margin = new Padding(4, 5, 4, 5);
             MaximizeBox = false;
             Name = "Bitacora_Admin";
             StartPosition = FormStartPosition.CenterScreen;

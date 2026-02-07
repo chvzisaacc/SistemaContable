@@ -41,6 +41,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
             panelContenedor = new Panel();
+            panelCajaChica2 = new Panel();
+            textBox1 = new TextBox();
+            chkSaldoInicial = new CheckBox();
+            txtSaldoActual = new TextBox();
+            pictureBox4 = new PictureBox();
+            btnDetalle = new Button();
+            label7 = new Label();
             panelGastos2 = new Panel();
             pictureBox6 = new PictureBox();
             pictureBox7 = new PictureBox();
@@ -81,13 +88,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             button3 = new Button();
             cmbAcciones = new ComboBox();
             cmbCuentas = new ComboBox();
-            panelCajaChica2 = new Panel();
-            textBox1 = new TextBox();
-            chkSaldoInicial = new CheckBox();
-            txtSaldoActual = new TextBox();
-            pictureBox4 = new PictureBox();
-            btnDetalle = new Button();
-            label7 = new Label();
             btnGastos = new Button();
             btnBancos = new Button();
             btnCajaChica = new Button();
@@ -102,6 +102,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panelContenedor.SuspendLayout();
+            panelCajaChica2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             panelGastos2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
@@ -111,8 +113,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panelBancos2.SuspendLayout();
-            panelCajaChica2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             panel1.SuspendLayout();
             pnlAlertaDeslizante.SuspendLayout();
             SuspendLayout();
@@ -166,16 +166,109 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // panelContenedor
             // 
+            panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Controls.Add(panelIngresos);
             panelContenedor.Controls.Add(panel5);
             panelContenedor.Controls.Add(panelBancos2);
-            panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Location = new Point(4, 355);
             panelContenedor.Margin = new Padding(4, 5, 4, 5);
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(1566, 503);
             panelContenedor.TabIndex = 8;
+            // 
+            // panelCajaChica2
+            // 
+            panelCajaChica2.Controls.Add(textBox1);
+            panelCajaChica2.Controls.Add(chkSaldoInicial);
+            panelCajaChica2.Controls.Add(txtSaldoActual);
+            panelCajaChica2.Controls.Add(pictureBox4);
+            panelCajaChica2.Controls.Add(btnDetalle);
+            panelCajaChica2.Controls.Add(label7);
+            panelCajaChica2.Dock = DockStyle.Fill;
+            panelCajaChica2.Location = new Point(0, 0);
+            panelCajaChica2.Margin = new Padding(4, 3, 4, 3);
+            panelCajaChica2.Name = "panelCajaChica2";
+            panelCajaChica2.Size = new Size(1566, 503);
+            panelCajaChica2.TabIndex = 42;
+            // 
+            // textBox1
+            // 
+            textBox1.BackColor = Color.FromArgb(251, 203, 51);
+            textBox1.BorderStyle = BorderStyle.None;
+            textBox1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox1.Location = new Point(596, 223);
+            textBox1.Margin = new Padding(4, 3, 4, 3);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(31, 48);
+            textBox1.TabIndex = 40;
+            textBox1.Text = "L";
+            // 
+            // chkSaldoInicial
+            // 
+            chkSaldoInicial.AutoSize = true;
+            chkSaldoInicial.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chkSaldoInicial.Location = new Point(521, 343);
+            chkSaldoInicial.Margin = new Padding(4, 3, 4, 3);
+            chkSaldoInicial.Name = "chkSaldoInicial";
+            chkSaldoInicial.Size = new Size(363, 49);
+            chkSaldoInicial.TabIndex = 39;
+            chkSaldoInicial.Text = "Ingresar saldo inicial";
+            chkSaldoInicial.UseVisualStyleBackColor = true;
+            chkSaldoInicial.CheckedChanged += chkSaldoInicial_CheckedChanged;
+            // 
+            // txtSaldoActual
+            // 
+            txtSaldoActual.BackColor = Color.FromArgb(251, 203, 51);
+            txtSaldoActual.BorderStyle = BorderStyle.None;
+            txtSaldoActual.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtSaldoActual.Location = new Point(636, 223);
+            txtSaldoActual.Margin = new Padding(4, 3, 4, 3);
+            txtSaldoActual.Name = "txtSaldoActual";
+            txtSaldoActual.Size = new Size(199, 48);
+            txtSaldoActual.TabIndex = 38;
+            txtSaldoActual.Text = "0.00";
+            txtSaldoActual.TextChanged += txtSaldoActual_TextChanged;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
+            pictureBox4.Location = new Point(514, 187);
+            pictureBox4.Margin = new Padding(4, 3, 4, 3);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(394, 133);
+            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox4.TabIndex = 37;
+            pictureBox4.TabStop = false;
+            // 
+            // btnDetalle
+            // 
+            btnDetalle.BackColor = Color.FromArgb(43, 56, 143);
+            btnDetalle.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
+            btnDetalle.FlatAppearance.BorderSize = 0;
+            btnDetalle.FlatStyle = FlatStyle.Flat;
+            btnDetalle.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDetalle.ForeColor = SystemColors.Control;
+            btnDetalle.Location = new Point(981, 223);
+            btnDetalle.Margin = new Padding(4, 5, 4, 5);
+            btnDetalle.Name = "btnDetalle";
+            btnDetalle.Size = new Size(190, 63);
+            btnDetalle.TabIndex = 36;
+            btnDetalle.Text = "Detalle";
+            btnDetalle.UseVisualStyleBackColor = false;
+            btnDetalle.Visible = false;
+            btnDetalle.Click += btnDetalle_Click_1;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.Location = new Point(544, 53);
+            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(382, 65);
+            label7.TabIndex = 31;
+            label7.Text = "SALDO ACTUAL";
             // 
             // panelGastos2
             // 
@@ -701,99 +794,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbCuentas.Text = "Cuentas de Ahorro";
             cmbCuentas.SelectedIndexChanged += cmbCuentas_SelectedIndexChanged;
             // 
-            // panelCajaChica2
-            // 
-            panelCajaChica2.Controls.Add(textBox1);
-            panelCajaChica2.Controls.Add(chkSaldoInicial);
-            panelCajaChica2.Controls.Add(txtSaldoActual);
-            panelCajaChica2.Controls.Add(pictureBox4);
-            panelCajaChica2.Controls.Add(btnDetalle);
-            panelCajaChica2.Controls.Add(label7);
-            panelCajaChica2.Dock = DockStyle.Fill;
-            panelCajaChica2.Location = new Point(0, 0);
-            panelCajaChica2.Margin = new Padding(4, 3, 4, 3);
-            panelCajaChica2.Name = "panelCajaChica2";
-            panelCajaChica2.Size = new Size(1566, 503);
-            panelCajaChica2.TabIndex = 42;
-            // 
-            // textBox1
-            // 
-            textBox1.BackColor = Color.FromArgb(251, 203, 51);
-            textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(596, 223);
-            textBox1.Margin = new Padding(4, 3, 4, 3);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(31, 48);
-            textBox1.TabIndex = 40;
-            textBox1.Text = "L";
-            // 
-            // chkSaldoInicial
-            // 
-            chkSaldoInicial.AutoSize = true;
-            chkSaldoInicial.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            chkSaldoInicial.Location = new Point(521, 343);
-            chkSaldoInicial.Margin = new Padding(4, 3, 4, 3);
-            chkSaldoInicial.Name = "chkSaldoInicial";
-            chkSaldoInicial.Size = new Size(363, 49);
-            chkSaldoInicial.TabIndex = 39;
-            chkSaldoInicial.Text = "Ingresar saldo inicial";
-            chkSaldoInicial.UseVisualStyleBackColor = true;
-            chkSaldoInicial.CheckedChanged += chkSaldoInicial_CheckedChanged;
-            // 
-            // txtSaldoActual
-            // 
-            txtSaldoActual.BackColor = Color.FromArgb(251, 203, 51);
-            txtSaldoActual.BorderStyle = BorderStyle.None;
-            txtSaldoActual.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtSaldoActual.Location = new Point(636, 223);
-            txtSaldoActual.Margin = new Padding(4, 3, 4, 3);
-            txtSaldoActual.Name = "txtSaldoActual";
-            txtSaldoActual.Size = new Size(199, 48);
-            txtSaldoActual.TabIndex = 38;
-            txtSaldoActual.Text = "0.00";
-            txtSaldoActual.TextChanged += txtSaldoActual_TextChanged;
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(514, 187);
-            pictureBox4.Margin = new Padding(4, 3, 4, 3);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(394, 133);
-            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox4.TabIndex = 37;
-            pictureBox4.TabStop = false;
-            // 
-            // btnDetalle
-            // 
-            btnDetalle.BackColor = Color.FromArgb(43, 56, 143);
-            btnDetalle.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
-            btnDetalle.FlatAppearance.BorderSize = 0;
-            btnDetalle.FlatStyle = FlatStyle.Flat;
-            btnDetalle.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnDetalle.ForeColor = SystemColors.Control;
-            btnDetalle.Location = new Point(981, 223);
-            btnDetalle.Margin = new Padding(4, 5, 4, 5);
-            btnDetalle.Name = "btnDetalle";
-            btnDetalle.Size = new Size(190, 63);
-            btnDetalle.TabIndex = 36;
-            btnDetalle.Text = "Detalle";
-            btnDetalle.UseVisualStyleBackColor = false;
-            btnDetalle.Visible = false;
-            btnDetalle.Click += btnDetalle_Click_1;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(544, 53);
-            label7.Margin = new Padding(4, 0, 4, 0);
-            label7.Name = "label7";
-            label7.Size = new Size(382, 65);
-            label7.TabIndex = 31;
-            label7.Text = "SALDO ACTUAL";
-            // 
             // btnGastos
             // 
             btnGastos.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
@@ -928,6 +928,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panelContenedor.ResumeLayout(false);
+            panelCajaChica2.ResumeLayout(false);
+            panelCajaChica2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             panelGastos2.ResumeLayout(false);
             panelGastos2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
@@ -940,9 +943,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panelBancos2.ResumeLayout(false);
             panelBancos2.PerformLayout();
-            panelCajaChica2.ResumeLayout(false);
-            panelCajaChica2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             pnlAlertaDeslizante.ResumeLayout(false);

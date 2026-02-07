@@ -716,15 +716,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 obj_con.Abrir();
 
-                string query = "exec saldo_actual";
+                string query = "exec saldo_actual @Parroquia_ID";
                 SqlCommand comando = new SqlCommand(query, obj_con.sc);
+                comando.Parameters.AddWithValue("@Parroquia_ID", this.ParroquiaId);
 
                 SqlDataReader lector = comando.ExecuteReader();
 
                 if (lector.Read())
                 {
-                    decimal saldo = Convert.ToDecimal(lector["saldo"]);
-                    //n2 formatea a dos digitos despues del "."
+                    // Limpiamos cualquier símbolo de moneda o separador de miles antes de convertir
+                    string saldoRaw = lector["saldo"].ToString().Replace(",", "");
+                    decimal saldo = decimal.Parse(saldoRaw, System.Globalization.CultureInfo.InvariantCulture);
                     txtSaldoActual.Text = saldo.ToString("N2");
                 }
                 else

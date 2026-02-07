@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ventana_Principal_Administrador));
             panel1 = new Panel();
             btn_catalago_cuenta = new Button();
@@ -158,8 +158,8 @@
             // 
             // panelContenedor
             // 
-            panelContenedor.Controls.Add(panelCatalogoCuentas);
             panelContenedor.Controls.Add(panelUsuario);
+            panelContenedor.Controls.Add(panelCatalogoCuentas);
             panelContenedor.Location = new Point(4, 223);
             panelContenedor.Margin = new Padding(4, 5, 4, 5);
             panelContenedor.Name = "panelContenedor";
@@ -331,15 +331,19 @@
             // 
             // cmbCuenta
             // 
+            cmbCuenta.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbCuenta.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmbCuenta.BackColor = Color.FromArgb(251, 203, 51);
             cmbCuenta.FlatStyle = FlatStyle.Flat;
             cmbCuenta.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cmbCuenta.FormattingEnabled = true;
+            cmbCuenta.IntegralHeight = false;
             cmbCuenta.Items.AddRange(new object[] { "Ingresos", "Egresos" });
             cmbCuenta.Location = new Point(346, 97);
             cmbCuenta.Margin = new Padding(4, 3, 4, 3);
+            cmbCuenta.MaxDropDownItems = 6;
             cmbCuenta.Name = "cmbCuenta";
-            cmbCuenta.Size = new Size(223, 29);
+            cmbCuenta.Size = new Size(272, 29);
             cmbCuenta.TabIndex = 47;
             cmbCuenta.SelectedIndexChanged += cmbCuenta_SelectedIndexChanged;
             // 
@@ -383,7 +387,7 @@
             txtIdCuenta.Margin = new Padding(4, 3, 4, 3);
             txtIdCuenta.MaxLength = 5;
             txtIdCuenta.Name = "txtIdCuenta";
-            txtIdCuenta.Size = new Size(224, 22);
+            txtIdCuenta.Size = new Size(272, 22);
             txtIdCuenta.TabIndex = 33;
             // 
             // label18
@@ -417,7 +421,7 @@
             txtNombreCuenta.Margin = new Padding(4, 3, 4, 3);
             txtNombreCuenta.MaxLength = 25;
             txtNombreCuenta.Name = "txtNombreCuenta";
-            txtNombreCuenta.Size = new Size(224, 22);
+            txtNombreCuenta.Size = new Size(272, 22);
             txtNombreCuenta.TabIndex = 31;
             txtNombreCuenta.KeyPress += txtNombreCuenta_KeyPress;
             // 
@@ -449,14 +453,14 @@
             dgvCatalogoCuentas.AllowUserToDeleteRows = false;
             dgvCatalogoCuentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvCatalogoCuentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Window;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvCatalogoCuentas.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvCatalogoCuentas.DefaultCellStyle = dataGridViewCellStyle2;
             dgvCatalogoCuentas.Location = new Point(0, 133);
             dgvCatalogoCuentas.Margin = new Padding(4, 3, 4, 3);
             dgvCatalogoCuentas.Name = "dgvCatalogoCuentas";
@@ -697,14 +701,14 @@
             // 
             dgv_usuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv_usuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = SystemColors.Window;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dgv_usuarios.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Window;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgv_usuarios.DefaultCellStyle = dataGridViewCellStyle1;
             dgv_usuarios.Location = new Point(291, 97);
             dgv_usuarios.Margin = new Padding(4, 3, 4, 3);
             dgv_usuarios.Name = "dgv_usuarios";
@@ -727,12 +731,16 @@
             // 
             // cmb_parroquia
             // 
+            cmb_parroquia.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmb_parroquia.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmb_parroquia.BackColor = Color.FromArgb(251, 203, 51);
             cmb_parroquia.FlatStyle = FlatStyle.Flat;
             cmb_parroquia.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             cmb_parroquia.FormattingEnabled = true;
+            cmb_parroquia.IntegralHeight = false;
             cmb_parroquia.Location = new Point(103, 453);
             cmb_parroquia.Margin = new Padding(4, 3, 4, 3);
+            cmb_parroquia.MaxDropDownItems = 6;
             cmb_parroquia.Name = "cmb_parroquia";
             cmb_parroquia.Size = new Size(168, 29);
             cmb_parroquia.TabIndex = 35;
