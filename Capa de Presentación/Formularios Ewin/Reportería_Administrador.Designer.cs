@@ -165,7 +165,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             panel2.Location = new Point(110, 240);
             panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(686, 360);
+            panel2.Size = new Size(752, 360);
             panel2.TabIndex = 17;
             // 
             // btn_generar
@@ -191,7 +191,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmb_tipo_reporte.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmb_tipo_reporte.FormattingEnabled = true;
             cmb_tipo_reporte.IntegralHeight = false;
-            cmb_tipo_reporte.Location = new Point(418, 159);
+            cmb_tipo_reporte.Location = new Point(503, 154);
             cmb_tipo_reporte.Margin = new Padding(4);
             cmb_tipo_reporte.MaxDropDownItems = 6;
             cmb_tipo_reporte.Name = "cmb_tipo_reporte";
@@ -205,7 +205,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmb_parroquia.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmb_parroquia.FormattingEnabled = true;
             cmb_parroquia.IntegralHeight = false;
-            cmb_parroquia.Location = new Point(418, 105);
+            cmb_parroquia.Location = new Point(503, 104);
             cmb_parroquia.Margin = new Padding(4);
             cmb_parroquia.MaxDropDownItems = 6;
             cmb_parroquia.Name = "cmb_parroquia";
@@ -215,7 +215,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(279, 166);
+            label7.Location = new Point(356, 161);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
             label7.Size = new Size(139, 25);
@@ -225,7 +225,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(321, 114);
+            label8.Location = new Point(404, 112);
             label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
             label8.Size = new Size(91, 25);
@@ -237,7 +237,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             dtp_hasta.Location = new Point(88, 156);
             dtp_hasta.Margin = new Padding(4);
             dtp_hasta.Name = "dtp_hasta";
-            dtp_hasta.Size = new Size(182, 31);
+            dtp_hasta.Size = new Size(236, 31);
             dtp_hasta.TabIndex = 5;
             // 
             // label5
@@ -255,7 +255,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             dtp_desde.Location = new Point(88, 104);
             dtp_desde.Margin = new Padding(4);
             dtp_desde.Name = "dtp_desde";
-            dtp_desde.Size = new Size(182, 31);
+            dtp_desde.Size = new Size(237, 31);
             dtp_desde.TabIndex = 3;
             // 
             // label3

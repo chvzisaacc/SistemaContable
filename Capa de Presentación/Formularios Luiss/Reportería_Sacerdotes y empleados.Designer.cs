@@ -174,19 +174,19 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(340, 143);
+            label7.Location = new Point(346, 133);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
-            label7.Size = new Size(135, 25);
+            label7.Size = new Size(139, 25);
             label7.TabIndex = 7;
-            label7.Text = "Tipo de reporte";
+            label7.Text = "Tipo de reporte:";
             // 
             // dtpHasta
             // 
             dtpHasta.Location = new Point(93, 187);
             dtpHasta.Margin = new Padding(4, 3, 4, 3);
             dtpHasta.Name = "dtpHasta";
-            dtpHasta.Size = new Size(181, 31);
+            dtpHasta.Size = new Size(239, 31);
             dtpHasta.TabIndex = 5;
             // 
             // label5
@@ -195,16 +195,16 @@
             label5.Location = new Point(23, 193);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
-            label5.Size = new Size(57, 25);
+            label5.Size = new Size(61, 25);
             label5.TabIndex = 4;
-            label5.Text = "Hasta";
+            label5.Text = "Hasta:";
             // 
             // dtpDesde
             // 
             dtpDesde.Location = new Point(93, 133);
             dtpDesde.Margin = new Padding(4, 3, 4, 3);
             dtpDesde.Name = "dtpDesde";
-            dtpDesde.Size = new Size(181, 31);
+            dtpDesde.Size = new Size(239, 31);
             dtpDesde.TabIndex = 3;
             // 
             // label3
@@ -213,9 +213,9 @@
             label3.Location = new Point(23, 140);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(62, 25);
+            label3.Size = new Size(66, 25);
             label3.TabIndex = 2;
-            label3.Text = "Desde";
+            label3.Text = "Desde:";
             // 
             // label6
             // 

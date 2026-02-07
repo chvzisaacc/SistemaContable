@@ -126,7 +126,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             CargarDatosAutocompletado();
             CargarDatosAutocompletadoGastos();
             Transacciones obj_transa = new();
-            obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+            obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2,ParroquiaId);
 
 
             crudCataloCuentas = new clsCRUD_CatalogoCuentas();
@@ -306,7 +306,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 cmbCuentas.SelectedIndexChanged -= cmbCuentas_SelectedIndexChanged;
 
                 // Carga los datos como ya lo haces
-                DataTable dt_cuentas = crudCuentasBancarias.ObtenerCuentasBancarias();
+                DataTable dt_cuentas = crudCuentasBancarias.ObtenerCuentasBancarias(ParroquiaId);
                 cmbCuentas.DataSource = dt_cuentas;
                 cmbCuentas.DisplayMember = "Nombre";
                 cmbCuentas.ValueMember = "Id_Origen";
@@ -338,8 +338,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             try
             {
                 ClsAccionesDB db = new ClsAccionesDB();
-                List<Origen> lista = db.ObtenerListaOrigenes();
-                List<Origen> lista2 = db.ObtenerListaOrigenes();
+                List<Origen> lista = db.ObtenerListaOrigenes(ParroquiaId);
+                List<Origen> lista2 = db.ObtenerListaOrigenes(ParroquiaId);
 
                 cmbOrigen.DataSource = lista;
                 cmbOrigen.DisplayMember = "Nombre";
@@ -362,7 +362,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
+                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias(ParroquiaId);
             }
             catch (Exception ex)
             {
@@ -379,7 +379,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias();
+                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias(ParroquiaId);
                 cmbCuentas.DisplayMember = "Nombre";
                 cmbCuentas.ValueMember = "Id_cuentaBanco";
 
@@ -553,7 +553,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             int id_seleccionado = Convert.ToInt32(cmbCuentas.SelectedValue);
 
 
-            var frm = new BancosCuentaAhorro()
+            var frm = new BancosCuentaAhorro(ParroquiaId)
             {
                 StartPosition = FormStartPosition.Manual,
 
@@ -578,7 +578,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 case 0: // Agregar Saldo
                     {
-                        using (var frm = new BancosAgregarSaldo
+                        using (var frm = new BancosAgregarSaldo(ParroquiaId)
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
@@ -588,7 +588,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                             if (result == DialogResult.OK)
                             {
-                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
                             }
                         }
                     }
@@ -596,7 +596,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 case 1: // Transferencia entre cuentas
                     {
-                        using (var frm = new BancosTransferenciaEntreCuentas
+                        using (var frm = new BancosTransferenciaEntreCuentas(ParroquiaId)
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
@@ -606,14 +606,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                             if (result == DialogResult.OK)
                             {
-                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
                             }
                         }
                     }
                     break;
                 case 2: // Agregar cuenta bancaria
                     {
-                        using (var frm = new BancosAgregarCuentaBancaria
+                        using (var frm = new BancosAgregarCuentaBancaria(ParroquiaId)
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
@@ -623,7 +623,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                             if (result == DialogResult.OK)
                             {
-                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
                                 CargarCuentasEnComboBox();
                             }
                         }
@@ -631,7 +631,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     break;
                 case 3: // Retirar dinero
                     {
-                        using (var frm = new BancosRetirarDinero
+                        using (var frm = new BancosRetirarDinero(ParroquiaId)
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
@@ -641,7 +641,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                             if (result == DialogResult.OK)
                             {
-                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
                             }
                         }
                     }
@@ -678,7 +678,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void chkSaldoInicial_CheckedChanged(object sender, EventArgs e)
         {
-            CajaChicaMonto obj_caja = new CajaChicaMonto();
+            CajaChicaMonto obj_caja = new CajaChicaMonto(ParroquiaId);
             if (chkSaldoInicial.Checked)
             {
 
@@ -690,7 +690,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             ActualizarSaldo();
             Transacciones transacciones = new();
-            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
 
             if (txtSaldoActual.Text == "0.00")
             {
@@ -1121,7 +1121,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 if (cmbOrigen2.SelectedValue != null)
                 {
                     int idOrigen = Convert.ToInt32(cmbOrigen2.SelectedValue);
-                    DataTable dtCuenta = crudCuentasBancarias.ObtenerCuentasBancarias();
+                    DataTable dtCuenta = crudCuentasBancarias.ObtenerCuentasBancarias(ParroquiaId);
                     DataRow[] rows = dtCuenta.Select($"Id_Origen = {idOrigen}");
 
                     if (rows.Length > 0 && rows[0]["saldo"] != DBNull.Value)
@@ -1526,7 +1526,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                                          MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         Transacciones obj_transa = new Transacciones();
-                        obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                        obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
 
                         ActualizarSaldo();
                         _controladorAlerta.ForzarVerificacionInmediata();
@@ -1801,7 +1801,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                         //Recargar los combos SIN perder la selección
                         Transacciones obj_transa = new Transacciones();
-                        obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                        obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
 
                         //Forzar actualización visual segura del ComboBox
                         this.BeginInvoke(new Action(() =>
@@ -1913,7 +1913,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         return;
                     }
 
-                    int nuevo_id = gasto.IngresarGastos(fecha_transaccion, descripcion, saldo, referencia, id_usuario, id_origenNuevo, nombre_cuenta);
+                    int nuevo_id = gasto.IngresarGastos(fecha_transaccion, descripcion, saldo, referencia, id_usuario, id_origenNuevo, nombre_cuenta, ParroquiaId);
                     if (nuevo_id <= 0)
                     {
                         MessageBox.Show("No se recibió un ID válido desde la base de datos. Verifique el SP.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1944,7 +1944,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     Transacciones obj_transa = new Transacciones();
-                    obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2);
+                    obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
 
 
                     ActualizarSaldo();
@@ -2224,7 +2224,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button5_Click(object sender, EventArgs e)
         {
-            var frm = new BancosCuentaAhorro();
+            var frm = new BancosCuentaAhorro(ParroquiaId);
             frm.ShowDialog();
 
            
