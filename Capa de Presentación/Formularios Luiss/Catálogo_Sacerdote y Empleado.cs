@@ -52,22 +52,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                dgvBitacora.DataSource = crudCatalogoCuentas.ObtenerCatalogoCuentas();
+                dgvCatalogoUsuarios.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 12.5F, FontStyle.Bold);
+                dgvCatalogoUsuarios.DataSource = crudCatalogoCuentas.ObtenerCatalogoCuentas();
 
-                if (dgvBitacora.Columns["CuentaID"] != null)
-                    dgvBitacora.Columns["CuentaID"].Visible = false;
+                if (dgvCatalogoUsuarios.Columns["CuentaID"] != null)
+                    dgvCatalogoUsuarios.Columns["CuentaID"].Visible = false;
 
-                if (dgvBitacora.Columns["EstadoID"] != null)
-                    dgvBitacora.Columns["EstadoID"].Visible = false;
+                if (dgvCatalogoUsuarios.Columns["EstadoID"] != null)
+                    dgvCatalogoUsuarios.Columns["EstadoID"].Visible = false;
 
-
-                /*
-                if (dgvCatalogoCuentas.Columns["Detalle"] != null)
-                    dgvCatalogoCuentas.Columns["Detalle"].DefaultCellStyle.Format = "N2";
-                */
-
-                if (dgvBitacora.Columns["Saldo"] != null)
-                    dgvBitacora.Columns["Saldo"].DefaultCellStyle.Format = "N2";
+                if (dgvCatalogoUsuarios.Columns["Saldo"] != null)
+                    dgvCatalogoUsuarios.Columns["Saldo"].DefaultCellStyle.Format = "N2";
             }
             catch (Exception ex)
             {
@@ -84,6 +79,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void lblConsulte_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

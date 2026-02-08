@@ -284,10 +284,9 @@ namespace Capa_de_Presentación
                 bindingSource.DataSource = dt;
                 dgvBitacora.DataSource = bindingSource;
 
-                // Opcional: Ajustar columnas
-                if (dgvBitacora.Columns.Count > 0)
+                if (dgvBitacora.Columns.Contains("Descripción"))
                 {
-                    dgvBitacora.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+                    dgvBitacora.Columns["Descripción"].Width = 595; // Ajusta manual de la columna
                 }
             }
             catch (Exception ex)

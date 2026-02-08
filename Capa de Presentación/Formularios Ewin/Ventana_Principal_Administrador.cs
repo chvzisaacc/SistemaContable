@@ -1243,8 +1243,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         public void ManejarCierreSesion()
         {
-            // Ocultar el formulario principal
-            this.Hide(); // Ocultar, NO cerrar
+            this.Hide();
 
             using (var login = new FRM_PG1())
             {

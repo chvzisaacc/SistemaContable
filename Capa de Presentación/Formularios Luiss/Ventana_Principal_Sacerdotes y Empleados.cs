@@ -168,7 +168,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         public void ManejarCierreSesion()
         {
-            // Lógica NORMAL de cierre de sesión (solo se ejecuta si el usuario realmente cerró)
             this.Hide();
             using (var login = new FRM_PG1())
             {

@@ -99,7 +99,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     f.Hide(); // Lo ocultamos para que visualmente desaparezca ya
                     f.Dispose(); // Liberamos recursos
-                    f.Close();
+                    
                 }
             }
         }

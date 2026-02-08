@@ -66,6 +66,7 @@
             // 
             // dgvBitacora
             // 
+            dgvBitacora.AllowUserToAddRows = false;
             dgvBitacora.BackgroundColor = SystemColors.Control;
             dgvBitacora.BorderStyle = BorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -90,7 +91,7 @@
             dgvBitacora.Location = new Point(94, 387);
             dgvBitacora.Margin = new Padding(4, 5, 4, 5);
             dgvBitacora.Name = "dgvBitacora";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle3.BackColor = SystemColors.Control;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 14F);
             dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
