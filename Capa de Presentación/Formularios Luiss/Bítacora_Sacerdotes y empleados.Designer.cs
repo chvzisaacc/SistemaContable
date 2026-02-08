@@ -45,9 +45,10 @@
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(66, 1);
+            pictureBox3.Location = new Point(94, 2);
+            pictureBox3.Margin = new Padding(4, 5, 4, 5);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(132, 122);
+            pictureBox3.Size = new Size(189, 203);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 19;
             pictureBox3.TabStop = false;
@@ -56,15 +57,17 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(238, 43);
+            label1.Location = new Point(340, 72);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(150, 32);
+            label1.Size = new Size(222, 48);
             label1.TabIndex = 18;
             label1.Text = "SACERDOTE";
             // 
             // dgvBitacora
             // 
-            dgvBitacora.BackgroundColor = SystemColors.ControlLightLight;
+            dgvBitacora.BackgroundColor = SystemColors.Control;
+            dgvBitacora.BorderStyle = BorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = Color.Gold;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -84,7 +87,8 @@
             dgvBitacora.DefaultCellStyle = dataGridViewCellStyle2;
             dgvBitacora.EnableHeadersVisualStyles = false;
             dgvBitacora.GridColor = SystemColors.WindowText;
-            dgvBitacora.Location = new Point(66, 232);
+            dgvBitacora.Location = new Point(94, 387);
+            dgvBitacora.Margin = new Padding(4, 5, 4, 5);
             dgvBitacora.Name = "dgvBitacora";
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = SystemColors.Control;
@@ -94,17 +98,19 @@
             dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
             dgvBitacora.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dgvBitacora.RowHeadersVisible = false;
             dgvBitacora.RowHeadersWidth = 51;
-            dgvBitacora.Size = new Size(1028, 285);
+            dgvBitacora.Size = new Size(1469, 475);
             dgvBitacora.TabIndex = 17;
             // 
             // lblConsulte
             // 
             lblConsulte.AutoSize = true;
             lblConsulte.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblConsulte.Location = new Point(66, 187);
+            lblConsulte.Location = new Point(94, 312);
+            lblConsulte.Margin = new Padding(4, 0, 4, 0);
             lblConsulte.Name = "lblConsulte";
-            lblConsulte.Size = new Size(432, 74);
+            lblConsulte.Size = new Size(645, 110);
             lblConsulte.TabIndex = 16;
             lblConsulte.Text = "Revisa tu actividad en el sistema\r\n\r\n";
             // 
@@ -112,9 +118,10 @@
             // 
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitulo.Location = new Point(66, 139);
+            lblTitulo.Location = new Point(94, 232);
+            lblTitulo.Margin = new Padding(4, 0, 4, 0);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(950, 74);
+            lblTitulo.Size = new Size(1441, 110);
             lblTitulo.TabIndex = 15;
             lblTitulo.Text = "BITÁCORA DEL SISTEMA, CADA ACCIÓN DEL SISTEMA REGISTRADA AQUÍ\r\n\r\n";
             // 
@@ -126,9 +133,10 @@
             btnVolver.FlatStyle = FlatStyle.Popup;
             btnVolver.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnVolver.ForeColor = SystemColors.ControlText;
-            btnVolver.Location = new Point(932, 8);
+            btnVolver.Location = new Point(1331, 13);
+            btnVolver.Margin = new Padding(4, 5, 4, 5);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(162, 38);
+            btnVolver.Size = new Size(231, 63);
             btnVolver.TabIndex = 20;
             btnVolver.Text = "Volver Atrás";
             btnVolver.UseVisualStyleBackColor = true;
@@ -136,15 +144,16 @@
             // 
             // FRM_PG51
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1121, 539);
+            ClientSize = new Size(1601, 898);
             Controls.Add(btnVolver);
             Controls.Add(pictureBox3);
             Controls.Add(label1);
             Controls.Add(dgvBitacora);
             Controls.Add(lblConsulte);
             Controls.Add(lblTitulo);
+            Margin = new Padding(4, 5, 4, 5);
             MaximizeBox = false;
             Name = "FRM_PG51";
             StartPosition = FormStartPosition.CenterScreen;

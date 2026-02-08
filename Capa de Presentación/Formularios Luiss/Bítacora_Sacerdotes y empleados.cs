@@ -56,12 +56,30 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 if (dgvBitacora.Columns["Monto"] != null)
                 {
                     dgvBitacora.Columns["Monto"].Visible = false;
+                    dgvBitacora.Columns["Monto"].Width = 150;
                 }
-                if (dgvBitacora.Columns["FechaHora"] != null)
+                if (dgvBitacora.Columns["Fecha Y Hora"] != null)
                 {
-                    dgvBitacora.Columns["FechaHora"].DefaultCellStyle.Format = "g"; // Formato de fecha y hora corta
+                    dgvBitacora.Columns["Fecha Y Hora"].Width = 140;
+                    dgvBitacora.Columns["Fecha Y Hora"].DefaultCellStyle.Format = "g"; // Formato de fecha y hora corta
                 }
                 dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                if (dgvBitacora.Columns.Contains("Módulo"))
+                {
+                    dgvBitacora.Columns["Módulo"].Width = 180;
+                }
+
+                if (dgvBitacora.Columns.Contains("Acción"))
+                {
+                    dgvBitacora.Columns["Acción"].Width = 180;
+                }
+
+                if (dgvBitacora.Columns.Contains("Descripción"))
+                {
+                    dgvBitacora.Columns["Descripción"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+                dgvBitacora.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
             catch (Exception ex)
             {

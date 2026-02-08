@@ -20,7 +20,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public Cerrar_Sesión()
         {
             InitializeComponent();
-            this.Shown += (_, __) => CargarCorreo(); // síncrono para ir a juego con  CRUD
+            this.Shown += (_, __) => CargarCorreo(); // síncrono para ir a juego con CRUD
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 

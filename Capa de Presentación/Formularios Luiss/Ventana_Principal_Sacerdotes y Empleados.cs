@@ -1191,13 +1191,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 }
 
                 // 7. Validar monto contra saldo disponible (SIN SUMAS)
-                if (monto > saldoDisponible)
-                {
-                    MessageBox.Show($"El monto ingresado ({monto:C2}) excede el saldo disponible ({saldoDisponible:C2}).\n\n" +
-                                    "Saldo insuficiente para realizar esta transacción.",
-                                    "Saldo Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
+                //if (monto > saldoDisponible)
+                //{
+                    //MessageBox.Show($"El monto ingresado ({monto:C2}) excede el saldo disponible ({saldoDisponible:C2}).\n\n" +
+                                    //"Saldo insuficiente para realizar esta transacción.",
+                                    //"Saldo Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                   // return false;
+                //}
 
                 return true;
             }
@@ -1538,7 +1538,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     catch (Exception ex)
                     {
                         error_guardado = true;
-                        MessageBox.Show("Error al guardar la transacción: " + ex.Message,
+                        MessageBox.Show("Observación: " + ex.Message,
                                          "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
@@ -1957,7 +1957,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 catch (Exception ex)
                 {
                     error_guardado = true;
-                    MessageBox.Show("Error al guardar la transacción: " + ex.Message,
+                    MessageBox.Show("Observación: " + ex.Message,
                                     "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
@@ -1966,10 +1966,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     modoEdicion = false;
 
-                    //foreach (DataGridViewColumn col in dgvGastos.Columns)
-                    //  col.ReadOnly = true;
-
-                    //dgvGastos.ReadOnly = false;
                     dgvGastos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                     dgvGastos.MultiSelect = false;
                     dgvGastos.ClearSelection();

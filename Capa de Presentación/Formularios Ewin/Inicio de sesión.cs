@@ -156,7 +156,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 {
                     emp.ShowDialog();
                 }
-                this.Show();
+
+                if (!this.IsDisposed)
+                {
+                    this.Show();
+                }
             }
         }
 

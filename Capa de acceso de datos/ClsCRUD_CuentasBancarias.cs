@@ -93,8 +93,6 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // ... (Tu método ModificarSaldo)
-
         /// <summary>
         /// Modificars the saldo.
         /// </summary>
