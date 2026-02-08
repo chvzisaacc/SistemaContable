@@ -104,6 +104,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             //Para busqueda de usuarios
             bindingSource = new BindingSource();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.FormClosed += (s, e) => Application.Exit();
 
 
         }

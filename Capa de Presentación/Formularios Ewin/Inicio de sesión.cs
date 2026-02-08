@@ -139,29 +139,25 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // Guardar sesión con ambos valores
             Sesion1.IniciarSesion(id_usuario, rol, parroquia_id);
 
+            Form f;
             //REDIRECCIONAR AL FORM SEGÚN Roles 
             if (rol == 1)
             {
-                this.Hide();
-                using (var admin = new Ventana_Principal_Administrador(id_usuario, parroquia_id))
-                {
-                    admin.ShowDialog();
-                }
-                this.Show();
+                f = new Ventana_Principal_Administrador(id_usuario, parroquia_id);
             }
-            else if (rol == 2 || rol == 3)
+            else
             {
-                this.Hide();
-                using (var emp = new FRM_42(id_usuario, parroquia_id))
-                {
-                    emp.ShowDialog();
-                }
-
-                if (!this.IsDisposed)
-                {
-                    this.Show();
-                }
+                f = new FRM_42(id_usuario, parroquia_id);
             }
+
+            // 2. MOSTRAMOS LA VENTANA de forma independiente
+            f.Show();
+
+            // 3. Cerramos el login de forma segura
+            // Nota: Para que esto no cierre TODA la app, asegúrate de que en Program.cs 
+            // tu Application.Run() esté configurado correctamente o usa this.Hide() 
+            // si el Login es el formulario principal.
+            this.Hide();
         }
 
 
