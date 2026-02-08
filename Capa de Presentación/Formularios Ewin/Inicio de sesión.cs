@@ -2,6 +2,7 @@
 using Capa_de_Presentación.CAPAS;
 using Capa_de_Presentación.CLASES;
 using Capa_de_Presentación.Formularios_Luiss;
+using Capa_de_Presentación.RECONOCIMIENTO_FACIAL;
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
@@ -238,16 +239,48 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            //Instancia Biometria
             try
             {
-                RECONOCIMIENTO_FACIAL.RECONOCER rECONOCER = new();
-                rECONOCER.Show();
-                this.Hide();
+                using (RECONOCIMIENTO_FACIAL.RECONOCER reconocer = new())
+                {
+                    this.Hide();
+                    var result = reconocer.ShowDialog();
+
+                    if (result == DialogResult.OK)
+                    {
+
+                        // 1. Recuperamos los datos que guardó la Sesion1
+                        int rol = Capa_de_acceso_de_datos.Sesion1.rol_id;
+                        int p_id = Capa_de_acceso_de_datos.Sesion1.usuario_id;
+                        int par_id = Capa_de_acceso_de_datos.Sesion1.id_parroquia;
+
+                        Form f;
+                        // 2. Decidimos qué ventana abrir
+                        if (rol == 1)
+                        {
+                            f = new Ventana_Principal_Administrador(p_id, par_id);
+                        }
+                        else
+                        {
+                            f = new FRM_42(p_id, par_id);
+                        }
+
+                        // 3. MOSTRAMOS LA VENTANA
+                        f.Show();
+
+                        // 4. Cerramos el login de forma segura
+                        this.Close();
+                    }
+                    else
+                    {
+                        this.Show();
+                    }
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al abrir biometría: " + ex.Message);
+                this.Show();
             }
         }
 

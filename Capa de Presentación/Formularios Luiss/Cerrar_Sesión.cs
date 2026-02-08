@@ -1,4 +1,5 @@
 ﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.Formularios_Ewin;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -80,10 +81,27 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
+            // 1. LIMPIAR DATOS DE SESIÓN
             Sesion1.CerrarSesion();
 
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            // 2. CREAR UNA LISTA DE FORMULARIOS A CERRAR Y NO QUEDEN COMO HILOS 
+            List<Form> formulariosAbiertos = new List<Form>(Application.OpenForms.Cast<Form>());
+
+            // 3. ABRIR EL NUEVO LOGIN
+            FRM_PG1 nuevoLogin = new FRM_PG1();
+            nuevoLogin.Show();
+
+            // 4. CERRAR TODO LO DEMÁS
+            foreach (Form f in formulariosAbiertos)
+            {
+                // No cerramos el nuevo login que acabamos de abrir
+                if (f != nuevoLogin)
+                {
+                    f.Hide(); // Lo ocultamos para que visualmente desaparezca ya
+                    f.Dispose(); // Liberamos recursos
+                    f.Close();
+                }
+            }
         }
 
 

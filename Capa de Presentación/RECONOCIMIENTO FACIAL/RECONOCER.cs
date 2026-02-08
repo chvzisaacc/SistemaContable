@@ -222,21 +222,18 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
             Mat image_frame = new Mat();
             cam.Read(image_frame);
 
-            if (image_frame.Empty())
-                return;
+            if (image_frame.Empty()) return;
 
             Mat gray_frame = new Mat();
             Cv2.CvtColor(image_frame, gray_frame, ColorConversionCodes.BGR2GRAY);
 
             var faces = face_detector.DetectMultiScale(
-                gray_frame,
-                1.4,
-                4,
-                HaarDetectionTypes.ScaleImage,
+                gray_frame, 1.4, 4, HaarDetectionTypes.ScaleImage,
                 new OpenCvSharp.Size(image_frame.Width / 8, image_frame.Height / 8)
             );
 
-            string detected_username = acceso_concedido ? label1.Text : "Desconocido";
+            // Por defecto el nombre es "Desconocido"
+            string detected_username = "Desconocido";
 
             foreach (var face in faces)
             {
@@ -244,103 +241,69 @@ namespace Capa_de_Presentación.RECONOCIMIENTO_FACIAL
 
                 Mat face_region = new Mat(gray_frame, face);
                 Mat resized_face = new Mat();
-                Cv2.Resize(face_region, resized_face,
-                    new OpenCvSharp.Size(model_width, model_height));
+                Cv2.Resize(face_region, resized_face, new OpenCvSharp.Size(model_width, model_height));
 
                 try
                 {
-                    eigen_face_recognizer.Predict(resized_face,
-                        out int predicted_id,
-                        out double confidence);
+                    eigen_face_recognizer.Predict(resized_face, out int predicted_id, out double confidence);
 
                     if (predicted_id > 0 && confidence < threshold)
                     {
-                        // Obtener datos del usuario
+                        // 1. Buscamos los datos en la DB
                         ClsAccionesDB db = new ClsAccionesDB();
                         var datos = db.ObtenerUsuarioReconocimiento(predicted_id);
 
-                        string nombre = datos.nombre;
-                        int rol_id = datos.rol_id;
-                        int estado_cuenta = datos.estado_cuenta;
-                        int parroquia_id = datos.parroquia_id;
+                        // 2. ACTUALIZAMOS EL NOMBRE PARA QUE SE VEA EN PANTALLA
+                        detected_username = datos.nombre;
 
-                        Capa_de_acceso_de_datos.Sesion1.IniciarSesion(predicted_id, rol_id, parroquia_id, nombre);
-                        db.RegistrarInicioSesionBiometrico(predicted_id);
-
-                        if (!acceso_concedido)
-                            detected_username = nombre;
-
-                        // Validar estado de cuenta
-                        if (estado_cuenta != 1)
+                        if (datos.estado_cuenta == 1 && !acceso_concedido)
                         {
-                            Invoke(new Action(() =>
+                            acceso_concedido = true; // Bloqueamos nuevas detecciones
+
+                            // 3. GUARDAMOS EN SESIÓN
+                            Capa_de_acceso_de_datos.Sesion1.IniciarSesion(predicted_id, datos.rol_id, datos.parroquia_id, datos.nombre);
+                            db.RegistrarInicioSesionBiometrico(predicted_id);
+
+                            // 4. PROCESO DE CIERRE SEGURO
+                            Invoke(new Action(async () =>
                             {
-                                MessageBox.Show("La cuenta del usuario está inactiva o bloqueada.",
-                                                "Acceso denegado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                if (this.IsDisposed) return;
+
+                                // Actualizamos el label una última vez con el nombre real
+                                label1.Text = datos.nombre;
+
+                                if (!mensaje_mostrado)
+                                {
+                                    mensaje_mostrado = true;
+                                    MessageBox.Show("Bienvenido " + datos.nombre, "Acceso concedido");
+                                }
+
+                                running = false;
+                                TurnOffCamera();
+
+                                await Task.Delay(500); // Pausa de medio segundo para que el usuario vea su nombre
+
+                                this.DialogResult = DialogResult.OK;
+                                this.Close();
                             }));
-                            acceso_concedido = false;
-                            continue;
                         }
-
-                        // Evitar abrir más de una vez
-                        acceso_concedido = true;
-
-                        // Abrir formulario según el rol
-                        Invoke(new Action(async () =>
-                        {
-                            Form f = null;
-
-                            switch (rol_id)
-                            {
-                                case 1:
-                                    // Para el rol de administrador
-                                    f = new Ventana_Principal_Administrador(predicted_id, parroquia_id);
-                                    break;
-
-                                case 2:
-                                case 3:
-                                    // Para otros roles (empleado)
-                                    f = new FRM_42(predicted_id, parroquia_id); // Pasa el ID y parroquiaId aquí
-                                    break;
-
-                                default:
-                                    MessageBox.Show("Rol no reconocido.", "Error",
-                                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    acceso_concedido = false;
-                                    return;
-                            }
-
-                            // Mostrar mensaje de bienvenida
-                            if (!mensaje_mostrado)
-                            {
-                                mensaje_mostrado = true;
-                                MessageBox.Show("Bienvenido " + nombre, "Acceso concedido");
-                            }
-
-                            // Esperar 3 segundos antes de mostrar el formulario
-                            await Task.Delay(3000);
-
-                            // Apagar la cámara y ocultar el formulario de reconocimiento
-                            TurnOffCamera();
-                            this.Hide();
-
-                            // Mostrar el formulario correspondiente
-                            f.Show();
-                        }));
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error en el reconocimiento: " + ex.Message);
+                    MessageBox.Show("Error durante reconocimiento facial: " + ex.Message);
                 }
             }
 
-            // Mostrar imagen y nombre en pantalla
-            Invoke(new Action(() =>
+            // 5. ACTUALIZACIÓN CONSTANTE DE LA CÁMARA Y EL LABEL
+            if (!this.IsDisposed)
             {
-                label1.Text = detected_username;
-                pictureBox1.Image = BitmapConverter.ToBitmap(image_frame);
-            }));
+                Invoke(new Action(() =>
+                {
+                    label1.Text = detected_username; // Aquí se mostrará "Desconocido" o el "Nombre"
+                    pictureBox1.Image = BitmapConverter.ToBitmap(image_frame);
+                }));
+            }
         }
 
 

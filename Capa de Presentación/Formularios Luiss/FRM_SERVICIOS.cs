@@ -17,7 +17,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            //Id_Usuariologin = Id_Usuario;
+            
 
         }
 

@@ -20,7 +20,9 @@ namespace Capa_de_Presentación
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             ApplicationConfiguration.Initialize();
-            Application.Run(new FRM_PG1());
+            FRM_PG1 login = new FRM_PG1();
+            login.Show();
+            Application.Run();
 
         }
     }
