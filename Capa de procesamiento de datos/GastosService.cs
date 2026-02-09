@@ -237,9 +237,44 @@ namespace Capa_de_procesamiento_de_datos
                     // ==========================================================
                     // FOOTER
                     // ==========================================================
-                    page.Footer().AlignRight()
-                        .Text($"Generado el {DateTime.Now:dd/MM/yyyy HH:mm}")
-                        .FontSize(9).FontColor("#666666");
+                    page.Footer()
+             .Height(30)
+             .AlignCenter()
+             .Column(col =>
+             {
+                 col.Item()
+                     .LineHorizontal(1)
+                     .LineColor("#D4AF37");
+
+                 col.Item()
+                     .Text(text =>
+                     {
+                         text.Span("Generado el ")
+                             .FontSize(9)
+                             .FontColor("#666666");
+
+                         text.Span($"{DateTime.Now:dd/MM/yyyy HH:mm}")
+                             .FontSize(9)
+                             .FontColor("#666666");
+
+                         text.Span("  |  Página ")
+                             .FontSize(9)
+                             .FontColor("#666666");
+
+                         text.CurrentPageNumber()
+                             .FontSize(9)
+                             .FontColor("#666666");
+
+                         text.Span(" de ")
+                             .FontSize(9)
+                             .FontColor("#666666");
+
+                         text.TotalPages()
+                             .FontSize(9)
+                             .FontColor("#666666");
+
+                     });
+             });
                 });
             });
 
