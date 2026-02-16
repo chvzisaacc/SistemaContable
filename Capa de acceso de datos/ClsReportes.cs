@@ -40,7 +40,6 @@ namespace Capa_de_acceso_de_datos
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
                         da.Fill(ds);
-
                     }
                 }
             }
@@ -51,6 +50,7 @@ namespace Capa_de_acceso_de_datos
 
             return ds;
         }
+
 
         /// <summary>
         /// Obteners the ingresos por parroquia.
