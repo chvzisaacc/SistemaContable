@@ -267,7 +267,7 @@ namespace Capa_de_procesamiento_de_datos
 
                                 table.Cell().Background(fondo).Padding(4).Text(row["tipo"]);
                                 table.Cell().Background(fondo).Padding(4).Text(Convert.ToDateTime(row["fecha"]).ToString("dd/MM/yyyy"));
-                                table.Cell().Background(fondo).Padding(4).Text($"{row["cuenta"]}\n{row["detalle"]}");
+                                table.Cell().Background(fondo).Padding(4).Text($"{row["Cuenta"]}\n{row["Detalle"]}");
                                 table.Cell().Background(fondo).Padding(4).Text($"{Convert.ToDecimal(row["monto"]):N2}").AlignRight();
 
                                 i++;

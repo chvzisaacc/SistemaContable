@@ -155,18 +155,24 @@ namespace Capa_de_procesamiento_de_datos
     string nombreSacerdote
 )
         {
+            decimal subtotalEntradas = 0;
             decimal totalEntradas = 0;
             decimal totalSalidas = 0;
             decimal gananciaMes = 0;
             decimal docePorciento = 0;
+            decimal totalALaCuria = 0;
 
             if (dtTotales != null && dtTotales.Rows.Count > 0)
             {
                 var rowT = dtTotales.Rows[0];
-                totalEntradas = rowT.Field<decimal?>("TotalEntradas") ?? 0;
-                totalSalidas = rowT.Field<decimal?>("TotalSalidas") ?? 0;
-                gananciaMes = rowT.Field<decimal?>("GananciaMes") ?? 0;
-                docePorciento = rowT.Field<decimal?>("DocePorciento") ?? 0;
+
+                totalEntradas = rowT["TotalEntradas"] != DBNull.Value ? Convert.ToDecimal(rowT["TotalEntradas"]) : 0;
+                totalSalidas = rowT["TotalSalidas"] != DBNull.Value ? Convert.ToDecimal(rowT["TotalSalidas"]) : 0;
+                gananciaMes = rowT["GananciaMes"] != DBNull.Value ? Convert.ToDecimal(rowT["GananciaMes"]) : 0;
+                docePorciento = rowT["DocePorciento"] != DBNull.Value ? Convert.ToDecimal(rowT["DocePorciento"]) : 0;
+
+                subtotalEntradas = rowT["SubtotalEntradasCuria"] != DBNull.Value ? Convert.ToDecimal(rowT["SubtotalEntradasCuria"]) : 0;
+
             }
 
             var filasEntradas = new (string Etiqueta, string Cuenta)[]
@@ -308,7 +314,7 @@ namespace Capa_de_procesamiento_de_datos
 
                             // fila subtotal / 12%
                             Celda("SUBTOTAL=", true, "#D4AF37");
-                            Celda(totalEntradas == 0 ? "" : totalEntradas.ToString("N2"), true, "#D4AF37");
+                            Celda(subtotalEntradas == 0 ? "" : subtotalEntradas.ToString("N2"), true, "#D4AF37");
                             Celda("X 12%", true, "#D4AF37");
                             Celda(docePorciento == 0 ? "" : docePorciento.ToString("N2"), true, "#D4AF37");
 
