@@ -172,6 +172,7 @@ namespace Capa_de_procesamiento_de_datos
                 docePorciento = rowT["DocePorciento"] != DBNull.Value ? Convert.ToDecimal(rowT["DocePorciento"]) : 0;
 
                 subtotalEntradas = rowT["SubtotalEntradasCuria"] != DBNull.Value ? Convert.ToDecimal(rowT["SubtotalEntradasCuria"]) : 0;
+                totalALaCuria = rowT["TotalALaCuriaArzobispal"] != DBNull.Value ? Convert.ToDecimal(rowT["TotalALaCuriaArzobispal"]) : 0;
 
             }
 
@@ -322,7 +323,7 @@ namespace Capa_de_procesamiento_de_datos
                             Celda("", false);
                             Celda("", false);
                             Celda("A LA CURIA ARZOBISPAL", true, "#D4AF37");
-                            Celda("", false);
+                            Celda(totalALaCuria.ToString("N2"), true, "#D4AF37");
 
                             int max2 = Math.Max(filasColectas.Length, filasSalidas2.Length);
 
