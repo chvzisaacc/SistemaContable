@@ -43,19 +43,17 @@ namespace Capa_de_procesamiento_de_datos
         /// <param name="usuarioId">The usuario identifier.</param>
         /// <param name="nombreSacerdote">The nombre sacerdote.</param>
         /// <returns></returns>
-        public string GenerarInformeCuria(
-            int parroquiaId,
-            string nombreParroquia,
-            DateTime desde,
-            DateTime hasta,
-            int usuarioId,
-            string nombreSacerdote
-        )
+        public string GenerarInformeCuria(int usuarioId, DateTime desde, DateTime hasta)
         {
-            DataSet ds = _repo.ObtenerDatosCuria(parroquiaId, desde, hasta);
-            DataTable dtEntradas = ds.Tables[0];
-            DataTable dtSalidas = ds.Tables[1];
-            DataTable dtTotales = ds.Tables[2];
+            DataSet ds = _repo.ObtenerDatosCuriaPorUsuario(usuarioId, desde, hasta);
+
+            DataTable dtInfo = ds.Tables[0];
+            DataTable dtEntradas = ds.Tables[1];
+            DataTable dtSalidas = ds.Tables[2];
+            DataTable dtTotales = ds.Tables[3];
+
+            string nombreParroquia = dtInfo.Rows[0]["ParroquiaNombre"]?.ToString() ?? "";
+            string nombreSacerdote = dtInfo.Rows[0]["SacerdoteNombre"]?.ToString() ?? "";
 
             byte[] pdfBytes = GenerarPdfCuria(
                 dtEntradas,
@@ -71,9 +69,9 @@ namespace Capa_de_procesamiento_de_datos
             string rutaCompleta = Path.Combine(_carpetaReportes, nombreArchivo);
 
             File.WriteAllBytes(rutaCompleta, pdfBytes);
-
             return rutaCompleta;
         }
+
 
         /// <summary>
         /// Obteners the monto por cuenta.
@@ -83,21 +81,26 @@ namespace Capa_de_procesamiento_de_datos
         /// <returns></returns>
         private decimal ObtenerMontoPorCuenta(DataTable tabla, string etiquetaPlantilla)
         {
+            if (tabla == null) return 0;
+
             if (!MapaCuentas.TryGetValue(etiquetaPlantilla, out string nombreBD))
                 return 0;
 
+            string bdNorm = NormalizarTexto(nombreBD);
             decimal total = 0;
 
             foreach (DataRow row in tabla.Rows)
             {
-                string cuentaBD = row["NombreCuenta"]?.ToString();
+                string cuentaBD = row["NombreCuenta"]?.ToString() ?? "";
+                string cuentaNorm = NormalizarTexto(cuentaBD);
 
-                if (cuentaBD.Equals(nombreBD, StringComparison.OrdinalIgnoreCase))
-                    total += Convert.ToDecimal(row["Monto"]);
+                if (cuentaNorm == bdNorm)
+                    total += Convert.ToDecimal(row["Monto"]); // <- asegurate que el SP lo llame Monto
             }
 
             return total;
         }
+        
 
         // Normalizador universal
         /// <summary>
@@ -443,47 +446,40 @@ namespace Capa_de_procesamiento_de_datos
         private readonly Dictionary<string, string> MapaCuentas = new()
 {
     // ENTRADAS
-    { "Bautismos", "Bautismos" },
-    { "Misas, Fiestas, Funerales", "Misas,Fiestas,Funerales" },
-    { "Matrimonios", "Matrimonios" },
-    { "Donativos, Alcancias,Bendiciones", "Donativos,Alcancias,Bendiciones" },
-    { "Colectas ordinarias", "Colectas Ordinarias" },
-    { "Permisos, Certificaciones", "Permisos,Certificaciones" },
-    { "Profesorados, capellanias", "Profesorados, Capellanias" },
-    { "Otros (explicar)Tienda Parroquial", "Otros Ingresos(Explicar)" },
-    { "Otros", "Otros Ingresos" },
+    { "Bautismos", "BAUTISMOS" },
+    { "Misas, Fiestas, Funerales", "MISAS Y FUNERALES" },
+    { "Matrimonios", "MATRIMONIOS" },
+    { "Donativos, Alcancias,Bendiciones", "DONATIVOS" },
+    { "Permisos, Certificaciones", "PERMISOS Y CERTIFICACIONES" },
+    { "Confirmas", "CONFIRMACIONES" },
 
-    // COLECTAS 100%
-    { "Colecta de Adviento y Sta. Infancia", "Colectas Especiales (Ingreso)" },
-    { "Colecta de Cuaresma", "Caja Chica" }, // ← REVISAR si esto corresponde
-    { "Colecta de Viernes Santo", "Administrador-Oficina" }, // ← revisar
-    { "Colecta de San Pedro", "Agua" }, // ← revisar
-    { "Colecta de Vocaciones", "Carro-Transporte" }, // ← revisar
-    { "Colecta Domund", "Comida-Cocina" },
-    { "Colectas Extraordinarias (Medios)", "Lavado Ropa" },
-    { "Donativos Seminario", "Luz" },
-    { "Dispensas", "Mantenimiento-Limpieza" },
-    { "Confirmas", "Sueldos" },
+    // COLECTAS (ya las tenés en catálogo con nombre)
+    { "Colecta de Cuaresma", "COLECTA ESPECIAL (CUARESMA)" },
+    { "Colecta de Viernes Santo", "COLECTA ESPECIAL (VIERNES SANTO)" },
+    { "Colecta de San Pedro", "COLECTA ESPECIAL (OBULO S.P.)" },
+    { "Colecta de Vocaciones", "COLECTA ESPECIAL (VOCACIONES)" },
+    { "Colecta Domund", "COLECTA ESPECIAL (DOMUNI)" },
+    { "Colectas Extraordinarias (Medios)", "COLECTA ESPECIAL (SUYAS/MEDIOS)" },
 
     // SALIDAS
-    { "Administracion - Oficina", "Administrador-Oficina" },
-    { "Agua", "Agua" },
-    { "Carro - Transporte", "Carro-Transporte" },
-    { "Comida - Cocina", "Comida-Cocina" },
-    { "Luz", "Luz" },
-    { "Mantenimiento - Limpieza", "Mantenimiento-Limpieza" },
-    { "Sueldos", "Sueldos" },
-    { "IHSS + Medicinas", "IHSS+Medicinas" },
-    { "Internet y Servicio de Cable tv", "Internet y Servicio de Cable TV" },
-    { "Telefono", "Telefono" },
-    { "Ayuda (Donativos, Limosnas)", "Ayuda(Donativos,Limosnas)" },
-    { "Culto", "Culto" },
-    { "Pastoral - Formacion", "Pastoral-Formacion" },
-    { "Muebles - Enseres", "Muebles-Enseres" },
-    { "Remuneracion Sacerdotes", "Remuneracion Sacerdotes" },
-    { "Papel sellado", "Papel sellado" },
-    { "Impuestos", "Impuestos" },
-    { "Otros (explicar)", "Otros Gastos" }
+    { "Administracion - Oficina", "ADMINISTRACION OFICINA" },
+    { "Agua", "AGUA" },
+    { "Carro - Transporte", "CARRO Y TRANSPORTE" },
+    { "Comida - Cocina", "COMIDA Y COCINA" },
+    { "Luz", "LUZ" },
+    { "Mantenimiento - Limpieza", "MANTENIMIENTO Y LIMPIEZA" },
+    { "Sueldos", "SUELDOS EMPLEADOS" },
+    { "IHSS + Medicinas", "IHSS - MEDICINAS" },
+    { "Internet y Servicio de Cable tv", "INTERNET - CABLE TV" },
+    { "Telefono", "TELEFONO" },
+    { "Ayuda (Donativos, Limosnas)", "DONATIVOS Y AYUDAS" },
+    { "Culto", "CULTO" },
+    { "Pastoral - Formacion", "PASTORAL Y FORMACION" },
+    { "Muebles - Enseres", "MUEBLES Y ENSERES" },
+    { "Remuneracion Sacerdotes", "REMUNERACION" },
+    { "Impuestos", "IMPUESTOS" },
+
+    // EL 12% NO ES CUENTA: sale del total entradas * 0.12 o de "DIEZMO CURIA" si lo registrás como gasto aparte
 };
 
     }

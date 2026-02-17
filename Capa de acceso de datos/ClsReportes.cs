@@ -259,7 +259,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="desde">The desde.</param>
         /// <param name="hasta">The hasta.</param>
         /// <returns></returns>
-        public DataSet ObtenerDatosCuria(int parroquiaId, DateTime desde, DateTime hasta)
+        public DataSet ObtenerDatosCuriaPorUsuario(int usuarioId, DateTime desde, DateTime hasta)
         {
             DataSet ds = new DataSet();
 
@@ -267,18 +267,15 @@ namespace Capa_de_acceso_de_datos
             {
                 _cn.Abrir();
 
-                using (SqlCommand cmd = new SqlCommand("sp_ReporteCuria", _cn.sc))
+                using (SqlCommand cmd = new SqlCommand("dbo.sp_ReporteCuria", _cn.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquiaId);
+                    cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
                     cmd.Parameters.AddWithValue("@Desde", desde.Date);
                     cmd.Parameters.AddWithValue("@Hasta", hasta.Date);
 
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                    {
-                        da.Fill(ds);   // ← Llena las 3 tablas del DataSet
-                    }
+                        da.Fill(ds);
                 }
             }
             finally
