@@ -219,16 +219,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     break;
 
                 case 5:
-                    // 🔹 OBTENER NOMBRE DEL SACERDOTE
-                    string nombreSacerdote = _repo.ObtenerNombreSacerdote(Sesion1.usuario_id);
-
                     ruta_pdf = _curiaService.GenerarInformeCuria(
-                              parroquia_id,
-                              parroquia_nombre,
-                              desde,
-                              hasta,
-                              Sesion1.usuario_id,
-                              nombreSacerdote);
+                        Sesion1.usuario_id,
+                        desde,
+                        hasta
+                    );
 
                     nombre_reporte = "Informe de Curia";
                     break;

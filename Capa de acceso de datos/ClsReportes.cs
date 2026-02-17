@@ -40,7 +40,6 @@ namespace Capa_de_acceso_de_datos
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
                         da.Fill(ds);
-
                     }
                 }
             }
@@ -51,6 +50,7 @@ namespace Capa_de_acceso_de_datos
 
             return ds;
         }
+
 
         /// <summary>
         /// Obteners the ingresos por parroquia.
@@ -226,22 +226,22 @@ namespace Capa_de_acceso_de_datos
         /// <param name="fecha_inicio">The fecha inicio.</param>
         /// <param name="fecha_corte">The fecha corte.</param>
         /// <returns></returns>
-        public DataTable ObtenerBalanceGeneral(int parroquia_id, DateTime fecha_inicio, DateTime fecha_corte)
+        public DataSet ObtenerBalanceGeneral(int parroquia_id, DateTime fecha_inicio, DateTime fecha_corte)
         {
-            DataTable dt = new DataTable();
+            DataSet ds = new DataSet();
             try
             {
                 _cn.Abrir();
                 using (SqlCommand cmd = new SqlCommand("sp_GenerarBalanceGeneral", _cn.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquia_id); // Si usas parroquias
+                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquia_id);
                     cmd.Parameters.AddWithValue("@FechaInicio", fecha_inicio.Date);
                     cmd.Parameters.AddWithValue("@FechaCorte", fecha_corte.Date);
 
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
-                        da.Fill(dt);
+                        da.Fill(ds);
                     }
                 }
             }
@@ -249,7 +249,7 @@ namespace Capa_de_acceso_de_datos
             {
                 _cn.Cerrar();
             }
-            return dt;
+            return ds;
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="desde">The desde.</param>
         /// <param name="hasta">The hasta.</param>
         /// <returns></returns>
-        public DataSet ObtenerDatosCuria(int parroquiaId, DateTime desde, DateTime hasta)
+        public DataSet ObtenerDatosCuriaPorUsuario(int usuarioId, DateTime desde, DateTime hasta)
         {
             DataSet ds = new DataSet();
 
@@ -267,18 +267,15 @@ namespace Capa_de_acceso_de_datos
             {
                 _cn.Abrir();
 
-                using (SqlCommand cmd = new SqlCommand("sp_ReporteCuria", _cn.sc))
+                using (SqlCommand cmd = new SqlCommand("dbo.sp_ReporteCuria", _cn.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquiaId);
+                    cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
                     cmd.Parameters.AddWithValue("@Desde", desde.Date);
                     cmd.Parameters.AddWithValue("@Hasta", hasta.Date);
 
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                    {
-                        da.Fill(ds);   // ← Llena las 3 tablas del DataSet
-                    }
+                        da.Fill(ds);
                 }
             }
             finally
