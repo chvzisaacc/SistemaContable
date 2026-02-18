@@ -2241,22 +2241,25 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void ConfigurarCapitalInicial()
         {
 
-            if (_crudCapital.TieneCapitalInicial(_parroquiaId))
+            bool tieneCapital = _crudCapital.TieneCapitalInicial(ParroquiaId);
+
+            if (tieneCapital)
             {
-                // Ya tiene capital, ocultar checkbox y mostrar el monto
                 chkIngresarCapital.Visible = false;
+                panelIngresarCapital.Visible = false;
 
-                decimal capitalActual = _crudCapital.ObtenerCapitalInicial(_parroquiaId);
-
+                decimal capitalActual = _crudCapital.ObtenerCapitalInicial(ParroquiaId);
 
                 lblCapitalInicial.Text = $"Capital Inicial: L.{capitalActual:N2}";
                 lblCapitalInicial.Visible = true;
             }
             else
             {
-                // No tiene capital, mostrar checkbox
+                lblCapitalInicial.Visible = false;
+
                 chkIngresarCapital.Visible = true;
-                chkIngresarCapital.Text = "Ingresar capital inicial de la parroquia";
+                chkIngresarCapital.Checked = false;
+                panelIngresarCapital.Visible = false;
             }
         }
 
@@ -2320,6 +2323,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         panelIngresarCapital.Visible = false;
                         chkIngresarCapital.Visible = false;
                         chkIngresarCapital.Checked = false;
+
+                        lblCapitalInicial.Visible = true;
                     }
                 }
                 catch (Exception ex)

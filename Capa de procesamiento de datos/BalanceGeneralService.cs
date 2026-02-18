@@ -333,28 +333,21 @@ namespace Capa_de_procesamiento_de_datos
                         {
                             table.ColumnsDefinition(cols =>
                             {
-                                cols.ConstantColumn(90);  // Código
-                                cols.RelativeColumn(2);   // Cuenta
-                                cols.RelativeColumn(2);   // Detalle
-                                cols.ConstantColumn(130); // Saldo
+                                cols.RelativeColumn(3);   // Concepto
+                                cols.ConstantColumn(130); // Monto
                             });
 
                             table.Header(h =>
                             {
                                 h.Cell().Background("#D4AF37").Padding(5)
-                                    .Text("Código").Bold().FontColor("#FFFFFF").FontSize(10);
+                                    .Text("Concepto").Bold().FontColor("#FFFFFF").FontSize(10);
                                 h.Cell().Background("#D4AF37").Padding(5)
-                                    .Text("Cuenta").Bold().FontColor("#FFFFFF").FontSize(10);
-                                h.Cell().Background("#D4AF37").Padding(5)
-                                    .Text("Detalle").Bold().FontColor("#FFFFFF").FontSize(10);
-                                h.Cell().Background("#D4AF37").Padding(5)
-                                    .Text("Saldo").Bold().FontColor("#FFFFFF").FontSize(10).AlignRight();
+                                    .Text("Monto").Bold().FontColor("#FFFFFF").FontSize(10).AlignRight();
                             });
 
-                            // Si no hay cuentas de capital con saldo, mostrar mensaje
                             if (dtCapital.Rows.Count == 0)
                             {
-                                table.Cell().ColumnSpan(4)
+                                table.Cell().ColumnSpan(2)
                                     .Background("#F9F9F9").Padding(10)
                                     .Text("Sin movimientos de capital registrados")
                                     .FontSize(9).FontColor("#666666");
@@ -365,21 +358,24 @@ namespace Capa_de_procesamiento_de_datos
                                 foreach (DataRow row in dtCapital.Rows)
                                 {
                                     string fondo = (i % 2 == 0) ? "#FFFFFF" : "#F9F9F9";
+                                    decimal monto = Convert.ToDecimal(row["Monto"]);
+
+                                    // Resaltar "Gastos Acumulados" en rojo para claridad visual
+                                    string colorTexto = row["Concepto"].ToString() == "Gastos Acumulados"
+                                        ? "#CC0000" : "#000000";
+
                                     table.Cell().Background(fondo).Padding(5)
-                                        .Text(row["CodigoCuenta"]?.ToString()).FontSize(9);
+                                        .Text(row["Concepto"]?.ToString())
+                                        .FontSize(9).FontColor(colorTexto);
                                     table.Cell().Background(fondo).Padding(5)
-                                        .Text(row["Cuenta"]?.ToString()).FontSize(9);
-                                    table.Cell().Background(fondo).Padding(5)
-                                        .Text(row["Detalle"]?.ToString()).FontSize(9);
-                                    table.Cell().Background(fondo).Padding(5)
-                                        .Text(string.Format("{0:N2}", row["Saldo"]))
-                                        .FontSize(9).AlignRight();
+                                        .Text(string.Format("{0:N2}", monto))
+                                        .FontSize(9).AlignRight().FontColor(colorTexto);
                                     i++;
                                 }
                             }
 
                             // Total Capital
-                            table.Cell().ColumnSpan(3)
+                            table.Cell()
                                 .Background("#003399").Padding(6)
                                 .Text("TOTAL CAPITAL")
                                 .Bold().FontSize(10).FontColor("#FFFFFF");
