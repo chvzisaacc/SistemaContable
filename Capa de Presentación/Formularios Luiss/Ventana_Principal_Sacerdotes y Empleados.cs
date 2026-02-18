@@ -122,6 +122,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             PredictedId = predicted_id;
             ParroquiaId = parroquia_id;
 
+
+            ConfigurarCapitalInicial();
+
             InicializarDGVIngr();
             InicializarDGVgastos();
             CargarDatosAutocompletado();
@@ -159,6 +162,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // Inicializar el panel de alerta oculto
             pnlAlertaDeslizante.Height = 0;
             pnlAlertaDeslizante.Visible = true; // Lo dejamos Visible, pero con Altura 0
+
+
 
         }
 
@@ -1192,10 +1197,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 // 7. Validar monto contra saldo disponible (SIN SUMAS)
                 //if (monto > saldoDisponible)
                 //{
-                    //MessageBox.Show($"El monto ingresado ({monto:C2}) excede el saldo disponible ({saldoDisponible:C2}).\n\n" +
-                                    //"Saldo insuficiente para realizar esta transacción.",
-                                    //"Saldo Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                   // return false;
+                //MessageBox.Show($"El monto ingresado ({monto:C2}) excede el saldo disponible ({saldoDisponible:C2}).\n\n" +
+                //"Saldo insuficiente para realizar esta transacción.",
+                //"Saldo Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // return false;
                 //}
 
                 return true;
@@ -2224,6 +2229,131 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             var frm = new BancosCuentaAhorro(ParroquiaId);
             frm.ShowDialog();
+        }
+
+        private void panelCajaChica2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private readonly ClsCapitalInicial _crudCapital = new ClsCapitalInicial();
+        private int _parroquiaId;
+        private void ConfigurarCapitalInicial()
+        {
+
+            if (_crudCapital.TieneCapitalInicial(_parroquiaId))
+            {
+                // Ya tiene capital, ocultar checkbox y mostrar el monto
+                chkIngresarCapital.Visible = false;
+
+                decimal capitalActual = _crudCapital.ObtenerCapitalInicial(_parroquiaId);
+
+
+                lblCapitalInicial.Text = $"Capital Inicial: L.{capitalActual:N2}";
+                lblCapitalInicial.Visible = true;
+            }
+            else
+            {
+                // No tiene capital, mostrar checkbox
+                chkIngresarCapital.Visible = true;
+                chkIngresarCapital.Text = "Ingresar capital inicial de la parroquia";
+            }
+        }
+
+
+
+        // 6. VALIDACIÓN DEL CAPITAL
+        private bool ValidarCapitalInicial()
+        {
+            if (string.IsNullOrWhiteSpace(txtCapitalInicial.Text))
+            {
+                MessageBox.Show("Debe ingresar un monto.",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCapitalInicial.Focus();
+                return false;
+            }
+
+            decimal monto;
+            if (!decimal.TryParse(txtCapitalInicial.Text, out monto) || monto <= 0)
+            {
+                MessageBox.Show("El monto debe ser un número válido mayor a cero.",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCapitalInicial.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+
+
+        private void btnGuardarCapital_Click_1(object sender, EventArgs e)
+        {
+
+
+            if (!ValidarCapitalInicial()) return;
+
+            decimal monto = System.Convert.ToDecimal(txtCapitalInicial.Text);
+
+            DialogResult result = MessageBox.Show(
+                $"¿Está seguro de registrar L.{monto:N2} como capital inicial de la parroquia?\n" +
+                "Esta acción no puede deshacerse.",
+                "Confirmar capital inicial",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    bool exito = _crudCapital.IngresarCapitalInicial(PredictedId, ParroquiaId, monto);
+
+                    if (exito)
+                    {
+                        MessageBox.Show(
+                            $"Capital inicial de L.{monto:N2} registrado exitosamente.",
+                            "Éxito",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+
+                        // Ocultar el panel y checkbox
+                        panelIngresarCapital.Visible = false;
+                        chkIngresarCapital.Visible = false;
+                        chkIngresarCapital.Checked = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al registrar el capital inicial: " + ex.Message,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnCancelarCapital_Click(object sender, EventArgs e)
+        {
+            chkIngresarCapital.Checked = false;
+            panelIngresarCapital.Visible = false;
+            txtCapitalInicial.Clear();
+        }
+
+        private void chkIngresarCapital_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (chkIngresarCapital.Checked)
+            {
+                // Mostrar un panel o textbox para ingresar el monto
+                panelIngresarCapital.Visible = true;
+                txtCapitalInicial.Focus();
+            }
+            else
+            {
+                panelIngresarCapital.Visible = false;
+            }
+        }
+
+        private void lblCapitalInicial_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
