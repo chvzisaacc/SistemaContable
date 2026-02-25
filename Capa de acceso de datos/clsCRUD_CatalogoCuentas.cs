@@ -21,127 +21,125 @@ namespace Capa_de_acceso_de_datos
             conexion = new Clsconexion();
         }
 
-        
+        public DataTable ObtenerNivel1()
+        {
+            try
+            {
+                conexion.Abrir();
+                SqlCommand cmd = new SqlCommand("sp_ObtenerNivel1", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener nivel 1: " + ex.Message, ex);
+            }
+            finally { conexion.Cerrar(); }
+        }
 
-        /// <summary>
-        /// Obteners the catalogo cuentas.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener catálogo de cuentas: " + ex.Message</exception>
+        public DataTable ObtenerHijosPorPadre(int id_padre)
+        {
+            try
+            {
+                conexion.Abrir();
+                SqlCommand cmd = new SqlCommand("sp_ObtenerHijosPorPadre", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_padre", id_padre);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener hijos: " + ex.Message, ex);
+            }
+            finally { conexion.Cerrar(); }
+        }
+
         public DataTable ObtenerCatalogoCuentas()
         {
             try
             {
                 conexion.Abrir();
-
                 SqlCommand cmd = new SqlCommand("sp_ObtenerCatalogoCuentas", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
-
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
-
                 return dt;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener catálogo de cuentas: " + ex.Message, ex);
+                throw new Exception("Error al obtener catálogo: " + ex.Message, ex);
             }
-            finally
-            {
-                conexion.Cerrar();
-            }
+            finally { conexion.Cerrar(); }
         }
 
-        public bool CambiarEstadoCuenta(String cod_cuenta, int nuevo_estado)
+        public DataRow BuscarCatalogoCuentaPorId(int id_cuenta)
         {
             try
             {
                 conexion.Abrir();
-
-                SqlCommand cmd = new SqlCommand("sp_CambiarEstadoCuenta", conexion.sc);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@codCuenta", cod_cuenta);
-                cmd.Parameters.AddWithValue("@nuevoEstado", nuevo_estado);
-
-                int resultado = cmd.ExecuteNonQuery();
-                return resultado > 0;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al cambiar estado de cuenta: " + ex.Message, ex);
-            }
-            finally
-            {
-                conexion.Cerrar();
-            }
-        }
-
-        /// <summary>
-        /// Buscars the catalogo cuenta por identifier.
-        /// </summary>
-        /// <param name="cod_cuenta">The cod cuenta.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al buscar cuenta: " + ex.Message</exception>
-        public DataRow BuscarCatalogoCuentaPorId(String cod_cuenta)
-        {
-            try
-            {
-                conexion.Abrir();
-
                 SqlCommand cmd = new SqlCommand("sp_BuscarCatalogoCuentaPorId", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id", cod_cuenta);
-
+                cmd.Parameters.AddWithValue("@id_cuenta", id_cuenta);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
-
-                if (dt.Rows.Count > 0)
-                    return dt.Rows[0];
-                else
-                    return null;
+                return dt.Rows.Count > 0 ? dt.Rows[0] : null;
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al buscar cuenta: " + ex.Message, ex);
             }
-            finally
-            {
-                conexion.Cerrar();
-            }
+            finally { conexion.Cerrar(); }
         }
 
-        /// <summary>
-        /// Modificars the catalogo cuenta.
-        /// </summary>
-        /// <param name="cod_cuenta">The cod cuenta.</param>
-        /// <param name="id_cuenta">The identifier cuenta.</param>
-        /// <param name="nombre">The nombre.</param>
-        /// <param name="detalle">The detalle.</param>
-        /// <param name="saldo">The saldo.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al modificar cuenta: " + ex.Message</exception>
-        // Firma corregida (sin saldo):
-        public bool ModificarCatalogoCuenta(string cod_cuenta_original, string cod_cuenta_nuevo, int id_cuenta, string nombre, string detalle)
+        public bool AgregarCatalogoCuenta(string codigo, string nombre, int id_padre,
+                                          string detalle, bool es_detalle = true)
         {
             try
             {
                 conexion.Abrir();
+                SqlCommand cmd = new SqlCommand("sp_AgregarCatalogoCuenta", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@codigo", codigo);
+                cmd.Parameters.AddWithValue("@nombre", nombre);
+                cmd.Parameters.AddWithValue("@id_padre", id_padre);
+                cmd.Parameters.AddWithValue("@detalle", string.IsNullOrWhiteSpace(detalle)
+                                                           ? (object)DBNull.Value : detalle);
+                cmd.Parameters.AddWithValue("@es_detalle", es_detalle ? 1 : 0);
+                cmd.Parameters.AddWithValue("@activa", 1);
 
+                // ExecuteScalar para obtener el nuevo id
+                var resultado = cmd.ExecuteScalar();
+                return resultado != null && resultado != DBNull.Value;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar cuenta: " + ex.Message, ex);
+            }
+            finally { conexion.Cerrar(); }
+        }
+
+        public bool ModificarCatalogoCuenta(int id_cuenta, string codigo, string nombre,
+                                            int id_padre, string detalle)
+        {
+            try
+            {
+                conexion.Abrir();
                 SqlCommand cmd = new SqlCommand("sp_ModificarCatalogoCuenta", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@codCuentaOriginal", cod_cuenta_original);
-                cmd.Parameters.AddWithValue("@codCuentaNuevo", cod_cuenta_nuevo);
-                cmd.Parameters.AddWithValue("@idCuenta", id_cuenta);  // ✅ int
+                cmd.Parameters.AddWithValue("@id_cuenta", id_cuenta);
+                cmd.Parameters.AddWithValue("@codigo", codigo);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
-
-                if (!string.IsNullOrWhiteSpace(detalle))
-                    cmd.Parameters.AddWithValue("@detalle", detalle);
-                else
-                    cmd.Parameters.AddWithValue("@detalle", DBNull.Value);
-
+                cmd.Parameters.AddWithValue("@id_padre", id_padre);
+                cmd.Parameters.AddWithValue("@detalle", string.IsNullOrWhiteSpace(detalle)
+                                                          ? (object)DBNull.Value : detalle);
                 int resultado = cmd.ExecuteNonQuery();
                 return resultado > 0;
             }
@@ -149,160 +147,67 @@ namespace Capa_de_acceso_de_datos
             {
                 throw new Exception("Error al modificar cuenta: " + ex.Message, ex);
             }
-            finally
-            {
-                conexion.Cerrar();
-            }
+            finally { conexion.Cerrar(); }
         }
 
-
-        public DataTable ObtenerTipoPorCuenta(int id_cuenta)
+        public bool CambiarEstadoCuenta(int id_cuenta, bool activa)
         {
             try
             {
                 conexion.Abrir();
-
-                SqlCommand cmd = new SqlCommand("SELECT cod_tipo FROM dbo.cuentas WHERE id_cuenta = @idCuenta", conexion.sc);
-                cmd.Parameters.AddWithValue("@idCuenta", id_cuenta);
-
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                return dt;
+                SqlCommand cmd = new SqlCommand("sp_CambiarEstadoCuenta", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_cuenta", id_cuenta);
+                cmd.Parameters.AddWithValue("@activa", activa ? 1 : 0);
+                int resultado = cmd.ExecuteNonQuery();
+                return resultado > 0;
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener tipo de cuenta: " + ex.Message, ex);
+                throw new Exception("Error al cambiar estado: " + ex.Message, ex);
             }
-            finally
-            {
-                conexion.Cerrar();
-            }
+            finally { conexion.Cerrar(); }
         }
 
-
-        /// <summary>
-        /// Catalogoes the cuenta existe.
-        /// </summary>
-        /// <param name="nombre_cuenta">The nombre cuenta.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al validar cuenta: " + ex.Message</exception>
-        public bool CatalogoCuentaExiste(string nombre_cuenta)
+        public bool CatalogoCuentaExiste(string nombre)
         {
             try
             {
                 conexion.Abrir();
-
                 SqlCommand cmd = new SqlCommand("sp_CatalogoCuentaExiste", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@nombreCuenta", nombre_cuenta);
-
-                SqlParameter existe = new SqlParameter("@existe", SqlDbType.Bit);
-                existe.Direction = ParameterDirection.Output;
+                cmd.Parameters.AddWithValue("@nombre", nombre);
+                SqlParameter existe = new SqlParameter("@existe", SqlDbType.Bit)
+                {
+                    Direction = ParameterDirection.Output
+                };
                 cmd.Parameters.Add(existe);
-
                 cmd.ExecuteNonQuery();
-
                 return Convert.ToBoolean(existe.Value);
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al validar cuenta: " + ex.Message, ex);
             }
-            finally
-            {
-                conexion.Cerrar();
-            }
+            finally { conexion.Cerrar(); }
         }
 
-        /// <summary>
-        /// Obteners the proximo codigo.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener próximo código: " + ex.Message</exception>
-        public int ObtenerProximoCodigo()
+        public string ObtenerProximoCodigo(int id_padre)
         {
             try
             {
                 conexion.Abrir();
-
                 SqlCommand cmd = new SqlCommand("sp_ObtenerProximoCodigoCatalogo", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
-
-                int proximo_codigo = (int)cmd.ExecuteScalar();
-                return proximo_codigo;
+                cmd.Parameters.AddWithValue("@id_padre", id_padre);
+                var resultado = cmd.ExecuteScalar();
+                return resultado?.ToString() ?? "";
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al obtener próximo código: " + ex.Message, ex);
             }
-            finally
-            {
-                conexion.Cerrar();
-            }
+            finally { conexion.Cerrar(); }
         }
-
-        /// <summary>
-        /// Obteners the cuentas.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener cuentas: " + ex.Message</exception>
-        public DataTable ObtenerCuentas()
-        {
-            try
-            {
-                conexion.Abrir();
-
-                SqlCommand cmd = new SqlCommand("sp_ObtenerCuentas", conexion.sc);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                return dt;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener cuentas: " + ex.Message, ex);
-            }
-            finally
-            {
-                conexion.Cerrar();
-            }
-        }
-
-        /// <summary>
-        /// Obteners the tipo transaccion.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener cuentas: " + ex.Message</exception>
-        public DataTable ObtenerTipoTransaccion()
-        {
-            try
-            {
-                conexion.Abrir();
-
-                SqlCommand cmd = new SqlCommand("sp_ObtenerTiposTransaccion", conexion.sc);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                return dt;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener cuentas: " + ex.Message, ex);
-            }
-            finally
-            {
-                conexion.Cerrar();
-            }
-        }
-
-
     }
 }
