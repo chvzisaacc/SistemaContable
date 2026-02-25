@@ -21,53 +21,7 @@ namespace Capa_de_acceso_de_datos
             conexion = new Clsconexion();
         }
 
-        /// <summary>
-        /// Agregars the catalogo cuenta.
-        /// </summary>
-        /// <param name="id_cuenta">The identifier cuenta.</param>
-        /// <param name="nombre">The nombre.</param>
-        /// <param name="detalle">The detalle.</param>
-        /// <param name="saldo">The saldo.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al agregar cuenta al catálogo: " + ex.Message</exception>
-        // CAMBIAR TODO EL CONTENIDO DEL MÉTODO:
-        public bool AgregarCatalogoCuenta(string codigo_cuenta, int id_cuenta, string nombre, String detalle, decimal? saldo, int id_estado)
-        {
-            try
-            {
-                conexion.Abrir();
-
-                SqlCommand cmd = new SqlCommand("sp_AgregarCatalogoCuenta", conexion.sc);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@codigoCuenta", codigo_cuenta);
-                cmd.Parameters.AddWithValue("@idCuenta", id_cuenta);
-                cmd.Parameters.AddWithValue("@nombre", nombre);
-
-                if (!string.IsNullOrWhiteSpace(detalle))
-                    cmd.Parameters.AddWithValue("@detalle", detalle);
-                else
-                    cmd.Parameters.AddWithValue("@detalle", DBNull.Value);
-
-                if (saldo.HasValue)
-                    cmd.Parameters.AddWithValue("@saldo", saldo.Value);
-                else
-                    cmd.Parameters.AddWithValue("@saldo", DBNull.Value);
-
-                cmd.Parameters.AddWithValue("@idEstado", id_estado);
-
-                int resultado = cmd.ExecuteNonQuery();
-                return resultado > 0;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al agregar cuenta al catálogo: " + ex.Message, ex);
-            }
-            finally
-            {
-                conexion.Cerrar();
-            }
-        }
+        
 
         /// <summary>
         /// Obteners the catalogo cuentas.
