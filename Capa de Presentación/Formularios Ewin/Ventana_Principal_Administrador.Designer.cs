@@ -253,6 +253,7 @@
             cmbEstadoCuenta.Name = "cmbEstadoCuenta";
             cmbEstadoCuenta.Size = new Size(270, 25);
             cmbEstadoCuenta.TabIndex = 51;
+            cmbEstadoCuenta.SelectedIndexChanged += cmbEstadoCuenta_SelectedIndexChanged;
             // 
             // label14
             // 

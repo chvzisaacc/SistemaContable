@@ -269,7 +269,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmb.DataSource = null;
             cmb.Items.Clear();
             cmb.Enabled = false;
-            txtIdCuenta.Clear();
+            //txtIdCuenta.Clear();
         }
 
         private int ObtenerIdPadreSeleccionado()
@@ -358,7 +358,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                cmbEstadoCuenta.DataSource = crud_usuarios.ObtenerEstados();
+                cmbEstadoCuenta.DataSource = crud_catalogo_cuentas.ObtenerEstados();
                 cmbEstadoCuenta.DisplayMember = "descripcion";
                 cmbEstadoCuenta.ValueMember = "Id_estado_cuenta";
             }
@@ -615,6 +615,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 string nombre = txtNombreCuenta.Text.Trim();
                 string detalle = txtDetalle.Text.Trim();
                 int id_padre = ObtenerIdPadreSeleccionado();
+                int id_estado = Convert.ToInt32(cmbEstadoCuenta.SelectedValue);
 
                 if (id_padre <= 0)
                 {
@@ -625,7 +626,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                 if (modo_edicion_catalogo)
                 {
-                    // MODIFICAR
                     bool resultado = crud_catalogo_cuentas.ModificarCatalogoCuenta(
                         id_cuenta_seleccionada, codigo, nombre, id_padre, detalle);
 
@@ -633,11 +633,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     {
                         MessageBox.Show("Cuenta modificada exitosamente.", "Éxito",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                         try
                         {
-                            crud_historial.RegistrarActividad(
-                                UsuarioLogueado.usuario_id, 8,
+                            crud_historial.RegistrarActividad(UsuarioLogueado.usuario_id, 8,
                                 "Modificación de Cuenta",
                                 $"Se modificó la cuenta: '{nombre}' (Código: {codigo}).");
                         }
@@ -645,7 +643,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         {
                             Console.WriteLine("Error de Bitácora: " + exBitacora.Message);
                         }
-
                         CargarDatosCatalogoDGV();
                         LimpiarCamposCatalogo();
                         HabilitarControlesCatalogo(false);
@@ -658,7 +655,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 }
                 else
                 {
-                    // AGREGAR
                     if (crud_catalogo_cuentas.CatalogoCuentaExiste(nombre))
                     {
                         MessageBox.Show("El nombre de la cuenta ya existe.", "Advertencia",
@@ -666,18 +662,19 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         return;
                     }
 
+                    // Ahora pasa id_estado
                     bool resultado = crud_catalogo_cuentas.AgregarCatalogoCuenta(
-                        codigo, nombre, id_padre, detalle, es_detalle: true);
+                        codigo, nombre, id_padre, detalle,
+                        es_detalle: true,
+                        id_estado: id_estado);
 
                     if (resultado)
                     {
                         MessageBox.Show($"Cuenta agregada exitosamente (Código: {codigo}).",
                             "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                         try
                         {
-                            crud_historial.RegistrarActividad(
-                                UsuarioLogueado.usuario_id, 8,
+                            crud_historial.RegistrarActividad(UsuarioLogueado.usuario_id, 8,
                                 "Creación de Cuenta",
                                 $"Se creó la cuenta: '{nombre}' (Código: {codigo}).");
                         }
@@ -685,7 +682,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         {
                             Console.WriteLine("Error de Bitácora: " + exBitacora.Message);
                         }
-
                         CargarDatosCatalogoDGV();
                         LimpiarCamposCatalogo();
                         HabilitarControlesCatalogo(false);
@@ -715,15 +711,20 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 var cuenta = crud_catalogo_cuentas.BuscarCatalogoCuentaPorId(id_cuenta_seleccionada);
                 if (cuenta == null) return;
 
+                cmbNivel1.SelectedIndexChanged -= cmbCuenta_SelectedIndexChanged;
+                cmbNivel2.SelectedIndexChanged -= cmbTipoCuenta_SelectedIndexChanged;
+                cmbNivel3.SelectedIndexChanged -= cmbNivel3_SelectedIndexChanged;
+
                 txtIdCuenta.Text = cuenta["codigo"].ToString();
                 txtNombreCuenta.Text = cuenta["nombre"].ToString();
                 txtDetalle.Text = cuenta["detalle"] != DBNull.Value
-                                     ? cuenta["detalle"].ToString() : "";
+                                       ? cuenta["detalle"].ToString() : "";
 
-                // Reconstruir la cascada según los padres almacenados
-                // El SP devuelve id_padre_nivel1, id_padre_nivel2 para reconstruir la jerarquía
+                // Cargar estado
+                if (cuenta["Id_estado_cuenta"] != DBNull.Value)
+                    cmbEstadoCuenta.SelectedValue = Convert.ToInt32(cuenta["Id_estado_cuenta"]);
 
-                // Nivel 1: padre del padre del padre
+                // Reconstruir cascada
                 int idNivel1 = cuenta["id_padre_nivel0"] != DBNull.Value
                                ? Convert.ToInt32(cuenta["id_padre_nivel0"]) : 0;
                 int idNivel2 = cuenta["id_padre_nivel1"] != DBNull.Value
@@ -731,7 +732,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 int idNivel3 = cuenta["id_padre"] != DBNull.Value
                                ? Convert.ToInt32(cuenta["id_padre"]) : 0;
 
-                // Seleccionar en cascada
                 if (idNivel1 > 0)
                 {
                     cmbNivel1.SelectedValue = idNivel1;
@@ -744,13 +744,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 }
                 if (idNivel3 > 0)
                     cmbNivel3.SelectedValue = idNivel3;
+
+                // Restaurar eventos
+                cmbNivel1.SelectedIndexChanged += cmbCuenta_SelectedIndexChanged;
+                cmbNivel2.SelectedIndexChanged += cmbTipoCuenta_SelectedIndexChanged;
+                cmbNivel3.SelectedIndexChanged += cmbNivel3_SelectedIndexChanged;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar cuenta: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         /// <summary>
@@ -1093,7 +1097,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 foreach (string col in ocultar)
                     if (dgvCatalogoCuentas.Columns[col] != null)
                         dgvCatalogoCuentas.Columns[col].Visible = false;
-                
+
                 /*
                 // Anchos
                 if (dgvCatalogoCuentas.Columns["Codigo"] != null)
@@ -1192,6 +1196,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             txtIdCuenta.Enabled = habilitar;
             txtNombreCuenta.Enabled = habilitar;
             txtDetalle.Enabled = habilitar;
+            cmbEstadoCuenta.Enabled = habilitar;
             cmbNivel1.Enabled = habilitar;
             cmbNivel2.Enabled = false;
             cmbNivel3.Enabled = false;
@@ -1359,13 +1364,22 @@ namespace Capa_de_Presentación.Formularios_Ewin
             try
             {
                 int id = Convert.ToInt32(dgvCatalogoCuentas.CurrentRow.Cells["id_cuenta"].Value);
+
+                /*
+                MessageBox.Show($"id_cuenta leído: {id}\n" +
+                $"Columna existe: {dgvCatalogoCuentas.Columns["id_cuenta"] != null}\n" +
+                $"Valor raw: {dgvCatalogoCuentas.CurrentRow.Cells["id_cuenta"].Value}",
+                "Debug");
+                */
+
                 string codigo = dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value?.ToString() ?? "";
 
-                if (crud_catalogo_cuentas.CambiarEstadoCuenta(id, activa: true))
+                // 1 = Habilitada
+                if (crud_catalogo_cuentas.CambiarEstadoCuenta(id, id_estado: 1))
                 {
+                    dgvCatalogoCuentas.Refresh();
                     MessageBox.Show("Cuenta habilitada exitosamente.", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                     try
                     {
                         crud_historial.RegistrarActividad(UsuarioLogueado.usuario_id, 8,
@@ -1376,10 +1390,16 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     {
                         Console.WriteLine("Error de Bitácora: " + exBitacora.Message);
                     }
-
                     CargarDatosCatalogoDGV();
                     LimpiarCamposCatalogo();
                 }
+                /*
+                else
+                {
+                    MessageBox.Show("El SP no actualizó ninguna fila. id_cuenta: " + id,
+                        "Debug", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                */
             }
             catch (Exception ex)
             {
@@ -1397,6 +1417,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             if (dgvCatalogoCuentas.CurrentRow == null)
             {
+
                 MessageBox.Show("Seleccione una cuenta para inhabilitar.", "Advertencia",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -1407,11 +1428,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 int id = Convert.ToInt32(dgvCatalogoCuentas.CurrentRow.Cells["id_cuenta"].Value);
                 string codigo = dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value?.ToString() ?? "";
 
-                if (crud_catalogo_cuentas.CambiarEstadoCuenta(id, activa: false))
+                // 2 = Inhabilitada
+                if (crud_catalogo_cuentas.CambiarEstadoCuenta(id, id_estado: 2))
                 {
+                    CargarDatosCatalogoDGV();
+                    dgvCatalogoCuentas.Refresh(); // ← agregar esto
+                    LimpiarCamposCatalogo();
                     MessageBox.Show("Cuenta inhabilitada exitosamente.", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                     try
                     {
                         crud_historial.RegistrarActividad(UsuarioLogueado.usuario_id, 8,
@@ -1422,7 +1446,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     {
                         Console.WriteLine("Error de Bitácora: " + exBitacora.Message);
                     }
-
                     CargarDatosCatalogoDGV();
                     LimpiarCamposCatalogo();
                 }
@@ -1505,7 +1528,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return;
             }
 
-            // id_cuenta ahora es INT
             id_cuenta_seleccionada = Convert.ToInt32(
                 dgvCatalogoCuentas.CurrentRow.Cells["id_cuenta"].Value);
 
@@ -1545,6 +1567,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
             if (id <= 0) return;
 
             SugerirCodigo(id);
+        }
+
+        private void cmbEstadoCuenta_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

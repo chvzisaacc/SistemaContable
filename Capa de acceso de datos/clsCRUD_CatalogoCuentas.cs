@@ -100,7 +100,8 @@ namespace Capa_de_acceso_de_datos
         }
 
         public bool AgregarCatalogoCuenta(string codigo, string nombre, int id_padre,
-                                          string detalle, bool es_detalle = true)
+                                  string detalle, bool es_detalle = true,
+                                  int id_estado = 1)
         {
             try
             {
@@ -111,11 +112,10 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@nombre", nombre);
                 cmd.Parameters.AddWithValue("@id_padre", id_padre);
                 cmd.Parameters.AddWithValue("@detalle", string.IsNullOrWhiteSpace(detalle)
-                                                           ? (object)DBNull.Value : detalle);
+                                                                 ? (object)DBNull.Value : detalle);
                 cmd.Parameters.AddWithValue("@es_detalle", es_detalle ? 1 : 0);
-                cmd.Parameters.AddWithValue("@activa", 1);
+                cmd.Parameters.AddWithValue("@Id_estado_cuenta", id_estado);
 
-                // ExecuteScalar para obtener el nuevo id
                 var resultado = cmd.ExecuteScalar();
                 return resultado != null && resultado != DBNull.Value;
             }
@@ -141,7 +141,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@detalle", string.IsNullOrWhiteSpace(detalle)
                                                           ? (object)DBNull.Value : detalle);
                 int resultado = cmd.ExecuteNonQuery();
-                return resultado > 0;
+                return resultado >= 0;
             }
             catch (Exception ex)
             {
@@ -150,7 +150,7 @@ namespace Capa_de_acceso_de_datos
             finally { conexion.Cerrar(); }
         }
 
-        public bool CambiarEstadoCuenta(int id_cuenta, bool activa)
+        public bool CambiarEstadoCuenta(int id_cuenta, int id_estado)
         {
             try
             {
@@ -158,9 +158,13 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_CambiarEstadoCuenta", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id_cuenta", id_cuenta);
-                cmd.Parameters.AddWithValue("@activa", activa ? 1 : 0);
+                cmd.Parameters.AddWithValue("@Id_estado_cuenta", id_estado);
                 int resultado = cmd.ExecuteNonQuery();
-                return resultado > 0;
+
+                // TEMPORAL: ver qué devuelve exactamente
+                //MessageBox.Show("ExecuteNonQuery devolvió: " + resultado);
+
+                return resultado >= 0; // ← cambiar > 0 por >= 0 temporalmente
             }
             catch (Exception ex)
             {
@@ -168,6 +172,26 @@ namespace Capa_de_acceso_de_datos
             }
             finally { conexion.Cerrar(); }
         }
+
+        public DataTable ObtenerEstados()
+        {
+            try
+            {
+                conexion.Abrir();
+                SqlCommand cmd = new SqlCommand(
+                    "sp_ObtenerEstadosCuenta", conexion.sc);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener estados: " + ex.Message, ex);
+            }
+            finally { conexion.Cerrar(); }
+        }
+
 
         public bool CatalogoCuentaExiste(string nombre)
         {
