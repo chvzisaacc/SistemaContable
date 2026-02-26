@@ -95,7 +95,7 @@ namespace Capa_de_procesamiento_de_datos
                 string cuentaNorm = NormalizarTexto(cuentaBD);
 
                 if (cuentaNorm == bdNorm)
-                    total += Convert.ToDecimal(row["Monto"]); // <- asegurate que el SP lo llame Monto
+                    total += Convert.ToDecimal(row["Monto"]); 
             }
 
             return total;
@@ -185,9 +185,11 @@ namespace Capa_de_procesamiento_de_datos
         ("Colectas ordinarias", "Colectas ordinarias"),
         ("Permisos, Certificaciones", "Permisos, Certificaciones"),
         ("Profesorados, capellanias", "Profesorados, capellanias"),
-        ("Otros (explicar)Tienda Parroquial", "Otros (explicar)Tienda Parroquial"),
-        ("Otros", "Otros")
+        ("Otros (explicar)Tienda Parroquial", "TIENDA PARROQUIAL"),
+        ("Otros", "OTROS INGRESOS")
             };
+
+            var cuentasNoFormateadas = ObtenerCuentasConValores(dtEntradas);
 
             var filasSalidas = new (string Etiqueta, string Cuenta)[]
             {
@@ -290,8 +292,13 @@ namespace Capa_de_procesamiento_de_datos
                                 {
                                     var f = filasEntradas[i];
                                     decimal monto = ObtenerMontoPorCuenta(dtEntradas, f.Cuenta);
-                                    Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                    Celda(monto == 0 ? "" : monto.ToString("N2"), false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                    if (monto > 0)
+                                    {
+                                        Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                        // Se agrega "Lps" antes del monto
+                                        Celda(monto == 0 ? "" : $"Lps {monto:N2}", false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                    }
+
                                 }
                                 else
                                 {
@@ -303,64 +310,81 @@ namespace Capa_de_procesamiento_de_datos
                                 {
                                     var f = filasSalidas[i];
                                     decimal monto = ObtenerMontoPorCuenta(dtSalidas, f.Cuenta);
-                                    Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                    Celda(monto == 0 ? "" : monto.ToString("N2"), false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                    if (monto > 0)
+                                    {
+                                        Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                        // Se agrega "Lps" antes del monto
+                                        Celda(monto == 0 ? "" : $"Lps {monto:N2}", false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                    }
+
+                                    else
+                                    {
+                                        Celda("", false);
+                                        Celda("", false);
+                                    }
+
                                 }
-                                else
+
+                                // fila subtotal / 12%
+                                Celda("SUBTOTAL=", true, "#D4AF37");
+                                Celda(subtotalEntradas == 0 ? "" : $"Lps {subtotalEntradas:N2}", true, "#D4AF37");
+                                Celda("X 12%", true, "#D4AF37");
+                                Celda(docePorciento == 0 ? "" : $"Lps {docePorciento:N2}", true, "#D4AF37");
+
+
+
+                                // fila título sección curia arzobispal
+                                Celda("", false);
+                                Celda("", false);
+                                Celda("A LA CURIA ARZOBISPAL", true, "#D4AF37");
+                                Celda(totalALaCuria == 0 ? "" : $"Lps {totalALaCuria:N2}", true, "#D4AF37");
+
+                                int max2 = Math.Max(filasColectas.Length, filasSalidas2.Length);
+                                for (int j = 0; i < max2; i++)
                                 {
-                                    Celda("", false);
-                                    Celda("", false);
+                                    if (i < filasColectas.Length)
+                                    {
+                                        var f = filasColectas[i];
+                                        decimal monto = ObtenerMontoPorCuenta(dtEntradas, f.Cuenta);
+                                        if (monto < 0)
+                                        {
+                                            Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                            // Agrega "Lps" antes del monto
+                                            Celda(monto == 0 ? "" : $"Lps {monto:N2}", false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        Celda("", false);
+                                        Celda("", false);
+                                    }
+
+                                    if (i < filasSalidas2.Length)
+                                    {
+                                        var f = filasSalidas2[i];
+                                        decimal monto = ObtenerMontoPorCuenta(dtSalidas, f.Cuenta);
+                                        if (monto < 0)
+                                        {
+                                            Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                            // Agrega "Lps" antes del monto
+                                            Celda(monto == 0 ? "" : $"Lps {monto:N2}", false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        Celda("", false);
+                                        Celda("", false);
+                                    }
                                 }
+
+                                // fila total final
+                                Celda("TOTAL ENTRADAS =", true, "#D4AF37");
+                                Celda(totalEntradas == 0 ? "" : $"Lps {totalEntradas:N2}", true, "#D4AF37");
+                                Celda("TOTAL SALIDAS =", true, "#D4AF37");
+                                Celda(totalSalidas == 0 ? "" : $"Lps {totalSalidas:N2}", true, "#D4AF37");
                             }
-
-                            // fila subtotal / 12%
-                            Celda("SUBTOTAL=", true, "#D4AF37");
-                            Celda(subtotalEntradas == 0 ? "" : subtotalEntradas.ToString("N2"), true, "#D4AF37");
-                            Celda("X 12%", true, "#D4AF37");
-                            Celda(docePorciento == 0 ? "" : docePorciento.ToString("N2"), true, "#D4AF37");
-
-                            // fila título sección curia arzobispal
-                            Celda("", false);
-                            Celda("", false);
-                            Celda("A LA CURIA ARZOBISPAL", true, "#D4AF37");
-                            Celda(totalALaCuria.ToString("N2"), true, "#D4AF37");
-
-                            int max2 = Math.Max(filasColectas.Length, filasSalidas2.Length);
-
-                            for (int i = 0; i < max2; i++)
-                            {
-                                if (i < filasColectas.Length)
-                                {
-                                    var f = filasColectas[i];
-                                    decimal monto = ObtenerMontoPorCuenta(dtEntradas, f.Cuenta);
-                                    Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                    Celda(monto == 0 ? "" : monto.ToString("N2"), false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                }
-                                else
-                                {
-                                    Celda("", false);
-                                    Celda("", false);
-                                }
-
-                                if (i < filasSalidas2.Length)
-                                {
-                                    var f = filasSalidas2[i];
-                                    decimal monto = ObtenerMontoPorCuenta(dtSalidas, f.Cuenta);
-                                    Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                    Celda(monto == 0 ? "" : monto.ToString("N2"), false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                }
-                                else
-                                {
-                                    Celda("", false);
-                                    Celda("", false);
-                                }
-                            }
-
-                            // fila total final
-                            Celda("TOTAL ENTRADAS =", true, "#D4AF37");
-                            Celda(totalEntradas == 0 ? "" : totalEntradas.ToString("N2"), true, "#D4AF37");
-                            Celda("TOTAL SALIDAS =", true, "#D4AF37");
-                            Celda(totalSalidas == 0 ? "" : totalSalidas.ToString("N2"), true, "#D4AF37");
                         });
 
                       
@@ -382,9 +406,9 @@ namespace Capa_de_procesamiento_de_datos
                                     .Text(valor).FontSize(9);
                             }
 
-                            Celda2("Total entradas del mes", totalEntradas.ToString("N2"));
-                            Celda2("Total salidas del mes", totalSalidas.ToString("N2"));
-                            Celda2("Ganancias (+) o perdidas (-) del mes", gananciaMes.ToString("N2"));
+                            Celda2("Total entradas del mes", totalEntradas == 0 ? "" : $"Lps {totalEntradas:N2}");
+                            Celda2("Total salidas del mes", totalSalidas == 0 ? "" : $"Lps {totalSalidas:N2}");
+                            Celda2("Ganancias (+) o perdidas (-) del mes", gananciaMes == 0 ? "" : $"Lps {gananciaMes:N2}");
                         });
 
                         col.Item().Text("");
@@ -447,6 +471,26 @@ namespace Capa_de_procesamiento_de_datos
             });
 
             return document.GeneratePdf();
+        }
+
+
+        private (string Etiqueta, string Cuenta)[] ObtenerCuentasConValores(DataTable tabla)
+        {
+            var cuentas = new List<(string Etiqueta, string Cuenta)>();
+
+            foreach (DataRow row in tabla.Rows)
+            {
+                string cuenta = row["NombreCuenta"]?.ToString() ?? "";
+                decimal monto = Convert.ToDecimal(row["Monto"]);
+
+                // Si el monto es mayor a 0, la agregamos como "Otros (Cuenta)"
+                if (monto > 0)
+                {
+                    cuentas.Add(("Otros (" + cuenta + ")", cuenta)); // Se agrega "Otros (Cuenta)"
+                }
+            }
+
+            return cuentas.ToArray();
         }
 
 
