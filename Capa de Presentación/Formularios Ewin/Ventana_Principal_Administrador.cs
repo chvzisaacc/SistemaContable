@@ -47,10 +47,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// The modo edicion catalogo
         /// </summary>
         private bool modo_edicion_catalogo = false;
-        /// <summary>
-        /// The codigo cuenta seleccionado
-        /// </summary>
-        private String codigo_cuenta_seleccionado = "";
+
+        private int id_cuenta_seleccionada = 0;
+
         //BITACORA
         /// <summary>
         /// The crud historial
@@ -158,19 +157,159 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             //catalogo
             CargarDatosCatalogoDGV();
-            CargarComboBoxTipoTransaccion();
             LimpiarCamposCatalogo();
             CargarComboBoxEstadoCuenta();
             HabilitarControlesCatalogo(false);
-            CargarComboBoxCuentas();
 
-            
+
         }
-       
-        //usuarios
-        /// <summary>
-        /// Cargars the datos usuario DGV.
-        /// </summary>
+
+
+        private void CargarNivel1()
+        {
+            try
+            {
+                DataTable dt = crud_catalogo_cuentas.ObtenerNivel1();
+
+                // Agregar fila vacía al inicio para que no haya selección por defecto
+                DataRow fila = dt.NewRow();
+                fila["id_cuenta"] = DBNull.Value;
+                fila["codigo"] = "";
+                fila["nombre"] = "-- Seleccione --";
+                dt.Rows.InsertAt(fila, 0);
+
+                cmbNivel1.DataSource = dt;
+                cmbNivel1.DisplayMember = "nombre";
+                cmbNivel1.ValueMember = "id_cuenta";
+                cmbNivel1.SelectedIndex = 0;
+
+                // Limpiar y deshabilitar niveles inferiores
+                LimpiarComboBox(cmbNivel2);
+                LimpiarComboBox(cmbNivel3);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar nivel 1: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarNivel2(int id_padre)
+        {
+            try
+            {
+                DataTable dt = crud_catalogo_cuentas.ObtenerHijosPorPadre(id_padre);
+
+                LimpiarComboBox(cmbNivel2);
+                LimpiarComboBox(cmbNivel3);
+
+                if (dt.Rows.Count == 0)
+                {
+                    // El nivel 1 seleccionado no tiene hijos agrupadoras
+                    // → el padre de la nueva cuenta es el nivel 1
+                    SugerirCodigo(id_padre);
+                    return;
+                }
+
+                DataRow fila = dt.NewRow();
+                fila["id_cuenta"] = DBNull.Value;
+                fila["codigo"] = "";
+                fila["nombre"] = "-- Seleccione --";
+                dt.Rows.InsertAt(fila, 0);
+
+                cmbNivel2.DataSource = dt;
+                cmbNivel2.DisplayMember = "nombre";
+                cmbNivel2.ValueMember = "id_cuenta";
+                cmbNivel2.SelectedIndex = 0;
+                cmbNivel2.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar nivel 2: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarNivel3(int id_padre)
+        {
+            try
+            {
+                DataTable dt = crud_catalogo_cuentas.ObtenerHijosPorPadre(id_padre);
+
+                LimpiarComboBox(cmbNivel3);
+
+                if (dt.Rows.Count == 0)
+                {
+                    // No hay más niveles → el padre es el nivel 2
+                    SugerirCodigo(id_padre);
+                    return;
+                }
+
+                DataRow fila = dt.NewRow();
+                fila["id_cuenta"] = DBNull.Value;
+                fila["codigo"] = "";
+                fila["nombre"] = "-- Seleccione --";
+                dt.Rows.InsertAt(fila, 0);
+
+                cmbNivel3.DataSource = dt;
+                cmbNivel3.DisplayMember = "nombre";
+                cmbNivel3.ValueMember = "id_cuenta";
+                cmbNivel3.SelectedIndex = 0;
+                cmbNivel3.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar nivel 3: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LimpiarComboBox(ComboBox cmb)
+        {
+            cmb.DataSource = null;
+            cmb.Items.Clear();
+            cmb.Enabled = false;
+            txtIdCuenta.Clear();
+        }
+
+        private int ObtenerIdPadreSeleccionado()
+        {
+            // Nivel 3 tiene prioridad si tiene selección válida
+            if (cmbNivel3.Enabled && cmbNivel3.SelectedValue != null
+                && cmbNivel3.SelectedValue != DBNull.Value
+                && (int)cmbNivel3.SelectedValue > 0)
+                return (int)cmbNivel3.SelectedValue;
+
+            // Si no, nivel 2
+            if (cmbNivel2.Enabled && cmbNivel2.SelectedValue != null
+                && cmbNivel2.SelectedValue != DBNull.Value
+                && (int)cmbNivel2.SelectedValue > 0)
+                return (int)cmbNivel2.SelectedValue;
+
+            // Si no, nivel 1
+            if (cmbNivel1.SelectedValue != null
+                && cmbNivel1.SelectedValue != DBNull.Value
+                && (int)cmbNivel1.SelectedValue > 0)
+                return (int)cmbNivel1.SelectedValue;
+
+            return -1;
+        }
+
+        private void SugerirCodigo(int id_padre)
+        {
+            try
+            {
+                if (id_padre <= 0) return;
+                string proximo = crud_catalogo_cuentas.ObtenerProximoCodigo(id_padre);
+                txtIdCuenta.Text = proximo;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al sugerir código: " + ex.Message);
+            }
+        }
+
+
         private void CargarDatosUsuarioDGV()
         {
             try
@@ -468,52 +607,39 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button6_Click(object sender, EventArgs e)
         {
-            CargarDatosCatalogoDGV();
-            ClsValidaciones validaciones = new ClsValidaciones();
-
-            // Validamos el campo "Nombre"
-            if (!validaciones.ValidarEspacios(txtNombreCuenta.Text)) // Se asume que txtNombre es el campo de texto para el nombre
-            {
-                return; // Si no es válido, detiene la ejecución
-            }
-
-            if (!ValidarCamposCatalogo())
-                return;
+            if (!ValidarCamposCatalogo()) return;
 
             try
             {
-                string codigo_cuenta = txtIdCuenta.Text.Trim();
-                int id_cuenta = Convert.ToInt32(cmbCuenta.SelectedValue);
-                string nombre_cuenta = txtNombreCuenta.Text.Trim();
+                string codigo = txtIdCuenta.Text.Trim();
+                string nombre = txtNombreCuenta.Text.Trim();
                 string detalle = txtDetalle.Text.Trim();
-                int id_estado = Convert.ToInt32(cmbEstadoCuenta.SelectedValue);
+                int id_padre = ObtenerIdPadreSeleccionado();
 
+                if (id_padre <= 0)
+                {
+                    MessageBox.Show("Seleccione al menos el tipo de cuenta (Nivel 1).",
+                        "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
                 if (modo_edicion_catalogo)
                 {
-                    // MODIFICAR cuenta existente
+                    // MODIFICAR
                     bool resultado = crud_catalogo_cuentas.ModificarCatalogoCuenta(
-                        codigo_cuenta_seleccionado,  // Código original
-                        codigo_cuenta,                // Código nuevo
-                        id_cuenta,                    // id_cuenta (tipo de cuenta)
-                        nombre_cuenta,
-                        detalle
-                    // ❌ ELIMINAR: null (saldo)
-                    );
+                        id_cuenta_seleccionada, codigo, nombre, id_padre, detalle);
 
                     if (resultado)
                     {
-                        MessageBox.Show("Cuenta modificada exitosamente", "Éxito",
+                        MessageBox.Show("Cuenta modificada exitosamente.", "Éxito",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         try
                         {
                             crud_historial.RegistrarActividad(
-                                1,
-                                8,
+                                UsuarioLogueado.usuario_id, 8,
                                 "Modificación de Cuenta",
-                                $"Se modificó la cuenta: '{nombre_cuenta}' (Código: {codigo_cuenta_seleccionado})."
-                            );
+                                $"Se modificó la cuenta: '{nombre}' (Código: {codigo}).");
                         }
                         catch (Exception exBitacora)
                         {
@@ -526,42 +652,34 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo modificar la cuenta", "Error",
+                        MessageBox.Show("No se pudo modificar la cuenta.", "Error",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
-                    // AGREGAR nueva cuenta
-                    if (crud_catalogo_cuentas.CatalogoCuentaExiste(nombre_cuenta))
+                    // AGREGAR
+                    if (crud_catalogo_cuentas.CatalogoCuentaExiste(nombre))
                     {
-                        MessageBox.Show("El nombre de la cuenta ya existe", "Advertencia",
+                        MessageBox.Show("El nombre de la cuenta ya existe.", "Advertencia",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
                     bool resultado = crud_catalogo_cuentas.AgregarCatalogoCuenta(
-                        codigo_cuenta,
-                        id_cuenta,
-                        nombre_cuenta,
-                        detalle,
-                        null,
-                        id_estado
-                    );
+                        codigo, nombre, id_padre, detalle, es_detalle: true);
 
                     if (resultado)
                     {
-                        MessageBox.Show($"Cuenta agregada exitosamente con código: {codigo_cuenta}",
+                        MessageBox.Show($"Cuenta agregada exitosamente (Código: {codigo}).",
                             "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         try
                         {
                             crud_historial.RegistrarActividad(
-                                1,
-                                8,
+                                UsuarioLogueado.usuario_id, 8,
                                 "Creación de Cuenta",
-                                $"Se creó la nueva cuenta: '{nombre_cuenta}' (Código: {codigo_cuenta})."
-                            );
+                                $"Se creó la cuenta: '{nombre}' (Código: {codigo}).");
                         }
                         catch (Exception exBitacora)
                         {
@@ -574,32 +692,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo agregar la cuenta", "Error",
+                        MessageBox.Show("No se pudo agregar la cuenta.", "Error",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar la cuenta: " + ex.Message + "\n\nDetalle: " + ex.InnerException?.Message,
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        /// <summary>
-        /// Cargars the ComboBox cuentas.
-        /// </summary>
-        private void CargarComboBoxCuentas()
-        {
-            try
-            {
-                cmbCuenta.DataSource = crud_catalogo_cuentas.ObtenerCuentas();
-                cmbCuenta.DisplayMember = "descripcion";
-                cmbCuenta.ValueMember = "id_cuenta";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar cuentas: " + ex.Message, "Error",
+                MessageBox.Show("Error al guardar: " + ex.Message + "\n\nDetalle: "
+                    + ex.InnerException?.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -611,27 +712,45 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                var cuenta = crud_catalogo_cuentas.BuscarCatalogoCuentaPorId(codigo_cuenta_seleccionado);
+                var cuenta = crud_catalogo_cuentas.BuscarCatalogoCuentaPorId(id_cuenta_seleccionada);
+                if (cuenta == null) return;
 
-                dgvCatalogoCuentas.Columns["Codigo"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                dgvCatalogoCuentas.Columns["Codigo"].Width = 20;
+                txtIdCuenta.Text = cuenta["codigo"].ToString();
+                txtNombreCuenta.Text = cuenta["nombre"].ToString();
+                txtDetalle.Text = cuenta["detalle"] != DBNull.Value
+                                     ? cuenta["detalle"].ToString() : "";
 
-                if (cuenta != null)
+                // Reconstruir la cascada según los padres almacenados
+                // El SP devuelve id_padre_nivel1, id_padre_nivel2 para reconstruir la jerarquía
+
+                // Nivel 1: padre del padre del padre
+                int idNivel1 = cuenta["id_padre_nivel0"] != DBNull.Value
+                               ? Convert.ToInt32(cuenta["id_padre_nivel0"]) : 0;
+                int idNivel2 = cuenta["id_padre_nivel1"] != DBNull.Value
+                               ? Convert.ToInt32(cuenta["id_padre_nivel1"]) : 0;
+                int idNivel3 = cuenta["id_padre"] != DBNull.Value
+                               ? Convert.ToInt32(cuenta["id_padre"]) : 0;
+
+                // Seleccionar en cascada
+                if (idNivel1 > 0)
                 {
-                    txtIdCuenta.Text = cuenta["Cod_cuenta"].ToString();
-                    txtNombreCuenta.Text = cuenta["nombre_cuenta"].ToString();
-                    txtDetalle.Text = cuenta["detalle"] != DBNull.Value
-                        ? cuenta["detalle"].ToString()
-                        : "";
-                    cmbCuenta.SelectedValue = cuenta["id_cuenta"];
-                    cmbEstadoCuenta.SelectedValue = cuenta["Id_estado_cuenta"]; // AGREGAR ESTA LÍNEA
+                    cmbNivel1.SelectedValue = idNivel1;
+                    CargarNivel2(idNivel1);
                 }
+                if (idNivel2 > 0)
+                {
+                    cmbNivel2.SelectedValue = idNivel2;
+                    CargarNivel3(idNivel2);
+                }
+                if (idNivel3 > 0)
+                    cmbNivel3.SelectedValue = idNivel3;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar cuenta: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         /// <summary>
@@ -643,8 +762,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             LimpiarCamposCatalogo();
             HabilitarControlesCatalogo(true);
-            modo_edicion_catalogo = false; // Debes agregar esta variable global
-
+            modo_edicion_catalogo = false;
+            id_cuenta_seleccionada = 0;
             txtNombreCuenta.Focus();
         }
 
@@ -959,74 +1078,51 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 dgvCatalogoCuentas.DataSource = crud_catalogo_cuentas.ObtenerCatalogoCuentas();
 
+                /*
+                //ver qué columnas devuelve el SP
+                string columnas = "";
+                foreach (DataGridViewColumn col in dgvCatalogoCuentas.Columns)
+                    columnas += col.Name + "\n";
+                MessageBox.Show(columnas, "Columnas disponibles");
+                */
+
+
+                // Ocultar columnas internas
+                string[] ocultar = { "EstadoID", "EsDetalle", "id_cuenta",
+                             "Naturaleza", "CodigoPadre" };
+                foreach (string col in ocultar)
+                    if (dgvCatalogoCuentas.Columns[col] != null)
+                        dgvCatalogoCuentas.Columns[col].Visible = false;
+                
+                /*
+                // Anchos
                 if (dgvCatalogoCuentas.Columns["Codigo"] != null)
-                {
-                    dgvCatalogoCuentas.Columns["Codigo"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                    dgvCatalogoCuentas.Columns["Codigo"].Width = 80;
-                }
-
-
-                if (dgvCatalogoCuentas.Columns["TipoCuenta"] != null)
-                {
-                    dgvCatalogoCuentas.Columns["TipoCuenta"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                    dgvCatalogoCuentas.Columns["TipoCuenta"].Width = 140;
-                }
-
+                    dgvCatalogoCuentas.Columns["Codigo"].Width = 100;
+                if (dgvCatalogoCuentas.Columns["TipoNaturaleza"] != null)
+                    dgvCatalogoCuentas.Columns["TipoNaturaleza"].Width = 110;
                 if (dgvCatalogoCuentas.Columns["Estado"] != null)
-                {
-                    dgvCatalogoCuentas.Columns["Estado"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                    dgvCatalogoCuentas.Columns["Estado"].Width = 120;
-                }
+                    dgvCatalogoCuentas.Columns["Estado"].Width = 100;
+                if (dgvCatalogoCuentas.Columns["NombrePadre"] != null)
+                    dgvCatalogoCuentas.Columns["NombrePadre"].Width = 180;
+                */
 
-
-                // Ocultar columna EstadoID
-                if (dgvCatalogoCuentas.Columns["EstadoID"] != null)
-                    dgvCatalogoCuentas.Columns["EstadoID"].Visible = false;
-
-                // Formato para saldo
-                if (dgvCatalogoCuentas.Columns["Saldo"] != null)
-                    dgvCatalogoCuentas.Columns["Saldo"].DefaultCellStyle.Format = "N2";
-
-                // Ocultar columna Saldo
-                string nombreColumnaAOcultar = "Saldo";
-                if (dgvCatalogoCuentas.Columns.Contains(nombreColumnaAOcultar))
-                {
-                    dgvCatalogoCuentas.Columns[nombreColumnaAOcultar].Visible = false;
-                }
-
-                //CENTRAR ENCABEZADOS
+                // Centrar encabezados
                 foreach (DataGridViewColumn col in dgvCatalogoCuentas.Columns)
                 {
-                    col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    if (col?.HeaderCell != null)
+                        col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
-
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar datos: " + ex.Message, "Error",
+                MessageBox.Show("Error al cargar catálogo: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
 
 
-        /// <summary>
-        /// Cargars the ComboBox tipo transaccion.
-        /// </summary>
-        private void CargarComboBoxTipoTransaccion()
-        {
-            try
-            {
-                cmbTipoCuenta.DataSource = crud_catalogo_cuentas.ObtenerTipoTransaccion();
-                cmbTipoCuenta.DisplayMember = "descripcion";
-                cmbTipoCuenta.ValueMember = "Cod_tipo";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar tipos de transaccion: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+
 
         /// <summary>
         /// Validars the campos catalogo.
@@ -1036,51 +1132,36 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
 
-            string codigo = txtIdCuenta.Text.Trim();
-            string nombreCuenta = txtNombreCuenta.Text.Trim();
-            string detalle = txtDetalle.Text.Trim();
-
-            // Código: verificamos que venga generado
-            if (string.IsNullOrWhiteSpace(codigo))
+            if (string.IsNullOrWhiteSpace(txtIdCuenta.Text))
             {
-                MessageBox.Show("No se generó el código de la cuenta. Vuelva a intentar.",
-                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione un padre para generar el código.",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
-            // Nombre de cuenta
-            if (string.IsNullOrWhiteSpace(nombreCuenta) || !val.EsTextoValido(nombreCuenta))
+            if (string.IsNullOrWhiteSpace(txtNombreCuenta.Text) ||
+                !val.EsTextoValido(txtNombreCuenta.Text.Trim()))
             {
-                MessageBox.Show("El nombre de la cuenta es requerido y solo puede contener letras y espacios.",
-                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El nombre es requerido y solo puede contener letras y espacios.",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombreCuenta.Focus();
                 return false;
             }
 
-            // Cuenta padre (ComboBox)
-            if (cmbCuenta.SelectedValue == null)
-            {
-                MessageBox.Show("Debe seleccionar una cuenta padre.",
-                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbCuenta.Focus();
-                return false;
-            }
-
-            // Detalle
-            if (string.IsNullOrWhiteSpace(detalle) || !val.EsTextoValido(detalle))
+            if (string.IsNullOrWhiteSpace(txtDetalle.Text) ||
+                !val.EsTextoValido(txtDetalle.Text.Trim()))
             {
                 MessageBox.Show("El detalle es requerido y solo puede contener letras y espacios.",
-                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDetalle.Focus();
                 return false;
             }
 
-            // Tipo de cuenta
-            if (cmbTipoCuenta.SelectedValue == null)
+            if (ObtenerIdPadreSeleccionado() <= 0)
             {
-                MessageBox.Show("Debe seleccionar un tipo de cuenta.",
-                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                cmbTipoCuenta.Focus();
+                MessageBox.Show("Debe seleccionar al menos el tipo de cuenta (Nivel 1).",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbNivel1.Focus();
                 return false;
             }
 
@@ -1096,16 +1177,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             txtNombreCuenta.Clear();
             txtDetalle.Clear();
 
-            if (cmbCuenta.Items.Count > 0)
-                cmbCuenta.SelectedIndex = 0;
+            CargarNivel1();  // Resetea toda la cascada
 
-            if (cmbTipoCuenta.Items.Count > 0)
-                cmbTipoCuenta.SelectedIndex = 0;
-
-            if (cmbEstadoCuenta.Items.Count > 0)
-                cmbEstadoCuenta.SelectedIndex = 0;
-
-            codigo_cuenta_seleccionado = "";
+            id_cuenta_seleccionada = 0;
             modo_edicion_catalogo = false;
         }
 
@@ -1116,11 +1190,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void HabilitarControlesCatalogo(bool habilitar)
         {
             txtIdCuenta.Enabled = habilitar;
-            cmbCuenta.Enabled = habilitar;
             txtNombreCuenta.Enabled = habilitar;
             txtDetalle.Enabled = habilitar;
-            cmbTipoCuenta.Enabled = false;
-            cmbEstadoCuenta.Enabled = habilitar;
+            cmbNivel1.Enabled = habilitar;
+            cmbNivel2.Enabled = false;
+            cmbNivel3.Enabled = false;
             btnGuardarCuenta.Enabled = habilitar;
         }
 
@@ -1277,32 +1351,26 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             if (dgvCatalogoCuentas.CurrentRow == null)
             {
-                MessageBox.Show("Seleccione una cuenta para habilitar", "Advertencia",
+                MessageBox.Show("Seleccione una cuenta para habilitar.", "Advertencia",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             try
             {
+                int id = Convert.ToInt32(dgvCatalogoCuentas.CurrentRow.Cells["id_cuenta"].Value);
                 string codigo = dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value?.ToString() ?? "";
-                int estadoActivo = 1;
 
-                bool resultado = crud_catalogo_cuentas.CambiarEstadoCuenta(codigo, estadoActivo);
-
-
-                if (resultado)
+                if (crud_catalogo_cuentas.CambiarEstadoCuenta(id, activa: true))
                 {
-                    MessageBox.Show("Cuenta habilitada exitosamente", "Éxito",
+                    MessageBox.Show("Cuenta habilitada exitosamente.", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     try
                     {
-                        crud_historial.RegistrarActividad(
-                            UsuarioLogueado.usuario_id,
-                            8,
+                        crud_historial.RegistrarActividad(UsuarioLogueado.usuario_id, 8,
                             "Habilitación de Cuenta",
-                            $"Se habilitó la cuenta con código: {codigo}."
-                        );
+                            $"Se habilitó la cuenta con código: {codigo}.");
                     }
                     catch (Exception exBitacora)
                     {
@@ -1329,31 +1397,26 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             if (dgvCatalogoCuentas.CurrentRow == null)
             {
-                MessageBox.Show("Seleccione una cuenta para inhabilitar", "Advertencia",
+                MessageBox.Show("Seleccione una cuenta para inhabilitar.", "Advertencia",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             try
             {
+                int id = Convert.ToInt32(dgvCatalogoCuentas.CurrentRow.Cells["id_cuenta"].Value);
                 string codigo = dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value?.ToString() ?? "";
-                int estadoInactivo = 2;
 
-                bool resultado = crud_catalogo_cuentas.CambiarEstadoCuenta(codigo, estadoInactivo);
-
-                if (resultado)
+                if (crud_catalogo_cuentas.CambiarEstadoCuenta(id, activa: false))
                 {
-                    MessageBox.Show("Cuenta inhabilitada exitosamente", "Éxito",
+                    MessageBox.Show("Cuenta inhabilitada exitosamente.", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     try
                     {
-                        crud_historial.RegistrarActividad(
-                            UsuarioLogueado.usuario_id,
-                            8,
+                        crud_historial.RegistrarActividad(UsuarioLogueado.usuario_id, 8,
                             "Inhabilitación de Cuenta",
-                            $"Se inhabilitó la cuenta con código: {codigo}."
-                        );
+                            $"Se inhabilitó la cuenta con código: {codigo}.");
                     }
                     catch (Exception exBitacora)
                     {
@@ -1435,16 +1498,16 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void btnModificarCuenta_Click(object sender, EventArgs e)
         {
-            CargarDatosCatalogoDGV();
             if (dgvCatalogoCuentas.CurrentRow == null)
             {
-                MessageBox.Show("Seleccione una cuenta para modificar", "Advertencia",
+                MessageBox.Show("Seleccione una cuenta para modificar.", "Advertencia",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Capturar el ID del usuario seleccionado
-            codigo_cuenta_seleccionado = dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value.ToString();
+            // id_cuenta ahora es INT
+            id_cuenta_seleccionada = Convert.ToInt32(
+                dgvCatalogoCuentas.CurrentRow.Cells["id_cuenta"].Value);
 
             HabilitarControlesCatalogo(true);
             modo_edicion_catalogo = true;
@@ -1454,30 +1517,34 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void cmbCuenta_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbCuenta.SelectedValue != null)
-            {
-                try
-                {
-                    int idCuenta = Convert.ToInt32(cmbCuenta.SelectedValue);
-                    // Obtener el tipo de cuenta asociado
-                    DataTable dtTipo = crud_catalogo_cuentas.ObtenerTipoPorCuenta(idCuenta);
+            if (cmbNivel1.SelectedValue == null || cmbNivel1.SelectedValue == DBNull.Value) return;
+            if (!int.TryParse(cmbNivel1.SelectedValue.ToString(), out int id)) return;
+            if (id <= 0) return;
 
-                    if (dtTipo.Rows.Count > 0)
-                    {
-                        cmbTipoCuenta.SelectedValue = dtTipo.Rows[0]["cod_tipo"];
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error al cargar tipo: " + ex.Message);
-                }
-            }
-
+            CargarNivel2(id);
         }
 
         private void dgv_usuarios_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            
+
+        }
+
+        private void cmbTipoCuenta_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbNivel2.SelectedValue == null || cmbNivel2.SelectedValue == DBNull.Value) return;
+            if (!int.TryParse(cmbNivel2.SelectedValue.ToString(), out int id)) return;
+            if (id <= 0) return;
+
+            CargarNivel3(id);
+        }
+
+        private void cmbNivel3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbNivel3.SelectedValue == null || cmbNivel3.SelectedValue == DBNull.Value) return;
+            if (!int.TryParse(cmbNivel3.SelectedValue.ToString(), out int id)) return;
+            if (id <= 0) return;
+
+            SugerirCodigo(id);
         }
     }
 }
