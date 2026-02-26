@@ -316,13 +316,11 @@ namespace Capa_de_procesamiento_de_datos
                                         // Se agrega "Lps" antes del monto
                                         Celda(monto == 0 ? "" : $"Lps {monto:N2}", false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
                                     }
-
                                     else
                                     {
                                         Celda("", false);
                                         Celda("", false);
                                     }
-
                                 }
 
                                 // fila subtotal / 12%
@@ -330,8 +328,6 @@ namespace Capa_de_procesamiento_de_datos
                                 Celda(subtotalEntradas == 0 ? "" : $"Lps {subtotalEntradas:N2}", true, "#D4AF37");
                                 Celda("X 12%", true, "#D4AF37");
                                 Celda(docePorciento == 0 ? "" : $"Lps {docePorciento:N2}", true, "#D4AF37");
-
-
 
                                 // fila título sección curia arzobispal
                                 Celda("", false);
@@ -352,7 +348,6 @@ namespace Capa_de_procesamiento_de_datos
                                             // Agrega "Lps" antes del monto
                                             Celda(monto == 0 ? "" : $"Lps {monto:N2}", false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
                                         }
-
                                     }
                                     else
                                     {
@@ -370,7 +365,6 @@ namespace Capa_de_procesamiento_de_datos
                                             // Agrega "Lps" antes del monto
                                             Celda(monto == 0 ? "" : $"Lps {monto:N2}", false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
                                         }
-
                                     }
                                     else
                                     {
