@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ventana_Principal_Administrador));
             panel1 = new Panel();
             btn_catalago_cuenta = new Button();
@@ -160,8 +160,8 @@
             // 
             // panelContenedor
             // 
-            panelContenedor.Controls.Add(panelCatalogoCuentas);
             panelContenedor.Controls.Add(panelUsuario);
+            panelContenedor.Controls.Add(panelCatalogoCuentas);
             panelContenedor.Location = new Point(3, 178);
             panelContenedor.Margin = new Padding(3, 4, 3, 4);
             panelContenedor.Name = "panelContenedor";
@@ -171,6 +171,7 @@
             // panelCatalogoCuentas
             // 
             panelCatalogoCuentas.BackColor = Color.White;
+            panelCatalogoCuentas.Controls.Add(dgvCatalogoCuentas);
             panelCatalogoCuentas.Controls.Add(label21);
             panelCatalogoCuentas.Controls.Add(cmbNivel3);
             panelCatalogoCuentas.Controls.Add(btnModificarCuenta);
@@ -192,7 +193,6 @@
             panelCatalogoCuentas.Controls.Add(txtNombreCuenta);
             panelCatalogoCuentas.Controls.Add(label16);
             panelCatalogoCuentas.Controls.Add(label17);
-            panelCatalogoCuentas.Controls.Add(dgvCatalogoCuentas);
             panelCatalogoCuentas.Dock = DockStyle.Fill;
             panelCatalogoCuentas.Location = new Point(0, 0);
             panelCatalogoCuentas.Margin = new Padding(3, 2, 3, 2);
@@ -478,14 +478,14 @@
             dgvCatalogoCuentas.BackgroundColor = SystemColors.Window;
             dgvCatalogoCuentas.BorderStyle = BorderStyle.None;
             dgvCatalogoCuentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvCatalogoCuentas.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvCatalogoCuentas.DefaultCellStyle = dataGridViewCellStyle2;
             dgvCatalogoCuentas.Location = new Point(7, 126);
             dgvCatalogoCuentas.Margin = new Padding(3, 2, 3, 2);
             dgvCatalogoCuentas.Name = "dgvCatalogoCuentas";
@@ -728,14 +728,14 @@
             dgv_usuarios.BackgroundColor = SystemColors.Window;
             dgv_usuarios.BorderStyle = BorderStyle.None;
             dgv_usuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgv_usuarios.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Window;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgv_usuarios.DefaultCellStyle = dataGridViewCellStyle1;
             dgv_usuarios.Location = new Point(233, 78);
             dgv_usuarios.Margin = new Padding(3, 2, 3, 2);
             dgv_usuarios.Name = "dgv_usuarios";
@@ -858,7 +858,7 @@
             txt_correo.Font = new Font("Segoe UI", 9F);
             txt_correo.Location = new Point(82, 206);
             txt_correo.Margin = new Padding(3, 2, 3, 2);
-            txt_correo.MaxLength = 25;
+            txt_correo.MaxLength = 50;
             txt_correo.Name = "txt_correo";
             txt_correo.Size = new Size(134, 20);
             txt_correo.TabIndex = 25;
