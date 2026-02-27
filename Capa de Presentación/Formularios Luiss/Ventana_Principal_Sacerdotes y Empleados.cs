@@ -830,6 +830,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtDatosIngresos.Columns.Add("Saldo", typeof(string));
             dtDatosIngresos.Columns.Add("fecha_transaccion", typeof(DateTime));
             dtDatosIngresos.Columns.Add("NoReferencia", typeof(int));
+
             dataGridView1.DataSource = dtDatosIngresos;
 
             dataGridView1.AutoGenerateColumns = false;
