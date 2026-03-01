@@ -404,7 +404,6 @@ namespace Capa_de_procesamiento_de_datos
                     });
                 });
             });
-
             return document.GeneratePdf();
         }
     }
