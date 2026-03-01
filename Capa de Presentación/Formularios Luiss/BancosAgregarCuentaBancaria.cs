@@ -29,7 +29,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this._parroquiaId = parroquiaId;
             crud = new ClsCRUD_CuentasBancarias();
-
             Validaciones = new ClsValidaciones();
         }
 
@@ -60,7 +59,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             int idTipoCuenta = Convert.ToInt32(cmbCuenta.SelectedValue);
 
-            bool ok = crud.CrearCuentaBanco(nombre, saldo, idTipoCuenta, this._parroquiaId, out int nuevo_Id);
+            // ← NUEVO: capturar id_cuenta_catalogo (puede ser null)
+            int? idCuentaCatalogo = null;
+            if (cmbCuentaCatalogo.SelectedValue != null &&
+                cmbCuentaCatalogo.SelectedValue != DBNull.Value)
+            {
+                idCuentaCatalogo = Convert.ToInt32(cmbCuentaCatalogo.SelectedValue);
+            }
+
+            bool ok = crud.CrearCuentaBanco(nombre, saldo, idTipoCuenta,
+                                this._parroquiaId, idCuentaCatalogo, out int nuevo_Id);
+
 
             if (ok)
             {
@@ -85,6 +94,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             this.CenterToScreen();
             LlenarComboTipos();
+            LlenarComboCatalogo();
+
         }
         /// <summary>
         /// Validars the campos.
@@ -228,6 +239,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbCuenta.DataSource = dt;
             cmbCuenta.DisplayMember = "TipoOrigen";
             cmbCuenta.ValueMember = "IdOrigenTipo";
+        }
+
+        private void LlenarComboCatalogo()
+        {
+            DataTable dt = crud.ObtenerCuentasCatalogoParaMapeo(_parroquiaId);
+
+            // Agregar opcion vacia al inicio para que sea opcional
+            DataRow fila = dt.NewRow();
+            fila["id_cuenta"] = DBNull.Value;
+            fila["NombreCuenta"] = "-- Sin mapeo --";
+            dt.Rows.InsertAt(fila, 0);
+
+            cmbCuentaCatalogo.DataSource = dt;
+            cmbCuentaCatalogo.DisplayMember = "NombreCuenta";
+            cmbCuentaCatalogo.ValueMember = "id_cuenta";
         }
     }
 }

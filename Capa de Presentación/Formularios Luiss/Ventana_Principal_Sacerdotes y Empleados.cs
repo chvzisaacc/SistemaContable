@@ -683,7 +683,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void chkSaldoInicial_CheckedChanged(object sender, EventArgs e)
         {
-            CajaChicaMonto obj_caja = new CajaChicaMonto(ParroquiaId);
+            CajaChicaMonto obj_caja = new CajaChicaMonto(ParroquiaId, PredictedId);
             if (chkSaldoInicial.Checked)
             {
 
@@ -992,7 +992,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-     
+
 
         /// <summary>
         /// Handles the Click event of the button3 control.
@@ -1092,7 +1092,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-     
+
 
         private bool ValidarPanelGastos()
         {
@@ -2384,6 +2384,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         private void lblCapitalInicial_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCancelarCapital_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
         {
 
         }
