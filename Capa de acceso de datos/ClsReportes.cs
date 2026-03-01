@@ -50,6 +50,39 @@ namespace Capa_de_acceso_de_datos
 
             return ds;
         }
+        public DataSet ObtenerLibroMayor(int parroquia_id, DateTime desde, DateTime hasta)
+        {
+            DataSet ds = new DataSet();
+
+            try
+            {
+                _cn.Abrir();
+
+                using (SqlCommand cmd = new SqlCommand("sp_LibroMayor", _cn.sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@fechaInicio", desde.Date);
+                    cmd.Parameters.AddWithValue("@fechaFin", hasta.Date);
+                    cmd.Parameters.AddWithValue("@idParroquia", parroquia_id);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(ds);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el Libro Mayor: " + ex.Message, ex);
+            }
+            finally
+            {
+                _cn.Cerrar();
+            }
+
+            return ds;
+        }
 
 
         /// <summary>
