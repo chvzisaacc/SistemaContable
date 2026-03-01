@@ -100,7 +100,57 @@ namespace Capa_de_procesamiento_de_datos
 
             return total;
         }
-        
+
+        // SUMA TODO LO QUE NO ESTÉ EN EL MAPEO (ENTRADAS) Y TENGA VALOR
+        private decimal ObtenerMontoOtrosEntradas(DataTable dtEntradas)
+        {
+            if (dtEntradas == null) return 0;
+
+            // Normalizados de TODO el mapeo (entradas/colectas/salidas)
+            // (así "DEPOSITOS" queda fuera si no está mapeado, y suma en Otros)
+            var setMapeadas = new HashSet<string>(
+                MapaCuentas.Values.Select(v => NormalizarTexto(v))
+            );
+
+            decimal total = 0;
+
+            foreach (DataRow row in dtEntradas.Rows)
+            {
+                string nombre = row["NombreCuenta"]?.ToString() ?? "";
+                string norm = NormalizarTexto(nombre);
+                decimal monto = Convert.ToDecimal(row["Monto"]);
+
+                if (monto > 0 && !setMapeadas.Contains(norm))
+                    total += monto;
+            }
+
+            return total;
+        }
+
+        // SUMA TODO LO QUE NO ESTÉ EN EL MAPEO (SALIDAS) Y TENGA VALOR
+        private decimal ObtenerMontoOtrosSalidas(DataTable dtSalidas)
+        {
+            if (dtSalidas == null) return 0;
+
+            var setMapeadas = new HashSet<string>(
+                MapaCuentas.Values.Select(v => NormalizarTexto(v))
+            );
+
+            decimal total = 0;
+
+            foreach (DataRow row in dtSalidas.Rows)
+            {
+                string nombre = row["NombreCuenta"]?.ToString() ?? "";
+                string norm = NormalizarTexto(nombre);
+                decimal monto = Convert.ToDecimal(row["Monto"]);
+
+                if (monto > 0 && !setMapeadas.Contains(norm))
+                    total += monto;
+            }
+
+            return total;
+        }
+
 
         // Normalizador universal
         /// <summary>
@@ -189,7 +239,6 @@ namespace Capa_de_procesamiento_de_datos
                 ("Otros", "__OTROS_ENTRADAS__") // aquí juntamos las cuentas no mapeadas
             };
 
-            var cuentasNoFormateadas = ObtenerCuentasConValores(dtEntradas);
 
             var filasSalidas = new (string Etiqueta, string Cuenta)[]
             {
@@ -232,31 +281,7 @@ namespace Capa_de_procesamiento_de_datos
             };
 
 
-            decimal ObtenerMontoOtros(DataTable tabla)
-            {
-                if (tabla == null) return 0;
-
-                // nombres BD que sí están en el mapeo
-                var mapeadas = new HashSet<string>(
-                    MapaCuentas.Values.Select(v => NormalizarTexto(v))
-                );
-
-                decimal total = 0;
-
-                foreach (DataRow row in tabla.Rows)
-                {
-                    string cuentaBD = row["NombreCuenta"]?.ToString() ?? "";
-                    string cuentaNorm = NormalizarTexto(cuentaBD);
-
-                    decimal monto = Convert.ToDecimal(row["Monto"]);
-
-                    // si NO está mapeada y tiene valor -> a Otros
-                    if (!mapeadas.Contains(cuentaNorm) && monto != 0)
-                        total += monto;
-                }
-
-                return total;
-            }
+            
 
 
             var document = Document.Create(container =>
@@ -312,135 +337,112 @@ namespace Capa_de_procesamiento_de_datos
                             Celda("SALIDAS", true, "#D4AF37");
                             Celda("", true);
 
-                            int max1 = Math.Max(filasEntradas.Length, filasSalidas.Length);
-
-                            for (int i = 0; i < max1; i++)
+                            // ===== SECCIÓN 1: dibujar SOLO filas con monto, sin huecos =====
+                            var entradasVisibles = new List<(string Etiqueta, decimal Monto)>();
+                            foreach (var f in filasEntradas)
                             {
-                                // --- ENTRADAS ---
-                                if (i < filasEntradas.Length)
-                                {
-                                    var f = filasEntradas[i];
+                                decimal monto = f.Cuenta == "__OTROS_ENTRADAS__"
+                                    ? ObtenerMontoOtrosEntradas(dtEntradas)
+                                    : ObtenerMontoPorCuenta(dtEntradas, f.Cuenta);
 
-                                    decimal monto = (f.Cuenta == "__OTROS_ENTRADAS__")
-                                        ? ObtenerMontoOtros(dtEntradas)
-                                        : ObtenerMontoPorCuenta(dtEntradas, f.Cuenta);
-
-                                    if (monto > 0)
-                                    {
-                                        Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                        Celda($"Lps {monto:N2}", false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                    }
-                                    else
-                                    {
-                                        Celda("", false);
-                                        Celda("", false);
-                                    }
-                                }
-                                else
-                                {
-                                    Celda("", false);
-                                    Celda("", false);
-                                }
-
-                                if (i < filasSalidas.Length)
-                                {
-                                    var f = filasSalidas[i];
-                                    decimal monto = ObtenerMontoPorCuenta(dtSalidas, f.Cuenta);
-
-                                    if (monto > 0)
-                                    {
-                                        Celda(f.Etiqueta, false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                        Celda($"Lps {monto:N2}", false, (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                    }
-                                    else
-                                    {
-                                        Celda("", false);
-                                        Celda("", false);
-                                    }
-                                }
-                                else
-                                {
-                                    Celda("", false);
-                                    Celda("", false);
-                                }
+                                if (monto > 0)
+                                    entradasVisibles.Add((f.Etiqueta == "__OTROS_ENTRADAS__" ? "Otros" : f.Etiqueta, monto));
                             }
 
-                            // fila subtotal / 12%
+                            var salidasVisibles = new List<(string Etiqueta, decimal Monto)>();
+                            foreach (var f in filasSalidas)
+                            {
+                                decimal monto = ObtenerMontoPorCuenta(dtSalidas, f.Cuenta);
+                                if (monto > 0)
+                                    salidasVisibles.Add((f.Etiqueta, monto));
+                            }
+
+                            int filas1 = Math.Max(entradasVisibles.Count, salidasVisibles.Count);
+                            for (int r = 0; r < filas1; r++)
+                            {
+                                string bg = (r % 2 == 0) ? "#FFFFFF" : "#F5F5F5";
+
+                                if (r < entradasVisibles.Count)
+                                {
+                                    var e = entradasVisibles[r];
+                                    Celda(e.Etiqueta, false, bg);
+                                    Celda($"Lps {e.Monto:N2}", false, bg);
+                                }
+                                else { Celda("", false, bg); Celda("", false, bg); }
+
+                                if (r < salidasVisibles.Count)
+                                {
+                                    var s = salidasVisibles[r];
+                                    Celda(s.Etiqueta, false, bg);
+                                    Celda($"Lps {s.Monto:N2}", false, bg);
+                                }
+                                else { Celda("", false, bg); Celda("", false, bg); }
+                            }
+
+                            // Subtotal / 12%
                             Celda("SUBTOTAL=", true, "#D4AF37");
                             Celda(subtotalEntradas == 0 ? "" : $"Lps {subtotalEntradas:N2}", true, "#D4AF37");
                             Celda("X 12%", true, "#D4AF37");
                             Celda(docePorciento == 0 ? "" : $"Lps {docePorciento:N2}", true, "#D4AF37");
 
-                            // fila título sección curia arzobispal
+                            // Curia
                             Celda("", false);
                             Celda("", false);
                             Celda("A LA CURIA ARZOBISPAL", true, "#D4AF37");
                             Celda(totalALaCuria == 0 ? "" : $"Lps {totalALaCuria:N2}", true, "#D4AF37");
 
-
-                            int max2 = Math.Max(filasColectas.Length, filasSalidas2.Length);
-
-                            for (int j = 0; j < max2; j++)
+                            // ===== SECCIÓN 2: Colectas vs Salidas2 (solo monto, sin huecos) =====
+                            var colectasVisibles = new List<(string Etiqueta, decimal Monto)>();
+                            foreach (var f in filasColectas)
                             {
-                                // --- COLECTAS (son ENTRADAS) ---
-                                if (j < filasColectas.Length)
-                                {
-                                    var f = filasColectas[j];
-                                    decimal monto = ObtenerMontoPorCuenta(dtEntradas, f.Cuenta);
+                                decimal monto = f.Cuenta == "__OTROS_ENTRADAS__"
+                                    ? ObtenerMontoOtrosEntradas(dtEntradas)
+                                    : ObtenerMontoPorCuenta(dtEntradas, f.Cuenta);
 
-                                    if (monto > 0)
-                                    {
-                                        Celda(f.Etiqueta, false, (j % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                        Celda($"Lps {monto:N2}", false, (j % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                    }
-                                    else
-                                    {
-                                        Celda("", false);
-                                        Celda("", false);
-                                    }
-                                }
-                                else
-                                {
-                                    Celda("", false);
-                                    Celda("", false);
-                                }
-
-                                // --- SALIDAS 2 ---
-                                if (j < filasSalidas2.Length)
-                                {
-                                    var f = filasSalidas2[j];
-
-                                    decimal monto = (f.Cuenta == "__OTROS_SALIDAS__")
-                                        ? ObtenerMontoOtros(dtSalidas)
-                                        : ObtenerMontoPorCuenta(dtSalidas, f.Cuenta);
-
-                                    if (monto > 0)
-                                    {
-                                        Celda(f.Etiqueta, false, (j % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                        Celda($"Lps {monto:N2}", false, (j % 2 == 0) ? "#FFFFFF" : "#F5F5F5");
-                                    }
-                                    else
-                                    {
-                                        Celda("", false);
-                                        Celda("", false);
-                                    }
-                                }
-                                else
-                                {
-                                    Celda("", false);
-                                    Celda("", false);
-                                }
+                                if (monto > 0)
+                                    colectasVisibles.Add((f.Etiqueta == "__OTROS_ENTRADAS__" ? "Otros" : f.Etiqueta, monto));
                             }
 
-                            // fila total final
+                            var salidas2Visibles = new List<(string Etiqueta, decimal Monto)>();
+                            foreach (var f in filasSalidas2)
+                            {
+                                decimal monto = f.Cuenta == "__OTROS_SALIDAS__"
+                                    ? ObtenerMontoOtrosSalidas(dtSalidas)
+                                    : ObtenerMontoPorCuenta(dtSalidas, f.Cuenta);
+
+                                if (monto > 0)
+                                    salidas2Visibles.Add((f.Etiqueta == "__OTROS_SALIDAS__" ? "Otros" : f.Etiqueta, monto));
+                            }
+
+                            int filas2 = Math.Max(colectasVisibles.Count, salidas2Visibles.Count);
+                            for (int r = 0; r < filas2; r++)
+                            {
+                                string bg = (r % 2 == 0) ? "#FFFFFF" : "#F5F5F5";
+
+                                if (r < colectasVisibles.Count)
+                                {
+                                    var e = colectasVisibles[r];
+                                    Celda(e.Etiqueta, false, bg);
+                                    Celda($"Lps {e.Monto:N2}", false, bg);
+                                }
+                                else { Celda("", false, bg); Celda("", false, bg); }
+
+                                if (r < salidas2Visibles.Count)
+                                {
+                                    var s = salidas2Visibles[r];
+                                    Celda(s.Etiqueta, false, bg);
+                                    Celda($"Lps {s.Monto:N2}", false, bg);
+                                }
+                                else { Celda("", false, bg); Celda("", false, bg); }
+                            }
+
+                            // Totales
                             Celda("TOTAL ENTRADAS =", true, "#D4AF37");
                             Celda(totalEntradas == 0 ? "" : $"Lps {totalEntradas:N2}", true, "#D4AF37");
                             Celda("TOTAL SALIDAS =", true, "#D4AF37");
                             Celda(totalSalidas == 0 ? "" : $"Lps {totalSalidas:N2}", true, "#D4AF37");
-                        
                         });
 
-                      
                         col.Item().Text("");
 
                         col.Item().Table(table =>
@@ -453,10 +455,8 @@ namespace Capa_de_procesamiento_de_datos
 
                             void Celda2(string texto, string valor = "")
                             {
-                                table.Cell().Border(0.5f).Padding(2)
-                                    .Text(texto).FontSize(9);
-                                table.Cell().Border(0.5f).Padding(2)
-                                    .Text(valor).FontSize(9);
+                                table.Cell().Border(0.5f).Padding(2).Text(texto).FontSize(9);
+                                table.Cell().Border(0.5f).Padding(2).Text(valor).FontSize(9);
                             }
 
                             Celda2("Total entradas del mes", totalEntradas == 0 ? "" : $"Lps {totalEntradas:N2}");
@@ -468,124 +468,77 @@ namespace Capa_de_procesamiento_de_datos
 
                         col.Item().Row(row =>
                         {
-                            row.RelativeItem().Text($"Fecha: {DateTime.Now:dd/MM/yyyy}")
-                                .FontSize(9);
-                            row.RelativeItem().AlignRight()
-                                .Text($"Sacerdote: {nombreSacerdote}")
-                                .FontSize(9);
+                            row.RelativeItem().Text($"Fecha: {DateTime.Now:dd/MM/yyyy}").FontSize(9);
+                            row.RelativeItem().AlignRight().Text($"Sacerdote: {nombreSacerdote}").FontSize(9);
                         });
 
                         col.Item().Text("");
 
                         col.Item().Text(
-                            @"Recordamos que DEBEN ENTREGAR A LA CURIA, EL DOCE PORCIENTO (12%) sobre todas las entradas de la Parroquias, Iglesias o Capillas, y es de carácter obligatorio y nadie queda exento de esta obligacion.")
-                            .FontSize(8);
+                            @"Recordamos que DEBEN ENTREGAR A LA CURIA, EL DOCE PORCIENTO (12%) sobre todas las entradas de la Parroquias, Iglesias o Capillas, y es de carácter obligatorio y nadie queda exento de esta obligacion."
+                        ).FontSize(8);
                     });
 
                     page.Footer()
-            .Height(30)
-            .AlignCenter()
-            .Column(col =>
-            {
-                col.Item()
-                    .LineHorizontal(1)
-                    .LineColor("#D4AF37");
-
-                col.Item()
-                    .Text(text =>
-                    {
-                        text.Span("Generado el ")
-                            .FontSize(9)
-                            .FontColor("#666666");
-
-                        text.Span($"{DateTime.Now:dd/MM/yyyy HH:mm}")
-                            .FontSize(9)
-                            .FontColor("#666666");
-
-                        text.Span("  |  Página ")
-                            .FontSize(9)
-                            .FontColor("#666666");
-
-                        text.CurrentPageNumber()
-                            .FontSize(9)
-                            .FontColor("#666666");
-
-                        text.Span(" de ")
-                            .FontSize(9)
-                            .FontColor("#666666");
-
-                        text.TotalPages()
-                            .FontSize(9)
-                            .FontColor("#666666");
-
-                    });
-            });
+                        .Height(30)
+                        .AlignCenter()
+                        .Column(col =>
+                        {
+                            col.Item().LineHorizontal(1).LineColor("#D4AF37");
+                            col.Item().Text(text =>
+                            {
+                                text.Span("Generado el ").FontSize(9).FontColor("#666666");
+                                text.Span($"{DateTime.Now:dd/MM/yyyy HH:mm}").FontSize(9).FontColor("#666666");
+                                text.Span("  |  Página ").FontSize(9).FontColor("#666666");
+                                text.CurrentPageNumber().FontSize(9).FontColor("#666666");
+                                text.Span(" de ").FontSize(9).FontColor("#666666");
+                                text.TotalPages().FontSize(9).FontColor("#666666");
+                            });
+                        });
                 });
             });
 
             return document.GeneratePdf();
         }
 
-
-        private (string Etiqueta, string Cuenta)[] ObtenerCuentasConValores(DataTable tabla)
-        {
-            var cuentas = new List<(string Etiqueta, string Cuenta)>();
-
-            foreach (DataRow row in tabla.Rows)
-            {
-                string cuenta = row["NombreCuenta"]?.ToString() ?? "";
-                decimal monto = Convert.ToDecimal(row["Monto"]);
-
-                // Si el monto es mayor a 0, la agregamos como "Otros (Cuenta)"
-                if (monto > 0)
-                {
-                    cuentas.Add(("Otros (" + cuenta + ")", cuenta)); // Se agrega "Otros (Cuenta)"
-                }
-            }
-
-            return cuentas.ToArray();
-        }
-
-
         private readonly Dictionary<string, string> MapaCuentas = new()
-{
-    // ENTRADAS
-    { "Bautismos", "BAUTISMOS" },
-    { "Misas, Fiestas, Funerales", "MISAS Y FUNERALES" },
-    { "Matrimonios", "MATRIMONIOS" },
-    { "Donativos, Alcancias,Bendiciones", "DONATIVOS" },
-    { "Permisos, Certificaciones", "PERMISOS Y CERTIFICACIONES" },
-    { "Confirmas", "CONFIRMACIONES" },
+        {
+            // ENTRADAS
+            { "Bautismos", "BAUTISMOS" },
+            { "Misas, Fiestas, Funerales", "MISAS Y FUNERALES" },
+            { "Matrimonios", "MATRIMONIOS" },
+            { "Donativos, Alcancias,Bendiciones", "DONATIVOS" },
+            { "Permisos, Certificaciones", "PERMISOS Y CERTIFICACIONES" },
+            { "Confirmas", "CONFIRMACIONES" },
 
-    // COLECTAS (ya las tenés en catálogo con nombre)
-    { "Colecta de Cuaresma", "COLECTA ESPECIAL (CUARESMA)" },
-    { "Colecta de Viernes Santo", "COLECTA ESPECIAL (VIERNES SANTO)" },
-    { "Colecta de San Pedro", "COLECTA ESPECIAL (OBULO S.P.)" },
-    { "Colecta de Vocaciones", "COLECTA ESPECIAL (VOCACIONES)" },
-    { "Colecta Domund", "COLECTA ESPECIAL (DOMUNI)" },
-    { "Colectas Extraordinarias (Medios)", "COLECTA ESPECIAL (SUYAS/MEDIOS)" },
+            // COLECTAS
+            { "Colecta de Cuaresma", "COLECTA ESPECIAL (CUARESMA)" },
+            { "Colecta de Viernes Santo", "COLECTA ESPECIAL (VIERNES SANTO)" },
+            { "Colecta de San Pedro", "COLECTA ESPECIAL (OBULO S.P.)" },
+            { "Colecta de Vocaciones", "COLECTA ESPECIAL (VOCACIONES)" },
+            { "Colecta Domund", "COLECTA ESPECIAL (DOMUNI)" },
+            { "Colectas Extraordinarias (Medios)", "COLECTA ESPECIAL (SUYAS/MEDIOS)" },
 
-    // SALIDAS
-    { "Administracion - Oficina", "ADMINISTRACION OFICINA" },
-    { "Agua", "AGUA" },
-    { "Carro - Transporte", "CARRO Y TRANSPORTE" },
-    { "Comida - Cocina", "COMIDA Y COCINA" },
-    { "Luz", "LUZ" },
-    { "Mantenimiento - Limpieza", "MANTENIMIENTO Y LIMPIEZA" },
-    { "Sueldos", "SUELDOS EMPLEADOS" },
-    { "IHSS + Medicinas", "IHSS - MEDICINAS" },
-    { "Internet y Servicio de Cable tv", "INTERNET - CABLE TV" },
-    { "Telefono", "TELEFONO" },
-    { "Ayuda (Donativos, Limosnas)", "DONATIVOS Y AYUDAS" },
-    { "Culto", "CULTO" },
-    { "Pastoral - Formacion", "PASTORAL Y FORMACION" },
-    { "Muebles - Enseres", "MUEBLES Y ENSERES" },
-    { "Remuneracion Sacerdotes", "REMUNERACION" },
-    { "Impuestos", "IMPUESTOS" },
-
-    // EL 12% NO ES CUENTA: sale del total entradas * 0.12 o de "DIEZMO CURIA" si lo registrás como gasto aparte
-};
-
+            // SALIDAS
+            { "Administracion - Oficina", "ADMINISTRACION OFICINA" },
+            { "Agua", "AGUA" },
+            { "Carro - Transporte", "CARRO Y TRANSPORTE" },
+            { "Comida - Cocina", "COMIDA Y COCINA" },
+            { "Luz", "LUZ" },
+            { "Mantenimiento - Limpieza", "MANTENIMIENTO Y LIMPIEZA" },
+            { "Sueldos", "SUELDOS EMPLEADOS" },
+            { "IHSS + Medicinas", "IHSS - MEDICINAS" },
+            { "Internet y Servicio de Cable tv", "INTERNET - CABLE TV" },
+            { "Telefono", "TELEFONO" },
+            { "Ayuda (Donativos, Limosnas)", "DONATIVOS Y AYUDAS" },
+            { "Culto", "CULTO" },
+            { "Pastoral - Formacion", "PASTORAL Y FORMACION" },
+            { "Muebles - Enseres", "MUEBLES Y ENSERES" },
+            { "Remuneracion Sacerdotes", "REMUNERACION" },
+            { "Impuestos", "IMPUESTOS" },
+        };
     }
-
 }
+
+
+
