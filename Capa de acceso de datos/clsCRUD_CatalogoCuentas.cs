@@ -233,5 +233,28 @@ namespace Capa_de_acceso_de_datos
             }
             finally { conexion.Cerrar(); }
         }
+
+        public int BuscarIdCuentaPorNombre(string nombre)
+        {
+            try
+            {
+                conexion.Abrir();
+                SqlCommand cmd = new SqlCommand(
+                    @"SELECT TOP 1 id_cuenta 
+              FROM CatalogoCuentas 
+              WHERE UPPER(TRIM(nombre)) = UPPER(TRIM(@nombre))
+                AND es_detalle = 1
+                AND Id_estado_cuenta = 1",
+                    conexion.sc);
+                cmd.Parameters.AddWithValue("@nombre", nombre);
+                var resultado = cmd.ExecuteScalar();
+                return resultado != null && resultado != DBNull.Value
+                       ? Convert.ToInt32(resultado) : 0;
+            }
+            catch { return 0; }
+            finally { conexion.Cerrar(); }
+        }
+
+
     }
 }

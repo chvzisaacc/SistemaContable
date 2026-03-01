@@ -79,7 +79,7 @@ namespace Capa_de_procesamiento_de_datos
         /// <param name="nombre">The nombre.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al ingresar la nueva transacción de tipo ingreso: " + ex.Message</exception>
-        public int IngresarIngresos(DateTime fecha, string descripcion, decimal monto, int referencia, int usuario_id, int id_origen, string nombre)
+        public int IngresarIngresos(DateTime fecha, string descripcion, decimal monto, int referencia, int usuario_id, int id_origen, string nombre, int? id_cuenta_destino = null)
         {
             int nuevaTransa = 0;
             try
@@ -109,6 +109,7 @@ namespace Capa_de_procesamiento_de_datos
                     command.Parameters.AddWithValue("@Usuario_id", usuario_id);
                     command.Parameters.AddWithValue("@Id_Origen", id_origen);
                     command.Parameters.AddWithValue("@Nombre", nombre ?? "");
+                    command.Parameters.AddWithValue("@id_cuenta_destino", id_cuenta_destino.HasValue ? (object)id_cuenta_destino.Value : DBNull.Value);  // ← NUEVO
 
                     object result = command.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
