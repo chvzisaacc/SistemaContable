@@ -174,10 +174,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // panelContenedor
             // 
             panelContenedor.Controls.Add(panel5);
-            panelContenedor.Controls.Add(panelBancos2);
-            panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Controls.Add(panelIngresos);
+            panelContenedor.Controls.Add(panelBancos2);
+            panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Location = new Point(3, 284);
             panelContenedor.Margin = new Padding(3, 4, 3, 4);
             panelContenedor.Name = "panelContenedor";

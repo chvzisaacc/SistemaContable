@@ -636,7 +636,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     break;
                 case 3: // Retirar dinero
                     {
-                        using (var frm = new BancosRetirarDinero(ParroquiaId)
+                        using (var frm = new BancosRetirarDinero(ParroquiaId, PredictedId)  // ← NUEVO: PredictedId
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
