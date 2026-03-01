@@ -601,7 +601,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 case 1: // Transferencia entre cuentas
                     {
-                        using (var frm = new BancosTransferenciaEntreCuentas(ParroquiaId)
+                        using (var frm = new BancosTransferenciaEntreCuentas(ParroquiaId, 0, PredictedId)
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
@@ -644,6 +644,35 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         {
                             DialogResult result = frm.ShowDialog();
 
+                            if (result == DialogResult.OK)
+                            {
+                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
+                            }
+                        }
+                    }
+                    break;
+                case 4: // Envío caja chica a banco
+                    {
+                        // Obtener Id_Origen de Caja Chica de esta parroquia
+                        clsTransferenciaEntreCuentas crud = new clsTransferenciaEntreCuentas();
+                        DataTable dt_caja = crud.ObtenerCajaChica(ParroquiaId);
+
+                        if (dt_caja.Rows.Count == 0)
+                        {
+                            MessageBox.Show("No existe una Caja Chica para esta parroquia.",
+                                "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        int idCajaChica = System.Convert.ToInt32(dt_caja.Rows[0]["Id_Origen"]);
+
+                        using (var frm = new BancosTransferenciaEntreCuentas(ParroquiaId, idCajaChica, PredictedId)
+                        {
+                            StartPosition = FormStartPosition.Manual,
+                            Location = new Point(430, 450)
+                        })
+                        {
+                            DialogResult result = frm.ShowDialog();
                             if (result == DialogResult.OK)
                             {
                                 transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);

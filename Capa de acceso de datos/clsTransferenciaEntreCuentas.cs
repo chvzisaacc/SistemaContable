@@ -51,7 +51,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="monto">The monto.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al realizar la transferencia: " + ex.Message</exception>
-        public bool TransferirEntreCuentas(int cuenta_origen, int cuenta_destino, decimal monto)
+        public bool TransferirEntreCuentas(int cuenta_origen, int cuenta_destino, decimal monto, int parroquiaId, int usuarioId)
         {
             try
             {
@@ -61,6 +61,8 @@ namespace Capa_de_acceso_de_datos
 
                 cmd.Parameters.AddWithValue("@CuentaOrigen", cuenta_origen);
                 cmd.Parameters.AddWithValue("@CuentaDestino", cuenta_destino);
+                cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);      // ← NUEVO
+                cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);    // ← NUEVO
                 cmd.Parameters.AddWithValue("@Monto", monto);
 
                 cmd.ExecuteNonQuery();
@@ -76,6 +78,25 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        public DataTable ObtenerCajaChica(int parroquiaId)
+        {
+            try
+            {
+                conexion.Abrir();
+                SqlCommand cmd = new SqlCommand("sp_ObtenerCajaChicaParroquia", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener Caja Chica: " + ex.Message, ex);
+            }
+            finally { conexion.Cerrar(); }
+        }
 
     }
 }
