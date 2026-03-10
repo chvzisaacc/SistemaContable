@@ -14,8 +14,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Formularios Luiss\j1jmqutt.lwc~" />
-	  <None Remove="Formularios Luiss\jaj2gnb4.yzy~" />
 	  <None Remove="Resources\haarcascade_frontalface_default.xml" />
 	</ItemGroup>
 
@@ -42,8 +40,23 @@
 
 
 	<ItemGroup>
-		<Compile Update="Formularios Ewin\Inicio de sesión.cs">
+		<Compile Update="Formularios\BancosTransferenciaEntreCuentas.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>BancosTransferenciaEntreCuentas.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Formularios\Inicio de sesión.cs">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Compile>
+		<Compile Update="Formularios\Certificados_De_Depósito.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Certificados_De_Depósito.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Formularios\Ventana_Principal_Sacerdotes y Empleados.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Ventana_Principal_Sacerdotes y Empleados.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Properties\Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
@@ -58,17 +71,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Update="Formularios Diego\Certificados_De_Depósito.resx">
+		<EmbeddedResource Update="Formularios\Certificados_De_Depósito.resx">
 		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Certificados_De_Depósito.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Formularios Ewin\Inicio de sesión.resx">
+		<EmbeddedResource Update="Formularios\Inicio de sesión.resx">
 		  <Generator></Generator>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Formularios Luiss\BancosTransferenciaEntreCuentas.resx">
+		<EmbeddedResource Update="Formularios\BancosTransferenciaEntreCuentas.resx">
 		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>BancosTransferenciaEntreCuentas.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Formularios Luiss\Ventana_Principal_Sacerdotes y Empleados.resx">
+		<EmbeddedResource Update="Formularios\Ventana_Principal_Sacerdotes y Empleados.resx">
 		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Ventana_Principal_Sacerdotes y Empleados.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Properties\Resources.resx">
 			<Generator>ResXFileCodeGenerator</Generator>

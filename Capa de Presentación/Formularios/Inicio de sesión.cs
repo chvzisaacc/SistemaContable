@@ -317,5 +317,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             pbMostrar.BringToFront();
             txt_contraseña.PasswordChar = '*'; // Ocultar contraseña
         }
+
+        private void FRM_PG1_FormClosing_1(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

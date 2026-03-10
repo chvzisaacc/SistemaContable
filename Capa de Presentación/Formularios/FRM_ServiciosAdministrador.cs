@@ -24,10 +24,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        
 
         /// <summary>
         /// Handles the TextChanged event of the textBox1 control.
