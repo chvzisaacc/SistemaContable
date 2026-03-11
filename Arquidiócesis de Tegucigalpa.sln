@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capa de acceso de datos", "
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SistemaContable", "SistemaContable\SistemaContable.vdproj", "{E75F37E1-A580-DC89-2322-2F22373ACB3E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BASEDEDATOS.API", "BASEDEDATOS.API\BASEDEDATOS.API.csproj", "{CD2366AC-5CB2-4189-8C07-3B7FD7A85349}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,14 @@ Global
 		{E75F37E1-A580-DC89-2322-2F22373ACB3E}.Release|Any CPU.ActiveCfg = Release
 		{E75F37E1-A580-DC89-2322-2F22373ACB3E}.Release|x64.ActiveCfg = Release
 		{E75F37E1-A580-DC89-2322-2F22373ACB3E}.Release|x64.Build.0 = Release
+		{CD2366AC-5CB2-4189-8C07-3B7FD7A85349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD2366AC-5CB2-4189-8C07-3B7FD7A85349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD2366AC-5CB2-4189-8C07-3B7FD7A85349}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CD2366AC-5CB2-4189-8C07-3B7FD7A85349}.Debug|x64.Build.0 = Debug|Any CPU
+		{CD2366AC-5CB2-4189-8C07-3B7FD7A85349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD2366AC-5CB2-4189-8C07-3B7FD7A85349}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD2366AC-5CB2-4189-8C07-3B7FD7A85349}.Release|x64.ActiveCfg = Release|Any CPU
+		{CD2366AC-5CB2-4189-8C07-3B7FD7A85349}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

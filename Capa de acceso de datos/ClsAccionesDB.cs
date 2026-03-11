@@ -133,20 +133,16 @@ namespace Capa_de_acceso_de_datos
         {
             // Inicialización simplificada
             ResultadoLogin resultado = new ResultadoLogin();
-
             try
             {
                 Abrir();
                 using (SqlCommand cmd = new SqlCommand("IngresoLogin", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    // El parámetro parroquiaId en el método pero no en el SP:
-                    // Si el SP 'IngresoLogin' no usa @ParroquiaID, elimínalo de la firma del método.
-                    // cmd.Parameters.AddWithValue("@ParroquiaID", parroquiaId); 
                     cmd.Parameters.AddWithValue("@Usuario", usuario);
                     cmd.Parameters.AddWithValue("@Password", contraseña);
 
-                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    using (SqlDataReader dr = EjecutarReaderYEnviar(cmd))
                     {
                         if (dr.Read())
                         {
@@ -162,8 +158,8 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                // Es mejor registrar o manejar la excepción en la capa de negocio, no solo lanzarla.
-                throw new Exception("Error al validar usuario: " + ex.Message, ex);
+
+                return resultado;
             }
             finally
             {
@@ -185,16 +181,7 @@ namespace Capa_de_acceso_de_datos
 
                     // Agregar el parámetro del usuario
                     command.Parameters.AddWithValue("@UsuarioID", userId);
-
-                    try
-                    {
-                        command.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        // Manejo de errores de base de datos
-                        throw new Exception("Error al registrar el inicio de sesión biométrico: " + ex.Message);
-                    }
+                    EjecutarYEnviar(command);
                 }
 
 
@@ -202,7 +189,7 @@ namespace Capa_de_acceso_de_datos
             catch (Exception ex)
             {
                 // Manejo de errores generales
-                throw new Exception("Error al conectar con la base de datos: " + ex.Message);
+                throw new Exception("Error en la operación biométrica: " + ex.Message);
             }
             finally
             {
@@ -217,29 +204,26 @@ namespace Capa_de_acceso_de_datos
         /// <param name="nuevaa_contraseña">The nuevaa contraseña.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al cambiar la contraseña: " + ex.Message</exception>
-        public bool CambiarContraseña(string usuario,string correo, string nuevaa_contraseña)
+        public bool CambiarContraseña(string usuario, string correo, string nuevaa_contraseña)
         {
             try
             {
-                Abrir();
                 using (SqlCommand cmd = new SqlCommand("CambiarContraseña", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Usuario", usuario);
                     cmd.Parameters.AddWithValue("@Correo", correo);
                     cmd.Parameters.AddWithValue("@NuevaContraseña", nuevaa_contraseña);
-                    int filas = cmd.ExecuteNonQuery();
-                    return filas > 0;
+
+
+                    EjecutarYEnviar(cmd);
+
+                    return true;
                 }
             }
             catch (Exception ex)
             {
-                // throw; es mejor que throw new Exception(ex.Message); si quieres preservar el stack trace
                 throw new Exception("Error al cambiar la contraseña: " + ex.Message, ex);
-            }
-            finally
-            {
-                Cerrar();
             }
         }
 
@@ -249,31 +233,25 @@ namespace Capa_de_acceso_de_datos
         /// <param name="correo">The correo.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al obtener ID de usuario por correo: " + ex.Message</exception>
-        public int ObtenerUsuarioIdPorCorreo(string usuario,string correo)
+        public int ObtenerUsuarioIdPorCorreo(string usuario, string correo)
         {
-            int id = 0;
             try
             {
-                Abrir();
                 using (SqlCommand cmd = new SqlCommand("ObtenerUsuarioIdPorCorreo", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@UsuarioNombre", usuario);
                     cmd.Parameters.AddWithValue("@CorreoParroquia", correo);
-                    object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                        id = Convert.ToInt32(result);
+
+                    // Usamos el método que retorna el valor único (ID)
+                    // y dispara la sincronización en segundo plano.
+                    return EjecutarScalarYEnviar(cmd);
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener ID de usuario por correo: " + ex.Message, ex);
+                throw new Exception("Error al obtener ID de usuario: " + ex.Message, ex);
             }
-            finally
-            {
-                Cerrar();
-            }
-            return id;
         }
 
         /// <summary>
