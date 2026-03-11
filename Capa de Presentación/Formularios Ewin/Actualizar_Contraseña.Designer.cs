@@ -77,7 +77,7 @@
             lbl_volver.Margin = new Padding(2, 0, 2, 0);
             lbl_volver.Name = "lbl_volver";
             lbl_volver.Size = new Size(50, 20);
-            lbl_volver.TabIndex = 8;
+            lbl_volver.TabIndex = 9;
             lbl_volver.Text = "Volver";
             lbl_volver.Click += label4_Click;
             // 
@@ -123,7 +123,7 @@
             btn_cancelar.Location = new Point(351, 269);
             btn_cancelar.Name = "btn_cancelar";
             btn_cancelar.Size = new Size(143, 39);
-            btn_cancelar.TabIndex = 4;
+            btn_cancelar.TabIndex = 8;
             btn_cancelar.Text = "Cancelar";
             btn_cancelar.UseVisualStyleBackColor = false;
             btn_cancelar.UseWaitCursor = true;
