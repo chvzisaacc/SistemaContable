@@ -161,6 +161,7 @@
             // 
             // Actualizar_Contraseña
             // 
+            AcceptButton = btn_confirmar;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Imagen_de_WhatsApp_2025_10_22_a_las_17_39_32_e87a041a;
