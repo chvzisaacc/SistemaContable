@@ -10,6 +10,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosTransferenciaEntreCuentas : Form
     {
+        private int _usuarioId;
+
         private int _parroquiaId;
         /// <summary>
         /// The crud transferencia
@@ -20,15 +22,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private ClsValidaciones Validaciones;
 
+        private int _idOrigenFijo = 0;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BancosTransferenciaEntreCuentas"/> class.
         /// </summary>
-        public BancosTransferenciaEntreCuentas(int parroquiaId)
+        public BancosTransferenciaEntreCuentas(int parroquiaId, int idOrigenFijo = 0, int usuarioId = 0)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this._usuarioId = usuarioId;   // ← NUEVO
             this._parroquiaId = parroquiaId;
+            this._idOrigenFijo = idOrigenFijo;
             CargarCuentas();
             Validaciones = new ClsValidaciones();
         }
@@ -42,15 +48,31 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 DataTable dt_cuentas = crudTransferencia.ObtenerCuentasBanco(this._parroquiaId);
 
-                cmbOrigen.DataSource = dt_cuentas.Copy();
-                cmbOrigen.DisplayMember = "NombreCompleto";
-                cmbOrigen.ValueMember = "Id_Origen";
-                cmbOrigen.SelectedIndex = -1;
-
+                // Configurar combobox destino (siempre libre)
                 cmbDestino.DataSource = dt_cuentas.Copy();
                 cmbDestino.DisplayMember = "NombreCompleto";
                 cmbDestino.ValueMember = "Id_Origen";
                 cmbDestino.SelectedIndex = -1;
+
+                if (_idOrigenFijo > 0)
+                {
+                    // Origen fijo: mostrar solo la cuenta de Caja Chica
+                    DataTable dt_caja = crudTransferencia.ObtenerCajaChica(this._parroquiaId);
+                    cmbOrigen.DataSource = dt_caja;
+                    cmbOrigen.DisplayMember = "NombreCompleto";
+                    cmbOrigen.ValueMember = "Id_Origen";
+                    cmbOrigen.SelectedValue = _idOrigenFijo;
+                    cmbOrigen.Enabled = false;    // ← no puede cambiar el origen
+                }
+                else
+                {
+                    // Origen libre: transferencia normal entre cuentas
+                    cmbOrigen.DataSource = dt_cuentas.Copy();
+                    cmbOrigen.DisplayMember = "NombreCompleto";
+                    cmbOrigen.ValueMember = "Id_Origen";
+                    cmbOrigen.SelectedIndex = -1;
+                    cmbOrigen.Enabled = true;
+                }
             }
             catch (Exception ex)
             {
@@ -70,8 +92,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 int cuenta_destino = Convert.ToInt32(cmbDestino.SelectedValue);
                 decimal monto = Convert.ToDecimal(txtMonto.Text);
 
-                bool exito = crudTransferencia.TransferirEntreCuentas(cuenta_origen, cuenta_destino, monto);
-
+                bool exito = crudTransferencia.TransferirEntreCuentas(
+                            cuenta_origen, cuenta_destino, monto, _parroquiaId, _usuarioId);  // ← NUEVO
                 if (exito)
                 {
                     MessageBox.Show("Transferencia realizada exitosamente",

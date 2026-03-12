@@ -1,7 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
-using Capa_de_acceso_de_datos;
-using Capa_de_procesamiento_de_datos;
 
 // Nota: Asumo que Clsconexion es la clase base que contiene sc (SqlConnection), Abrir() y Cerrar().
 
@@ -160,7 +158,7 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-               
+
                 return resultado;
             }
             finally

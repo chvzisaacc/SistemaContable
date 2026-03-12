@@ -601,7 +601,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 case 1: // Transferencia entre cuentas
                     {
-                        using (var frm = new BancosTransferenciaEntreCuentas(ParroquiaId)
+                        using (var frm = new BancosTransferenciaEntreCuentas(ParroquiaId, 0, PredictedId)
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
@@ -636,7 +636,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     break;
                 case 3: // Retirar dinero
                     {
-                        using (var frm = new BancosRetirarDinero(ParroquiaId)
+                        using (var frm = new BancosRetirarDinero(ParroquiaId, PredictedId)  // ← NUEVO: PredictedId
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
@@ -644,6 +644,35 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         {
                             DialogResult result = frm.ShowDialog();
 
+                            if (result == DialogResult.OK)
+                            {
+                                transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
+                            }
+                        }
+                    }
+                    break;
+                case 4: // Envío caja chica a banco
+                    {
+                        // Obtener Id_Origen de Caja Chica de esta parroquia
+                        clsTransferenciaEntreCuentas crud = new clsTransferenciaEntreCuentas();
+                        DataTable dt_caja = crud.ObtenerCajaChica(ParroquiaId);
+
+                        if (dt_caja.Rows.Count == 0)
+                        {
+                            MessageBox.Show("No existe una Caja Chica para esta parroquia.",
+                                "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        int idCajaChica = System.Convert.ToInt32(dt_caja.Rows[0]["Id_Origen"]);
+
+                        using (var frm = new BancosTransferenciaEntreCuentas(ParroquiaId, idCajaChica, PredictedId)
+                        {
+                            StartPosition = FormStartPosition.Manual,
+                            Location = new Point(430, 450)
+                        })
+                        {
+                            DialogResult result = frm.ShowDialog();
                             if (result == DialogResult.OK)
                             {
                                 transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
@@ -683,7 +712,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void chkSaldoInicial_CheckedChanged(object sender, EventArgs e)
         {
-            CajaChicaMonto obj_caja = new CajaChicaMonto(ParroquiaId);
+            CajaChicaMonto obj_caja = new CajaChicaMonto(ParroquiaId, PredictedId);
             if (chkSaldoInicial.Checked)
             {
 
@@ -830,8 +859,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtDatosIngresos.Columns.Add("Saldo", typeof(string));
             dtDatosIngresos.Columns.Add("fecha_transaccion", typeof(DateTime));
             dtDatosIngresos.Columns.Add("NoReferencia", typeof(int));
-            dataGridView1.DataSource = dtDatosIngresos;
+            dtDatosIngresos.Columns.Add("id_cuenta_destino", typeof(int));  // ← NUEVO
 
+            dataGridView1.DataSource = dtDatosIngresos;
             dataGridView1.AutoGenerateColumns = false;
 
             if (dataGridView1.Columns.Contains("Id_transaccion"))
@@ -842,6 +872,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 dataGridView1.Columns["fecha_transaccion"].Visible = false;
             if (dataGridView1.Columns.Contains("NoReferencia"))
                 dataGridView1.Columns["NoReferencia"].Visible = false;
+            if (dataGridView1.Columns.Contains("id_cuenta_destino"))
+                dataGridView1.Columns["id_cuenta_destino"].Visible = false;  // ← NUEVO oculta
         }
 
         /// <summary>
@@ -858,9 +890,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtDatosGastos.Columns.Add("Saldo", typeof(string));
             dtDatosGastos.Columns.Add("fecha_transaccion", typeof(DateTime));
             dtDatosGastos.Columns.Add("NoReferencia", typeof(int));
+            dtDatosGastos.Columns.Add("id_cuenta_destino", typeof(int));  // ← NUEVO
+
             dgvGastos.DataSource = dtDatosGastos;
             dgvGastos.AutoGenerateColumns = true;
-
 
             if (dgvGastos.Columns.Contains("Id_transaccion"))
                 dgvGastos.Columns["Id_transaccion"].Visible = false;
@@ -870,6 +903,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 dgvGastos.Columns["fecha_transaccion"].Visible = false;
             if (dgvGastos.Columns.Contains("NoReferencia"))
                 dgvGastos.Columns["NoReferencia"].Visible = false;
+            if (dgvGastos.Columns.Contains("id_cuenta_destino"))
+                dgvGastos.Columns["id_cuenta_destino"].Visible = false;  // ← NUEVO oculta
         }
 
 
@@ -966,14 +1001,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                     ClsAccionesDB clsAccionesDB = new();
                     DataTable dt_cuentas = clsAccionesDB.ObtenerCuentasIngreso();
-                    AutoCompleteStringCollection nombres_cuentas = new AutoCompleteStringCollection();
 
+                    AutoCompleteStringCollection nombres_cuentas = new AutoCompleteStringCollection();
                     foreach (DataRow row in dt_cuentas.Rows)
-                    {
                         nombres_cuentas.Add(row["Subcuentas"].ToString());
-                    }
 
                     auto_text.AutoCompleteCustomSource = nombres_cuentas;
+                    // ← SIN evento Leave
                 }
             }
             else
@@ -986,6 +1020,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 }
             }
         }
+
+
 
         /// <summary>
         /// Handles the Click event of the button3 control.
@@ -1058,10 +1094,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="DataGridViewEditingControlShowingEventArgs"/> instance containing the event data.</param>
         private void dgvGastos_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (dgvGastos.CurrentCell == null)
-                return;
 
-            // Verifica por nombre de columna, no por índice
+            if (dgvGastos.CurrentCell == null) return;
+
             if (dgvGastos.CurrentCell.OwningColumn.Name == "NombreCuenta")
             {
                 TextBox auto_text = e.Control as TextBox;
@@ -1069,9 +1104,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     auto_text.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                     auto_text.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-                    // Usa la colección ya cargada desde CargarDatosAutocompletadoGastos()
                     auto_text.AutoCompleteCustomSource = Subcuentas;
+                    // ← SIN evento Leave
                 }
             }
             else
@@ -1086,6 +1120,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
 
         }
+
 
 
         private bool ValidarPanelGastos()
@@ -1460,10 +1495,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         string referencia_texto = txtNoReferencia.Text.Trim();
                         int referencia = 0;
 
-                        dgvGastos.EndEdit();
-                        dgvGastos.CommitEdit(DataGridViewDataErrorContexts.Commit);
+                        //dgvGastos.EndEdit();
+                        //dgvGastos.CommitEdit(DataGridViewDataErrorContexts.Commit);
                         this.Validate();
-                        BindingContext[dgvGastos.DataSource]?.EndCurrentEdit();
+                        //BindingContext[dgvGastos.DataSource]?.EndCurrentEdit();
 
                         string saldo_texto = fila_nueva.Cells["Saldo"].Value?.ToString() ?? "";
                         decimal saldo = 0;
@@ -1502,9 +1537,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         string descripcion = fila_nueva.Cells["Detalle"].Value?.ToString() ?? string.Empty;
                         string nombre_cuenta = fila_nueva.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
 
-                        // Guardar en la base de datos
+                        string nombre_cuenta_buscar_i = fila_nueva.Cells["NombreCuenta"].Value?.ToString() ?? "";
+                        int? id_cuenta_destino_ingreso = null;
+                        if (!string.IsNullOrEmpty(nombre_cuenta_buscar_i))
+                        {
+                            int id_encontrado = crudCataloCuentas.BuscarIdCuentaPorNombre(nombre_cuenta_buscar_i);
+                            if (id_encontrado > 0) id_cuenta_destino_ingreso = id_encontrado;
+                        }
+
                         int nuevo_id = ingresos.IngresarIngresos(fecha_transaccion, descripcion, saldo, referencia,
-                                                                 Sesion1.usuario_id, id_origenNuevo, nombre_cuenta);
+                                                                 Sesion1.usuario_id, id_origenNuevo, nombre_cuenta,
+                                                                 id_cuenta_destino_ingreso);  // ← NUEVO argumento
+
 
                         if (nuevo_id <= 0)
                         {
@@ -1623,8 +1667,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dgvGastos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (_gridBloqueado)
+            /*if (_gridBloqueado)
                 return; // ❌ NO PERMITIR DESBLOQUEAR NADA
+            */
 
             if (e.RowIndex < 0)
                 return;
@@ -1920,7 +1965,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         return;
                     }
 
-                    int nuevo_id = gasto.IngresarGastos(fecha_transaccion, descripcion, saldo, referencia, id_usuario, id_origenNuevo, nombre_cuenta, ParroquiaId);
+                    string nombre_cuenta_buscar_g = fila_nueva.Cells["NombreCuenta"].Value?.ToString() ?? "";
+                    int? id_cuenta_destino_gasto = null;
+                    if (!string.IsNullOrEmpty(nombre_cuenta_buscar_g))
+                    {
+                        int id_encontrado = crudCataloCuentas.BuscarIdCuentaPorNombre(nombre_cuenta_buscar_g);
+                        if (id_encontrado > 0) id_cuenta_destino_gasto = id_encontrado;
+                    }
+
+                    int nuevo_id = gasto.IngresarGastos(fecha_transaccion, descripcion, saldo, referencia,
+                                                        id_usuario, id_origenNuevo, nombre_cuenta, ParroquiaId,
+                                                        id_cuenta_destino_gasto);  // ← NUEVO argumento
+
                     if (nuevo_id <= 0)
                     {
                         MessageBox.Show("No se recibió un ID válido desde la base de datos. Verifique el SP.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1941,8 +1997,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     fila_nueva.Cells["Saldo"].Style.ForeColor = Color.Green;
 
                     BloquearFilasGuardadas(fila_nueva);
-                    _gridBloqueado = true;
-                    dgvGastos.ReadOnly = true;
+                    //_gridBloqueado = true;
+                    //dgvGastos.ReadOnly = true;
 
                     dgvGastos.Refresh();
                     dgvGastos.ClearSelection();
@@ -2357,6 +2413,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         private void lblCapitalInicial_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCancelarCapital_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
         {
 
         }

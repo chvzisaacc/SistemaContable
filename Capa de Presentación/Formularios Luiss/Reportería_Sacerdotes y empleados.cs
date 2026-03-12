@@ -12,7 +12,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FRM_PG49 : Form
     {
-
+        /// <summary>
+        /// The libro mayor service
+        /// </summary>
+        private readonly LibroMayorService _libroMayorService = new LibroMayorService();
         /// <summary>
         /// The gastos service
         /// </summary>
@@ -227,6 +230,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                     nombre_reporte = "Informe de Curia";
                     break;
+
+                case 6:
+                    ruta_pdf = _libroMayorService.GenerarInformeLibroMayor(
+                               parroquia_id,
+                               parroquia_nombre,
+                               desde,
+                               hasta
+                               );
+
+                    nombre_reporte = "Libro mayor";
+                    break;
+
 
                 default:
                     MessageBox.Show("Tipo de reporte no válido.");

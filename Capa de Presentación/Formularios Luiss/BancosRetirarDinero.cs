@@ -10,6 +10,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosRetirarDinero : Form
     {
+        private int _usuarioId;
+
         private int _parroquiaId;
         public delegate void ActualizarSaldoDelegate();
         public event ActualizarSaldoDelegate SaldoActualizado;
@@ -25,7 +27,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <summary>
         /// Initializes a new instance of the <see cref="BancosRetirarDinero"/> class.
         /// </summary>
-        public BancosRetirarDinero(int parroquiaId)
+        public BancosRetirarDinero(int parroquiaId, int usuarioId)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -170,7 +172,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 int id_origen = Convert.ToInt32(cmbCuentas.SelectedValue);
                 decimal monto = Convert.ToDecimal(txtMonto.Text);
 
-                bool exito = crudCajaChica.EnviarDineroCajaChica(id_origen, monto, _parroquiaId);
+                bool exito = crudCajaChica.EnviarDineroCajaChica(id_origen, monto, _parroquiaId, _usuarioId);
 
                 if (exito)
                 {

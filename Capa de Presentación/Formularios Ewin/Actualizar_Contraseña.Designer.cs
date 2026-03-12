@@ -77,7 +77,7 @@
             lbl_volver.Margin = new Padding(2, 0, 2, 0);
             lbl_volver.Name = "lbl_volver";
             lbl_volver.Size = new Size(50, 20);
-            lbl_volver.TabIndex = 8;
+            lbl_volver.TabIndex = 9;
             lbl_volver.Text = "Volver";
             lbl_volver.Click += label4_Click;
             // 
@@ -87,9 +87,9 @@
             btn_confirmar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_confirmar.ForeColor = Color.White;
             btn_confirmar.ImageAlign = ContentAlignment.TopCenter;
-            btn_confirmar.Location = new Point(380, 143);
+            btn_confirmar.Location = new Point(500, 269);
             btn_confirmar.Name = "btn_confirmar";
-            btn_confirmar.Size = new Size(227, 39);
+            btn_confirmar.Size = new Size(132, 39);
             btn_confirmar.TabIndex = 7;
             btn_confirmar.Text = "Confirmar";
             btn_confirmar.UseVisualStyleBackColor = false;
@@ -102,7 +102,7 @@
             txt_confirmar_contrasena.Location = new Point(56, 217);
             txt_confirmar_contrasena.MaxLength = 30;
             txt_confirmar_contrasena.Name = "txt_confirmar_contrasena";
-            txt_confirmar_contrasena.Size = new Size(309, 27);
+            txt_confirmar_contrasena.Size = new Size(485, 27);
             txt_confirmar_contrasena.TabIndex = 6;
             // 
             // label3
@@ -120,10 +120,10 @@
             btn_cancelar.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_cancelar.ForeColor = Color.White;
             btn_cancelar.ImageAlign = ContentAlignment.TopCenter;
-            btn_cancelar.Location = new Point(380, 205);
+            btn_cancelar.Location = new Point(351, 269);
             btn_cancelar.Name = "btn_cancelar";
-            btn_cancelar.Size = new Size(227, 39);
-            btn_cancelar.TabIndex = 4;
+            btn_cancelar.Size = new Size(143, 39);
+            btn_cancelar.TabIndex = 8;
             btn_cancelar.Text = "Cancelar";
             btn_cancelar.UseVisualStyleBackColor = false;
             btn_cancelar.UseWaitCursor = true;
@@ -135,7 +135,7 @@
             txt_nueva_contrasena.Location = new Point(56, 155);
             txt_nueva_contrasena.MaxLength = 30;
             txt_nueva_contrasena.Name = "txt_nueva_contrasena";
-            txt_nueva_contrasena.Size = new Size(309, 27);
+            txt_nueva_contrasena.Size = new Size(485, 27);
             txt_nueva_contrasena.TabIndex = 2;
             // 
             // label2
@@ -161,6 +161,7 @@
             // 
             // Actualizar_Contraseña
             // 
+            AcceptButton = btn_confirmar;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Imagen_de_WhatsApp_2025_10_22_a_las_17_39_32_e87a041a;

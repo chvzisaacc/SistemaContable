@@ -84,7 +84,7 @@ namespace Capa_de_acceso_de_datos
         /// <exception cref="System.Exception">
         /// Error al enviar dinero a caja chica: " + ex.Message
         /// </exception>
-        public bool EnviarDineroCajaChica(int id_origen, decimal monto, int parroquiaId)
+        public bool EnviarDineroCajaChica(int id_origen, decimal monto, int parroquiaId, int usuarioId) // ← NUEVO
         {
             try
             {
@@ -95,6 +95,8 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@IdOrigen", id_origen);
                 cmd.Parameters.AddWithValue("@Monto", monto);
                 cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
+                cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);  // ← NUEVO
+
 
                 SqlParameter paramExitoso = new SqlParameter("@Exitoso", SqlDbType.Bit)
                 {
