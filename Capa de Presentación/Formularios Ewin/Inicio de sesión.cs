@@ -74,7 +74,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
             //Instancia
             ClsValidaciones validaciones = new ClsValidaciones();
@@ -139,6 +139,20 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // Guardar sesión con ambos valores
             Sesion1.IniciarSesion(id_usuario, rol, parroquia_id);
 
+            bool hayInternet = await AccesoRemoto.VerificarConexion();
+
+            if (!hayInternet)
+            {
+                var result = MessageBox.Show(
+                    "No se detectó conexión con el servidor remoto de la parroquia.\n\n" +
+                    "¿Desea entrar en MODO LOCAL?",
+                    "Servidor Desconectado",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (result == DialogResult.No) return;
+            }
+
             Form f;
             //REDIRECCIONAR AL FORM SEGÚN Roles 
             if (rol == 1)
@@ -159,10 +173,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // si el Login es el formulario principal.
             this.Hide();
         }
-
-
-
-
         /// <summary>
         /// Handles the Click event of the label3 control.
         /// </summary>

@@ -1,4 +1,6 @@
-﻿namespace Capa_de_acceso_de_datos
+﻿using Capa_de_procesamiento_de_datos;
+
+namespace Capa_de_acceso_de_datos
 {
     /// <summary>
     /// 
@@ -42,8 +44,8 @@
             }
             catch (Exception ex)
             {
-
-                throw new Exception("Error al iniciar sesión: " + ex.Message);
+                MessageBox.Show(ex.Message);
+                throw;
             }
             finally
             {
@@ -51,8 +53,5 @@
                 Cerrar();
             }
         }
-
-
-
     }
 }
