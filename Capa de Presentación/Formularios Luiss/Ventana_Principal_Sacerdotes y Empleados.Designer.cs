@@ -761,7 +761,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelIngresarCapital.Controls.Add(txtCapitalInicial);
             panelIngresarCapital.Controls.Add(label8);
             panelIngresarCapital.Location = new Point(799, 54);
-            panelIngresarCapital.Margin = new Padding(4, 4, 4, 4);
+            panelIngresarCapital.Margin = new Padding(4);
             panelIngresarCapital.Name = "panelIngresarCapital";
             panelIngresarCapital.Size = new Size(677, 322);
             panelIngresarCapital.TabIndex = 42;
