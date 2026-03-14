@@ -1,0 +1,6 @@
+@ProcedimientosAlmacenados.API_HostAddress = http://localhost:5207
+
+GET {{ProcedimientosAlmacenados.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

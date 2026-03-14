@@ -8,10 +8,13 @@
 		<PublishSingleFile>false</PublishSingleFile>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Platforms>AnyCPU;x64</Platforms>
+		<AssemblyName>Capa de acceso de datos</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="8.0.24" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.24" />
 		<PackageReference Include="Microsoft.SqlServer.Server" Version="1.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="OpenCvSharp4" Version="4.11.0.20250507" />
@@ -19,6 +22,12 @@
 		<PackageReference Include="OpenCvSharp4.runtime.win" Version="4.11.0.20250507" />
 		<PackageReference Include="System.Drawing.Common" Version="10.0.0" />
 		<PackageReference Include="QuestPDF" Version="2024.7.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="Capa de procesamiento de datos">
+	    <HintPath>..\Capa de Presentación\bin\x64\Debug\net8.0-windows\Capa de procesamiento de datos.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 </Project>
