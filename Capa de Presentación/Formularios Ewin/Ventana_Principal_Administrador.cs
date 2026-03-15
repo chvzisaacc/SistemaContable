@@ -605,56 +605,55 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+
         private void button6_Click(object sender, EventArgs e)
         {
             if (!ValidarCamposCatalogo()) return;
 
             try
             {
+                // 1. Captura de datos de la interfaz
                 string codigo = txtIdCuenta.Text.Trim();
                 string nombre = txtNombreCuenta.Text.Trim();
                 string detalle = txtDetalle.Text.Trim();
                 int id_padre = ObtenerIdPadreSeleccionado();
-                int id_estado = Convert.ToInt32(cmbEstadoCuenta.SelectedValue);
+                int id_estado = (cmbEstadoCuenta.SelectedValue != null) ? Convert.ToInt32(cmbEstadoCuenta.SelectedValue) : 1;
 
-                if (id_padre <= 0)
+                // 2. Validación de nivel jerárquico
+                if (id_padre < 0) // Permitimos 0 si es una cuenta raíz, según tu lógica de BD
                 {
-                    MessageBox.Show("Seleccione al menos el tipo de cuenta (Nivel 1).",
+                    MessageBox.Show("Seleccione una jerarquía válida o cuenta padre.",
                         "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
+                bool resultado = false;
+
                 if (modo_edicion_catalogo)
                 {
-                    bool resultado = crud_catalogo_cuentas.ModificarCatalogoCuenta(
+                    // MODIFICAR
+                    resultado = crud_catalogo_cuentas.ModificarCatalogoCuenta(
                         id_cuenta_seleccionada, codigo, nombre, id_padre, detalle);
 
+                    // Verificamos si el resultado fue exitoso
                     if (resultado)
                     {
-                        MessageBox.Show("Cuenta modificada exitosamente.", "Éxito",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        try
-                        {
-                            crud_historial.RegistrarActividad(UsuarioLogueado.usuario_id, 8,
-                                "Modificación de Cuenta",
-                                $"Se modificó la cuenta: '{nombre}' (Código: {codigo}).");
-                        }
-                        catch (Exception exBitacora)
-                        {
-                            Console.WriteLine("Error de Bitácora: " + exBitacora.Message);
-                        }
-                        CargarDatosCatalogoDGV();
-                        LimpiarCamposCatalogo();
-                        HabilitarControlesCatalogo(false);
+                        // Esto ya ejecuta CargarDatosCatalogoDGV() y LimpiarCamposCatalogo()
+                        FinalizarOperacion("Modificación", nombre, codigo);
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo modificar la cuenta.", "Error",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("No se pudo confirmar la modificación en la base de datos.",
+                            "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                        // Forzamos el refresco de todos modos por si hubo un falso negativo
+                        CargarDatosCatalogoDGV();
+                        LimpiarCamposCatalogo();
                     }
                 }
                 else
                 {
+                    // AGREGAR
                     if (crud_catalogo_cuentas.CatalogoCuentaExiste(nombre))
                     {
                         MessageBox.Show("El nombre de la cuenta ya existe.", "Advertencia",
@@ -662,29 +661,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         return;
                     }
 
-                    // Ahora pasa id_estado
-                    bool resultado = crud_catalogo_cuentas.AgregarCatalogoCuenta(
-                        codigo, nombre, id_padre, detalle,
-                        es_detalle: true,
-                        id_estado: id_estado);
+                    resultado = crud_catalogo_cuentas.AgregarCatalogoCuenta(
+                        codigo, nombre, id_padre, detalle, es_detalle: true, id_estado: id_estado);
 
                     if (resultado)
                     {
-                        MessageBox.Show($"Cuenta agregada exitosamente (Código: {codigo}).",
-                            "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        try
-                        {
-                            crud_historial.RegistrarActividad(UsuarioLogueado.usuario_id, 8,
-                                "Creación de Cuenta",
-                                $"Se creó la cuenta: '{nombre}' (Código: {codigo}).");
-                        }
-                        catch (Exception exBitacora)
-                        {
-                            Console.WriteLine("Error de Bitácora: " + exBitacora.Message);
-                        }
-                        CargarDatosCatalogoDGV();
-                        LimpiarCamposCatalogo();
-                        HabilitarControlesCatalogo(false);
+                        FinalizarOperacion("Creación", nombre, codigo);
                     }
                     else
                     {
@@ -695,10 +677,33 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar: " + ex.Message + "\n\nDetalle: "
-                    + ex.InnerException?.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // English: Show the actual SQL Error message (from RAISERROR).
+                // Español: Muestra el mensaje de error real de SQL (del RAISERROR).
+                string mensajeError = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    mensajeError += "\nDetalle técnico: " + ex.InnerException.Message;
+                }
+
+                MessageBox.Show("Error al guardar: " + mensajeError,
+                    "Error de Base de Datos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        // Método para no repetir el refresco de la UI y la bitácora
+        private void FinalizarOperacion(string tipoAccion, string nombre, string codigo)
+        {
+            MessageBox.Show($"{tipoAccion} de cuenta exitosa.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                crud_historial.RegistrarActividad(UsuarioLogueado.usuario_id, 8, tipoAccion,
+                    $"Acción: {tipoAccion} - Cuenta: '{nombre}' (Código: {codigo}).");
+            }
+            catch { }
+
+            CargarDatosCatalogoDGV();
+            LimpiarCamposCatalogo();
+            HabilitarControlesCatalogo(false);
         }
 
         /// <summary>
@@ -708,52 +713,60 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
+                // 1. Buscar la cuenta en la BD usando el id_cuenta de tu tabla
                 var cuenta = crud_catalogo_cuentas.BuscarCatalogoCuentaPorId(id_cuenta_seleccionada);
                 if (cuenta == null) return;
 
+                // 2. Desconectar eventos para evitar que se sugiera un código nuevo
                 cmbNivel1.SelectedIndexChanged -= cmbCuenta_SelectedIndexChanged;
                 cmbNivel2.SelectedIndexChanged -= cmbTipoCuenta_SelectedIndexChanged;
                 cmbNivel3.SelectedIndexChanged -= cmbNivel3_SelectedIndexChanged;
 
+                // 3. Asignar valores básicos de la BD
                 txtIdCuenta.Text = cuenta["codigo"].ToString();
-                txtNombreCuenta.Text = cuenta["nombre"].ToString();
-                txtDetalle.Text = cuenta["detalle"] != DBNull.Value
-                                       ? cuenta["detalle"].ToString() : "";
+                txtIdCuenta.ReadOnly = true; // Bloqueamos el código para que no cambie
+                txtIdCuenta.BackColor = Color.LightGray;
 
-                // Cargar estado
+                txtNombreCuenta.Text = cuenta["nombre"].ToString();
+                txtDetalle.Text = cuenta["detalle"] != DBNull.Value ? cuenta["detalle"].ToString() : "";
+
+                // 4. Cargar Estado (Id_estado_cuenta en tu BD)
                 if (cuenta["Id_estado_cuenta"] != DBNull.Value)
                     cmbEstadoCuenta.SelectedValue = Convert.ToInt32(cuenta["Id_estado_cuenta"]);
 
-                // Reconstruir cascada
-                int idNivel1 = cuenta["id_padre_nivel0"] != DBNull.Value
-                               ? Convert.ToInt32(cuenta["id_padre_nivel0"]) : 0;
-                int idNivel2 = cuenta["id_padre_nivel1"] != DBNull.Value
-                               ? Convert.ToInt32(cuenta["id_padre_nivel1"]) : 0;
-                int idNivel3 = cuenta["id_padre"] != DBNull.Value
-                               ? Convert.ToInt32(cuenta["id_padre"]) : 0;
+                // 5. Reconstruir la Cascada de Niveles
+                // Para el Nivel 1, necesitamos el id_padre que sea NULL o nivel raíz
+                // Nota: Asegúrate que tu SP o Función devuelva estos IDs calculados
+                int idNivel1 = cuenta["id_padre_nivel0"] != DBNull.Value ? Convert.ToInt32(cuenta["id_padre_nivel0"]) : 0;
+                int idNivel2 = cuenta["id_padre_nivel1"] != DBNull.Value ? Convert.ToInt32(cuenta["id_padre_nivel1"]) : 0;
+                int idPadreDirecto = cuenta["id_padre"] != DBNull.Value ? Convert.ToInt32(cuenta["id_padre"]) : 0;
 
+                // Lógica de selección para que cmbNivel1 recupere su info
                 if (idNivel1 > 0)
                 {
                     cmbNivel1.SelectedValue = idNivel1;
-                    CargarNivel2(idNivel1);
+                    CargarNivel2(idNivel1); // Carga las opciones del siguiente combo
                 }
+
                 if (idNivel2 > 0)
                 {
                     cmbNivel2.SelectedValue = idNivel2;
                     CargarNivel3(idNivel2);
                 }
-                if (idNivel3 > 0)
-                    cmbNivel3.SelectedValue = idNivel3;
 
-                // Restaurar eventos
+                if (idPadreDirecto > 0)
+                {
+                    cmbNivel3.SelectedValue = idPadreDirecto;
+                }
+
+                // 6. Restaurar eventos
                 cmbNivel1.SelectedIndexChanged += cmbCuenta_SelectedIndexChanged;
                 cmbNivel2.SelectedIndexChanged += cmbTipoCuenta_SelectedIndexChanged;
                 cmbNivel3.SelectedIndexChanged += cmbNivel3_SelectedIndexChanged;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar cuenta: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al cargar datos desde la BD: " + ex.Message);
             }
         }
 
@@ -1082,33 +1095,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 dgvCatalogoCuentas.DataSource = crud_catalogo_cuentas.ObtenerCatalogoCuentas();
 
-                /*
-                //ver qué columnas devuelve el SP
-                string columnas = "";
-                foreach (DataGridViewColumn col in dgvCatalogoCuentas.Columns)
-                    columnas += col.Name + "\n";
-                MessageBox.Show(columnas, "Columnas disponibles");
-                */
-
-
                 // Ocultar columnas internas
                 string[] ocultar = { "EstadoID", "EsDetalle", "id_cuenta",
-                             "Naturaleza", "CodigoPadre" };
+                            "CodigoPadre" };
                 foreach (string col in ocultar)
                     if (dgvCatalogoCuentas.Columns[col] != null)
                         dgvCatalogoCuentas.Columns[col].Visible = false;
 
-                /*
-                // Anchos
-                if (dgvCatalogoCuentas.Columns["Codigo"] != null)
-                    dgvCatalogoCuentas.Columns["Codigo"].Width = 100;
-                if (dgvCatalogoCuentas.Columns["TipoNaturaleza"] != null)
-                    dgvCatalogoCuentas.Columns["TipoNaturaleza"].Width = 110;
-                if (dgvCatalogoCuentas.Columns["Estado"] != null)
-                    dgvCatalogoCuentas.Columns["Estado"].Width = 100;
-                if (dgvCatalogoCuentas.Columns["NombrePadre"] != null)
-                    dgvCatalogoCuentas.Columns["NombrePadre"].Width = 180;
-                */
 
                 // Centrar encabezados
                 foreach (DataGridViewColumn col in dgvCatalogoCuentas.Columns)
@@ -1136,6 +1129,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
 
+            // 1. Validar que exista un código generado
             if (string.IsNullOrWhiteSpace(txtIdCuenta.Text))
             {
                 MessageBox.Show("Seleccione un padre para generar el código.",
@@ -1143,24 +1137,27 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return false;
             }
 
+            // 2. Validar Nombre (Permite letras, espacios, puntos y comas)
             if (string.IsNullOrWhiteSpace(txtNombreCuenta.Text) ||
-                !val.EsTextoValido(txtNombreCuenta.Text.Trim()))
+                !val.EsTextoPuntuacionValido(txtNombreCuenta.Text.Trim()))
             {
-                MessageBox.Show("El nombre es requerido y solo puede contener letras y espacios.",
+                MessageBox.Show("El nombre es requerido y solo puede contener letras, espacios, puntos o comas.",
                     "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombreCuenta.Focus();
                 return false;
             }
 
+            // 3. Validar Detalle (Permite letras, espacios, puntos y comas)
             if (string.IsNullOrWhiteSpace(txtDetalle.Text) ||
-                !val.EsTextoValido(txtDetalle.Text.Trim()))
+                !val.EsTextoPuntuacionValido(txtDetalle.Text.Trim()))
             {
-                MessageBox.Show("El detalle es requerido y solo puede contener letras y espacios.",
+                MessageBox.Show("El detalle es requerido y solo puede contener letras, espacios, puntos o comas.",
                     "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDetalle.Focus();
                 return false;
             }
 
+            // 4. Validar jerarquía
             if (ObtenerIdPadreSeleccionado() <= 0)
             {
                 MessageBox.Show("Debe seleccionar al menos el tipo de cuenta (Nivel 1).",
@@ -1171,7 +1168,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             return true;
         }
-
         /// <summary>
         /// Limpiars the campos catalogo.
         /// </summary>
@@ -1365,14 +1361,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 int id = Convert.ToInt32(dgvCatalogoCuentas.CurrentRow.Cells["id_cuenta"].Value);
 
-                /*
-                MessageBox.Show($"id_cuenta leído: {id}\n" +
-                $"Columna existe: {dgvCatalogoCuentas.Columns["id_cuenta"] != null}\n" +
-                $"Valor raw: {dgvCatalogoCuentas.CurrentRow.Cells["id_cuenta"].Value}",
-                "Debug");
-                */
 
-                string codigo = dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value?.ToString() ?? "";
+                string codigo = dgvCatalogoCuentas.CurrentRow.Cells["Código"].Value?.ToString() ?? "";
 
                 // 1 = Habilitada
                 if (crud_catalogo_cuentas.CambiarEstadoCuenta(id, id_estado: 1))
@@ -1393,13 +1383,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     CargarDatosCatalogoDGV();
                     LimpiarCamposCatalogo();
                 }
-                /*
-                else
-                {
-                    MessageBox.Show("El SP no actualizó ninguna fila. id_cuenta: " + id,
-                        "Debug", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                */
+
             }
             catch (Exception ex)
             {
@@ -1426,7 +1410,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             try
             {
                 int id = Convert.ToInt32(dgvCatalogoCuentas.CurrentRow.Cells["id_cuenta"].Value);
-                string codigo = dgvCatalogoCuentas.CurrentRow.Cells["Codigo"].Value?.ToString() ?? "";
+                string codigo = dgvCatalogoCuentas.CurrentRow.Cells["Código"].Value?.ToString() ?? "";
 
                 // 2 = Inhabilitada
                 if (crud_catalogo_cuentas.CambiarEstadoCuenta(id, id_estado: 2))
@@ -1521,20 +1505,48 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void btnModificarCuenta_Click(object sender, EventArgs e)
         {
-            if (dgvCatalogoCuentas.CurrentRow == null)
+            if (dgvCatalogoCuentas.CurrentRow == null) return;
+
+            // 1. Bloqueo total de la lógica de "Sugerir Código"
+            modo_edicion_catalogo = true;
+            HabilitarControlesCatalogo(true);
+            txtIdCuenta.ReadOnly = true;
+
+            try
             {
-                MessageBox.Show("Seleccione una cuenta para modificar.", "Advertencia",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                // 2. Captura de datos desde la fila del Grid
+                string codigoOriginal = dgvCatalogoCuentas.CurrentRow.Cells[0].Value.ToString();
+                string nombrePadre = dgvCatalogoCuentas.CurrentRow.Cells["Nombre Padre"].Value.ToString();
+                id_cuenta_seleccionada = Convert.ToInt32(dgvCatalogoCuentas.CurrentRow.Cells["id_cuenta"].Value);
+
+                // 3. Cargar la data desde la BD (Esto recupera los IDs de la jerarquía)
+                CargarDatosCatalogoCuenta();
+
+                // 4. Lógica de recuperación para el ComboBox (Nivel 1)
+                // Buscamos el nombre del padre que está en el Grid
+                if (cmbNivel1.Items.Count > 0)
+                {
+                    int index = cmbNivel1.FindStringExact(nombrePadre);
+                    if (index != -1)
+                    {
+                        cmbNivel1.SelectedIndex = index;
+                    }
+                    else
+                    {
+                        // Si no está en el Nivel 1, intentamos forzar por el SelectedValue 
+                        // que cargó previamente 'CargarDatosCatalogoCuenta'
+                    }
+                }
+
+                // 5. Forzamos el código original para que no se mueva
+                txtIdCuenta.Text = codigoOriginal;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al devolver jerarquía: " + ex.Message);
             }
 
-            id_cuenta_seleccionada = Convert.ToInt32(
-                dgvCatalogoCuentas.CurrentRow.Cells["id_cuenta"].Value);
-
-            HabilitarControlesCatalogo(true);
-            modo_edicion_catalogo = true;
-            CargarDatosCatalogoCuenta();
-            txtIdCuenta.Focus();
+            txtNombreCuenta.Focus();
         }
 
         private void cmbCuenta_SelectedIndexChanged(object sender, EventArgs e)
@@ -1562,16 +1574,24 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void cmbNivel3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbNivel3.SelectedValue == null || cmbNivel3.SelectedValue == DBNull.Value) return;
-            if (!int.TryParse(cmbNivel3.SelectedValue.ToString(), out int id)) return;
-            if (id <= 0) return;
+            // Si estamos editando, SALIR del método sin sugerir nada
+            if (modo_edicion_catalogo) return;
 
-            SugerirCodigo(id);
+            // Solo si es una cuenta nueva, sugerimos código
+            if (int.TryParse(cmbNivel3.SelectedValue?.ToString(), out int id))
+            {
+                SugerirCodigo(id);
+            }
         }
 
         private void cmbEstadoCuenta_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
+
+        private void dgvCatalogoCuentas_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+        }
     }
+
 }

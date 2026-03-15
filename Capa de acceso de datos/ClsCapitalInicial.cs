@@ -61,27 +61,28 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        public decimal ObtenerCapitalInicial(int parroquiaId)
+        public decimal ObtenerCapitalInicial(int usuarioId, int parroquiaId)
         {
             try
             {
-                _cn.Abrir();
-                using (SqlCommand cmd = new SqlCommand("sp_TieneCapitalInicial", _cn.sc))
+               _cn.Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_ObtenerCapitalInicialSeguro", _cn.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
                     cmd.Parameters.AddWithValue("@ParroquiaId", parroquiaId);
 
-                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                    {
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
-
-                        if (dt.Rows.Count > 0)
-                            return Convert.ToDecimal(dt.Rows[0]["CapitalInicial"]);
-
-                        return 0;
-                    }
+                    object result = cmd.ExecuteScalar();
+                    return result != DBNull.Value ? Convert.ToDecimal(result) : 0;
                 }
+            }
+            catch (SqlException ex)
+            {
+                // Si el SP devuelve error de permisos, lo manejamos
+                if (ex.Message.Contains("permisos"))
+                    throw new UnauthorizedAccessException("No tiene permisos para ver el capital de esta parroquia");
+                else
+                    throw;
             }
             finally
             {

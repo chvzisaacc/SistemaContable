@@ -55,14 +55,33 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 dgvCatalogoUsuarios.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 12.5F, FontStyle.Bold);
                 dgvCatalogoUsuarios.DataSource = crudCatalogoCuentas.ObtenerCatalogoCuentas();
 
-                if (dgvCatalogoUsuarios.Columns["CuentaID"] != null)
-                    dgvCatalogoUsuarios.Columns["CuentaID"].Visible = false;
+                // 1. Ocultar columnas de IDs (Ya lo tenías, mantenlo)
+                if (dgvCatalogoUsuarios.Columns["CuentaID"] != null) dgvCatalogoUsuarios.Columns["CuentaID"].Visible = false;
+                if (dgvCatalogoUsuarios.Columns["id_cuenta"] != null) dgvCatalogoUsuarios.Columns["id_cuenta"].Visible = false;
+                if (dgvCatalogoUsuarios.Columns["EstadoID"] != null) dgvCatalogoUsuarios.Columns["EstadoID"].Visible = false;
 
-                if (dgvCatalogoUsuarios.Columns["EstadoID"] != null)
-                    dgvCatalogoUsuarios.Columns["EstadoID"].Visible = false;
+                // 2. Configurar el salto de línea (WrapMode) y ajuste de filas
+                dgvCatalogoUsuarios.DefaultCellStyle.WrapMode = DataGridViewTriState.True; // Permite múltiples renglones
+                dgvCatalogoUsuarios.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells; // Ajusta la altura según el texto
 
-                if (dgvCatalogoUsuarios.Columns["Saldo"] != null)
-                    dgvCatalogoUsuarios.Columns["Saldo"].DefaultCellStyle.Format = "N2";
+                
+              
+                dgvCatalogoUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
+                //Ajustamos los anchos manualmente 
+                if (dgvCatalogoUsuarios.Columns["Nombre"] != null) dgvCatalogoUsuarios.Columns["Nombre"].Width = 150;
+
+                if (dgvCatalogoUsuarios.Columns["Detalle"] != null)
+                {
+                    dgvCatalogoUsuarios.Columns["Detalle"].Width = 250; // Al ser estrecho, se repartirá en más renglones
+                }
+
+                dgvCatalogoUsuarios.Columns["Nombre"].MinimumWidth = 200;
+                dgvCatalogoUsuarios.Columns["Detalle"].MinimumWidth = 350;
+                dgvCatalogoUsuarios.DefaultCellStyle.Padding = new Padding(5, 5, 5, 5);
+
+                dgvCatalogoUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
             }
             catch (Exception ex)
             {

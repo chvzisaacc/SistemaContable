@@ -26,7 +26,7 @@
 
 	<ItemGroup>
 	  <Reference Include="Capa de procesamiento de datos">
-	    <HintPath>..\Capa de Presentación\bin\x64\Debug\net8.0-windows\Capa de procesamiento de datos.dll</HintPath>
+	    <HintPath>..\Capa de procesamiento de datos\bin\Debug\net8.0-windows\Capa de procesamiento de datos.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 

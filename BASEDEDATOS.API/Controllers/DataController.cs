@@ -6,17 +6,17 @@ using System.Text.Json;
 
 namespace BASEDEDATOS.API.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class DataController : ControllerBase
     {
-        // Configuración de la conexión
-        static string servidorLocal = Environment.MachineName + "\\SQLEXPRESS";
-        private readonly string conexion = $"Data Source={servidorLocal};Initial Catalog=BASE DE SISTEMA - LOCAL;Integrated Security=True;TrustServerCertificate=True;";
+        private readonly string conexion = @"Data Source=.\SQLEXPRESS;Initial Catalog=""BASE DE SISTEMA - LOCAL"";Integrated Security=True;TrustServerCertificate=True;";
 
         [HttpPost("ejecutar-sp")]
         public IActionResult EjecutarSP([FromBody] SpRequest request)
         {
+
             try
             {
                 using (SqlConnection conn = new SqlConnection(conexion))
@@ -24,19 +24,19 @@ namespace BASEDEDATOS.API.Controllers
                     SqlCommand cmd = new SqlCommand(request.SpName, conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Agregar parámetros dinámicamente con conversión de tipos
+                    // Mapeo dinámico de parámetros
                     if (request.Parametros != null)
                     {
                         foreach (var param in request.Parametros)
                         {
                             object valorFinal = param.Value;
 
-                            // Lógica para desempaquetar JsonElement y convertirlo a tipo nativo de C#
+                            // Conversión de tipos JSON a tipos nativos de C#
                             if (valorFinal is JsonElement elemento)
                             {
                                 valorFinal = elemento.ValueKind switch
                                 {
-                                    JsonValueKind.String => elemento.GetString(),
+                                    JsonValueKind.String => elemento.TryGetDateTime(out DateTime dt) ? dt : elemento.GetString(),
                                     JsonValueKind.Number => elemento.TryGetInt32(out int intVal) ? intVal : elemento.GetDouble(),
                                     JsonValueKind.True => true,
                                     JsonValueKind.False => false,
@@ -45,18 +45,32 @@ namespace BASEDEDATOS.API.Controllers
                                 };
                             }
 
-                            cmd.Parameters.AddWithValue("@" + param.Key.Replace("@", ""), valorFinal ?? DBNull.Value);
+                            // Asegura que el nombre del parámetro lleve el prefijo '@'
+                            string nombreParam = param.Key.StartsWith("@") ? param.Key : "@" + param.Key;
+                            cmd.Parameters.AddWithValue(nombreParam, valorFinal ?? DBNull.Value);
                         }
                     }
 
                     conn.Open();
+
+                    // Se utiliza ExecuteNonQuery para acciones como Login o Ingresos
                     cmd.ExecuteNonQuery();
-                    return Ok(new { mensaje = "Operación exitosa en " + request.SpName });
+
+                    return Ok(new
+                    {
+                        mensaje = "Operación exitosa",
+                        procedimiento = request.SpName,
+                        timestamp = DateTime.Now
+                    });
                 }
+            }
+            catch (SqlException sqlEx)
+            {
+                // Captura errores específicos de SQL (permisos, nombres de SP mal escritos, etc.)
+                return StatusCode(500, new { error = "Error en Base de Datos", detalle = sqlEx.Message });
             }
             catch (Exception ex)
             {
-                // Esto devolverá el error detallado si algo falla en SQL
                 return BadRequest(new { error = ex.Message });
             }
         }

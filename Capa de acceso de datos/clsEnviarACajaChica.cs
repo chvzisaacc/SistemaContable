@@ -84,7 +84,7 @@ namespace Capa_de_acceso_de_datos
         /// <exception cref="System.Exception">
         /// Error al enviar dinero a caja chica: " + ex.Message
         /// </exception>
-        public bool EnviarDineroCajaChica(int id_origen, decimal monto, int parroquiaId, int usuarioId) // ← NUEVO
+        public bool EnviarDineroCajaChica(int id_origen, decimal monto, int parroquiaId, int usuarioId)
         {
             try
             {
@@ -92,26 +92,22 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_EnviarDineroCajaChica", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
+                // ESTOS 4 SON LOS PARÁMETROS DE ENTRADA (Input)
                 cmd.Parameters.AddWithValue("@IdOrigen", id_origen);
                 cmd.Parameters.AddWithValue("@Monto", monto);
                 cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
-                cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);  // ← NUEVO
+                cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
 
+                // ESTOS 2 SON LOS PARÁMETROS DE SALIDA (Output)
+                SqlParameter paramExitoso = new SqlParameter("@Exitoso", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                SqlParameter paramMensaje = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500) { Direction = ParameterDirection.Output };
 
-                SqlParameter paramExitoso = new SqlParameter("@Exitoso", SqlDbType.Bit)
-                {
-                    Direction = ParameterDirection.Output
-                };
                 cmd.Parameters.Add(paramExitoso);
-
-                SqlParameter paramMensaje = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500)
-                {
-                    Direction = ParameterDirection.Output
-                };
                 cmd.Parameters.Add(paramMensaje);
 
                 cmd.ExecuteNonQuery();
 
+                // Leemos los resultados del SP
                 bool exitoso = Convert.ToBoolean(paramExitoso.Value);
 
                 if (!exitoso)
@@ -124,7 +120,8 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al enviar dinero a caja chica: " + ex.Message, ex);
+                // Esto lanzará el error exacto que venga de SQL
+                throw new Exception("Error al procesar: " + ex.Message, ex);
             }
             finally
             {

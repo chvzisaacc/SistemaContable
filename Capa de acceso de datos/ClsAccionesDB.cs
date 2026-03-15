@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Security.Cryptography;
+using System.Text;
 
 // Nota: Asumo que Clsconexion es la clase base que contiene sc (SqlConnection), Abrir() y Cerrar().
 
@@ -159,7 +161,7 @@ namespace Capa_de_acceso_de_datos
             catch (Exception ex)
             {
 
-                return resultado;
+                throw new Exception("Error en ValidarCredenciales: " + ex.Message);
             }
             finally
             {

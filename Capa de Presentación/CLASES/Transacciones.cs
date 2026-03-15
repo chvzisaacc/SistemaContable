@@ -148,81 +148,47 @@ namespace Capa_de_Presentación.CLASES
         /// <param name="RowIndex">Index of the row.</param>
         public void BloquearDesbloquearDataIngresos(DataTable dtDatosIngresos, DataGridView dataGridView1, int RowIndex)
         {
-            // Asegúrate de que el DataGridView se desbloquee para edición
+            // 1. Resetear siempre a editable por defecto
             dataGridView1.ReadOnly = false;
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
+                column.ReadOnly = false;
 
-            if (RowIndex >= 0 && dtDatosIngresos != null)
+            // 2. Validaciones iniciales
+            if (RowIndex < 0 || dtDatosIngresos == null) return;
+
+            int lastDataRowIndex = dtDatosIngresos.Rows.Count - 1;
+
+            // 3. Solo actuar sobre la última fila
+            if (RowIndex != lastDataRowIndex) return;
+
+            DataGridViewRow currentRow = dataGridView1.Rows[RowIndex];
+
+            // 4. Verificar campos vacíos
+            string[] columnasAComprobar = { "NombreCuenta", "Detalle", "Saldo" };
+            foreach (string nombreColumna in columnasAComprobar)
             {
-                int lastDataRowIndex = dtDatosIngresos.Rows.Count - 1;
-
-                if (RowIndex == lastDataRowIndex)
+                object cellValue = currentRow.Cells[nombreColumna].Value;
+                if (cellValue == null || string.IsNullOrWhiteSpace(cellValue.ToString()))
                 {
-                    DataGridViewRow currentRow = dataGridView1.Rows[RowIndex];
-                    bool algunCampoVacio = false;
-
-                    string[] columnasAComprobar = new string[]
-                    {
-                "NombreCuenta",
-                "Detalle",
-                "Saldo",
-                    };
-
-                    foreach (string nombreColumna in columnasAComprobar)
-                    {
-                        object cellValue = currentRow.Cells[nombreColumna].Value;
-
-                        // Verifica si alguna celda está vacía
-                        if (cellValue == null || string.IsNullOrEmpty(cellValue.ToString()))
-                        {
-                            algunCampoVacio = true;
-                            break;
-                        }
-                    }
-
-                    // Si algún campo está vacío, se desbloquean todas las celdas para permitir la edición
-                    if (algunCampoVacio)
-                    {
-                        foreach (DataGridViewColumn column in dataGridView1.Columns)
-                        {
-                            column.ReadOnly = false;
-                        }
-                    }
-                    else
-                    {
-                        // Verifica si el saldo es negativo o no válido
-                        string saldoTexto = currentRow.Cells["Saldo"].Value?.ToString() ?? "";
-                        decimal saldo = 0;
-                        if (decimal.TryParse(saldoTexto, out saldo) && saldo <= 0)
-                        {
-                            MessageBox.Show("El saldo no puede ser negativo.", "Advertencia",
-                                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            // Si el saldo es negativo, no bloqueamos las celdas
-                            foreach (DataGridViewColumn column in dataGridView1.Columns)
-                            {
-                                column.ReadOnly = false;
-                            }
-                        }
-                        else if (saldo > 100000000)
-                        {
-                            MessageBox.Show("El saldo no puede ser mayor a 100,000,000.", "Advertencia",
-                                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                            // Si el saldo es mayor al límite, no bloqueamos las celdas
-                            foreach (DataGridViewColumn column in dataGridView1.Columns)
-                            {
-                                column.ReadOnly = false;
-                            }
-                        }
-                        else
-                        {
-                            // Si no hay campos vacíos y el saldo es válido, bloqueamos las celdas
-                            foreach (DataGridViewColumn column in dataGridView1.Columns)
-                            {
-                                column.ReadOnly = true;
-                            }
-                        }
-                    }
+                    return; // Salir sin bloquear
                 }
+            }
+
+            // 5. Validar Saldo
+            string saldoTexto = currentRow.Cells["Saldo"].Value?.ToString() ?? "";
+            if (!decimal.TryParse(saldoTexto, out decimal saldo)) return;
+
+            if (saldo <= 0 || saldo > 100000000)
+            {
+                string mensaje = saldo <= 0 ? "El saldo no puede ser negativo o cero." : "El saldo no puede ser mayor a 100,000,000.";
+                MessageBox.Show(mensaje, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; // Salir sin bloquear
+            }
+
+            // 6. Si llegó aquí, todo está bien: BLOQUEAR
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
+            {
+                column.ReadOnly = true;
             }
         }
 
@@ -242,7 +208,7 @@ namespace Capa_de_Presentación.CLASES
 
             int lastDataRowIndex = dtDatosGastos.Rows.Count - 1;
 
-            // ⚠️ Solo aplicar bloqueo automático en la ÚLTIMA fila
+            // Solo aplicar bloqueo automático en la ÚLTIMA fila
             if (RowIndex != lastDataRowIndex)
                 return;
 

@@ -62,6 +62,9 @@ namespace Capa_de_acceso_de_datos
 
         }
 
+
+
+
         /// <summary>
         /// Obteners the cuentas bancarias.
         /// </summary>
@@ -134,7 +137,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="monto">The monto.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al agregar saldo: " + ex.Message</exception>
-        public bool AgregarSaldo(int id_origen, decimal monto)
+        public bool AgregarSaldo(int id_origen, decimal monto, int usuarioId)
         {
             try
             {
@@ -148,6 +151,8 @@ namespace Capa_de_acceso_de_datos
                 pmonto.Precision = 18;
                 pmonto.Scale = 2;
                 pmonto.Value = monto;
+
+                cmd.Parameters.Add("@Usuario_id", SqlDbType.Int).Value = usuarioId;
 
                 int filas = cmd.ExecuteNonQuery();   // esperado: 1 si actualiza una fila
                 return filas > 0;
@@ -169,8 +174,7 @@ namespace Capa_de_acceso_de_datos
         /// <param name="nuevo_id">The nuevo identifier.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al crear cuenta bancaria: " + ex.Message</exception>
-        public bool CrearCuentaBanco(string nombre, decimal saldo, int idTipo, int parroquiaId, 
-                             int? idCuentaCatalogo, out int nuevo_id)
+        public bool CrearCuentaBanco(string nombre, decimal saldo, int idTipo, int parroquiaId, out int nuevo_id)
         {
             nuevo_id = 0;
             try
@@ -187,15 +191,11 @@ namespace Capa_de_acceso_de_datos
                 pSaldo.Scale = 2;
                 pSaldo.Value = saldo;
 
-                //Parámetro para el tipo de cuenta (2 = Ahorro, 3 = Cheque, etc.)
+                // Parámetro para el tipo de cuenta (2 = Ahorro, 3 = Cheque, etc.)
                 cmd.Parameters.Add("@IdOrigenTipo", SqlDbType.Int).Value = idTipo;
 
-                //Parámetro para la Parroquia actual
+                // Parámetro para la Parroquia actual
                 cmd.Parameters.Add("@Parroquia_ID", SqlDbType.Int).Value = parroquiaId;
-
-                // ← NUEVO: mapeo con catalogo (puede ser null si no se selecciona)
-                cmd.Parameters.Add("@id_cuenta_catalogo", SqlDbType.Int).Value =
-                    idCuentaCatalogo.HasValue ? (object)idCuentaCatalogo.Value : DBNull.Value;
 
                 // Parámetro de salida
                 var pOut = cmd.Parameters.Add("@nuevo_Id", SqlDbType.Int);
@@ -220,26 +220,5 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
-
-        public DataTable ObtenerCuentasCatalogoParaMapeo(int parroquiaId)
-        {
-            try
-            {
-                conexion.Abrir();
-                using var cmd = new SqlCommand("sp_ObtenerCuentasCatalogoParaMapeo", conexion.sc);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@Parroquia_ID", SqlDbType.Int).Value = parroquiaId;
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                return dt;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener cuentas del catálogo: " + ex.Message, ex);
-            }
-            finally { conexion.Cerrar(); }
-        }
-
     }
 }

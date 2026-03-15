@@ -34,6 +34,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             Validaciones = new ClsValidaciones();
             this._parroquiaId = parroquiaId;
+            this._usuarioId = usuarioId;
             CargarCuentas();
 
         }

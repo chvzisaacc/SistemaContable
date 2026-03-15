@@ -79,57 +79,42 @@ namespace Capa_de_procesamiento_de_datos
         /// <param name="nombre">The nombre.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al ingresar la nueva transacción de tipo ingreso: " + ex.Message</exception>
-        public int IngresarIngresos(DateTime fecha, string descripcion, decimal monto, int referencia, int usuario_id, int id_origen, string nombre, int? id_cuenta_destino = null)
+        public int IngresarIngresos(DateTime fecha, string descripcion, decimal monto, int referencia, int usuario_id, int id_origen, string nombre)
         {
             int nuevaTransa = 0;
             try
             {
-                //Asegurar que la fecha sea válida para SQL Server
-                DateTime fechaValidada = fecha;
+                DateTime fechaValidada = (fecha < new DateTime(1753, 1, 1) || fecha == DateTime.MinValue)
+                                         ? DateTime.Now : fecha;
 
-                // Si la fecha es menor a 1753-01-01 (mínimo de SQL Server) o es DateTime.MinValue
-                if (fecha < new DateTime(1753, 1, 1) || fecha == DateTime.MinValue)
-                {
-                    fechaValidada = DateTime.Now; // Usar fecha y hora actual como fallback
-                }
-
-                // MANTENER fecha y hora completa (no usar .Date)
-
-                Abrir();
-
-                using (SqlCommand command = new SqlCommand("IngresarIngresos", sc))
+                using (SqlCommand command = new SqlCommand("IngresarIngresos"))
                 {
                     command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@fecha_transaccion", SqlDbType.DateTime).Value = fechaValidada;
+                    command.Parameters.Add("@descripcion", SqlDbType.NVarChar, 100).Value = descripcion ?? (object)DBNull.Value;
+                    command.Parameters.Add("@monto_historico", SqlDbType.Decimal).Value = monto;
+                    command.Parameters.Add("@Numero_de_Referencia", SqlDbType.Int).Value = referencia;
+                    command.Parameters.Add("@Usuario_id", SqlDbType.Int).Value = usuario_id;
+                    command.Parameters.Add("@Id_Origen", SqlDbType.Int).Value = id_origen;
+                    command.Parameters.Add("@Nombre", SqlDbType.NVarChar, 50).Value = nombre ?? (object)DBNull.Value;
 
-                    // Usar la fecha validada con hora completa
-                    command.Parameters.AddWithValue("@fecha_transaccion", fechaValidada);
-                    command.Parameters.AddWithValue("@descripcion", descripcion ?? "");
-                    command.Parameters.AddWithValue("@monto_historico", monto);
-                    command.Parameters.AddWithValue("@Numero_de_Referencia", referencia);
-                    command.Parameters.AddWithValue("@Usuario_id", usuario_id);
-                    command.Parameters.AddWithValue("@Id_Origen", id_origen);
-                    command.Parameters.AddWithValue("@Nombre", nombre ?? "");
-                    command.Parameters.AddWithValue("@id_cuenta_destino", id_cuenta_destino.HasValue ? (object)id_cuenta_destino.Value : DBNull.Value);  // ← NUEVO
+                    // EjecutarScalarYEnviar debe devolver el primer valor de la primera fila (nuestro SELECT)
+                    var resultado = EjecutarScalarYEnviar(command);
 
-                    object result = command.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
+                    if (resultado != null && int.TryParse(resultado.ToString(), out int idGenerado))
                     {
-                        nuevaTransa = Convert.ToInt32(result);
+                        nuevaTransa = idGenerado;
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al ingresar la nueva transacción de tipo ingreso: " + ex.Message, ex);
-            }
-            finally
-            {
-                Cerrar();
+                throw new Exception("Error al ingresar el ingreso: " + ex.Message, ex);
+                nuevaTransa = 0;
             }
 
             return nuevaTransa;
         }
-
         /// <summary>
         /// Modificars the ingreso.
         /// </summary>

@@ -154,40 +154,43 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                // 1. Obtener los datos primero
                 DataTable dtCuentas = CRUD_CuentasBancarias.ObtenerCuentasBancarias(_parroquiaId);
 
-                // Limpiar el DataSource y las columnas antes de re-asignar
                 dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();
 
                 if (dtCuentas != null && dtCuentas.Rows.Count > 0)
                 {
-                    //Asignar los nuevos datos
                     dataGridView1.DataSource = dtCuentas;
 
-                    // establecer el modo general para que las demás se adapten
+                    if (dataGridView1.Columns.Contains("Saldo"))
+                    {
+                        // Configurar cultura específica (en-US usa , para miles y . para decimales)
+                        // English: Set specific culture (en-US uses , for thousands and . for decimals)
+                        var culturaEEUU = new System.Globalization.CultureInfo("en-US");
+
+                        dataGridView1.Columns["Saldo"].DefaultCellStyle.FormatProvider = culturaEEUU;
+
+                        // Formato: Prefijo L., separador de miles y 2 decimales
+                        // Format: L. prefix, thousands separator, and 2 decimals
+                        dataGridView1.Columns["Saldo"].DefaultCellStyle.Format = "'L. ' #,##0.00";
+
+                        // Alineación contable
+                        dataGridView1.Columns["Saldo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    }
+
                     dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-
-                    //Cambiar el modo de la columna específica a 'None' 
-                    //para permitirle un ancho manual, de lo contrario el grid la obligará a auto-ajustarse.
                     dataGridView1.Columns["Saldo"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-
-                    // 3. Definir el ancho manual
                     dataGridView1.Columns["Saldo"].Width = 150;
 
-                    //OCULTAR COLUMNAS QUE NO DEBEN MOSTRARSE
                     if (dataGridView1.Columns.Contains("Id_Origen"))
                     {
                         dataGridView1.Columns["Id_Origen"].Visible = false;
                     }
 
-                    // Configuración visual
                     dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                     dataGridView1.ReadOnly = true;
                     dataGridView1.AllowUserToAddRows = false;
-
-                    
                 }
                 else
                 {
@@ -196,7 +199,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             catch (Exception ex)
             {
-                // Este catch capturará el error de 'newDisplayMember'
                 MessageBox.Show("Error al cargar: " + ex.Message, "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

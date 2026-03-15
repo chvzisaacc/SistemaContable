@@ -369,6 +369,13 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        public bool EsTextoPuntuacionValido(string texto)
+        {
+            // Esta expresión permite: Letras (a-z, A-Z), acentos, espacios, puntos (.) y comas (,)
+            // ^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s\.,]+$
+            return System.Text.RegularExpressions.Regex.IsMatch(texto, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s\.,]+$");
+        }
+
     }
 }
 

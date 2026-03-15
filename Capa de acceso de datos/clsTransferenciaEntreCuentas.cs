@@ -51,7 +51,8 @@ namespace Capa_de_acceso_de_datos
         /// <param name="monto">The monto.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al realizar la transferencia: " + ex.Message</exception>
-        public bool TransferirEntreCuentas(int cuenta_origen, int cuenta_destino, decimal monto, int parroquiaId, int usuarioId)
+        public bool TransferirEntreCuentas(int cuenta_origen, int cuenta_destino, decimal monto,
+                                   int parroquiaId, int usuarioId, string descripcion = null)
         {
             try
             {
@@ -61,12 +62,30 @@ namespace Capa_de_acceso_de_datos
 
                 cmd.Parameters.AddWithValue("@CuentaOrigen", cuenta_origen);
                 cmd.Parameters.AddWithValue("@CuentaDestino", cuenta_destino);
-                cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);      // ← NUEVO
-                cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);    // ← NUEVO
                 cmd.Parameters.AddWithValue("@Monto", monto);
+                cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
+
+                // Si no se proporciona descripción, usar valor por defecto
+                string desc = string.IsNullOrWhiteSpace(descripcion) ? "Transferencia" : descripcion;
+                cmd.Parameters.AddWithValue("@descripcion", desc);
+
+                cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
 
                 cmd.ExecuteNonQuery();
                 return true;
+            }
+            catch (SqlException ex)
+            {
+                // Manejar errores específicos del SP
+                string mensaje = ex.Number switch
+                {
+                    50001 => "Saldo insuficiente en la cuenta de origen.",
+                    50002 => "La cuenta de origen no existe.",
+                    50003 => "La cuenta de destino no existe.",
+                    50004 => "Las cuentas de origen y destino deben ser diferentes.",
+                    _ => "Error al realizar la transferencia: " + ex.Message
+                };
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -77,7 +96,6 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
-
         public DataTable ObtenerCajaChica(int parroquiaId)
         {
             try

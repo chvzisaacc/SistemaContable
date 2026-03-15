@@ -10,6 +10,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosTransferenciaEntreCuentas : Form
     {
+        public string SaldoTexto { get; set; }
         private int _usuarioId;
 
         private int _parroquiaId;
@@ -98,6 +99,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     MessageBox.Show("Transferencia realizada exitosamente",
                         "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
             }
@@ -216,7 +218,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 "Confirmar transferencia",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
-            this.DialogResult = DialogResult.OK;
+                //this.DialogResult = DialogResult.OK;
 
             if (result == DialogResult.Yes)
             {
@@ -232,6 +234,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void FRM_BancosTransferenciaEntreCuentas_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
+            cmbOrigen.Text = this.SaldoTexto;
         }
 
 

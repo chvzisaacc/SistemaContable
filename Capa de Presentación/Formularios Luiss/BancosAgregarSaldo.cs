@@ -10,6 +10,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
     public partial class BancosAgregarSaldo : Form
     {
         private readonly int _parroquiaId;
+        private readonly int _usuarioId;
         public delegate void ActualizarSaldoHandler();
         public event ActualizarSaldoHandler SaldoActualizado;
         /// <summary>
@@ -23,14 +24,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <summary>
         /// Initializes a new instance of the <see cref="BancosAgregarSaldo"/> class.
         /// </summary>
-        public BancosAgregarSaldo(int parroquiaId)
+        public BancosAgregarSaldo(int parroquiaId, int usuarioId)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
             crudCuentasBancarias = new ClsCRUD_CuentasBancarias();
             Validaciones = new ClsValidaciones();
+
             this._parroquiaId = parroquiaId;
+            this._usuarioId = usuarioId;
         }
 
         /// <summary>
@@ -49,14 +53,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            ValidarCampos();
-            
+            if (!ValidarCampos()) return;  // Usar el resultado de ValidarCampos
+
             if (cmbCuentas.SelectedValue == null)
             {
                 MessageBox.Show("Seleccione una cuenta.");
                 cmbCuentas.DroppedDown = true;
                 return;
             }
+
             if (!decimal.TryParse(txtMonto.Text.Trim(), out var monto) || monto <= 0m)
             {
                 MessageBox.Show("Ingrese un monto válido mayor a 0.");
@@ -69,13 +74,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             try
             {
-                var crud = new ClsCRUD_CuentasBancarias();
-                bool exito = crud.AgregarSaldo(id_origen, monto);
+                bool exito = crudCuentasBancarias.AgregarSaldo(id_origen, monto, _usuarioId);
 
                 if (exito)
                 {
                     MessageBox.Show("Saldo agregado correctamente.", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Disparar evento para actualizar el formulario principal
+                    SaldoActualizado?.Invoke();
+
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
@@ -87,7 +95,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Alarma de Sistema",MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show(ex.Message, "Alarma de Sistema",
+                    MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
 
@@ -113,14 +122,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
 
-
             string monto = txtMonto.Text.Trim();
-
-
 
             if (cmbCuentas.SelectedValue == null)
             {
-                MessageBox.Show("Debe seleccionar un rol.",
+                MessageBox.Show("Debe seleccionar una cuenta.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbCuentas.Focus();
                 return false;
@@ -128,11 +134,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             if (string.IsNullOrWhiteSpace(monto) || !val.EsMontoPositivo(monto))
             {
-                MessageBox.Show("El monto de la cuenta es requerido, solo puede contener numeros y debe ser mayor a 0.",
+                MessageBox.Show("El monto es requerido, solo puede contener números y debe ser mayor a 0.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMonto.Focus();
                 return false;
             }
+
             return true;
         }
         /// <summary>
@@ -157,11 +164,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias(_parroquiaId);
+                var cuentas = crudCuentasBancarias.ObtenerCuentasBancarias(_parroquiaId);
+                cmbCuentas.DataSource = cuentas;
                 cmbCuentas.DisplayMember = "Nombre";
-                cmbCuentas.ValueMember = "id_origen";
-
-
+                cmbCuentas.ValueMember = "Id_Origen";  
             }
             catch (Exception ex)
             {

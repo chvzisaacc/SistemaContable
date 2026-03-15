@@ -42,6 +42,11 @@
 		<PackageReference Include="ZedGraph" Version="5.2.1" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Capa de acceso de datos\Capa de acceso de datos.csproj" />
+	  <ProjectReference Include="..\Capa de procesamiento de datos\Capa de procesamiento de datos.csproj" />
+	</ItemGroup>
+
 
 	<ItemGroup>
 		<Compile Update="Formularios Ewin\Inicio de sesión.cs">
@@ -76,11 +81,6 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Capa de acceso de datos\Capa de acceso de datos.csproj" />
-		<ProjectReference Include="..\Capa de procesamiento de datos\Capa de procesamiento de datos.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

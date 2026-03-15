@@ -100,48 +100,59 @@ namespace Capa_de_acceso_de_datos
         }
 
         public bool AgregarCatalogoCuenta(string codigo, string nombre, int id_padre,
-                                  string detalle, bool es_detalle = true,
-                                  int id_estado = 1)
+                                   string detalle ,bool es_detalle = true,
+                                   int id_estado = 1)
         {
             try
             {
                 conexion.Abrir();
                 SqlCommand cmd = new SqlCommand("sp_AgregarCatalogoCuenta", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
+
+                // Parámetros básicos
                 cmd.Parameters.AddWithValue("@codigo", codigo);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
                 cmd.Parameters.AddWithValue("@id_padre", id_padre);
+
+                // Manejo de nulos para detalle
                 cmd.Parameters.AddWithValue("@detalle", string.IsNullOrWhiteSpace(detalle)
-                                                                 ? (object)DBNull.Value : detalle);
+                                                         ? (object)DBNull.Value : detalle);
+
+                // Conversión de bool a bit (1/0)
                 cmd.Parameters.AddWithValue("@es_detalle", es_detalle ? 1 : 0);
                 cmd.Parameters.AddWithValue("@Id_estado_cuenta", id_estado);
 
+               
                 var resultado = cmd.ExecuteScalar();
                 return resultado != null && resultado != DBNull.Value;
             }
             catch (Exception ex)
             {
+                // El mensaje de error ahora será más limpio después de corregir el SP
                 throw new Exception("Error al agregar cuenta: " + ex.Message, ex);
             }
             finally { conexion.Cerrar(); }
         }
 
         public bool ModificarCatalogoCuenta(int id_cuenta, string codigo, string nombre,
-                                            int id_padre, string detalle)
+                                    int id_padre, string detalle)
         {
             try
             {
                 conexion.Abrir();
                 SqlCommand cmd = new SqlCommand("sp_ModificarCatalogoCuenta", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
+
                 cmd.Parameters.AddWithValue("@id_cuenta", id_cuenta);
                 cmd.Parameters.AddWithValue("@codigo", codigo);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
                 cmd.Parameters.AddWithValue("@id_padre", id_padre);
                 cmd.Parameters.AddWithValue("@detalle", string.IsNullOrWhiteSpace(detalle)
                                                           ? (object)DBNull.Value : detalle);
-                int resultado = cmd.ExecuteNonQuery();
-                return resultado >= 0;
+
+                int filasAfectadas = cmd.ExecuteNonQuery();
+
+                return filasAfectadas > 0;
             }
             catch (Exception ex)
             {

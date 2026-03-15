@@ -104,6 +104,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// The parroquia identifier.
         /// </value>
         private int ParroquiaId { get; set; }
+        public int UsuarioId { get; private set; }
 
         /// <summary>
         /// The cerrar
@@ -121,6 +122,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             PredictedId = predicted_id;
             ParroquiaId = parroquia_id;
+            UsuarioId = predicted_id;
 
 
             ConfigurarCapitalInicial();
@@ -220,7 +222,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ClsValidaciones config = new ClsValidaciones();
             config.MaxlenghtDGV(dgvGastos);
             config.MaxlenghtDGV(dataGridView1);
+            ClsCapitalInicial clsCapital = new ClsCapitalInicial();
 
+
+            // Verificar si ya hay capital inicial
+            decimal capital = clsCapital.ObtenerCapitalInicial(PredictedId, ParroquiaId);
+
+            if (capital > 0)
+            {
+                chkIngresarCapital.Visible = false;
+                panelIngresarCapital.Visible = false;
+                lblCapitalInicial.Visible = true;
+
+                var culturaEEUU = new System.Globalization.CultureInfo("en-US");
+                lblCapitalInicial.Text = capital.ToString("'L. ' #,##0.00", culturaEEUU);
+            }
 
         }
 
@@ -439,6 +455,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             //panelMensaje.Visible = false;
             MostrarSoloEstePanel(panelCajaChica2);
             RegistrarNavegacion("Caja Chica");
+            ActualizarSaldo();
 
         }
         /// <summary>
@@ -583,7 +600,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 case 0: // Agregar Saldo
                     {
-                        using (var frm = new BancosAgregarSaldo(ParroquiaId)
+                        using (var frm = new BancosAgregarSaldo(ParroquiaId, UsuarioId)
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
@@ -598,7 +615,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         }
                     }
                     break;
-
                 case 1: // Transferencia entre cuentas
                     {
                         using (var frm = new BancosTransferenciaEntreCuentas(ParroquiaId, 0, PredictedId)
@@ -636,7 +652,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     break;
                 case 3: // Retirar dinero
                     {
-                        using (var frm = new BancosRetirarDinero(ParroquiaId, PredictedId)  // ← NUEVO: PredictedId
+                        using (var frm = new BancosRetirarDinero(ParroquiaId, PredictedId)
                         {
                             StartPosition = FormStartPosition.Manual,
                             Location = new Point(430, 450)
@@ -653,28 +669,33 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     break;
                 case 4: // Envío caja chica a banco
                     {
-                        // Obtener Id_Origen de Caja Chica de esta parroquia
                         clsTransferenciaEntreCuentas crud = new clsTransferenciaEntreCuentas();
                         DataTable dt_caja = crud.ObtenerCajaChica(ParroquiaId);
 
                         if (dt_caja.Rows.Count == 0)
                         {
-                            MessageBox.Show("No existe una Caja Chica para esta parroquia.",
-                                "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MessageBox.Show("No existe una Caja Chica.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
 
                         int idCajaChica = System.Convert.ToInt32(dt_caja.Rows[0]["Id_Origen"]);
 
-                        using (var frm = new BancosTransferenciaEntreCuentas(ParroquiaId, idCajaChica, PredictedId)
+                        // Primero actualizamos el principal para estar seguros del monto
+                        ActualizarSaldo();
+
+                        using (var frm = new BancosTransferenciaEntreCuentas(ParroquiaId, idCajaChica, PredictedId))
                         {
-                            StartPosition = FormStartPosition.Manual,
-                            Location = new Point(430, 450)
-                        })
-                        {
+                            frm.StartPosition = FormStartPosition.Manual;
+                            frm.Location = new Point(430, 450);
+
+                            // PASO CLAVE: Pasamos el texto "L. 700.00" al nuevo formulario
+                            frm.SaldoTexto = this.txtSaldoActual.Text;
+
                             DialogResult result = frm.ShowDialog();
+
                             if (result == DialogResult.OK)
                             {
+                                ActualizarSaldo();
                                 transacciones_obj.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
                             }
                         }
@@ -682,6 +703,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     break;
             }
         }
+        
 
         /// <summary>
         /// Handles the Paint event of the panel1 control.
@@ -705,6 +727,35 @@ namespace Capa_de_Presentación.Formularios_Luiss
             obj_frm69.ShowDialog();
         }
 
+
+        private void ActualizarSaldo()
+        {
+            try
+            {
+              
+                MostrarSaldoActual();
+
+                txtSaldoActual.Invalidate();
+                txtSaldoActual.Update();
+
+                string textoSaldo = txtSaldoActual.Text;
+                string soloNumeros = textoSaldo.Replace("L.", "").Replace("L", "").Replace(",", "").Trim();
+
+                if (decimal.TryParse(soloNumeros, System.Globalization.NumberStyles.Any,
+                    System.Globalization.CultureInfo.InvariantCulture, out decimal saldo))
+                {
+                    chkSaldoInicial.Visible = (saldo == 0);
+                }
+
+                Transacciones transacciones = new();
+                transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar el saldo: " + ex.Message);
+            }
+        }
+
         /// <summary>
         /// Handles the CheckedChanged event of the chkSaldoInicial control.
         /// </summary>
@@ -713,34 +764,41 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void chkSaldoInicial_CheckedChanged(object sender, EventArgs e)
         {
             CajaChicaMonto obj_caja = new CajaChicaMonto(ParroquiaId, PredictedId);
+
             if (chkSaldoInicial.Checked)
             {
-
                 obj_caja.SaldoActualizado += this.ActualizarSaldo;
-
                 obj_caja.ShowDialog();
-
                 obj_caja.SaldoActualizado -= this.ActualizarSaldo;
             }
+
+            // 1. Obtenemos el saldo de la base de datos
             ActualizarSaldo();
-            Transacciones transacciones = new();
-            transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
 
-            if (txtSaldoActual.Text == "0.00")
+            string soloNumeros = txtSaldoActual.Text
+             .Replace("L.", "")
+             .Replace("L", "")
+             .Replace(",", "")
+             .Trim();
+
+            if (decimal.TryParse(soloNumeros, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal saldo))
             {
-                chkSaldoInicial.Visible = true;
-                obj_caja.ShowDialog();
+                var culturaEEUU = new System.Globalization.CultureInfo("en-US");
+
+                // Ahora sí, aplicamos el formato correcto: L. 19,000.00
+                txtSaldoActual.Text = saldo.ToString("'L. ' #,##0.00", culturaEEUU);
+
+                chkSaldoInicial.Visible = (saldo == 0);
+
+                Transacciones transacciones = new();
+                transacciones.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
             }
-            else
-            {
-                chkSaldoInicial.Visible = false;
-            }
-
-
-
         }
+
+
+        //Actualiza el saldo que se muestra en pantalla
         /// <summary>
-        /// Mostrars the saldo actual.
+        /// Actualizars the saldo.
         /// </summary>
         private void MostrarSaldoActual()
         {
@@ -758,40 +816,26 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 if (lector.Read())
                 {
-                    // Limpiamos cualquier símbolo de moneda o separador de miles antes de convertir
-                    string saldoRaw = lector["saldo"].ToString().Replace(",", "");
-                    decimal saldo = decimal.Parse(saldoRaw, System.Globalization.CultureInfo.InvariantCulture);
-                    txtSaldoActual.Text = saldo.ToString("N2");
+                    // Ahora sí podemos usar Convert porque el SP devuelve un número
+                    decimal saldo = System.Convert.ToDecimal(lector["saldo"]);
+
+                    var culturaEEUU = new System.Globalization.CultureInfo("en-US");
+                    txtSaldoActual.Text = saldo.ToString("'L. ' #,##0.00", culturaEEUU);
                 }
                 else
                 {
-                    txtSaldoActual.Text = "0.00";
+                    txtSaldoActual.Text = "L. 0.00";
                 }
 
                 lector.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error al mostrar saldo: " + ex.Message);
             }
             finally
             {
                 obj_con.Cerrar();
-            }
-        }
-        //Actualiza el saldo que se muestra en pantalla
-        /// <summary>
-        /// Actualizars the saldo.
-        /// </summary>
-        private void ActualizarSaldo()
-        {
-            try
-            {
-                MostrarSaldoActual();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al actualizar el saldo: " + ex.Message);
             }
         }
         /// <summary>
@@ -915,6 +959,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0)
+                return;
+
+            if (_modoEdicionManual)
+                return;
 
             Transacciones obj_transa = new();
             obj_transa.BloquearDesbloquearDataIngresos(dtDatosIngresos, dataGridView1, e.RowIndex);
@@ -1105,7 +1154,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     auto_text.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                     auto_text.AutoCompleteSource = AutoCompleteSource.CustomSource;
                     auto_text.AutoCompleteCustomSource = Subcuentas;
-                    // ← SIN evento Leave
                 }
             }
             else
@@ -1430,7 +1478,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         dataGridView1.ReadOnly = false;
                         foreach (DataGridViewColumn col in dataGridView1.Columns)
                             col.ReadOnly = false;
-
+                        ActualizarSaldo();
                         MessageBox.Show("Transacción editada correctamente.", "Éxito",
                                          MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -1546,8 +1594,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         }
 
                         int nuevo_id = ingresos.IngresarIngresos(fecha_transaccion, descripcion, saldo, referencia,
-                                                                 Sesion1.usuario_id, id_origenNuevo, nombre_cuenta,
-                                                                 id_cuenta_destino_ingreso);  // ← NUEVO argumento
+                                                                 Sesion1.usuario_id, id_origenNuevo, nombre_cuenta);
 
 
                         if (nuevo_id <= 0)
@@ -1621,13 +1668,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 _controladorAlerta.ForzarVerificacionInmediata();
             }
         }
-
-
-
-
-
-
-
 
 
         /// <summary>
@@ -1711,50 +1751,65 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            if (dataGridView1.SelectedRows.Count == 0)
+            // Usamos CurrentRow que es más flexible que SelectedRows[0]
+            if (dataGridView1.CurrentRow == null || dataGridView1.CurrentRow.IsNewRow)
             {
-                MessageBox.Show("Seleccione una fila para editar.", "Advertencia",
+                MessageBox.Show("Seleccione una fila válida para editar.", "Advertencia",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            DataGridViewRow fila_seleccionada = dataGridView1.SelectedRows[0];
-            if (fila_seleccionada.IsNewRow)
+            try
             {
-                MessageBox.Show("No puede editar una fila vacía.", "Advertencia",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                DataGridViewRow fila = dataGridView1.CurrentRow;
+
+                // 1. CARGAR DATOS A CONTROLES EXTERNOS
+                txtNoReferencia.Text = fila.Cells["NoReferencia"].Value?.ToString() ?? "";
+                // Nota: Asegúrate que estos nombres de columnas existan EXACTAMENTE así en Ingresos
+
+                // 2. DESBLOQUEO AGRESIVO (Copiando lo que te funciona en Gastos)
+                dataGridView1.ReadOnly = false;
+
+                foreach (DataGridViewColumn col in dataGridView1.Columns)
+                {
+                    // Primero desbloqueamos TODO
+                    col.ReadOnly = false;
+
+                    // Bloqueamos SOLO las que no deben cambiarse (opcional)
+                    // Si quieres libertad total como en Gastos, quita este IF
+                    if (col.Name == "Id_transaccion" || col.Name == "Id_Origen")
+                    {
+                        col.ReadOnly = true;
+                    }
+                }
+
+                // 3. CONFIGURACIÓN DE EDICIÓN
+                dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter; // Cambiado a EditOnEnter como en Gastos
+                dataGridView1.MultiSelect = false;
+
+                modoEdicion = true;
+
+                // 4. FORZAR ENTRADA A LA CELDA
+                dataGridView1.Focus();
+
+                // Buscamos la primera celda editable para el usuario
+                var primeraCelda = fila.Cells.Cast<DataGridViewCell>()
+                                             .FirstOrDefault(c => c.Visible && !c.ReadOnly);
+
+                if (primeraCelda != null)
+                {
+                    dataGridView1.CurrentCell = primeraCelda;
+                    dataGridView1.BeginEdit(true);
+                }
+
+                MessageBox.Show("Modo edición activado en Ingresos.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            // Cargar datos de la fila
-            object id_origenValue = fila_seleccionada.Cells["Id_Origen"]?.Value;
-            object referencia_value = fila_seleccionada.Cells["NoReferencia"]?.Value;
-            object fecha_value = fila_seleccionada.Cells["fecha_transaccion"]?.Value;
-
-            if (id_origenValue != null && id_origenValue != DBNull.Value)
-                cmbOrigen.SelectedValue = System.Convert.ToInt32(id_origenValue);
-            else
-                cmbOrigen.SelectedIndex = -1;
-
-            txtNoReferencia.Text = referencia_value?.ToString() ?? "";
-            dtpFecha.Value = fecha_value != null && DateTime.TryParse(fecha_value.ToString(), out DateTime fecha)
-                ? fecha : DateTime.Now;
-
-            //Desbloquear todas las columnas para edición libre
-            dataGridView1.ReadOnly = false;
-            foreach (DataGridViewColumn col in dataGridView1.Columns)
-                col.ReadOnly = false;
-
-            dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dataGridView1.MultiSelect = false;
-
-            modoEdicion = true;
-
-            MessageBox.Show("Modo edición activado. Puedes editar libremente las celdas.",
-                            "Modo Edición", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en Ingresos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-
         /// <summary>
         /// Handles the CellEndEdit event of the dataGridView1 control.
         /// </summary>
@@ -1974,9 +2029,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     }
 
                     int nuevo_id = gasto.IngresarGastos(fecha_transaccion, descripcion, saldo, referencia,
-                                                        id_usuario, id_origenNuevo, nombre_cuenta, ParroquiaId,
-                                                        id_cuenta_destino_gasto);  // ← NUEVO argumento
-
+                                                        id_usuario, id_origenNuevo, nombre_cuenta
+                                                        );
                     if (nuevo_id <= 0)
                     {
                         MessageBox.Show("No se recibió un ID válido desde la base de datos. Verifique el SP.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -2212,6 +2266,43 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            // Si está en modo edición normal, no hacer nada
+            if (modoEdicion)
+                return;
+
+            // Activar modo edición manual
+            _modoEdicionManual = true;
+
+            DataGridViewRow fila = dataGridView1.Rows[e.RowIndex];
+
+            // Desbloquear completamente el grid
+            dataGridView1.ReadOnly = false;
+            dataGridView1.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
+
+            // Desbloquear todas las columnas
+            foreach (DataGridViewColumn col in dataGridView1.Columns)
+            {
+                if (col.Name != "Id_transaccion") // Solo el ID debe permanecer solo lectura
+                    col.ReadOnly = false;
+            }
+
+            // Desbloquear todas las celdas de la fila
+            foreach (DataGridViewCell celda in fila.Cells)
+            {
+                if (celda.OwningColumn.Name != "Id_transaccion")
+                    celda.ReadOnly = false;
+            }
+
+            // Iniciar edición
+            dataGridView1.CurrentCell = fila.Cells[e.ColumnIndex];
+            dataGridView1.BeginEdit(true);
+        }
+
         /// <summary>
         /// Handles the Paint event of the panelBancos2 control.
         /// </summary>
@@ -2296,7 +2387,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private int _parroquiaId;
         private void ConfigurarCapitalInicial()
         {
-
             bool tieneCapital = _crudCapital.TieneCapitalInicial(ParroquiaId);
 
             if (tieneCapital)
@@ -2304,22 +2394,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 chkIngresarCapital.Visible = false;
                 panelIngresarCapital.Visible = false;
 
-                decimal capitalActual = _crudCapital.ObtenerCapitalInicial(ParroquiaId);
+                // CORREGIDO: Pasar ambos parámetros (UsuarioId y ParroquiaId)
+                decimal capitalActual = _crudCapital.ObtenerCapitalInicial(PredictedId, ParroquiaId);
 
-                lblCapitalInicial.Text = $"Capital Inicial: L.{capitalActual:N2}";
+                // Formato mejorado con L. y separador de miles
+                lblCapitalInicial.Text = $"Capital Inicial: L. {capitalActual:N2}";
                 lblCapitalInicial.Visible = true;
             }
             else
             {
                 lblCapitalInicial.Visible = false;
-
                 chkIngresarCapital.Visible = true;
                 chkIngresarCapital.Checked = false;
                 panelIngresarCapital.Visible = false;
             }
         }
-
-
 
         // 6. VALIDACIÓN DEL CAPITAL
         private bool ValidarCapitalInicial()
@@ -2345,11 +2434,29 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
 
-
+        private void MostrarCapitalInicial()
+        {
+            try
+            {
+                decimal capital = _crudCapital.ObtenerCapitalInicial(PredictedId, ParroquiaId);
+                var culturaEEUU = new System.Globalization.CultureInfo("en-US");
+                lblCapitalInicial.Text = capital.ToString("'L. ' #,##0.00", culturaEEUU);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                lblCapitalInicial.Text = "L. 0.00";
+                MessageBox.Show(ex.Message, "Error de permisos",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                lblCapitalInicial.Text = "L. 0.00";
+                // Opcional: loggear el error
+                Console.WriteLine("Error al obtener capital: " + ex.Message);
+            }
+        }
         private void btnGuardarCapital_Click_1(object sender, EventArgs e)
         {
-
-
             if (!ValidarCapitalInicial()) return;
 
             decimal monto = System.Convert.ToDecimal(txtCapitalInicial.Text);
@@ -2380,7 +2487,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         chkIngresarCapital.Visible = false;
                         chkIngresarCapital.Checked = false;
 
+                        // Mostrar y actualizar el label con el capital
                         lblCapitalInicial.Visible = true;
+                        MostrarCapitalInicial(); // <--- LLAMADA AQUÍ
+
+                        // Actualizar también el saldo general
+                        ActualizarSaldo();
                     }
                 }
                 catch (Exception ex)
@@ -2419,12 +2531,38 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void btnCancelarCapital_Click_1(object sender, EventArgs e)
         {
-
+            panelIngresarCapital.Visible = false;
+            chkIngresarCapital.Checked = false;
         }
 
         private void panel5_Paint(object sender, PaintEventArgs e)
         {
 
+           
+        }
+
+        private void dataGridView1_CellDoubleClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            // Activar modo edición manual
+            _modoEdicionManual = true;
+
+            DataGridViewRow fila = dataGridView1.Rows[e.RowIndex];
+
+            // Desbloquear totalmente
+            dataGridView1.ReadOnly = false;
+
+            foreach (DataGridViewColumn col in dataGridView1.Columns)
+                col.ReadOnly = false;
+
+            foreach (DataGridViewCell celda in fila.Cells)
+                celda.ReadOnly = false;
+
+            // Iniciar edición
+            dataGridView1.CurrentCell = fila.Cells[e.ColumnIndex];
+            dataGridView1.BeginEdit(true);
         }
     }
 
