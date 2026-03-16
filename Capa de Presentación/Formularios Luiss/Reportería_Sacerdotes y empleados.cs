@@ -115,6 +115,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbTipoReporte.SelectedIndex = -1;
             this.CenterToScreen();
 
+            dtpHasta.MaxDate = DateTime.Now;
+
         }
 
         /// <summary>

@@ -79,7 +79,7 @@ namespace Capa_de_procesamiento_de_datos
         /// <returns></returns>
         public byte[] GenerarPdf(DataTable datos, string parroquia, DateTime desde, DateTime hasta)
         {
-            
+            var formatoHnd = new System.Globalization.CultureInfo("en-US");
             string logoPath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "Resources",
@@ -161,17 +161,21 @@ namespace Capa_de_procesamiento_de_datos
                                 decimal total_ingresos = 0;
 
                                 // Filas
+                              
                                 foreach (DataRow row in datos.Rows)
                                 {
                                     table.Cell().Text(row["descripcion"]?.ToString());
+
                                     decimal monto = Convert.ToDecimal(row["Monto"]);
-                                    table.Cell().Text(string.Format("{0:N2}", monto)).AlignRight();
+
+                                    
+                                    table.Cell().Text($"L.{monto.ToString("N2", formatoHnd)}").AlignRight();
                                     total_ingresos += monto;
                                 }
 
-                                // Fila de total
+                               
                                 table.Cell().Text("TOTAL").Bold();
-                                table.Cell().Text(string.Format("{0:N2}", total_ingresos)).Bold().AlignRight();
+                                table.Cell().Text($"L.{total_ingresos.ToString("N2", formatoHnd)}").Bold().AlignRight();
                             });
 
                         col.Item().PaddingVertical(15)
@@ -221,7 +225,12 @@ namespace Capa_de_procesamiento_de_datos
                                 table.Cell().Background(fondo).Padding(4).Text(Convert.ToDateTime(row["fecha_transaccion"]).ToString("dd/MM/yyyy"));
                                 table.Cell().Background(fondo).Padding(4).Text(row["descripcion"]?.ToString());
                                 table.Cell().Background(fondo).Padding(4).Text(row["NombreCuenta"]?.ToString());
-                                table.Cell().Background(fondo).Padding(4).Text(string.Format("{0:N2}", Convert.ToDecimal(row["Monto"]))).AlignRight();
+
+                                decimal montoFila = Convert.ToDecimal(row["Monto"]);
+
+                                // Aplicamos el formato con CultureInfo para asegurar la coma en miles y punto en decimales
+                                table.Cell().Background(fondo).Padding(4)
+                                     .Text($"L.{montoFila.ToString("N2", formatoHnd)}").AlignRight();
 
                                 i++;
                             }

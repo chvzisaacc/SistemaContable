@@ -93,6 +93,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmb_tipo_reporte.ValueMember = "TipoReporte_id";    // el int 1,2,3,4
             cmb_tipo_reporte.SelectedIndex = -1;                // ninguno seleccionado al inicio
 
+            dtp_hasta.MaxDate = DateTime.Now;
+
 
         }
 

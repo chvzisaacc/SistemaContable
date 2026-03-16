@@ -185,7 +185,7 @@ namespace Capa_de_Presentación.CLASES
         /// <returns></returns>
         public bool FechaRangoValido(DateTime desde, DateTime hasta)
         {
-            return desde <= hasta;
+            return desde.Date <= hasta.Date;
         }
 
         // 13.Validar que un ComboBox tenga un valor seleccionado
