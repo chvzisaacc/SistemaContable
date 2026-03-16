@@ -111,13 +111,13 @@ namespace Capa_de_procesamiento_de_datos
         /// <param name="hasta">The hasta.</param>
         /// <returns></returns>
         public byte[] GenerarPdf(
-    DataTable totales,
-    DataTable detalle,
-    string nombre_parroquia,
-    DateTime desde,
-    DateTime hasta)
+        DataTable totales,
+        DataTable detalle,
+        string nombre_parroquia,
+        DateTime desde,
+        DateTime hasta)
         {
-            
+            var formatoHnd = new System.Globalization.CultureInfo("en-US");
             string logoPath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "Resources",
@@ -205,19 +205,19 @@ namespace Capa_de_procesamiento_de_datos
 
                                 // Filas
                                 table.Cell().Text("Total Ingresos");
-                                table.Cell().Text($"{Convert.ToDecimal(t["totalIngresos"]):N2}")
-                                    .AlignRight();
+                                table.Cell().Text($"L.{Convert.ToDecimal(t["totalIngresos"]).ToString("N2", formatoHnd)}")
+                                .AlignRight();
 
                                 table.Cell().Text("Total Gastos");
-                                table.Cell().Text($"{Convert.ToDecimal(t["totalGastos"]):N2}")
-                                    .AlignRight();
+                                table.Cell().Text($"L.{Convert.ToDecimal(t["totalGastos"]).ToString("N2", formatoHnd)}")
+                                .AlignRight();
 
                                 table.Cell().Text("Resultado Final")
                                     .Bold().FontColor("#003399");
 
-                                table.Cell().Text($"{Convert.ToDecimal(t["resultadoFinal"]):N2}")
-                                    .Bold().FontColor("#003399")
-                                    .AlignRight();
+                                table.Cell().Text($"L.{Convert.ToDecimal(t["resultadoFinal"]).ToString("N2", formatoHnd)}")
+                                .Bold().FontColor("#003399")
+                                .AlignRight();
                             });
 
                         col.Item().PaddingVertical(15)
@@ -264,11 +264,12 @@ namespace Capa_de_procesamiento_de_datos
                             foreach (DataRow row in detalle.Rows)
                             {
                                 string fondo = (i % 2 == 0) ? "#FFFFFF" : "#F5F5F5";
-
+                                decimal montoFila = Convert.ToDecimal(row["monto"]);
                                 table.Cell().Background(fondo).Padding(4).Text(row["tipo"]);
                                 table.Cell().Background(fondo).Padding(4).Text(Convert.ToDateTime(row["fecha"]).ToString("dd/MM/yyyy"));
                                 table.Cell().Background(fondo).Padding(4).Text($"{row["Cuenta"]}\n{row["Detalle"]}");
-                                table.Cell().Background(fondo).Padding(4).Text($"{Convert.ToDecimal(row["monto"]):N2}").AlignRight();
+                                table.Cell().Background(fondo).Padding(4).Text($"L.{montoFila.ToString("N2", formatoHnd)}").AlignRight();
+
 
                                 i++;
                             }
