@@ -245,8 +245,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     break;
 
                 case 5:
+                    // SOLO CAMBIO: Usar parroquia_id en lugar de Sesion1.usuario_id
                     ruta_pdf = _curiaService.GenerarInformeCuria(
-                        Sesion1.usuario_id,
+                        parroquia_id,  // Cambiado de Sesion1.usuario_id a parroquia_id
                         desde,
                         hasta
                     );
@@ -419,4 +420,3 @@ namespace Capa_de_Presentación.Formularios_Ewin
     }
 
 }
-
