@@ -61,42 +61,6 @@ namespace Capa_de_procesamiento_de_datos
         }
 
         private byte[] GenerarPdfCuria(
-<<<<<<< HEAD
-    DataTable dtEntradas, DataTable dtSalidas, decimal totalEntradas, decimal totalSalidas,
-    decimal docePorciento, decimal totalALaCuria, string parroquia,
-    DateTime desde, DateTime hasta, string nombreSacerdote)
-        {
-            // Entradas principales (las que NO son colectas NI confirmas NI dispensas NI donativo seminario)
-            var entradasPrincipales = dtEntradas.AsEnumerable()
-                .Where(r => !r.Field<string>("NombreCuenta").StartsWith("Colecta", StringComparison.OrdinalIgnoreCase) &&
-                            !r.Field<string>("NombreCuenta").Contains("CONFIRMA", StringComparison.OrdinalIgnoreCase) &&
-                            !r.Field<string>("NombreCuenta").Contains("DISPENSAS", StringComparison.OrdinalIgnoreCase) &&
-                            !r.Field<string>("NombreCuenta").Contains("DONATIVO SEMINARIO", StringComparison.OrdinalIgnoreCase))
-                .ToList();
-
-            // Entradas especiales (Colectas + CONFIRMAS + DISPENSAS + DONATIVO SEMINARIO)
-            var entradasEspeciales = dtEntradas.AsEnumerable()
-                .Where(r => r.Field<string>("NombreCuenta").StartsWith("Colecta", StringComparison.OrdinalIgnoreCase) ||
-                            r.Field<string>("NombreCuenta").Contains("CONFIRMA", StringComparison.OrdinalIgnoreCase) ||
-                            r.Field<string>("NombreCuenta").Contains("DISPENSAS", StringComparison.OrdinalIgnoreCase) ||
-                            r.Field<string>("NombreCuenta").Contains("DONATIVO SEMINARIO", StringComparison.OrdinalIgnoreCase))
-                .ToList();
-
-            // Salidas
-            var salidasFiltradas = dtSalidas.AsEnumerable()
-                .Where(r => !r.Field<string>("NombreCuenta").Contains("Colecta", StringComparison.OrdinalIgnoreCase))
-                .ToList();
-
-            // Recalcular Subtotal basado solo en entradas principales
-            decimal subtotalEntradas = entradasPrincipales.Sum(r => Convert.ToDecimal(r["Monto"]));
-            decimal impuesto12 = subtotalEntradas * 0.12m;
-
-            // Total de entradas especiales
-            decimal totalEntradasEspeciales = entradasEspeciales.Sum(r => Convert.ToDecimal(r["Monto"]));
-            decimal totalEntradasGeneral = subtotalEntradas + totalEntradasEspeciales;
-
-            return Document.Create(container =>
-=======
             DataTable dtEntradas,
             DataTable dtSalidas,
             decimal totalEntradas,
@@ -127,48 +91,29 @@ namespace Capa_de_procesamiento_de_datos
             int maxFilas = Math.Max(entradas.Count, salidas.Count);
 
             var document = Document.Create(container =>
->>>>>>> Arreglado lo del capital inicial
             {
                 container.Page(page =>
                 {
-                    page.Margin(30);
+                    page.Margin(20);
+
                     page.Header().Column(col =>
                     {
-<<<<<<< HEAD
-                        col.Item().Text("Arquidiócesis de Tegucigalpa").FontSize(14).Bold().FontColor("#003399");
-=======
                         col.Item().Text("Arquidiocesis de Tegucigalpa")
                             .FontSize(16).Bold().FontColor("#003399");
 
->>>>>>> Arreglado lo del capital inicial
                         col.Item().Row(row =>
                         {
-                            row.RelativeItem().Text($"Parroquia {parroquia}, Tegucigalpa").FontSize(10);
-                            row.ConstantItem(100).AlignRight().Text($"Año: {desde:yyyy}").FontSize(10);
+                            row.RelativeItem().Text($"Parroquia {parroquia}, Tegucigalpa");
+                            row.ConstantItem(120).AlignRight().Text($"Año: {desde:yyyy}");
                         });
-                        col.Item().PaddingVertical(5).LineHorizontal(1).LineColor("#D4AF37");
                     });
 
-                    page.Content().PaddingVertical(10).Column(col =>
+                    page.Content().Column(col =>
                     {
                         col.Item().Table(table =>
                         {
                             table.ColumnsDefinition(columns =>
                             {
-<<<<<<< HEAD
-                                columns.RelativeColumn(3); columns.ConstantColumn(85); // Entradas
-                                columns.RelativeColumn(3); columns.ConstantColumn(85); // Salidas
-                            });
-
-                            // ENCABEZADOS
-                            table.Cell().Background("#D4AF37").Border(0.5f).Padding(2).Text("ENTRADAS PARA LA CURIA").Bold().FontSize(8);
-                            table.Cell().Background("#D4AF37").Border(0.5f).Padding(2).Text("").FontSize(8);
-                            table.Cell().Background("#D4AF37").Border(0.5f).Padding(2).Text("SALIDAS").Bold().FontSize(8);
-                            table.Cell().Background("#D4AF37").Border(0.5f).Padding(2).Text("").FontSize(8);
-
-                            // FILAS SUPERIORES - SOLO SI HAY ENTRADAS PRINCIPALES
-                            for (int i = 0; i < entradasPrincipales.Count; i++)
-=======
                                 columns.RelativeColumn(3);   // Concepto entrada
                                 columns.ConstantColumn(90);  // Monto entrada
                                 columns.RelativeColumn(3);   // Concepto salida
@@ -176,95 +121,12 @@ namespace Capa_de_procesamiento_de_datos
                             });
 
                             void Celda(string texto, bool negrita = false, string colorFondo = "#FFFFFF", bool alinearDerecha = false)
->>>>>>> Arreglado lo del capital inicial
                             {
-                                // Entradas
-                                table.Cell().Border(0.5f).Padding(2).Text(entradasPrincipales[i]["NombreCuenta"].ToString()).FontSize(8);
-                                table.Cell().Border(0.5f).Padding(2).AlignRight().Text(Convert.ToDecimal(entradasPrincipales[i]["Monto"]).ToString("N2")).FontSize(8);
+                                var cell = table.Cell()
+                                    .Border(0.5f)
+                                    .Padding(2)
+                                    .Background(colorFondo);
 
-<<<<<<< HEAD
-                                // Salidas (paralelas)
-                                if (i < salidasFiltradas.Count)
-                                {
-                                    table.Cell().Border(0.5f).Padding(2).Text(salidasFiltradas[i]["NombreCuenta"].ToString()).FontSize(8);
-                                    table.Cell().Border(0.5f).Padding(2).AlignRight().Text(Convert.ToDecimal(salidasFiltradas[i]["Monto"]).ToString("N2")).FontSize(8);
-                                }
-                                else
-                                {
-                                    table.Cell().Border(0.5f).Text("");
-                                    table.Cell().Border(0.5f).Text("");
-                                }
-                            }
-
-                            // FILA DE SUBTOTAL Y 12% (SIEMPRE SE MUESTRA)
-                            table.Cell().Background("#D4AF37").Border(0.5f).Padding(2).Text("SUBTOTAL=").Bold().FontSize(8);
-                            table.Cell().Border(0.5f).Padding(2).AlignRight().Text(subtotalEntradas.ToString("N2")).Bold().FontSize(8);
-                            table.Cell().Background("#D4AF37").Border(0.5f).Padding(2).Text("X 12%").Bold().FontSize(8);
-                            table.Cell().Border(0.5f).Padding(2).AlignRight().Text(impuesto12.ToString("N2")).Bold().FontSize(8);
-
-                            // FILAS INFERIORES - ENTRADAS ESPECIALES (SOLO SI HAY)
-                            int salidasRestantesInicio = entradasPrincipales.Count;
-
-                            for (int i = 0; i < entradasEspeciales.Count; i++)
-                            {
-                                // Entradas Especiales
-                                table.Cell().Border(0.5f).Padding(2).Text(entradasEspeciales[i]["NombreCuenta"].ToString()).FontSize(8);
-                                table.Cell().Border(0.5f).Padding(2).AlignRight().Text(Convert.ToDecimal(entradasEspeciales[i]["Monto"]).ToString("N2")).FontSize(8);
-
-                                // Lado Derecho: "A LA CURIA ARZOBISPAL" solo en la primera fila de especiales
-                                if (i == 0)
-                                {
-                                    table.Cell().Background("#D4AF37").Border(0.5f).Padding(2).Text("A LA CURIA ARZOBISPAL").Bold().FontSize(8);
-                                    table.Cell().Border(0.5f).Text("");
-                                }
-                                else
-                                {
-                                    // Continuación de salidas si hay
-                                    int idxSalida = salidasRestantesInicio + (i - 1);
-                                    if (idxSalida < salidasFiltradas.Count)
-                                    {
-                                        table.Cell().Border(0.5f).Padding(2).Text(salidasFiltradas[idxSalida]["NombreCuenta"].ToString()).FontSize(8);
-                                        table.Cell().Border(0.5f).Padding(2).AlignRight().Text(Convert.ToDecimal(salidasFiltradas[idxSalida]["Monto"]).ToString("N2")).FontSize(8);
-                                    }
-                                    else
-                                    {
-                                        table.Cell().Border(0.5f).Text("");
-                                        table.Cell().Border(0.5f).Text("");
-                                    }
-                                }
-                            }
-
-                            // SALIDAS RESTANTES (si hay más salidas que entradas principales + especiales)
-                            int totalFilasEntradas = entradasPrincipales.Count + entradasEspeciales.Count;
-                            for (int i = totalFilasEntradas; i < salidasFiltradas.Count; i++)
-                            {
-                                // Espacio vacío en entradas
-                                table.Cell().Border(0.5f).Text("");
-                                table.Cell().Border(0.5f).Text("");
-
-                                // Salidas restantes
-                                table.Cell().Border(0.5f).Padding(2).Text(salidasFiltradas[i]["NombreCuenta"].ToString()).FontSize(8);
-                                table.Cell().Border(0.5f).Padding(2).AlignRight().Text(Convert.ToDecimal(salidasFiltradas[i]["Monto"]).ToString("N2")).FontSize(8);
-                            }
-
-                            // TOTALES FINALES
-                            table.Cell().Background("#D4AF37").Border(0.5f).Padding(2).Text("TOTAL ENTRADAS =").Bold().FontSize(8);
-                            table.Cell().Border(0.5f).Padding(2).AlignRight().Text(totalEntradasGeneral.ToString("N2")).Bold().FontSize(8);
-                            table.Cell().Background("#D4AF37").Border(0.5f).Padding(2).Text("TOTAL SALIDAS =").Bold().FontSize(8);
-                            table.Cell().Border(0.5f).Padding(2).AlignRight().Text(totalSalidas.ToString("N2")).Bold().FontSize(8);
-                        });
-
-                        // RESUMEN INFERIOR
-                        col.Item().PaddingTop(15).Table(resTable =>
-                        {
-                            resTable.ColumnsDefinition(c => { c.RelativeColumn(); c.ConstantColumn(120); });
-                            resTable.Cell().Border(0.5f).Padding(2).Text("Total entradas del mes").FontSize(9);
-                            resTable.Cell().Border(0.5f).Padding(2).AlignRight().Text(totalEntradasGeneral.ToString("N2")).FontSize(9);
-                            resTable.Cell().Border(0.5f).Padding(2).Text("Total salidas del mes").FontSize(9);
-                            resTable.Cell().Border(0.5f).Padding(2).AlignRight().Text(totalSalidas.ToString("N2")).FontSize(9);
-                            resTable.Cell().Border(0.5f).Padding(2).Text("Ganancias (+) o perdidas (-) del mes").FontSize(9).Bold();
-                            resTable.Cell().Border(0.5f).Padding(2).AlignRight().Text((totalEntradasGeneral - totalSalidas).ToString("N2")).FontSize(9).Bold();
-=======
                                 var t = alinearDerecha
                                     ? cell.AlignRight().Text(texto ?? string.Empty).FontSize(9)
                                     : cell.Text(texto ?? string.Empty).FontSize(9);
@@ -328,16 +190,15 @@ namespace Capa_de_procesamiento_de_datos
                                 totalSalidas == 0 ? "" : $"Lps {totalSalidas:N2}");
                             Celda2("Ganancias (+) o perdidas (-) del mes",
                                 $"Lps {gananciaMes:N2}");
->>>>>>> Arreglado lo del capital inicial
                         });
 
-                        col.Item().PaddingTop(20).Row(row =>
+                        col.Item().Text("");
+
+                        col.Item().Row(row =>
                         {
                             row.RelativeItem().Text($"Fecha: {DateTime.Now:dd/MM/yyyy}").FontSize(9);
                             row.RelativeItem().AlignRight().Text($"Sacerdote: {nombreSacerdote}").FontSize(9);
                         });
-<<<<<<< HEAD
-=======
 
                         col.Item().Text("");
 
@@ -345,10 +206,28 @@ namespace Capa_de_procesamiento_de_datos
                             "Recordamos que DEBEN ENTREGAR A LA CURIA, EL DOCE PORCIENTO (12%) sobre todas las entradas " +
                             "de la Parroquias, Iglesias o Capillas, y es de carácter obligatorio y nadie queda exento de esta obligacion."
                         ).FontSize(8);
->>>>>>> Arreglado lo del capital inicial
                     });
+
+                    page.Footer()
+                        .Height(30)
+                        .AlignCenter()
+                        .Column(col =>
+                        {
+                            col.Item().LineHorizontal(1).LineColor("#D4AF37");
+                            col.Item().Text(text =>
+                            {
+                                text.Span("Generado el ").FontSize(9).FontColor("#666666");
+                                text.Span($"{DateTime.Now:dd/MM/yyyy HH:mm}").FontSize(9).FontColor("#666666");
+                                text.Span("  |  Página ").FontSize(9).FontColor("#666666");
+                                text.CurrentPageNumber().FontSize(9).FontColor("#666666");
+                                text.Span(" de ").FontSize(9).FontColor("#666666");
+                                text.TotalPages().FontSize(9).FontColor("#666666");
+                            });
+                        });
                 });
-            }).GeneratePdf();
+            });
+
+            return document.GeneratePdf();
         }
     }
 }
