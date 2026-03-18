@@ -1178,7 +1178,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 // 1. Validar que el ComboBox de Origen esté seleccionado
                 if (cmbOrigen2.SelectedIndex == -1 || cmbOrigen2.SelectedValue == null)
                 {
-                    MessageBox.Show("Debe seleccionar una cuenta de origen.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Debe seleccionar una cuenta de origen.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbOrigen2.Focus();
                     return false;
                 }
@@ -1265,14 +1265,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 decimal monto = 0;
                 if (!decimal.TryParse(textoMonto, out monto))
                 {
-                    MessageBox.Show("El monto es requerido, solo puede contener números y debe ser mayor a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Debe ingresar un monto válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     dgvGastos.CurrentCell = filaActual.Cells["Saldo"];
                     return false;
                 }
 
                 if (monto <= 0)
                 {
-                    MessageBox.Show("El monto es requerido, solo puede contener números y debe ser mayor a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El monto debe ser mayor que cero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     dgvGastos.CurrentCell = filaActual.Cells["Saldo"];
                     return false;
                 }
@@ -1303,7 +1303,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 // 1. Validar que el ComboBox de Origen esté seleccionado
                 if (cmbOrigen.SelectedIndex == -1 || cmbOrigen.SelectedValue == null)
                 {
-                    MessageBox.Show("Debe seleccionar una cuenta de origen.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Debe seleccionar una cuenta de origen.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbOrigen.Focus();
                     return false;
                 }
@@ -1311,7 +1311,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 // 2. Validar que la fecha esté seleccionada
                 if (dtpFecha.Value == null)
                 {
-                    MessageBox.Show("Debe seleccionar una fecha.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Debe seleccionar una fecha.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     dtpFecha.Focus();
                     return false;
                 }
@@ -1319,7 +1319,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 // 3. Validar que el número de referencia no esté vacío
                 if (string.IsNullOrWhiteSpace(txtNoReferencia.Text))
                 {
-                    MessageBox.Show("Debe ingresar un número de referencia.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Debe ingresar un número de referencia.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtNoReferencia.Focus();
                     return false;
                 }
@@ -1327,7 +1327,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 // 4. Validar que haya al menos una fila en el DataGridView
                 if (dataGridView1.Rows.Count == 0 || (dataGridView1.Rows.Count == 1 && dataGridView1.Rows[0].IsNewRow))
                 {
-                    MessageBox.Show("Debe agregar al menos una cuenta con su monto.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Debe agregar al menos una cuenta con su monto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
 
@@ -1340,7 +1340,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     if (dataGridView1.Rows[i].Cells["NombreCuenta"].Value == null ||
                         string.IsNullOrWhiteSpace(dataGridView1.Rows[i].Cells["NombreCuenta"].Value.ToString()))
                     {
-                        MessageBox.Show($"La fila {i + 1} debe tener un nombre de cuenta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"La fila {i + 1} debe tener un nombre de cuenta.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["NombreCuenta"];
                         dataGridView1.BeginEdit(true);
                         return false;
@@ -1350,7 +1350,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     if (dataGridView1.Rows[i].Cells["Detalle"].Value == null ||
                         string.IsNullOrWhiteSpace(dataGridView1.Rows[i].Cells["Detalle"].Value.ToString()))
                     {
-                        MessageBox.Show($"La fila {i + 1} debe tener un detalle.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"La fila {i + 1} debe tener un detalle.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["Detalle"];
                         dataGridView1.BeginEdit(true);
                         return false;
@@ -1360,7 +1360,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     if (dataGridView1.Rows[i].Cells["Saldo"].Value == null ||
                         string.IsNullOrWhiteSpace(dataGridView1.Rows[i].Cells["Saldo"].Value.ToString()))
                     {
-                        MessageBox.Show($"La fila {i + 1} debe tener un monto válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"La fila {i + 1} debe tener un monto válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["Saldo"];
                         dataGridView1.BeginEdit(true);
                         return false;
@@ -1369,7 +1369,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     decimal monto = 0;
                     if (!decimal.TryParse(dataGridView1.Rows[i].Cells["Saldo"].Value.ToString(), out monto))
                     {
-                        MessageBox.Show($"El monto en la fila {i + 1} no es válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"El monto en la fila {i + 1} no es válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["Saldo"];
                         dataGridView1.BeginEdit(true);
                         return false;
@@ -1377,7 +1377,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                     if (monto <= 0)
                     {
-                        MessageBox.Show($"El monto en la fila {i + 1} debe ser mayor a cero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"El monto en la fila {i + 1} debe ser mayor a cero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["Saldo"];
                         dataGridView1.BeginEdit(true);
                         return false;
@@ -1447,7 +1447,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     decimal saldo = 0;
                     if (!decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out saldo) || saldo <= 0)
                     {
-                        MessageBox.Show("El monto es requerido, solo puede contener números y debe ser mayor a 0.", "Error",
+                        MessageBox.Show("El monto debe ser mayor que cero.", "Advertencia",
                                          MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
@@ -1560,7 +1560,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                         if (!validar.EsMontoPositivo(saldo_texto))
                         {
-                            MessageBox.Show("El monto debe ser mayor que cero.", "Error",
+                            MessageBox.Show("El monto debe ser mayor que cero.", "Advertencia",
                                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                             dataGridView1.CancelEdit();
@@ -1569,7 +1569,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                         if (!validar.EsMontoDentroDelRango(saldo_texto))
                         {
-                            MessageBox.Show("El saldo no puede ser mayor a 100,000,000.", "Error",
+                            MessageBox.Show("El saldo no puede ser mayor a 100,000,000.", "Advertencia",
                                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                             dataGridView1.ReadOnly = false;
@@ -1881,7 +1881,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                     if (saldo <= 0)
                     {
-                        MessageBox.Show("El monto es requerido, solo puede contener números y debe ser mayor a 0.", "Error",
+                        MessageBox.Show("El monto debe ser mayor que cero.", "Advertencia",
                                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
@@ -2004,7 +2004,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                     if (!validar.EsMontoPositivo(saldo_texto))
                     {
-                        MessageBox.Show("El monto es requerido, solo puede contener números y debe ser mayor a 0.", "Error",
+                        MessageBox.Show("El monto debe ser mayor que cero.", "Advertencia",
                                          MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                         dgvGastos.CancelEdit();
@@ -2013,7 +2013,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                     if (!validar.EsMontoDentroDelRango(saldo_texto))
                     {
-                        MessageBox.Show("El monto es requerido, solo puede contener números y debe ser mayor a 0.", "Error",
+                        MessageBox.Show("El saldo no puede ser mayor a 100,000,000.", "Advertencia",
                                          MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                         dgvGastos.CancelEdit();
@@ -2424,7 +2424,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             decimal monto;
             if (!decimal.TryParse(txtCapitalInicial.Text, out monto) || monto <= 0)
             {
-                MessageBox.Show("El monto es requerido, solo puede contener números y debe ser mayor a 0.",
+                MessageBox.Show("El monto debe ser un número válido mayor a cero.",
                     "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCapitalInicial.Focus();
                 return false;

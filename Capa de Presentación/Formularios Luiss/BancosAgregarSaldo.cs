@@ -64,7 +64,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             if (!decimal.TryParse(txtMonto.Text.Trim(), out var monto) || monto <= 0m)
             {
-                MessageBox.Show("El monto es requerido, solo puede contener números y debe ser mayor a 0.");
+                MessageBox.Show("Ingrese un monto válido mayor a 0.");
                 txtMonto.Focus();
                 txtMonto.SelectAll();
                 return;

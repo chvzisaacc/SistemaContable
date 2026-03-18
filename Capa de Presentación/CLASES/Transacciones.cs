@@ -175,15 +175,15 @@ namespace Capa_de_Presentación.CLASES
             }
 
             // 5. Validar Saldo
-            /*string saldoTexto = currentRow.Cells["Saldo"].Value?.ToString() ?? "";
+            string saldoTexto = currentRow.Cells["Saldo"].Value?.ToString() ?? "";
             if (!decimal.TryParse(saldoTexto, out decimal saldo)) return;
 
             if (saldo <= 0 || saldo > 100000000)
             {
                 string mensaje = saldo <= 0 ? "El saldo no puede ser negativo o cero." : "El saldo no puede ser mayor a 100,000,000.";
-                MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(mensaje, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return; // Salir sin bloquear
-            }*/
+            }
 
             // 6. Si llegó aquí, todo está bien: BLOQUEAR
             foreach (DataGridViewColumn column in dataGridView1.Columns)
@@ -256,7 +256,7 @@ namespace Capa_de_Presentación.CLASES
 
             if (saldo <= 0)
             {
-                MessageBox.Show("El saldo no puede ser negativo o cero.", "Error",
+                MessageBox.Show("El saldo no puede ser negativo o cero.", "Advertencia",
                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 foreach (DataGridViewColumn column in dgvgastos.Columns)
@@ -267,7 +267,7 @@ namespace Capa_de_Presentación.CLASES
 
             if (saldo > 100000000)
             {
-                MessageBox.Show("El saldo no puede ser mayor a 100,000,000.", "Error",
+                MessageBox.Show("El saldo no puede ser mayor a 100,000,000.", "Advertencia",
                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 foreach (DataGridViewColumn column in dgvgastos.Columns)
