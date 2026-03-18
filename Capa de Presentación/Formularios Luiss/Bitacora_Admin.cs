@@ -26,6 +26,10 @@ namespace Capa_de_Presentación
         /// </summary>
         private bool isLoading = false;
 
+        private int _paginaActual = 1;
+        private int _tamanoPagina = 50;
+        private int _totalPaginas = 1;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Bitacora_Admin"/> class.
         /// </summary>
@@ -176,6 +180,8 @@ namespace Capa_de_Presentación
             CargarUsuarios(null); // Cargar todos los usuarios inicialmente
             CargarHistorial();
             isLoading = false;
+            dtpFechaDesde.MaxDate = DateTime.Today;
+            dtpFechaHasta.MaxDate = DateTime.Today;
         }
 
         /// <summary>
@@ -188,15 +194,15 @@ namespace Capa_de_Presentación
             {
                 DataTable dt_parroquias = crudUsuarios.ObtenerParroquias();
 
-               
+
                 DataTable dt_final = new DataTable();
                 dt_final.Columns.Add("Parroquia_id", typeof(int));
                 dt_final.Columns.Add("Parroquia_nombre", typeof(string));
 
-              
+
                 dt_final.Rows.Add(-1, "-- Todas las Parroquias --");
 
-              
+
                 foreach (DataRow row in dt_parroquias.Rows)
                 {
                     dt_final.Rows.Add(row["Parroquia_id"], row["Parroquia_nombre"]);
@@ -257,37 +263,50 @@ namespace Capa_de_Presentación
         /// </summary>
         private void CargarHistorial()
         {
-            if (isLoading) return; // No cargar durante la inicialización
+            if (isLoading) return;
 
             try
             {
-                // Validar que SelectedValue no sea null ni DataRowView
                 int parroquia_seleccionada = -1;
                 int usuario_seleccionado = -1;
 
                 if (cmbParroquia.SelectedValue != null &&
                     !(cmbParroquia.SelectedValue is DataRowView))
-                {
                     parroquia_seleccionada = Convert.ToInt32(cmbParroquia.SelectedValue);
-                }
 
                 if (cmbUsuario.SelectedValue != null &&
                     !(cmbUsuario.SelectedValue is DataRowView))
-                {
                     usuario_seleccionado = Convert.ToInt32(cmbUsuario.SelectedValue);
-                }
 
                 int? parroquia_id = parroquia_seleccionada == -1 ? null : (int?)parroquia_seleccionada;
                 int? usuarioId = usuario_seleccionado == -1 ? null : (int?)usuario_seleccionado;
 
-                DataTable dt = crudHistorial.ObtenerHistorial(parroquia_id, usuarioId);
+                // Fecha solo si el checkbox está activo
+                DateTime? fechaDesde = chkFiltrarFecha.Checked ? dtpFechaDesde.Value.Date : (DateTime?)null;
+                DateTime? fechaHasta = chkFiltrarFecha.Checked ? dtpFechaHasta.Value.Date : (DateTime?)null;
+
+                int totalRegistros;
+                DataTable dt = crudHistorial.ObtenerHistorial(
+                    out totalRegistros,
+                    parroquia_id, usuarioId,
+                    fechaDesde, fechaHasta,
+                    _paginaActual, _tamanoPagina);
+
+                _totalPaginas = (int)Math.Ceiling((double)totalRegistros / _tamanoPagina);
+                if (_totalPaginas == 0) _totalPaginas = 1;
+
                 bindingSource.DataSource = dt;
                 dgvBitacora.DataSource = bindingSource;
 
+                // Actualizar etiqueta de página
+                lblPagina.Text = $"Página {_paginaActual} de {_totalPaginas}";
+
+                // Habilitar o deshabilitar botones
+                btnAnterior.Enabled = _paginaActual > 1;
+                btnSiguiente.Enabled = _paginaActual < _totalPaginas;
+
                 if (dgvBitacora.Columns.Contains("Descripción"))
-                {
-                    dgvBitacora.Columns["Descripción"].Width = 595; // Ajusta manual de la columna
-                }
+                    dgvBitacora.Columns["Descripción"].Width = 595;
             }
             catch (Exception ex)
             {
@@ -313,6 +332,51 @@ namespace Capa_de_Presentación
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnAnterior_Click(object sender, EventArgs e)
+        {
+            if (_paginaActual > 1)
+            {
+                _paginaActual--;
+                CargarHistorial();
+            }
+        }
+
+        private void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            if (_paginaActual < _totalPaginas)
+            {
+                _paginaActual++;
+                CargarHistorial();
+            }
+        }
+
+        private void chkFiltrarFecha_CheckedChanged(object sender, EventArgs e)
+        {
+            if (isLoading) return;
+            dtpFechaDesde.Enabled = chkFiltrarFecha.Checked;
+            dtpFechaHasta.Enabled = chkFiltrarFecha.Checked;
+            _paginaActual = 1; // Resetear página al cambiar filtro
+            CargarHistorial();
+        }
+
+        private void dtpFechaDesde_ValueChanged(object sender, EventArgs e)
+        {
+            if (isLoading) return;
+            if (dtpFechaDesde.Value.Date > dtpFechaHasta.Value.Date)
+                dtpFechaHasta.Value = dtpFechaDesde.Value;
+            _paginaActual = 1; // Resetear página al cambiar filtro
+            CargarHistorial();
+        }
+
+        private void dtpFechaHasta_ValueChanged(object sender, EventArgs e)
+        {
+            if (isLoading) return;
+            if (dtpFechaHasta.Value.Date < dtpFechaDesde.Value.Date)
+                dtpFechaDesde.Value = dtpFechaHasta.Value;
+            _paginaActual = 1;
+            CargarHistorial();
         }
     }
 }

@@ -28,11 +28,16 @@ namespace Capa_de_acceso_de_datos
         /// <param name="usuario_id">The usuario identifier.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al obtener historial: " + ex.Message</exception>
-        public DataTable ObtenerHistorial(int? parroquia_id = null,
-                                    int? usuario_id = null,
-                                    DateTime? fechaDesde = null,
-                                    DateTime? fechaHasta = null)
+        public DataTable ObtenerHistorial(
+            out int totalRegistros,
+            int? parroquia_id = null,
+            int? usuario_id = null,
+            DateTime? fechaDesde = null,
+            DateTime? fechaHasta = null,
+            int pagina = 1,
+            int tamanoPagina = 50)
         {
+            totalRegistros = 0;
             try
             {
                 conexion.Abrir();
@@ -47,10 +52,19 @@ namespace Capa_de_acceso_de_datos
                     fechaDesde.HasValue ? (object)fechaDesde.Value.Date : DBNull.Value);
                 cmd.Parameters.AddWithValue("@FechaHasta",
                     fechaHasta.HasValue ? (object)fechaHasta.Value.Date : DBNull.Value);
+                cmd.Parameters.AddWithValue("@Pagina", pagina);
+                cmd.Parameters.AddWithValue("@TamanoPagina", tamanoPagina);
+
+                // Parámetro de salida
+                SqlParameter paramTotal = new SqlParameter("@TotalRegistros", SqlDbType.Int);
+                paramTotal.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(paramTotal);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
+
+                totalRegistros = (int)paramTotal.Value;
                 return dt;
             }
             catch (Exception ex)
