@@ -17,6 +17,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private clsCRUD_Historial crudHistorial;
 
+        private bool isLoading = false;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FRM_PG51"/> class.
         /// </summary>
@@ -38,8 +40,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG51_Load(object sender, EventArgs e)
         {
-            CargarMiHistorial();
+            isLoading = true;
+            dtpFechaDesde.Value = DateTime.Today.AddDays(-30);
+            dtpFechaHasta.Value = DateTime.Today;
             this.CenterToScreen();
+            CargarMiHistorial();
+            isLoading = false;
         }
 
         /// <summary>
@@ -49,10 +55,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-                
-                dgvBitacora.DataSource = crudHistorial.ObtenerHistorialUsuario(id_usuario_login);
+                dgvBitacora.DataSource = crudHistorial.ObtenerHistorialUsuario(
+                    id_usuario_login,
+                    dtpFechaDesde.Value.Date,
+                    dtpFechaHasta.Value.Date
+                );
 
-               
+                // El resto del código de columnas se queda igual
                 if (dgvBitacora.Columns["Monto"] != null)
                 {
                     dgvBitacora.Columns["Monto"].Visible = false;
@@ -61,25 +70,22 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 if (dgvBitacora.Columns["Fecha Y Hora"] != null)
                 {
                     dgvBitacora.Columns["Fecha Y Hora"].Width = 140;
-                    dgvBitacora.Columns["Fecha Y Hora"].DefaultCellStyle.Format = "g"; // Formato de fecha y hora corta
+                    dgvBitacora.Columns["Fecha Y Hora"].DefaultCellStyle.Format = "g";
                 }
                 dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
                 if (dgvBitacora.Columns.Contains("Módulo"))
-                {
                     dgvBitacora.Columns["Módulo"].Width = 180;
-                }
 
                 if (dgvBitacora.Columns.Contains("Acción"))
-                {
                     dgvBitacora.Columns["Acción"].Width = 180;
-                }
 
                 if (dgvBitacora.Columns.Contains("Descripción"))
-                {
-                    dgvBitacora.Columns["Descripción"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
-                dgvBitacora.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    dgvBitacora.Columns["Descripción"].AutoSizeMode =
+                        DataGridViewAutoSizeColumnMode.Fill;
+
+                dgvBitacora.ColumnHeadersDefaultCellStyle.Alignment =
+                    DataGridViewContentAlignment.MiddleCenter;
             }
             catch (Exception ex)
             {
@@ -116,6 +122,27 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void dgvBitacora_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dtpFechaDesde_ValueChanged(object sender, EventArgs e)
+        {
+            if (isLoading) return;
+            if (dtpFechaDesde.Value.Date > dtpFechaHasta.Value.Date)
+                dtpFechaHasta.Value = dtpFechaDesde.Value;
+            CargarMiHistorial();
+        }
+
+        private void dtpFechaHasta_ValueChanged(object sender, EventArgs e)
+        {
+            if (isLoading) return;
+            if (dtpFechaHasta.Value.Date < dtpFechaDesde.Value.Date)
+                dtpFechaDesde.Value = dtpFechaHasta.Value;
+            CargarMiHistorial();
         }
     }
 }

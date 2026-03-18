@@ -61,14 +61,15 @@
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
             button1.ImageAlign = ContentAlignment.TopCenter;
-            button1.Location = new Point(1399, 792);
-            button1.Margin = new Padding(4, 3, 4, 3);
+            button1.Location = new Point(1119, 634);
+            button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
-            button1.Size = new Size(171, 43);
+            button1.Size = new Size(137, 34);
             button1.TabIndex = 22;
             button1.Text = "Descargar";
             button1.UseVisualStyleBackColor = false;
             button1.UseWaitCursor = true;
+            button1.Visible = false;
             button1.Click += button1_Click;
             // 
             // cmbFormatoDescarga
@@ -77,20 +78,19 @@
             cmbFormatoDescarga.FlatStyle = FlatStyle.Flat;
             cmbFormatoDescarga.FormattingEnabled = true;
             cmbFormatoDescarga.Items.AddRange(new object[] { "PDF", "DOCX", "JPG" });
-            cmbFormatoDescarga.Location = new Point(1226, 797);
-            cmbFormatoDescarga.Margin = new Padding(4, 3, 4, 3);
+            cmbFormatoDescarga.Location = new Point(981, 638);
+            cmbFormatoDescarga.Margin = new Padding(3, 2, 3, 2);
             cmbFormatoDescarga.Name = "cmbFormatoDescarga";
-            cmbFormatoDescarga.Size = new Size(154, 33);
+            cmbFormatoDescarga.Size = new Size(124, 28);
             cmbFormatoDescarga.TabIndex = 23;
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(944, 795);
-            label9.Margin = new Padding(4, 0, 4, 0);
+            label9.Location = new Point(755, 636);
             label9.Name = "label9";
-            label9.Size = new Size(232, 30);
+            label9.Size = new Size(190, 25);
             label9.TabIndex = 24;
             label9.Text = "Formato de descarga";
             // 
@@ -99,20 +99,19 @@
             panel3.BackColor = Color.FromArgb(251, 203, 51);
             panel3.Controls.Add(lstReportes);
             panel3.Controls.Add(label2);
-            panel3.Location = new Point(944, 382);
-            panel3.Margin = new Padding(4, 3, 4, 3);
+            panel3.Location = new Point(755, 306);
+            panel3.Margin = new Padding(3, 2, 3, 2);
             panel3.Name = "panel3";
-            panel3.Size = new Size(626, 360);
+            panel3.Size = new Size(501, 288);
             panel3.TabIndex = 27;
             // 
             // lstReportes
             // 
             lstReportes.FormattingEnabled = true;
-            lstReportes.ItemHeight = 25;
-            lstReportes.Location = new Point(4, 72);
-            lstReportes.Margin = new Padding(4, 3, 4, 3);
+            lstReportes.Location = new Point(3, 58);
+            lstReportes.Margin = new Padding(3, 2, 3, 2);
             lstReportes.Name = "lstReportes";
-            lstReportes.Size = new Size(618, 279);
+            lstReportes.Size = new Size(495, 224);
             lstReportes.TabIndex = 3;
             lstReportes.SelectedIndexChanged += lstReportes_SelectedIndexChanged;
             // 
@@ -120,10 +119,9 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(149, 18);
-            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Location = new Point(119, 14);
             label2.Name = "label2";
-            label2.Size = new Size(333, 45);
+            label2.Size = new Size(280, 38);
             label2.TabIndex = 2;
             label2.Text = "Reportes Generados";
             label2.TextAlign = ContentAlignment.TopCenter;
@@ -139,10 +137,10 @@
             panel2.Controls.Add(dtpDesde);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(label6);
-            panel2.Location = new Point(100, 382);
-            panel2.Margin = new Padding(4, 3, 4, 3);
+            panel2.Location = new Point(80, 306);
+            panel2.Margin = new Padding(3, 2, 3, 2);
             panel2.Name = "panel2";
-            panel2.Size = new Size(673, 488);
+            panel2.Size = new Size(538, 390);
             panel2.TabIndex = 26;
             // 
             // button2
@@ -151,10 +149,10 @@
             button2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button2.ForeColor = Color.White;
             button2.ImageAlign = ContentAlignment.TopCenter;
-            button2.Location = new Point(199, 323);
-            button2.Margin = new Padding(4, 3, 4, 3);
+            button2.Location = new Point(159, 258);
+            button2.Margin = new Padding(3, 2, 3, 2);
             button2.Name = "button2";
-            button2.Size = new Size(251, 65);
+            button2.Size = new Size(201, 52);
             button2.TabIndex = 10;
             button2.Text = "Generar";
             button2.UseVisualStyleBackColor = false;
@@ -164,56 +162,53 @@
             // cmbTipoReporte
             // 
             cmbTipoReporte.FormattingEnabled = true;
-            cmbTipoReporte.Location = new Point(493, 130);
-            cmbTipoReporte.Margin = new Padding(4, 3, 4, 3);
+            cmbTipoReporte.Location = new Point(394, 104);
+            cmbTipoReporte.Margin = new Padding(3, 2, 3, 2);
             cmbTipoReporte.Name = "cmbTipoReporte";
-            cmbTipoReporte.Size = new Size(154, 33);
+            cmbTipoReporte.Size = new Size(124, 28);
             cmbTipoReporte.TabIndex = 9;
             cmbTipoReporte.SelectedIndexChanged += cmbTipoReporte_SelectedIndexChanged;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(346, 133);
-            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Location = new Point(277, 106);
             label7.Name = "label7";
-            label7.Size = new Size(139, 25);
+            label7.Size = new Size(116, 20);
             label7.TabIndex = 7;
             label7.Text = "Tipo de reporte:";
             // 
             // dtpHasta
             // 
-            dtpHasta.Location = new Point(93, 187);
-            dtpHasta.Margin = new Padding(4, 3, 4, 3);
+            dtpHasta.Location = new Point(74, 150);
+            dtpHasta.Margin = new Padding(3, 2, 3, 2);
             dtpHasta.Name = "dtpHasta";
-            dtpHasta.Size = new Size(239, 31);
+            dtpHasta.Size = new Size(192, 27);
             dtpHasta.TabIndex = 5;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(23, 193);
-            label5.Margin = new Padding(4, 0, 4, 0);
+            label5.Location = new Point(18, 154);
             label5.Name = "label5";
-            label5.Size = new Size(61, 25);
+            label5.Size = new Size(50, 20);
             label5.TabIndex = 4;
             label5.Text = "Hasta:";
             // 
             // dtpDesde
             // 
-            dtpDesde.Location = new Point(93, 133);
-            dtpDesde.Margin = new Padding(4, 3, 4, 3);
+            dtpDesde.Location = new Point(74, 106);
+            dtpDesde.Margin = new Padding(3, 2, 3, 2);
             dtpDesde.Name = "dtpDesde";
-            dtpDesde.Size = new Size(239, 31);
+            dtpDesde.Size = new Size(192, 27);
             dtpDesde.TabIndex = 3;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(23, 140);
-            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Location = new Point(18, 112);
             label3.Name = "label3";
-            label3.Size = new Size(66, 25);
+            label3.Size = new Size(54, 20);
             label3.TabIndex = 2;
             label3.Text = "Desde:";
             // 
@@ -221,10 +216,9 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(266, 18);
-            label6.Margin = new Padding(4, 0, 4, 0);
+            label6.Location = new Point(213, 14);
             label6.Name = "label6";
-            label6.Size = new Size(158, 45);
+            label6.Size = new Size(133, 38);
             label6.TabIndex = 1;
             label6.Text = "Servicios";
             label6.TextAlign = ContentAlignment.TopCenter;
@@ -233,18 +227,17 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(1341, 9);
-            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Location = new Point(1073, 7);
             label4.Name = "label4";
-            label4.Size = new Size(247, 54);
+            label4.Size = new Size(209, 46);
             label4.TabIndex = 25;
             label4.Text = "Volver atras";
             label4.Click += label4_Click;
             // 
             // panel4
             // 
-            panel4.Location = new Point(231, 258);
-            panel4.Margin = new Padding(4, 3, 4, 3);
+            panel4.Location = new Point(185, 206);
+            panel4.Margin = new Padding(3, 2, 3, 2);
             panel4.Name = "panel4";
             panel4.Size = new Size(0, 0);
             panel4.TabIndex = 21;
@@ -253,20 +246,19 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Black", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(213, 47);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(170, 38);
             label1.Name = "label1";
-            label1.Size = new Size(180, 45);
+            label1.Size = new Size(155, 38);
             label1.TabIndex = 20;
             label1.Text = "Sacerdote";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(39, 35);
-            pictureBox1.Margin = new Padding(4, 3, 4, 3);
+            pictureBox1.Location = new Point(31, 28);
+            pictureBox1.Margin = new Padding(3, 2, 3, 2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(121, 110);
+            pictureBox1.Size = new Size(97, 88);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 19;
             pictureBox1.TabStop = false;
@@ -275,10 +267,9 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(213, 193);
-            label8.Margin = new Padding(4, 0, 4, 0);
+            label8.Location = new Point(170, 154);
             label8.Name = "label8";
-            label8.Size = new Size(1287, 55);
+            label8.Size = new Size(1066, 46);
             label8.TabIndex = 28;
             label8.Text = " REPORTES DE INGRESOS, GASTOS, ESTADO DE RESULTADOS ETC.";
             label8.Click += label8_Click;
@@ -287,18 +278,17 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(231, 288);
-            label10.Margin = new Padding(4, 0, 4, 0);
+            label10.Location = new Point(185, 230);
             label10.Name = "label10";
-            label10.Size = new Size(930, 55);
+            label10.Size = new Size(771, 46);
             label10.TabIndex = 29;
             label10.Text = "Genere los reportes que necesite en el instante.";
             // 
             // FRM_PG49
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1601, 899);
+            ClientSize = new Size(1281, 719);
             Controls.Add(label10);
             Controls.Add(label8);
             Controls.Add(button1);
@@ -310,7 +300,7 @@
             Controls.Add(panel4);
             Controls.Add(label1);
             Controls.Add(pictureBox1);
-            Margin = new Padding(4, 5, 4, 5);
+            Margin = new Padding(3, 4, 3, 4);
             MaximizeBox = false;
             Name = "FRM_PG49";
             StartPosition = FormStartPosition.CenterScreen;

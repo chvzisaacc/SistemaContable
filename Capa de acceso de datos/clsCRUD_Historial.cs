@@ -28,22 +28,29 @@ namespace Capa_de_acceso_de_datos
         /// <param name="usuario_id">The usuario identifier.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al obtener historial: " + ex.Message</exception>
-        public DataTable ObtenerHistorial(int? parroquia_id = null, int? usuario_id = null)
+        public DataTable ObtenerHistorial(int? parroquia_id = null,
+                                    int? usuario_id = null,
+                                    DateTime? fechaDesde = null,
+                                    DateTime? fechaHasta = null)
         {
             try
             {
                 conexion.Abrir();
-
                 SqlCommand cmd = new SqlCommand("sp_ObtenerHistorial", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@parroquiaId", parroquia_id ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@usuarioId", usuario_id ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@parroquiaId",
+                    parroquia_id ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@usuarioId",
+                    usuario_id ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@FechaDesde",
+                    fechaDesde.HasValue ? (object)fechaDesde.Value.Date : DBNull.Value);
+                cmd.Parameters.AddWithValue("@FechaHasta",
+                    fechaHasta.HasValue ? (object)fechaHasta.Value.Date : DBNull.Value);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
-
                 return dt;
             }
             catch (Exception ex)
@@ -222,7 +229,9 @@ namespace Capa_de_acceso_de_datos
         /// <param name="usuario_id">The usuario identifier.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al obtener el historial del usuario: " + ex.Message</exception>
-        public DataTable ObtenerHistorialUsuario(int usuario_id)
+        public DataTable ObtenerHistorialUsuario(int usuario_id,
+                                           DateTime? fechaDesde = null,
+                                           DateTime? fechaHasta = null)
         {
             try
             {
@@ -231,6 +240,11 @@ namespace Capa_de_acceso_de_datos
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@UsuarioID", usuario_id);
+                    cmd.Parameters.AddWithValue("@FechaDesde",
+                        fechaDesde.HasValue ? (object)fechaDesde.Value.Date : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@FechaHasta",
+                        fechaHasta.HasValue ? (object)fechaHasta.Value.Date : DBNull.Value);
+
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
@@ -239,7 +253,7 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener el historial del usuario: " + ex.Message, ex);
+                throw new Exception("Error al obtener historial del usuario: " + ex.Message, ex);
             }
             finally
             {
