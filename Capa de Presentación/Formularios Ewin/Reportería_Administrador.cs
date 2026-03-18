@@ -42,6 +42,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// </summary>
         private readonly ClsReportes _repo = new ClsReportes();
 
+        private readonly LibroMayorService _libroMayorService = new LibroMayorService();
+
 
         /// <summary>
         /// Construirs the nombre reporte visible.
@@ -248,6 +250,18 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     // SOLO CAMBIO: Usar parroquia_id en lugar de Sesion1.usuario_id
                     ruta_pdf = _curiaService.GenerarInformeCuria(
                         parroquia_id,  // Cambiado de Sesion1.usuario_id a parroquia_id
+                        desde,
+                        hasta
+                    );
+
+                    nombre_reporte = "Informe de Curia";
+                    break;
+
+                case 6:
+                    // SOLO CAMBIO: Usar parroquia_id en lugar de Sesion1.usuario_id
+                   ruta_pdf= _libroMayorService.GenerarInformeLibroMayor(
+                        parroquia_id,
+                        parroquia_nombre,// Cambiado de Sesion1.usuario_id a parroquia_id
                         desde,
                         hasta
                     );

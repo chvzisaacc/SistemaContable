@@ -18,9 +18,11 @@ namespace Capa_de_acceso_de_datos
         //string conexion = "Data Source=LAPTOP-D4F8GK1K\\MSSQLSERVER01;Initial Catalog=BASE DE SISTEMA - LOCAL;Integrated Security=True;TrustServerCertificate=True;";//Diego
         //>>>>>>> new
 
-        static string servidorLocal = Environment.MachineName + "\\SQLEXPRESS";
-        string conexion = $"Data Source={servidorLocal};Initial Catalog=BASE DE SISTEMA - LOCAL;Integrated Security=True;TrustServerCertificate=True;";
+        //        static string servidorLocal = Environment.MachineName + "\\SQLEXPRESS";
+        // string conexion = $"Data Source={servidorLocal};Initial Catalog=BASE DE SISTEMA - LOCAL;Integrated Security=True;TrustServerCertificate=True;";
 
+        static string servidorLocal = Environment.MachineName + "\\MSSQLSERVER01";
+        string conexion = $"Data Source={servidorLocal};Initial Catalog=BASE DE SISTEMA - LOCAL;Integrated Security=True;TrustServerCertificate=True;";
         public SqlConnection sc = new();
 
         public Clsconexion() => sc.ConnectionString = conexion;

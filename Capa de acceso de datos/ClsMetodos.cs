@@ -1,5 +1,4 @@
-﻿using Capa_de_procesamiento_de_datos;
-
+﻿
 namespace Capa_de_acceso_de_datos
 {
     /// <summary>

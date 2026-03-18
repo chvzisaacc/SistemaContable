@@ -24,10 +24,4 @@
 		<PackageReference Include="QuestPDF" Version="2024.7.1" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Reference Include="Capa de procesamiento de datos">
-	    <HintPath>..\Capa de procesamiento de datos\bin\Debug\net8.0-windows\Capa de procesamiento de datos.dll</HintPath>
-	  </Reference>
-	</ItemGroup>
-
 </Project>
