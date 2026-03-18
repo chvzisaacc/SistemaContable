@@ -85,7 +85,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 if (valor <= 0)
                 {
-                    MessageBox.Show("El monto debe ser un número mayor a 0.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El monto es requerido, solo puede contener números y debe ser mayor a 0.", "Formato Incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtMonto.Focus();
                     return false;
                 }
