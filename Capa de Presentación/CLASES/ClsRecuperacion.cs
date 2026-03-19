@@ -26,13 +26,17 @@ namespace Capa_de_Presentación.CAPAS
             var ids = metodos.ObtenerUsuarioIdPorNombreUsuario(usuario);
             if (rol == -1)
             {
-                lblMensaje.ForeColor = Color.Red;
-                lblMensaje.Text = "Su cuenta está inhabilitada.";
+                lblMensaje.ForeColor = Color.White;
+                lblMensaje.BackColor = Color.Transparent;
+                lblMensaje.Text = "⚠ Credenciales incorrectas";
+                lblMensaje.Font = new Font(lblMensaje.Font, FontStyle.Bold);
             }
             else if (rol == 0)
             {
-                lblMensaje.ForeColor = Color.Red;
-                lblMensaje.Text = "Credenciales incorrectas";
+                lblMensaje.ForeColor = Color.White;
+                lblMensaje.BackColor = Color.Transparent;
+                lblMensaje.Text = "⚠ Credenciales incorrectas";
+                lblMensaje.Font = new Font(lblMensaje.Font, FontStyle.Bold);
             }
 
             return rol;
