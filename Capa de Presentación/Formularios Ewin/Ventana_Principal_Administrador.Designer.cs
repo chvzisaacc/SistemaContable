@@ -28,16 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ventana_Principal_Administrador));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            pictureBox1 = new PictureBox();
+            cmbNivel2 = new ComboBox();
             btn_catalago_cuenta = new Button();
+            cmbNivel3 = new ComboBox();
             btn_usuario = new Button();
             panelContenedor = new Panel();
             panelCatalogoCuentas = new Panel();
-            cmbNivel2 = new ComboBox();
-            cmbNivel3 = new ComboBox();
             dgvCatalogoCuentas = new DataGridView();
             btnModificarCuenta = new Button();
             cmbEstadoCuenta = new ComboBox();
@@ -97,9 +98,9 @@
             panel3 = new Panel();
             panel4 = new Panel();
             label1 = new Label();
-            pictureBox1 = new PictureBox();
             panelMensaje = new Panel();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panelContenedor.SuspendLayout();
             panelCatalogoCuentas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCatalogoCuentas).BeginInit();
@@ -107,7 +108,6 @@
             ((System.ComponentModel.ISupportInitialize)dgv_usuarios).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -134,6 +134,34 @@
             panel1.TabIndex = 8;
             panel1.Paint += panel1_Paint;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(26, 16);
+            pictureBox1.Margin = new Padding(4);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(121, 110);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // cmbNivel2
+            // 
+            cmbNivel2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbNivel2.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbNivel2.BackColor = Color.FromArgb(251, 203, 51);
+            cmbNivel2.FlatStyle = FlatStyle.Flat;
+            cmbNivel2.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbNivel2.FormattingEnabled = true;
+            cmbNivel2.IntegralHeight = false;
+            cmbNivel2.Items.AddRange(new object[] { "Ingresos", "Egresos" });
+            cmbNivel2.Location = new Point(79, 62);
+            cmbNivel2.Margin = new Padding(4);
+            cmbNivel2.MaxDropDownItems = 6;
+            cmbNivel2.Name = "cmbNivel2";
+            cmbNivel2.Size = new Size(10, 29);
+            cmbNivel2.TabIndex = 54;
+            // 
             // btn_catalago_cuenta
             // 
             btn_catalago_cuenta.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
@@ -145,6 +173,24 @@
             btn_catalago_cuenta.Text = "Catálogo de Cuentas";
             btn_catalago_cuenta.UseVisualStyleBackColor = true;
             btn_catalago_cuenta.Click += btnCatalagoCuenta_Click;
+            // 
+            // cmbNivel3
+            // 
+            cmbNivel3.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbNivel3.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbNivel3.BackColor = Color.FromArgb(251, 203, 51);
+            cmbNivel3.FlatStyle = FlatStyle.Flat;
+            cmbNivel3.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbNivel3.ForeColor = Color.Transparent;
+            cmbNivel3.FormattingEnabled = true;
+            cmbNivel3.IntegralHeight = false;
+            cmbNivel3.Items.AddRange(new object[] { "Ingresos", "Egresos" });
+            cmbNivel3.Location = new Point(79, 25);
+            cmbNivel3.Margin = new Padding(4);
+            cmbNivel3.MaxDropDownItems = 6;
+            cmbNivel3.Name = "cmbNivel3";
+            cmbNivel3.Size = new Size(10, 29);
+            cmbNivel3.TabIndex = 53;
             // 
             // btn_usuario
             // 
@@ -197,41 +243,6 @@
             panelCatalogoCuentas.TabIndex = 20;
             panelCatalogoCuentas.Paint += panelCatalogoCuentas_Paint;
             // 
-            // cmbNivel2
-            // 
-            cmbNivel2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cmbNivel2.AutoCompleteSource = AutoCompleteSource.ListItems;
-            cmbNivel2.BackColor = Color.FromArgb(251, 203, 51);
-            cmbNivel2.FlatStyle = FlatStyle.Flat;
-            cmbNivel2.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbNivel2.FormattingEnabled = true;
-            cmbNivel2.IntegralHeight = false;
-            cmbNivel2.Items.AddRange(new object[] { "Ingresos", "Egresos" });
-            cmbNivel2.Location = new Point(79, 62);
-            cmbNivel2.Margin = new Padding(4);
-            cmbNivel2.MaxDropDownItems = 6;
-            cmbNivel2.Name = "cmbNivel2";
-            cmbNivel2.Size = new Size(10, 29);
-            cmbNivel2.TabIndex = 54;
-            // 
-            // cmbNivel3
-            // 
-            cmbNivel3.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cmbNivel3.AutoCompleteSource = AutoCompleteSource.ListItems;
-            cmbNivel3.BackColor = Color.FromArgb(251, 203, 51);
-            cmbNivel3.FlatStyle = FlatStyle.Flat;
-            cmbNivel3.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbNivel3.ForeColor = Color.Transparent;
-            cmbNivel3.FormattingEnabled = true;
-            cmbNivel3.IntegralHeight = false;
-            cmbNivel3.Items.AddRange(new object[] { "Ingresos", "Egresos" });
-            cmbNivel3.Location = new Point(79, 25);
-            cmbNivel3.Margin = new Padding(4);
-            cmbNivel3.MaxDropDownItems = 6;
-            cmbNivel3.Name = "cmbNivel3";
-            cmbNivel3.Size = new Size(10, 29);
-            cmbNivel3.TabIndex = 53;
-            // 
             // dgvCatalogoCuentas
             // 
             dgvCatalogoCuentas.AllowUserToAddRows = false;
@@ -239,14 +250,14 @@
             dgvCatalogoCuentas.BackgroundColor = SystemColors.Window;
             dgvCatalogoCuentas.BorderStyle = BorderStyle.None;
             dgvCatalogoCuentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = SystemColors.Window;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle5.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvCatalogoCuentas.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Window;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvCatalogoCuentas.DefaultCellStyle = dataGridViewCellStyle1;
             dgvCatalogoCuentas.Location = new Point(9, 156);
             dgvCatalogoCuentas.Margin = new Padding(4);
             dgvCatalogoCuentas.Name = "dgvCatalogoCuentas";
@@ -725,14 +736,14 @@
             dgv_usuarios.BackgroundColor = SystemColors.Window;
             dgv_usuarios.BorderStyle = BorderStyle.None;
             dgv_usuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = SystemColors.Window;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dgv_usuarios.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgv_usuarios.DefaultCellStyle = dataGridViewCellStyle2;
             dgv_usuarios.Location = new Point(6, 206);
             dgv_usuarios.Margin = new Padding(4);
             dgv_usuarios.Name = "dgv_usuarios";
@@ -986,7 +997,7 @@
             label8.BackColor = Color.FromArgb(251, 203, 51);
             label8.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.FromArgb(43, 56, 143);
-            label8.Location = new Point(1480, 64);
+            label8.Location = new Point(1468, 56);
             label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
             label8.Size = new Size(44, 30);
@@ -1045,17 +1056,6 @@
             label1.TabIndex = 1;
             label1.Text = "Administrador";
             // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(26, 16);
-            pictureBox1.Margin = new Padding(4);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(121, 110);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            // 
             // panelMensaje
             // 
             panelMensaje.BackgroundImage = (Image)resources.GetObject("panelMensaje.BackgroundImage");
@@ -1081,6 +1081,7 @@
             Load += FRM_PG5_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panelContenedor.ResumeLayout(false);
             panelCatalogoCuentas.ResumeLayout(false);
             panelCatalogoCuentas.PerformLayout();
@@ -1090,7 +1091,6 @@
             ((System.ComponentModel.ISupportInitialize)dgv_usuarios).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 

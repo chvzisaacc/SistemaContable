@@ -29,7 +29,6 @@ namespace Capa_de_procesamiento_de_datos
             string nombreParroquia = dtInfo.Rows[0]["ParroquiaNombre"]?.ToString() ?? "";
             string nombreSacerdote = dtInfo.Rows[0]["SacerdoteNombre"]?.ToString() ?? "";
 
-            // ✅ Usar los valores calculados por el SP, no recalcular en C#
             DataRow totales = dtTotales.Rows[0];
             decimal totalEntradas = Convert.ToDecimal(totales["TotalEntradas"]);
             decimal totalSalidas = Convert.ToDecimal(totales["TotalSalidas"]);
@@ -74,8 +73,9 @@ namespace Capa_de_procesamiento_de_datos
             DateTime hasta,
             string nombreSacerdote)
         {
-            // ✅ Convertir a listas para iterar en paralelo
-            var entradas = dtEntradas.AsEnumerable()
+            var formatoHnd = new System.Globalization.CultureInfo("en-US");
+
+            var todasEntradas = dtEntradas.AsEnumerable()
                 .Select(r => new {
                     Nombre = r["NombreCuenta"]?.ToString() ?? "",
                     Monto = Convert.ToDecimal(r["Monto"])
@@ -87,8 +87,23 @@ namespace Capa_de_procesamiento_de_datos
                     Monto = Convert.ToDecimal(r["Monto"])
                 }).ToList();
 
-            // ✅ Iterar hasta cubrir la lista más larga
-            int maxFilas = Math.Max(entradas.Count, salidas.Count);
+            var entradasNormales = todasEntradas.Where(e =>
+                !e.Nombre.StartsWith("COLECTA", StringComparison.OrdinalIgnoreCase) &&
+                !e.Nombre.StartsWith("DONATIVO", StringComparison.OrdinalIgnoreCase) &&
+                !e.Nombre.Contains("SEMINARIO", StringComparison.OrdinalIgnoreCase) &&
+                !e.Nombre.Contains("DISPENSA", StringComparison.OrdinalIgnoreCase) &&
+                !e.Nombre.Contains("CONFIRMA", StringComparison.OrdinalIgnoreCase)
+            ).ToList();
+
+            var entradasDebajo = todasEntradas.Where(e =>
+                e.Nombre.StartsWith("COLECTA", StringComparison.OrdinalIgnoreCase) ||
+                e.Nombre.StartsWith("DONATIVO", StringComparison.OrdinalIgnoreCase) ||
+                e.Nombre.Contains("SEMINARIO", StringComparison.OrdinalIgnoreCase) ||
+                e.Nombre.Contains("DISPENSA", StringComparison.OrdinalIgnoreCase) ||
+                e.Nombre.Contains("CONFIRMA", StringComparison.OrdinalIgnoreCase)
+            ).ToList();
+
+            int maxFilas = Math.Max(entradasNormales.Count, salidas.Count);
 
             var document = Document.Create(container =>
             {
@@ -114,10 +129,10 @@ namespace Capa_de_procesamiento_de_datos
                         {
                             table.ColumnsDefinition(columns =>
                             {
-                                columns.RelativeColumn(3);   // Concepto entrada
-                                columns.ConstantColumn(90);  // Monto entrada
-                                columns.RelativeColumn(3);   // Concepto salida
-                                columns.ConstantColumn(90);  // Monto salida
+                                columns.RelativeColumn(3);
+                                columns.ConstantColumn(90);
+                                columns.RelativeColumn(3);
+                                columns.ConstantColumn(90);
                             });
 
                             void Celda(string texto, bool negrita = false, string colorFondo = "#FFFFFF", bool alinearDerecha = false)
@@ -140,13 +155,13 @@ namespace Capa_de_procesamiento_de_datos
                             Celda("SALIDAS", true, "#D4AF37");
                             Celda("", true, "#D4AF37");
 
-                            // ✅ Filas en paralelo: entrada[i] al lado de salida[i]
+                            // Filas normales en paralelo
                             for (int i = 0; i < maxFilas; i++)
                             {
-                                string eNombre = i < entradas.Count ? entradas[i].Nombre : "";
-                                string eMonto = i < entradas.Count ? $"Lps {entradas[i].Monto:N2}" : "";
+                                string eNombre = i < entradasNormales.Count ? entradasNormales[i].Nombre : "";
+                                string eMonto = i < entradasNormales.Count ? $"L.{entradasNormales[i].Monto.ToString("N2", formatoHnd)}" : "";
                                 string sNombre = i < salidas.Count ? salidas[i].Nombre : "";
-                                string sMonto = i < salidas.Count ? $"Lps {salidas[i].Monto:N2}" : "";
+                                string sMonto = i < salidas.Count ? $"L.{salidas[i].Monto.ToString("N2", formatoHnd)}" : "";
 
                                 Celda(eNombre);
                                 Celda(eMonto, false, "#FFFFFF", true);
@@ -155,16 +170,37 @@ namespace Capa_de_procesamiento_de_datos
                             }
 
                             // Fila subtotal / 12%
-                            Celda($"SUBTOTAL=", true, "#D4AF37");
-                            Celda($"Lps {subtotalCuria:N2}", true, "#D4AF37", true);
+                            Celda("SUBTOTAL=", true, "#D4AF37");
+                            Celda($"L.{subtotalCuria.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
                             Celda("X 12%", true, "#D4AF37");
-                            Celda($"Lps {docePorciento:N2}", true, "#D4AF37", true);
+                            Celda($"L.{docePorciento.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
 
-                            // Fila total a la curia
+                            // Entradas especiales debajo del subtotal
+                            foreach (var entrada in entradasDebajo)
+                            {
+                                Celda(entrada.Nombre);
+                                Celda($"L.{entrada.Monto.ToString("N2", formatoHnd)}", false, "#FFFFFF", true);
+                                Celda("");
+                                Celda("");
+                            }
+
+                            // Fila totales en amarillo en una sola fila
+                            Celda("TOTAL ENTRADAS DEL MES", true, "#D4AF37");
+                            Celda($"L.{totalEntradas.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
+                            Celda("TOTAL SALIDAS DEL MES", true, "#D4AF37");
+                            Celda($"L.{totalSalidas.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
+
+                            // Fila total curia y a la curia arzobispal
+                            Celda("", false);
+                            Celda("", false);
+                            Celda("TOTAL CURIA", true, "#D4AF37");
+                            Celda($"L.{totalALaCuria.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
+
+                            // Fila a la curia arzobispal
                             Celda("", false);
                             Celda("", false);
                             Celda("A LA CURIA ARZOBISPAL", true, "#D4AF37");
-                            Celda($"Lps {totalALaCuria:N2}", true, "#D4AF37", true);
+                            Celda($"L.{totalALaCuria.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
                         });
 
                         col.Item().Text("");
@@ -185,11 +221,11 @@ namespace Capa_de_procesamiento_de_datos
                             }
 
                             Celda2("Total entradas del mes",
-                                totalEntradas == 0 ? "" : $"Lps {totalEntradas:N2}");
+                                totalEntradas == 0 ? "" : $"L.{totalEntradas.ToString("N2", formatoHnd)}");
                             Celda2("Total salidas del mes",
-                                totalSalidas == 0 ? "" : $"Lps {totalSalidas:N2}");
+                                totalSalidas == 0 ? "" : $"L.{totalSalidas.ToString("N2", formatoHnd)}");
                             Celda2("Ganancias (+) o perdidas (-) del mes",
-                                $"Lps {gananciaMes:N2}");
+                                $"L.{gananciaMes.ToString("N2", formatoHnd)}");
                         });
 
                         col.Item().Text("");

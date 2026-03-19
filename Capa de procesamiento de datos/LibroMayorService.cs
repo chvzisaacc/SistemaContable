@@ -49,6 +49,7 @@ namespace Capa_de_procesamiento_de_datos
     DateTime desde,
     DateTime hasta)
         {
+            var formatoHnd = new System.Globalization.CultureInfo("en-US");
             string logoPath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "Resources",
@@ -147,16 +148,16 @@ namespace Capa_de_procesamiento_de_datos
                                 .FontSize(9);
 
                             table.Cell().Background(fondo).Padding(4)
-                                .Text($"{debe:N2}")
-                                .AlignRight().FontSize(9);
+                            .Text($"L.{debe.ToString("N2", formatoHnd)}") 
+                            .AlignRight().FontSize(9);
 
                             table.Cell().Background(fondo).Padding(4)
-                                .Text($"{haber:N2}")
+                                .Text($"L.{haber.ToString("N2", formatoHnd)}")
                                 .AlignRight().FontSize(9);
 
                             table.Cell().Background(fondo).Padding(4)
                                 .Text(row["Saldo"] == DBNull.Value ? "" :
-                                    $"{Convert.ToDecimal(row["Saldo"]):N2}")
+                                    $"L.{Convert.ToDecimal(row["Saldo"]).ToString("N2", formatoHnd)}") 
                                 .AlignRight().FontSize(9);
 
                             i++;
@@ -174,15 +175,15 @@ namespace Capa_de_procesamiento_de_datos
                             .Bold().FontSize(10);
 
                         table.Cell().Background(fondoTotal).Padding(5)
-                            .Text($"{totalDebe:N2}")
+                            .Text($"L.{totalDebe.ToString("N2", formatoHnd)}")
                             .AlignRight().Bold().FontSize(10);
 
                         table.Cell().Background(fondoTotal).Padding(5)
-                            .Text($"{totalHaber:N2}")
+                            .Text($"L.{totalHaber.ToString("N2", formatoHnd)}")
                             .AlignRight().Bold().FontSize(10);
 
                         table.Cell().Background(fondoTotal).Padding(5)
-                            .Text($"{totalGeneral:N2}")
+                            .Text($"L.{totalGeneral.ToString("N2", formatoHnd)}")
                             .AlignRight().Bold().FontSize(10);
                     });
 

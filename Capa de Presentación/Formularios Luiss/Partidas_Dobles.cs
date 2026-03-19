@@ -58,16 +58,32 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void FRM_PG69_Load(object sender, EventArgs e)
         {
             CargarPartidas();
-            //Configurar el ajuste de texto
+
+            // Formato monetario
+            dgvPartidas.CellFormatting += dgvPartidas_CellFormatting;
+
+            // Configurar el ajuste de texto
             dgvPartidas.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-
-            // Configurar que las filas ajusten su altura automáticamente
             dgvPartidas.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            // las columnas también se ajusten al ancho
             dgvPartidas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             this.CenterToScreen();
 
+        }
+
+        private void dgvPartidas_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            var columnasMoneto = new[] { "Debe", "Haber" };
+
+            if (e.ColumnIndex >= 0 && e.Value != null &&
+                columnasMoneto.Contains(dgvPartidas.Columns[e.ColumnIndex].Name))
+            {
+                if (decimal.TryParse(e.Value.ToString(), out decimal monto))
+                {
+                    var formatoHnd = new System.Globalization.CultureInfo("en-US");
+                    e.Value = $"L.{monto.ToString("N2", formatoHnd)}";
+                    e.FormattingApplied = true;
+                }
+            }
         }
 
         /// <summary>

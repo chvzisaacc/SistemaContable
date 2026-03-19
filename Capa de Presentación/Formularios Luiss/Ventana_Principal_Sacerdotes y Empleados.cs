@@ -2461,7 +2461,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             decimal monto = System.Convert.ToDecimal(txtCapitalInicial.Text);
 
-            MessageBox.Show($"UsuarioId: {PredictedId}\nParroquiaId: {ParroquiaId}\nMonto: {monto}");
+            //MessageBox.Show($"UsuarioId: {PredictedId}\nParroquiaId: {ParroquiaId}\nMonto: {monto}");
 
             DialogResult result = MessageBox.Show(
                 $"¿Está seguro de registrar L.{monto:N2} como capital inicial de la parroquia?\n" +
