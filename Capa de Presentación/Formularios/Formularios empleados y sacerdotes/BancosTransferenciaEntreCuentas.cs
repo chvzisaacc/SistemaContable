@@ -1,0 +1,256 @@
+﻿using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.CLASES;
+using System.Data;
+
+namespace Capa_de_Presentación.Formularios_Luiss
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
+    public partial class BancosTransferenciaEntreCuentas : Form
+    {
+        public string SaldoTexto { get; set; }
+        private int _usuarioId;
+
+        private int _parroquiaId;
+        /// <summary>
+        /// The crud transferencia
+        /// </summary>
+        private clsTransferenciaEntreCuentas crudTransferencia = new clsTransferenciaEntreCuentas();
+        /// <summary>
+        /// The validaciones
+        /// </summary>
+        private ClsValidaciones Validaciones;
+
+        private int _idOrigenFijo = 0;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BancosTransferenciaEntreCuentas"/> class.
+        /// </summary>
+        public BancosTransferenciaEntreCuentas(int parroquiaId, int idOrigenFijo = 0, int usuarioId = 0)
+        {
+            InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this._usuarioId = usuarioId;   // ← NUEVO
+            this._parroquiaId = parroquiaId;
+            this._idOrigenFijo = idOrigenFijo;
+            CargarCuentas();
+            Validaciones = new ClsValidaciones();
+        }
+
+        /// <summary>
+        /// Cargars the cuentas.
+        /// </summary>
+        private void CargarCuentas()
+        {
+            try
+            {
+                DataTable dt_cuentas = crudTransferencia.ObtenerCuentasBanco(this._parroquiaId);
+
+                // Configurar combobox destino (siempre libre)
+                cmbDestino.DataSource = dt_cuentas.Copy();
+                cmbDestino.DisplayMember = "NombreCompleto";
+                cmbDestino.ValueMember = "Id_Origen";
+                cmbDestino.SelectedIndex = -1;
+
+                if (_idOrigenFijo > 0)
+                {
+                    // Origen fijo: mostrar solo la cuenta de Caja Chica
+                    DataTable dt_caja = crudTransferencia.ObtenerCajaChica(this._parroquiaId);
+                    cmbOrigen.DataSource = dt_caja;
+                    cmbOrigen.DisplayMember = "NombreCompleto";
+                    cmbOrigen.ValueMember = "Id_Origen";
+                    cmbOrigen.SelectedValue = _idOrigenFijo;
+                    cmbOrigen.Enabled = false;    // ← no puede cambiar el origen
+                }
+                else
+                {
+                    // Origen libre: transferencia normal entre cuentas
+                    cmbOrigen.DataSource = dt_cuentas.Copy();
+                    cmbOrigen.DisplayMember = "NombreCompleto";
+                    cmbOrigen.ValueMember = "Id_Origen";
+                    cmbOrigen.SelectedIndex = -1;
+                    cmbOrigen.Enabled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar las cuentas: " + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Realizars the transferencia.
+        /// </summary>
+        private void RealizarTransferencia()
+        {
+            try
+            {
+                int cuenta_origen = Convert.ToInt32(cmbOrigen.SelectedValue);
+                int cuenta_destino = Convert.ToInt32(cmbDestino.SelectedValue);
+                decimal monto = Convert.ToDecimal(txtMonto.Text);
+
+                bool exito = crudTransferencia.TransferirEntreCuentas(
+                            cuenta_origen, cuenta_destino, monto, _parroquiaId, _usuarioId);  // ← NUEVO
+                if (exito)
+                {
+                    MessageBox.Show("Transferencia realizada exitosamente",
+                        "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al realizar la transferencia: " + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Handles the KeyPress event of the txtMonto control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
+        private void txtMonto_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// Validars the campos.
+        /// </summary>
+        /// <returns></returns>
+        private bool ValidarCampos()
+        {
+            ClsValidaciones val = Validaciones ?? new ClsValidaciones();
+
+
+            string monto = txtMonto.Text.Trim();
+
+
+
+            if (cmbDestino.SelectedValue == null)
+            {
+                MessageBox.Show("Debe seleccionar un Destino.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbDestino.Focus();
+                return false;
+            }
+            if (cmbOrigen.SelectedValue == null)
+            {
+                MessageBox.Show("Debe seleccionar un Origen.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbOrigen.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(monto) || !val.EsNumeroDecimal(monto))
+            {
+                MessageBox.Show("El monto de la cuenta es requerido, solo puede contener numeros y debe ser mayor a 0.",
+                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMonto.Focus();
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
+        /// Handles the Click event of the pictureBox2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            if (!ValidarCampos())
+                return;
+
+
+            if (cmbOrigen.SelectedValue.ToString() == cmbDestino.SelectedValue.ToString())
+            {
+                MessageBox.Show("Las cuentas de origen y destino deben ser diferentes",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            decimal monto;
+            if (!decimal.TryParse(txtMonto.Text, out monto) || monto <= 0)
+            {
+                MessageBox.Show("Debe ingresar un monto válido mayor a cero",
+                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMonto.Focus();
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(
+                $"¿Está seguro de transferir ${monto:N2} de la cuenta {cmbOrigen.Text} a la cuenta {cmbDestino.Text}?",
+                "Confirmar transferencia",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+                //this.DialogResult = DialogResult.OK;
+
+            if (result == DialogResult.Yes)
+            {
+                RealizarTransferencia();
+            }
+        }
+
+        /// <summary>
+        /// Handles the Load event of the FRM_BancosTransferenciaEntreCuentas control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void FRM_BancosTransferenciaEntreCuentas_Load(object sender, EventArgs e)
+        {
+            this.CenterToScreen();
+            cmbOrigen.Text = this.SaldoTexto;
+        }
+        /// <summary>
+        /// Handles the Click event of the txtMonto control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void txtMonto_Click(object sender, EventArgs e)
+        {
+            if (txtMonto.Text == "Usuario")
+            {
+                txtMonto.Text = "";
+                txtMonto.ForeColor = Color.Black;
+            }
+        }
+
+        /// <summary>
+        /// Handles the Leave event of the txtMonto control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void txtMonto_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtMonto.Text))
+            {
+                txtMonto.Text = "Usuario";
+                txtMonto.ForeColor = Color.Gray;
+            }
+        }
+
+        /// <summary>
+        /// Handles the Paint event of the panel2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+    }
+}

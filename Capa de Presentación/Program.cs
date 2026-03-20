@@ -1,13 +1,13 @@
 using Capa_de_Presentación.Formularios_Ewin;
+using Capa_de_Presentación.Formularios_Luiss;
 using QuestPDF.Infrastructure;
-using System.Timers; // Necesario para el Timer
-using Capa_de_procesamiento_de_datos; // Para acceder a LocalDbOff
+using System.Timers;
+using Capa_de_procesamiento_de_datos;
 
 namespace Capa_de_Presentación
 {
     internal static class Program
     {
-        // Definimos el Timer como estático para que no sea destruido por el recolector de basura
         private static System.Timers.Timer syncTimer;
 
         [STAThread]
@@ -15,24 +15,36 @@ namespace Capa_de_Presentación
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             ApplicationConfiguration.Initialize();
-            ConfigurarSincronizador(30000); // Se ejecutará cada 30 segundos
+            ConfigurarSincronizador(30000); // cada 30 segundos
 
-            FRM_PG1 login = new FRM_PG1();
-            login.Show();
-            Application.Run();
+            using (FRM_PG1 login = new FRM_PG1())
+            {
+                if (login.ShowDialog() == DialogResult.OK)
+                {
+                    Form principal;
+
+                    if (login.Rol == 1)
+                        principal = new Ventana_Principal_Administrador(login.UsuarioId, login.ParroquiaId);
+                    else
+                        principal = new FRM_42(login.UsuarioId, login.ParroquiaId);
+
+                    Application.Run(principal);
+                }
+            }
+
+            // opcional: detener timer al salir
+            if (syncTimer != null)
+            {
+                syncTimer.Stop();
+                syncTimer.Dispose();
+            }
         }
 
         private static void ConfigurarSincronizador(int intervalo)
         {
-            // Creamos el timer con el intervalo
             syncTimer = new System.Timers.Timer(intervalo);
-
-            // Asignamos el evento que ocurrirá cada vez que pase el tiempo
             syncTimer.Elapsed += async (sender, e) => await EjecutarSincronizacion();
-
             syncTimer.AutoReset = true;
             syncTimer.Enabled = true;
         }
@@ -41,10 +53,7 @@ namespace Capa_de_Presentación
         {
             try
             {
-                //clase de lógica offline
                 LocalDbOff motor = new LocalDbOff();
-
-                // Ejecutamos el envío de datos pendientes
                 await motor.ProcesarColaSincronizacion();
             }
             catch (Exception ex)
