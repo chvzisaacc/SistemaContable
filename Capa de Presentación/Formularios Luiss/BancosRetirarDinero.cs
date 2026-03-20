@@ -69,8 +69,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             decimal monto;
             if (!decimal.TryParse(txtMonto.Text, out monto) || monto <= 0)
             {
-                MessageBox.Show("Debe ingresar un monto válido mayor a cero",
-                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El monto de la cuenta es requerido, solo puede contener numeros y debe ser mayor a 0.",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMonto.Focus();
                 return;
             }
@@ -106,7 +106,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             if (!string.IsNullOrWhiteSpace(txtMonto.Text) && !Validaciones.EsNumeroDecimal(txtMonto.Text))
             {
-                MessageBox.Show("El monto debe ser un número válido (Ej: 100.00).",
+                MessageBox.Show("El monto de la cuenta es requerido, solo puede contener numeros y debe ser mayor a 0.",
                     "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMonto.Focus();
                 return false;

@@ -1360,7 +1360,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     if (dataGridView1.Rows[i].Cells["Saldo"].Value == null ||
                         string.IsNullOrWhiteSpace(dataGridView1.Rows[i].Cells["Saldo"].Value.ToString()))
                     {
-                        MessageBox.Show($"La fila {i + 1} debe tener un monto válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"El monto es requerido, solo puede contener numeros y debe ser mayor a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["Saldo"];
                         dataGridView1.BeginEdit(true);
                         return false;
@@ -1369,7 +1369,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     decimal monto = 0;
                     if (!decimal.TryParse(dataGridView1.Rows[i].Cells["Saldo"].Value.ToString(), out monto))
                     {
-                        MessageBox.Show($"El monto en la fila {i + 1} no es válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"El monto  es requerido, solo puede contener numeros y debe ser mayor a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["Saldo"];
                         dataGridView1.BeginEdit(true);
                         return false;

@@ -252,7 +252,7 @@ namespace Capa_de_Presentación.CLASES
 
             if (espacios > 3)
             {
-                MessageBox.Show("El texto no puede contener más de 3 espacios.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El texto no puede contener más de 3 espacios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;
@@ -309,7 +309,7 @@ namespace Capa_de_Presentación.CLASES
                 if (!string.IsNullOrEmpty(valorNuevo) && valorNuevo.Length < 3)
                 {
                     dgv.Rows[e.RowIndex].ErrorText = "Debe ingresar al menos 3 caracteres.";
-                    MessageBox.Show("El texto es muy corto. Ingrese al menos 3 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El texto es muy corto. Ingrese al menos 3 caracteres.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                     e.Cancel = true; // ESTO ES LO IMPORTANTE: Impide que el usuario salga de la celda
                 }
