@@ -1,5 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
+using System.Data;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -165,9 +166,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
             try
             {
                 var cuentas = crudCuentasBancarias.ObtenerCuentasBancarias(_parroquiaId);
+
+                cuentas.Columns.Add("NombreConTipo", typeof(string));
+                foreach (DataRow row in cuentas.Rows)
+                {
+                    row["NombreConTipo"] = $"{row["Nombre"]} ({row["Tipo de Cuenta"]})";
+                }
+
                 cmbCuentas.DataSource = cuentas;
-                cmbCuentas.DisplayMember = "Nombre";
-                cmbCuentas.ValueMember = "Id_Origen";  
+                cmbCuentas.DisplayMember = "NombreConTipo";   
+                cmbCuentas.ValueMember = "Id_Origen"; 
             }
             catch (Exception ex)
             {

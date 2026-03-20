@@ -42,19 +42,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pictureBox3 = new PictureBox();
             panelContenedor = new Panel();
             panel5 = new Panel();
-            panelCajaChica2 = new Panel();
-            panelIngresarCapital = new Panel();
-            btnCancelarCapital = new Button();
-            btnGuardarCapital = new Button();
-            txtCapitalInicial = new TextBox();
-            label8 = new Label();
-            chkIngresarCapital = new CheckBox();
-            chkSaldoInicial = new CheckBox();
-            txtSaldoActual = new TextBox();
-            lblCapitalInicial = new Label();
-            label9 = new Label();
-            pictureBox4 = new PictureBox();
-            label7 = new Label();
             panelGastos2 = new Panel();
             pictureBox6 = new PictureBox();
             pictureBox7 = new PictureBox();
@@ -91,6 +78,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
             button3 = new Button();
             cmbAcciones = new ComboBox();
             cmbCuentas = new ComboBox();
+            panelCajaChica2 = new Panel();
+            panelIngresarCapital = new Panel();
+            btnCancelarCapital = new Button();
+            btnGuardarCapital = new Button();
+            txtCapitalInicial = new TextBox();
+            label8 = new Label();
+            chkIngresarCapital = new CheckBox();
+            chkSaldoInicial = new CheckBox();
+            txtSaldoActual = new TextBox();
+            lblCapitalInicial = new Label();
+            label9 = new Label();
+            pictureBox4 = new PictureBox();
+            label7 = new Label();
             btnGastos = new Button();
             btnBancos = new Button();
             btnCajaChica = new Button();
@@ -105,9 +105,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panelContenedor.SuspendLayout();
-            panelCajaChica2.SuspendLayout();
-            panelIngresarCapital.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             panelGastos2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
@@ -117,6 +114,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panelBancos2.SuspendLayout();
+            panelCajaChica2.SuspendLayout();
+            panelIngresarCapital.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             panel1.SuspendLayout();
             pnlAlertaDeslizante.SuspendLayout();
             SuspendLayout();
@@ -171,10 +171,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // panelContenedor
             // 
             panelContenedor.Controls.Add(panel5);
-            panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Controls.Add(panelIngresos);
             panelContenedor.Controls.Add(panelBancos2);
+            panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Location = new Point(4, 355);
             panelContenedor.Margin = new Padding(4, 5, 4, 5);
             panelContenedor.Name = "panelContenedor";
@@ -190,181 +190,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panel5.Size = new Size(749, 368);
             panel5.TabIndex = 49;
             panel5.Paint += panel5_Paint;
-            // 
-            // panelCajaChica2
-            // 
-            panelCajaChica2.Controls.Add(panelIngresarCapital);
-            panelCajaChica2.Controls.Add(chkIngresarCapital);
-            panelCajaChica2.Controls.Add(chkSaldoInicial);
-            panelCajaChica2.Controls.Add(txtSaldoActual);
-            panelCajaChica2.Controls.Add(lblCapitalInicial);
-            panelCajaChica2.Controls.Add(label9);
-            panelCajaChica2.Controls.Add(pictureBox4);
-            panelCajaChica2.Controls.Add(label7);
-            panelCajaChica2.Dock = DockStyle.Fill;
-            panelCajaChica2.Location = new Point(0, 0);
-            panelCajaChica2.Margin = new Padding(4, 2, 4, 2);
-            panelCajaChica2.Name = "panelCajaChica2";
-            panelCajaChica2.Size = new Size(1566, 502);
-            panelCajaChica2.TabIndex = 42;
-            panelCajaChica2.Paint += panelCajaChica2_Paint;
-            // 
-            // panelIngresarCapital
-            // 
-            panelIngresarCapital.BackColor = Color.WhiteSmoke;
-            panelIngresarCapital.BorderStyle = BorderStyle.FixedSingle;
-            panelIngresarCapital.Controls.Add(btnCancelarCapital);
-            panelIngresarCapital.Controls.Add(btnGuardarCapital);
-            panelIngresarCapital.Controls.Add(txtCapitalInicial);
-            panelIngresarCapital.Controls.Add(label8);
-            panelIngresarCapital.Location = new Point(881, 92);
-            panelIngresarCapital.Margin = new Padding(4);
-            panelIngresarCapital.Name = "panelIngresarCapital";
-            panelIngresarCapital.Size = new Size(663, 210);
-            panelIngresarCapital.TabIndex = 42;
-            panelIngresarCapital.Visible = false;
-            // 
-            // btnCancelarCapital
-            // 
-            btnCancelarCapital.BackColor = Color.FromArgb(43, 56, 143);
-            btnCancelarCapital.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
-            btnCancelarCapital.FlatAppearance.BorderSize = 0;
-            btnCancelarCapital.FlatStyle = FlatStyle.Flat;
-            btnCancelarCapital.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCancelarCapital.ForeColor = SystemColors.Control;
-            btnCancelarCapital.Location = new Point(414, 126);
-            btnCancelarCapital.Margin = new Padding(4, 5, 4, 5);
-            btnCancelarCapital.Name = "btnCancelarCapital";
-            btnCancelarCapital.Size = new Size(190, 62);
-            btnCancelarCapital.TabIndex = 44;
-            btnCancelarCapital.Text = "Cancelar";
-            btnCancelarCapital.UseVisualStyleBackColor = false;
-            btnCancelarCapital.Click += btnCancelarCapital_Click_1;
-            // 
-            // btnGuardarCapital
-            // 
-            btnGuardarCapital.BackColor = Color.FromArgb(43, 56, 143);
-            btnGuardarCapital.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
-            btnGuardarCapital.FlatAppearance.BorderSize = 0;
-            btnGuardarCapital.FlatStyle = FlatStyle.Flat;
-            btnGuardarCapital.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGuardarCapital.ForeColor = SystemColors.Control;
-            btnGuardarCapital.Location = new Point(140, 125);
-            btnGuardarCapital.Margin = new Padding(4, 5, 4, 5);
-            btnGuardarCapital.Name = "btnGuardarCapital";
-            btnGuardarCapital.Size = new Size(190, 62);
-            btnGuardarCapital.TabIndex = 43;
-            btnGuardarCapital.Text = "Guardar";
-            btnGuardarCapital.UseVisualStyleBackColor = false;
-            btnGuardarCapital.Click += btnGuardarCapital_Click_1;
-            // 
-            // txtCapitalInicial
-            // 
-            txtCapitalInicial.BackColor = Color.FromArgb(251, 203, 51);
-            txtCapitalInicial.BorderStyle = BorderStyle.None;
-            txtCapitalInicial.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtCapitalInicial.Location = new Point(256, 38);
-            txtCapitalInicial.Margin = new Padding(4, 2, 4, 2);
-            txtCapitalInicial.Name = "txtCapitalInicial";
-            txtCapitalInicial.PlaceholderText = "Ingresar capital inicial";
-            txtCapitalInicial.Size = new Size(394, 48);
-            txtCapitalInicial.TabIndex = 43;
-            txtCapitalInicial.TextAlign = HorizontalAlignment.Right;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(38, 45);
-            label8.Margin = new Padding(4, 0, 4, 0);
-            label8.Name = "label8";
-            label8.Size = new Size(210, 38);
-            label8.TabIndex = 0;
-            label8.Text = "Capital Inicial: ";
-            // 
-            // chkIngresarCapital
-            // 
-            chkIngresarCapital.AutoSize = true;
-            chkIngresarCapital.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            chkIngresarCapital.Location = new Point(1051, 431);
-            chkIngresarCapital.Margin = new Padding(4, 2, 4, 2);
-            chkIngresarCapital.Name = "chkIngresarCapital";
-            chkIngresarCapital.Size = new Size(384, 49);
-            chkIngresarCapital.TabIndex = 41;
-            chkIngresarCapital.Text = "Ingresar capital inicial";
-            chkIngresarCapital.UseVisualStyleBackColor = true;
-            chkIngresarCapital.CheckedChanged += chkIngresarCapital_CheckedChanged_1;
-            // 
-            // chkSaldoInicial
-            // 
-            chkSaldoInicial.AutoSize = true;
-            chkSaldoInicial.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            chkSaldoInicial.Location = new Point(488, 294);
-            chkSaldoInicial.Margin = new Padding(4, 2, 4, 2);
-            chkSaldoInicial.Name = "chkSaldoInicial";
-            chkSaldoInicial.Size = new Size(363, 49);
-            chkSaldoInicial.TabIndex = 39;
-            chkSaldoInicial.Text = "Ingresar saldo inicial";
-            chkSaldoInicial.UseVisualStyleBackColor = true;
-            chkSaldoInicial.CheckedChanged += chkSaldoInicial_CheckedChanged;
-            // 
-            // txtSaldoActual
-            // 
-            txtSaldoActual.BackColor = Color.FromArgb(251, 203, 51);
-            txtSaldoActual.BorderStyle = BorderStyle.None;
-            txtSaldoActual.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtSaldoActual.Location = new Point(536, 194);
-            txtSaldoActual.Margin = new Padding(4, 2, 4, 2);
-            txtSaldoActual.Name = "txtSaldoActual";
-            txtSaldoActual.ReadOnly = true;
-            txtSaldoActual.Size = new Size(266, 48);
-            txtSaldoActual.TabIndex = 38;
-            txtSaldoActual.TextChanged += txtSaldoActual_TextChanged;
-            // 
-            // lblCapitalInicial
-            // 
-            lblCapitalInicial.AutoSize = true;
-            lblCapitalInicial.Font = new Font("Segoe UI", 18.8F, FontStyle.Bold);
-            lblCapitalInicial.Location = new Point(556, 412);
-            lblCapitalInicial.Margin = new Padding(4, 0, 4, 0);
-            lblCapitalInicial.Name = "lblCapitalInicial";
-            lblCapitalInicial.Size = new Size(127, 51);
-            lblCapitalInicial.TabIndex = 45;
-            lblCapitalInicial.Text = "L.0.00";
-            lblCapitalInicial.Click += lblCapitalInicial_Click;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 14.8F, FontStyle.Bold);
-            label9.Location = new Point(488, 352);
-            label9.Margin = new Padding(4, 0, 4, 0);
-            label9.Name = "label9";
-            label9.Size = new Size(341, 41);
-            label9.TabIndex = 46;
-            label9.Text = "Capital de la parroquia";
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(468, 158);
-            pictureBox4.Margin = new Padding(4, 2, 4, 2);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(394, 132);
-            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox4.TabIndex = 37;
-            pictureBox4.TabStop = false;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(135, 11);
-            label7.Margin = new Padding(4, 0, 4, 0);
-            label7.Name = "label7";
-            label7.Size = new Size(1236, 65);
-            label7.TabIndex = 31;
-            label7.Text = "SALDO DE CAJA CHICA Y CAPITAL DE LA PARROQUIA";
             // 
             // panelGastos2
             // 
@@ -870,6 +695,181 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbCuentas.Text = "Cuentas de Ahorro";
             cmbCuentas.SelectedIndexChanged += cmbCuentas_SelectedIndexChanged;
             // 
+            // panelCajaChica2
+            // 
+            panelCajaChica2.Controls.Add(panelIngresarCapital);
+            panelCajaChica2.Controls.Add(chkIngresarCapital);
+            panelCajaChica2.Controls.Add(chkSaldoInicial);
+            panelCajaChica2.Controls.Add(txtSaldoActual);
+            panelCajaChica2.Controls.Add(lblCapitalInicial);
+            panelCajaChica2.Controls.Add(label9);
+            panelCajaChica2.Controls.Add(pictureBox4);
+            panelCajaChica2.Controls.Add(label7);
+            panelCajaChica2.Dock = DockStyle.Fill;
+            panelCajaChica2.Location = new Point(0, 0);
+            panelCajaChica2.Margin = new Padding(4, 2, 4, 2);
+            panelCajaChica2.Name = "panelCajaChica2";
+            panelCajaChica2.Size = new Size(1566, 502);
+            panelCajaChica2.TabIndex = 42;
+            panelCajaChica2.Paint += panelCajaChica2_Paint;
+            // 
+            // panelIngresarCapital
+            // 
+            panelIngresarCapital.BackColor = Color.WhiteSmoke;
+            panelIngresarCapital.BorderStyle = BorderStyle.FixedSingle;
+            panelIngresarCapital.Controls.Add(btnCancelarCapital);
+            panelIngresarCapital.Controls.Add(btnGuardarCapital);
+            panelIngresarCapital.Controls.Add(txtCapitalInicial);
+            panelIngresarCapital.Controls.Add(label8);
+            panelIngresarCapital.Location = new Point(881, 92);
+            panelIngresarCapital.Margin = new Padding(4);
+            panelIngresarCapital.Name = "panelIngresarCapital";
+            panelIngresarCapital.Size = new Size(663, 210);
+            panelIngresarCapital.TabIndex = 42;
+            panelIngresarCapital.Visible = false;
+            // 
+            // btnCancelarCapital
+            // 
+            btnCancelarCapital.BackColor = Color.FromArgb(43, 56, 143);
+            btnCancelarCapital.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
+            btnCancelarCapital.FlatAppearance.BorderSize = 0;
+            btnCancelarCapital.FlatStyle = FlatStyle.Flat;
+            btnCancelarCapital.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelarCapital.ForeColor = SystemColors.Control;
+            btnCancelarCapital.Location = new Point(414, 126);
+            btnCancelarCapital.Margin = new Padding(4, 5, 4, 5);
+            btnCancelarCapital.Name = "btnCancelarCapital";
+            btnCancelarCapital.Size = new Size(190, 62);
+            btnCancelarCapital.TabIndex = 44;
+            btnCancelarCapital.Text = "Cancelar";
+            btnCancelarCapital.UseVisualStyleBackColor = false;
+            btnCancelarCapital.Click += btnCancelarCapital_Click_1;
+            // 
+            // btnGuardarCapital
+            // 
+            btnGuardarCapital.BackColor = Color.FromArgb(43, 56, 143);
+            btnGuardarCapital.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
+            btnGuardarCapital.FlatAppearance.BorderSize = 0;
+            btnGuardarCapital.FlatStyle = FlatStyle.Flat;
+            btnGuardarCapital.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardarCapital.ForeColor = SystemColors.Control;
+            btnGuardarCapital.Location = new Point(140, 125);
+            btnGuardarCapital.Margin = new Padding(4, 5, 4, 5);
+            btnGuardarCapital.Name = "btnGuardarCapital";
+            btnGuardarCapital.Size = new Size(190, 62);
+            btnGuardarCapital.TabIndex = 43;
+            btnGuardarCapital.Text = "Guardar";
+            btnGuardarCapital.UseVisualStyleBackColor = false;
+            btnGuardarCapital.Click += btnGuardarCapital_Click_1;
+            // 
+            // txtCapitalInicial
+            // 
+            txtCapitalInicial.BackColor = Color.FromArgb(251, 203, 51);
+            txtCapitalInicial.BorderStyle = BorderStyle.None;
+            txtCapitalInicial.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtCapitalInicial.Location = new Point(256, 38);
+            txtCapitalInicial.Margin = new Padding(4, 2, 4, 2);
+            txtCapitalInicial.Name = "txtCapitalInicial";
+            txtCapitalInicial.PlaceholderText = "Ingresar capital inicial";
+            txtCapitalInicial.Size = new Size(394, 48);
+            txtCapitalInicial.TabIndex = 43;
+            txtCapitalInicial.TextAlign = HorizontalAlignment.Right;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.Location = new Point(38, 45);
+            label8.Margin = new Padding(4, 0, 4, 0);
+            label8.Name = "label8";
+            label8.Size = new Size(210, 38);
+            label8.TabIndex = 0;
+            label8.Text = "Capital Inicial: ";
+            // 
+            // chkIngresarCapital
+            // 
+            chkIngresarCapital.AutoSize = true;
+            chkIngresarCapital.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chkIngresarCapital.Location = new Point(1051, 431);
+            chkIngresarCapital.Margin = new Padding(4, 2, 4, 2);
+            chkIngresarCapital.Name = "chkIngresarCapital";
+            chkIngresarCapital.Size = new Size(384, 49);
+            chkIngresarCapital.TabIndex = 41;
+            chkIngresarCapital.Text = "Ingresar capital inicial";
+            chkIngresarCapital.UseVisualStyleBackColor = true;
+            chkIngresarCapital.CheckedChanged += chkIngresarCapital_CheckedChanged_1;
+            // 
+            // chkSaldoInicial
+            // 
+            chkSaldoInicial.AutoSize = true;
+            chkSaldoInicial.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chkSaldoInicial.Location = new Point(488, 294);
+            chkSaldoInicial.Margin = new Padding(4, 2, 4, 2);
+            chkSaldoInicial.Name = "chkSaldoInicial";
+            chkSaldoInicial.Size = new Size(363, 49);
+            chkSaldoInicial.TabIndex = 39;
+            chkSaldoInicial.Text = "Ingresar saldo inicial";
+            chkSaldoInicial.UseVisualStyleBackColor = true;
+            chkSaldoInicial.CheckedChanged += chkSaldoInicial_CheckedChanged;
+            // 
+            // txtSaldoActual
+            // 
+            txtSaldoActual.BackColor = Color.FromArgb(251, 203, 51);
+            txtSaldoActual.BorderStyle = BorderStyle.None;
+            txtSaldoActual.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtSaldoActual.Location = new Point(536, 194);
+            txtSaldoActual.Margin = new Padding(4, 2, 4, 2);
+            txtSaldoActual.Name = "txtSaldoActual";
+            txtSaldoActual.ReadOnly = true;
+            txtSaldoActual.Size = new Size(266, 48);
+            txtSaldoActual.TabIndex = 38;
+            txtSaldoActual.TextChanged += txtSaldoActual_TextChanged;
+            // 
+            // lblCapitalInicial
+            // 
+            lblCapitalInicial.AutoSize = true;
+            lblCapitalInicial.Font = new Font("Segoe UI", 18.8F, FontStyle.Bold);
+            lblCapitalInicial.Location = new Point(556, 412);
+            lblCapitalInicial.Margin = new Padding(4, 0, 4, 0);
+            lblCapitalInicial.Name = "lblCapitalInicial";
+            lblCapitalInicial.Size = new Size(127, 51);
+            lblCapitalInicial.TabIndex = 45;
+            lblCapitalInicial.Text = "L.0.00";
+            lblCapitalInicial.Click += lblCapitalInicial_Click;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 14.8F, FontStyle.Bold);
+            label9.Location = new Point(488, 352);
+            label9.Margin = new Padding(4, 0, 4, 0);
+            label9.Name = "label9";
+            label9.Size = new Size(341, 41);
+            label9.TabIndex = 46;
+            label9.Text = "Capital de la parroquia";
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
+            pictureBox4.Location = new Point(468, 158);
+            pictureBox4.Margin = new Padding(4, 2, 4, 2);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(394, 132);
+            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox4.TabIndex = 37;
+            pictureBox4.TabStop = false;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.Location = new Point(135, 11);
+            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(1236, 65);
+            label7.TabIndex = 31;
+            label7.Text = "SALDO DE CAJA CHICA Y CAPITAL DE LA PARROQUIA";
+            // 
             // btnGastos
             // 
             btnGastos.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
@@ -1004,11 +1004,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panelContenedor.ResumeLayout(false);
-            panelCajaChica2.ResumeLayout(false);
-            panelCajaChica2.PerformLayout();
-            panelIngresarCapital.ResumeLayout(false);
-            panelIngresarCapital.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             panelGastos2.ResumeLayout(false);
             panelGastos2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
@@ -1021,6 +1016,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panelBancos2.ResumeLayout(false);
             panelBancos2.PerformLayout();
+            panelCajaChica2.ResumeLayout(false);
+            panelCajaChica2.PerformLayout();
+            panelIngresarCapital.ResumeLayout(false);
+            panelIngresarCapital.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             pnlAlertaDeslizante.ResumeLayout(false);
