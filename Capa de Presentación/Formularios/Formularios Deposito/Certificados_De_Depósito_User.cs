@@ -10,7 +10,7 @@ namespace Capa_de_Presentación.Formularios_Diego
 {
     public partial class Certificados_De_Depósito_User : Form
     {
-        private object dataGridView1;
+        
        
 
         public Certificados_De_Depósito_User()

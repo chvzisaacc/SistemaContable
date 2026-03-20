@@ -10,13 +10,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Partidas_Dobles : Form
     {
-        /// <summary>
-        /// The cn
-        /// </summary>
-        Clsconexion cn = new Clsconexion();
-        /// <summary>
-        /// The identifier transaccion
-        /// </summary>
+       
         private int id_transaccion;
 
 

@@ -25,16 +25,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Handles the CellContentClick event of the dgvBitacora control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
-        private void dgvBitacora_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        /// <summary>
         /// Handles the Load event of the FRM_PG46 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>

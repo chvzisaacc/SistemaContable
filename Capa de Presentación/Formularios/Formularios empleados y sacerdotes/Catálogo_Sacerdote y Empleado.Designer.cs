@@ -109,7 +109,6 @@
             dgvCatalogoUsuarios.RowHeadersWidth = 51;
             dgvCatalogoUsuarios.Size = new Size(887, 325);
             dgvCatalogoUsuarios.TabIndex = 12;
-            dgvCatalogoUsuarios.CellContentClick += dgvBitacora_CellContentClick;
             // 
             // lblConsulte
             // 
@@ -160,7 +159,7 @@
             // panel2
             // 
             panel2.Location = new Point(202, 217);
-            panel2.Margin = new Padding(1, 1, 1, 1);
+            panel2.Margin = new Padding(1);
             panel2.Name = "panel2";
             panel2.Size = new Size(832, 277);
             panel2.TabIndex = 17;

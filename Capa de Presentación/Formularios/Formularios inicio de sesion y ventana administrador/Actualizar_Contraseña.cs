@@ -45,19 +45,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         /// <summary>
-<<<<<<< HEAD:Capa de Presentación/Formularios Ewin/Actualizar_Contraseña.cs
-        /// Handles the Load event of the FRM_PG4 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void FRM_PG4_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        /// <summary>
-=======
->>>>>>> Ordenamiento de estructura, cierre de sistema total y borrado de código basura:Capa de Presentación/Formularios/Formularios inicio de sesion y ventana administrador/Actualizar_Contraseña.cs
+ 
         /// Handles the Click event of the button1 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>

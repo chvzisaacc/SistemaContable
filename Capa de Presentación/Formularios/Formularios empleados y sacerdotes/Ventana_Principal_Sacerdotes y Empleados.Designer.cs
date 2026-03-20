@@ -33,8 +33,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_42));
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             label1 = new Label();
             pictureBox1 = new PictureBox();
@@ -332,7 +332,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbOrigen2.Size = new Size(243, 21);
             cmbOrigen2.TabIndex = 22;
             cmbOrigen2.Text = "Seleccionar";
-            cmbOrigen2.SelectedIndexChanged += cmbOrigen2_SelectedIndexChanged_1;
             // 
             // dgvGastos
             // 
@@ -341,14 +340,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dgvGastos.AllowUserToDeleteRows = false;
             dgvGastos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvGastos.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvGastos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvGastos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvGastos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvGastos.Columns.AddRange(new DataGridViewColumn[] { Id_Transaccion1, dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3 });
             dgvGastos.Location = new Point(31, 101);
@@ -358,10 +357,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dgvGastos.Size = new Size(951, 191);
             dgvGastos.TabIndex = 27;
             dgvGastos.CellClick += dgvGastos_CellClick;
-            dgvGastos.CellContentClick += dgvGastos_CellContentClick;
             dgvGastos.CellDoubleClick += dgvGastos_CellDoubleClick;
             dgvGastos.EditingControlShowing += dgvGastos_EditingControlShowing;
-            dgvGastos.DoubleClick += dgvGastos_DoubleClick;
             // 
             // Id_Transaccion1
             // 
@@ -478,7 +475,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dtpFecha.Name = "dtpFecha";
             dtpFecha.Size = new Size(243, 23);
             dtpFecha.TabIndex = 21;
-            dtpFecha.ValueChanged += dtpFecha_ValueChanged;
             // 
             // btnGuardar
             // 
@@ -558,14 +554,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;
             dataGridView1.Location = new Point(43, 99);
@@ -576,7 +572,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick_1;
             dataGridView1.EditingControlShowing += dataGridView1_EditingControlShowing;
-            dataGridView1.DoubleClick += dataGridView1_DoubleClick;
             // 
             // panelBancos2
             // 
@@ -804,7 +799,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             lblCapitalInicial.Size = new Size(87, 36);
             lblCapitalInicial.TabIndex = 45;
             lblCapitalInicial.Text = "L.0.00";
-            lblCapitalInicial.Click += lblCapitalInicial_Click;
             // 
             // label9
             // 

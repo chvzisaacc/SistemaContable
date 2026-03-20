@@ -150,11 +150,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// <summary>
         /// The predicted identifier
         /// </summary>
-        private int predicted_id;
-        /// <summary>
-        /// The parroquia identifier
-        /// </summary>
-        private int parroquia_id;
+        
 
         /// <summary>
         /// Handles the Click event of the textBox3 control.

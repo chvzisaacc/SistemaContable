@@ -42,9 +42,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <summary>
         /// Initializes a new instance of the <see cref="FRM_PG3"/> class.
         /// </summary>
-        public FRM_PG3()
-        {
-        }
+        
 
         /// <summary>
         /// Handles the Paint event of the panel2 control.

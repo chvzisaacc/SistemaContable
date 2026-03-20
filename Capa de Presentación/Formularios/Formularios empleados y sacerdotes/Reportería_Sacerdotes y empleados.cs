@@ -108,29 +108,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-        /// <summary>
-        /// Cargars the reportes.
-        /// </summary>
-        private void CargarReportes()
-        {
-            try
-            {
-                ClsAccionesDB db = new ClsAccionesDB();
-                List<string> lista = db.ObtenerTipoReporte();
-
-                cmbTipoReporte.DataSource = lista;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar los reportes: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        /// <summary>
-        /// Handles the Click event of the button2 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        
         private void button2_Click(object sender, EventArgs e)
         {
             

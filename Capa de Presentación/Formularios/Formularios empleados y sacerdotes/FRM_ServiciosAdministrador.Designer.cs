@@ -170,17 +170,15 @@
             // pictureBox5
             // 
             pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
-<<<<<<< HEAD:Capa de Presentación/Formularios Luiss/FRM_ServiciosAdministrador.Designer.cs
             pictureBox5.Location = new Point(59, 335);
             pictureBox5.Margin = new Padding(3, 2, 3, 2);
             pictureBox5.Name = "pictureBox5";
             pictureBox5.Size = new Size(144, 74);
-=======
+
             pictureBox5.Location = new Point(-3, 344);
             pictureBox5.Margin = new Padding(3, 2, 3, 2);
             pictureBox5.Name = "pictureBox5";
             pictureBox5.Size = new Size(271, 51);
->>>>>>> Ordenamiento de estructura, cierre de sistema total y borrado de código basura:Capa de Presentación/Formularios/Formularios empleados y sacerdotes/FRM_ServiciosAdministrador.Designer.cs
             pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox5.TabIndex = 35;
             pictureBox5.TabStop = false;
@@ -191,19 +189,17 @@
             textBox4.BorderStyle = BorderStyle.None;
             textBox4.Font = new Font("Segoe UI", 6F, FontStyle.Bold);
             textBox4.ForeColor = Color.White;
-<<<<<<< HEAD:Capa de Presentación/Formularios Luiss/FRM_ServiciosAdministrador.Designer.cs
             textBox4.Location = new Point(77, 362);
             textBox4.Margin = new Padding(3, 2, 3, 2);
             textBox4.Multiline = true;
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(101, 20);
-=======
+
             textBox4.Location = new Point(73, 362);
             textBox4.Margin = new Padding(3, 2, 3, 2);
             textBox4.Multiline = true;
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(122, 16);
->>>>>>> Ordenamiento de estructura, cierre de sistema total y borrado de código basura:Capa de Presentación/Formularios/Formularios empleados y sacerdotes/FRM_ServiciosAdministrador.Designer.cs
             textBox4.TabIndex = 36;
             textBox4.Text = "Certificados de depósito";
             textBox4.MouseClick += textBox4_MouseClick;

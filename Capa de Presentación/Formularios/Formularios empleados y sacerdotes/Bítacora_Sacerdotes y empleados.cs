@@ -98,23 +98,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <summary>
         /// Cargars the datos.
         /// </summary>
-        private void CargarDatos()
-        {
-            try
-            {
-                dgvBitacora.DataSource = crudHistorial.ObtenerHistorialSacerdote();
-
-                if (dgvBitacora.Columns["numero_actividad"] != null)
-                    dgvBitacora.Columns["nuemro_actividad"].Visible = false;
-
-                dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar datos: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        
 
         /// <summary>
         /// Handles the Click event of the btnVolver control.

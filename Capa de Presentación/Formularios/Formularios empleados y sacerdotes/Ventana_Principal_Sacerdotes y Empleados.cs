@@ -39,12 +39,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private bool modoEdicion = false;
         private bool _modoEdicionManual = false;
-        private bool _gridBloqueado = false;
+        
 
         /// <summary>
         /// The cuenta bancoid seleccionado
         /// </summary>
-        private int cuentaBancoid_seleccionado = 0;
+       
         /// <summary>
         /// The subcuentas
         /// </summary>
@@ -53,7 +53,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// The object sub cuentas
         /// </summary>
         private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
-        private bool _ignorarBloqueo = false;
+        
 
         /// <summary>
         /// The crud historial
@@ -169,9 +169,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-        public FRM_42()
-        {
-        }
+        
 
         public void ManejarCierreSesion()
         {
@@ -349,70 +347,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
 
         //Detener el Timer al cerrar el formulario para liberar recursos
-
-
-        /// <summary>
-        /// Cargars the origenes.
-        /// </summary>
-        private void CargarOrigenes()
-        {
-            try
-            {
-                ClsAccionesDB db = new ClsAccionesDB();
-                List<Origen> lista = db.ObtenerListaOrigenes(ParroquiaId);
-                List<Origen> lista2 = db.ObtenerListaOrigenes(ParroquiaId);
-
-                cmbOrigen.DataSource = lista;
-                cmbOrigen.DisplayMember = "Nombre";
-                cmbOrigen.ValueMember = "ID";
-
-                cmbOrigen2.DataSource = lista2;
-                cmbOrigen2.DisplayMember = "Nombre";
-                cmbOrigen2.ValueMember = "ID";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar los orígenes: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        /// <summary>
-        /// Cargars the datos.
-        /// </summary>
-        private void CargarDatos()
-        {
-            try
-            {
-                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias(ParroquiaId);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar datos: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-
-        /// <summary>
-        /// Cargars the combo boxes.
-        /// </summary>
-        private void CargarComboBoxes()
-        {
-            try
-            {
-                cmbCuentas.DataSource = crudCuentasBancarias.ObtenerCuentasBancarias(ParroquiaId);
-                cmbCuentas.DisplayMember = "Nombre";
-                cmbCuentas.ValueMember = "Id_cuentaBanco";
-
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar opciones: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
 
 
 
@@ -1064,26 +998,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Handles the Click event of the button1 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        /// <summary>
-        /// Handles the SelectedIndexChanged event of the cmbOrigen2 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void cmbOrigen2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        /// <summary>
         /// Handles the Click event of the button4 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -1366,7 +1280,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        //-------------------------------------------------
+       
 
 
         /// <summary>
@@ -1648,10 +1562,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void cmbOrigen2_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-
-        }
+        
 
         /// <summary>
         /// Handles the Paint event of the panelGastos2 control.
@@ -1694,27 +1605,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             obj_transa.BloquearDesbloquearDataGastos(dtDatosGastos, dgvGastos, e.RowIndex);
 
         }
-
-        /// <summary>
-        /// Handles the CellContentClick event of the dgvGastos control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
-        private void dgvGastos_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-        /// <summary>
-        /// The identifier transaccion a editar
-        /// </summary>
-        private int id_transaccionAEditar = 0;
-
-
-        /// <summary>
-        /// Handles the Click event of the pictureBox5 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+      
         private void pictureBox5_Click(object sender, EventArgs e)
         {
             if (modoEdicion)
@@ -2094,16 +1985,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Handles the ValueChanged event of the dtpFecha control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void dtpFecha_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        /// <summary>
         /// Handles the Click event of the pictureBox7 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -2229,16 +2110,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             catch { }
         }
 
-        /// <summary>
-        /// Handles the SelectedIndexChanged event of the cmbInteresesBancarios control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void cmbInteresesBancarios_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
@@ -2296,31 +2167,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-        /// <summary>
-        /// Handles the Tick event of the timer1 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_DoubleClick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dgvGastos_DoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dgvGastos_DoubleClick(object sender, EventArgs e)
-        {
-
-        }
-
         private void dgvGastos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
@@ -2357,7 +2203,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         private readonly ClsCapitalInicial _crudCapital = new ClsCapitalInicial();
-        private int _parroquiaId;
+        
         private void ConfigurarCapitalInicial()
         {
             bool tieneCapital = _crudCapital.TieneCapitalInicial(ParroquiaId);
@@ -2501,10 +2347,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        private void lblCapitalInicial_Click(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private void btnCancelarCapital_Click_1(object sender, EventArgs e)
         {

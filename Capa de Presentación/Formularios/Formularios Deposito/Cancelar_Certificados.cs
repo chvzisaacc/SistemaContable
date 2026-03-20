@@ -56,20 +56,14 @@
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
+        
 
         /// <summary>
         /// Handles the TextChanged event of the textBox2 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        
 
         /// <summary>
         /// Handles the Click event of the textBox2 control.
@@ -98,14 +92,6 @@
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

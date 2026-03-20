@@ -38,10 +38,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // 1. LIMPIAR DATOS DE SESIÓN
+            
             Sesion1.CerrarSesion();
 
-            // 2. CONFIRMAR CON USUARIO
+            
             DialogResult resultado = MessageBox.Show(
                 "¿Está seguro de cerrar sesión?",
                 "Confirmar Logout",
@@ -50,7 +50,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             if (resultado == DialogResult.Yes)
             {
-                // 3. REINICIAR APLICACIÓN DESDE LOGIN FRESCO
+                
                 Application.Restart();
             }
         }

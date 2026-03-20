@@ -17,7 +17,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <summary>
         /// The modo edicion
         /// </summary>
-        private bool modoEdicion = false;
+        
         //private int CuentaBancoID = 1;
         /// <summary>
         /// The cuenta identifier
@@ -26,7 +26,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <summary>
         /// The cuenta actual
         /// </summary>
-        private DataRow _cuentaActual; // Para guardar los datos de la cuenta cargada
+        
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BancosCuentaAhorro"/> class.
@@ -70,18 +70,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             HabilitarControles(false);
         }
 
-        private bool ValidarCampos()
-        {
-            if (string.IsNullOrWhiteSpace(txtMonto.Text))
-            {
-                MessageBox.Show("El monto es requerido", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtMonto.Focus();
-                return false;
-            }
-
-            return true;
-        }
+        
         /// <summary>
         /// Habilitars the controles.
         /// </summary>

@@ -14,7 +14,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public delegate void ActualizarSaldoDelegate();
         public event ActualizarSaldoDelegate SaldoActualizado;
 
-        private ClsValidaciones Validaciones;
+       
         private int _parroquiaId;
         private int _usuarioId;
 
@@ -23,7 +23,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            Validaciones = new ClsValidaciones();
+            
             _parroquiaId = parroquiaId;
             _usuarioId = usuarioId;
         }
