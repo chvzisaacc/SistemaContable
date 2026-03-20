@@ -39,10 +39,10 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(76, 120);
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(105, 130);
             label1.Name = "label1";
-            label1.Size = new Size(204, 30);
+            label1.Size = new Size(151, 21);
             label1.TabIndex = 0;
             label1.Text = "Correo Electrónico";
             label1.Click += label1_Click;
@@ -63,7 +63,7 @@
             button1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.Transparent;
             button1.Location = new Point(90, 169);
-            button1.Margin = new Padding(1, 1, 1, 1);
+            button1.Margin = new Padding(1);
             button1.Name = "button1";
             button1.Size = new Size(186, 43);
             button1.TabIndex = 18;
@@ -75,7 +75,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(365, 249);
+            ClientSize = new Size(400, 249);
             Controls.Add(button1);
             Controls.Add(pictureBox1);
             Controls.Add(label1);

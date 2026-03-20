@@ -45,16 +45,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         /// <summary>
-        /// Handles the Click event of the label2 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        /// <summary>
         /// Handles the Load event of the FRM_PG4 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -107,7 +97,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 //Metodo para cambio
                 ClsAccionesDB acciones = new ClsAccionesDB();
 
-                acciones.CambiarContraseña(nombreUsuario,correoUsuario, nueva_contraseña);
+                acciones.CambiarContraseña(nombreUsuario, correoUsuario, nueva_contraseña);
 
                 MessageBox.Show("Contraseña actualizada correctamente.");
 
@@ -129,7 +119,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void label4_Click(object sender, EventArgs e)
         {
             //Movimineto de frm
-            FRM_PG3 fRM_PG3 = new FRM_PG3(this.usuarioId, this.correoUsuario,this.nombreUsuario);
+            FRM_PG3 fRM_PG3 = new FRM_PG3(this.usuarioId, this.correoUsuario, this.nombreUsuario);
             fRM_PG3.Show();
             this.Hide();
         }
