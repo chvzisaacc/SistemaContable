@@ -50,6 +50,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private int id_cuenta_seleccionada = 0;
 
+        private BindingSource bindingSourceCatalogo;
+
         //BITACORA
         /// <summary>
         /// The crud historial
@@ -102,6 +104,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             Validaciones = new ClsValidaciones();
             //Para busqueda de usuarios
             bindingSource = new BindingSource();
+            bindingSourceCatalogo = new BindingSource();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.FormClosed += (s, e) => Application.Exit();
 
@@ -761,20 +764,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         /// <summary>
-        /// Handles the Click event of the btnNuevaCuenta control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void btnNuevaCuenta_Click(object sender, EventArgs e)
-        {
-            LimpiarCamposCatalogo();
-            HabilitarControlesCatalogo(true);
-            modo_edicion_catalogo = false;
-            id_cuenta_seleccionada = 0;
-            txtNombreCuenta.Focus();
-        }
-
-        /// <summary>
         /// Handles the Click event of the btnAgregar control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -1083,7 +1072,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                dgvCatalogoCuentas.DataSource = crud_catalogo_cuentas.ObtenerCatalogoCuentas();
+                DataTable dt = crud_catalogo_cuentas.ObtenerCatalogoCuentas();
+                bindingSourceCatalogo.DataSource = dt;
+
+                dgvCatalogoCuentas.DataSource = bindingSourceCatalogo;
 
                 // Ocultar columnas internas
                 string[] ocultar = { "EstadoID", "EsDetalle", "id_cuenta",
@@ -1225,14 +1217,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataGridViewBindingCompleteEventArgs"/> instance containing the event data.</param>
-        
+
 
         /// <summary>
         /// Handles the SelectedIndexChanged event of the cmbParroquia control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
 
         /// <summary>
         /// Handles the Click event of the pictureBox3 control.
@@ -1415,7 +1407,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
-        
+
 
         private void txt_apellido_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -1540,7 +1532,42 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
-        
+        private void btnNuevaCuenta_Click_1(object sender, EventArgs e)
+        {
+            LimpiarCamposCatalogo();
+            HabilitarControlesCatalogo(true);
+            modo_edicion_catalogo = false;
+            id_cuenta_seleccionada = 0;
+            txtNombreCuenta.Focus();
+        }
+
+        private void txtBuscarCuenta_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                string textoBusqueda = txtBuscarCuenta.Text.Trim().Replace("'", "''");
+
+                if (string.IsNullOrEmpty(textoBusqueda))
+                {
+                    bindingSourceCatalogo.RemoveFilter();
+                }
+                else
+                {
+                    bindingSourceCatalogo.Filter = string.Format(
+                        "[Código] LIKE '%{0}%' OR " +
+                        "[Nombre] LIKE '%{0}%'",
+                        //+ "[Nombre Padre] LIKE '%{0}%' OR " +
+                        //"[Detalle] LIKE '%{0}%'",
+                        textoBusqueda
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al buscar: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 
 }
