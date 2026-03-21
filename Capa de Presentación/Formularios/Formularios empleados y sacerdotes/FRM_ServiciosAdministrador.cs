@@ -24,14 +24,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
 
         /// <summary>
         /// Handles the TextChanged event of the textBox1 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
 
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
 
         /// <summary>
         /// Handles the MouseClick event of the textBox3 control.
@@ -107,14 +107,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-       
+
 
         /// <summary>
         /// Handles the Click event of the pibBitacora control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-       
+
 
         /// <summary>
         /// Handles the Click event of the textBox2 control.
@@ -142,22 +142,22 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-       
+
 
         /// <summary>
         /// Handles the Click event of the pibGenerarReportes control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
-       
+
+
 
         /// <summary>
         /// Handles the TextChanged event of the textBox5 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
 
         /// <summary>
         /// Handles the MouseClick event of the textBox5 control.
@@ -185,28 +185,28 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
 
         /// <summary>
         /// Handles the Click event of the pictureBox5 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
 
         /// <summary>
         /// Handles the Click event of the pictureBox4 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-       
+
 
         /// <summary>
         /// Handles the Load event of the FRM_ServiciosAdministrador control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
 
         private void textBox4_MouseClick(object sender, MouseEventArgs e)
         {
@@ -236,6 +236,39 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_Click(object sender, EventArgs e)
+        {
+            var main = this.Owner as Form;
+
+            try
+            {
+
+                main?.Hide();
+
+
+                this.Hide();
+                using (var frm = new Bitacora_Admin())
+                {
+                    frm.StartPosition = FormStartPosition.CenterParent;
+                    frm.ShowDialog(this);
+                }
+            }
+            finally
+            {
+
+                this.Close();
+                main?.Show();
+            }
+        }
     }
 }

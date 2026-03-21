@@ -59,19 +59,21 @@
             textBox3.BorderStyle = BorderStyle.None;
             textBox3.Font = new Font("Segoe UI", 7F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox3.ForeColor = Color.White;
-            textBox3.Location = new Point(110, 238);
-            textBox3.Margin = new Padding(3, 2, 3, 2);
+            textBox3.Location = new Point(157, 394);
+            textBox3.Margin = new Padding(4, 3, 4, 3);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(56, 13);
+            textBox3.Size = new Size(80, 19);
             textBox3.TabIndex = 30;
             textBox3.Text = "Bitácora";
+            textBox3.Click += textBox3_Click;
+            textBox3.TextChanged += textBox3_TextChanged;
             // 
             // pibBitacora
             // 
-            pibBitacora.Location = new Point(-3, 221);
-            pibBitacora.Margin = new Padding(3, 2, 3, 2);
+            pibBitacora.Location = new Point(-4, 368);
+            pibBitacora.Margin = new Padding(4, 3, 4, 3);
             pibBitacora.Name = "pibBitacora";
-            pibBitacora.Size = new Size(270, 44);
+            pibBitacora.Size = new Size(386, 73);
             pibBitacora.SizeMode = PictureBoxSizeMode.Zoom;
             pibBitacora.TabIndex = 29;
             pibBitacora.TabStop = false;
@@ -82,10 +84,10 @@
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 7F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox1.ForeColor = Color.White;
-            textBox1.Location = new Point(85, 172);
-            textBox1.Margin = new Padding(3, 2, 3, 2);
+            textBox1.Location = new Point(127, 287);
+            textBox1.Margin = new Padding(4, 3, 4, 3);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(93, 13);
+            textBox1.Size = new Size(133, 19);
             textBox1.TabIndex = 28;
             textBox1.Text = "Generar Reportes";
             textBox1.MouseClick += textBox1_MouseClick;
@@ -93,10 +95,10 @@
             // pibGenerarReportes
             // 
             pibGenerarReportes.Image = (Image)resources.GetObject("pibGenerarReportes.Image");
-            pibGenerarReportes.Location = new Point(-3, 158);
-            pibGenerarReportes.Margin = new Padding(3, 2, 3, 2);
+            pibGenerarReportes.Location = new Point(-4, 263);
+            pibGenerarReportes.Margin = new Padding(4, 3, 4, 3);
             pibGenerarReportes.Name = "pibGenerarReportes";
-            pibGenerarReportes.Size = new Size(270, 44);
+            pibGenerarReportes.Size = new Size(386, 73);
             pibGenerarReportes.SizeMode = PictureBoxSizeMode.Zoom;
             pibGenerarReportes.TabIndex = 27;
             pibGenerarReportes.TabStop = false;
@@ -104,9 +106,10 @@
             // pictureBox1
             // 
             pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
-            pictureBox1.Location = new Point(39, 36);
+            pictureBox1.Location = new Point(67, 60);
+            pictureBox1.Margin = new Padding(4, 5, 4, 5);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(164, 102);
+            pictureBox1.Size = new Size(223, 170);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 24;
             pictureBox1.TabStop = false;
@@ -115,29 +118,32 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(66, 4);
+            label1.Location = new Point(94, 7);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(134, 32);
+            label1.Size = new Size(198, 48);
             label1.TabIndex = 23;
             label1.Text = "SERVICIOS";
             // 
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(36, 36);
+            pictureBox2.Location = new Point(67, 60);
+            pictureBox2.Margin = new Padding(4, 5, 4, 5);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(201, 102);
+            pictureBox2.Size = new Size(238, 170);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 31;
             pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
             // 
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(-3, 221);
-            pictureBox3.Margin = new Padding(3, 2, 3, 2);
+            pictureBox3.Location = new Point(-4, 368);
+            pictureBox3.Margin = new Padding(4, 3, 4, 3);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(270, 44);
+            pictureBox3.Size = new Size(386, 73);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 32;
             pictureBox3.TabStop = false;
@@ -145,10 +151,10 @@
             // pictureBox4
             // 
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(-6, 287);
-            pictureBox4.Margin = new Padding(3, 2, 3, 2);
+            pictureBox4.Location = new Point(-9, 478);
+            pictureBox4.Margin = new Padding(4, 3, 4, 3);
             pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(274, 44);
+            pictureBox4.Size = new Size(391, 73);
             pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox4.TabIndex = 33;
             pictureBox4.TabStop = false;
@@ -159,10 +165,10 @@
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 7F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(85, 302);
-            textBox2.Margin = new Padding(3, 2, 3, 2);
+            textBox2.Location = new Point(123, 503);
+            textBox2.Margin = new Padding(4, 3, 4, 3);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(93, 13);
+            textBox2.Size = new Size(133, 19);
             textBox2.TabIndex = 34;
             textBox2.Text = "Registrar Rostros";
             textBox2.Click += textBox2_Click;
@@ -170,15 +176,10 @@
             // pictureBox5
             // 
             pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
-            pictureBox5.Location = new Point(59, 335);
-            pictureBox5.Margin = new Padding(3, 2, 3, 2);
+            pictureBox5.Location = new Point(67, 573);
+            pictureBox5.Margin = new Padding(4, 3, 4, 3);
             pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(144, 74);
-
-            pictureBox5.Location = new Point(-3, 344);
-            pictureBox5.Margin = new Padding(3, 2, 3, 2);
-            pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(271, 51);
+            pictureBox5.Size = new Size(238, 85);
             pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox5.TabIndex = 35;
             pictureBox5.TabStop = false;
@@ -189,17 +190,11 @@
             textBox4.BorderStyle = BorderStyle.None;
             textBox4.Font = new Font("Segoe UI", 6F, FontStyle.Bold);
             textBox4.ForeColor = Color.White;
-            textBox4.Location = new Point(77, 362);
-            textBox4.Margin = new Padding(3, 2, 3, 2);
+            textBox4.Location = new Point(111, 604);
+            textBox4.Margin = new Padding(4, 3, 4, 3);
             textBox4.Multiline = true;
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(101, 20);
-
-            textBox4.Location = new Point(73, 362);
-            textBox4.Margin = new Padding(3, 2, 3, 2);
-            textBox4.Multiline = true;
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(122, 16);
+            textBox4.Size = new Size(150, 27);
             textBox4.TabIndex = 36;
             textBox4.Text = "Certificados de depósito";
             textBox4.MouseClick += textBox4_MouseClick;
@@ -207,10 +202,10 @@
             // pictureBox6
             // 
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(-3, 413);
-            pictureBox6.Margin = new Padding(3, 2, 3, 2);
+            pictureBox6.Location = new Point(-4, 688);
+            pictureBox6.Margin = new Padding(4, 3, 4, 3);
             pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(270, 44);
+            pictureBox6.Size = new Size(386, 73);
             pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox6.TabIndex = 37;
             pictureBox6.TabStop = false;
@@ -221,19 +216,19 @@
             textBox5.BorderStyle = BorderStyle.None;
             textBox5.Font = new Font("Segoe UI", 7F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox5.ForeColor = Color.White;
-            textBox5.Location = new Point(85, 429);
-            textBox5.Margin = new Padding(3, 2, 3, 2);
+            textBox5.Location = new Point(121, 714);
+            textBox5.Margin = new Padding(4, 3, 4, 3);
             textBox5.Name = "textBox5";
-            textBox5.Size = new Size(93, 13);
+            textBox5.Size = new Size(133, 19);
             textBox5.TabIndex = 38;
             textBox5.Text = "Alerta del sistema";
             textBox5.MouseClick += textBox5_MouseClick;
             // 
             // FRM_ServiciosAdministrador
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(268, 466);
+            ClientSize = new Size(383, 777);
             Controls.Add(textBox5);
             Controls.Add(pictureBox6);
             Controls.Add(textBox4);
@@ -248,7 +243,7 @@
             Controls.Add(pictureBox1);
             Controls.Add(label1);
             Controls.Add(pibBitacora);
-            Margin = new Padding(3, 2, 3, 2);
+            Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             Name = "FRM_ServiciosAdministrador";
             Text = "FRM_ServiciosAdministrador";

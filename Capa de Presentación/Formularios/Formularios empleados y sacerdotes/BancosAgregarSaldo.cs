@@ -165,8 +165,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 }
 
                 cmbCuentas.DataSource = cuentas;
-                cmbCuentas.DisplayMember = "NombreConTipo";   
-                cmbCuentas.ValueMember = "Id_Origen"; 
+                cmbCuentas.DisplayMember = "NombreConTipo";
+                cmbCuentas.ValueMember = "Id_Origen";
             }
             catch (Exception ex)
             {
@@ -210,6 +210,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
             //otorgar color al panel
+        }
+        private void txtMonto_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -197,7 +197,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 "Confirmar transferencia",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
-                //this.DialogResult = DialogResult.OK;
+            //this.DialogResult = DialogResult.OK;
 
             if (result == DialogResult.Yes)
             {
@@ -249,6 +249,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void txtMonto_TextChanged(object sender, EventArgs e)
         {
 
         }

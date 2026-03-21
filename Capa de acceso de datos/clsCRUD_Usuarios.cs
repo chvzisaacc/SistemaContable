@@ -65,7 +65,7 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al agregar usuario: " + ex.Message, ex);
+                throw new Exception("Error al agregar usuario", ex);
             }
             finally
             {
