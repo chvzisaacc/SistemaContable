@@ -20,9 +20,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="bin\Debug\net8.0-windows\haarcascade_frontalface_default.xml">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
 	  <Content Include="ICONO-SOFTWARE.ico" />
 	</ItemGroup>
 
@@ -30,7 +27,6 @@
 		<PackageReference Include="aSystem.Windows.Forms" Version="1.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="8.0.24" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.24" />
-		<PackageReference Include="OpenCvSharp4" Version="4.11.0.20250507" />
 		<PackageReference Include="OpenCvSharp4.Extensions" Version="4.11.0.20250507" />
 		<PackageReference Include="OpenCvSharp4.runtime.win" Version="4.11.0.20250507" />
 		<PackageReference Include="Spire.PDF" Version="11.11.1" />

@@ -1,5 +1,4 @@
-﻿
-namespace Capa_de_acceso_de_datos
+﻿namespace Capa_de_acceso_de_datos
 {
     /// <summary>
     /// 
@@ -15,31 +14,18 @@ namespace Capa_de_acceso_de_datos
         /// <param name="id_parroquia">The identifier parroquia.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al iniciar sesión: " + ex.Message</exception>
-        public int IniciarSesion(string usuario, string contraseña, int id_parroquia)
+        public (int rol_id, int id_parroquia) IniciarSesion(string usuario, string contraseña, int id_parroquia)
         {
-
             ResultadoLogin resultado = null;
-
             try
             {
-                Abrir();
-
-
                 resultado = ValidarCredenciales(usuario, contraseña, id_parroquia);
-
                 if (resultado != null && resultado.usuario_id > 0)
                 {
-
                     Sesion1.IniciarSesion(resultado.usuario_id, resultado.rol_id, resultado.id_parroquia);
-
-
-                    return resultado.rol_id;
-                    return resultado.id_parroquia;
+                    return (resultado.rol_id, resultado.id_parroquia);
                 }
-
-                return 0;
-
-
+                return (0, 0);
             }
             catch (Exception ex)
             {
@@ -48,7 +34,6 @@ namespace Capa_de_acceso_de_datos
             }
             finally
             {
-                // Asegurar el cierre de la conexión
                 Cerrar();
             }
         }

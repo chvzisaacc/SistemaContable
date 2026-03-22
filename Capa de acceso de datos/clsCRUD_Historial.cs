@@ -60,9 +60,11 @@ namespace Capa_de_acceso_de_datos
                 paramTotal.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(paramTotal);
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
 
                 totalRegistros = (int)paramTotal.Value;
                 return dt;
@@ -93,9 +95,11 @@ namespace Capa_de_acceso_de_datos
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@parroquiaId", parroquia_id ?? (object)DBNull.Value);
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
 
                 return dt;
             }
@@ -124,7 +128,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@usuario_id", usuario_id);
 
-                cmd.ExecuteNonQuery();
+                conexion.EjecutarYEnviar(cmd);
             }
             catch (Exception ex)
             {
@@ -150,9 +154,11 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ObtenerHistorialSacerdote", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
 
                 return dt;
             }
@@ -189,7 +195,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@tarea_realizada", tarea);
                     cmd.Parameters.AddWithValue("@descripcion_tarea", descripcion);
 
-                    cmd.ExecuteNonQuery();
+                    conexion.EjecutarYEnviar(cmd);
                 }
             }
             catch (Exception ex)
@@ -224,7 +230,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@Accion", accion);
                     cmd.Parameters.AddWithValue("@Monto", (object)monto ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@Descripcion", descripcion);
-                    cmd.ExecuteNonQuery();
+                    conexion.EjecutarYEnviar(cmd);
                 }
             }
             catch (Exception ex)
@@ -259,9 +265,11 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@FechaHasta",
                         fechaHasta.HasValue ? (object)fechaHasta.Value.Date : DBNull.Value);
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
-                    adapter.Fill(dt);
+                    using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                    {
+                        dt.Load(dr);
+                    }
                     return dt;
                 }
             }

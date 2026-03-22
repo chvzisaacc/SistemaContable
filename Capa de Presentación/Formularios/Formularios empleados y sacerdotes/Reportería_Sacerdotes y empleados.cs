@@ -28,10 +28,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// The ingresos service
         /// </summary>
         private readonly IngresosService _ingresosService = new IngresosService();
-        /// <summary>
-        /// The balance general service
-        /// </summary>
-        private readonly BalanceGeneralService _balanceGeneralService = new BalanceGeneralService();
+        
         /// <summary>
         /// The curia service
         /// </summary>
@@ -158,16 +155,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     break;
 
                 case 2:
-                    ruta_pdf = _balanceGeneralService.GenerarBalanceGeneral(
-                              parroquia_id,
-                              parroquia_nombre,
-                              desde,
-                              hasta,
-                              Sesion1.usuario_id);
-
-                    nombre_reporte = "Balance General";
-                    break;
-                case 3:
                     ruta_pdf = _ingresosService.GenerarReporteIngresos(
                               parroquia_id,
                               parroquia_nombre,
@@ -177,9 +164,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     nombre_reporte = "Ingresos";
                     break;
 
-
-
-                case 4: // Gastos
+                case 3: 
                     ruta_pdf = _gastosService.GenerarInformeGastos(
                     parroquia_id,
                     parroquia_nombre,
@@ -190,7 +175,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     nombre_reporte = "Gastos";
                     break;
 
-                case 5:
+                case 4:
                     ruta_pdf = _curiaService.GenerarInformeCuria(
                         Sesion1.usuario_id,
                         desde,
@@ -200,7 +185,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     nombre_reporte = "Informe de Curia";
                     break;
 
-                case 6:
+                case 5:
                     ruta_pdf = _libroMayorService.GenerarInformeLibroMayor(
                                parroquia_id,
                                parroquia_nombre,

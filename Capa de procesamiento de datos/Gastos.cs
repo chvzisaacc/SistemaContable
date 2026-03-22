@@ -99,11 +99,7 @@ namespace Capa_de_procesamiento_de_datos
                     command.Parameters.AddWithValue("@id_origen", id_origen_nuevo);
                     command.Parameters.AddWithValue("@nombre", nombre_cuenta);
 
-
-                    object result = command.ExecuteScalar();
-
-                    if (result != null && result != DBNull.Value)
-                        nuevaTransaccion = Convert.ToInt32(result);
+                    nuevaTransaccion = EjecutarScalarYEnviar(command);
                 }
             }
             catch (Exception ex)
@@ -153,10 +149,7 @@ namespace Capa_de_procesamiento_de_datos
                     command.Parameters.AddWithValue("@Id_Origen", id_origen);
                     command.Parameters.AddWithValue("@Nombre", nombre);
 
-                    object result = command.ExecuteScalar();
-
-                    if (result != null && int.TryParse(result.ToString(), out int count))
-                        filas_afectadas = count;
+                    filas_afectadas = EjecutarScalarYEnviar(command);
                 }
 
             }

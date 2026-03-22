@@ -59,7 +59,7 @@ namespace Capa_de_acceso_de_datos
                 nuevo_id.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(nuevo_id);
 
-                cmd.ExecuteNonQuery();
+                conexion.EjecutarYEnviar(cmd);
 
                 return Convert.ToInt32(nuevo_id.Value);
             }
@@ -88,9 +88,11 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ObtenerUsuarios", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
 
                 return dt;
             }
@@ -121,9 +123,11 @@ namespace Capa_de_acceso_de_datos
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id", id);
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
 
                 if (dt.Rows.Count > 0)
                     return dt.Rows[0];
@@ -175,8 +179,8 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@idParroquia", id_parroquia);
                 cmd.Parameters.AddWithValue("@idEstado", id_estado);
 
-                int resultado = cmd.ExecuteNonQuery();
-                return resultado > 0;
+                conexion.EjecutarYEnviar(cmd);
+                return true;
             }
             catch (Exception ex)
             {
@@ -205,8 +209,8 @@ namespace Capa_de_acceso_de_datos
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id", id);
 
-                int resultado = cmd.ExecuteNonQuery();
-                return resultado > 0;
+                conexion.EjecutarYEnviar(cmd);
+                return true;
             }
             catch (Exception ex)
             {
@@ -237,8 +241,8 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@id", id);
                 cmd.Parameters.AddWithValue("@nuevoEstado", nuevo_estado);
 
-                int resultado = cmd.ExecuteNonQuery();
-                return resultado > 0;
+                conexion.EjecutarYEnviar(cmd);
+                return true;
             }
             catch (Exception ex)
             {
@@ -269,8 +273,8 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@id", id);
                 cmd.Parameters.AddWithValue("@nuevoEstado", nuevo_estado);
 
-                int resultado = cmd.ExecuteNonQuery();
-                return resultado > 0;
+                conexion.EjecutarYEnviar(cmd);
+                return true;
             }
             catch (Exception ex)
             {
@@ -303,7 +307,7 @@ namespace Capa_de_acceso_de_datos
                 existe.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(existe);
 
-                cmd.ExecuteNonQuery();
+                conexion.EjecutarYEnviar(cmd);
 
                 return Convert.ToBoolean(existe.Value);
             }
@@ -331,7 +335,7 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ObtenerProximoId", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                int proximoId = (int)cmd.ExecuteScalar();
+                int proximoId = conexion.EjecutarScalarYEnviar(cmd);
                 return proximoId;
             }
             catch (Exception ex)
@@ -359,9 +363,11 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ObtenerRoles", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
 
                 return dt;
             }
@@ -390,9 +396,11 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ObtenerParroquias", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
 
                 return dt;
             }
@@ -420,9 +428,11 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ObtenerEstados", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
 
                 return dt;
             }
@@ -450,9 +460,8 @@ namespace Capa_de_acceso_de_datos
                 using var cmd = new SqlCommand("dbo.usp_GetCorreoUsuario", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@UsuarioId", SqlDbType.Int).Value = usuario_id;
-
-                var obj = cmd.ExecuteScalar();
-                return obj?.ToString() ?? string.Empty;
+                object obj = cmd.ExecuteScalar();
+                return obj != null && obj != DBNull.Value ? obj.ToString() : string.Empty;
             }
             finally
             {

@@ -67,7 +67,7 @@ namespace Capa_de_acceso_de_datos
         }
 
         // --- MOTOR DE SINCRONIZACIÓN PRIVADO ---
-        private void SincronizarConNube(SqlCommand cmd)
+        protected void SincronizarConNube(SqlCommand cmd)
         {
             string nombreSp = cmd.CommandText;
             var parametros = new Dictionary<string, object>();

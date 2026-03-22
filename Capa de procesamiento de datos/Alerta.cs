@@ -1,7 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
 using Microsoft.Data.SqlClient;
 using System.Data;
-
 namespace Capa_de_procesamiento_de_datos
 {
     /// <summary>
@@ -24,9 +23,9 @@ namespace Capa_de_procesamiento_de_datos
                 using (SqlCommand cmd = new SqlCommand("SP_MOSTRAR_TAREAS", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
+                    using (SqlDataReader dr = EjecutarReaderYEnviar(cmd))
                     {
-                        dataAdapter.Fill(dt);
+                        dt.Load(dr);
                     }
                 }
                 return dt;
@@ -40,6 +39,7 @@ namespace Capa_de_procesamiento_de_datos
                 Cerrar();
             }
         }
+
         /// <summary>
         /// Modificars the configuracion alerta.
         /// </summary>
@@ -51,17 +51,13 @@ namespace Capa_de_procesamiento_de_datos
             try
             {
                 Abrir();
-
                 using (SqlCommand command = new SqlCommand("SP_ModificarAlerta", sc))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-
                     command.Parameters.AddWithValue("@DiasLimite", diasLimite);
-
                     command.Parameters.AddWithValue("@AlarmaActiva", alarmaActiva);
-
                     // Ejecutamos el comando sin esperar un valor de retorno
-                    command.ExecuteNonQuery();
+                    EjecutarYEnviar(command);
                 }
             }
             catch (Exception ex)
@@ -88,9 +84,9 @@ namespace Capa_de_procesamiento_de_datos
                 using (SqlCommand command = new SqlCommand("sp_ObtenerMensajeAlertaActiva", sc))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    using (SqlDataAdapter da = new SqlDataAdapter(command))
+                    using (SqlDataReader dr = EjecutarReaderYEnviar(command))
                     {
-                        da.Fill(dtResultado);
+                        dtResultado.Load(dr);
                     }
                 }
             }
@@ -102,9 +98,7 @@ namespace Capa_de_procesamiento_de_datos
             {
                 Cerrar(); // Cierra la conexión
             }
-
             return dtResultado;
         }
-
     }
 }

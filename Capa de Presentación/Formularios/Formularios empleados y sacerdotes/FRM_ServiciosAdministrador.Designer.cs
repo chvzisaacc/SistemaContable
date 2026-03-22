@@ -37,8 +37,6 @@
             label1 = new Label();
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
-            pictureBox4 = new PictureBox();
-            textBox2 = new TextBox();
             pictureBox5 = new PictureBox();
             textBox4 = new TextBox();
             pictureBox6 = new PictureBox();
@@ -48,7 +46,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             SuspendLayout();
@@ -148,35 +145,10 @@
             pictureBox3.TabIndex = 32;
             pictureBox3.TabStop = false;
             // 
-            // pictureBox4
-            // 
-            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(-9, 478);
-            pictureBox4.Margin = new Padding(4, 3, 4, 3);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(391, 73);
-            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox4.TabIndex = 33;
-            pictureBox4.TabStop = false;
-            // 
-            // textBox2
-            // 
-            textBox2.BackColor = Color.FromArgb(43, 56, 143);
-            textBox2.BorderStyle = BorderStyle.None;
-            textBox2.Font = new Font("Segoe UI", 7F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(123, 503);
-            textBox2.Margin = new Padding(4, 3, 4, 3);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(133, 19);
-            textBox2.TabIndex = 34;
-            textBox2.Text = "Registrar Rostros";
-            textBox2.Click += textBox2_Click;
-            // 
             // pictureBox5
             // 
             pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
-            pictureBox5.Location = new Point(67, 573);
+            pictureBox5.Location = new Point(67, 468);
             pictureBox5.Margin = new Padding(4, 3, 4, 3);
             pictureBox5.Name = "pictureBox5";
             pictureBox5.Size = new Size(238, 85);
@@ -190,7 +162,7 @@
             textBox4.BorderStyle = BorderStyle.None;
             textBox4.Font = new Font("Segoe UI", 6F, FontStyle.Bold);
             textBox4.ForeColor = Color.White;
-            textBox4.Location = new Point(111, 604);
+            textBox4.Location = new Point(110, 499);
             textBox4.Margin = new Padding(4, 3, 4, 3);
             textBox4.Multiline = true;
             textBox4.Name = "textBox4";
@@ -202,7 +174,7 @@
             // pictureBox6
             // 
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(-4, 688);
+            pictureBox6.Location = new Point(-4, 580);
             pictureBox6.Margin = new Padding(4, 3, 4, 3);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Size = new Size(386, 73);
@@ -216,7 +188,7 @@
             textBox5.BorderStyle = BorderStyle.None;
             textBox5.Font = new Font("Segoe UI", 7F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox5.ForeColor = Color.White;
-            textBox5.Location = new Point(121, 714);
+            textBox5.Location = new Point(127, 606);
             textBox5.Margin = new Padding(4, 3, 4, 3);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(133, 19);
@@ -228,13 +200,11 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(383, 777);
+            ClientSize = new Size(383, 675);
             Controls.Add(textBox5);
             Controls.Add(pictureBox6);
             Controls.Add(textBox4);
             Controls.Add(pictureBox5);
-            Controls.Add(textBox2);
-            Controls.Add(pictureBox4);
             Controls.Add(textBox3);
             Controls.Add(pictureBox3);
             Controls.Add(pictureBox2);
@@ -252,7 +222,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ResumeLayout(false);
@@ -269,8 +238,6 @@
         private Label label1;
         private PictureBox pictureBox2;
         private PictureBox pictureBox3;
-        private PictureBox pictureBox4;
-        private TextBox textBox2;
         private PictureBox pictureBox5;
         private TextBox textBox4;
         private PictureBox pictureBox6;

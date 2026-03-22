@@ -164,18 +164,19 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 DataTable dt = crud_catalogo_cuentas.ObtenerNivel1();
 
+                // Permitir nulos en id_cuenta para la fila vacía
+                dt.Columns["id_cuenta"].AllowDBNull = true;
+
                 // Agregar fila vacía al inicio para que no haya selección por defecto
                 DataRow fila = dt.NewRow();
                 fila["id_cuenta"] = DBNull.Value;
                 fila["codigo"] = "";
                 fila["nombre"] = "-- Seleccione --";
                 dt.Rows.InsertAt(fila, 0);
-
                 cmbNivel1.DataSource = dt;
                 cmbNivel1.DisplayMember = "nombre";
                 cmbNivel1.ValueMember = "id_cuenta";
                 cmbNivel1.SelectedIndex = 0;
-
                 // Limpiar y deshabilitar niveles inferiores
                 LimpiarComboBox(cmbNivel2);
                 LimpiarComboBox(cmbNivel3);

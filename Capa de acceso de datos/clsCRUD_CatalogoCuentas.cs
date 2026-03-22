@@ -28,9 +28,11 @@ namespace Capa_de_acceso_de_datos
                 conexion.Abrir();
                 SqlCommand cmd = new SqlCommand("sp_ObtenerNivel1", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
                 return dt;
             }
             catch (Exception ex)
@@ -48,9 +50,11 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ObtenerHijosPorPadre", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id_padre", id_padre);
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
                 return dt;
             }
             catch (Exception ex)
@@ -67,9 +71,11 @@ namespace Capa_de_acceso_de_datos
                 conexion.Abrir();
                 SqlCommand cmd = new SqlCommand("sp_ObtenerCatalogoCuentas", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
                 return dt;
             }
             catch (Exception ex)
@@ -87,9 +93,11 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_BuscarCatalogoCuentaPorId", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id_cuenta", id_cuenta);
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
                 return dt.Rows.Count > 0 ? dt.Rows[0] : null;
             }
             catch (Exception ex)
@@ -100,7 +108,7 @@ namespace Capa_de_acceso_de_datos
         }
 
         public bool AgregarCatalogoCuenta(string codigo, string nombre, int id_padre,
-                                   string detalle ,bool es_detalle = true,
+                                   string detalle, bool es_detalle = true,
                                    int id_estado = 1)
         {
             try
@@ -122,9 +130,8 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@es_detalle", es_detalle ? 1 : 0);
                 cmd.Parameters.AddWithValue("@Id_estado_cuenta", id_estado);
 
-               
-                var resultado = cmd.ExecuteScalar();
-                return resultado != null && resultado != DBNull.Value;
+                var resultado = conexion.EjecutarScalarYEnviar(cmd);
+                return resultado != 0;
             }
             catch (Exception ex)
             {
@@ -150,9 +157,8 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@detalle", string.IsNullOrWhiteSpace(detalle)
                                                           ? (object)DBNull.Value : detalle);
 
-                int filasAfectadas = cmd.ExecuteNonQuery();
-
-                return filasAfectadas > 0;
+                conexion.EjecutarYEnviar(cmd);
+                return true;
             }
             catch (Exception ex)
             {
@@ -170,12 +176,12 @@ namespace Capa_de_acceso_de_datos
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id_cuenta", id_cuenta);
                 cmd.Parameters.AddWithValue("@Id_estado_cuenta", id_estado);
-                int resultado = cmd.ExecuteNonQuery();
+                conexion.EjecutarYEnviar(cmd);
 
                 // TEMPORAL: ver qué devuelve exactamente
                 //MessageBox.Show("ExecuteNonQuery devolvió: " + resultado);
 
-                return resultado >= 0; // ← cambiar > 0 por >= 0 temporalmente
+                return true; // ← cambiar > 0 por >= 0 temporalmente
             }
             catch (Exception ex)
             {
@@ -191,9 +197,11 @@ namespace Capa_de_acceso_de_datos
                 conexion.Abrir();
                 SqlCommand cmd = new SqlCommand(
                     "sp_ObtenerEstadosCuenta", conexion.sc);
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
                 return dt;
             }
             catch (Exception ex)
@@ -217,7 +225,7 @@ namespace Capa_de_acceso_de_datos
                     Direction = ParameterDirection.Output
                 };
                 cmd.Parameters.Add(existe);
-                cmd.ExecuteNonQuery();
+                conexion.EjecutarYEnviar(cmd);
                 return Convert.ToBoolean(existe.Value);
             }
             catch (Exception ex)
@@ -235,8 +243,8 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ObtenerProximoCodigoCatalogo", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id_padre", id_padre);
-                var resultado = cmd.ExecuteScalar();
-                return resultado?.ToString() ?? "";
+                object resultado = cmd.ExecuteScalar();
+                return resultado != null && resultado != DBNull.Value ? resultado.ToString() : "";
             }
             catch (Exception ex)
             {
@@ -250,17 +258,11 @@ namespace Capa_de_acceso_de_datos
             try
             {
                 conexion.Abrir();
-                SqlCommand cmd = new SqlCommand(
-                    @"SELECT TOP 1 id_cuenta 
-              FROM CatalogoCuentas 
-              WHERE UPPER(TRIM(nombre)) = UPPER(TRIM(@nombre))
-                AND es_detalle = 1
-                AND Id_estado_cuenta = 1",
-                    conexion.sc);
+                SqlCommand cmd = new SqlCommand("sp_BuscarIdCuentaPorNombre", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@nombre", nombre);
-                var resultado = cmd.ExecuteScalar();
-                return resultado != null && resultado != DBNull.Value
-                       ? Convert.ToInt32(resultado) : 0;
+                var resultado = conexion.EjecutarScalarYEnviar(cmd);
+                return resultado;
             }
             catch { return 0; }
             finally { conexion.Cerrar(); }

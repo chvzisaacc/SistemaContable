@@ -28,9 +28,11 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ObtenerCuentasDisponiblesCajaChica", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
                 return dt;
             }
             catch (Exception ex)
@@ -56,14 +58,9 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ObtenerSaldoCajaChica", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                object result = cmd.ExecuteScalar();
+                int result = conexion.EjecutarScalarYEnviar(cmd);
 
-                if (result != null && result != DBNull.Value)
-                {
-                    return Convert.ToDecimal(result);
-                }
-
-                return 0;
+                return Convert.ToDecimal(result);
             }
             catch (Exception ex)
             {
@@ -105,7 +102,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.Add(paramExitoso);
                 cmd.Parameters.Add(paramMensaje);
 
-                cmd.ExecuteNonQuery();
+                conexion.EjecutarYEnviar(cmd);
 
                 // Leemos los resultados del SP
                 bool exitoso = Convert.ToBoolean(paramExitoso.Value);
@@ -138,9 +135,9 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("sp_cargatipcuenta", conexion.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
                     {
-                        da.Fill(dt);
+                        dt.Load(dr);
                     }
                 }
             }
@@ -154,10 +151,5 @@ namespace Capa_de_acceso_de_datos
             }
             return dt;
         }
-
-
-
-
-
     }
 }

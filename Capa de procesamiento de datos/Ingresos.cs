@@ -115,6 +115,7 @@ namespace Capa_de_procesamiento_de_datos
 
             return nuevaTransa;
         }
+
         /// <summary>
         /// Modificars the ingreso.
         /// </summary>
@@ -155,9 +156,7 @@ namespace Capa_de_procesamiento_de_datos
                     command.Parameters.AddWithValue("@Id_Origen", id_origen);
                     command.Parameters.AddWithValue("@Nombre", nombre ?? "");
 
-                    object result = command.ExecuteScalar();
-                    if (result != null && int.TryParse(result.ToString(), out int count))
-                        filas_afectadas = count;
+                    filas_afectadas = EjecutarScalarYEnviar(command);
                 }
             }
             catch (Exception ex)
@@ -172,11 +171,3 @@ namespace Capa_de_procesamiento_de_datos
         }
     }
 }
-
-
-
-
-
-
-
-

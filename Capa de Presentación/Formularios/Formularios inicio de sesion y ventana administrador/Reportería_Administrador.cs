@@ -28,7 +28,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <summary>
         /// The balance general service
         /// </summary>
-        private readonly BalanceGeneralService _balanceGeneralService = new BalanceGeneralService();
+        
         /// <summary>
         /// The validaciones
         /// </summary>
@@ -216,17 +216,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                     nombre_reporte = "Estado de Resultados";
                     break;
+                
                 case 2:
-                    ruta_pdf = _balanceGeneralService.GenerarBalanceGeneral(
-                              parroquia_id,
-                              parroquia_nombre,
-                              desde,
-                              hasta,
-                              Sesion1.usuario_id);
-
-                    nombre_reporte = "Balance General";
-                    break;
-                case 3:
                     ruta_pdf = _ingresosService.GenerarReporteIngresos(
                               parroquia_id,
                               parroquia_nombre,
@@ -235,7 +226,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                               Sesion1.usuario_id);
                     nombre_reporte = "Ingresos";
                     break;
-                case 4:
+                case 3:
                     ruta_pdf = _gastosService.GenerarInformeGastos(
                               parroquia_id,
                               parroquia_nombre,
@@ -246,10 +237,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     nombre_reporte = "Gastos";
                     break;
 
-                case 5:
-                    // SOLO CAMBIO: Usar parroquia_id en lugar de Sesion1.usuario_id
+                case 4:
                     ruta_pdf = _curiaService.GenerarInformeCuria(
-                        parroquia_id,  // Cambiado de Sesion1.usuario_id a parroquia_id
+                        parroquia_id, 
                         desde,
                         hasta
                     );
@@ -257,11 +247,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     nombre_reporte = "Informe de Curia";
                     break;
 
-                case 6:
-                    // SOLO CAMBIO: Usar parroquia_id en lugar de Sesion1.usuario_id
+                case 5:
+                    
                    ruta_pdf= _libroMayorService.GenerarInformeLibroMayor(
                         parroquia_id,
-                        parroquia_nombre,// Cambiado de Sesion1.usuario_id a parroquia_id
+                        parroquia_nombre,
                         desde,
                         hasta
                     );

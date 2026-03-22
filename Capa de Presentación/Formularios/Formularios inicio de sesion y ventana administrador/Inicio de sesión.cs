@@ -1,7 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CAPAS;
 using Capa_de_Presentación.CLASES;
-using Capa_de_Presentación.RECONOCIMIENTO_FACIAL;
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
@@ -119,33 +118,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            try
-            {
-                using (RECONOCIMIENTO_FACIAL.RECONOCER reconocer = new())
-                {
-                    this.Hide();
-                    var result = reconocer.ShowDialog(this);
-
-                    if (result == DialogResult.OK)
-                    {
-                        Rol = Sesion1.rol_id;
-                        UsuarioId = Sesion1.usuario_id;
-                        ParroquiaId = Sesion1.id_parroquia;
-
-                        this.DialogResult = DialogResult.OK;
-                        this.Close();
-                    }
-                    else
-                    {
-                        this.Show();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al abrir biometría: " + ex.Message);
-                this.Show();
-            }
+            
         }
 
         private void txt_usuario_KeyPress(object sender, KeyPressEventArgs e)

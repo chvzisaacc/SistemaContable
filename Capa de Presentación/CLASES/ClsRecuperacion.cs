@@ -21,8 +21,8 @@ namespace Capa_de_Presentación.CAPAS
         public int IniciarSesion(string usuario, string contraseña, int id_parroquia, FRM_PG1 fRM_PG1, Label lblMensaje)
         {
             ClsMetodos metodos = new ClsMetodos();
-            int rol = metodos.IniciarSesion(usuario, contraseña, id_parroquia);
-
+            var sesion = metodos.IniciarSesion(usuario, contraseña, id_parroquia);
+            int rol = sesion.rol_id;
             var ids = metodos.ObtenerUsuarioIdPorNombreUsuario(usuario);
             if (rol == -1)
             {
@@ -38,7 +38,6 @@ namespace Capa_de_Presentación.CAPAS
                 lblMensaje.Text = "⚠ Credenciales incorrectas";
                 lblMensaje.Font = new Font(lblMensaje.Font, FontStyle.Bold);
             }
-
             return rol;
         }
 
@@ -103,10 +102,7 @@ namespace Capa_de_Presentación.CAPAS
         /// <param name="label1">The label1.</param>
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        internal int IniciarSesion(string text1, string text2, int v, RECONOCIMIENTO_FACIAL.RECONOCER rECONOCER, Label label1)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 
 }

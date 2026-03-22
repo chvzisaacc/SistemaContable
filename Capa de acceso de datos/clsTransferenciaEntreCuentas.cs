@@ -27,9 +27,11 @@ namespace Capa_de_acceso_de_datos
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
                 return dt;
             }
             catch (Exception ex)
@@ -71,7 +73,7 @@ namespace Capa_de_acceso_de_datos
 
                 cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
 
-                cmd.ExecuteNonQuery();
+                conexion.EjecutarYEnviar(cmd);
                 return true;
             }
             catch (SqlException ex)
@@ -96,6 +98,7 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
+
         public DataTable ObtenerCajaChica(int parroquiaId)
         {
             try
@@ -104,9 +107,11 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_ObtenerCajaChicaParroquia", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
                 return dt;
             }
             catch (Exception ex)

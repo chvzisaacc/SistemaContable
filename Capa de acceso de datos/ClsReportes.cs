@@ -328,24 +328,18 @@ namespace Capa_de_acceso_de_datos
         public string ObtenerNombreSacerdote(int usuarioId)
         {
             string nombreCompleto = "";
-
             try
             {
                 _cn.Abrir();
-
-                using (SqlCommand cmd = new SqlCommand(
-                    "SELECT usuario_nombre, usuario_apellido FROM usuario WHERE Usuario_id = @id", _cn.sc))
+                using (SqlCommand cmd = new SqlCommand("sp_ObtenerNombreSacerdote", _cn.sc))
                 {
-                    cmd.Parameters.AddWithValue("@id", usuarioId);
-
-                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
+                    using (SqlDataReader dr = _cn.EjecutarReaderYEnviar(cmd))
                     {
                         if (dr.Read())
                         {
-                            string nombre = dr["usuario_nombre"]?.ToString() ?? "";
-                            string apellido = dr["usuario_apellido"]?.ToString() ?? "";
-
-                            nombreCompleto = $"{nombre} {apellido}".Trim();
+                            nombreCompleto = dr["NombreCompleto"]?.ToString() ?? "";
                         }
                     }
                 }
@@ -354,12 +348,9 @@ namespace Capa_de_acceso_de_datos
             {
                 _cn.Cerrar();
             }
-
             return nombreCompleto;
         }
-
     }
-
 }
 
 

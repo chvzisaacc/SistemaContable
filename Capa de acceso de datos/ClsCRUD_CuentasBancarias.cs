@@ -47,7 +47,7 @@ namespace Capa_de_acceso_de_datos
                 nuevoid.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(nuevoid);
 
-                cmd.ExecuteNonQuery();
+                conexion.EjecutarYEnviar(cmd);
 
                 return Convert.ToInt32(nuevoid.Value);
             }
@@ -80,9 +80,11 @@ namespace Capa_de_acceso_de_datos
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                {
+                    dt.Load(dr);
+                }
 
                 return dt;
             }
@@ -118,8 +120,8 @@ namespace Capa_de_acceso_de_datos
                 psaldo.Scale = 2;
                 psaldo.Value = saldo;
 
-                int filas = cmd.ExecuteNonQuery(); // esperado: 1 si actualiza una fila
-                return filas > 0;
+                conexion.EjecutarYEnviar(cmd); // esperado: 1 si actualiza una fila
+                return true;
             }
             catch (Exception ex)
             {
@@ -130,6 +132,7 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
+
         /// <summary>
         /// Agregars the saldo.
         /// </summary>
@@ -154,8 +157,8 @@ namespace Capa_de_acceso_de_datos
 
                 cmd.Parameters.Add("@Usuario_id", SqlDbType.Int).Value = usuarioId;
 
-                int filas = cmd.ExecuteNonQuery();   // esperado: 1 si actualiza una fila
-                return filas > 0;
+                conexion.EjecutarYEnviar(cmd);   // esperado: 1 si actualiza una fila
+                return true;
             }
             catch (Exception ex)
             {
@@ -166,6 +169,7 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
+
         /// <summary>
         /// Crears the cuenta banco.
         /// </summary>
@@ -201,7 +205,7 @@ namespace Capa_de_acceso_de_datos
                 var pOut = cmd.Parameters.Add("@nuevo_Id", SqlDbType.Int);
                 pOut.Direction = ParameterDirection.Output;
 
-                cmd.ExecuteNonQuery();
+                conexion.EjecutarYEnviar(cmd);
 
                 if (pOut.Value != DBNull.Value && (int)pOut.Value > 0)
                 {

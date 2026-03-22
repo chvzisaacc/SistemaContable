@@ -123,18 +123,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_Click(object sender, EventArgs e)
         {
-            this.Hide();
-
-
-            using (var reconocimiento = new Capa_de_Presentación.RECONOCIMIENTO_FACIAL.RECONOCIMIENTO_FACIAL())
-            {
-                reconocimiento.ShowDialog(this);
-            }
-
-
-            this.Close();
-
-
+           
         }
 
         /// <summary>
