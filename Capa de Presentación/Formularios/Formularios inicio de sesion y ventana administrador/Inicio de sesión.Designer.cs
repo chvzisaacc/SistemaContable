@@ -147,6 +147,7 @@
             Controls.Add(txt_usuario);
             Controls.Add(lbl_olvidaste_contrasena);
             Controls.Add(btn_iniciar_sesion);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             Name = "FRM_PG1";

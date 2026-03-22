@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ALERTA_SISTEMA));
             LimiteDay = new NumericUpDown();
             label1 = new Label();
             Estado = new CheckBox();
@@ -109,6 +110,7 @@
             Controls.Add(Estado);
             Controls.Add(label1);
             Controls.Add(LimiteDay);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "ALERTA_SISTEMA";
             Text = "ALERTA_SISTEMA";

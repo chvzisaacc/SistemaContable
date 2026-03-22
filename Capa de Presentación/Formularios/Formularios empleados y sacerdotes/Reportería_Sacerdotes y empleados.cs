@@ -3,6 +3,7 @@ using Capa_de_Presentación.CLASES;
 using Capa_de_procesamiento_de_datos;
 using Spire.Pdf;
 using System.Data;
+using ClosedXML.Excel;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -28,7 +29,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// The ingresos service
         /// </summary>
         private readonly IngresosService _ingresosService = new IngresosService();
-        
+
         /// <summary>
         /// The curia service
         /// </summary>
@@ -92,6 +93,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbFormatoDescarga.Items.Add("PDF");
             cmbFormatoDescarga.Items.Add("DOCX");
             cmbFormatoDescarga.Items.Add("JPG");
+            cmbFormatoDescarga.Items.Add("XLSX");
 
             DataTable dt_tipos = _gastosService.ObtenerTiposReporte();
 
@@ -101,14 +103,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbTipoReporte.SelectedIndex = -1;
             this.CenterToScreen();
 
+            dtpDesde.MaxDate = DateTime.Now;
             dtpHasta.MaxDate = DateTime.Now;
 
         }
 
-        
+
         private void button2_Click(object sender, EventArgs e)
         {
-            
+
             int tipo_reporte_id = Convert.ToInt32(cmbTipoReporte.SelectedValue);
             int parroquia_id = Sesion1.id_parroquia;
             string parroquia_nombre = _gastosService.ObtenerNombreParroquia(parroquia_id);
@@ -164,7 +167,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     nombre_reporte = "Ingresos";
                     break;
 
-                case 3: 
+                case 3:
                     ruta_pdf = _gastosService.GenerarInformeGastos(
                     parroquia_id,
                     parroquia_nombre,
@@ -215,6 +218,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 nombre_visible = nombre_visible,
                 ruta_pdf = ruta_pdf,
                 parroquia_id = parroquia_id,
+                parroquia_nombre = parroquia_nombre,
                 desde = desde,
                 hasta = hasta
             };
@@ -287,6 +291,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         sfd.Filter = "Imagen JPG|*.jpg";
                         sfd.FileName = nombre_seguro + ".jpg";
                         break;
+                    case "XLSX":
+                        sfd.Filter = "Archivo Excel|*.xlsx";
+                        sfd.FileName = nombre_seguro + ".xlsx";
+                        break;
                 }
 
                 if (sfd.ShowDialog() != DialogResult.OK)
@@ -311,8 +319,88 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     image.Save(sfd.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
                     pdf.Close();
                 }
+                else if (formato == "XLSX")
+                {
+                    DataTable dt = ObtenerDatosReporte(item);
+
+                    using (var wb = new XLWorkbook())
+                    {
+                        var ws = wb.Worksheets.Add("Reporte");
+                        ws.Cell(1, 1).InsertTable(dt);
+
+                        // Aplicar formato de moneda a columnas numéricas
+                        for (int c = 1; c <= dt.Columns.Count; c++)
+                        {
+                            string colName = dt.Columns[c - 1].ColumnName.ToLower();
+                            if (colName.Contains("monto") || colName.Contains("debe") ||
+                                colName.Contains("haber") || colName.Contains("saldo") ||
+                                colName.Contains("total") || colName.Contains("ingreso") ||
+                                colName.Contains("gasto"))
+                            {
+                                // Filas de datos (fila 2 en adelante, fila 1 es encabezado)
+                                var rango = ws.Column(c).Cells(2, dt.Rows.Count + 1);
+                                foreach (var cell in rango)
+                                {
+                                    if (decimal.TryParse(cell.Value.ToString(), out decimal valor))
+                                    {
+                                        cell.Value = valor;
+                                        cell.Style.NumberFormat.Format = "\"L.\"#,##0.00";
+                                    }
+                                }
+                            }
+                        }
+
+                        ws.Columns().AdjustToContents();
+                        wb.SaveAs(sfd.FileName);
+                    }
+                }
+            }
+
+        }
+        private DataTable ObtenerDatosReporte(ReporteUIItem item)
+        {
+            switch (item.tipo_reporte_id)
+            {
+                case 1:
+                    DataTable dtEstado = _repo.ObtenerEstadoResultados(item.parroquia_id, item.desde, item.hasta).Tables[1];
+                    foreach (string col in new[] { "Parroquia_nombre", "id_transaccion", "usuario_nombre", "usuario_apellido" })
+                        if (dtEstado.Columns.Contains(col)) dtEstado.Columns.Remove(col);
+                    return dtEstado;
+
+                case 2:
+                    DataTable dtIngresos = _repo.ObtenerIngresosPorParroquia(item.parroquia_id, item.desde, item.hasta);
+                    foreach (string col in new[] { "Parroquia_nombre", "id_transaccion", "usuario_nombre", "usuario_apellido" })
+                        if (dtIngresos.Columns.Contains(col)) dtIngresos.Columns.Remove(col);
+                    return dtIngresos;
+
+                case 3:
+                    DataTable dtGastos = _repo.ObtenerGastosPorParroquia(item.parroquia_id, item.desde, item.hasta);
+                    foreach (string col in new[] { "Parroquia_nombre", "id_transaccion", "usuario_nombre", "usuario_apellido" })
+                        if (dtGastos.Columns.Contains(col)) dtGastos.Columns.Remove(col);
+                    return dtGastos;
+
+                case 4:
+                    DataSet ds = _repo.ObtenerDatosCuriaPorUsuario(Sesion1.usuario_id, item.desde, item.hasta);
+                    DataTable dtCombinada = new DataTable();
+                    dtCombinada.Columns.Add("Tipo");
+                    dtCombinada.Columns.Add("NombreCuenta");
+                    dtCombinada.Columns.Add("Monto");
+                    foreach (DataRow r in ds.Tables[1].Rows)
+                        dtCombinada.Rows.Add("Entrada", r["NombreCuenta"], r["Monto"]);
+                    foreach (DataRow r in ds.Tables[2].Rows)
+                        dtCombinada.Rows.Add("Salida", r["NombreCuenta"], r["Monto"]);
+                    return dtCombinada;
+
+                case 5:
+                    DataTable dtLibro = new LibroMayor().ObtenerLibroMayor(item.parroquia_id, item.desde, item.hasta);
+                    foreach (string col in new[] { "Parroquia_nombre", "id_transaccion", "usuario_nombre", "usuario_apellido" })
+                        if (dtLibro.Columns.Contains(col)) dtLibro.Columns.Remove(col);
+                    return dtLibro;
+
+                default:
+                    return new DataTable();
             }
         }
     }
-
+    
 }

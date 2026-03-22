@@ -106,6 +106,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private int ParroquiaId { get; set; }
         public int UsuarioId { get; private set; }
 
+        private readonly clsCRUD_Usuarios _repo = new clsCRUD_Usuarios();
+
         /// <summary>
         /// The cerrar
         /// </summary>
@@ -118,6 +120,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public FRM_42(int predicted_id, int parroquia_id)
         {
             InitializeComponent();
+            this.Shown += (_, __) => CargarNombre();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             PredictedId = predicted_id;
@@ -267,6 +270,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 _isOpening = false;
                 _animationTimer = new System.Windows.Forms.Timer();
                 _animationTimer.Start();
+            }
+        }
+
+        private void CargarNombre()
+        {
+            try
+            {
+                string nombre = _repo.ObtenerNombrePorUsuario(Sesion1.usuario_id);
+                label1.Text = string.IsNullOrWhiteSpace(nombre)
+                ? "Nombre no disponible / cuenta inactiva"
+                : $"Bienvenido, {nombre}";
+            }
+            catch (Exception ex)
+            {
+                label1.Text = "Error obteniendo nombre";
             }
         }
 
@@ -431,8 +449,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             FRM_SERVICIOS popup = new FRM_SERVICIOS();
             var btnPos = pictureBox1.PointToScreen(Point.Empty);
-            // Cantidad de desplazamiento a la izquierda (en píxeles) 
-            int desplazamientoIzquierda = 450; // Ajusta este valor según tu necesidad
+            int desplazamientoIzquierda = 450;
 
             popup.StartPosition = FormStartPosition.Manual;
 
@@ -441,6 +458,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 btnPos.Y + pictureBox1.Height
             );
 
+            popup.Load += (s, ev) => { popup.ActiveControl = null; };
             popup.ShowDialog(this);
 
         }

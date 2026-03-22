@@ -63,24 +63,24 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     dtpFechaHasta.Value.Date
                 );
 
-                // El resto del código de columnas se queda igual
+                dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
                 if (dgvBitacora.Columns["Monto"] != null)
                 {
                     dgvBitacora.Columns["Monto"].Visible = false;
-                    dgvBitacora.Columns["Monto"].Width = 150;
                 }
+
                 if (dgvBitacora.Columns["Fecha Y Hora"] != null)
                 {
-                    dgvBitacora.Columns["Fecha Y Hora"].Width = 140;
+                    dgvBitacora.Columns["Fecha Y Hora"].Width = 230;
                     dgvBitacora.Columns["Fecha Y Hora"].DefaultCellStyle.Format = "g";
                 }
-                dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
                 if (dgvBitacora.Columns.Contains("Módulo"))
-                    dgvBitacora.Columns["Módulo"].Width = 180;
+                    dgvBitacora.Columns["Módulo"].Width = 230;
 
                 if (dgvBitacora.Columns.Contains("Acción"))
-                    dgvBitacora.Columns["Acción"].Width = 180;
+                    dgvBitacora.Columns["Acción"].Width = 230;
 
                 if (dgvBitacora.Columns.Contains("Descripción"))
                     dgvBitacora.Columns["Descripción"].AutoSizeMode =
@@ -88,6 +88,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 dgvBitacora.ColumnHeadersDefaultCellStyle.Alignment =
                     DataGridViewContentAlignment.MiddleCenter;
+
+                dgvBitacora.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11f, FontStyle.Bold);
             }
             catch (Exception ex)
             {
@@ -98,7 +100,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <summary>
         /// Cargars the datos.
         /// </summary>
-        
+
 
         /// <summary>
         /// Handles the Click event of the btnVolver control.

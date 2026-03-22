@@ -34,14 +34,14 @@
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             pictureBox3 = new PictureBox();
-            label1 = new Label();
-            dgvCatalogoUsuarios = new DataGridView();
             lblConsulte = new Label();
             lblTitulo = new Label();
             btnVolver = new Button();
-            panel1 = new Panel();
             panel2 = new Panel();
+            dgvCatalogoUsuarios = new DataGridView();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCatalogoUsuarios).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -49,22 +49,63 @@
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(28, 7);
+            pictureBox3.Location = new Point(2, 3);
+            pictureBox3.Margin = new Padding(4, 5, 4, 5);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(92, 87);
+            pictureBox3.Size = new Size(111, 108);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 14;
             pictureBox3.TabStop = false;
             // 
-            // label1
+            // lblConsulte
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(182, 43);
-            label1.Name = "label1";
-            label1.Size = new Size(150, 32);
-            label1.TabIndex = 13;
-            label1.Text = "SACERDOTE";
+            lblConsulte.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lblConsulte.AutoSize = true;
+            lblConsulte.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblConsulte.Location = new Point(109, 123);
+            lblConsulte.Margin = new Padding(4, 0, 4, 0);
+            lblConsulte.Name = "lblConsulte";
+            lblConsulte.Size = new Size(1366, 38);
+            lblConsulte.TabIndex = 11;
+            lblConsulte.Text = "Observa cada una de las cuentas y subcuentas que existen en el sistema y como su saldo se ve afectado\r\n";
+            // 
+            // lblTitulo
+            // 
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitulo.Location = new Point(157, 63);
+            lblTitulo.Margin = new Padding(4, 0, 4, 0);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(1321, 48);
+            lblTitulo.TabIndex = 10;
+            lblTitulo.Text = "CATÁLOGO DE CUENTAS, TODO LO QUE SE PODRÁ INGRESAR EN EL SISTEMA\r\n";
+            // 
+            // btnVolver
+            // 
+            btnVolver.BackgroundImageLayout = ImageLayout.None;
+            btnVolver.FlatAppearance.BorderColor = Color.White;
+            btnVolver.FlatAppearance.BorderSize = 0;
+            btnVolver.FlatStyle = FlatStyle.Popup;
+            btnVolver.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnVolver.ForeColor = SystemColors.ControlText;
+            btnVolver.Location = new Point(1422, 14);
+            btnVolver.Margin = new Padding(4, 5, 4, 5);
+            btnVolver.Name = "btnVolver";
+            btnVolver.Size = new Size(176, 38);
+            btnVolver.TabIndex = 15;
+            btnVolver.Text = "Volver Atrás";
+            btnVolver.UseVisualStyleBackColor = true;
+            btnVolver.Click += btnVolver_Click;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(dgvCatalogoUsuarios);
+            panel2.Location = new Point(0, 2);
+            panel2.Margin = new Padding(1, 2, 1, 2);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1270, 538);
+            panel2.TabIndex = 17;
+            panel2.Paint += panel2_Paint;
             // 
             // dgvCatalogoUsuarios
             // 
@@ -94,7 +135,8 @@
             dgvCatalogoUsuarios.DefaultCellStyle = dataGridViewCellStyle3;
             dgvCatalogoUsuarios.EnableHeadersVisualStyles = false;
             dgvCatalogoUsuarios.GridColor = SystemColors.MenuText;
-            dgvCatalogoUsuarios.Location = new Point(0, 0);
+            dgvCatalogoUsuarios.Location = new Point(0, 5);
+            dgvCatalogoUsuarios.Margin = new Padding(4, 5, 4, 5);
             dgvCatalogoUsuarios.Name = "dgvCatalogoUsuarios";
             dgvCatalogoUsuarios.ReadOnly = true;
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -107,81 +149,37 @@
             dgvCatalogoUsuarios.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dgvCatalogoUsuarios.RowHeadersVisible = false;
             dgvCatalogoUsuarios.RowHeadersWidth = 51;
-            dgvCatalogoUsuarios.Size = new Size(887, 325);
+            dgvCatalogoUsuarios.Size = new Size(1267, 482);
             dgvCatalogoUsuarios.TabIndex = 12;
-            // 
-            // lblConsulte
-            // 
-            lblConsulte.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lblConsulte.AutoSize = true;
-            lblConsulte.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblConsulte.Location = new Point(78, 145);
-            lblConsulte.Name = "lblConsulte";
-            lblConsulte.Size = new Size(919, 25);
-            lblConsulte.TabIndex = 11;
-            lblConsulte.Text = "Observa cada una de las cuentas y subcuentas que existen en el sistema y como su saldo se ve afectado\r\n";
-            // 
-            // lblTitulo
-            // 
-            lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitulo.Location = new Point(111, 109);
-            lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(890, 32);
-            lblTitulo.TabIndex = 10;
-            lblTitulo.Text = "CATÁLOGO DE CUENTAS, TODO LO QUE SE PODRÁ INGRESAR EN EL SISTEMA\r\n";
-            // 
-            // btnVolver
-            // 
-            btnVolver.BackgroundImageLayout = ImageLayout.None;
-            btnVolver.FlatAppearance.BorderColor = Color.White;
-            btnVolver.FlatAppearance.BorderSize = 0;
-            btnVolver.FlatStyle = FlatStyle.Popup;
-            btnVolver.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnVolver.ForeColor = SystemColors.ControlText;
-            btnVolver.Location = new Point(979, 7);
-            btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(134, 37);
-            btnVolver.TabIndex = 15;
-            btnVolver.Text = "Volver Atrás";
-            btnVolver.UseVisualStyleBackColor = true;
-            btnVolver.Click += btnVolver_Click;
             // 
             // panel1
             // 
-            panel1.Controls.Add(dgvCatalogoUsuarios);
-            panel1.Location = new Point(160, 205);
-            panel1.Margin = new Padding(3, 1, 3, 1);
+            panel1.Controls.Add(panel2);
+            panel1.Location = new Point(226, 192);
+            panel1.Margin = new Padding(4, 2, 4, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(890, 325);
+            panel1.Size = new Size(1271, 544);
             panel1.TabIndex = 16;
-            // 
-            // panel2
-            // 
-            panel2.Location = new Point(202, 217);
-            panel2.Margin = new Padding(1);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(832, 277);
-            panel2.TabIndex = 17;
             // 
             // FRM_PG46
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1121, 545);
+            ClientSize = new Size(1601, 746);
             Controls.Add(panel1);
-            Controls.Add(panel2);
             Controls.Add(btnVolver);
             Controls.Add(pictureBox3);
-            Controls.Add(label1);
             Controls.Add(lblConsulte);
             Controls.Add(lblTitulo);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4, 5, 4, 5);
             MaximizeBox = false;
             Name = "FRM_PG46";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Catálogo_Sacerdote y Empleado";
             Load += FRM_PG46_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvCatalogoUsuarios).EndInit();
             panel1.ResumeLayout(false);
             ResumeLayout(false);
@@ -191,12 +189,11 @@
         #endregion
 
         private PictureBox pictureBox3;
-        private Label label1;
-        private DataGridView dgvCatalogoUsuarios;
         private Label lblConsulte;
         private Label lblTitulo;
         private Button btnVolver;
-        private Panel panel1;
         private Panel panel2;
+        private DataGridView dgvCatalogoUsuarios;
+        private Panel panel1;
     }
 }

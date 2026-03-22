@@ -1,5 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
 using QuestPDF.Fluent;
+using QuestPDF.Infrastructure;
 using System.Data;
 
 namespace Capa_de_procesamiento_de_datos
@@ -38,17 +39,11 @@ namespace Capa_de_procesamiento_de_datos
             decimal totalALaCuria = Convert.ToDecimal(totales["TotalALaCuriaArzobispal"]);
 
             byte[] pdfBytes = GenerarPdfCuria(
-                dtEntradas,
-                dtSalidas,
-                totalEntradas,
-                totalSalidas,
-                gananciaMes,
-                docePorciento,
-                subtotalCuria,
-                totalALaCuria,
-                nombreParroquia,
-                desde,
-                hasta,
+                dtEntradas, dtSalidas,
+                totalEntradas, totalSalidas,
+                gananciaMes, docePorciento,
+                subtotalCuria, totalALaCuria,
+                nombreParroquia, desde, hasta,
                 nombreSacerdote
             );
 
@@ -74,6 +69,12 @@ namespace Capa_de_procesamiento_de_datos
             string nombreSacerdote)
         {
             var formatoHnd = new System.Globalization.CultureInfo("en-US");
+
+            string logoPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Resources",
+                "logo_arqui.png"
+            );
 
             var todasEntradas = dtEntradas.AsEnumerable()
                 .Select(r => new {
@@ -111,21 +112,50 @@ namespace Capa_de_procesamiento_de_datos
                 {
                     page.Margin(20);
 
+                    // ==========================================================
+                    // ENCABEZADO con logo integrado en el row
+                    // ==========================================================
                     page.Header().Column(col =>
                     {
-                        col.Item().Text("Arquidiocesis de Tegucigalpa")
-                            .FontSize(16).Bold().FontColor("#003399");
-
                         col.Item().Row(row =>
                         {
-                            row.RelativeItem().Text($"Parroquia {parroquia}, Tegucigalpa");
-                            row.ConstantItem(120).AlignRight().Text($"Año: {desde:yyyy}");
+                            // IZQUIERDA — texto
+                            row.RelativeItem().Column(left =>
+                            {
+                                left.Item().Text("Arquidiocesis de Tegucigalpa")
+                                    .FontSize(16).Bold().FontColor("#003399");
+
+                                left.Item().Text($"Parroquia {parroquia}, Tegucigalpa")
+                                    .FontSize(11).FontColor("#444444");
+
+                                left.Item().Text($"Año: {desde:yyyy}")
+                                    .FontSize(10).FontColor("#666666");
+                            });
+
+                            // DERECHA — logo
+                            if (File.Exists(logoPath))
+                            {
+                                row.ConstantItem(70)
+                                   .Height(60)
+                                   .AlignRight()
+                                   .AlignTop()
+                                   .Image(logoPath, ImageScaling.FitArea);
+                            }
                         });
+
+                        // Línea dorada debajo del encabezado
+                        col.Item()
+                            .PaddingTop(4)
+                            .LineHorizontal(1)
+                            .LineColor("#D4AF37");
                     });
 
+                    // ==========================================================
+                    // CONTENIDO
+                    // ==========================================================
                     page.Content().Column(col =>
                     {
-                        col.Item().Table(table =>
+                        col.Item().PaddingTop(8).Table(table =>
                         {
                             table.ColumnsDefinition(columns =>
                             {
@@ -149,13 +179,11 @@ namespace Capa_de_procesamiento_de_datos
                                 if (negrita) t.Bold();
                             }
 
-                            // Encabezados
                             Celda("ENTRADAS PARA LA CURIA", true, "#D4AF37");
                             Celda("", true, "#D4AF37");
                             Celda("SALIDAS", true, "#D4AF37");
                             Celda("", true, "#D4AF37");
 
-                            // Filas normales en paralelo
                             for (int i = 0; i < maxFilas; i++)
                             {
                                 string eNombre = i < entradasNormales.Count ? entradasNormales[i].Nombre : "";
@@ -169,13 +197,11 @@ namespace Capa_de_procesamiento_de_datos
                                 Celda(sMonto, false, "#FFFFFF", true);
                             }
 
-                            // Fila subtotal / 12%
                             Celda("SUBTOTAL=", true, "#D4AF37");
                             Celda($"L.{subtotalCuria.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
                             Celda("X 12%", true, "#D4AF37");
                             Celda($"L.{docePorciento.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
 
-                            // Entradas especiales debajo del subtotal
                             foreach (var entrada in entradasDebajo)
                             {
                                 Celda(entrada.Nombre);
@@ -184,29 +210,23 @@ namespace Capa_de_procesamiento_de_datos
                                 Celda("");
                             }
 
-                            // Fila totales en amarillo en una sola fila
                             Celda("TOTAL ENTRADAS DEL MES", true, "#D4AF37");
                             Celda($"L.{totalEntradas.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
                             Celda("TOTAL SALIDAS DEL MES", true, "#D4AF37");
                             Celda($"L.{totalSalidas.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
 
-                            // Fila total curia y a la curia arzobispal
                             Celda("", false);
                             Celda("", false);
                             Celda("TOTAL CURIA", true, "#D4AF37");
                             Celda($"L.{totalALaCuria.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
 
-                            // Fila a la curia arzobispal
                             Celda("", false);
                             Celda("", false);
                             Celda("A LA CURIA ARZOBISPAL", true, "#D4AF37");
                             Celda($"L.{totalALaCuria.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
                         });
 
-                        col.Item().Text("");
-
-                        // Tabla resumen
-                        col.Item().Table(table =>
+                        col.Item().PaddingVertical(8).Table(table =>
                         {
                             table.ColumnsDefinition(columns =>
                             {
@@ -228,22 +248,21 @@ namespace Capa_de_procesamiento_de_datos
                                 $"L.{gananciaMes.ToString("N2", formatoHnd)}");
                         });
 
-                        col.Item().Text("");
-
-                        col.Item().Row(row =>
+                        col.Item().PaddingVertical(6).Row(row =>
                         {
                             row.RelativeItem().Text($"Fecha: {DateTime.Now:dd/MM/yyyy}").FontSize(9);
                             row.RelativeItem().AlignRight().Text($"Sacerdote: {nombreSacerdote}").FontSize(9);
                         });
 
-                        col.Item().Text("");
-
-                        col.Item().Text(
+                        col.Item().PaddingTop(6).Text(
                             "Recordamos que DEBEN ENTREGAR A LA CURIA, EL DOCE PORCIENTO (12%) sobre todas las entradas " +
                             "de la Parroquias, Iglesias o Capillas, y es de carácter obligatorio y nadie queda exento de esta obligacion."
-                        ).FontSize(8);
+                        ).FontSize(8).FontColor("#444444");
                     });
 
+                    // ==========================================================
+                    // PIE DE PÁGINA
+                    // ==========================================================
                     page.Footer()
                         .Height(30)
                         .AlignCenter()

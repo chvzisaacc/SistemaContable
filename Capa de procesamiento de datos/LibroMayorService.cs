@@ -19,9 +19,7 @@ namespace Capa_de_procesamiento_de_datos
         {
             string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string baseReportsFolder = Path.Combine(documentsPath, "Sistema Contable - Reportes");
-
             _carpetaReportes = Path.Combine(baseReportsFolder, "LibroMayor");
-
             Directory.CreateDirectory(_carpetaReportes);
         }
 
@@ -32,22 +30,20 @@ namespace Capa_de_procesamiento_de_datos
             DateTime hasta)
         {
             DataTable datos = _repo.ObtenerLibroMayor(parroquia_id, desde, hasta);
-
             byte[] pdfBytes = GenerarPdf(datos, nombre_parroquia, desde, hasta);
 
             string nombreArchivo = $"LibroMayor_{nombre_parroquia}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
             string rutaCompleta = Path.Combine(_carpetaReportes, nombreArchivo);
 
             File.WriteAllBytes(rutaCompleta, pdfBytes);
-
             return rutaCompleta;
         }
 
         public byte[] GenerarPdf(
-    DataTable datos,
-    string nombre_parroquia,
-    DateTime desde,
-    DateTime hasta)
+            DataTable datos,
+            string nombre_parroquia,
+            DateTime desde,
+            DateTime hasta)
         {
             var formatoHnd = new System.Globalization.CultureInfo("en-US");
             string logoPath = Path.Combine(
@@ -62,11 +58,27 @@ namespace Capa_de_procesamiento_de_datos
                 {
                     page.Margin(30);
 
+                    // ==========================================================
+                    // LOGO con posición absoluta arriba a la derecha
+                    // ==========================================================
+                    if (File.Exists(logoPath))
+                    {
+                        page.Foreground()
+                            .AlignTop()
+                            .AlignRight()
+                            .Width(70)
+                            .Height(55)
+                            .PaddingTop(5)
+                            .PaddingRight(30)
+                            .Image(logoPath, ImageScaling.FitArea);
+                    }
+
                     // ================= HEADER =================
                     page.Header().Column(header =>
                     {
                         header.Item().Row(row =>
                         {
+                            // Solo texto, logo quitado del row
                             row.RelativeItem().Column(col =>
                             {
                                 col.Item().Text("LIBRO MAYOR")
@@ -78,13 +90,6 @@ namespace Capa_de_procesamiento_de_datos
                                 col.Item().Text($"Periodo: {desde:dd/MM/yyyy} al {hasta:dd/MM/yyyy}")
                                     .FontSize(10).FontColor("#666666");
                             });
-
-                            if (File.Exists(logoPath))
-                            {
-                                row.ConstantItem(110)
-                                   .Height(90)
-                                   .Image(logoPath, ImageScaling.FitArea);
-                            }
                         });
 
                         header.Item()
@@ -106,11 +111,9 @@ namespace Capa_de_procesamiento_de_datos
                             cols.ConstantColumn(95);
                         });
 
-                        // -------- HEADER TABLA --------
                         table.Header(h =>
                         {
                             string fondo = "#D4AF37";
-
                             h.Cell().Background(fondo).Padding(5).Text("Fecha").Bold().FontColor("#FFFFFF").FontSize(10);
                             h.Cell().Background(fondo).Padding(5).Text("Código").Bold().FontColor("#FFFFFF").FontSize(10);
                             h.Cell().Background(fondo).Padding(5).Text("Cuenta").Bold().FontColor("#FFFFFF").FontSize(10);
@@ -119,7 +122,6 @@ namespace Capa_de_procesamiento_de_datos
                             h.Cell().Background(fondo).Padding(5).Text("Saldo").Bold().FontColor("#FFFFFF").AlignRight().FontSize(10);
                         });
 
-                        // -------- FILAS --------
                         int i = 0;
                         decimal totalDebe = 0;
                         decimal totalHaber = 0;
@@ -148,8 +150,8 @@ namespace Capa_de_procesamiento_de_datos
                                 .FontSize(9);
 
                             table.Cell().Background(fondo).Padding(4)
-                            .Text($"L.{debe.ToString("N2", formatoHnd)}") 
-                            .AlignRight().FontSize(9);
+                                .Text($"L.{debe.ToString("N2", formatoHnd)}")
+                                .AlignRight().FontSize(9);
 
                             table.Cell().Background(fondo).Padding(4)
                                 .Text($"L.{haber.ToString("N2", formatoHnd)}")
@@ -157,34 +159,21 @@ namespace Capa_de_procesamiento_de_datos
 
                             table.Cell().Background(fondo).Padding(4)
                                 .Text(row["Saldo"] == DBNull.Value ? "" :
-                                    $"L.{Convert.ToDecimal(row["Saldo"]).ToString("N2", formatoHnd)}") 
+                                    $"L.{Convert.ToDecimal(row["Saldo"]).ToString("N2", formatoHnd)}")
                                 .AlignRight().FontSize(9);
 
                             i++;
                         }
 
-                        // -------- FILA TOTAL FINAL --------
                         decimal totalGeneral = Math.Abs(totalDebe - totalHaber);
                         string fondoTotal = "#E8E8E8";
 
                         table.Cell().Background(fondoTotal).Padding(5).Text("");
                         table.Cell().Background(fondoTotal).Padding(5).Text("");
-
-                        table.Cell().Background(fondoTotal).Padding(5)
-                            .Text("TOTAL GENERAL")
-                            .Bold().FontSize(10);
-
-                        table.Cell().Background(fondoTotal).Padding(5)
-                            .Text($"L.{totalDebe.ToString("N2", formatoHnd)}")
-                            .AlignRight().Bold().FontSize(10);
-
-                        table.Cell().Background(fondoTotal).Padding(5)
-                            .Text($"L.{totalHaber.ToString("N2", formatoHnd)}")
-                            .AlignRight().Bold().FontSize(10);
-
-                        table.Cell().Background(fondoTotal).Padding(5)
-                            .Text($"L.{totalGeneral.ToString("N2", formatoHnd)}")
-                            .AlignRight().Bold().FontSize(10);
+                        table.Cell().Background(fondoTotal).Padding(5).Text("TOTAL GENERAL").Bold().FontSize(10);
+                        table.Cell().Background(fondoTotal).Padding(5).Text($"L.{totalDebe.ToString("N2", formatoHnd)}").AlignRight().Bold().FontSize(10);
+                        table.Cell().Background(fondoTotal).Padding(5).Text($"L.{totalHaber.ToString("N2", formatoHnd)}").AlignRight().Bold().FontSize(10);
+                        table.Cell().Background(fondoTotal).Padding(5).Text($"L.{totalGeneral.ToString("N2", formatoHnd)}").AlignRight().Bold().FontSize(10);
                     });
 
                     // ================= FOOTER =================
@@ -194,7 +183,6 @@ namespace Capa_de_procesamiento_de_datos
                         .Column(col =>
                         {
                             col.Item().LineHorizontal(1).LineColor("#D4AF37");
-
                             col.Item().Text(text =>
                             {
                                 text.Span("Generado el ").FontSize(9).FontColor("#666666");

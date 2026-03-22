@@ -61,11 +61,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(214, 42);
+            label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(327, 42);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(762, 55);
+            label1.Size = new Size(523, 38);
             label1.TabIndex = 1;
             label1.Text = "CERTIFICADOS DE DEPÓSITO ACTIVOS\r\n";
             // 
@@ -88,6 +88,7 @@
             Controls.Add(pictureBox1);
             Controls.Add(label1);
             Controls.Add(dataGridView2);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimizeBox = false;
             Name = "Certificados_De_Depósito_User";
             Text = "Certificados_De_Depósito_User";

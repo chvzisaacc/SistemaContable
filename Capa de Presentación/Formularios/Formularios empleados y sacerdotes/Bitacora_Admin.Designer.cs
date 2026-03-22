@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Bitacora_Admin));
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panel1 = new Panel();
             lblPagina = new Label();
             btnSiguiente = new Button();
@@ -42,7 +42,6 @@
             lblFechaDesde = new Label();
             chkFiltrarFecha = new CheckBox();
             pictureBox3 = new PictureBox();
-            label1 = new Label();
             btnVolver = new Button();
             cmbUsuario = new ComboBox();
             lblRealizadopor = new Label();
@@ -70,7 +69,6 @@
             panel1.Controls.Add(lblFechaDesde);
             panel1.Controls.Add(chkFiltrarFecha);
             panel1.Controls.Add(pictureBox3);
-            panel1.Controls.Add(label1);
             panel1.Controls.Add(btnVolver);
             panel1.Controls.Add(cmbUsuario);
             panel1.Controls.Add(lblRealizadopor);
@@ -79,18 +77,20 @@
             panel1.Controls.Add(cmbParroquia);
             panel1.Controls.Add(lblConsulte);
             panel1.Controls.Add(lblTitulo);
-            panel1.Location = new Point(13, 12);
+            panel1.Location = new Point(19, 20);
+            panel1.Margin = new Padding(4, 5, 4, 5);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1137, 574);
+            panel1.Size = new Size(1623, 955);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
             // lblPagina
             // 
             lblPagina.AutoSize = true;
-            lblPagina.Location = new Point(1000, 202);
+            lblPagina.Location = new Point(1445, 231);
+            lblPagina.Margin = new Padding(4, 0, 4, 0);
             lblPagina.Name = "lblPagina";
-            lblPagina.Size = new Size(56, 15);
+            lblPagina.Size = new Size(83, 25);
             lblPagina.TabIndex = 32;
             lblPagina.Text = "lblPagina";
             // 
@@ -100,10 +100,10 @@
             btnSiguiente.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnSiguiente.ForeColor = Color.White;
             btnSiguiente.ImageAlign = ContentAlignment.TopCenter;
-            btnSiguiente.Location = new Point(1077, 349);
-            btnSiguiente.Margin = new Padding(3, 2, 3, 2);
+            btnSiguiente.Location = new Point(1539, 582);
+            btnSiguiente.Margin = new Padding(4, 3, 4, 3);
             btnSiguiente.Name = "btnSiguiente";
-            btnSiguiente.Size = new Size(30, 26);
+            btnSiguiente.Size = new Size(43, 43);
             btnSiguiente.TabIndex = 31;
             btnSiguiente.Text = ">";
             btnSiguiente.UseVisualStyleBackColor = false;
@@ -116,10 +116,10 @@
             btnAnterior.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAnterior.ForeColor = Color.White;
             btnAnterior.ImageAlign = ContentAlignment.TopCenter;
-            btnAnterior.Location = new Point(0, 349);
-            btnAnterior.Margin = new Padding(3, 2, 3, 2);
+            btnAnterior.Location = new Point(0, 582);
+            btnAnterior.Margin = new Padding(4, 3, 4, 3);
             btnAnterior.Name = "btnAnterior";
-            btnAnterior.Size = new Size(30, 26);
+            btnAnterior.Size = new Size(43, 43);
             btnAnterior.TabIndex = 30;
             btnAnterior.Text = "<";
             btnAnterior.UseVisualStyleBackColor = false;
@@ -128,10 +128,10 @@
             // 
             // dtpFechaHasta
             // 
-            dtpFechaHasta.Location = new Point(512, 167);
-            dtpFechaHasta.Margin = new Padding(3, 2, 3, 2);
+            dtpFechaHasta.Location = new Point(973, 225);
+            dtpFechaHasta.Margin = new Padding(4, 3, 4, 3);
             dtpFechaHasta.Name = "dtpFechaHasta";
-            dtpFechaHasta.Size = new Size(219, 23);
+            dtpFechaHasta.Size = new Size(311, 31);
             dtpFechaHasta.TabIndex = 29;
             dtpFechaHasta.ValueChanged += dtpFechaHasta_ValueChanged;
             // 
@@ -139,18 +139,19 @@
             // 
             lblFechaHasta.AutoSize = true;
             lblFechaHasta.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblFechaHasta.Location = new Point(392, 167);
+            lblFechaHasta.Location = new Point(802, 225);
+            lblFechaHasta.Margin = new Padding(4, 0, 4, 0);
             lblFechaHasta.Name = "lblFechaHasta";
-            lblFechaHasta.Size = new Size(105, 21);
+            lblFechaHasta.Size = new Size(156, 32);
             lblFechaHasta.TabIndex = 28;
             lblFechaHasta.Text = "Fecha Hasta:";
             // 
             // dtpFechaDesde
             // 
-            dtpFechaDesde.Location = new Point(150, 167);
-            dtpFechaDesde.Margin = new Padding(3, 2, 3, 2);
+            dtpFechaDesde.Location = new Point(456, 225);
+            dtpFechaDesde.Margin = new Padding(4, 3, 4, 3);
             dtpFechaDesde.Name = "dtpFechaDesde";
-            dtpFechaDesde.Size = new Size(219, 23);
+            dtpFechaDesde.Size = new Size(311, 31);
             dtpFechaDesde.TabIndex = 27;
             dtpFechaDesde.ValueChanged += dtpFechaDesde_ValueChanged;
             // 
@@ -158,19 +159,20 @@
             // 
             lblFechaDesde.AutoSize = true;
             lblFechaDesde.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblFechaDesde.Location = new Point(26, 166);
+            lblFechaDesde.Location = new Point(279, 224);
+            lblFechaDesde.Margin = new Padding(4, 0, 4, 0);
             lblFechaDesde.Name = "lblFechaDesde";
-            lblFechaDesde.Size = new Size(109, 21);
+            lblFechaDesde.Size = new Size(162, 32);
             lblFechaDesde.TabIndex = 26;
             lblFechaDesde.Text = "Fecha Desde:";
             // 
             // chkFiltrarFecha
             // 
             chkFiltrarFecha.AutoSize = true;
-            chkFiltrarFecha.Location = new Point(937, 138);
-            chkFiltrarFecha.Margin = new Padding(3, 2, 3, 2);
+            chkFiltrarFecha.Location = new Point(1333, 174);
+            chkFiltrarFecha.Margin = new Padding(4, 3, 4, 3);
             chkFiltrarFecha.Name = "chkFiltrarFecha";
-            chkFiltrarFecha.Size = new Size(139, 19);
+            chkFiltrarFecha.Size = new Size(206, 29);
             chkFiltrarFecha.TabIndex = 10;
             chkFiltrarFecha.Text = "Activar filtro de fecha";
             chkFiltrarFecha.UseVisualStyleBackColor = true;
@@ -179,32 +181,24 @@
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(-1, -1);
+            pictureBox3.Location = new Point(-1, -2);
+            pictureBox3.Margin = new Padding(4, 5, 4, 5);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(101, 83);
+            pictureBox3.Size = new Size(116, 98);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 9;
             pictureBox3.TabStop = false;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            label1.Location = new Point(105, 15);
-            label1.Name = "label1";
-            label1.Size = new Size(197, 30);
-            label1.TabIndex = 8;
-            label1.Text = "ADMINISTRADOR";
             // 
             // btnVolver
             // 
             btnVolver.BackgroundImageLayout = ImageLayout.None;
             btnVolver.FlatStyle = FlatStyle.Flat;
-            btnVolver.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
+            btnVolver.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnVolver.ForeColor = SystemColors.ControlText;
-            btnVolver.Location = new Point(900, 22);
+            btnVolver.Location = new Point(1368, 5);
+            btnVolver.Margin = new Padding(4, 5, 4, 5);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(169, 38);
+            btnVolver.Size = new Size(171, 48);
             btnVolver.TabIndex = 7;
             btnVolver.Text = "Volver Atrás";
             btnVolver.UseVisualStyleBackColor = true;
@@ -220,10 +214,11 @@
             cmbUsuario.FormattingEnabled = true;
             cmbUsuario.IntegralHeight = false;
             cmbUsuario.Items.AddRange(new object[] { "", "Isaac Chavez", "Diego Muñoz" });
-            cmbUsuario.Location = new Point(424, 134);
+            cmbUsuario.Location = new Point(1060, 167);
+            cmbUsuario.Margin = new Padding(4, 5, 4, 5);
             cmbUsuario.MaxDropDownItems = 6;
             cmbUsuario.Name = "cmbUsuario";
-            cmbUsuario.Size = new Size(158, 21);
+            cmbUsuario.Size = new Size(224, 29);
             cmbUsuario.TabIndex = 6;
             cmbUsuario.Text = "Seleccionar";
             cmbUsuario.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
@@ -232,9 +227,10 @@
             // 
             lblRealizadopor.AutoSize = true;
             lblRealizadopor.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblRealizadopor.Location = new Point(290, 134);
+            lblRealizadopor.Location = new Point(854, 167);
+            lblRealizadopor.Margin = new Padding(4, 0, 4, 0);
             lblRealizadopor.Name = "lblRealizadopor";
-            lblRealizadopor.Size = new Size(120, 21);
+            lblRealizadopor.Size = new Size(179, 32);
             lblRealizadopor.TabIndex = 5;
             lblRealizadopor.Text = "Realizado por:";
             lblRealizadopor.TextAlign = ContentAlignment.BottomCenter;
@@ -243,38 +239,39 @@
             // 
             dgvBitacora.AllowUserToAddRows = false;
             dgvBitacora.BackgroundColor = SystemColors.Window;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = SystemColors.Control;
-            dataGridViewCellStyle4.Font = new Font("Times New Roman", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dgvBitacora.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Times New Roman", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvBitacora.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvBitacora.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = SystemColors.Window;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle5.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvBitacora.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvBitacora.DefaultCellStyle = dataGridViewCellStyle2;
             dgvBitacora.EnableHeadersVisualStyles = false;
             dgvBitacora.GridColor = SystemColors.MenuText;
-            dgvBitacora.Location = new Point(30, 220);
+            dgvBitacora.Location = new Point(43, 280);
+            dgvBitacora.Margin = new Padding(4, 5, 4, 5);
             dgvBitacora.Name = "dgvBitacora";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = SystemColors.Control;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 12F);
-            dataGridViewCellStyle6.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dgvBitacora.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvBitacora.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvBitacora.RowHeadersVisible = false;
             dgvBitacora.RowHeadersWidth = 51;
-            dgvBitacora.Size = new Size(1047, 300);
+            dgvBitacora.Size = new Size(1496, 587);
             dgvBitacora.TabIndex = 4;
             dgvBitacora.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -282,9 +279,10 @@
             // 
             lblParroquia.AutoSize = true;
             lblParroquia.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblParroquia.Location = new Point(25, 130);
+            lblParroquia.Location = new Point(278, 164);
+            lblParroquia.Margin = new Padding(4, 0, 4, 0);
             lblParroquia.Name = "lblParroquia";
-            lblParroquia.Size = new Size(89, 21);
+            lblParroquia.Size = new Size(133, 32);
             lblParroquia.TabIndex = 3;
             lblParroquia.Text = "Parroquia:";
             // 
@@ -298,10 +296,11 @@
             cmbParroquia.FormattingEnabled = true;
             cmbParroquia.IntegralHeight = false;
             cmbParroquia.Items.AddRange(new object[] { "", "SCJ", "El Calvario" });
-            cmbParroquia.Location = new Point(124, 134);
+            cmbParroquia.Location = new Point(419, 170);
+            cmbParroquia.Margin = new Padding(4, 5, 4, 5);
             cmbParroquia.MaxDropDownItems = 6;
             cmbParroquia.Name = "cmbParroquia";
-            cmbParroquia.Size = new Size(159, 21);
+            cmbParroquia.Size = new Size(225, 29);
             cmbParroquia.TabIndex = 2;
             cmbParroquia.Text = "Seleccionar";
             cmbParroquia.SelectedIndexChanged += cmbParroquia_SelectedIndexChanged;
@@ -310,9 +309,10 @@
             // 
             lblConsulte.AutoSize = true;
             lblConsulte.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblConsulte.Location = new Point(114, 90);
+            lblConsulte.Location = new Point(172, 96);
+            lblConsulte.Margin = new Padding(4, 0, 4, 0);
             lblConsulte.Name = "lblConsulte";
-            lblConsulte.Size = new Size(791, 30);
+            lblConsulte.Size = new Size(1182, 45);
             lblConsulte.TabIndex = 1;
             lblConsulte.Text = "Consulte en cualquier momento que hizo cada encargado de las parroquias";
             // 
@@ -320,19 +320,22 @@
             // 
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblTitulo.Location = new Point(121, 63);
+            lblTitulo.Location = new Point(182, 51);
+            lblTitulo.Margin = new Padding(4, 0, 4, 0);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(770, 30);
+            lblTitulo.Size = new Size(1163, 45);
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "BITÁCORA DEL SISTEMA, CADA ACCIÓN DEL SISTEMA REGISTRADA AQUÍ";
             // 
             // Bitacora_Admin
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(1121, 538);
+            ClientSize = new Size(1601, 897);
             Controls.Add(panel1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4, 5, 4, 5);
             MaximizeBox = false;
             Name = "Bitacora_Admin";
             StartPosition = FormStartPosition.CenterScreen;
@@ -356,7 +359,6 @@
         private Label lblRealizadopor;
         private ComboBox cmbUsuario;
         private Button btnVolver;
-        private Label label1;
         private PictureBox pictureBox3;
         private CheckBox chkFiltrarFecha;
         private DateTimePicker dtpFechaHasta;

@@ -60,30 +60,7 @@ namespace Capa_de_Presentación
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbParroquia_SelectedIndexChanged(object sender, EventArgs e)
         {
-            /*cmbParroquia.Items.AddRange(new string[] { "Seleccionar", "SCJ", "El Calvario" });
-            cmbParroquia.SelectedIndex = 0;
-            cmbParroquia.BackColor = Color.Beige;
-            cmbParroquia.Font = new Font("Segoe UI", 10);*/
-
-            /*
-            if (cmbParroquia.SelectedValue == null) return;
-
-            int parroquia_seleccionada = Convert.ToInt32(cmbParroquia.SelectedValue);
-            int? parroquia_id = parroquia_seleccionada == -1 ? null : (int?)parroquia_seleccionada;
-
-            CargarUsuarios(parroquia_id);
-            CargarHistorial();
-            */
-
-            /*
-            if (cmbParroquia.SelectedValue == null || cmbParroquia.SelectedValue is DataRowView)
-                return;
-
-            int parroquia_seleccionada = Convert.ToInt32(cmbParroquia.SelectedValue);
-            int? parroquia_id = parroquia_seleccionada == -1 ? null : (int?)parroquia_seleccionada;
-
-            CargarUsuarios(parroquia_id);
-            CargarHistorial();*/
+            
 
             if (isLoading) return;
 
@@ -111,10 +88,7 @@ namespace Capa_de_Presentación
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            /*
-            dgvBitacora.Rows.Add("Inicio de sesión", "Ingreso al sistema", "Isaac C.", "06 Jun 2025", "7:00", "Se ha iniciado sesión exitosamente");
-            dgvBitacora.Rows.Add("Registro de ingresos", "Ingresos", "Diego M.", "15 Jun 2025", "20:30", "Ingreso registrado");
-            */
+           
         }
 
         /// <summary>
@@ -266,7 +240,10 @@ namespace Capa_de_Presentación
                 btnSiguiente.Enabled = _paginaActual < _totalPaginas;
 
                 if (dgvBitacora.Columns.Contains("Descripción"))
-                    dgvBitacora.Columns["Descripción"].Width = 595;
+                    dgvBitacora.Columns["Descripción"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                dgvBitacora.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11f, FontStyle.Bold);
+
             }
             catch (Exception ex)
             {

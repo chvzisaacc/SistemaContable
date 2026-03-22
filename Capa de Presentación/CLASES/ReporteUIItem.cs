@@ -33,6 +33,7 @@
         /// The parroquia identifier.
         /// </value>
         public int parroquia_id { get; set; }
+        public string parroquia_nombre { get; set; }
         /// <summary>
         /// Gets or sets the desde.
         /// </summary>

@@ -203,6 +203,7 @@
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(626, 330);
             Controls.Add(panel2);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             Name = "BancosTransferenciaEntreCuentas";

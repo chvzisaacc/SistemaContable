@@ -213,6 +213,7 @@
             Controls.Add(pictureBox1);
             Controls.Add(label1);
             Controls.Add(pibBitacora);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             Name = "FRM_ServiciosAdministrador";

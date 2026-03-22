@@ -51,6 +51,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private int id_cuenta_seleccionada = 0;
 
         private BindingSource bindingSourceCatalogo;
+        private readonly clsCRUD_Usuarios _repo = new clsCRUD_Usuarios();
+
 
         //BITACORA
         /// <summary>
@@ -78,6 +80,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         public Ventana_Principal_Administrador(int usuarioID, int idParroquia)
         {
             InitializeComponent();
+            this.Shown += (_, __) => CargarNombre();
             this._usuario_id = usuarioID;
             this.id_parroquia = idParroquia;
             UsuarioLogueado.usuario_id = usuarioID;
@@ -255,6 +258,21 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 MessageBox.Show("Error al cargar nivel 3: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CargarNombre()
+        {
+            try
+            {
+                string nombre = _repo.ObtenerNombrePorUsuario(Sesion1.usuario_id);
+                label1.Text = string.IsNullOrWhiteSpace(nombre)
+                ? "Nombre no disponible / cuenta inactiva"
+                : $"Bienvenido, {nombre}";
+            }
+            catch (Exception ex)
+            {
+                label1.Text = "Error obteniendo nombre";
             }
         }
 

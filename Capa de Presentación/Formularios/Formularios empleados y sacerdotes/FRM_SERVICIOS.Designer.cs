@@ -60,10 +60,10 @@
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(147, 297);
+            textBox2.Location = new Point(136, 297);
             textBox2.Margin = new Padding(4, 3, 4, 3);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(229, 32);
+            textBox2.Size = new Size(253, 32);
             textBox2.TabIndex = 18;
             textBox2.Text = "Catálogo de cuentas";
             textBox2.MouseClick += textBox2_MouseClick;
@@ -155,10 +155,12 @@
             Controls.Add(pibCatalogoCuentas);
             Controls.Add(pictureBox1);
             Controls.Add(label1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 5, 4, 5);
             MinimizeBox = false;
             Name = "FRM_SERVICIOS";
             Text = "FRM_SERVICIOS";
+            Load += FRM_SERVICIOS_Load;
             ((System.ComponentModel.ISupportInitialize)pibCatalogoCuentas).EndInit();
             ((System.ComponentModel.ISupportInitialize)pibGenerarReportes).EndInit();
             ((System.ComponentModel.ISupportInitialize)pibBitacora).EndInit();

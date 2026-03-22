@@ -469,6 +469,23 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        public string ObtenerNombrePorUsuario(int usuario_id)
+        {
+            try
+            {
+                conexion.Abrir();
+                using var cmd = new SqlCommand("dbo.usp_GetNombreUsuario", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@UsuarioId", SqlDbType.Int).Value = usuario_id;
+                object obj = cmd.ExecuteScalar();
+                return obj != null && obj != DBNull.Value ? obj.ToString() : string.Empty;
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+
 
 
     }

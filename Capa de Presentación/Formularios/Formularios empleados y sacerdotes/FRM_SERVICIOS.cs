@@ -17,7 +17,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            
+
 
         }
 
@@ -194,6 +194,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 );
             }
             catch { }
+        }
+
+        private void FRM_SERVICIOS_Load(object sender, EventArgs e)
+        {
+            this.ActiveControl = null;
+            this.Focus();
         }
     }
 }

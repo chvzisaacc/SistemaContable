@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Partidas_Dobles));
             label1 = new Label();
             dgvPartidas = new DataGridView();
             cNombre = new DataGridViewTextBoxColumn();
@@ -41,9 +42,10 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(188, 23);
+            label1.Location = new Point(269, 38);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(369, 32);
+            label1.Size = new Size(537, 48);
             label1.TabIndex = 0;
             label1.Text = "Partida doble de la transacción";
             // 
@@ -57,11 +59,12 @@
             dgvPartidas.BorderStyle = BorderStyle.None;
             dgvPartidas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPartidas.Columns.AddRange(new DataGridViewColumn[] { cNombre, cDetalle, cSaldo });
-            dgvPartidas.Location = new Point(40, 66);
+            dgvPartidas.Location = new Point(57, 110);
+            dgvPartidas.Margin = new Padding(4, 5, 4, 5);
             dgvPartidas.Name = "dgvPartidas";
             dgvPartidas.ReadOnly = true;
             dgvPartidas.RowHeadersWidth = 51;
-            dgvPartidas.Size = new Size(669, 80);
+            dgvPartidas.Size = new Size(956, 133);
             dgvPartidas.TabIndex = 1;
             // 
             // cNombre
@@ -94,9 +97,10 @@
             Btncerrar.FlatStyle = FlatStyle.Flat;
             Btncerrar.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             Btncerrar.ForeColor = Color.White;
-            Btncerrar.Location = new Point(296, 163);
+            Btncerrar.Location = new Point(423, 272);
+            Btncerrar.Margin = new Padding(4, 5, 4, 5);
             Btncerrar.Name = "Btncerrar";
-            Btncerrar.Size = new Size(148, 48);
+            Btncerrar.Size = new Size(211, 80);
             Btncerrar.TabIndex = 17;
             Btncerrar.Text = "Cerrar";
             Btncerrar.UseVisualStyleBackColor = false;
@@ -104,12 +108,14 @@
             // 
             // Partidas_Dobles
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(776, 225);
+            ClientSize = new Size(1109, 375);
             Controls.Add(Btncerrar);
             Controls.Add(dgvPartidas);
             Controls.Add(label1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4, 5, 4, 5);
             MaximizeBox = false;
             Name = "Partidas_Dobles";
             StartPosition = FormStartPosition.CenterScreen;

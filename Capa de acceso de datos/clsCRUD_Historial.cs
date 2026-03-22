@@ -261,9 +261,10 @@ namespace Capa_de_acceso_de_datos
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@UsuarioID", usuario_id);
                     cmd.Parameters.AddWithValue("@FechaDesde",
-                        fechaDesde.HasValue ? (object)fechaDesde.Value.Date : DBNull.Value);
+                    fechaDesde.HasValue ? (object)fechaDesde.Value.Date : DBNull.Value);
+
                     cmd.Parameters.AddWithValue("@FechaHasta",
-                        fechaHasta.HasValue ? (object)fechaHasta.Value.Date : DBNull.Value);
+                    fechaHasta.HasValue ? (object)fechaHasta.Value.Date.AddDays(1).AddSeconds(-1) : DBNull.Value);
 
                     DataTable dt = new DataTable();
                     using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))

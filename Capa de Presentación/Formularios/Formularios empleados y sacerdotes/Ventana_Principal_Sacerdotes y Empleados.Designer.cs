@@ -41,24 +41,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
             panelContenedor = new Panel();
-            panel5 = new Panel();
-            panelGastos2 = new Panel();
-            pictureBox6 = new PictureBox();
-            pictureBox7 = new PictureBox();
-            dateTimePicker2 = new DateTimePicker();
-            button4 = new Button();
-            btnGuardar2 = new Button();
-            txtNoReferencia2 = new TextBox();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            cmbOrigen2 = new ComboBox();
-            dgvGastos = new DataGridView();
-            Id_Transaccion1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
             panelIngresos = new Panel();
+            panel5 = new Panel();
             pictureBox8 = new PictureBox();
             pictureBox5 = new PictureBox();
             button2 = new Button();
@@ -91,6 +75,22 @@ namespace Capa_de_Presentación.Formularios_Luiss
             label9 = new Label();
             pictureBox4 = new PictureBox();
             label7 = new Label();
+            panelGastos2 = new Panel();
+            pictureBox6 = new PictureBox();
+            pictureBox7 = new PictureBox();
+            dateTimePicker2 = new DateTimePicker();
+            button4 = new Button();
+            btnGuardar2 = new Button();
+            txtNoReferencia2 = new TextBox();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            cmbOrigen2 = new ComboBox();
+            dgvGastos = new DataGridView();
+            Id_Transaccion1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
             btnGastos = new Button();
             btnBancos = new Button();
             btnCajaChica = new Button();
@@ -105,10 +105,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panelContenedor.SuspendLayout();
-            panelGastos2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dgvGastos).BeginInit();
             panelIngresos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
@@ -117,6 +113,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelCajaChica2.SuspendLayout();
             panelIngresarCapital.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            panelGastos2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvGastos).BeginInit();
             panel1.SuspendLayout();
             pnlAlertaDeslizante.SuspendLayout();
             SuspendLayout();
@@ -125,7 +125,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(376, 92);
+            label1.Location = new Point(379, 72);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(560, 55);
@@ -160,249 +160,29 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(26, 58);
+            pictureBox3.Location = new Point(0, 37);
             pictureBox3.Margin = new Padding(4, 5, 4, 5);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(201, 178);
+            pictureBox3.Size = new Size(111, 87);
             pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3.TabIndex = 8;
             pictureBox3.TabStop = false;
             // 
             // panelContenedor
             // 
-            panelContenedor.Controls.Add(panel5);
-            panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Controls.Add(panelIngresos);
             panelContenedor.Controls.Add(panelBancos2);
             panelContenedor.Controls.Add(panelCajaChica2);
-            panelContenedor.Location = new Point(4, 355);
+            panelContenedor.Controls.Add(panelGastos2);
+            panelContenedor.Location = new Point(4, 302);
             panelContenedor.Margin = new Padding(4, 5, 4, 5);
             panelContenedor.Name = "panelContenedor";
-            panelContenedor.Size = new Size(1566, 502);
+            panelContenedor.Size = new Size(1566, 555);
             panelContenedor.TabIndex = 8;
-            // 
-            // panel5
-            // 
-            panel5.BackgroundImageLayout = ImageLayout.Stretch;
-            panel5.Location = new Point(409, 25);
-            panel5.Margin = new Padding(4, 2, 4, 2);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(749, 368);
-            panel5.TabIndex = 49;
-            panel5.Paint += panel5_Paint;
-            // 
-            // panelGastos2
-            // 
-            panelGastos2.Controls.Add(pictureBox6);
-            panelGastos2.Controls.Add(pictureBox7);
-            panelGastos2.Controls.Add(dateTimePicker2);
-            panelGastos2.Controls.Add(button4);
-            panelGastos2.Controls.Add(btnGuardar2);
-            panelGastos2.Controls.Add(txtNoReferencia2);
-            panelGastos2.Controls.Add(label2);
-            panelGastos2.Controls.Add(label3);
-            panelGastos2.Controls.Add(label4);
-            panelGastos2.Controls.Add(cmbOrigen2);
-            panelGastos2.Controls.Add(dgvGastos);
-            panelGastos2.Dock = DockStyle.Fill;
-            panelGastos2.Location = new Point(0, 0);
-            panelGastos2.Margin = new Padding(4, 2, 4, 2);
-            panelGastos2.Name = "panelGastos2";
-            panelGastos2.Size = new Size(1566, 502);
-            panelGastos2.TabIndex = 43;
-            panelGastos2.Paint += panelGastos2_Paint;
-            // 
-            // pictureBox6
-            // 
-            pictureBox6.BackgroundImage = Properties.Resources.ojo;
-            pictureBox6.Image = Properties.Resources.ojo1;
-            pictureBox6.Location = new Point(1429, 332);
-            pictureBox6.Margin = new Padding(4, 2, 4, 2);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(134, 42);
-            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox6.TabIndex = 36;
-            pictureBox6.TabStop = false;
-            pictureBox6.Click += pictureBox6_Click;
-            // 
-            // pictureBox7
-            // 
-            pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
-            pictureBox7.Location = new Point(1429, 382);
-            pictureBox7.Margin = new Padding(4, 2, 4, 2);
-            pictureBox7.Name = "pictureBox7";
-            pictureBox7.Size = new Size(134, 42);
-            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox7.TabIndex = 34;
-            pictureBox7.TabStop = false;
-            pictureBox7.Click += pictureBox7_Click;
-            // 
-            // dateTimePicker2
-            // 
-            dateTimePicker2.CalendarFont = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dateTimePicker2.CalendarForeColor = SystemColors.ControlLightLight;
-            dateTimePicker2.CalendarTitleForeColor = SystemColors.ControlLightLight;
-            dateTimePicker2.Format = DateTimePickerFormat.Short;
-            dateTimePicker2.Location = new Point(191, 118);
-            dateTimePicker2.Margin = new Padding(4, 5, 4, 5);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(345, 31);
-            dateTimePicker2.TabIndex = 25;
-            dateTimePicker2.Value = new DateTime(2025, 11, 28, 0, 0, 0, 0);
-            dateTimePicker2.ValueChanged += dateTimePicker1_ValueChanged;
-            // 
-            // button4
-            // 
-            button4.BackColor = Color.Transparent;
-            button4.BackgroundImageLayout = ImageLayout.Center;
-            button4.Location = new Point(16, 448);
-            button4.Margin = new Padding(1, 2, 1, 2);
-            button4.Name = "button4";
-            button4.Size = new Size(21, 32);
-            button4.TabIndex = 33;
-            button4.Text = "+";
-            button4.UseVisualStyleBackColor = false;
-            button4.Click += button4_Click_1;
-            // 
-            // btnGuardar2
-            // 
-            btnGuardar2.BackColor = Color.FromArgb(43, 56, 143);
-            btnGuardar2.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
-            btnGuardar2.FlatAppearance.BorderSize = 0;
-            btnGuardar2.FlatStyle = FlatStyle.Flat;
-            btnGuardar2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGuardar2.ForeColor = SystemColors.Control;
-            btnGuardar2.Location = new Point(1429, 438);
-            btnGuardar2.Margin = new Padding(4, 5, 4, 5);
-            btnGuardar2.Name = "btnGuardar2";
-            btnGuardar2.Size = new Size(134, 48);
-            btnGuardar2.TabIndex = 28;
-            btnGuardar2.Text = "Guardar";
-            btnGuardar2.UseVisualStyleBackColor = false;
-            btnGuardar2.Click += btnGuardar2_Click;
-            // 
-            // txtNoReferencia2
-            // 
-            txtNoReferencia2.BackColor = Color.FromArgb(251, 203, 51);
-            txtNoReferencia2.BorderStyle = BorderStyle.None;
-            txtNoReferencia2.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtNoReferencia2.Location = new Point(859, 38);
-            txtNoReferencia2.Margin = new Padding(4, 5, 4, 5);
-            txtNoReferencia2.MaxLength = 10;
-            txtNoReferencia2.Multiline = true;
-            txtNoReferencia2.Name = "txtNoReferencia2";
-            txtNoReferencia2.Size = new Size(541, 32);
-            txtNoReferencia2.TabIndex = 26;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(581, 32);
-            label2.Margin = new Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(217, 38);
-            label2.TabIndex = 25;
-            label2.Text = "No. Referencia:";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(44, 102);
-            label3.Margin = new Padding(4, 0, 4, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(100, 38);
-            label3.TabIndex = 24;
-            label3.Text = "Fecha:";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(44, 28);
-            label4.Margin = new Padding(4, 0, 4, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(114, 38);
-            label4.TabIndex = 23;
-            label4.Text = "Origen:";
-            // 
-            // cmbOrigen2
-            // 
-            cmbOrigen2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cmbOrigen2.AutoCompleteSource = AutoCompleteSource.ListItems;
-            cmbOrigen2.BackColor = Color.FromArgb(251, 203, 51);
-            cmbOrigen2.FlatStyle = FlatStyle.Flat;
-            cmbOrigen2.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbOrigen2.FormattingEnabled = true;
-            cmbOrigen2.IntegralHeight = false;
-            cmbOrigen2.Location = new Point(189, 38);
-            cmbOrigen2.Margin = new Padding(4, 2, 4, 2);
-            cmbOrigen2.MaxDropDownItems = 6;
-            cmbOrigen2.Name = "cmbOrigen2";
-            cmbOrigen2.Size = new Size(345, 29);
-            cmbOrigen2.TabIndex = 22;
-            cmbOrigen2.Text = "Seleccionar";
-            // 
-            // dgvGastos
-            // 
-            dgvGastos.AllowDrop = true;
-            dgvGastos.AllowUserToAddRows = false;
-            dgvGastos.AllowUserToDeleteRows = false;
-            dgvGastos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvGastos.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvGastos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvGastos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvGastos.Columns.AddRange(new DataGridViewColumn[] { Id_Transaccion1, dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3 });
-            dgvGastos.Location = new Point(44, 168);
-            dgvGastos.Margin = new Padding(4, 5, 4, 5);
-            dgvGastos.Name = "dgvGastos";
-            dgvGastos.ReadOnly = true;
-            dgvGastos.RowHeadersWidth = 51;
-            dgvGastos.Size = new Size(1359, 318);
-            dgvGastos.TabIndex = 27;
-            dgvGastos.CellClick += dgvGastos_CellClick;
-            dgvGastos.CellDoubleClick += dgvGastos_CellDoubleClick;
-            dgvGastos.EditingControlShowing += dgvGastos_EditingControlShowing;
-            // 
-            // Id_Transaccion1
-            // 
-            Id_Transaccion1.HeaderText = "IdTransaccion";
-            Id_Transaccion1.MinimumWidth = 8;
-            Id_Transaccion1.Name = "Id_Transaccion1";
-            Id_Transaccion1.ReadOnly = true;
-            Id_Transaccion1.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            dataGridViewTextBoxColumn1.HeaderText = "Nombre/Cuenta";
-            dataGridViewTextBoxColumn1.MinimumWidth = 6;
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            dataGridViewTextBoxColumn2.HeaderText = "Detalle";
-            dataGridViewTextBoxColumn2.MinimumWidth = 6;
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            dataGridViewTextBoxColumn3.HeaderText = "Saldo";
-            dataGridViewTextBoxColumn3.MinimumWidth = 6;
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
             // panelIngresos
             // 
+            panelIngresos.Controls.Add(panel5);
             panelIngresos.Controls.Add(pictureBox8);
             panelIngresos.Controls.Add(pictureBox5);
             panelIngresos.Controls.Add(button2);
@@ -419,9 +199,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelIngresos.Location = new Point(0, 0);
             panelIngresos.Margin = new Padding(4, 5, 4, 5);
             panelIngresos.Name = "panelIngresos";
-            panelIngresos.Size = new Size(1566, 502);
+            panelIngresos.Size = new Size(1566, 555);
             panelIngresos.TabIndex = 44;
             panelIngresos.Paint += panelIngresos_Paint;
+            // 
+            // panel5
+            // 
+            panel5.BackgroundImageLayout = ImageLayout.Stretch;
+            panel5.Location = new Point(414, 131);
+            panel5.Margin = new Padding(4, 2, 4, 2);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(749, 368);
+            panel5.TabIndex = 49;
+            panel5.Paint += panel5_Paint;
             // 
             // pictureBox8
             // 
@@ -453,7 +243,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             button2.BackColor = Color.Transparent;
             button2.BackgroundImageLayout = ImageLayout.Center;
-            button2.Location = new Point(21, 462);
+            button2.Location = new Point(21, 518);
             button2.Margin = new Padding(1, 2, 1, 2);
             button2.Name = "button2";
             button2.Size = new Size(21, 32);
@@ -521,35 +311,35 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // lblNoReferencia
             // 
             lblNoReferencia.AutoSize = true;
-            lblNoReferencia.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNoReferencia.Location = new Point(621, 32);
+            lblNoReferencia.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblNoReferencia.Location = new Point(638, 36);
             lblNoReferencia.Margin = new Padding(4, 0, 4, 0);
             lblNoReferencia.Name = "lblNoReferencia";
-            lblNoReferencia.Size = new Size(209, 38);
+            lblNoReferencia.Size = new Size(189, 32);
             lblNoReferencia.TabIndex = 17;
-            lblNoReferencia.Text = "No. Referencia";
+            lblNoReferencia.Text = "No. Referencia:";
             // 
             // lblFecha
             // 
             lblFecha.AutoSize = true;
-            lblFecha.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblFecha.Location = new Point(21, 98);
+            lblFecha.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblFecha.Location = new Point(94, 102);
             lblFecha.Margin = new Padding(4, 0, 4, 0);
             lblFecha.Name = "lblFecha";
-            lblFecha.Size = new Size(92, 38);
+            lblFecha.Size = new Size(85, 32);
             lblFecha.TabIndex = 16;
-            lblFecha.Text = "Fecha";
+            lblFecha.Text = "Fecha:";
             // 
             // lblOrigen
             // 
             lblOrigen.AutoSize = true;
-            lblOrigen.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblOrigen.Location = new Point(21, 40);
+            lblOrigen.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblOrigen.Location = new Point(89, 39);
             lblOrigen.Margin = new Padding(4, 0, 4, 0);
             lblOrigen.Name = "lblOrigen";
-            lblOrigen.Size = new Size(106, 38);
+            lblOrigen.Size = new Size(99, 32);
             lblOrigen.TabIndex = 15;
-            lblOrigen.Text = "Origen";
+            lblOrigen.Text = "Origen:";
             // 
             // cmbOrigen
             // 
@@ -574,21 +364,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;
             dataGridView1.Location = new Point(61, 165);
             dataGridView1.Margin = new Padding(4, 5, 4, 5);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(1339, 332);
+            dataGridView1.Size = new Size(1339, 385);
             dataGridView1.TabIndex = 19;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick_1;
@@ -606,7 +396,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelBancos2.Location = new Point(0, 0);
             panelBancos2.Margin = new Padding(4, 5, 4, 5);
             panelBancos2.Name = "panelBancos2";
-            panelBancos2.Size = new Size(1566, 502);
+            panelBancos2.Size = new Size(1566, 555);
             panelBancos2.TabIndex = 41;
             panelBancos2.Visible = false;
             panelBancos2.Paint += panelBancos2_Paint;
@@ -628,7 +418,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(479, 188);
+            label6.Location = new Point(489, 243);
             label6.Margin = new Padding(1, 0, 1, 0);
             label6.Name = "label6";
             label6.Size = new Size(293, 32);
@@ -650,7 +440,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             button3.BackColor = Color.FromArgb(251, 203, 51);
             button3.Font = new Font("Segoe UI Black", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.Location = new Point(430, 228);
+            button3.Location = new Point(430, 290);
             button3.Margin = new Padding(1, 2, 1, 2);
             button3.Name = "button3";
             button3.Size = new Size(400, 52);
@@ -702,7 +492,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelCajaChica2.Location = new Point(0, 0);
             panelCajaChica2.Margin = new Padding(4, 2, 4, 2);
             panelCajaChica2.Name = "panelCajaChica2";
-            panelCajaChica2.Size = new Size(1566, 502);
+            panelCajaChica2.Size = new Size(1566, 555);
             panelCajaChica2.TabIndex = 42;
             panelCajaChica2.Paint += panelCajaChica2_Paint;
             // 
@@ -853,18 +643,229 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(134, 12);
+            label7.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.Location = new Point(320, 9);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
-            label7.Size = new Size(1236, 65);
+            label7.Size = new Size(832, 45);
             label7.TabIndex = 31;
             label7.Text = "SALDO DE CAJA CHICA Y CAPITAL DE LA PARROQUIA";
+            // 
+            // panelGastos2
+            // 
+            panelGastos2.Controls.Add(pictureBox6);
+            panelGastos2.Controls.Add(pictureBox7);
+            panelGastos2.Controls.Add(dateTimePicker2);
+            panelGastos2.Controls.Add(button4);
+            panelGastos2.Controls.Add(btnGuardar2);
+            panelGastos2.Controls.Add(txtNoReferencia2);
+            panelGastos2.Controls.Add(label2);
+            panelGastos2.Controls.Add(label3);
+            panelGastos2.Controls.Add(label4);
+            panelGastos2.Controls.Add(cmbOrigen2);
+            panelGastos2.Controls.Add(dgvGastos);
+            panelGastos2.Dock = DockStyle.Fill;
+            panelGastos2.Location = new Point(0, 0);
+            panelGastos2.Margin = new Padding(4, 2, 4, 2);
+            panelGastos2.Name = "panelGastos2";
+            panelGastos2.Size = new Size(1566, 555);
+            panelGastos2.TabIndex = 43;
+            panelGastos2.Paint += panelGastos2_Paint;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.BackgroundImage = Properties.Resources.ojo;
+            pictureBox6.Image = Properties.Resources.ojo1;
+            pictureBox6.Location = new Point(1429, 332);
+            pictureBox6.Margin = new Padding(4, 2, 4, 2);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(134, 42);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 36;
+            pictureBox6.TabStop = false;
+            pictureBox6.Click += pictureBox6_Click;
+            // 
+            // pictureBox7
+            // 
+            pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
+            pictureBox7.Location = new Point(1429, 382);
+            pictureBox7.Margin = new Padding(4, 2, 4, 2);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(134, 42);
+            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox7.TabIndex = 34;
+            pictureBox7.TabStop = false;
+            pictureBox7.Click += pictureBox7_Click;
+            // 
+            // dateTimePicker2
+            // 
+            dateTimePicker2.CalendarFont = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dateTimePicker2.CalendarForeColor = SystemColors.ControlLightLight;
+            dateTimePicker2.CalendarTitleForeColor = SystemColors.ControlLightLight;
+            dateTimePicker2.Font = new Font("Segoe UI", 8F);
+            dateTimePicker2.Format = DateTimePickerFormat.Short;
+            dateTimePicker2.Location = new Point(191, 118);
+            dateTimePicker2.Margin = new Padding(4, 5, 4, 5);
+            dateTimePicker2.Name = "dateTimePicker2";
+            dateTimePicker2.Size = new Size(345, 29);
+            dateTimePicker2.TabIndex = 25;
+            dateTimePicker2.Value = new DateTime(2025, 11, 28, 0, 0, 0, 0);
+            dateTimePicker2.ValueChanged += dateTimePicker1_ValueChanged;
+            // 
+            // button4
+            // 
+            button4.BackColor = Color.Transparent;
+            button4.BackgroundImageLayout = ImageLayout.Center;
+            button4.Location = new Point(18, 518);
+            button4.Margin = new Padding(1, 2, 1, 2);
+            button4.Name = "button4";
+            button4.Size = new Size(21, 32);
+            button4.TabIndex = 33;
+            button4.Text = "+";
+            button4.UseVisualStyleBackColor = false;
+            button4.Click += button4_Click_1;
+            // 
+            // btnGuardar2
+            // 
+            btnGuardar2.BackColor = Color.FromArgb(43, 56, 143);
+            btnGuardar2.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
+            btnGuardar2.FlatAppearance.BorderSize = 0;
+            btnGuardar2.FlatStyle = FlatStyle.Flat;
+            btnGuardar2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar2.ForeColor = SystemColors.Control;
+            btnGuardar2.Location = new Point(1429, 438);
+            btnGuardar2.Margin = new Padding(4, 5, 4, 5);
+            btnGuardar2.Name = "btnGuardar2";
+            btnGuardar2.Size = new Size(134, 48);
+            btnGuardar2.TabIndex = 28;
+            btnGuardar2.Text = "Guardar";
+            btnGuardar2.UseVisualStyleBackColor = false;
+            btnGuardar2.Click += btnGuardar2_Click;
+            // 
+            // txtNoReferencia2
+            // 
+            txtNoReferencia2.BackColor = Color.FromArgb(251, 203, 51);
+            txtNoReferencia2.BorderStyle = BorderStyle.None;
+            txtNoReferencia2.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtNoReferencia2.Location = new Point(859, 38);
+            txtNoReferencia2.Margin = new Padding(4, 5, 4, 5);
+            txtNoReferencia2.MaxLength = 10;
+            txtNoReferencia2.Multiline = true;
+            txtNoReferencia2.Name = "txtNoReferencia2";
+            txtNoReferencia2.Size = new Size(541, 32);
+            txtNoReferencia2.TabIndex = 26;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label2.Location = new Point(662, 39);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(189, 32);
+            label2.TabIndex = 25;
+            label2.Text = "No. Referencia:";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label3.Location = new Point(87, 117);
+            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(85, 32);
+            label3.TabIndex = 24;
+            label3.Text = "Fecha:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.Location = new Point(73, 36);
+            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(99, 32);
+            label4.TabIndex = 23;
+            label4.Text = "Origen:";
+            // 
+            // cmbOrigen2
+            // 
+            cmbOrigen2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbOrigen2.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbOrigen2.BackColor = Color.FromArgb(251, 203, 51);
+            cmbOrigen2.FlatStyle = FlatStyle.Flat;
+            cmbOrigen2.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbOrigen2.FormattingEnabled = true;
+            cmbOrigen2.IntegralHeight = false;
+            cmbOrigen2.Location = new Point(189, 38);
+            cmbOrigen2.Margin = new Padding(4, 2, 4, 2);
+            cmbOrigen2.MaxDropDownItems = 6;
+            cmbOrigen2.Name = "cmbOrigen2";
+            cmbOrigen2.Size = new Size(345, 29);
+            cmbOrigen2.TabIndex = 22;
+            cmbOrigen2.Text = "Seleccionar";
+            // 
+            // dgvGastos
+            // 
+            dgvGastos.AllowDrop = true;
+            dgvGastos.AllowUserToAddRows = false;
+            dgvGastos.AllowUserToDeleteRows = false;
+            dgvGastos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvGastos.BackgroundColor = SystemColors.Control;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvGastos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgvGastos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvGastos.Columns.AddRange(new DataGridViewColumn[] { Id_Transaccion1, dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3 });
+            dgvGastos.Location = new Point(44, 168);
+            dgvGastos.Margin = new Padding(4, 5, 4, 5);
+            dgvGastos.Name = "dgvGastos";
+            dgvGastos.ReadOnly = true;
+            dgvGastos.RowHeadersWidth = 51;
+            dgvGastos.Size = new Size(1359, 382);
+            dgvGastos.TabIndex = 27;
+            dgvGastos.CellClick += dgvGastos_CellClick;
+            dgvGastos.CellDoubleClick += dgvGastos_CellDoubleClick;
+            dgvGastos.EditingControlShowing += dgvGastos_EditingControlShowing;
+            // 
+            // Id_Transaccion1
+            // 
+            Id_Transaccion1.HeaderText = "IdTransaccion";
+            Id_Transaccion1.MinimumWidth = 8;
+            Id_Transaccion1.Name = "Id_Transaccion1";
+            Id_Transaccion1.ReadOnly = true;
+            Id_Transaccion1.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.HeaderText = "Nombre/Cuenta";
+            dataGridViewTextBoxColumn1.MinimumWidth = 6;
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "Detalle";
+            dataGridViewTextBoxColumn2.MinimumWidth = 6;
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.HeaderText = "Saldo";
+            dataGridViewTextBoxColumn3.MinimumWidth = 6;
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
             // btnGastos
             // 
             btnGastos.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            btnGastos.Location = new Point(529, 268);
+            btnGastos.Location = new Point(527, 192);
             btnGastos.Margin = new Padding(4, 5, 4, 5);
             btnGastos.Name = "btnGastos";
             btnGastos.Size = new Size(179, 62);
@@ -876,7 +877,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // btnBancos
             // 
             btnBancos.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            btnBancos.Location = new Point(1226, 268);
+            btnBancos.Location = new Point(1224, 192);
             btnBancos.Margin = new Padding(4, 5, 4, 5);
             btnBancos.Name = "btnBancos";
             btnBancos.Size = new Size(179, 62);
@@ -888,7 +889,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // btnCajaChica
             // 
             btnCajaChica.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            btnCajaChica.Location = new Point(820, 268);
+            btnCajaChica.Location = new Point(818, 192);
             btnCajaChica.Margin = new Padding(4, 5, 4, 5);
             btnCajaChica.Name = "btnCajaChica";
             btnCajaChica.Size = new Size(260, 62);
@@ -911,7 +912,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // btnIngresos
             // 
             btnIngresos.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            btnIngresos.Location = new Point(181, 268);
+            btnIngresos.Location = new Point(179, 192);
             btnIngresos.Margin = new Padding(4, 5, 4, 5);
             btnIngresos.Name = "btnIngresos";
             btnIngresos.Size = new Size(199, 62);
@@ -948,10 +949,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pnlAlertaDeslizante.BackColor = Color.Gold;
             pnlAlertaDeslizante.Controls.Add(lblAlertaMensaje);
             pnlAlertaDeslizante.Dock = DockStyle.Top;
+            pnlAlertaDeslizante.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             pnlAlertaDeslizante.Location = new Point(0, 0);
             pnlAlertaDeslizante.Margin = new Padding(1, 2, 1, 2);
             pnlAlertaDeslizante.Name = "pnlAlertaDeslizante";
-            pnlAlertaDeslizante.Size = new Size(1570, 50);
+            pnlAlertaDeslizante.Size = new Size(1570, 32);
             pnlAlertaDeslizante.TabIndex = 26;
             pnlAlertaDeslizante.Paint += pnlAlertaDeslizante_Paint;
             // 
@@ -959,12 +961,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             lblAlertaMensaje.AutoSize = true;
             lblAlertaMensaje.Dock = DockStyle.Top;
-            lblAlertaMensaje.Font = new Font("Segoe UI Black", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAlertaMensaje.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold);
             lblAlertaMensaje.ForeColor = SystemColors.ActiveCaptionText;
             lblAlertaMensaje.Location = new Point(0, 0);
             lblAlertaMensaje.Margin = new Padding(1, 0, 1, 0);
             lblAlertaMensaje.Name = "lblAlertaMensaje";
-            lblAlertaMensaje.Size = new Size(44, 38);
+            lblAlertaMensaje.Size = new Size(38, 32);
             lblAlertaMensaje.TabIndex = 25;
             lblAlertaMensaje.Text = "...";
             lblAlertaMensaje.TextAlign = ContentAlignment.MiddleCenter;
@@ -972,10 +974,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // panelLinea
             // 
             panelLinea.BackColor = Color.FromArgb(43, 56, 143);
-            panelLinea.Location = new Point(0, 342);
+            panelLinea.Location = new Point(0, 280);
             panelLinea.Margin = new Padding(4, 5, 4, 5);
             panelLinea.Name = "panelLinea";
-            panelLinea.Size = new Size(1570, 2);
+            panelLinea.Size = new Size(1570, 10);
             panelLinea.TabIndex = 24;
             // 
             // FRM_42
@@ -995,11 +997,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panelContenedor.ResumeLayout(false);
-            panelGastos2.ResumeLayout(false);
-            panelGastos2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dgvGastos).EndInit();
             panelIngresos.ResumeLayout(false);
             panelIngresos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
@@ -1012,6 +1009,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelIngresarCapital.ResumeLayout(false);
             panelIngresarCapital.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            panelGastos2.ResumeLayout(false);
+            panelGastos2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvGastos).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             pnlAlertaDeslizante.ResumeLayout(false);

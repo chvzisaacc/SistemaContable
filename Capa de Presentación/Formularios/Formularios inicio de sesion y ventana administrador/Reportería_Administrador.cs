@@ -1,68 +1,29 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
 using Capa_de_procesamiento_de_datos;
+using ClosedXML.Excel;
 using Spire.Pdf;
 using System.Data;
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Reportería_Administrador : Form
     {
-
-        /// <summary>
-        /// The gastos service
-        /// </summary>
         private readonly GastosService _gastosService = new GastosService();
-        /// <summary>
-        /// The estado resultados service
-        /// </summary>
         private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
-        /// <summary>
-        /// The ingresos service
-        /// </summary>
         private readonly IngresosService _ingresosService = new IngresosService();
-        /// <summary>
-        /// The balance general service
-        /// </summary>
-        
-        /// <summary>
-        /// The validaciones
-        /// </summary>
         private ClsValidaciones Validaciones;
-        /// <summary>
-        /// The curia service
-        /// </summary>
         private readonly CuriaService _curiaService = new CuriaService();
-        /// <summary>
-        /// The repo
-        /// </summary>
         private readonly ClsReportes _repo = new ClsReportes();
-
         private readonly LibroMayorService _libroMayorService = new LibroMayorService();
 
-
-        /// <summary>
-        /// Construirs the nombre reporte visible.
-        /// </summary>
-        /// <param name="tipoTexto">The tipo texto.</param>
-        /// <param name="desde">The desde.</param>
-        /// <param name="hasta">The hasta.</param>
-        /// <returns></returns>
         private string ConstruirNombreReporteVisible(string tipoTexto, DateTime desde, DateTime hasta)
         {
             if (desde.Month == hasta.Month && desde.Year == hasta.Year)
                 return $"{tipoTexto} - {desde:MMMM-yyyy}";
-
             return $"{tipoTexto} - {desde:dd/MM/yyyy} a {hasta:dd/MM/yyyy}";
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Reportería_Administrador"/> class.
-        /// </summary>
         public Reportería_Administrador()
         {
             InitializeComponent();
@@ -71,105 +32,62 @@ namespace Capa_de_Presentación.Formularios_Ewin
             Validaciones = new ClsValidaciones();
         }
 
-        /// <summary>
-        /// Handles the Load event of the FRM_PG10 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG10_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
-            //cargar los nombres de los reportes
             CargarParroquias();
             CargarReportes();
             cmb_formato_descarga.Items.Clear();
             cmb_formato_descarga.Items.Add("PDF");
             cmb_formato_descarga.Items.Add("DOCX");
             cmb_formato_descarga.Items.Add("JPG");
+            cmb_formato_descarga.Items.Add("XLSX");
 
-            // Tipos de reporte desde la BD
             DataTable dtTipos = _gastosService.ObtenerTiposReporte();
-
             cmb_tipo_reporte.DataSource = dtTipos;
-            cmb_tipo_reporte.DisplayMember = "descripcion";     // lo que ve el usuario (Estado..., Balance..., etc.)
-            cmb_tipo_reporte.ValueMember = "TipoReporte_id";    // el int 1,2,3,4
-            cmb_tipo_reporte.SelectedIndex = -1;                // ninguno seleccionado al inicio
+            cmb_tipo_reporte.DisplayMember = "descripcion";
+            cmb_tipo_reporte.ValueMember = "TipoReporte_id";
+            cmb_tipo_reporte.SelectedIndex = -1;
 
+            dtp_desde.MaxDate = DateTime.Now;
             dtp_hasta.MaxDate = DateTime.Now;
-
-
         }
 
-        /// <summary>
-        /// Handles the Click event of the label4 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label4_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        /// <summary>
-        /// Handles the Paint event of the panel1 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
+        private void panel1_Paint(object sender, PaintEventArgs e) { }
 
-        }
-
-        /// <summary>
-        /// Cargars the parroquias.
-        /// </summary>
         private void CargarParroquias()
         {
-            //metodo para obtener de la bd las parroquias
             DataTable dt = _gastosService.ObtenerParroquias();
-
-
             cmb_parroquia.DataSource = null;
             cmb_parroquia.Items.Clear();
-
-
             cmb_parroquia.DisplayMember = "Parroquia_nombre";
             cmb_parroquia.ValueMember = "Parroquia_ID";
-
-
             cmb_parroquia.DataSource = dt;
-
-
             cmb_parroquia.SelectedIndex = -1;
         }
 
-
-        /// <summary>
-        /// Cargars the reportes.
-        /// </summary>
         private void CargarReportes()
         {
             try
             {
                 ClsAccionesDB db = new ClsAccionesDB();
                 List<string> lista = db.ObtenerTipoReporte();
-
                 cmb_tipo_reporte.DataSource = lista;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar los reportes: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al cargar los reportes: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        /// <summary>
-        /// Handles the Click event of the button2 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button2_Click(object sender, EventArgs e)
         {
-            //metodos para jalar de la base de datos 
             int tipo_reporte_id = Convert.ToInt32(cmb_tipo_reporte.SelectedValue);
             int parroquia_id = Convert.ToInt32(cmb_parroquia.SelectedValue);
             string parroquia_nombre = cmb_parroquia.Text;
@@ -198,9 +116,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return;
             }
 
-
-
-            //metodos para crear los pdf 
             string ruta_pdf = string.Empty;
             string nombre_reporte = string.Empty;
 
@@ -208,71 +123,37 @@ namespace Capa_de_Presentación.Formularios_Ewin
             {
                 case 1:
                     ruta_pdf = _estadoResultadosService.GenerarInformeEstadoResultados(
-                              parroquia_id,
-                              parroquia_nombre,
-                              desde,
-                              hasta,
-                              Sesion1.usuario_id);
-
+                        parroquia_id, parroquia_nombre, desde, hasta, Sesion1.usuario_id);
                     nombre_reporte = "Estado de Resultados";
                     break;
-                
                 case 2:
                     ruta_pdf = _ingresosService.GenerarReporteIngresos(
-                              parroquia_id,
-                              parroquia_nombre,
-                              desde,
-                              hasta,
-                              Sesion1.usuario_id);
+                        parroquia_id, parroquia_nombre, desde, hasta, Sesion1.usuario_id);
                     nombre_reporte = "Ingresos";
                     break;
                 case 3:
                     ruta_pdf = _gastosService.GenerarInformeGastos(
-                              parroquia_id,
-                              parroquia_nombre,
-                              desde,
-                              hasta,
-                              Sesion1.usuario_id);
-
+                        parroquia_id, parroquia_nombre, desde, hasta, Sesion1.usuario_id);
                     nombre_reporte = "Gastos";
                     break;
-
                 case 4:
-                    ruta_pdf = _curiaService.GenerarInformeCuria(
-                        parroquia_id, 
-                        desde,
-                        hasta
-                    );
-
+                    ruta_pdf = _curiaService.GenerarInformeCuria(parroquia_id, desde, hasta);
                     nombre_reporte = "Informe de Curia";
                     break;
-
                 case 5:
-                    
-                   ruta_pdf= _libroMayorService.GenerarInformeLibroMayor(
-                        parroquia_id,
-                        parroquia_nombre,
-                        desde,
-                        hasta
-                    );
-
-                    nombre_reporte = "Informe de Curia";
+                    ruta_pdf = _libroMayorService.GenerarInformeLibroMayor(
+                        parroquia_id, parroquia_nombre, desde, hasta);
+                    nombre_reporte = "Libro Mayor";
                     break;
-
                 default:
                     MessageBox.Show("Tipo de reporte no válido.");
                     return;
             }
 
-            string nombreVisible = ConstruirNombreReporteVisible(
-                nombre_reporte,
-                desde,
-                hasta
-            );
+            string nombreVisible = ConstruirNombreReporteVisible(nombre_reporte, desde, hasta);
 
             var item = new ReporteUIItem
             {
-                //metodo que genera oo que llevara el reporte
                 tipo_reporte_id = tipo_reporte_id,
                 nombre_visible = nombreVisible,
                 ruta_pdf = ruta_pdf,
@@ -290,12 +171,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
             });
         }
 
-
-        /// <summary>
-        /// Handles the Click event of the button1 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
             if (!Validaciones.ListBoxSeleccionado(lst_reportes))
@@ -313,24 +188,18 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
 
             var item = (ReporteUIItem)lst_reportes.SelectedItem;
-            string formato = cmb_formato_descarga.SelectedItem.ToString(); // "PDF", "DOCX" o "JPG"
+            string formato = cmb_formato_descarga.SelectedItem.ToString();
 
-            if (!File.Exists(item.ruta_pdf))
+            if (formato != "XLSX" && !File.Exists(item.ruta_pdf))
             {
                 MessageBox.Show("No se encontró el archivo del reporte en disco.");
                 return;
             }
 
             string nombreSeguro = item.nombre_visible
-            .Replace("/", "-")
-            .Replace("\\", "-")
-            .Replace(":", "-")
-            .Replace("*", "-")
-            .Replace("?", "")
-            .Replace("\"", "")
-            .Replace("<", "")
-            .Replace(">", "")
-            .Replace("|", "");
+                .Replace("/", "-").Replace("\\", "-").Replace(":", "-")
+                .Replace("*", "-").Replace("?", "").Replace("\"", "")
+                .Replace("<", "").Replace(">", "").Replace("|", "");
 
             using (var sfd = new SaveFileDialog())
             {
@@ -340,15 +209,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         sfd.Filter = "Archivo PDF|*.pdf";
                         sfd.FileName = nombreSeguro + ".pdf";
                         break;
-
                     case "DOCX":
                         sfd.Filter = "Documento Word|*.docx";
                         sfd.FileName = nombreSeguro + ".docx";
                         break;
-
                     case "JPG":
                         sfd.Filter = "Imagen JPG|*.jpg";
                         sfd.FileName = nombreSeguro + ".jpg";
+                        break;
+                    case "XLSX":
+                        sfd.Filter = "Archivo Excel|*.xlsx";
+                        sfd.FileName = nombreSeguro + ".xlsx";
                         break;
                 }
 
@@ -374,13 +245,87 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     image.Save(sfd.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
                     pdf.Close();
                 }
-                else
+                else if (formato == "XLSX")
                 {
-                    // Stub por si el ing pregunta qué pasaría:
-                    //MessageBox.Show($"La conversión a {formato} aún no está implementada.");
+                    DataTable dt = ObtenerDatosReporte(item);
+
+                    using (var wb = new XLWorkbook())
+                    {
+                        var ws = wb.Worksheets.Add("Reporte");
+                        ws.Cell(1, 1).InsertTable(dt);
+
+                        // Aplicar formato de moneda a columnas numéricas
+                        for (int c = 1; c <= dt.Columns.Count; c++)
+                        {
+                            string colName = dt.Columns[c - 1].ColumnName.ToLower();
+                            if (colName.Contains("monto") || colName.Contains("debe") ||
+                                colName.Contains("haber") || colName.Contains("saldo") ||
+                                colName.Contains("total") || colName.Contains("ingreso") ||
+                                colName.Contains("gasto"))
+                            {
+                                // Filas de datos (fila 2 en adelante, fila 1 es encabezado)
+                                var rango = ws.Column(c).Cells(2, dt.Rows.Count + 1);
+                                foreach (var cell in rango)
+                                {
+                                    if (decimal.TryParse(cell.Value.ToString(), out decimal valor))
+                                    {
+                                        cell.Value = valor;
+                                        cell.Style.NumberFormat.Format = "\"L.\"#,##0.00";
+                                    }
+                                }
+                            }
+                        }
+
+                        ws.Columns().AdjustToContents();
+                        wb.SaveAs(sfd.FileName);
+                    }
                 }
             }
         }
-    }
 
+        private DataTable ObtenerDatosReporte(ReporteUIItem item)
+        {
+            switch (item.tipo_reporte_id)
+            {
+                case 1:
+                    DataTable dtEstado = _repo.ObtenerEstadoResultados(item.parroquia_id, item.desde, item.hasta).Tables[1];
+                    foreach (string col in new[] { "Parroquia_nombre", "id_transaccion", "usuario_nombre", "usuario_apellido" })
+                        if (dtEstado.Columns.Contains(col)) dtEstado.Columns.Remove(col);
+                    return dtEstado;
+
+                case 2:
+                    DataTable dtIngresos = _repo.ObtenerIngresosPorParroquia(item.parroquia_id, item.desde, item.hasta);
+                    foreach (string col in new[] { "Parroquia_nombre", "id_transaccion", "usuario_nombre", "usuario_apellido" })
+                        if (dtIngresos.Columns.Contains(col)) dtIngresos.Columns.Remove(col);
+                    return dtIngresos;
+
+                case 3:
+                    DataTable dtGastos = _repo.ObtenerGastosPorParroquia(item.parroquia_id, item.desde, item.hasta);
+                    foreach (string col in new[] { "Parroquia_nombre", "id_transaccion", "usuario_nombre", "usuario_apellido" })
+                        if (dtGastos.Columns.Contains(col)) dtGastos.Columns.Remove(col);
+                    return dtGastos;
+
+                case 4:
+                    DataSet ds = _repo.ObtenerDatosCuriaPorUsuario(Sesion1.usuario_id, item.desde, item.hasta);
+                    DataTable dtCombinada = new DataTable();
+                    dtCombinada.Columns.Add("Tipo");
+                    dtCombinada.Columns.Add("NombreCuenta");
+                    dtCombinada.Columns.Add("Monto");
+                    foreach (DataRow r in ds.Tables[1].Rows)
+                        dtCombinada.Rows.Add("Entrada", r["NombreCuenta"], r["Monto"]);
+                    foreach (DataRow r in ds.Tables[2].Rows)
+                        dtCombinada.Rows.Add("Salida", r["NombreCuenta"], r["Monto"]);
+                    return dtCombinada;
+
+                case 5:
+                    DataTable dtLibro = new LibroMayor().ObtenerLibroMayor(item.parroquia_id, item.desde, item.hasta);
+                    foreach (string col in new[] { "Parroquia_nombre", "id_transaccion", "usuario_nombre", "usuario_apellido" })
+                        if (dtLibro.Columns.Contains(col)) dtLibro.Columns.Remove(col);
+                    return dtLibro;
+
+                default:
+                    return new DataTable();
+            }
+        }
+    }
 }

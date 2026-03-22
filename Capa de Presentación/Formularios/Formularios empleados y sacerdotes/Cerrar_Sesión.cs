@@ -26,7 +26,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             catch (Exception ex)
             {
                 label1.Text = "Error obteniendo correo";
-                // opcional: log ex.Message
+                
             }
         }
 
@@ -51,6 +51,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
+        }
+
+        private void Cerrar_Sesión_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
