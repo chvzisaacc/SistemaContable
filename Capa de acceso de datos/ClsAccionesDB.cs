@@ -3,8 +3,6 @@ using System.Data;
 using System.Security.Cryptography;
 using System.Text;
 
-// Nota: Asumo que Clsconexion es la clase base que contiene sc (SqlConnection), Abrir() y Cerrar().
-
 namespace Capa_de_acceso_de_datos
 {
 
@@ -152,7 +150,7 @@ namespace Capa_de_acceso_de_datos
                             resultado.usuario_id = dr.GetInt32(dr.GetOrdinal("UsuarioID"));
                             resultado.rol_id = dr.GetInt32(dr.GetOrdinal("RolID"));
 
-                            int parroquia_ordinal = dr.GetOrdinal("Parroquia_ID");
+                            int parroquia_ordinal = dr.GetOrdinal("Parroquia_Id");
                             resultado.id_parroquia = dr.IsDBNull(parroquia_ordinal) ? 0 : dr.GetInt32(parroquia_ordinal);
                         }
                     }

@@ -79,7 +79,7 @@ namespace Capa_de_procesamiento_de_datos
         /// <param name="nombre_cuenta">The nombre cuenta.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al ingresar el gasto: " + ex.Message</exception>
-        public int IngresarGastos(DateTime fecha_transaccion, string descripcion, decimal monto, int referencia, int idUsuario, int id_origen_nuevo, string nombre_cuenta)
+        public int IngresarGastos(DateTime fecha_transaccion, string descripcion, decimal monto, int referencia, int idUsuario, int id_origen_nuevo, string nombre_cuenta, int idParroquia)
         {
             int nuevaTransaccion = 0;
 
@@ -91,6 +91,7 @@ namespace Capa_de_procesamiento_de_datos
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
+                    
                     command.Parameters.AddWithValue("@fecha_transaccion", fecha_transaccion);
                     command.Parameters.AddWithValue("@descripcion", descripcion);
                     command.Parameters.AddWithValue("@monto_historico", monto);
@@ -98,6 +99,11 @@ namespace Capa_de_procesamiento_de_datos
                     command.Parameters.AddWithValue("@usuario_id", idUsuario);
                     command.Parameters.AddWithValue("@id_origen", id_origen_nuevo);
                     command.Parameters.AddWithValue("@nombre", nombre_cuenta);
+
+                   
+                    command.Parameters.AddWithValue("@Parroquia_ID", idParroquia);
+                    command.Parameters.AddWithValue("@id_cuenta_destino", DBNull.Value);
+                    // ------------------------------------------
 
                     nuevaTransaccion = EjecutarScalarYEnviar(command);
                 }

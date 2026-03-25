@@ -6,7 +6,6 @@ using Capa_de_procesamiento_de_datos;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Media;
-using static Stimulsoft.Report.Func;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -1864,6 +1863,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 try
                 {
+                   
                     ClsValidaciones validar = new();
                     DateTime fecha_transaccion = dtpFecha.Value;
                     string referencia_texto = txtNoReferencia.Text.Trim();
@@ -1881,6 +1881,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     int.TryParse(referencia_texto, out referencia);
 
                     int id_usuario = Sesion1.usuario_id;
+                    int parroquia_id = Sesion1.id_parroquia;
                     string nombre_cuenta = fila_nueva.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
                     string descripcion = fila_nueva.Cells["Detalle"].Value?.ToString() ?? string.Empty;
 
@@ -1911,7 +1912,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     }
 
                     int nuevo_id = gasto.IngresarGastos(fecha_transaccion, descripcion, saldo, referencia,
-                                                        id_usuario, id_origenNuevo, nombre_cuenta
+                                                        id_usuario, id_origenNuevo, nombre_cuenta, parroquia_id
                                                         );
                     if (nuevo_id <= 0)
                     {

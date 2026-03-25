@@ -118,7 +118,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void txt_usuario_KeyPress(object sender, KeyPressEventArgs e)
@@ -153,6 +153,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             pbMostrar.BringToFront();
             txt_contraseña.PasswordChar = '*';
+        }
+
+        private void FRM_PG1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -42,7 +42,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pictureBox3 = new PictureBox();
             panelContenedor = new Panel();
             panelIngresos = new Panel();
-            panel5 = new Panel();
             pictureBox8 = new PictureBox();
             pictureBox5 = new PictureBox();
             button2 = new Button();
@@ -125,7 +124,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(379, 72);
+            label1.Location = new Point(179, 58);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(560, 55);
@@ -182,7 +181,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // panelIngresos
             // 
-            panelIngresos.Controls.Add(panel5);
             panelIngresos.Controls.Add(pictureBox8);
             panelIngresos.Controls.Add(pictureBox5);
             panelIngresos.Controls.Add(button2);
@@ -202,16 +200,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelIngresos.Size = new Size(1566, 555);
             panelIngresos.TabIndex = 44;
             panelIngresos.Paint += panelIngresos_Paint;
-            // 
-            // panel5
-            // 
-            panel5.BackgroundImageLayout = ImageLayout.Stretch;
-            panel5.Location = new Point(414, 131);
-            panel5.Margin = new Padding(4, 2, 4, 2);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(749, 368);
-            panel5.TabIndex = 49;
-            panel5.Paint += panel5_Paint;
             // 
             // pictureBox8
             // 
@@ -1090,7 +1078,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private Label label8;
         private CheckBox chkIngresarCapital;
         private Label lblCapitalInicial;
-        private Panel panel5;
         private Label label9;
     }
 }

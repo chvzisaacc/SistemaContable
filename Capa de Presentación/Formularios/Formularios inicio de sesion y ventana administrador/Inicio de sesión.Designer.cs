@@ -153,6 +153,7 @@
             Name = "FRM_PG1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Inicio de Sesión";
+            Load += FRM_PG1_Load;
             ((System.ComponentModel.ISupportInitialize)pbOcultar).EndInit();
             ((System.ComponentModel.ISupportInitialize)pbMostrar).EndInit();
             ResumeLayout(false);
