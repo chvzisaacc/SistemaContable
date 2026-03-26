@@ -26,9 +26,13 @@ namespace Capa_de_Presentación.CLASES
                 {
                     case "CODIGO_VALIDO":
                         MessageBox.Show("Código verificado correctamente.");
-                        Actualizar_Contraseña frm = new(usuario_id, correo_usuario, nombreUsuario);
-                        frm.Show();
                         formulario_actual.Hide();
+                        using (var frm = new Actualizar_Contraseña(usuario_id, correo_usuario, nombreUsuario))
+                        {
+                            frm.StartPosition = FormStartPosition.CenterScreen;
+                            frm.ShowDialog(formulario_actual);
+                        }
+                        formulario_actual.Close();
                         break;
 
                     case "CODIGO_INCORRECTO":

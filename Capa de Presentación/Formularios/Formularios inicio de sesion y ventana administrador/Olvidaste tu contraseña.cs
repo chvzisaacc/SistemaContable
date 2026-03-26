@@ -22,7 +22,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.FormClosing += cerrar.CerrarApp;
+            //this.FormClosing += cerrar.CerrarApp;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
 
         /// <summary>
         /// Handles the 1 event of the button1_Click control.
@@ -40,65 +40,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void button1_Click_1(object sender, EventArgs e)
         {
 
-            ClsValidaciones validar = new ClsValidaciones();
-            string correo = txt_correo_electronico.Text.Trim();
-            string usuario = txtUsuario.Text.Trim();
 
-            //Validar ambos campos al mismo tiempo
-
-            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(correo))
-            {
-                MessageBox.Show("Por favor complete todos los campos (Usuario y Correo).");
-                return;
-            }
-
-            // Validar que no esté vacío
-            /*if (string.IsNullOrWhiteSpace(correo))
-            {
-                MessageBox.Show("Por favor ingrese su correo electrónico.");
-                return;
-            }*/
-
-            // Validar que el formato del correo sea válido
-            if (!validar.EsCorreoValido(correo))
-            {
-                MessageBox.Show("El formato del correo electrónico no es válido.");
-                return;
-            }
-
-            //Validar que no este vacio
-            /*if (string.IsNullOrEmpty(correo))
-            {
-                MessageBox.Show("Por favor ingrese su correo electrónico.");
-                return;
-            }*/
-
-            /*if (string.IsNullOrEmpty(usuario))
-            {
-                MessageBox.Show("Por favor ingrese su usuario.");
-                return;
-            }*/
-            //instacnia 
-            ClsAccionesDB acciones = new ClsAccionesDB();
-            int usuario_id = acciones.ObtenerUsuarioIdPorCorreo(usuario,correo);
-
-            if (usuario_id == 0)
-            {
-                MessageBox.Show("Los datos ingresados no coinciden con ningún registro.");
-                return;
-            }
-            //metodo de generar codigo login
-            var sistema = new Capa_de_acceso_de_datos.CORREO.Sistema();
-
-            string codigo = sistema.GenerarCodigo();
-            acciones.GuardarCodigoRecuperacion(usuario_id, codigo);
-            sistema.EnviarCodigoVerificacion(correo, codigo);
-
-            MessageBox.Show("Se ha enviado un código de verificación a su correo.");
-
-            FRM_PG3 objingresar = new FRM_PG3(usuario_id, correo, usuario);
-            objingresar.Show();
-            this.Hide();
         }
 
         /// <summary>
@@ -108,9 +50,54 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label4_Click(object sender, EventArgs e)
         {
-            FRM_PG1 fRM_PG1 = new();
-            fRM_PG1.Show();
+            this.Close();
+        }
+
+        private void Olvidaste_tu_contraseña_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_restablecer_contrasena_Click(object sender, EventArgs e)
+        {
+            ClsValidaciones validar = new ClsValidaciones();
+            string correo = txt_correo_electronico.Text.Trim();
+            string usuario = txtUsuario.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(correo))
+            {
+                MessageBox.Show("Por favor complete todos los campos (Usuario y Correo).");
+                return;
+            }
+
+            if (!validar.EsCorreoValido(correo))
+            {
+                MessageBox.Show("El formato del correo electrónico no es válido.");
+                return;
+            }
+
+            ClsAccionesDB acciones = new ClsAccionesDB();
+            int usuario_id = acciones.ObtenerUsuarioIdPorCorreo(usuario, correo);
+
+            if (usuario_id == 0)
+            {
+                MessageBox.Show("Los datos ingresados no coinciden con ningún registro.");
+                return;
+            }
+
+            var sistema = new Capa_de_acceso_de_datos.CORREO.Sistema();
+            string codigo = sistema.GenerarCodigo();
+            acciones.GuardarCodigoRecuperacion(usuario_id, codigo);
+            sistema.EnviarCodigoVerificacion(correo, codigo);
+            MessageBox.Show("Se ha enviado un código de verificación a su correo.");
+
             this.Hide();
+            using (var frm = new FRM_PG3(usuario_id, correo, usuario))
+            {
+                frm.StartPosition = FormStartPosition.CenterScreen;
+                frm.ShowDialog(this); 
+            }
+            this.Close(); 
         }
     }
 }

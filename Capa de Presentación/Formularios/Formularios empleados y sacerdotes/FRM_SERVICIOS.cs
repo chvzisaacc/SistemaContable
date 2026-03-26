@@ -201,6 +201,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.ActiveControl = null;
             this.Focus();
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

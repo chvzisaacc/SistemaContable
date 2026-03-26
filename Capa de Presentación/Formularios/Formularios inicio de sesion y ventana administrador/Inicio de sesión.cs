@@ -72,12 +72,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void label3_Click(object sender, EventArgs e)
         {
-            using (Olvidaste_tu_contraseña objrecu = new Olvidaste_tu_contraseña())
+            this.Hide();
+            using (var frm = new Olvidaste_tu_contraseña())
             {
-                this.Hide();
-                objrecu.ShowDialog(this);
-                this.Show();
+                frm.StartPosition = FormStartPosition.CenterScreen;
+                frm.ShowDialog(this);
             }
+            this.Show();
         }
 
         private void txtUsuario_Click(object sender, EventArgs e)

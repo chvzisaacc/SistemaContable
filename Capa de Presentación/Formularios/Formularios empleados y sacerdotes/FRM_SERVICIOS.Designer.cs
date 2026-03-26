@@ -53,6 +53,7 @@
             label1.Size = new Size(198, 48);
             label1.TabIndex = 0;
             label1.Text = "SERVICIOS";
+            label1.Click += label1_Click;
             // 
             // textBox2
             // 

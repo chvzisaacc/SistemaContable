@@ -246,6 +246,7 @@
             Name = "FRM_PG3";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ingresar_Código_De_Verificación";
+            Load += FRM_PG3_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();

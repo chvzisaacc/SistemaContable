@@ -126,6 +126,7 @@
             btn_restablecer_contrasena.Text = "Restablecer Contraseña";
             btn_restablecer_contrasena.UseVisualStyleBackColor = false;
             btn_restablecer_contrasena.UseWaitCursor = true;
+            btn_restablecer_contrasena.Click += btn_restablecer_contrasena_Click;
             // 
             // label3
             // 
@@ -175,6 +176,7 @@
             Name = "Olvidaste_tu_contraseña";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Olvisdaste tu contraseña";
+            Load += Olvidaste_tu_contraseña_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();

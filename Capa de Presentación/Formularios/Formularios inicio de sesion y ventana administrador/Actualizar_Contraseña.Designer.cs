@@ -182,6 +182,7 @@
             Name = "Actualizar_Contraseña";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Actualizar_Contraseña";
+            Load += Actualizar_Contraseña_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
