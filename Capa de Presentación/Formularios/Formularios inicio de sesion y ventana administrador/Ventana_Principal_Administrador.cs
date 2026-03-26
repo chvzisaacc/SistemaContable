@@ -491,11 +491,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // Contraseña
             if (string.IsNullOrWhiteSpace(contraseña) || !val.EsContraseñaValida(contraseña))
             {
-                MessageBox.Show("La contraseña es requerida y debe tener entre 4 y 25 caracteres.",
-                                "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("La contraseña debe tener al menos 8 caracteres, una mayuscula, un numero y un caracter especial.",
+                    "Contraseña invalida",MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txt_contraseña.Focus();
                 return false;
             }
+
+
 
             // Combo Rol
             if (cmb_rol.SelectedValue == null)
@@ -830,7 +832,16 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return; // Si algún campo tiene más de tres espacios, se detiene la ejecución
             }
 
-
+            if (!validaciones.EsContraseñaValida(txt_contraseña.Text.Trim()))
+            {
+                MessageBox.Show(
+                    "La contraseña debe tener al menos 8 caracteres, una mayuscula, un numero y un caracter especial.",
+                    "Contraseña invalida",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return;
+            }
 
             try
             {

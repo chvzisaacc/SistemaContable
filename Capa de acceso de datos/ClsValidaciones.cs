@@ -96,13 +96,16 @@ namespace Capa_de_Presentación.CLASES
         public bool EsContraseñaValida(string contraseña)
         {
             if (string.IsNullOrWhiteSpace(contraseña)) return false;
+            if (contraseña.Length < 8) return false;
+            if (!contraseña.Any(char.IsUpper)) return false;
+            if (!contraseña.Any(char.IsLower)) return false;
+            if (!contraseña.Any(char.IsDigit)) return false;
+            if (!contraseña.Any(c => !char.IsLetterOrDigit(c))) return false;
 
-            if (contraseña.Contains(" ")) return false; // sin espacios
+            string[] contraseñasDebiles = { "12345678", "123456789", "00000000", "password", "qwerty", "aaaaaa" };
+            if (contraseñasDebiles.Contains(contraseña)) return false;
 
-            if (contraseña.Contains("   ")) // tres espacios
-                return false;
-
-            return contraseña.Length >= 6 && contraseña.Length <= 30;
+            return true;
         }
 
         // 7.Valida longitud mínima y máxima para cualquier texto

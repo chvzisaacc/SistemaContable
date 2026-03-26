@@ -27,11 +27,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return;
             }
 
-            if (!validaciones.EsUsuarioValidoRango(txt_usuario.Text))
+            /*if (!validaciones.EsUsuarioValidoRango(txt_usuario.Text))
             {
                 MessageBox.Show("El usuario debe tener entre 3 y 20 caracteres y usar solo letras, números, punto o guion bajo.");
                 return;
-            }
+            }*/
 
             if (string.IsNullOrWhiteSpace(txt_contraseña.Text) || txt_contraseña.Text == "Contraseña")
             {
@@ -39,11 +39,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return;
             }
 
-            if (!validaciones.EsContraseñaValida(txt_contraseña.Text))
+            /*if (!validaciones.EsContraseñaValida(txt_contraseña.Text))
             {
                 MessageBox.Show("La contraseña debe tener entre 6 y 30 caracteres.");
                 return;
-            }
+            }*/
 
             if (txt_contraseña.Text.Contains(" "))
             {
