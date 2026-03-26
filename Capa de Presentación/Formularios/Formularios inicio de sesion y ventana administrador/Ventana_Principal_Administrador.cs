@@ -86,7 +86,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             UsuarioLogueado.usuario_id = usuarioID;
             UsuarioLogueado.parroquia_id = idParroquia;
 
-            this.FormClosing += cerrar.CerrarApp;
+            //this.FormClosing += cerrar.CerrarApp;
             // Agrega los paneles secundarios dentro del panel contenedor
             panelContenedor.Controls.Add(panelUsuario);
             panelContenedor.Controls.Add(panelCatalogoCuentas);
