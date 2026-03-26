@@ -13,7 +13,7 @@ namespace Capa_de_Presentación
         [STAThread]
         static void Main()
         {
-            
+
             QuestPDF.Settings.License = LicenseType.Community;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

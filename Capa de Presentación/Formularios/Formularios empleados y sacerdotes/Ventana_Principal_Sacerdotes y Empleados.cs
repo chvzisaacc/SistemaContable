@@ -171,8 +171,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
-        
-
         public void ManejarCierreSesion()
         {
             this.Hide();

@@ -1021,6 +1021,7 @@
             label8.Size = new Size(44, 30);
             label8.TabIndex = 14;
             label8.Text = "AD";
+            label8.Click += label8_Click;
             // 
             // pictureBox4
             // 

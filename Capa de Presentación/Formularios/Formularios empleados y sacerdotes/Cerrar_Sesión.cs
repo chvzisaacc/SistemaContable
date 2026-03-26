@@ -14,6 +14,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
+        private void Cerrar_Sesión_Load(object sender, EventArgs e)
+        {
+
+        }
+
         private void CargarCorreo()
         {
             try
@@ -26,7 +31,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             catch (Exception ex)
             {
                 label1.Text = "Error obteniendo correo";
-                
+                // opcional: log ex.Message
             }
         }
 
@@ -39,23 +44,20 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void button1_Click(object sender, EventArgs e)
         {
 
+            Sesion1.CerrarSesion();
+
+
             DialogResult resultado = MessageBox.Show(
-            "¿Está seguro de cerrar sesión?",
-            "Confirmar Logout",
-            MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question);
+                "¿Está seguro de cerrar sesión?",
+                "Confirmar Logout",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
             if (resultado == DialogResult.Yes)
             {
-                Sesion1.CerrarSesion();
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+
+                Application.Restart();
             }
-        }
-
-        private void Cerrar_Sesión_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
