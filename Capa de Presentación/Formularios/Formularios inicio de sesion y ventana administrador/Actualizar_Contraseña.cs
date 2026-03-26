@@ -102,13 +102,23 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             if (!validar.EsContraseñaValida(nueva_contraseña))
             {
-                MessageBox.Show("La contraseña debe tener entre 6 y 30 caracteres.");
+                MessageBox.Show(
+                    "La contraseña debe tener al menos 8 caracteres, una mayuscula, una minuscula, un numero y un caracter especial.",
+                    "Contraseña invalida",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return;
             }
 
             if (!val.CamposIguales(nueva_contraseña))
             {
-                MessageBox.Show("Las contraseñas no coinciden o están vacías.");
+                MessageBox.Show(
+                    "Las contraseñas no coinciden o estan vacias.",
+                    "Error de confirmacion",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
                 return;
             }
 
@@ -117,7 +127,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 ClsAccionesDB acciones = new ClsAccionesDB();
                 acciones.CambiarContraseña(nombreUsuario, correoUsuario, nueva_contraseña);
 
-                MessageBox.Show("Contraseña actualizada correctamente.");
+                MessageBox.Show(
+                    "Contraseña actualizada correctamente.",
+                    "Exito",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
 
                 this.Hide();
                 using (var frm = new FRM_PG1())
@@ -129,7 +144,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show(
+                    "Error: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
     }

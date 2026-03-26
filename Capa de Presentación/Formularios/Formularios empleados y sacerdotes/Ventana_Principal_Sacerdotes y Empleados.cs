@@ -136,6 +136,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             Transacciones obj_transa = new();
             obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
 
+            dataGridView1.CellValidating += dataGridView1_CellValidating;
+            dgvGastos.CellValidating += dgvGastos_CellValidating;
+
 
             crudCataloCuentas = new clsCRUD_CatalogoCuentas();
 
@@ -802,6 +805,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+        private bool NombreCuentaExisteEnBD(string nombreIngresado, bool esIngreso)
+        {
+            ClsAccionesDB clsAcciones = new ClsAccionesDB();
+            DataTable dt = esIngreso
+                ? clsAcciones.ObtenerCuentasIngreso()
+                : clsAcciones.ObtenerCuentasGastos();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string valorBD = row["Subcuentas"].ToString();
+                // Comparación estricta: mayúsculas y minúsculas exactas
+                if (string.Equals(valorBD, nombreIngresado, StringComparison.Ordinal))
+                    return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Handles the CellValidating event of the dataGridView1 control.
         /// </summary>
@@ -809,7 +829,54 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="DataGridViewCellValidatingEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
+            if (e.RowIndex < 0) return;
+            if (dataGridView1.Rows[e.RowIndex].IsNewRow) return;
 
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "NombreCuenta")
+            {
+                string valorIngresado = e.FormattedValue?.ToString() ?? "";
+
+                if (string.IsNullOrWhiteSpace(valorIngresado)) return;
+
+                if (!NombreCuentaExisteEnBD(valorIngresado, esIngreso: true))
+                {
+                    MessageBox.Show(
+                        $"La cuenta \"{valorIngresado}\" no existe en el catálogo.\n" +
+                        "Debe seleccionar un valor exacto de la lista (respetando mayúsculas y minúsculas).",
+                        "Cuenta no válida",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                    e.Cancel = true;
+                    dataGridView1.Rows[e.RowIndex].Cells["NombreCuenta"].Value = "";
+                }
+            }
+        }
+
+        private void dgvGastos_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            if (dgvGastos.Rows[e.RowIndex].IsNewRow) return;
+
+            if (dgvGastos.Columns[e.ColumnIndex].Name == "NombreCuenta")
+            {
+                string valorIngresado = e.FormattedValue?.ToString() ?? "";
+
+                if (string.IsNullOrWhiteSpace(valorIngresado)) return;
+
+                if (!NombreCuentaExisteEnBD(valorIngresado, esIngreso: false))
+                {
+                    MessageBox.Show(
+                        $"La cuenta \"{valorIngresado}\" no existe en el catálogo.\n" +
+                        "Debe seleccionar un valor exacto de la lista (respetando mayúsculas y minúsculas).",
+                        "Cuenta no válida",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                    e.Cancel = true;
+                    dgvGastos.Rows[e.RowIndex].Cells["NombreCuenta"].Value = "";
+                }
+            }
         }
         /// <summary>
         /// Inicializars the DGV ingr.

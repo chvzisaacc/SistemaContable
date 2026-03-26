@@ -31,6 +31,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Certificados_De_Depósito));
             panel1 = new Panel();
+            label1 = new Label();
             panel2 = new Panel();
             button1 = new Button();
             dataGridView1 = new DataGridView();
@@ -51,7 +52,6 @@ namespace Capa_de_Presentación.Formularios_Diego
             panel4 = new Panel();
             pictureBox1 = new PictureBox();
             panel5 = new Panel();
-            label1 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -76,6 +76,19 @@ namespace Capa_de_Presentación.Formularios_Diego
             panel1.Name = "panel1";
             panel1.Size = new Size(1056, 620);
             panel1.TabIndex = 3;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.FlatStyle = FlatStyle.Popup;
+            label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(191, 48);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.RightToLeft = RightToLeft.No;
+            label1.Size = new Size(685, 76);
+            label1.TabIndex = 11;
+            label1.Text = "Bienvenido a la gestión de certificados de depósito\r\n\r\n";
             // 
             // panel2
             // 
@@ -211,6 +224,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             textBox3.Size = new Size(80, 31);
             textBox3.TabIndex = 24;
             textBox3.Text = "Guardar";
+            textBox3.TextChanged += textBox3_TextChanged;
             // 
             // pictureBox6
             // 
@@ -222,6 +236,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox6.TabIndex = 25;
             pictureBox6.TabStop = false;
+            pictureBox6.Click += pictureBox6_Click;
             // 
             // textBox1
             // 
@@ -248,6 +263,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             pictureBox5.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox5.TabIndex = 23;
             pictureBox5.TabStop = false;
+            pictureBox5.Click += pictureBox5_Click;
             // 
             // textBox2
             // 
@@ -274,6 +290,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox2.TabIndex = 21;
             pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
             // 
             // label6
             // 
@@ -315,19 +332,6 @@ namespace Capa_de_Presentación.Formularios_Diego
             panel5.Name = "panel5";
             panel5.Size = new Size(1003, 468);
             panel5.TabIndex = 9;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.FlatStyle = FlatStyle.Popup;
-            label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(191, 48);
-            label1.Margin = new Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.RightToLeft = RightToLeft.No;
-            label1.Size = new Size(685, 76);
-            label1.TabIndex = 11;
-            label1.Text = "Bienvenido a la gestión de certificados de depósito\r\n\r\n";
             // 
             // Certificados_De_Depósito
             // 

@@ -389,6 +389,9 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+
+  
+
         public DataTable MostrarCertificadosUsuario(int idParroquia)
         {
             DataTable dtCertificados = new DataTable();

@@ -64,29 +64,57 @@ namespace Capa_de_Presentación.Formularios_Diego
             try
             {
                 ClsAccionesDB acciones = new ClsAccionesDB();
-
-                // Ejecutar la carga de datos en un hilo de fondo
                 dtDatosCertificados = await Task.Run(() => acciones.CargarCertificados());
 
+                // 1. Limpiar columnas previas para evitar duplicados o basura visual
+                dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();
-                dataGridView1.DataSource = dtDatosCertificados;
-                dataGridView1.AllowUserToAddRows = false;
-                dataGridView1.AutoResizeColumns();
-                dataGridView1.ReadOnly = true;
 
-                // Ocultar columnas innecesarias
-                if (dataGridView1.Columns.Contains("Id_certificado"))
+                // 2. Asignar el origen de datos
+                dataGridView1.DataSource = dtDatosCertificados;
+
+                // 3. Configurar el mapeo de datos (DataPropertyName)
+                // Esto es lo que hace que los datos APAREZCAN en las celdas
+                if (dataGridView1.Columns.Contains("Nombre_certificado"))
                 {
-                    dataGridView1.Columns["Id_certificado"].Visible = false;
+                    dataGridView1.Columns["Nombre_certificado"].DataPropertyName = "Nombre_certificado";
+                    dataGridView1.Columns["Nombre_certificado"].HeaderText = "Certificado";
+                    dataGridView1.Columns["Nombre_certificado"].Visible = true;
                 }
+
                 if (dataGridView1.Columns.Contains("FechaTransaccion"))
                 {
-                    dataGridView1.Columns["FechaTransaccion"].Visible = false;
+                    dataGridView1.Columns["FechaTransaccion"].DataPropertyName = "FechaTransaccion";
+                    dataGridView1.Columns["FechaTransaccion"].HeaderText = "Fecha";
+                    dataGridView1.Columns["FechaTransaccion"].Visible = true;
                 }
+
+                if (dataGridView1.Columns.Contains("Nombre_Parroquia"))
+                {
+                    dataGridView1.Columns["Nombre_Parroquia"].DataPropertyName = "Nombre_Parroquia";
+                    dataGridView1.Columns["Nombre_Parroquia"].HeaderText = "Parroquia";
+                    dataGridView1.Columns["Nombre_Parroquia"].Visible = true;
+                }
+
+                // 4. Ocultar el resto de columnas que traiga el DataTable (ID, etc.)
+                foreach (DataGridViewColumn col in dataGridView1.Columns)
+                {
+                    if (col.Name != "Nombre_certificado" &&
+                        col.Name != "FechaTransaccion" &&
+                        col.Name != "Nombre_Parroquia")
+                    {
+                        col.Visible = false;
+                    }
+                }
+
+                // 5. Ajustes finales
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView1.ReadOnly = true;
+                dataGridView1.AllowUserToAddRows = false; // Evita la fila vacía al final si no la necesitas
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar los datos: " + ex.Message);
+                MessageBox.Show("Error al cargar datos: " + ex.Message);
             }
         }
 
@@ -95,7 +123,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
-       
+
 
         /// <summary>
         /// Handles the Load event of the FRM_PG103 control.
@@ -135,14 +163,14 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
 
         /// <summary>
         /// Handles the Click event of the pictureBox6 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
         /// <summary>
         /// The datos guardados
         /// </summary>
@@ -150,7 +178,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// <summary>
         /// The predicted identifier
         /// </summary>
-        
+
 
         /// <summary>
         /// Handles the Click event of the textBox3 control.
@@ -159,8 +187,8 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox3_Click(object sender, EventArgs e)
         {
-            ClsCD objCD = new();
-            objCD.GuardarCD(dtDatosCertificados, dataGridView1, datosGuardados);
+            //ClsCD objCD = new();
+            //objCD.GuardarCD(dtDatosCertificados, dataGridView1, datosGuardados);
         }
 
         /// <summary>
@@ -168,7 +196,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
 
         /// <summary>
         /// Handles the Click event of the pictureBox7 control.
@@ -189,8 +217,8 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_Click(object sender, EventArgs e)
         {
-            ClsCD objCD = new();
-            objCD.renovarCD(dtDatosCertificados, dataGridView1, ref modoEdicionActivo);
+            //ClsCD objCD = new();
+            //objCD.renovarCD(dtDatosCertificados, dataGridView1, ref modoEdicionActivo);
         }
 
         /// <summary>
@@ -198,7 +226,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-      
+
 
         /// <summary>
         /// Handles the Click event of the textBox1 control.
@@ -207,9 +235,9 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox1_Click(object sender, EventArgs e)
         {
-            ClsCD objCD = new ClsCD();
+            /*ClsCD objCD = new ClsCD();
             objCD.cancelarCertificado(dataGridView1);
-            CargarDatos();
+            CargarDatos();*/
         }
 
         /// <summary>
@@ -217,7 +245,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataGridViewCellCancelEventArgs"/> instance containing the event data.</param>
-       
+
 
 
         private void CargarDatosAutocompletadoParroquias()
@@ -246,7 +274,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
-        
+
 
         /// <summary>
         /// Handles the Click event of the pictureBox9 control.
@@ -263,20 +291,20 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
 
         /// <summary>
         /// Handles the TextChanged event of the textBox4 control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
 
-        
+
+
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-          //No se hagan clicks en los encabezados
+            //No se hagan clicks en los encabezados
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
             {
                 return;
@@ -289,7 +317,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             {
                 ClsCD.DesbloquearFila(fila);
 
-                
+
                 if (dataGridView1.Columns.Contains("Nombre_Parroquia"))
                 {
                     DataGridViewCell celdaParroquia = fila.Cells["Nombre_Parroquia"];
@@ -344,7 +372,29 @@ namespace Capa_de_Presentación.Formularios_Diego
             }
         }
 
-      
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            ClsCD objCD = new();
+            objCD.GuardarCD(dtDatosCertificados, dataGridView1, datosGuardados);
+        }
+
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+            ClsCD objCD = new ClsCD();
+            objCD.cancelarCertificado(dataGridView1);
+            CargarDatos();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            ClsCD objCD = new();
+            objCD.renovarCD(dtDatosCertificados, dataGridView1, ref modoEdicionActivo);
+        }
     }
 
 }

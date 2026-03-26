@@ -25,26 +25,48 @@ namespace Capa_de_Presentación.CLASES
         {
             if (dtDatosCertificados != null)
             {
+                // 1. Desbloquear el DataGridView para permitir la entrada
                 dataGridView1.ReadOnly = false;
 
+                // 2. Crear la nueva fila
                 DataRow newRow = dtDatosCertificados.NewRow();
+
+                // Asignamos un string vacío o un valor por defecto antes de agregarla al DataTable
+                if (dtDatosCertificados.Columns.Contains("Nombre_certificado"))
+                {
+                    newRow["Nombre_certificado"] = string.Empty;
+                }
+
+                if (dtDatosCertificados.Columns.Contains("Nombre_Parroquia"))
+                {
+                    newRow["Nombre_Parroquia"] = string.Empty;
+                }
+                // ----------------------------------------------------------
+
+                // 3. Ahora sí podemos agregarla sin que lance la excepción
                 dtDatosCertificados.Rows.Add(newRow);
 
+                // 4. Lógica de enfoque en la UI
                 int lastIndex = dataGridView1.Rows.Count - 1;
-
                 if (lastIndex >= 0)
                 {
-                    DataGridViewColumn firstVisibleColumn = dataGridView1.Columns.Cast<DataGridViewColumn>().FirstOrDefault(c => c.Visible);
+                    // Buscamos la primera columna visible para poner el cursor ahí
+                    DataGridViewColumn firstVisibleColumn = dataGridView1.Columns
+                        .Cast<DataGridViewColumn>()
+                        .FirstOrDefault(c => c.Visible);
 
                     if (firstVisibleColumn != null)
                     {
                         dataGridView1.CurrentCell = dataGridView1.Rows[lastIndex].Cells[firstVisibleColumn.Index];
+                        // Iniciamos la edición automáticamente para mejorar la experiencia del usuario
+                        dataGridView1.BeginEdit(true);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("No se puede añadir la fila.", "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("No se puede añadir la fila porque el origen de datos es nulo.",
+                                "Error de Datos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -56,65 +78,61 @@ namespace Capa_de_Presentación.CLASES
         /// <param name="RowIndex">Index of the row.</param>
         public void BloquearDesbloquearData(DataTable dtDatosCertificados, DataGridView dataGridView1, int RowIndex)
         {
-            // Bloqueo Inicial (se asume que el DGV debe ser de solo lectura por defecto)
-            if (RowIndex >= 0)
+            // 1. Validación inicial
+            if (RowIndex < 0 || dtDatosCertificados == null) return;
+
+            // 2. Quitamos el bloqueo de "Solo Lectura" del DataTable (Origen de datos)
+            // Sin esto, el DataGridView lanzará la excepción que viste.
+            foreach (DataColumn dc in dtDatosCertificados.Columns)
             {
-                // Esto pone todo el DataGridView en modo ReadOnly si se hace clic en una fila de datos.
-                // Esto es una configuración de alto nivel y puede anular la configuración de columnas individuales.
-                dataGridView1.ReadOnly = true;
+                dc.ReadOnly = false;
             }
 
-            // Lógica para Desbloquear la ÚLTIMA fila de datos (antes de la fila de nueva entrada) si está vacía.
-            if (RowIndex >= 0 && dtDatosCertificados != null)
+            // 3. Bloqueo Inicial del DGV (seguridad)
+            dataGridView1.ReadOnly = true;
+
+            // 4. Lógica para Desbloquear la ÚLTIMA fila
+            int lastDataRowIndex = dtDatosCertificados.Rows.Count - 1;
+
+            if (RowIndex == lastDataRowIndex)
             {
-                // Se asume que el DataTable refleja el DataGridView (excluyendo la fila de nueva entrada si ShowNewRow es true)
-                int lastDataRowIndex = dtDatosCertificados.Rows.Count - 1;
+                DataGridViewRow currentRow = dataGridView1.Rows[RowIndex];
+                bool algunCampoVacio = false;
 
-                // Solo se aplica la lógica a la última fila de datos ingresada (que aún no ha sido guardada)
-                if (RowIndex == lastDataRowIndex)
+                string[] columnasAComprobar = new string[] { "Nombre_certificado", "Nombre_Parroquia" };
+
+                foreach (string nombreColumna in columnasAComprobar)
                 {
-                    // La validación debe hacerse sobre el DGV, que incluye la fila que se acaba de hacer clic.
-                    DataGridViewRow currentRow = dataGridView1.Rows[RowIndex];
-                    bool algunCampoVacio = false;
-
-                    // Lista de columnas obligatorias simplificada ---
-                    string[] columnasAComprobar = new string[]
+                    if (dataGridView1.Columns.Contains(nombreColumna))
                     {
-                        "Nombre_certificado",
-                        "Nombre_Parroquia"
-
-                    };
-
-                    //Comprobar si los campos obligatorios están vacíos
-                    foreach (string nombreColumna in columnasAComprobar)
-                    {
-                        // Es importante comprobar si la columna existe antes de acceder a la celda
-                        if (dataGridView1.Columns.Contains(nombreColumna))
+                        object cellValue = currentRow.Cells[nombreColumna].Value;
+                        if (cellValue == null || string.IsNullOrWhiteSpace(cellValue.ToString()))
                         {
-                            object cellValue = currentRow.Cells[nombreColumna].Value;
-
-                            if (cellValue == null || string.IsNullOrEmpty(cellValue.ToString()))
-                            {
-                                algunCampoVacio = true;
-                                break;
-                            }
+                            algunCampoVacio = true;
+                            break;
                         }
                     }
+                }
 
-                    // Si hay campos vacíos, desbloquear la edición
-                    if (algunCampoVacio)
+                // 5. Si hay campos vacíos, desbloqueamos con cuidado
+                if (algunCampoVacio)
+                {
+                    // Primero el control general
+                    dataGridView1.ReadOnly = false;
+
+                    // Luego las columnas individuales
+                    foreach (DataGridViewColumn column in dataGridView1.Columns)
                     {
-                        // Desbloquear el DGV
-                        dataGridView1.ReadOnly = false;
-
-                        // Desbloquear todas las columnas para que el usuario pueda ingresar datos
-                        foreach (DataGridViewColumn column in dataGridView1.Columns)
+                        // Mantenemos bloqueado el ID o columnas que NO deben editarse nunca
+                        if (column.Name == "Id_certificado" || column.Name == "Id_Parroquia")
                         {
-                            // Se pueden añadir exclusiones aquí si hay campos de solo lectura (ej. Id_Certificado)
+                            column.ReadOnly = true;
+                        }
+                        else
+                        {
                             column.ReadOnly = false;
                         }
                     }
-
                 }
             }
         }
