@@ -73,17 +73,6 @@
         private void textBox2_Click(object sender, EventArgs e)
         {
 
-            /*if (string.IsNullOrWhiteSpace(this.textBox1.Text))
-            {
-                MessageBox.Show("Ingresar el motivo de la cancelación para continuar.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            this.DialogResult = DialogResult.OK;
-
-
-            this.Close();*/
-
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
