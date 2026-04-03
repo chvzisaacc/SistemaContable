@@ -35,6 +35,9 @@
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.24" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="NBomber" Version="6.3.0" />
+		<PackageReference Include="NBomber.Contracts" Version="6.2.0" />
+		<PackageReference Include="NBomber.Http" Version="6.2.0" />
 		<PackageReference Include="OpenTK" Version="4.9.4" />
 		<PackageReference Include="OpenTK.GLControl" Version="4.0.2" />
 		<PackageReference Include="QuestPDF" Version="2025.7.4" />

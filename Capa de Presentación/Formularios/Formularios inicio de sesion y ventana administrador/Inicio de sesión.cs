@@ -58,11 +58,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return;
 
             ClsAccionesDB acciones = new ClsAccionesDB();
-            var resultado_tuple = acciones.ObtenerUsuarioIdPorNombreUsuario(txt_usuario.Text);
+            var resultado = acciones.ValidarCredenciales(txt_usuario.Text, txt_contraseña.Text, 0);
 
-            UsuarioId = resultado_tuple.Item1;
-            ParroquiaId = resultado_tuple.Item2;
-            Rol = rol;
+            UsuarioId = resultado.usuario_id;
+            ParroquiaId = resultado.id_parroquia;
+            Rol = resultado.rol_id;
 
             Sesion1.IniciarSesion(UsuarioId, Rol, ParroquiaId);
 
