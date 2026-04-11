@@ -173,7 +173,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pnlAlertaDeslizante.Height = 0;
             pnlAlertaDeslizante.Visible = true; // Lo dejamos Visible, pero con Altura 0
 
-
+            InicializarIndicadorConexion();
 
         }
 
@@ -332,6 +332,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void Frm_42_FormClosing(object sender, FormClosingEventArgs e)
         {
             _controladorAlerta.DetenerMonitoreo();
+            timerConexion?.Stop();
+            timerConexion?.Dispose();
         }
 
         /// <summary>
@@ -2605,6 +2607,76 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
         {
 
+        }
+
+        private Label lblConexion;
+        private System.Windows.Forms.Timer timerConexion;
+
+        private void InicializarIndicadorConexion()
+        {
+            lblConexion = new Label
+            {
+                AutoSize = true,
+                Font = new Font("Segoe UI", 9f, FontStyle.Bold),
+                Padding = new Padding(8, 4, 8, 4),
+                BorderStyle = BorderStyle.FixedSingle,
+                Text = "● Verificando...",
+                Anchor = AnchorStyles.Top | AnchorStyles.Right
+            };
+
+            //Directo al formulario, siempre visible
+            this.Controls.Add(lblConexion);
+            lblConexion.BringToFront();
+
+            //esquina superior derecha
+            lblConexion.Location = new Point(this.ClientSize.Width - lblConexion.Width - 10, 10);
+
+            
+            this.Resize += (s, e) =>
+            {
+                lblConexion.Location = new Point(this.ClientSize.Width - lblConexion.Width - 10, 10);
+            };
+
+            timerConexion = new System.Windows.Forms.Timer { Interval = 5000 };
+            timerConexion.Tick += async (s, e) => await ActualizarEstadoConexion();
+            timerConexion.Start();
+
+            _ = ActualizarEstadoConexion();
+        }
+
+        private async Task ActualizarEstadoConexion()
+        {
+            bool hayServidor = await Capa_de_procesamiento_de_datos.LocalDbOff
+                                    .ServidorDisponibleAsync();
+            int pendientes = new Capa_de_procesamiento_de_datos.LocalDbOff()
+                                    .ContarPendientes();
+
+            if (lblConexion.InvokeRequired)
+                lblConexion.Invoke(() => MostrarEstado(hayServidor, pendientes));
+            else
+                MostrarEstado(hayServidor, pendientes);
+        }
+
+        private void MostrarEstado(bool conectado, int pendientes)
+        {
+            if (!conectado)
+            {
+                lblConexion.Text = "● Sin conexión — guardando local";
+                lblConexion.ForeColor = Color.FromArgb(127, 29, 29);
+                lblConexion.BackColor = Color.FromArgb(254, 226, 226);
+            }
+            else if (pendientes > 0)
+            {
+                lblConexion.Text = $"● {pendientes} registros pendientes...";
+                lblConexion.ForeColor = Color.FromArgb(113, 63, 18);
+                lblConexion.BackColor = Color.FromArgb(254, 249, 195);
+            }
+            else
+            {
+                lblConexion.Text = "● Conectado — sincronizado";
+                lblConexion.ForeColor = Color.FromArgb(22, 101, 52);
+                lblConexion.BackColor = Color.FromArgb(220, 252, 231);
+            }
         }
     }
 }
