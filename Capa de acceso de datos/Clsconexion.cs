@@ -51,7 +51,25 @@ namespace Capa_de_acceso_de_datos
             }
             finally { Cerrar(); }
         }
+        public DataTable EjecutarAdapterYEnviar(SqlCommand cmd)
+        {
+            try
+            {
+                Abrir();
+                cmd.Connection = sc;
 
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                SincronizarConNube(cmd);
+
+                return dt;
+            }
+            finally
+            {
+                Cerrar();
+            }
+        }
         // --- MOTOR DE SINCRONIZACIÓN PRIVADO ---
         protected void SincronizarConNube(SqlCommand cmd)
         {

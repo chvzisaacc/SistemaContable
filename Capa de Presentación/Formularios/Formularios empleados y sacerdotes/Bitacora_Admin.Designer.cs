@@ -221,7 +221,7 @@
             cmbUsuario.Size = new Size(224, 29);
             cmbUsuario.TabIndex = 6;
             cmbUsuario.Text = "Seleccionar";
-            cmbUsuario.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            //cmbUsuario.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // lblRealizadopor
             // 

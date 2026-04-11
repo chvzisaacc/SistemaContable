@@ -16,6 +16,9 @@
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.24" />
 		<PackageReference Include="Microsoft.SqlServer.Server" Version="1.0.0" />
+		<PackageReference Include="NBomber" Version="6.3.0" />
+		<PackageReference Include="NBomber.Contracts" Version="6.2.0" />
+		<PackageReference Include="NBomber.Http" Version="6.2.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="System.Drawing.Common" Version="10.0.0" />
 		<PackageReference Include="QuestPDF" Version="2025.7.4" />

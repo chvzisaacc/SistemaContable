@@ -29,25 +29,24 @@ namespace Capa_de_acceso_de_datos
         /// <returns></returns>
         /// <exception cref="System.Exception">Error al obtener historial: " + ex.Message</exception>
         public DataTable ObtenerHistorial(
-            out int totalRegistros,
-            int? parroquia_id = null,
-            int? usuario_id = null,
-            DateTime? fechaDesde = null,
-            DateTime? fechaHasta = null,
-            int pagina = 1,
-            int tamanoPagina = 50)
+    out int totalRegistros,
+    int? parroquia_id = null,
+    int? usuario_id = null,
+    DateTime? fechaDesde = null,
+    DateTime? fechaHasta = null,
+    int pagina = 1,
+    int tamanoPagina = 50)
         {
             totalRegistros = 0;
             try
             {
-                conexion.Abrir();
                 SqlCommand cmd = new SqlCommand("sp_ObtenerHistorial", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@parroquiaId",
-                    parroquia_id ?? (object)DBNull.Value);
+                    parroquia_id.HasValue ? (object)parroquia_id.Value : DBNull.Value);
                 cmd.Parameters.AddWithValue("@usuarioId",
-                    usuario_id ?? (object)DBNull.Value);
+                    usuario_id.HasValue ? (object)usuario_id.Value : DBNull.Value);
                 cmd.Parameters.AddWithValue("@FechaDesde",
                     fechaDesde.HasValue ? (object)fechaDesde.Value.Date : DBNull.Value);
                 cmd.Parameters.AddWithValue("@FechaHasta",
@@ -55,18 +54,17 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@Pagina", pagina);
                 cmd.Parameters.AddWithValue("@TamanoPagina", tamanoPagina);
 
-                // Parámetro de salida
-                SqlParameter paramTotal = new SqlParameter("@TotalRegistros", SqlDbType.Int);
-                paramTotal.Direction = ParameterDirection.Output;
-                cmd.Parameters.Add(paramTotal);
-
-                DataTable dt = new DataTable();
-                using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
+                SqlParameter paramTotal = new SqlParameter("@TotalRegistros", SqlDbType.Int)
                 {
-                    dt.Load(dr);
-                }
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(paramTotal);
+                DataTable dt = conexion.EjecutarAdapterYEnviar(cmd);
 
-                totalRegistros = (int)paramTotal.Value;
+                totalRegistros = paramTotal.Value != DBNull.Value
+                    ? Convert.ToInt32(paramTotal.Value)
+                    : 0;
+
                 return dt;
             }
             catch (Exception ex)
