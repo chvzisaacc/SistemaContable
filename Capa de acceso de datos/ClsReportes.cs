@@ -253,39 +253,6 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Obteners the balance general.
-        /// </summary>
-        /// <param name="parroquia_id">The parroquia identifier.</param>
-        /// <param name="fecha_inicio">The fecha inicio.</param>
-        /// <param name="fecha_corte">The fecha corte.</param>
-        /// <returns></returns>
-        public DataSet ObtenerBalanceGeneral(int parroquia_id, DateTime fecha_inicio, DateTime fecha_corte)
-        {
-            DataSet ds = new DataSet();
-            try
-            {
-                _cn.Abrir();
-                using (SqlCommand cmd = new SqlCommand("sp_GenerarBalanceGeneral", _cn.sc))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ParroquiaId", parroquia_id);
-                    cmd.Parameters.AddWithValue("@FechaInicio", fecha_inicio.Date);
-                    cmd.Parameters.AddWithValue("@FechaCorte", fecha_corte.Date);
-
-                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                    {
-                        da.Fill(ds);
-                    }
-                }
-            }
-            finally
-            {
-                _cn.Cerrar();
-            }
-            return ds;
-        }
-
-        /// <summary>
         /// Obteners the datos curia.
         /// </summary>
         /// <param name="parroquiaId">The parroquia identifier.</param>

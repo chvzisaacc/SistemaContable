@@ -59,7 +59,7 @@ namespace Capa_de_acceso_de_datos
                 nuevo_id.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(nuevo_id);
 
-                conexion.EjecutarYEnviar(cmd);
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
 
                 return Convert.ToInt32(nuevo_id.Value);
             }
@@ -179,42 +179,12 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@idParroquia", id_parroquia);
                 cmd.Parameters.AddWithValue("@idEstado", id_estado);
 
-                conexion.EjecutarYEnviar(cmd);
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
                 return true;
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al modificar usuario: " + ex.Message, ex);
-            }
-            finally
-            {
-                conexion.Cerrar();
-            }
-        }
-
-        // ELIMINAR usuario
-        /// <summary>
-        /// Eliminars the usuario.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al eliminar usuario: " + ex.Message</exception>
-        public bool EliminarUsuario(int id)
-        {
-            try
-            {
-                conexion.Abrir();
-
-                SqlCommand cmd = new SqlCommand("sp_EliminarUsuario", conexion.sc);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id", id);
-
-                conexion.EjecutarYEnviar(cmd);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al eliminar usuario: " + ex.Message, ex);
             }
             finally
             {
@@ -241,7 +211,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@id", id);
                 cmd.Parameters.AddWithValue("@nuevoEstado", nuevo_estado);
 
-                conexion.EjecutarYEnviar(cmd);
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
                 return true;
             }
             catch (Exception ex)
@@ -273,7 +243,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@id", id);
                 cmd.Parameters.AddWithValue("@nuevoEstado", nuevo_estado);
 
-                conexion.EjecutarYEnviar(cmd);
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
                 return true;
             }
             catch (Exception ex)

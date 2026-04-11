@@ -102,7 +102,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.Add(paramExitoso);
                 cmd.Parameters.Add(paramMensaje);
 
-                conexion.EjecutarYEnviar(cmd);
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
 
                 // Leemos los resultados del SP
                 bool exitoso = Convert.ToBoolean(paramExitoso.Value);

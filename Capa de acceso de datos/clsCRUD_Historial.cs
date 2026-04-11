@@ -126,7 +126,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@usuario_id", usuario_id);
 
-                conexion.EjecutarYEnviar(cmd);
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
             }
             catch (Exception ex)
             {
@@ -193,7 +193,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@tarea_realizada", tarea);
                     cmd.Parameters.AddWithValue("@descripcion_tarea", descripcion);
 
-                    conexion.EjecutarYEnviar(cmd);
+                    conexion.EjecutarYEnviar(cmd, sincronizar: true);
                 }
             }
             catch (Exception ex)

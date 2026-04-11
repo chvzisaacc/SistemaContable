@@ -142,7 +142,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@Usuario", usuario);
                     cmd.Parameters.AddWithValue("@Password", contraseña);
 
-                    using (SqlDataReader dr = EjecutarReaderYEnviar(cmd))
+                    using (SqlDataReader dr = EjecutarReaderYEnviar(cmd, sincronizar: true))
                     {
                         if (dr.Read())
                         {
@@ -168,35 +168,6 @@ namespace Capa_de_acceso_de_datos
 
             return resultado;
         }
-
-        public void RegistrarInicioSesionBiometrico(int userId)
-        {
-
-            try
-            {
-                Abrir();
-                using (SqlCommand command = new SqlCommand("RegistrarInicioSesionBiometrico", sc))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-
-                    // Agregar el parámetro del usuario
-                    command.Parameters.AddWithValue("@UsuarioID", userId);
-                    EjecutarYEnviar(command);
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-                // Manejo de errores generales
-                throw new Exception("Error en la operación biométrica: " + ex.Message);
-            }
-            finally
-            {
-                Cerrar();
-            }
-        }
-
         /// <summary>
         /// Cambiars the contraseña.
         /// </summary>
@@ -216,7 +187,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@NuevaContraseña", nuevaa_contraseña);
 
 
-                    EjecutarYEnviar(cmd);
+                    EjecutarYEnviar(cmd, sincronizar: true);
 
                     return true;
                 }
@@ -270,7 +241,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@UsuarioId", usuario_id);
                     cmd.Parameters.AddWithValue("@Codigo", codigo);
-                    EjecutarYEnviar(cmd);
+                    EjecutarYEnviar(cmd, sincronizar: true);
                 }
             }
 
@@ -308,7 +279,7 @@ namespace Capa_de_acceso_de_datos
                         {
                             resultado = dr["Resultado"]?.ToString() ?? "SIN_RESULTADO";
                         }
-                    } // dr.Close() y dr.Dispose() llamados automáticamente por 'using'
+                    } 
                 }
             }
             catch (Exception ex)
@@ -345,7 +316,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@Nombre_certificado", nombre_certificado);
                     cmd.Parameters.AddWithValue("@IdParroquia", id_parroquia);
                     cmd.Parameters.AddWithValue("@Fecha", fecha);
-                    object result = EjecutarScalarYEnviar(cmd);
+                    object result = EjecutarScalarYEnviar(cmd, sincronizar: true);
                     if (result != null && result != DBNull.Value)
                     {
                         idgenerado = Convert.ToInt32(result);
@@ -388,9 +359,6 @@ namespace Capa_de_acceso_de_datos
                 throw new Exception("Error al cargar los certificados: " + ex.Message, ex);
             }
         }
-
-
-  
 
         public DataTable MostrarCertificadosUsuario(int idParroquia)
         {
@@ -464,7 +432,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@Nombre_certificado", nombre_certificado);
                     cmd.Parameters.AddWithValue("@IdParroquia", id_parroquia);
 
-                    EjecutarYEnviar(cmd);
+                    EjecutarYEnviar(cmd, sincronizar: true);
                     return true;
                 }
             }
@@ -500,7 +468,7 @@ namespace Capa_de_acceso_de_datos
                     // Parámetros obligatorios
                     cmd.Parameters.AddWithValue("@Id_Certificado", codigo_certificado);
 
-                    EjecutarYEnviar(cmd);
+                    EjecutarYEnviar(cmd, sincronizar: true);
                     return true;
                 }
             }
@@ -531,7 +499,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Id_Certificado", codigo_certificado);
                     cmd.Parameters.AddWithValue("@Detalle", detalle);
-                    EjecutarYEnviar(cmd);
+                    EjecutarYEnviar(cmd, sincronizar: true);
                 }
             }
             catch (Exception ex)

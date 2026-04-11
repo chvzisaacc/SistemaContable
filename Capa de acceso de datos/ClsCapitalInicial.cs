@@ -24,7 +24,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@ParroquiaId", parroquiaId);
                     cmd.Parameters.AddWithValue("@Monto", monto);
 
-                    cmd.ExecuteNonQuery();
+                    _cn.EjecutarYEnviar(cmd, sincronizar: true);
                     return true;
                 }
             }
@@ -45,6 +45,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@monto_nuevo", monto);
                     cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
                     cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
+                    _cn.EjecutarYEnviar(cmd, sincronizar: true);
 
                     cmd.ExecuteNonQuery();
                     return true;

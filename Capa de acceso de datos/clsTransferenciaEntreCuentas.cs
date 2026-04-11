@@ -73,7 +73,7 @@ namespace Capa_de_acceso_de_datos
 
                 cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
 
-                conexion.EjecutarYEnviar(cmd);
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
                 return true;
             }
             catch (SqlException ex)

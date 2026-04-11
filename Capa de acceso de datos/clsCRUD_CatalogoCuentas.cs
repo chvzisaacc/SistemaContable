@@ -130,7 +130,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@es_detalle", es_detalle ? 1 : 0);
                 cmd.Parameters.AddWithValue("@Id_estado_cuenta", id_estado);
 
-                var resultado = conexion.EjecutarScalarYEnviar(cmd);
+                var resultado = conexion.EjecutarScalarYEnviar(cmd, sincronizar: true);
                 return resultado != 0;
             }
             catch (Exception ex)
@@ -157,7 +157,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@detalle", string.IsNullOrWhiteSpace(detalle)
                                                           ? (object)DBNull.Value : detalle);
 
-                conexion.EjecutarYEnviar(cmd);
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
                 return true;
             }
             catch (Exception ex)
@@ -176,12 +176,8 @@ namespace Capa_de_acceso_de_datos
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id_cuenta", id_cuenta);
                 cmd.Parameters.AddWithValue("@Id_estado_cuenta", id_estado);
-                conexion.EjecutarYEnviar(cmd);
-
-                // TEMPORAL: ver qué devuelve exactamente
-                //MessageBox.Show("ExecuteNonQuery devolvió: " + resultado);
-
-                return true; // ← cambiar > 0 por >= 0 temporalmente
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
+                return true;
             }
             catch (Exception ex)
             {

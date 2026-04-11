@@ -24,6 +24,7 @@
 		<PackageReference Include="ClosedXML" Version="0.105.0" />
 		<PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="11.0.0-preview.2.26159.112" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.24" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.24" />
 		<PackageReference Include="Microsoft.SqlServer.Server" Version="1.0.0" />
 		<PackageReference Include="NBomber" Version="6.3.0" />
@@ -33,6 +34,12 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Capa de acceso de datos\Capa de acceso de datos.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="Capa de procesamiento de datos">
+	    <HintPath>bin\Debug\net8.0-windows\Capa de procesamiento de datos.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 </Project>

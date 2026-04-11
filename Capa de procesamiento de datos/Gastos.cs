@@ -103,9 +103,9 @@ namespace Capa_de_procesamiento_de_datos
                    
                     command.Parameters.AddWithValue("@Parroquia_ID", idParroquia);
                     command.Parameters.AddWithValue("@id_cuenta_destino", DBNull.Value);
-                    // ------------------------------------------
+                   
 
-                    nuevaTransaccion = EjecutarScalarYEnviar(command);
+                    nuevaTransaccion = EjecutarScalarYEnviar(command, sincronizar: true);
                 }
             }
             catch (Exception ex)
@@ -155,7 +155,7 @@ namespace Capa_de_procesamiento_de_datos
                     command.Parameters.AddWithValue("@Id_Origen", id_origen);
                     command.Parameters.AddWithValue("@Nombre", nombre);
 
-                    filas_afectadas = EjecutarScalarYEnviar(command);
+                    filas_afectadas = EjecutarScalarYEnviar(command, sincronizar: true);
                 }
 
             }

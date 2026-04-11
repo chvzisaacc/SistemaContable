@@ -39,6 +39,16 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+
+app.MapGet("/", () => Results.Ok(new
+{
+    mensaje = "Aún no se han enviado datos",
+    estado = "en espera",
+    servidor = "BASEDEDATOS.API activo",
+    fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+}));
+
+
 app.MapControllers();
 
-app.Run();
+app.Run("http://0.0.0.0:5145");

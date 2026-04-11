@@ -57,7 +57,7 @@ namespace Capa_de_procesamiento_de_datos
                     command.Parameters.AddWithValue("@DiasLimite", diasLimite);
                     command.Parameters.AddWithValue("@AlarmaActiva", alarmaActiva);
                     // Ejecutamos el comando sin esperar un valor de retorno
-                    EjecutarYEnviar(command);
+                    EjecutarYEnviar(command, sincronizar: true);
                 }
             }
             catch (Exception ex)

@@ -47,7 +47,7 @@ namespace Capa_de_acceso_de_datos
                 nuevoid.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(nuevoid);
 
-                conexion.EjecutarYEnviar(cmd);
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
 
                 return Convert.ToInt32(nuevoid.Value);
             }
@@ -120,7 +120,7 @@ namespace Capa_de_acceso_de_datos
                 psaldo.Scale = 2;
                 psaldo.Value = saldo;
 
-                conexion.EjecutarYEnviar(cmd); // esperado: 1 si actualiza una fila
+                conexion.EjecutarYEnviar(cmd, sincronizar: true); // esperado: 1 si actualiza una fila
                 return true;
             }
             catch (Exception ex)
@@ -157,7 +157,7 @@ namespace Capa_de_acceso_de_datos
 
                 cmd.Parameters.Add("@Usuario_id", SqlDbType.Int).Value = usuarioId;
 
-                conexion.EjecutarYEnviar(cmd);   // esperado: 1 si actualiza una fila
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);   // esperado: 1 si actualiza una fila
                 return true;
             }
             catch (Exception ex)
@@ -205,7 +205,7 @@ namespace Capa_de_acceso_de_datos
                 var pOut = cmd.Parameters.Add("@nuevo_Id", SqlDbType.Int);
                 pOut.Direction = ParameterDirection.Output;
 
-                conexion.EjecutarYEnviar(cmd);
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
 
                 if (pOut.Value != DBNull.Value && (int)pOut.Value > 0)
                 {
@@ -243,7 +243,7 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.Add("@IdOrigenTipo", SqlDbType.Int).Value = idTipo;
                 cmd.Parameters.Add("@Parroquia_ID", SqlDbType.Int).Value = parroquiaId;
 
-                conexion.EjecutarYEnviar(cmd);
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
                 return true;
             }
             catch (Exception ex)

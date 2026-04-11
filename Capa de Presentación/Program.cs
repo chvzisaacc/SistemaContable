@@ -13,11 +13,49 @@ namespace Capa_de_Presentación
         [STAThread]
         static void Main()
         {
+            using (var db = new Capa_de_acceso_de_datos.LocalDbContext())
+                db.Database.EnsureCreated();
 
             QuestPDF.Settings.License = LicenseType.Community;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
+
+            IniciarAPI();
+            Capa_de_acceso_de_datos.Clsconexion.OnSpEjecutado += (nombreSp, parametros) =>
+            {
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        string json = System.Text.Json.JsonSerializer.Serialize(new
+                        {
+                            SpName = nombreSp,
+                            Parametros = parametros
+                        });
+
+                        var motor = new Capa_de_procesamiento_de_datos.LocalDbOff();
+                        bool hayServidor = await Capa_de_procesamiento_de_datos.LocalDbOff.ServidorDisponibleAsync();
+
+                        if (hayServidor)
+                        {
+                            bool ok = await motor.EnviarAlServidorAsync(nombreSp, json);
+                            if (!ok)
+                                motor.RegistrarProcesoLocal(nombreSp, json);
+                        }
+                        else
+                        {
+                            motor.RegistrarProcesoLocal(nombreSp, json);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        File.AppendAllText("sync_errors.log",
+                            $"{DateTime.Now} - ERROR: {ex.Message}\n{ex.StackTrace}\n");
+                    }
+                });
+            };
+
             ConfigurarSincronizador(30000);
 
             using (FRM_PG1 login = new FRM_PG1())
@@ -47,12 +85,11 @@ namespace Capa_de_Presentación
         {
             try
             {
-                // Verificar si la API ya está corriendo
                 var procesosExistentes = System.Diagnostics.Process.GetProcessesByName("BASEDEDATOS.API");
                 if (procesosExistentes.Length > 0)
                 {
                     _procesoApi = procesosExistentes[0];
-                    return; // Ya está corriendo
+                    return;
                 }
 
                 string rutaApi = Path.Combine(
@@ -102,6 +139,9 @@ namespace Capa_de_Presentación
         {
             try
             {
+                bool hayServidor = await LocalDbOff.ServidorDisponibleAsync();
+                if (!hayServidor) return;
+
                 LocalDbOff motor = new LocalDbOff();
                 await motor.ProcesarColaSincronizacion();
             }

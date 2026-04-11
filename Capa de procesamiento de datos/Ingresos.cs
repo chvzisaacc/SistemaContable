@@ -98,8 +98,8 @@ namespace Capa_de_procesamiento_de_datos
                     command.Parameters.Add("@Id_Origen", SqlDbType.Int).Value = id_origen;
                     command.Parameters.Add("@Nombre", SqlDbType.NVarChar, 50).Value = nombre ?? (object)DBNull.Value;
 
-                    // EjecutarScalarYEnviar debe devolver el primer valor de la primera fila (nuestro SELECT)
-                    var resultado = EjecutarScalarYEnviar(command);
+
+                    var resultado = EjecutarScalarYEnviar(command, sincronizar: true);
 
                     if (resultado != null && int.TryParse(resultado.ToString(), out int idGenerado))
                     {
@@ -156,7 +156,7 @@ namespace Capa_de_procesamiento_de_datos
                     command.Parameters.AddWithValue("@Id_Origen", id_origen);
                     command.Parameters.AddWithValue("@Nombre", nombre ?? "");
 
-                    filas_afectadas = EjecutarScalarYEnviar(command);
+                    filas_afectadas = EjecutarScalarYEnviar(command, sincronizar: true);
                 }
             }
             catch (Exception ex)

@@ -2,87 +2,82 @@
 using Microsoft.Data.SqlClient;
 using System.Data;
 
-
 namespace Capa_de_acceso_de_datos
 {
     public class Clsconexion
     {
-
         static string conexion = ConfigurationManager.ConnectionStrings["MiConexion"].ConnectionString;
-
         public SqlConnection sc = new SqlConnection(conexion);
-
         public Clsconexion() => sc.ConnectionString = conexion;
 
-        // 1. PARA INSERT, UPDATE, DELETE (No devuelven datos)
-        public void EjecutarYEnviar(SqlCommand cmd)
+        // Evento que dispara cuando se ejecuta un SP
+        // La Capa de Presentación se suscribe a esto
+        public static event Action<string, Dictionary<string, object>>? OnSpEjecutado;
+
+        public void EjecutarYEnviar(SqlCommand cmd, bool sincronizar = false)
         {
             try
             {
                 Abrir();
                 cmd.Connection = sc;
                 cmd.ExecuteNonQuery();
-                SincronizarConNube(cmd); // Notificación asíncrona
+                if (sincronizar) NotificarSP(cmd);
             }
             finally { Cerrar(); }
         }
 
-        // 2. PARA LOGINS O CONSULTAS (Devuelven filas)
-        public SqlDataReader EjecutarReaderYEnviar(SqlCommand cmd)
+        public SqlDataReader EjecutarReaderYEnviar(SqlCommand cmd, bool sincronizar = false)
         {
             Abrir();
             cmd.Connection = sc;
-            // CommandBehavior.CloseConnection cierra la conexión automáticamente al cerrar el reader
             SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-            SincronizarConNube(cmd);
+            if (sincronizar) NotificarSP(cmd);
             return reader;
         }
 
-        // 3. PARA OBTENER IDs (Devuelven un solo valor)
-        public int EjecutarScalarYEnviar(SqlCommand cmd)
+        public int EjecutarScalarYEnviar(SqlCommand cmd, bool sincronizar = false)
         {
             try
             {
                 Abrir();
                 cmd.Connection = sc;
                 object res = cmd.ExecuteScalar();
-                SincronizarConNube(cmd);
+                if (sincronizar) NotificarSP(cmd);
                 return (res != null && res != DBNull.Value) ? Convert.ToInt32(res) : 0;
             }
             finally { Cerrar(); }
         }
-        public DataTable EjecutarAdapterYEnviar(SqlCommand cmd)
+
+        public DataTable EjecutarAdapterYEnviar(SqlCommand cmd, bool sincronizar = false)
         {
             try
             {
                 Abrir();
                 cmd.Connection = sc;
-
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
-                SincronizarConNube(cmd);
-
+                if (sincronizar) NotificarSP(cmd);
                 return dt;
             }
-            finally
-            {
-                Cerrar();
-            }
+            finally { Cerrar(); }
         }
-        // --- MOTOR DE SINCRONIZACIÓN PRIVADO ---
-        protected void SincronizarConNube(SqlCommand cmd)
+
+        // se dispara el evento
+        private void NotificarSP(SqlCommand cmd)
         {
+            if (OnSpEjecutado == null) return;
+
             string nombreSp = cmd.CommandText;
             var parametros = new Dictionary<string, object>();
-
             foreach (SqlParameter p in cmd.Parameters)
             {
-                parametros.Add(p.ParameterName.Replace("@", ""), p.Value ?? DBNull.Value);
+                string key = p.ParameterName.Replace("@", "");
+                object valor = (p.Value == null || p.Value == DBNull.Value) ? null : p.Value;
+                parametros[key] = valor;
             }
 
-            // Se dispara en segundo plano. No detiene el flujo local.
-            _ = Task.Run(() => AccesoRemoto.EjecutarSpRemoto(nombreSp, parametros));
+            _ = Task.Run(() => OnSpEjecutado?.Invoke(nombreSp, parametros));
         }
 
         public void Abrir() { if (sc.State == ConnectionState.Closed) sc.Open(); }
