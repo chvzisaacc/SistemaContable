@@ -395,6 +395,11 @@ namespace Capa_de_Presentación.Formularios_Diego
             ClsCD objCD = new();
             objCD.renovarCD(dtDatosCertificados, dataGridView1, ref modoEdicionActivo);
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

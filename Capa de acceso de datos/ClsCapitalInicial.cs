@@ -33,6 +33,29 @@ namespace Capa_de_acceso_de_datos
                 _cn.Cerrar();
             }
         }
+
+        public bool ModificarCapitalInicial(decimal monto, int parroquiaId, int usuarioId)
+        {
+            try
+            {
+                _cn.Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_ModificarCapitalInicial", _cn.sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@monto_nuevo", monto);
+                    cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
+                    cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
+
+                    cmd.ExecuteNonQuery();
+                    return true;
+                }
+            }
+            finally
+            {
+                _cn.Cerrar();
+            }
+        }
+
         public bool TieneCapitalInicial(int parroquiaId)
         {
             try

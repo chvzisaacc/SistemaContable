@@ -41,22 +41,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
             panelContenedor = new Panel();
-            panelGastos2 = new Panel();
-            pictureBox6 = new PictureBox();
-            pictureBox7 = new PictureBox();
-            dateTimePicker2 = new DateTimePicker();
-            button4 = new Button();
-            btnGuardar2 = new Button();
-            txtNoReferencia2 = new TextBox();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            cmbOrigen2 = new ComboBox();
-            dgvGastos = new DataGridView();
-            Id_Transaccion1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
             panelIngresos = new Panel();
             pictureBox8 = new PictureBox();
             pictureBox5 = new PictureBox();
@@ -78,18 +62,42 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbAcciones = new ComboBox();
             cmbCuentas = new ComboBox();
             panelCajaChica2 = new Panel();
+            panel2 = new Panel();
+            pictureBox10 = new PictureBox();
+            pictureBox9 = new PictureBox();
+            checkBox2 = new CheckBox();
+            label9 = new Label();
+            lblCapitalInicial = new Label();
+            checkBox1 = new CheckBox();
+            panel3 = new Panel();
+            txtSaldoCaja = new TextBox();
+            pictureBox4 = new PictureBox();
+            chkSaldoInicial = new CheckBox();
+            txtSaldoActual = new TextBox();
+            panel4 = new Panel();
             panelIngresarCapital = new Panel();
             btnCancelarCapital = new Button();
             btnGuardarCapital = new Button();
             txtCapitalInicial = new TextBox();
             label8 = new Label();
             chkIngresarCapital = new CheckBox();
-            chkSaldoInicial = new CheckBox();
-            txtSaldoActual = new TextBox();
-            lblCapitalInicial = new Label();
-            label9 = new Label();
-            pictureBox4 = new PictureBox();
             label7 = new Label();
+            panelGastos2 = new Panel();
+            pictureBox6 = new PictureBox();
+            pictureBox7 = new PictureBox();
+            dateTimePicker2 = new DateTimePicker();
+            button4 = new Button();
+            btnGuardar2 = new Button();
+            txtNoReferencia2 = new TextBox();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            cmbOrigen2 = new ComboBox();
+            dgvGastos = new DataGridView();
+            Id_Transaccion1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
             btnGastos = new Button();
             btnBancos = new Button();
             btnCajaChica = new Button();
@@ -104,18 +112,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panelContenedor.SuspendLayout();
-            panelGastos2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dgvGastos).BeginInit();
             panelIngresos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panelBancos2.SuspendLayout();
             panelCajaChica2.SuspendLayout();
-            panelIngresarCapital.SuspendLayout();
+            panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox10).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox9).BeginInit();
+            panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            panel4.SuspendLayout();
+            panelIngresarCapital.SuspendLayout();
+            panelGastos2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvGastos).BeginInit();
             panel1.SuspendLayout();
             pnlAlertaDeslizante.SuspendLayout();
             SuspendLayout();
@@ -169,226 +182,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // panelContenedor
             // 
-            panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Controls.Add(panelIngresos);
             panelContenedor.Controls.Add(panelBancos2);
             panelContenedor.Controls.Add(panelCajaChica2);
+            panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Location = new Point(4, 302);
             panelContenedor.Margin = new Padding(4, 5, 4, 5);
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(1566, 555);
             panelContenedor.TabIndex = 8;
-            // 
-            // panelGastos2
-            // 
-            panelGastos2.Controls.Add(pictureBox6);
-            panelGastos2.Controls.Add(pictureBox7);
-            panelGastos2.Controls.Add(dateTimePicker2);
-            panelGastos2.Controls.Add(button4);
-            panelGastos2.Controls.Add(btnGuardar2);
-            panelGastos2.Controls.Add(txtNoReferencia2);
-            panelGastos2.Controls.Add(label2);
-            panelGastos2.Controls.Add(label3);
-            panelGastos2.Controls.Add(label4);
-            panelGastos2.Controls.Add(cmbOrigen2);
-            panelGastos2.Controls.Add(dgvGastos);
-            panelGastos2.Dock = DockStyle.Fill;
-            panelGastos2.Location = new Point(0, 0);
-            panelGastos2.Margin = new Padding(4, 2, 4, 2);
-            panelGastos2.Name = "panelGastos2";
-            panelGastos2.Size = new Size(1566, 555);
-            panelGastos2.TabIndex = 43;
-            panelGastos2.Paint += panelGastos2_Paint;
-            // 
-            // pictureBox6
-            // 
-            pictureBox6.BackgroundImage = Properties.Resources.ojo;
-            pictureBox6.Image = Properties.Resources.ojo1;
-            pictureBox6.Location = new Point(1429, 332);
-            pictureBox6.Margin = new Padding(4, 2, 4, 2);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(134, 42);
-            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox6.TabIndex = 36;
-            pictureBox6.TabStop = false;
-            pictureBox6.Click += pictureBox6_Click;
-            // 
-            // pictureBox7
-            // 
-            pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
-            pictureBox7.Location = new Point(1429, 382);
-            pictureBox7.Margin = new Padding(4, 2, 4, 2);
-            pictureBox7.Name = "pictureBox7";
-            pictureBox7.Size = new Size(134, 42);
-            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox7.TabIndex = 34;
-            pictureBox7.TabStop = false;
-            pictureBox7.Click += pictureBox7_Click;
-            // 
-            // dateTimePicker2
-            // 
-            dateTimePicker2.CalendarFont = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dateTimePicker2.CalendarForeColor = SystemColors.ControlLightLight;
-            dateTimePicker2.CalendarTitleForeColor = SystemColors.ControlLightLight;
-            dateTimePicker2.Font = new Font("Segoe UI", 8F);
-            dateTimePicker2.Format = DateTimePickerFormat.Short;
-            dateTimePicker2.Location = new Point(191, 118);
-            dateTimePicker2.Margin = new Padding(4, 5, 4, 5);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(345, 29);
-            dateTimePicker2.TabIndex = 25;
-            dateTimePicker2.Value = new DateTime(2025, 11, 28, 0, 0, 0, 0);
-            dateTimePicker2.ValueChanged += dateTimePicker1_ValueChanged;
-            // 
-            // button4
-            // 
-            button4.BackColor = Color.Transparent;
-            button4.BackgroundImageLayout = ImageLayout.Center;
-            button4.Location = new Point(18, 518);
-            button4.Margin = new Padding(1, 2, 1, 2);
-            button4.Name = "button4";
-            button4.Size = new Size(21, 32);
-            button4.TabIndex = 33;
-            button4.Text = "+";
-            button4.UseVisualStyleBackColor = false;
-            button4.Click += button4_Click_1;
-            // 
-            // btnGuardar2
-            // 
-            btnGuardar2.BackColor = Color.FromArgb(43, 56, 143);
-            btnGuardar2.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
-            btnGuardar2.FlatAppearance.BorderSize = 0;
-            btnGuardar2.FlatStyle = FlatStyle.Flat;
-            btnGuardar2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGuardar2.ForeColor = SystemColors.Control;
-            btnGuardar2.Location = new Point(1429, 438);
-            btnGuardar2.Margin = new Padding(4, 5, 4, 5);
-            btnGuardar2.Name = "btnGuardar2";
-            btnGuardar2.Size = new Size(134, 48);
-            btnGuardar2.TabIndex = 28;
-            btnGuardar2.Text = "Guardar";
-            btnGuardar2.UseVisualStyleBackColor = false;
-            btnGuardar2.Click += btnGuardar2_Click;
-            // 
-            // txtNoReferencia2
-            // 
-            txtNoReferencia2.BackColor = Color.FromArgb(251, 203, 51);
-            txtNoReferencia2.BorderStyle = BorderStyle.None;
-            txtNoReferencia2.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtNoReferencia2.Location = new Point(859, 38);
-            txtNoReferencia2.Margin = new Padding(4, 5, 4, 5);
-            txtNoReferencia2.MaxLength = 10;
-            txtNoReferencia2.Multiline = true;
-            txtNoReferencia2.Name = "txtNoReferencia2";
-            txtNoReferencia2.Size = new Size(541, 32);
-            txtNoReferencia2.TabIndex = 26;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label2.Location = new Point(662, 39);
-            label2.Margin = new Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(189, 32);
-            label2.TabIndex = 25;
-            label2.Text = "No. Referencia:";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            label3.Location = new Point(87, 117);
-            label3.Margin = new Padding(4, 0, 4, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(85, 32);
-            label3.TabIndex = 24;
-            label3.Text = "Fecha:";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(73, 36);
-            label4.Margin = new Padding(4, 0, 4, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(99, 32);
-            label4.TabIndex = 23;
-            label4.Text = "Origen:";
-            // 
-            // cmbOrigen2
-            // 
-            cmbOrigen2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cmbOrigen2.AutoCompleteSource = AutoCompleteSource.ListItems;
-            cmbOrigen2.BackColor = Color.FromArgb(251, 203, 51);
-            cmbOrigen2.FlatStyle = FlatStyle.Flat;
-            cmbOrigen2.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbOrigen2.FormattingEnabled = true;
-            cmbOrigen2.IntegralHeight = false;
-            cmbOrigen2.Location = new Point(189, 38);
-            cmbOrigen2.Margin = new Padding(4, 2, 4, 2);
-            cmbOrigen2.MaxDropDownItems = 6;
-            cmbOrigen2.Name = "cmbOrigen2";
-            cmbOrigen2.Size = new Size(345, 29);
-            cmbOrigen2.TabIndex = 22;
-            cmbOrigen2.Text = "Seleccionar";
-            // 
-            // dgvGastos
-            // 
-            dgvGastos.AllowDrop = true;
-            dgvGastos.AllowUserToAddRows = false;
-            dgvGastos.AllowUserToDeleteRows = false;
-            dgvGastos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvGastos.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvGastos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvGastos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvGastos.Columns.AddRange(new DataGridViewColumn[] { Id_Transaccion1, dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3 });
-            dgvGastos.Location = new Point(44, 168);
-            dgvGastos.Margin = new Padding(4, 5, 4, 5);
-            dgvGastos.Name = "dgvGastos";
-            dgvGastos.ReadOnly = true;
-            dgvGastos.RowHeadersWidth = 51;
-            dgvGastos.Size = new Size(1359, 382);
-            dgvGastos.TabIndex = 27;
-            dgvGastos.CellClick += dgvGastos_CellClick;
-            dgvGastos.CellDoubleClick += dgvGastos_CellDoubleClick;
-            dgvGastos.EditingControlShowing += dgvGastos_EditingControlShowing;
-            // 
-            // Id_Transaccion1
-            // 
-            Id_Transaccion1.HeaderText = "IdTransaccion";
-            Id_Transaccion1.MinimumWidth = 8;
-            Id_Transaccion1.Name = "Id_Transaccion1";
-            Id_Transaccion1.ReadOnly = true;
-            Id_Transaccion1.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            dataGridViewTextBoxColumn1.HeaderText = "Nombre/Cuenta";
-            dataGridViewTextBoxColumn1.MinimumWidth = 6;
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            dataGridViewTextBoxColumn2.HeaderText = "Detalle";
-            dataGridViewTextBoxColumn2.MinimumWidth = 6;
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            dataGridViewTextBoxColumn3.HeaderText = "Saldo";
-            dataGridViewTextBoxColumn3.MinimumWidth = 6;
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
             // panelIngresos
             // 
@@ -563,14 +365,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;
             dataGridView1.Location = new Point(61, 165);
@@ -582,6 +384,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick_1;
             dataGridView1.EditingControlShowing += dataGridView1_EditingControlShowing;
+            dataGridView1.DoubleClick += dataGridView1_DoubleClick;
             // 
             // panelBancos2
             // 
@@ -679,13 +482,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // panelCajaChica2
             // 
-            panelCajaChica2.Controls.Add(panelIngresarCapital);
-            panelCajaChica2.Controls.Add(chkIngresarCapital);
-            panelCajaChica2.Controls.Add(chkSaldoInicial);
-            panelCajaChica2.Controls.Add(txtSaldoActual);
-            panelCajaChica2.Controls.Add(lblCapitalInicial);
-            panelCajaChica2.Controls.Add(label9);
-            panelCajaChica2.Controls.Add(pictureBox4);
+            panelCajaChica2.Controls.Add(panel2);
             panelCajaChica2.Controls.Add(label7);
             panelCajaChica2.Dock = DockStyle.Fill;
             panelCajaChica2.Location = new Point(0, 0);
@@ -695,6 +492,166 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelCajaChica2.TabIndex = 42;
             panelCajaChica2.Paint += panelCajaChica2_Paint;
             // 
+            // panel2
+            // 
+            panel2.Controls.Add(pictureBox10);
+            panel2.Controls.Add(pictureBox9);
+            panel2.Controls.Add(checkBox2);
+            panel2.Controls.Add(label9);
+            panel2.Controls.Add(lblCapitalInicial);
+            panel2.Controls.Add(checkBox1);
+            panel2.Controls.Add(panel3);
+            panel2.Controls.Add(panel4);
+            panel2.Location = new Point(3, 71);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1548, 468);
+            panel2.TabIndex = 47;
+            panel2.Paint += panel2_Paint;
+            // 
+            // pictureBox10
+            // 
+            pictureBox10.Image = (Image)resources.GetObject("pictureBox10.Image");
+            pictureBox10.Location = new Point(186, 78);
+            pictureBox10.Margin = new Padding(4, 3, 4, 3);
+            pictureBox10.Name = "pictureBox10";
+            pictureBox10.Size = new Size(27, 36);
+            pictureBox10.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox10.TabIndex = 48;
+            pictureBox10.TabStop = false;
+            pictureBox10.Click += pictureBox10_Click;
+            pictureBox10.DoubleClick += pictureBox10_DoubleClick;
+            // 
+            // pictureBox9
+            // 
+            pictureBox9.Image = (Image)resources.GetObject("pictureBox9.Image");
+            pictureBox9.Location = new Point(156, 26);
+            pictureBox9.Margin = new Padding(4, 3, 4, 3);
+            pictureBox9.Name = "pictureBox9";
+            pictureBox9.Size = new Size(27, 36);
+            pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox9.TabIndex = 47;
+            pictureBox9.TabStop = false;
+            pictureBox9.Click += pictureBox9_Click;
+            // 
+            // checkBox2
+            // 
+            checkBox2.AutoSize = true;
+            checkBox2.Location = new Point(15, 81);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(168, 29);
+            checkBox2.TabIndex = 3;
+            checkBox2.Text = "CAPITAL INICIAL";
+            checkBox2.UseVisualStyleBackColor = true;
+            checkBox2.CheckedChanged += checkBox2_CheckedChanged;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 14.8F, FontStyle.Bold);
+            label9.Location = new Point(18, 131);
+            label9.Margin = new Padding(4, 0, 4, 0);
+            label9.Name = "label9";
+            label9.Size = new Size(341, 41);
+            label9.TabIndex = 46;
+            label9.Text = "Capital de la parroquia";
+            label9.Visible = false;
+            label9.Click += label9_Click;
+            // 
+            // lblCapitalInicial
+            // 
+            lblCapitalInicial.AutoSize = true;
+            lblCapitalInicial.Font = new Font("Segoe UI", 18.8F, FontStyle.Bold);
+            lblCapitalInicial.Location = new Point(111, 184);
+            lblCapitalInicial.Margin = new Padding(4, 0, 4, 0);
+            lblCapitalInicial.Name = "lblCapitalInicial";
+            lblCapitalInicial.Size = new Size(127, 51);
+            lblCapitalInicial.TabIndex = 45;
+            lblCapitalInicial.Text = "L.0.00";
+            lblCapitalInicial.Visible = false;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(18, 29);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(137, 29);
+            checkBox1.TabIndex = 2;
+            checkBox1.Text = "CAJA CHICA";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
+            // panel3
+            // 
+            panel3.Controls.Add(txtSaldoCaja);
+            panel3.Controls.Add(pictureBox4);
+            panel3.Controls.Add(chkSaldoInicial);
+            panel3.Controls.Add(txtSaldoActual);
+            panel3.Location = new Point(501, 30);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(422, 283);
+            panel3.TabIndex = 0;
+            panel3.Visible = false;
+            panel3.Paint += panel3_Paint;
+            // 
+            // txtSaldoCaja
+            // 
+            txtSaldoCaja.BackColor = Color.FromArgb(251, 203, 51);
+            txtSaldoCaja.BorderStyle = BorderStyle.None;
+            txtSaldoCaja.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtSaldoCaja.ForeColor = Color.Black;
+            txtSaldoCaja.Location = new Point(91, 83);
+            txtSaldoCaja.Margin = new Padding(4, 3, 4, 3);
+            txtSaldoCaja.MaxLength = 8;
+            txtSaldoCaja.Name = "txtSaldoCaja";
+            txtSaldoCaja.Size = new Size(256, 37);
+            txtSaldoCaja.TabIndex = 40;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
+            pictureBox4.Location = new Point(18, 40);
+            pictureBox4.Margin = new Padding(4, 2, 4, 2);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(394, 132);
+            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox4.TabIndex = 37;
+            pictureBox4.TabStop = false;
+            // 
+            // chkSaldoInicial
+            // 
+            chkSaldoInicial.AutoSize = true;
+            chkSaldoInicial.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            chkSaldoInicial.Location = new Point(28, 189);
+            chkSaldoInicial.Margin = new Padding(4, 2, 4, 2);
+            chkSaldoInicial.Name = "chkSaldoInicial";
+            chkSaldoInicial.Size = new Size(362, 32);
+            chkSaldoInicial.TabIndex = 39;
+            chkSaldoInicial.Text = "Ingresar saldo inicial de caja chica";
+            chkSaldoInicial.UseVisualStyleBackColor = true;
+            chkSaldoInicial.CheckedChanged += chkSaldoInicial_CheckedChanged;
+            // 
+            // txtSaldoActual
+            // 
+            txtSaldoActual.BackColor = Color.FromArgb(251, 203, 51);
+            txtSaldoActual.BorderStyle = BorderStyle.None;
+            txtSaldoActual.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtSaldoActual.Location = new Point(85, 75);
+            txtSaldoActual.Margin = new Padding(4, 2, 4, 2);
+            txtSaldoActual.Name = "txtSaldoActual";
+            txtSaldoActual.ReadOnly = true;
+            txtSaldoActual.Size = new Size(266, 48);
+            txtSaldoActual.TabIndex = 38;
+            // 
+            // panel4
+            // 
+            panel4.Controls.Add(panelIngresarCapital);
+            panel4.Controls.Add(chkIngresarCapital);
+            panel4.Location = new Point(366, 29);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(936, 322);
+            panel4.TabIndex = 1;
+            panel4.Visible = false;
+            // 
             // panelIngresarCapital
             // 
             panelIngresarCapital.BackColor = Color.WhiteSmoke;
@@ -703,7 +660,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelIngresarCapital.Controls.Add(btnGuardarCapital);
             panelIngresarCapital.Controls.Add(txtCapitalInicial);
             panelIngresarCapital.Controls.Add(label8);
-            panelIngresarCapital.Location = new Point(881, 92);
+            panelIngresarCapital.Location = new Point(140, 10);
             panelIngresarCapital.Margin = new Padding(4, 3, 4, 3);
             panelIngresarCapital.Name = "panelIngresarCapital";
             panelIngresarCapital.Size = new Size(663, 210);
@@ -772,7 +729,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             chkIngresarCapital.AutoSize = true;
             chkIngresarCapital.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            chkIngresarCapital.Location = new Point(1051, 432);
+            chkIngresarCapital.Location = new Point(312, 260);
             chkIngresarCapital.Margin = new Padding(4, 2, 4, 2);
             chkIngresarCapital.Name = "chkIngresarCapital";
             chkIngresarCapital.Size = new Size(384, 49);
@@ -780,64 +737,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             chkIngresarCapital.Text = "Ingresar capital inicial";
             chkIngresarCapital.UseVisualStyleBackColor = true;
             chkIngresarCapital.CheckedChanged += chkIngresarCapital_CheckedChanged_1;
-            // 
-            // chkSaldoInicial
-            // 
-            chkSaldoInicial.AutoSize = true;
-            chkSaldoInicial.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            chkSaldoInicial.Location = new Point(489, 293);
-            chkSaldoInicial.Margin = new Padding(4, 2, 4, 2);
-            chkSaldoInicial.Name = "chkSaldoInicial";
-            chkSaldoInicial.Size = new Size(363, 49);
-            chkSaldoInicial.TabIndex = 39;
-            chkSaldoInicial.Text = "Ingresar saldo inicial";
-            chkSaldoInicial.UseVisualStyleBackColor = true;
-            chkSaldoInicial.CheckedChanged += chkSaldoInicial_CheckedChanged;
-            // 
-            // txtSaldoActual
-            // 
-            txtSaldoActual.BackColor = Color.FromArgb(251, 203, 51);
-            txtSaldoActual.BorderStyle = BorderStyle.None;
-            txtSaldoActual.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtSaldoActual.Location = new Point(536, 193);
-            txtSaldoActual.Margin = new Padding(4, 2, 4, 2);
-            txtSaldoActual.Name = "txtSaldoActual";
-            txtSaldoActual.ReadOnly = true;
-            txtSaldoActual.Size = new Size(266, 48);
-            txtSaldoActual.TabIndex = 38;
-            // 
-            // lblCapitalInicial
-            // 
-            lblCapitalInicial.AutoSize = true;
-            lblCapitalInicial.Font = new Font("Segoe UI", 18.8F, FontStyle.Bold);
-            lblCapitalInicial.Location = new Point(556, 412);
-            lblCapitalInicial.Margin = new Padding(4, 0, 4, 0);
-            lblCapitalInicial.Name = "lblCapitalInicial";
-            lblCapitalInicial.Size = new Size(127, 51);
-            lblCapitalInicial.TabIndex = 45;
-            lblCapitalInicial.Text = "L.0.00";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 14.8F, FontStyle.Bold);
-            label9.Location = new Point(489, 352);
-            label9.Margin = new Padding(4, 0, 4, 0);
-            label9.Name = "label9";
-            label9.Size = new Size(341, 41);
-            label9.TabIndex = 46;
-            label9.Text = "Capital de la parroquia";
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(469, 158);
-            pictureBox4.Margin = new Padding(4, 2, 4, 2);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(394, 132);
-            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox4.TabIndex = 37;
-            pictureBox4.TabStop = false;
             // 
             // label7
             // 
@@ -849,6 +748,217 @@ namespace Capa_de_Presentación.Formularios_Luiss
             label7.Size = new Size(832, 45);
             label7.TabIndex = 31;
             label7.Text = "SALDO DE CAJA CHICA Y CAPITAL DE LA PARROQUIA";
+            // 
+            // panelGastos2
+            // 
+            panelGastos2.Controls.Add(pictureBox6);
+            panelGastos2.Controls.Add(pictureBox7);
+            panelGastos2.Controls.Add(dateTimePicker2);
+            panelGastos2.Controls.Add(button4);
+            panelGastos2.Controls.Add(btnGuardar2);
+            panelGastos2.Controls.Add(txtNoReferencia2);
+            panelGastos2.Controls.Add(label2);
+            panelGastos2.Controls.Add(label3);
+            panelGastos2.Controls.Add(label4);
+            panelGastos2.Controls.Add(cmbOrigen2);
+            panelGastos2.Controls.Add(dgvGastos);
+            panelGastos2.Dock = DockStyle.Fill;
+            panelGastos2.Location = new Point(0, 0);
+            panelGastos2.Margin = new Padding(4, 2, 4, 2);
+            panelGastos2.Name = "panelGastos2";
+            panelGastos2.Size = new Size(1566, 555);
+            panelGastos2.TabIndex = 43;
+            panelGastos2.Paint += panelGastos2_Paint;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.BackgroundImage = Properties.Resources.ojo;
+            pictureBox6.Image = Properties.Resources.ojo1;
+            pictureBox6.Location = new Point(1429, 332);
+            pictureBox6.Margin = new Padding(4, 2, 4, 2);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(134, 42);
+            pictureBox6.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox6.TabIndex = 36;
+            pictureBox6.TabStop = false;
+            pictureBox6.Click += pictureBox6_Click;
+            // 
+            // pictureBox7
+            // 
+            pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
+            pictureBox7.Location = new Point(1429, 382);
+            pictureBox7.Margin = new Padding(4, 2, 4, 2);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(134, 42);
+            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox7.TabIndex = 34;
+            pictureBox7.TabStop = false;
+            pictureBox7.Click += pictureBox7_Click;
+            // 
+            // dateTimePicker2
+            // 
+            dateTimePicker2.CalendarFont = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dateTimePicker2.CalendarForeColor = SystemColors.ControlLightLight;
+            dateTimePicker2.CalendarTitleForeColor = SystemColors.ControlLightLight;
+            dateTimePicker2.Font = new Font("Segoe UI", 8F);
+            dateTimePicker2.Format = DateTimePickerFormat.Short;
+            dateTimePicker2.Location = new Point(191, 118);
+            dateTimePicker2.Margin = new Padding(4, 5, 4, 5);
+            dateTimePicker2.Name = "dateTimePicker2";
+            dateTimePicker2.Size = new Size(345, 29);
+            dateTimePicker2.TabIndex = 25;
+            dateTimePicker2.Value = new DateTime(2025, 11, 28, 0, 0, 0, 0);
+            dateTimePicker2.ValueChanged += dateTimePicker1_ValueChanged;
+            // 
+            // button4
+            // 
+            button4.BackColor = Color.Transparent;
+            button4.BackgroundImageLayout = ImageLayout.Center;
+            button4.Location = new Point(18, 518);
+            button4.Margin = new Padding(1, 2, 1, 2);
+            button4.Name = "button4";
+            button4.Size = new Size(21, 32);
+            button4.TabIndex = 33;
+            button4.Text = "+";
+            button4.UseVisualStyleBackColor = false;
+            button4.Click += button4_Click_1;
+            // 
+            // btnGuardar2
+            // 
+            btnGuardar2.BackColor = Color.FromArgb(43, 56, 143);
+            btnGuardar2.FlatAppearance.BorderColor = Color.FromArgb(43, 56, 143);
+            btnGuardar2.FlatAppearance.BorderSize = 0;
+            btnGuardar2.FlatStyle = FlatStyle.Flat;
+            btnGuardar2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardar2.ForeColor = SystemColors.Control;
+            btnGuardar2.Location = new Point(1429, 438);
+            btnGuardar2.Margin = new Padding(4, 5, 4, 5);
+            btnGuardar2.Name = "btnGuardar2";
+            btnGuardar2.Size = new Size(134, 48);
+            btnGuardar2.TabIndex = 28;
+            btnGuardar2.Text = "Guardar";
+            btnGuardar2.UseVisualStyleBackColor = false;
+            btnGuardar2.Click += btnGuardar2_Click;
+            // 
+            // txtNoReferencia2
+            // 
+            txtNoReferencia2.BackColor = Color.FromArgb(251, 203, 51);
+            txtNoReferencia2.BorderStyle = BorderStyle.None;
+            txtNoReferencia2.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtNoReferencia2.Location = new Point(859, 38);
+            txtNoReferencia2.Margin = new Padding(4, 5, 4, 5);
+            txtNoReferencia2.MaxLength = 10;
+            txtNoReferencia2.Multiline = true;
+            txtNoReferencia2.Name = "txtNoReferencia2";
+            txtNoReferencia2.Size = new Size(541, 32);
+            txtNoReferencia2.TabIndex = 26;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label2.Location = new Point(662, 39);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(189, 32);
+            label2.TabIndex = 25;
+            label2.Text = "No. Referencia:";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label3.Location = new Point(87, 117);
+            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(85, 32);
+            label3.TabIndex = 24;
+            label3.Text = "Fecha:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.Location = new Point(73, 36);
+            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(99, 32);
+            label4.TabIndex = 23;
+            label4.Text = "Origen:";
+            // 
+            // cmbOrigen2
+            // 
+            cmbOrigen2.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbOrigen2.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbOrigen2.BackColor = Color.FromArgb(251, 203, 51);
+            cmbOrigen2.FlatStyle = FlatStyle.Flat;
+            cmbOrigen2.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbOrigen2.FormattingEnabled = true;
+            cmbOrigen2.IntegralHeight = false;
+            cmbOrigen2.Location = new Point(189, 38);
+            cmbOrigen2.Margin = new Padding(4, 2, 4, 2);
+            cmbOrigen2.MaxDropDownItems = 6;
+            cmbOrigen2.Name = "cmbOrigen2";
+            cmbOrigen2.Size = new Size(345, 29);
+            cmbOrigen2.TabIndex = 22;
+            cmbOrigen2.Text = "Seleccionar";
+            // 
+            // dgvGastos
+            // 
+            dgvGastos.AllowDrop = true;
+            dgvGastos.AllowUserToAddRows = false;
+            dgvGastos.AllowUserToDeleteRows = false;
+            dgvGastos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvGastos.BackgroundColor = SystemColors.Control;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvGastos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgvGastos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvGastos.Columns.AddRange(new DataGridViewColumn[] { Id_Transaccion1, dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3 });
+            dgvGastos.Location = new Point(44, 168);
+            dgvGastos.Margin = new Padding(4, 5, 4, 5);
+            dgvGastos.Name = "dgvGastos";
+            dgvGastos.ReadOnly = true;
+            dgvGastos.RowHeadersWidth = 51;
+            dgvGastos.Size = new Size(1359, 382);
+            dgvGastos.TabIndex = 27;
+            dgvGastos.CellClick += dgvGastos_CellClick;
+            dgvGastos.CellDoubleClick += dgvGastos_CellDoubleClick;
+            dgvGastos.EditingControlShowing += dgvGastos_EditingControlShowing;
+            // 
+            // Id_Transaccion1
+            // 
+            Id_Transaccion1.HeaderText = "IdTransaccion";
+            Id_Transaccion1.MinimumWidth = 8;
+            Id_Transaccion1.Name = "Id_Transaccion1";
+            Id_Transaccion1.ReadOnly = true;
+            Id_Transaccion1.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.HeaderText = "Nombre/Cuenta";
+            dataGridViewTextBoxColumn1.MinimumWidth = 6;
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "Detalle";
+            dataGridViewTextBoxColumn2.MinimumWidth = 6;
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.HeaderText = "Saldo";
+            dataGridViewTextBoxColumn3.MinimumWidth = 6;
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
             // btnGastos
             // 
@@ -986,11 +1096,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panelContenedor.ResumeLayout(false);
-            panelGastos2.ResumeLayout(false);
-            panelGastos2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dgvGastos).EndInit();
             panelIngresos.ResumeLayout(false);
             panelIngresos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
@@ -1000,9 +1105,22 @@ namespace Capa_de_Presentación.Formularios_Luiss
             panelBancos2.PerformLayout();
             panelCajaChica2.ResumeLayout(false);
             panelCajaChica2.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox10).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox9).EndInit();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
             panelIngresarCapital.ResumeLayout(false);
             panelIngresarCapital.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            panelGastos2.ResumeLayout(false);
+            panelGastos2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvGastos).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             pnlAlertaDeslizante.ResumeLayout(false);
@@ -1080,5 +1198,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private CheckBox chkIngresarCapital;
         private Label lblCapitalInicial;
         private Label label9;
+        private Panel panel2;
+        private Panel panel3;
+        private Panel panel4;
+        private CheckBox checkBox2;
+        private CheckBox checkBox1;
+        private TextBox txtSaldoCaja;
+        private PictureBox pictureBox10;
+        private PictureBox pictureBox9;
     }
 }

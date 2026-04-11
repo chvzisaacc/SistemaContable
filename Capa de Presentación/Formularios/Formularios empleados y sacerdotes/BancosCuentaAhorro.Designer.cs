@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BancosCuentaAhorro));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             panel2 = new Panel();
+            pictureBox7 = new PictureBox();
             dataGridView1 = new DataGridView();
             txtMonto = new TextBox();
             textBox2 = new TextBox();
@@ -38,6 +39,7 @@
             textBox1 = new TextBox();
             label7 = new Label();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
@@ -45,6 +47,7 @@
             // panel2
             // 
             panel2.BackColor = SystemColors.Control;
+            panel2.Controls.Add(pictureBox7);
             panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(txtMonto);
             panel2.Controls.Add(textBox2);
@@ -54,9 +57,21 @@
             panel2.Location = new Point(13, 12);
             panel2.Margin = new Padding(4, 3, 4, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(600, 307);
+            panel2.Size = new Size(841, 367);
             panel2.TabIndex = 10;
             panel2.Paint += panel2_Paint_1;
+            // 
+            // pictureBox7
+            // 
+            pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
+            pictureBox7.Location = new Point(762, 115);
+            pictureBox7.Margin = new Padding(4, 3, 4, 3);
+            pictureBox7.Name = "pictureBox7";
+            pictureBox7.Size = new Size(59, 60);
+            pictureBox7.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox7.TabIndex = 27;
+            pictureBox7.TabStop = false;
+            pictureBox7.Click += pictureBox7_Click;
             // 
             // dataGridView1
             // 
@@ -79,7 +94,7 @@
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(559, 278);
+            dataGridView1.Size = new Size(734, 340);
             dataGridView1.TabIndex = 21;
             // 
             // txtMonto
@@ -146,7 +161,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(626, 330);
+            ClientSize = new Size(867, 391);
             Controls.Add(panel2);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
@@ -157,6 +172,7 @@
             Load += FRM_PG42BancosCuentaAhorro_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
@@ -171,5 +187,6 @@
         private TextBox textBox1;
         private Label label7;
         private DataGridView dataGridView1;
+        private PictureBox pictureBox7;
     }
 }

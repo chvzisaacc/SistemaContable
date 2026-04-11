@@ -252,6 +252,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             textBox1.TabIndex = 22;
             textBox1.Text = "Cancelar";
             textBox1.Click += textBox1_Click;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // pictureBox5
             // 

@@ -5,7 +5,7 @@
 		<RootNamespace>Capa_de_procesamiento_de_datos</RootNamespace>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Platforms>AnyCPU;x64</Platforms>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 		<AssemblyName>Capa_de_procesamiento_de_datos</AssemblyName>
 		<UseWindowsForms>true</UseWindowsForms>
 	</PropertyGroup>

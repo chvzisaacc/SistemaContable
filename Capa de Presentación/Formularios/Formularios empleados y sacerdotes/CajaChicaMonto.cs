@@ -17,53 +17,85 @@ namespace Capa_de_Presentación.Formularios_Luiss
        
         private int _parroquiaId;
         private int _usuarioId;
+        public bool EsModificacion { get; set; } = false;
 
         public CajaChicaMonto(int parroquiaId, int usuarioId)
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            
             _parroquiaId = parroquiaId;
             _usuarioId = usuarioId;
+
+            // Cambiar el título del formulario o label según el modo
+            this.Load += (s, e) => {
+                lblTitulo.AutoSize = false; 
+                lblTitulo.Width = this.ClientSize.Width; 
+                lblTitulo.TextAlign = ContentAlignment.MiddleCenter; 
+                lblTitulo.Location = new Point(0, lblTitulo.Location.Y); 
+                if (EsModificacion)
+                {
+                    // Suponiendo que el label de arriba se llama lblTitulo
+                    // Si no tienes el nombre, búscalo en el diseñador
+                    lblTitulo.Text = "MODIFICAR SALDO DE CAJA CHICA";
+                    this.Text = "Modificar Saldo";
+                }
+            };
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // Validar campos primero
+            // 1. Validar campos
             if (!ValidarCampos())
                 return;
 
-            // Extraer el valor limpio
+            // 2. Extraer el valor limpio
             string textoLimpio = txtMonto.Text.Replace("L.", "").Replace(",", "").Trim();
             decimal saldo = decimal.Parse(textoLimpio, CultureInfo.InvariantCulture);
 
             Clsconexion objcone = new Clsconexion();
-            // Usamos el nombre del SP que corregimos antes
-            SqlCommand comando = new SqlCommand("sp_Insertarsaldo", objcone.sc);
-            comando.CommandType = CommandType.StoredProcedure;
 
-            comando.Parameters.AddWithValue("@monto", saldo);
-            comando.Parameters.AddWithValue("@Parroquia_ID", _parroquiaId);
-            comando.Parameters.AddWithValue("@Usuario_id", _usuarioId);
+            // Creamos el comando indicando que usaremos un Store Procedure
+            using (SqlCommand comando = new SqlCommand())
+            {
+                comando.Connection = objcone.sc;
+                comando.CommandType = CommandType.StoredProcedure;
+                comando.Parameters.Clear(); 
 
-            try
-            {
-                objcone.Abrir();
-                comando.ExecuteNonQuery();
-                MessageBox.Show("Monto insertado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // 3. Configuración dinámica según el modo
+                if (EsModificacion)
+                {
+                    comando.CommandText = "sp_Modificarsaldo";
+                    comando.Parameters.AddWithValue("@monto_nuevo", saldo);
+                }
+                else
+                {
+                    comando.CommandText = "sp_Insertarsaldo";
+                    comando.Parameters.AddWithValue("@monto", saldo);
+                }
 
-                SaldoActualizado?.Invoke();
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                // Si el SP lanza el RAISERROR ("Ya tiene un saldo inicial"), caerá aquí
-                MessageBox.Show(ex.Message, "Error de Sistema", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            }
-            finally
-            {
-                objcone.Cerrar();
+                // Parámetros comunes que ambos SPs requieren
+                comando.Parameters.AddWithValue("@Parroquia_ID", _parroquiaId);
+                comando.Parameters.AddWithValue("@Usuario_id", _usuarioId);
+
+                try
+                {
+                    objcone.Abrir();
+                    comando.ExecuteNonQuery();
+
+                    string mensajeExito = EsModificacion ? "Saldo modificado correctamente" : "Monto insertado correctamente";
+                    MessageBox.Show(mensajeExito, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    SaldoActualizado?.Invoke();
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    // Captura errores de SQL (como los RAISERROR que definimos)
+                    MessageBox.Show(ex.Message, "Error de Sistema", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+                finally
+                {
+                    objcone.Cerrar();
+                }
             }
         }
 
@@ -102,6 +134,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void FRM_CajaChicaMonto_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
+            if (this.EsModificacion)
+            {
+                lblTitulo.Text = "MODIFICAR SALDO DE CAJA CHICA";
+            }
         }
 
         private void txtMonto_Click(object sender, EventArgs e)
@@ -122,8 +158,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             else
             {
-                // Al salir, aplicamos el formato visual "L. 0.00"
-                // Primero limpiamos por si el usuario ya había escrito algo con formato
+                
                 string soloNumeros = txtMonto.Text.Replace("L.", "").Replace(",", "").Trim();
 
                 if (decimal.TryParse(soloNumeros, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal valor))

@@ -335,6 +335,7 @@ namespace Capa_de_Presentación.CLASES
                     string nombre_certificado = fila.Cells["Nombre_certificado"].Value?.ToString() ?? string.Empty;
                     string nombre_parroquia_escrito = fila.Cells["Nombre_Parroquia"].Value?.ToString() ?? string.Empty;
 
+
                     // Validación de campos obligatorios (opcionalmente)
                     if (string.IsNullOrWhiteSpace(nombre_certificado) || string.IsNullOrWhiteSpace(nombre_parroquia_escrito))
                     {

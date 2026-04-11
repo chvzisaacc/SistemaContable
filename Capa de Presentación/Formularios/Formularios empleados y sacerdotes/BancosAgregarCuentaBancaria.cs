@@ -4,24 +4,20 @@ using System.Data;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosAgregarCuentaBancaria : Form
     {
         private int _parroquiaId;
-        /// <summary>
-        /// The crud
-        /// </summary>
-        private ClsCRUD_CuentasBancarias crud;  // campo
-        /// <summary>
-        /// The validaciones
-        /// </summary>
-        private ClsValidaciones Validaciones; //Validaciones
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BancosAgregarCuentaBancaria"/> class.
-        /// </summary>
+        private ClsCRUD_CuentasBancarias crud;
+        private ClsValidaciones Validaciones;
+
+        // ✅ Campos para modo edición
+        private bool _modoEdicion = false;
+        private int _idOrigenEdicion = 0;
+        private string _nombreInicial = "";
+        private decimal _saldoInicial = 0;
+        private int _idTipoInicial = 0; // ✅ int, no string
+
+        // ✅ Constructor original — modo AGREGAR
         public BancosAgregarCuentaBancaria(int parroquiaId)
         {
             InitializeComponent();
@@ -32,12 +28,50 @@ namespace Capa_de_Presentación.Formularios_Luiss
             Validaciones = new ClsValidaciones();
         }
 
+        // ✅ Constructor nuevo — modo EDICIÓN
+        public BancosAgregarCuentaBancaria(int parroquiaId, int idOrigen, string nombre,
+                                           decimal saldo, int idTipoCuenta)
+        {
+            InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this._parroquiaId = parroquiaId;
+            crud = new ClsCRUD_CuentasBancarias();
+            Validaciones = new ClsValidaciones();
 
-        /// <summary>
-        /// Handles the Click event of the pictureBox2 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+            _modoEdicion = true;
+            _idOrigenEdicion = idOrigen;
+            _nombreInicial = nombre;
+            _saldoInicial = saldo;
+            _idTipoInicial = idTipoCuenta;
+
+            this.Text = "Edición de Cuenta Bancaria";
+        }
+
+        private void FRM_BancosAgregarCuentaBancaria_Load(object sender, EventArgs e)
+        {
+            this.CenterToScreen();
+            LlenarComboTipos();
+
+            if (_modoEdicion)
+            {
+                // ✅ Cambiar el label del título (label6 confirmado)
+                label6.Text = "Edición de cuenta bancaria";
+
+                // ✅ Precargar nombre
+                txtCuenta.Text = _nombreInicial;
+                txtCuenta.ForeColor = Color.Black;
+
+                // ✅ Precargar saldo
+                txtMonto.Text = _saldoInicial.ToString("0.00");
+                txtMonto.ForeColor = Color.Black;
+
+                // ✅ Preseleccionar tipo de cuenta por ID
+                cmbCuenta.SelectedValue = _idTipoInicial;
+            }
+        }
+
+        // ✅ Botón Guardar y cerrar
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             if (!ValidarCampos())
@@ -47,60 +81,72 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             if (!decimal.TryParse(txtMonto.Text.Trim(), out decimal saldo))
             {
+                MessageBox.Show("El monto ingresado no es válido.", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // CAPTURA DEL CÓDIGO (Ahorro = 2, Cheque = 3)
             if (cmbCuenta.SelectedValue == null)
             {
-                MessageBox.Show("Seleccione un tipo de cuenta válido.");
+                MessageBox.Show("Seleccione un tipo de cuenta válido.", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             int idTipoCuenta = Convert.ToInt32(cmbCuenta.SelectedValue);
 
-            bool ok = crud.CrearCuentaBanco(nombre, saldo, idTipoCuenta,
-                                this._parroquiaId ,out int nuevo_Id);
-
-
-            if (ok)
+            if (_modoEdicion)
             {
-                MessageBox.Show(this, $"Cuenta creada: {nombre}\nTipo: {cmbCuenta.Text}",
-                                "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                // ✅ MODO EDICIÓN — llama al SP de modificar
+                try
+                {
+                    bool ok = crud.ModificarCuentaBanco(_idOrigenEdicion, nombre, saldo,
+                                                        idTipoCuenta, _parroquiaId);
+                    if (ok)
+                    {
+                        MessageBox.Show(this, $"Cuenta actualizada: {nombre}",
+                                        "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "No se pudo actualizar la cuenta.", "Error",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al editar: " + ex.Message, "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                MessageBox.Show(this, "Error al guardar la cuenta en la base de datos.", "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // ✅ MODO AGREGAR — lógica original
+                bool ok = crud.CrearCuentaBanco(nombre, saldo, idTipoCuenta,
+                                                _parroquiaId, out int nuevo_Id);
+                if (ok)
+                {
+                    MessageBox.Show(this, $"Cuenta creada: {nombre}\nTipo: {cmbCuenta.Text}",
+                                    "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show(this, "Error al guardar la cuenta en la base de datos.", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
-        /// <summary>
-        /// Handles the Load event of the FRM_BancosAgregarCuentaBancaria control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void FRM_BancosAgregarCuentaBancaria_Load(object sender, EventArgs e)
-        {
-            this.CenterToScreen();
-            LlenarComboTipos();
-
-        }
-        /// <summary>
-        /// Validars the campos.
-        /// </summary>
-        /// <returns></returns>
         private bool ValidarCampos()
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
 
             string cuenta = txtCuenta.Text.Trim();
             string monto = txtMonto.Text.Trim();
-
-
-
 
             if (string.IsNullOrWhiteSpace(cuenta) || !val.EsTextoValido(cuenta))
             {
@@ -112,7 +158,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             if (string.IsNullOrWhiteSpace(monto) || !val.EsMontoPositivo(monto))
             {
-                MessageBox.Show("El monto de la cuenta es requerido, solo puede contener numeros y debe ser mayor a 0.",
+                MessageBox.Show("El monto es requerido, solo puede contener números y debe ser mayor a 0.",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMonto.Focus();
                 return false;
@@ -120,31 +166,26 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             if (!val.EsMontoDentroDelRango(monto))
             {
-                MessageBox.Show("El monto de la cuenta es requerido, solo puede contener numeros y debe ser mayor a 0.",
+                MessageBox.Show("El monto está fuera del rango permitido.",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMonto.Focus();
                 return false;
             }
 
-
             return true;
         }
 
-        /// <summary>
-        /// Handles the Paint event of the panel2 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
-        private void panel2_Paint(object sender, PaintEventArgs e)
+        private void LlenarComboTipos()
         {
-
+            clsEnviarACajaChica db = new clsEnviarACajaChica();
+            DataTable dt = db.ObtenerTiposCuenta();
+            cmbCuenta.DataSource = dt;
+            cmbCuenta.DisplayMember = "TipoOrigen";
+            cmbCuenta.ValueMember = "IdOrigenTipo";
         }
 
-        /// <summary>
-        /// Handles the Click event of the txtCuenta control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void panel2_Paint(object sender, PaintEventArgs e) { }
+
         private void txtCuenta_Click(object sender, EventArgs e)
         {
             if (txtCuenta.Text == "Ingrese una cuenta")
@@ -154,11 +195,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        /// <summary>
-        /// Handles the Leave event of the txtUsuario control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtUsuario_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtCuenta.Text))
@@ -168,11 +204,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        /// <summary>
-        /// Handles the 1 event of the txtMonto_Click control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtMonto_Click_1(object sender, EventArgs e)
         {
             if (txtMonto.Text == "Ingrese un Monto")
@@ -182,29 +213,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        /// <summary>
-        /// Handles the 1 event of the txtMonto_Leave control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtMonto_Leave_1(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtCuenta.Text))
+            if (string.IsNullOrWhiteSpace(txtMonto.Text))
             {
                 txtMonto.Text = "Ingrese un monto";
                 txtMonto.ForeColor = Color.Gray;
             }
         }
-
-        private void LlenarComboTipos()
-        {
-            clsEnviarACajaChica db = new clsEnviarACajaChica();
-            DataTable dt = db.ObtenerTiposCuenta(); // El método que creamos antes
-            cmbCuenta.DataSource = dt;
-            cmbCuenta.DisplayMember = "TipoOrigen";
-            cmbCuenta.ValueMember = "IdOrigenTipo";
-        }
-
-        
     }
 }

@@ -7,7 +7,7 @@
 		<PublishTrimmed>false</PublishTrimmed>
 		<PublishSingleFile>false</PublishSingleFile>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Platforms>AnyCPU;x64</Platforms>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 		<AssemblyName>Capa de acceso de datos</AssemblyName>
 	</PropertyGroup>
 

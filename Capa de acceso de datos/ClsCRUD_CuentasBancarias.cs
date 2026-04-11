@@ -224,5 +224,66 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
+        public bool ModificarCuentaBanco(int id_origen, string nombre, decimal saldo, int idTipo, int parroquiaId)
+        {
+            try
+            {
+                conexion.Abrir();
+                using var cmd = new SqlCommand("dbo.sp_ModificarOrigenFuente", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@Id_Origen", SqlDbType.Int).Value = id_origen;
+                cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar, 40).Value = nombre ?? string.Empty;
+
+                var pSaldo = cmd.Parameters.Add("@saldo", SqlDbType.Decimal);
+                pSaldo.Precision = 18;
+                pSaldo.Scale = 2;
+                pSaldo.Value = saldo;
+
+                cmd.Parameters.Add("@IdOrigenTipo", SqlDbType.Int).Value = idTipo;
+                cmd.Parameters.Add("@Parroquia_ID", SqlDbType.Int).Value = parroquiaId;
+
+                conexion.EjecutarYEnviar(cmd);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al modificar cuenta bancaria: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+
+        public DateTime ObtenerFechaUltimoIngreso(int parroquiaId, string nombreCuenta)
+        {
+            try
+            {
+                conexion.Abrir();
+                using var cmd = new SqlCommand("sp_ObtenerFechaUltimoIngreso", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@Parroquia_ID", SqlDbType.Int).Value = parroquiaId;
+                cmd.Parameters.Add("@NombreCuenta", SqlDbType.NVarChar).Value = nombreCuenta;
+
+                var result = cmd.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                {
+                    return Convert.ToDateTime(result);
+                }
+
+                return DateTime.MinValue;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener fecha de validación: " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
     }
 }

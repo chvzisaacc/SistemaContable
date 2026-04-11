@@ -33,6 +33,7 @@
             textBox1 = new TextBox();
             label7 = new Label();
             panel1 = new Panel();
+            lblTitulo = new Label();
             Btnguardar = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -79,6 +80,7 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.Control;
+            panel1.Controls.Add(lblTitulo);
             panel1.Controls.Add(Btnguardar);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(txtMonto);
@@ -89,6 +91,16 @@
             panel1.Size = new Size(596, 297);
             panel1.TabIndex = 27;
             panel1.Paint += panel1_Paint;
+            // 
+            // lblTitulo
+            // 
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Segoe UI Black", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitulo.Location = new Point(194, 20);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(18, 25);
+            lblTitulo.TabIndex = 28;
+            lblTitulo.Text = ".";
             // 
             // Btnguardar
             // 
@@ -131,5 +143,6 @@
         private Label label7;
         private Panel panel1;
         private Button Btnguardar;
+        private Label lblTitulo;
     }
 }

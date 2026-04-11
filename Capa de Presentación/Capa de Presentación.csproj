@@ -10,7 +10,7 @@
 		<ApplicationIcon>logo.ico</ApplicationIcon>
 		<StartupObject>Capa_de_Presentación.Program</StartupObject>
 		<AssemblyName>SistemaContable-Arquidiócesis</AssemblyName>
-		<Platforms>AnyCPU;x64</Platforms>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 		<SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
 		<NoWarn>$(NoWarn);CS8618;CS8600;CS8602;CS8604;CS8625;CS0105</NoWarn>
 		<ApplicationManifest>app.manifest</ApplicationManifest>

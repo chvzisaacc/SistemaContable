@@ -38,21 +38,22 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private bool modoEdicion = false;
         private bool _modoEdicionManual = false;
-        
+
 
         /// <summary>
         /// The cuenta bancoid seleccionado
         /// </summary>
-       
+
         /// <summary>
         /// The subcuentas
         /// </summary>
-        private AutoCompleteStringCollection Subcuentas = new AutoCompleteStringCollection();
+        private AutoCompleteStringCollection SubcuentasIngresos = new AutoCompleteStringCollection();
+        private AutoCompleteStringCollection SubcuentasGastos = new AutoCompleteStringCollection();
         /// <summary>
         /// The object sub cuentas
         /// </summary>
         private ClsAccionesDB objSubCuentas = new ClsAccionesDB();
-        
+
 
         /// <summary>
         /// The crud historial
@@ -106,6 +107,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         public int UsuarioId { get; private set; }
 
         private readonly clsCRUD_Usuarios _repo = new clsCRUD_Usuarios();
+        bool EsModificacionCapital;
 
         /// <summary>
         /// The cerrar
@@ -125,6 +127,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             PredictedId = predicted_id;
             ParroquiaId = parroquia_id;
             UsuarioId = predicted_id;
+            EsModificacionCapital = false;
 
 
             ConfigurarCapitalInicial();
@@ -238,7 +241,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 var culturaEEUU = new System.Globalization.CultureInfo("en-US");
                 lblCapitalInicial.Text = capital.ToString("'L. ' #,##0.00", culturaEEUU);
             }
-
         }
 
         /// <summary>
@@ -408,6 +410,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             MostrarSoloEstePanel(panelCajaChica2);
             RegistrarNavegacion("Caja Chica");
             ActualizarSaldo();
+            lblCapitalInicial.Visible = false;
+            label9.Visible = false;
+            checkBox1.Checked = false;
+            checkBox2.Checked = false;
+            MostrarCapitalInicial();
 
         }
         /// <summary>
@@ -655,7 +662,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     break;
             }
         }
-        
+
 
         /// <summary>
         /// Handles the Paint event of the panel1 control.
@@ -684,7 +691,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             try
             {
-              
+
                 MostrarSaldoActual();
 
                 txtSaldoActual.Invalidate();
@@ -722,6 +729,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 obj_caja.SaldoActualizado += this.ActualizarSaldo;
                 obj_caja.ShowDialog();
                 obj_caja.SaldoActualizado -= this.ActualizarSaldo;
+                obj_caja.SaldoActualizado += () => MostrarCapitalInicial();
             }
 
             // 1. Obtenemos el saldo de la base de datos
@@ -738,7 +746,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 var culturaEEUU = new System.Globalization.CultureInfo("en-US");
 
                 // Ahora sí, aplicamos el formato correcto: L. 19,000.00
-                txtSaldoActual.Text = saldo.ToString("'L. ' #,##0.00", culturaEEUU);
+                txtSaldoCaja.Text = saldo.ToString("'L. ' #,##0.00", culturaEEUU);
 
                 chkSaldoInicial.Visible = (saldo == 0);
 
@@ -772,11 +780,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     decimal saldo = System.Convert.ToDecimal(lector["saldo"]);
 
                     var culturaEEUU = new System.Globalization.CultureInfo("en-US");
-                    txtSaldoActual.Text = saldo.ToString("'L. ' #,##0.00", culturaEEUU);
+                    txtSaldoCaja.Text = saldo.ToString("'L. ' #,##0.00", culturaEEUU);
                 }
                 else
                 {
-                    txtSaldoActual.Text = "L. 0.00";
+                    txtSaldoCaja.Text = "L. 0.00";
                 }
 
                 lector.Close();
@@ -976,49 +984,36 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private void CargarDatosAutocompletado()
         {
-            Subcuentas.Clear();
-
+            SubcuentasIngresos.Clear();
             try
             {
-                DataTable dt = objSubCuentas.ObtenerCuentasIngreso();
+                ClsAccionesDB objTemp = new ClsAccionesDB();  // nueva instancia, no reutilizar
+                DataTable dt = objTemp.ObtenerCuentasIngreso();
 
                 foreach (DataRow row in dt.Rows)
-                {
-                    Subcuentas.Add(row["Subcuentas"].ToString());
-                }
+                    SubcuentasIngresos.Add(row["Subcuentas"].ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("ERROR REAL: " + ex.Message, "Error de Carga",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
-
         }
-        /// <summary>
-        /// Cargars the datos autocompletado gastos.
-        /// </summary>
+
         private void CargarDatosAutocompletadoGastos()
         {
-            Subcuentas.Clear();
-
+            SubcuentasGastos.Clear();
             try
             {
                 DataTable dt = objSubCuentas.ObtenerCuentasGastos();
-
                 foreach (DataRow row in dt.Rows)
-                {
-                    Subcuentas.Add(row["Subcuentas"].ToString());
-                }
+                    SubcuentasGastos.Add(row["Subcuentas"].ToString());
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
         }
-
 
 
 
@@ -1029,23 +1024,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="DataGridViewEditingControlShowingEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (dataGridView1.CurrentCell.OwningColumn.Name == "NombreCuenta")
+            if (dataGridView1.CurrentCell?.OwningColumn.Name == "NombreCuenta")
             {
                 TextBox auto_text = e.Control as TextBox;
                 if (auto_text != null)
                 {
                     auto_text.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                     auto_text.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-                    ClsAccionesDB clsAccionesDB = new();
-                    DataTable dt_cuentas = clsAccionesDB.ObtenerCuentasIngreso();
-
-                    AutoCompleteStringCollection nombres_cuentas = new AutoCompleteStringCollection();
-                    foreach (DataRow row in dt_cuentas.Rows)
-                        nombres_cuentas.Add(row["Subcuentas"].ToString());
-
-                    auto_text.AutoCompleteCustomSource = nombres_cuentas;
-                    // ← SIN evento Leave
+                    auto_text.AutoCompleteCustomSource = SubcuentasIngresos; // ← CAMBIO
                 }
             }
             else
@@ -1112,7 +1098,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="DataGridViewEditingControlShowingEventArgs"/> instance containing the event data.</param>
         private void dgvGastos_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-
             if (dgvGastos.CurrentCell == null) return;
 
             if (dgvGastos.CurrentCell.OwningColumn.Name == "NombreCuenta")
@@ -1122,7 +1107,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     auto_text.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                     auto_text.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                    auto_text.AutoCompleteCustomSource = Subcuentas;
+                    auto_text.AutoCompleteCustomSource = SubcuentasGastos; // ← CAMBIO
                 }
             }
             else
@@ -1135,10 +1120,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     auto_text.AutoCompleteCustomSource = null;
                 }
             }
-
         }
-
-
 
         private bool ValidarPanelGastos()
         {
@@ -1157,14 +1139,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     MessageBox.Show("Debe seleccionar una fecha.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     dateTimePicker2.Focus();
-                    return false;
-                }
-
-                // 3. Validar que el número de referencia no esté vacío
-                if (string.IsNullOrWhiteSpace(txtNoReferencia2.Text))
-                {
-                    MessageBox.Show("Debe ingresar un número de referencia.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNoReferencia2.Focus();
                     return false;
                 }
 
@@ -1246,15 +1220,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     return false;
                 }
 
-                // 7. Validar monto contra saldo disponible (SIN SUMAS)
-                //if (monto > saldoDisponible)
-                //{
-                //MessageBox.Show($"El monto ingresado ({monto:C2}) excede el saldo disponible ({saldoDisponible:C2}).\n\n" +
-                //"Saldo insuficiente para realizar esta transacción.",
-                //"Saldo Insuficiente", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                // return false;
-                //}
-
                 return true;
             }
             catch (Exception ex)
@@ -1282,14 +1247,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 {
                     MessageBox.Show("Debe seleccionar una fecha.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     dtpFecha.Focus();
-                    return false;
-                }
-
-                // 3. Validar que el número de referencia no esté vacío
-                if (string.IsNullOrWhiteSpace(txtNoReferencia.Text))
-                {
-                    MessageBox.Show("Debe ingresar un número de referencia.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNoReferencia.Focus();
                     return false;
                 }
 
@@ -1362,7 +1319,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-       
+
 
 
         /// <summary>
@@ -1644,7 +1601,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
+
 
         /// <summary>
         /// Handles the Paint event of the panelGastos2 control.
@@ -1687,7 +1644,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             obj_transa.BloquearDesbloquearDataGastos(dtDatosGastos, dgvGastos, e.RowIndex);
 
         }
-      
+
         private void pictureBox5_Click(object sender, EventArgs e)
         {
             if (modoEdicion)
@@ -1703,6 +1660,24 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 MessageBox.Show("Seleccione una fila válida para editar.", "Advertencia",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
+            }
+
+            //VALIDACIÓN DE TIEMPO PARA EDICIÓN
+            object fechaValor = dataGridView1.CurrentRow.Cells["fecha_transaccion"].Value;
+            if (fechaValor != null && fechaValor != DBNull.Value)
+            {
+                DateTime fechaCreacion = System.Convert.ToDateTime(fechaValor);
+                double minutosTranscurridos = (DateTime.Now - fechaCreacion).TotalMinutes;
+
+                if (minutosTranscurridos > 15)
+                {
+                    MessageBox.Show(
+                        "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.",
+                        "Edición no permitida",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
             }
 
             try
@@ -1928,7 +1903,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 try
                 {
-                   
+
                     ClsValidaciones validar = new();
                     DateTime fecha_transaccion = dtpFecha.Value;
                     string referencia_texto = txtNoReferencia.Text.Trim();
@@ -2095,6 +2070,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 MessageBox.Show("No puede editar una fila vacía.", "Advertencia",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
+            }
+
+            object fechaValor = fila_seleccionada.Cells["fecha_transaccion"].Value;
+            if (fechaValor != null && fechaValor != DBNull.Value)
+            {
+                DateTime fechaCreacion = System.Convert.ToDateTime(fechaValor);
+                double minutosTranscurridos = (DateTime.Now - fechaCreacion).TotalMinutes;
+
+                if (minutosTranscurridos > 15)
+                {
+                    MessageBox.Show(
+                        "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.",
+                        "Edición no permitida",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
             }
 
             // Cargar datos de la fila
@@ -2287,7 +2279,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         private readonly ClsCapitalInicial _crudCapital = new ClsCapitalInicial();
-        
+
         private void ConfigurarCapitalInicial()
         {
             bool tieneCapital = _crudCapital.TieneCapitalInicial(ParroquiaId);
@@ -2360,53 +2352,39 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
         private void btnGuardarCapital_Click_1(object sender, EventArgs e)
         {
+
             if (!ValidarCapitalInicial()) return;
 
-            decimal monto = System.Convert.ToDecimal(txtCapitalInicial.Text);
-
-            //MessageBox.Show($"UsuarioId: {PredictedId}\nParroquiaId: {ParroquiaId}\nMonto: {monto}");
-
-            DialogResult result = MessageBox.Show(
-                $"¿Está seguro de registrar L.{monto:N2} como capital inicial de la parroquia?\n" +
-                "Esta acción no puede deshacerse.",
-                "Confirmar capital inicial",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
+            try
             {
-                try
+                decimal monto = Convert.ToDecimal(txtCapitalInicial.Text);
+                bool exito = false;
+
+                if (EsModificacionCapital)
+                    exito = _crudCapital.ModificarCapitalInicial(monto, ParroquiaId, PredictedId);
+                else
+                    exito = _crudCapital.IngresarCapitalInicial(PredictedId, ParroquiaId, monto);
+
+                if (exito)
                 {
-                    bool exito = _crudCapital.IngresarCapitalInicial(PredictedId, ParroquiaId, monto);
+                    MessageBox.Show("Operación realizada con éxito.", "Sistema",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    if (exito)
-                    {
-                        MessageBox.Show(
-                            $"Capital inicial de L.{monto:N2} registrado exitosamente.",
-                            "Éxito",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
+                    panel4.Visible = false;
+                    panelIngresarCapital.Visible = false;
+                    checkBox2.Checked = false;
+                    chkIngresarCapital.Checked = false;
+                    txtCapitalInicial.Clear();
 
-                        ConfigurarCapitalInicial();
-
-                        // Ocultar el panel y checkbox
-                        panelIngresarCapital.Visible = false;
-                        chkIngresarCapital.Visible = false;
-                        chkIngresarCapital.Checked = false;
-
-                        // Mostrar y actualizar el label con el capital
-                        lblCapitalInicial.Visible = true;
-                        MostrarCapitalInicial(); // <--- LLAMADA AQUÍ
-
-                        // Actualizar también el saldo general
-                        ActualizarSaldo();
-                    }
+                    EsModificacionCapital = false;
+                    MostrarCapitalInicial();
+                    ActualizarSaldo();
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al registrar el capital inicial: " + ex.Message,
-                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error de Validación",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -2431,7 +2409,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-       
+
 
         private void btnCancelarCapital_Click_1(object sender, EventArgs e)
         {
@@ -2442,7 +2420,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void panel5_Paint(object sender, PaintEventArgs e)
         {
 
-           
+
         }
 
         private void dataGridView1_CellDoubleClick_1(object sender, DataGridViewCellEventArgs e)
@@ -2468,6 +2446,165 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dataGridView1.CurrentCell = fila.Cells[e.ColumnIndex];
             dataGridView1.BeginEdit(true);
         }
-    }
 
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                checkBox2.Checked = false;
+                panel3.Visible = true;
+                lblCapitalInicial.Visible = false;
+                chkSaldoInicial.Visible = true;
+            }
+            else
+            {
+                panel3.Visible = false;
+                chkSaldoInicial.Visible = false;
+            }
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked)
+            {
+                checkBox1.Checked = false;
+                panel4.Visible = true;
+                lblCapitalInicial.Visible = true;
+                label9.Visible = true;
+                MostrarCapitalInicial();
+            }
+            else
+            {
+                panel4.Visible = false;
+                lblCapitalInicial.Visible = false;
+                label9.Visible = false;
+            }
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox9_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ClsCRUD_CuentasBancarias objetoCuentas = new ClsCRUD_CuentasBancarias();
+
+                DateTime fechaIngreso = objetoCuentas.ObtenerFechaUltimoIngreso(ParroquiaId, "Caja Chica");
+
+                if (fechaIngreso != DateTime.MinValue)
+                {
+                    TimeSpan diferencia = DateTime.Now - fechaIngreso;
+
+                    if (diferencia.TotalMinutes > 16)
+                    {
+                        MessageBox.Show(
+                            "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.",
+                            "Edición no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        CajaChicaMonto frm = new CajaChicaMonto(ParroquiaId, UsuarioId);
+                        frm.EsModificacion = true;
+                        frm.SaldoActualizado += this.ActualizarSaldo;
+                        frm.SaldoActualizado += () => MostrarCapitalInicial();
+                        frm.ShowDialog();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No existe registro previo de Caja Chica en esta parroquia.", "Validación");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pictureBox10_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (!checkBox2.Checked || !lblCapitalInicial.Visible)
+                {
+                    MessageBox.Show("Primero debe activar la sección de Capital Inicial marcando la casilla 'CAPITAL INICIAL'.",
+                                    "Acción requerida", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                ClsCRUD_CuentasBancarias objetoCuentas = new ClsCRUD_CuentasBancarias();
+                DateTime fechaUltimoMovimiento = objetoCuentas.ObtenerFechaUltimoIngreso(ParroquiaId, "Capital Inicial");
+
+                if (fechaUltimoMovimiento == DateTime.MinValue)
+                {
+                    MessageBox.Show("No se encontró un registro de capital inicial para modificar.",
+                                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                TimeSpan diferencia = DateTime.Now - fechaUltimoMovimiento;
+                double minutosPasados = Math.Floor(diferencia.TotalMinutes);
+
+                if (minutosPasados > 15)
+                {
+                    MessageBox.Show(
+                        "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.",
+                        "Edición no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+
+                decimal capitalActual = _crudCapital.ObtenerCapitalInicial(PredictedId, ParroquiaId);
+
+                if (capitalActual <= 0)
+                {
+                    MessageBox.Show("No hay capital inicial registrado para modificar.",
+                                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                EsModificacionCapital = true;
+                panel4.Visible = true;
+                panelIngresarCapital.Visible = true;
+
+                var culturaEEUU = new System.Globalization.CultureInfo("en-US");
+                txtCapitalInicial.Text = capitalActual.ToString("'L. ' #,##0.00", culturaEEUU);
+                txtCapitalInicial.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al validar: " + ex.Message, "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pictureBox10_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
+    }
 }
