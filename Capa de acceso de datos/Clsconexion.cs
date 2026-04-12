@@ -77,6 +77,9 @@ namespace Capa_de_acceso_de_datos
                 parametros[key] = valor;
             }
 
+            if (!parametros.ContainsKey("_ParroquiaId"))
+                parametros["_ParroquiaId"] = Sesion1.id_parroquia;
+
             _ = Task.Run(() => OnSpEjecutado?.Invoke(nombreSp, parametros));
         }
 

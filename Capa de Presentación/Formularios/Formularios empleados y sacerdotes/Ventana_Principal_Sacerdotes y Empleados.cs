@@ -2685,8 +2685,37 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             bool hayServidor = await Capa_de_procesamiento_de_datos.LocalDbOff
                                     .ServidorDisponibleAsync();
-            int pendientes = new Capa_de_procesamiento_de_datos.LocalDbOff()
-                                    .ContarPendientes();
+
+            var todos = new Capa_de_procesamiento_de_datos.LocalDbOff()
+                                .ObtenerPendientes();
+
+            int pendientes = todos.Count(r =>
+            {
+                try
+                {
+                    using var doc = System.Text.Json.JsonDocument.Parse(r.DatosJson);
+                    var root = doc.RootElement;
+
+                    if (!root.TryGetProperty("Parametros", out var parametros))
+                        return false;
+
+                    if (parametros.TryGetProperty("_ParroquiaId", out var p1))
+                        return p1.GetInt32() == this.ParroquiaId;
+
+
+                    if (parametros.TryGetProperty("Parroquia_ID", out var p2))
+                        return p2.GetInt32() == this.ParroquiaId;
+
+                    if (parametros.TryGetProperty("parroquia_id", out var p3))
+                        return p3.GetInt32() == this.ParroquiaId;
+
+                    if (parametros.TryGetProperty("id_parroquia", out var p4))
+                        return p4.GetInt32() == this.ParroquiaId;
+
+                    return false;
+                }
+                catch { return false; }
+            });
 
             if (lblConexion.InvokeRequired)
                 lblConexion.Invoke(() => MostrarEstado(hayServidor, pendientes));
@@ -2704,7 +2733,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             else if (pendientes > 0)
             {
-                lblConexion.Text = $"● Registros pendientes...Espere que el administrador active el servidor";
+                lblConexion.Text = $"● {pendientes} registro(s) pendiente(s) — esperando servidor";
                 lblConexion.ForeColor = Color.FromArgb(113, 63, 18);
                 lblConexion.BackColor = Color.FromArgb(254, 249, 195);
             }
