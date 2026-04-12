@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
 
-// --- CONFIGURACIÓN DE PORTABILIDAD ---
+
 // Esto le dice al servidor que escuche en el puerto 5145 de cualquier IP de la PC (0.0.0.0)
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {

@@ -2696,21 +2696,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     using var doc = System.Text.Json.JsonDocument.Parse(r.DatosJson);
                     var root = doc.RootElement;
 
-                    if (!root.TryGetProperty("Parametros", out var parametros))
-                        return false;
+                    
+                    if (root.TryGetProperty("_ParroquiaId", out var p))
+                        return p.GetInt32() == this.ParroquiaId;
 
-                    if (parametros.TryGetProperty("_ParroquiaId", out var p1))
-                        return p1.GetInt32() == this.ParroquiaId;
+                    if (root.TryGetProperty("Parametros", out var parametros))
+                    {
+                        if (parametros.TryGetProperty("Parroquia_ID", out var p2))
+                            return p2.GetInt32() == this.ParroquiaId;
 
+                        if (parametros.TryGetProperty("parroquia_id", out var p3))
+                            return p3.GetInt32() == this.ParroquiaId;
 
-                    if (parametros.TryGetProperty("Parroquia_ID", out var p2))
-                        return p2.GetInt32() == this.ParroquiaId;
-
-                    if (parametros.TryGetProperty("parroquia_id", out var p3))
-                        return p3.GetInt32() == this.ParroquiaId;
-
-                    if (parametros.TryGetProperty("id_parroquia", out var p4))
-                        return p4.GetInt32() == this.ParroquiaId;
+                        if (parametros.TryGetProperty("id_parroquia", out var p4))
+                            return p4.GetInt32() == this.ParroquiaId;
+                    }
 
                     return false;
                 }

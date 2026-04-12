@@ -49,7 +49,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 DataTable dt_cuentas = crudTransferencia.ObtenerCuentasBanco(this._parroquiaId);
 
-                // Configurar combobox destino (siempre libre)
                 cmbDestino.DataSource = dt_cuentas.Copy();
                 cmbDestino.DisplayMember = "NombreCompleto";
                 cmbDestino.ValueMember = "Id_Origen";
@@ -57,17 +56,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 if (_idOrigenFijo > 0)
                 {
-                    // Origen fijo: mostrar solo la cuenta de Caja Chica
                     DataTable dt_caja = crudTransferencia.ObtenerCajaChica(this._parroquiaId);
                     cmbOrigen.DataSource = dt_caja;
                     cmbOrigen.DisplayMember = "NombreCompleto";
                     cmbOrigen.ValueMember = "Id_Origen";
-                    cmbOrigen.SelectedValue = _idOrigenFijo;
-                    cmbOrigen.Enabled = false;    // ← no puede cambiar el origen
+                    cmbOrigen.Enabled = false;
                 }
                 else
                 {
-                    // Origen libre: transferencia normal entre cuentas
                     cmbOrigen.DataSource = dt_cuentas.Copy();
                     cmbOrigen.DisplayMember = "NombreCompleto";
                     cmbOrigen.ValueMember = "Id_Origen";
@@ -213,7 +209,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private void FRM_BancosTransferenciaEntreCuentas_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
-            cmbOrigen.Text = this.SaldoTexto;
+            //cmbOrigen.Text = this.SaldoTexto;
         }
         /// <summary>
         /// Handles the Click event of the txtMonto control.

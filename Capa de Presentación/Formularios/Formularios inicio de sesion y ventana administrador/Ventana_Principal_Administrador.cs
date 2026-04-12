@@ -71,6 +71,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// The cerrar
         /// </summary>
         ClsCerrar cerrar = new ClsCerrar();
+        private Label lblConexion;
+        private System.Windows.Forms.Timer timerConexion;
 
 
 
@@ -112,6 +114,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
             bindingSourceCatalogo = new BindingSource();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.FormClosed += (s, e) => Application.Exit();
+
+            this.FormClosing += (s, e) =>
+            {
+                timerConexion?.Stop();
+                timerConexion?.Dispose();
+            };
+
+            InicializarIndicadorConexion();
 
 
         }
@@ -159,7 +169,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             CargarComboBoxEstadoCuenta();
             HabilitarControlesCatalogo(false);
 
-
+            _ = ActualizarEstadoConexionAdmin();
         }
 
 
@@ -1614,6 +1624,71 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 }
             }
         }
-    }
+    
 
+    private void InicializarIndicadorConexion()
+        {
+            lblConexion = new Label
+            {
+                AutoSize = true,
+                Font = new Font("Segoe UI", 9f, FontStyle.Bold),
+                Padding = new Padding(8, 4, 8, 4),
+                BorderStyle = BorderStyle.FixedSingle,
+                Text = "● Verificando...",
+                Anchor = AnchorStyles.Top | AnchorStyles.Right
+            };
+
+            this.Controls.Add(lblConexion);
+            lblConexion.BringToFront();
+            lblConexion.Location = new Point(this.ClientSize.Width - lblConexion.Width - 10, 10);
+
+            this.Resize += (s, e) =>
+            {
+                lblConexion.Location = new Point(this.ClientSize.Width - lblConexion.Width - 10, 10);
+            };
+
+            timerConexion = new System.Windows.Forms.Timer { Interval = 5000 };
+            timerConexion.Tick += async (s, e) => await ActualizarEstadoConexionAdmin();
+            timerConexion.Start();
+
+            _ = ActualizarEstadoConexionAdmin();
+        }
+
+        private async Task ActualizarEstadoConexionAdmin()
+        {
+            bool hayServidor = await Capa_de_procesamiento_de_datos.LocalDbOff
+                                    .ServidorDisponibleAsync();
+
+            int pendientes = new Capa_de_procesamiento_de_datos.LocalDbOff()
+                                    .ContarPendientes();
+
+            if (lblConexion.InvokeRequired)
+                lblConexion.Invoke(() => MostrarEstadoAdmin(hayServidor, pendientes));
+            else
+                MostrarEstadoAdmin(hayServidor, pendientes);
+        }
+
+        private void MostrarEstadoAdmin(bool conectado, int pendientes)
+        {
+            if (!conectado)
+            {
+                lblConexion.Text = "● Sin conexión al servidor";
+                lblConexion.ForeColor = Color.FromArgb(127, 29, 29);
+                lblConexion.BackColor = Color.FromArgb(254, 226, 226);
+            }
+            else if (pendientes > 0)
+            {
+                lblConexion.Text = $"● {pendientes} registro(s) pendiente(s) en todas las parroquias";
+                lblConexion.ForeColor = Color.FromArgb(113, 63, 18);
+                lblConexion.BackColor = Color.FromArgb(254, 249, 195);
+            }
+            else
+            {
+                lblConexion.Text = "● Todas las parroquias sincronizadas";
+                lblConexion.ForeColor = Color.FromArgb(22, 101, 52);
+                lblConexion.BackColor = Color.FromArgb(220, 252, 231);
+            }
+        }
+
+    }
 }

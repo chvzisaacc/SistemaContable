@@ -21,19 +21,22 @@ namespace Capa_de_Presentación
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
 
+            Application.ApplicationExit += (s, e) =>
+            {
+                foreach (var p in System.Diagnostics.Process.GetProcessesByName("BASEDEDATOS.API"))
+                    p.Kill();
+                foreach (var p in System.Diagnostics.Process.GetProcessesByName("ngrok"))
+                    p.Kill();
+            };
+
             IniciarAPI();
-            Capa_de_acceso_de_datos.Clsconexion.OnSpEjecutado += (nombreSp, parametros) =>
+            Capa_de_acceso_de_datos.Clsconexion.OnSpEjecutado += (nombreSp, json) =>
             {
                 Task.Run(async () =>
                 {
                     try
                     {
-                        string json = System.Text.Json.JsonSerializer.Serialize(new
-                        {
-                            SpName = nombreSp,
-                            Parametros = parametros
-                        });
-
+                       
                         var motor = new Capa_de_procesamiento_de_datos.LocalDbOff();
                         bool hayServidor = await Capa_de_procesamiento_de_datos.LocalDbOff.ServidorDisponibleAsync();
 
@@ -116,6 +119,7 @@ namespace Capa_de_Presentación
                 _procesoApi.StartInfo.FileName = rutaApi;
                 _procesoApi.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
                 _procesoApi.StartInfo.CreateNoWindow = true;
+                _procesoApi.StartInfo.UseShellExecute = false;
                 _procesoApi.Start();
 
                 System.Threading.Thread.Sleep(2000);

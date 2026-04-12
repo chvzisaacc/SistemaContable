@@ -96,6 +96,7 @@
             textBox2.Size = new Size(154, 27);
             textBox2.TabIndex = 14;
             textBox2.Text = " Enviar y cerrar";
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pictureBox2
             // 

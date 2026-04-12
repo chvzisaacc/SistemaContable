@@ -12,7 +12,7 @@ namespace Capa_de_acceso_de_datos
 
         // Evento que dispara cuando se ejecuta un SP
         // La Capa de Presentación se suscribe a esto
-        public static event Action<string, Dictionary<string, object>>? OnSpEjecutado;
+        public static event Action<string, string>? OnSpEjecutado;
 
         public void EjecutarYEnviar(SqlCommand cmd, bool sincronizar = false)
         {
@@ -64,11 +64,13 @@ namespace Capa_de_acceso_de_datos
         }
 
         // se dispara el evento
+
         private void NotificarSP(SqlCommand cmd)
         {
             if (OnSpEjecutado == null) return;
-
             string nombreSp = cmd.CommandText;
+
+
             var parametros = new Dictionary<string, object>();
             foreach (SqlParameter p in cmd.Parameters)
             {
@@ -77,10 +79,15 @@ namespace Capa_de_acceso_de_datos
                 parametros[key] = valor;
             }
 
-            if (!parametros.ContainsKey("_ParroquiaId"))
-                parametros["_ParroquiaId"] = Sesion1.id_parroquia;
+            var root = new System.Text.Json.Nodes.JsonObject
+            {
+                ["SpName"] = nombreSp,
+                ["Parametros"] = System.Text.Json.JsonSerializer.SerializeToNode(parametros),
+                ["_ParroquiaId"] = Sesion1.id_parroquia
+            };
 
-            _ = Task.Run(() => OnSpEjecutado?.Invoke(nombreSp, parametros));
+            string json = root.ToJsonString();
+            _ = Task.Run(() => OnSpEjecutado?.Invoke(nombreSp, json));
         }
 
         public void Abrir() { if (sc.State == ConnectionState.Closed) sc.Open(); }

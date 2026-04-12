@@ -83,9 +83,8 @@ namespace Capa_de_procesamiento_de_datos
             }
         }
 
-        // =====================================================================
+
         //  DETECCIÓN DEL TÚNEL NGROK
-        // =====================================================================
 
         public static async Task<bool> ServidorDisponibleAsync()
         {
@@ -106,25 +105,40 @@ namespace Capa_de_procesamiento_de_datos
             }
         }
 
-        // =====================================================================
+   
         //  ENVÍO AL SERVIDOR — método público, acepta spName + json directo
         //  Lo llaman: SincronizarConNube (Clsconexion) y ProcesarColaSincronizacion
-        // =====================================================================
 
         public async Task<bool> EnviarAlServidorAsync(string spName, string json)
         {
             try
             {
+                string jsonLimpio = json;
+                try
+                {
+                    using var doc = JsonDocument.Parse(json);
+                    var root = doc.RootElement;
+                    var dict = new Dictionary<string, object>();
+
+                    foreach (var prop in root.EnumerateObject())
+                    {
+        
+                        if (prop.Name == "_ParroquiaId") continue;
+                        dict[prop.Name] = prop.Value.Clone();
+                    }
+                    jsonLimpio = JsonSerializer.Serialize(dict);
+                }
+                catch { } // Si falla el parseo, manda el json original
+
                 var url = $"{_urlBase.TrimEnd('/')}/api/Data/ejecutar-sp";
                 var req = new HttpRequestMessage(HttpMethod.Post, url)
                 {
-                    Content = new StringContent(json, Encoding.UTF8, "application/json")
+                    Content = new StringContent(jsonLimpio, Encoding.UTF8, "application/json")
                 };
                 req.Headers.Add("ngrok-skip-browser-warning", "true");
 
                 var resp = await _http.SendAsync(req);
 
-                // ✅ Log para saber qué responde el servidor
                 if (!resp.IsSuccessStatusCode)
                 {
                     string body = await resp.Content.ReadAsStringAsync();
@@ -142,9 +156,7 @@ namespace Capa_de_procesamiento_de_datos
             }
         }
 
-        // =====================================================================
         //  PROCESAMIENTO DE COLA — el timer de Program.cs llama esto cada 30s
-        // =====================================================================
 
         public async Task ProcesarColaSincronizacion()
         {
@@ -185,10 +197,8 @@ namespace Capa_de_procesamiento_de_datos
             }
         }
 
-        // =====================================================================
-        //  GESTIÓN DEL ARCHIVO ngrok_url.txt
-        // =====================================================================
 
+        //  GESTIÓN DEL ARCHIVO ngrok_url.txt
         private static string CargarUrlNgrok()
         {
             try

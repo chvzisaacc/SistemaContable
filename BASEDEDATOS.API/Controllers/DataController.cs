@@ -29,9 +29,9 @@ namespace BASEDEDATOS.API.Controllers
                     {
                         foreach (var param in request.Parametros)
                         {
-                            object valorFinal = param.Value;
+                            if (param.Key.StartsWith("_")) continue;
 
-                            // Conversión de tipos JSON a tipos nativos de C#
+                            object valorFinal = param.Value;
                             if (valorFinal is JsonElement elemento)
                             {
                                 valorFinal = elemento.ValueKind switch
@@ -45,7 +45,6 @@ namespace BASEDEDATOS.API.Controllers
                                 };
                             }
 
-                            // Asegura que el nombre del parámetro lleve el prefijo '@'
                             string nombreParam = param.Key.StartsWith("@") ? param.Key : "@" + param.Key;
                             cmd.Parameters.AddWithValue(nombreParam, valorFinal ?? DBNull.Value);
                         }
@@ -80,5 +79,6 @@ namespace BASEDEDATOS.API.Controllers
     {
         public string SpName { get; set; }
         public Dictionary<string, object> Parametros { get; set; }
+        public int? _ParroquiaId { get; set; }
     }
 }

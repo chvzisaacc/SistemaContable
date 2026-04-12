@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Platforms>AnyCPU;x86;x64</Platforms>
+	 <OutputType>WinExe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
