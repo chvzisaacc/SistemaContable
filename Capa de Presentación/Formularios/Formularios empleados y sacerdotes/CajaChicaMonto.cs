@@ -13,8 +13,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
     {
         public delegate void ActualizarSaldoDelegate();
         public event ActualizarSaldoDelegate SaldoActualizado;
+        public event Action CapitalIngresado;
 
-       
+
         private int _parroquiaId;
         private int _usuarioId;
         public bool EsModificacion { get; set; } = false;
@@ -85,6 +86,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     MessageBox.Show(mensajeExito, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     SaldoActualizado?.Invoke();
+                    CapitalIngresado?.Invoke();
                     this.Close();
                 }
                 catch (Exception ex)

@@ -231,7 +231,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             // Verificar si ya hay capital inicial
             decimal capital = clsCapital.ObtenerCapitalInicial(PredictedId, ParroquiaId);
-
+            
             if (capital > 0)
             {
                 chkIngresarCapital.Visible = false;
@@ -241,6 +241,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 var culturaEEUU = new System.Globalization.CultureInfo("en-US");
                 lblCapitalInicial.Text = capital.ToString("'L. ' #,##0.00", culturaEEUU);
             }
+
+            
         }
 
         /// <summary>
@@ -416,7 +418,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             label9.Visible = false;
             checkBox1.Checked = false;
             checkBox2.Checked = false;
-            MostrarCapitalInicial();
+            //MostrarCapitalInicial();
 
         }
         /// <summary>
@@ -729,27 +731,37 @@ namespace Capa_de_Presentación.Formularios_Luiss
             if (chkSaldoInicial.Checked)
             {
                 obj_caja.SaldoActualizado += this.ActualizarSaldo;
+                obj_caja.SaldoActualizado += () => MostrarCapitalInicial();
+
+                obj_caja.CapitalIngresado += () =>
+                {
+                    panel4.Visible = false;
+                    chkIngresarCapital.Visible = false;
+                    chkSaldoInicial.Visible = false;
+                    lblCapitalInicial.Visible = false;
+                    MostrarCapitalInicial();
+
+                    lblCapitalInicial.Visible = false;
+                    label9.Visible = false;
+                };
+
                 obj_caja.ShowDialog();
                 obj_caja.SaldoActualizado -= this.ActualizarSaldo;
-                obj_caja.SaldoActualizado += () => MostrarCapitalInicial();
             }
 
-            // 1. Obtenemos el saldo de la base de datos
             ActualizarSaldo();
 
             string soloNumeros = txtSaldoActual.Text
-             .Replace("L.", "")
-             .Replace("L", "")
-             .Replace(",", "")
-             .Trim();
+                .Replace("L.", "")
+                .Replace("L", "")
+                .Replace(",", "")
+                .Trim();
 
-            if (decimal.TryParse(soloNumeros, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal saldo))
+            if (decimal.TryParse(soloNumeros, System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture, out decimal saldo))
             {
                 var culturaEEUU = new System.Globalization.CultureInfo("en-US");
-
-                // Ahora sí, aplicamos el formato correcto: L. 19,000.00
                 txtSaldoCaja.Text = saldo.ToString("'L. ' #,##0.00", culturaEEUU);
-
                 chkSaldoInicial.Visible = (saldo == 0);
 
                 Transacciones transacciones = new();
@@ -2354,12 +2366,27 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
         private void btnGuardarCapital_Click_1(object sender, EventArgs e)
         {
-
             if (!ValidarCapitalInicial()) return;
 
             try
             {
-                decimal monto = Convert.ToDecimal(txtCapitalInicial.Text);
+
+                string textoLimpio = txtCapitalInicial.Text
+                    .Replace("L.", "")
+                    .Replace("L", "")
+                    .Replace(",", "")
+                    .Trim();
+
+                if (!decimal.TryParse(textoLimpio,
+                    System.Globalization.NumberStyles.Any,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    out decimal monto) || monto <= 0)
+                {
+                    MessageBox.Show("El monto no es válido.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 bool exito = false;
 
                 if (EsModificacionCapital)
@@ -2370,23 +2397,32 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 if (exito)
                 {
                     MessageBox.Show("Operación realizada con éxito.", "Sistema",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     panel4.Visible = false;
                     panelIngresarCapital.Visible = false;
                     checkBox2.Checked = false;
                     chkIngresarCapital.Checked = false;
+                    chkIngresarCapital.Visible = false;
                     txtCapitalInicial.Clear();
 
                     EsModificacionCapital = false;
+
                     MostrarCapitalInicial();
+                    lblCapitalInicial.Visible = true; 
+
                     ActualizarSaldo();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo guardar el capital.", "Aviso",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error de Validación",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -2478,6 +2514,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 panel4.Visible = true;
                 lblCapitalInicial.Visible = true;
                 label9.Visible = true;
+
                 MostrarCapitalInicial();
             }
             else
@@ -2667,7 +2704,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             else if (pendientes > 0)
             {
-                lblConexion.Text = $"● {pendientes} registros pendientes...";
+                lblConexion.Text = $"● Registros pendientes...Espere que el administrador active el servidor";
                 lblConexion.ForeColor = Color.FromArgb(113, 63, 18);
                 lblConexion.BackColor = Color.FromArgb(254, 249, 195);
             }

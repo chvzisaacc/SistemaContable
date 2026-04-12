@@ -16,7 +16,6 @@ namespace Capa_de_acceso_de_datos
         {
             try
             {
-                _cn.Abrir();
                 using (SqlCommand cmd = new SqlCommand("sp_IngresarCapitalInicial", _cn.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -28,9 +27,10 @@ namespace Capa_de_acceso_de_datos
                     return true;
                 }
             }
-            finally
+            catch
             {
-                _cn.Cerrar();
+
+                return false;
             }
         }
 
@@ -38,7 +38,6 @@ namespace Capa_de_acceso_de_datos
         {
             try
             {
-                _cn.Abrir();
                 using (SqlCommand cmd = new SqlCommand("sp_ModificarCapitalInicial", _cn.sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -47,13 +46,12 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
                     _cn.EjecutarYEnviar(cmd, sincronizar: true);
 
-                    cmd.ExecuteNonQuery();
                     return true;
                 }
             }
-            finally
+            catch
             {
-                _cn.Cerrar();
+                return false;
             }
         }
 

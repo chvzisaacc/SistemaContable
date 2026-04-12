@@ -61,6 +61,8 @@
             // dgvBitacora
             // 
             dgvBitacora.AllowUserToAddRows = false;
+            dgvBitacora.AllowUserToDeleteRows = false;
+            dgvBitacora.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvBitacora.BackgroundColor = SystemColors.Control;
             dgvBitacora.BorderStyle = BorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -80,11 +82,11 @@
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dgvBitacora.DefaultCellStyle = dataGridViewCellStyle2;
-            dgvBitacora.EnableHeadersVisualStyles = false;
             dgvBitacora.GridColor = SystemColors.WindowText;
             dgvBitacora.Location = new Point(66, 220);
             dgvBitacora.Margin = new Padding(4, 5, 4, 5);
             dgvBitacora.Name = "dgvBitacora";
+            dgvBitacora.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle3.BackColor = SystemColors.Control;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 14F);
@@ -95,7 +97,7 @@
             dgvBitacora.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvBitacora.RowHeadersVisible = false;
             dgvBitacora.RowHeadersWidth = 51;
-            dgvBitacora.Size = new Size(1469, 662);
+            dgvBitacora.Size = new Size(1469, 647);
             dgvBitacora.TabIndex = 17;
             // 
             // lblConsulte
@@ -242,7 +244,6 @@
         #endregion
 
         private PictureBox pictureBox3;
-        private DataGridView dgvBitacora;
         private Label lblConsulte;
         private Label lblTitulo;
         private Button btnVolver;
@@ -252,5 +253,6 @@
         private Label lblFechaHasta;
         private Button btnFiltrar;
         private Button btnLimpiarFiltro;
+        private DataGridView dgvBitacora;
     }
 }

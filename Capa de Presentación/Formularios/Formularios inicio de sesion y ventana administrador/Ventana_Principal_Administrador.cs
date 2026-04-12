@@ -1,5 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
+using Capa_de_Presentación.Formularios.Formularios_inicio_de_sesion_y_ventana_administrador;
 using Capa_de_Presentación.Formularios_Luiss;
 using System.Data;
 
@@ -52,6 +53,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private BindingSource bindingSourceCatalogo;
         private readonly clsCRUD_Usuarios _repo = new clsCRUD_Usuarios();
+        private string _passwordHashOriginal = "";
 
 
         //BITACORA
@@ -330,9 +332,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 bindingSource.DataSource = dt;
                 dgv_usuarios.DataSource = bindingSource;
 
-                // CONFIGURACIÓN CRÍTICA
-                dgv_usuarios.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                dgv_usuarios.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 dgv_usuarios.AllowUserToResizeRows = false;
+
+
+                dgv_usuarios.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 
                 dgv_usuarios.Columns["ID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                 dgv_usuarios.Columns["ID"].Width = 70;
@@ -343,22 +347,21 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 dgv_usuarios.Columns["Usuario"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
                 dgv_usuarios.Columns["Usuario"].Width = 220;
 
-                //CENTRAR ENCABEZADOS
+                // Centrar encabezados
                 foreach (DataGridViewColumn col in dgv_usuarios.Columns)
                 {
                     col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
 
-                //aqui es para ocultar algunos campos (los ids y las contraseñas)
-                if (dgv_usuarios.Columns["Contraseña"] != null)
-                    dgv_usuarios.Columns["Contraseña"].Visible = false;
+                // Ocultar columnas internas
+                if (dgv_usuarios.Columns["Contrasena"] != null)
+                    dgv_usuarios.Columns["Contrasena"].Visible = false;
                 if (dgv_usuarios.Columns["RolID"] != null)
                     dgv_usuarios.Columns["RolID"].Visible = false;
                 if (dgv_usuarios.Columns["ParroquiaID"] != null)
                     dgv_usuarios.Columns["ParroquiaID"].Visible = false;
                 if (dgv_usuarios.Columns["EstadoID"] != null)
                     dgv_usuarios.Columns["EstadoID"].Visible = false;
-
             }
             catch (Exception ex)
             {
@@ -426,6 +429,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         : "";
                     txt_usuario.Text = usuario["usuario"].ToString();
                     txt_contraseña.Text = usuario["usuario_password"].ToString();
+
+                    _passwordHashOriginal = usuario["usuario_password"].ToString();
+
                     cmb_rol.SelectedValue = usuario["Rol_Id"];
                     cmb_parroquia.SelectedValue = usuario["Parroquia_Id"];
                     cmb_estado.SelectedValue = usuario["Id_estado_cuenta"];
@@ -445,7 +451,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private bool ValidarCamposUsuario()
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
-
             string nombre = txt_nombreCuenta.Text.Trim();
             string apellido = txt_apellido.Text.Trim();
             string correo = txt_correo.Text.Trim();
@@ -488,16 +493,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return false;
             }
 
-            // Contraseña
-            if (string.IsNullOrWhiteSpace(contraseña) || !val.EsContraseñaValida(contraseña))
+            bool passwordCambio = contraseña != _passwordHashOriginal;
+            if (passwordCambio)
             {
-                MessageBox.Show("La contraseña debe tener al menos 8 caracteres, una mayuscula, un numero y un caracter especial.",
-                    "Contraseña invalida",MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txt_contraseña.Focus();
-                return false;
+                if (string.IsNullOrWhiteSpace(contraseña) || !val.EsContraseñaValida(contraseña))
+                {
+                    MessageBox.Show("La contraseña debe tener al menos 8 caracteres, una mayuscula, un numero y un caracter especial.",
+                        "Contraseña invalida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txt_contraseña.Focus();
+                    return false;
+                }
             }
-
-
 
             // Combo Rol
             if (cmb_rol.SelectedValue == null)
@@ -528,7 +534,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             return true;
         }
-
         /// <summary>
         /// Limpiars the campos usuario.
         /// </summary>
@@ -540,6 +545,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
             txt_correo.Clear();
             txt_usuario.Clear();
             txt_contraseña.Clear();
+
+            _passwordHashOriginal = "";
 
             if (cmb_rol.Items.Count > 0)
                 cmb_rol.SelectedIndex = 0;
@@ -818,31 +825,24 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnGuardarUsuario_Click(object sender, EventArgs e)
         {
-
             ClsValidaciones validaciones = new ClsValidaciones();
 
             if (!ValidarCamposUsuario())
                 return;
 
-            // Validar los espacios en los campos de texto
             if (!validaciones.ValidarEspacios(txt_nombreCuenta.Text)
                 || !validaciones.ValidarEspacios(txt_apellido.Text)
                 || !validaciones.ValidarEspacios(txt_contraseña.Text))
-            {
-                return; // Si algún campo tiene más de tres espacios, se detiene la ejecución
-            }
+                return;
 
-            if (!validaciones.EsContraseñaValida(txt_contraseña.Text.Trim()))
+            bool passwordCambio = txt_contraseña.Text.Trim() != _passwordHashOriginal;
+            if (passwordCambio && !validaciones.EsContraseñaValida(txt_contraseña.Text.Trim()))
             {
                 MessageBox.Show(
                     "La contraseña debe tener al menos 8 caracteres, una mayuscula, un numero y un caracter especial.",
-                    "Contraseña invalida",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                    "Contraseña invalida", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
             try
             {
                 string nombre = txt_nombreCuenta.Text.Trim();
@@ -863,24 +863,20 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     if (resultado)
                     {
                         MessageBox.Show("Usuario modificado exitosamente", "Éxito",
-                           MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
                         try
                         {
                             crud_historial.RegistrarActividad(
-                                Sesion1.usuario_id,
-                                7,
+                                Sesion1.usuario_id, 7,
                                 "Modificación de Usuario",
                                 $"Se modificaron los datos del usuario: '{usuario}' (ID: {usuario_id_seleccionado})."
                             );
                         }
                         catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
 
-
                         CargarDatosUsuarioDGV();
                         LimpiarCamposUsuario();
                         HabilitarControlesUsuario(false);
-
                     }
                     else
                     {
@@ -904,18 +900,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     {
                         MessageBox.Show($"Usuario agregado exitosamente con ID: {nuevoId}", "Éxito",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                         try
                         {
                             crud_historial.RegistrarActividad(
-                                Sesion1.usuario_id,
-                                7,
+                                Sesion1.usuario_id, 7,
                                 "Creación de Usuario",
                                 $"Se creó el nuevo usuario: '{usuario}' (ID: {nuevoId})."
                             );
                         }
                         catch (Exception exBitacora) { Console.WriteLine("Error de Bitácora: " + exBitacora.Message); }
-
 
                         CargarDatosUsuarioDGV();
                         LimpiarCamposUsuario();
@@ -1602,6 +1595,24 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void label8_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmb_parroquia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            using (var frm = new AgregarParroquiaNueva())
+            {
+                frm.StartPosition = FormStartPosition.CenterParent;
+
+                if (frm.ShowDialog(this) == DialogResult.OK)
+                {
+                    CargarComboBoxesUsuario();
+                }
+            }
         }
     }
 

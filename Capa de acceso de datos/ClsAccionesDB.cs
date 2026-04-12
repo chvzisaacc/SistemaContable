@@ -179,12 +179,12 @@ namespace Capa_de_acceso_de_datos
         {
             try
             {
-                using (SqlCommand cmd = new SqlCommand("CambiarContraseña", sc))
+                using (SqlCommand cmd = new SqlCommand("CambiarContrasena", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Usuario", usuario);
                     cmd.Parameters.AddWithValue("@Correo", correo);
-                    cmd.Parameters.AddWithValue("@NuevaContraseña", nuevaa_contraseña);
+                    cmd.Parameters.AddWithValue("@NuevaContrasena", nuevaa_contraseña);
 
 
                     EjecutarYEnviar(cmd, sincronizar: true);
@@ -279,7 +279,7 @@ namespace Capa_de_acceso_de_datos
                         {
                             resultado = dr["Resultado"]?.ToString() ?? "SIN_RESULTADO";
                         }
-                    } 
+                    }
                 }
             }
             catch (Exception ex)
@@ -815,7 +815,64 @@ namespace Capa_de_acceso_de_datos
                 Cerrar();
             }
 
-            return Tuple.Create(id_usuario, parroquia_id);  // Tuple con ambos valores
+            return Tuple.Create(id_usuario, parroquia_id); 
+        }
+        public int AgregarParroquia(string nombre, string correo)
+        {
+            int idGenerado = 0;
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_AgregarParroquia", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Nombre", nombre);
+                    cmd.Parameters.AddWithValue("@Correo", correo);
+                
+                    // Tu método personalizado que maneja la sincronización
+                    object result = EjecutarScalarYEnviar(cmd, sincronizar: true);
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        idGenerado = Convert.ToInt32(result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar la parroquia: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+            return idGenerado;
+        }
+        public bool EditarParroquia(int idParroquia, string nombre, string correo)
+        {
+            try
+            {
+                Abrir();
+                using (SqlCommand cmd = new SqlCommand("sp_EditarParroquia", sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Parroquia_ID", idParroquia);
+                    cmd.Parameters.AddWithValue("@Nombre", nombre);
+                    cmd.Parameters.AddWithValue("@Correo", correo);
+
+                    // EjecutarYEnviar asegura que el cambio se envíe a la cola de sincronización
+                    EjecutarYEnviar(cmd, sincronizar: true);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al editar la parroquia: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
         }
 
     }

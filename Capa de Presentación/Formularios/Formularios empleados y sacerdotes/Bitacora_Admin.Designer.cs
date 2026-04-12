@@ -77,10 +77,10 @@
             panel1.Controls.Add(cmbParroquia);
             panel1.Controls.Add(lblConsulte);
             panel1.Controls.Add(lblTitulo);
-            panel1.Location = new Point(19, 20);
+            panel1.Location = new Point(13, 14);
             panel1.Margin = new Padding(4, 5, 4, 5);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1623, 955);
+            panel1.Size = new Size(1623, 874);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
@@ -221,7 +221,6 @@
             cmbUsuario.Size = new Size(224, 29);
             cmbUsuario.TabIndex = 6;
             cmbUsuario.Text = "Seleccionar";
-            //cmbUsuario.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // lblRealizadopor
             // 
@@ -238,7 +237,10 @@
             // dgvBitacora
             // 
             dgvBitacora.AllowUserToAddRows = false;
+            dgvBitacora.AllowUserToDeleteRows = false;
+            dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvBitacora.BackgroundColor = SystemColors.Window;
+            dgvBitacora.BorderStyle = BorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
             dataGridViewCellStyle1.Font = new Font("Times New Roman", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -261,6 +263,7 @@
             dgvBitacora.Location = new Point(43, 280);
             dgvBitacora.Margin = new Padding(4, 5, 4, 5);
             dgvBitacora.Name = "dgvBitacora";
+            dgvBitacora.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle3.BackColor = SystemColors.Control;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F);
@@ -271,7 +274,7 @@
             dgvBitacora.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvBitacora.RowHeadersVisible = false;
             dgvBitacora.RowHeadersWidth = 51;
-            dgvBitacora.Size = new Size(1496, 587);
+            dgvBitacora.Size = new Size(1496, 577);
             dgvBitacora.TabIndex = 4;
             dgvBitacora.CellContentClick += dataGridView1_CellContentClick;
             // 
