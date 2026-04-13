@@ -1,28 +1,26 @@
 ﻿using Capa_de_acceso_de_datos;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Capa_de_procesamiento_de_datos
 {
+    // Gestiona la sincronización offline: encola operaciones en la BD local
+    // y las reenvía al servidor remoto vía ngrok cuando hay conexión disponible
     public class LocalDbOff
     {
-        // ── Cliente HTTP estático ──────────────────────────────────────────────
+        // Cliente HTTP compartido entre todas las instancias; timeout corto para no bloquear la UI
         private static readonly HttpClient _http = new HttpClient
         {
             Timeout = TimeSpan.FromSeconds(6)
         };
 
-        // ── URL del servidor ngrok ─────────────────────────────────────────────
+        // URL del túnel ngrok; se carga desde archivo al iniciar la aplicación
         private static string _urlBase = CargarUrlNgrok();
 
-        //  MÉTODOS DE COLA LOCAL (Entity Framework)
+        // ── COLA LOCAL (Entity Framework) ─────────────────────────────────────
 
+        /// <summary>Agrega una operación pendiente a la cola de sincronización local.</summary>
         public void RegistrarProcesoLocal(string tipo, string json)
         {
             try
@@ -42,7 +40,6 @@ namespace Capa_de_procesamiento_de_datos
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException ex)
             {
-                // Ver exactamente qué falló
                 Console.WriteLine($"[LocalDB] Error guardando en cola: {ex.InnerException?.Message}");
                 Console.WriteLine($"[LocalDB] SP: {tipo}");
             }
@@ -52,6 +49,7 @@ namespace Capa_de_procesamiento_de_datos
             }
         }
 
+        /// <summary>Retorna todos los registros que aún no han sido sincronizados con el servidor.</summary>
         public List<ProcesosLocales> ObtenerPendientes()
         {
             using (var db = new LocalDbContext())
@@ -62,6 +60,7 @@ namespace Capa_de_procesamiento_de_datos
             }
         }
 
+        /// <summary>Marca un registro como sincronizado para que no vuelva a procesarse.</summary>
         public void MarcarComoSincronizado(int id)
         {
             using (var db = new LocalDbContext())
@@ -75,6 +74,7 @@ namespace Capa_de_procesamiento_de_datos
             }
         }
 
+        /// <summary>Retorna la cantidad de registros pendientes de sincronización.</summary>
         public int ContarPendientes()
         {
             using (var db = new LocalDbContext())
@@ -83,19 +83,18 @@ namespace Capa_de_procesamiento_de_datos
             }
         }
 
+        // ── DETECCIÓN DEL SERVIDOR ────────────────────────────────────────────
 
-        //  DETECCIÓN DEL TÚNEL NGROK
-
+        /// <summary>Verifica si el servidor remoto está accesible antes de intentar enviar datos.</summary>
         public static async Task<bool> ServidorDisponibleAsync()
         {
             if (string.IsNullOrWhiteSpace(_urlBase)) return false;
 
             try
             {
-                var req = new HttpRequestMessage(
-                    HttpMethod.Get, _urlBase.TrimEnd('/'));
+                var req = new HttpRequestMessage(HttpMethod.Get, _urlBase.TrimEnd('/'));
+                // Header requerido por ngrok para evitar la página de advertencia del navegador
                 req.Headers.Add("ngrok-skip-browser-warning", "true");
-
                 await _http.SendAsync(req);
                 return true;
             }
@@ -105,10 +104,10 @@ namespace Capa_de_procesamiento_de_datos
             }
         }
 
-   
-        //  ENVÍO AL SERVIDOR — método público, acepta spName + json directo
-        //  Lo llaman: SincronizarConNube (Clsconexion) y ProcesarColaSincronizacion
+        // ── ENVÍO AL SERVIDOR ─────────────────────────────────────────────────
+        // Llamado tanto por SincronizarConNube (Clsconexion) como por ProcesarColaSincronizacion
 
+        /// <summary>Envía una operación al servidor remoto y retorna si fue aceptada.</summary>
         public async Task<bool> EnviarAlServidorAsync(string spName, string json)
         {
             try
@@ -122,13 +121,13 @@ namespace Capa_de_procesamiento_de_datos
 
                     foreach (var prop in root.EnumerateObject())
                     {
-        
+                        // _ParroquiaId es metadata interna; no se envía al servidor
                         if (prop.Name == "_ParroquiaId") continue;
                         dict[prop.Name] = prop.Value.Clone();
                     }
                     jsonLimpio = JsonSerializer.Serialize(dict);
                 }
-                catch { } // Si falla el parseo, manda el json original
+                catch { } // Si el JSON no es parseable se envía tal como está
 
                 var url = $"{_urlBase.TrimEnd('/')}/api/Data/ejecutar-sp";
                 var req = new HttpRequestMessage(HttpMethod.Post, url)
@@ -142,6 +141,7 @@ namespace Capa_de_procesamiento_de_datos
                 if (!resp.IsSuccessStatusCode)
                 {
                     string body = await resp.Content.ReadAsStringAsync();
+                    // Los errores del servidor se registran en archivo para diagnóstico posterior
                     File.AppendAllText("sync_errors.log",
                         $"{DateTime.Now} - Servidor rechazó [{resp.StatusCode}]: {body}\n");
                 }
@@ -156,8 +156,10 @@ namespace Capa_de_procesamiento_de_datos
             }
         }
 
-        //  PROCESAMIENTO DE COLA — el timer de Program.cs llama esto cada 30s
+        // ── PROCESAMIENTO DE COLA ─────────────────────────────────────────────
+        // Un timer en Program.cs invoca este método cada 30 segundos
 
+        /// <summary>Intenta sincronizar todos los registros pendientes con el servidor remoto.</summary>
         public async Task ProcesarColaSincronizacion()
         {
             bool disponible = await ServidorDisponibleAsync();
@@ -176,7 +178,6 @@ namespace Capa_de_procesamiento_de_datos
             {
                 try
                 {
-                    // Reutiliza el mismo método público de envío
                     bool ok = await EnviarAlServidorAsync(registro.TipoObjeto, registro.DatosJson);
 
                     if (ok)
@@ -191,14 +192,16 @@ namespace Capa_de_procesamiento_de_datos
                 }
                 catch (Exception ex)
                 {
+                    // Se interrumpe el ciclo para no marcar registros posteriores como procesados
                     Console.WriteLine($"[Sync] Error en Id={registro.Id}: {ex.Message}");
                     break;
                 }
             }
         }
 
+        // ── GESTIÓN DE LA URL NGROK ───────────────────────────────────────────
 
-        //  GESTIÓN DEL ARCHIVO ngrok_url.txt
+        // Lee la URL del túnel desde ngrok_url.txt ubicado junto al ejecutable
         private static string CargarUrlNgrok()
         {
             try
@@ -213,6 +216,7 @@ namespace Capa_de_procesamiento_de_datos
             return string.Empty;
         }
 
+        /// <summary>Actualiza la URL del túnel en memoria y la persiste en ngrok_url.txt.</summary>
         public static void ActualizarUrlNgrok(string nuevaUrl)
         {
             _urlBase = nuevaUrl.Trim();
@@ -225,6 +229,7 @@ namespace Capa_de_procesamiento_de_datos
             catch { }
         }
 
+        /// <summary>Retorna la URL del túnel ngrok actualmente configurada.</summary>
         public static string ObtenerUrlActual() => _urlBase;
     }
 }
