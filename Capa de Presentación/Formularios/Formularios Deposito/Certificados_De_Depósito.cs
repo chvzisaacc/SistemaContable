@@ -16,23 +16,39 @@ using System.Windows.Forms;
 namespace Capa_de_Presentación.Formularios_Diego
 {
     /// <summary>
-    /// 
+    /// Formulario para la gestión de Certificados de Depósito.
+    /// Contiene carga asíncrona de datos, edición en grid y soporte de autocompletado para parroquias.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Certificados_De_Depósito : Form
     {
-        private AutoCompleteStringCollection Parroquia = new AutoCompleteStringCollection();
-        private ClsAccionesDB objParroquias = new ClsAccionesDB();
         /// <summary>
-        /// The modo edicion activo
+        /// Colección usada para autocompletado de la columna "Nombre_Parroquia" en el DataGridView.
+        /// </summary>
+        private AutoCompleteStringCollection Parroquia = new AutoCompleteStringCollection();
+
+        /// <summary>
+        /// Acceso a acciones de base de datos (obtener parroquias, certificados, etc.).
+        /// </summary>
+        private ClsAccionesDB objParroquias = new ClsAccionesDB();
+
+        /// <summary>
+        /// Indica si el modo edición está activo para controlar comportamiento de guardado/renovación.
         /// </summary>
         private bool modoEdicionActivo = false;
+
         /// <summary>
-        /// The dt datos certificados
+        /// DataTable que contiene los datos cargados desde la base de datos. Usado como DataSource del DataGridView.
+        /// Mantener sincronizado con las operaciones en el grid (edición, agregar, eliminar).
         /// </summary>
         private DataTable dtDatosCertificados = null;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Certificados_De_Depósito"/> class.
+        /// Indica si los datos han sido guardados en la sesión actual.
+        /// </summary>
+        private bool datosGuardados = false;
+
+        /// <summary>
+        /// Constructor por defecto: inicializa componentes, carga autocompletado y datos.
         /// </summary>
         public Certificados_De_Depósito()
         {
@@ -45,9 +61,9 @@ namespace Capa_de_Presentación.Formularios_Diego
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Certificados_De_Depósito"/> class.
+        /// Constructor alternativo que permite establecer el texto del formulario antes de cargar datos.
         /// </summary>
-        /// <param name="text">The text displayed by the control.</param>
+        /// <param name="text">Texto del título del formulario.</param>
         public Certificados_De_Depósito(string text)
         {
             InitializeComponent();
@@ -57,24 +73,25 @@ namespace Capa_de_Presentación.Formularios_Diego
         }
 
         /// <summary>
-        /// Cargars the datos.
+        /// Carga los certificados desde la base de datos de forma asíncrona y vincula el resultado al DataGridView.
+        /// Ejecuta tareas de UI después de la carga; asegurarse de no bloquear el hilo de interfaz.
         /// </summary>
         public async void CargarDatos()
         {
             try
             {
                 ClsAccionesDB acciones = new ClsAccionesDB();
+                // Carga en background para no bloquear la UI
                 dtDatosCertificados = await Task.Run(() => acciones.CargarCertificados());
 
-                // 1. Limpiar columnas previas para evitar duplicados o basura visual
+                // 1. Limpiar columnas previas para evitar duplicados o artefactos visuales
                 dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();
 
                 // 2. Asignar el origen de datos
                 dataGridView1.DataSource = dtDatosCertificados;
 
-                // 3. Configurar el mapeo de datos (DataPropertyName)
-                // Esto es lo que hace que los datos APAREZCAN en las celdas
+                // 3. Mapear columnas visibles y sus cabeceras
                 if (dataGridView1.Columns.Contains("Nombre_certificado"))
                 {
                     dataGridView1.Columns["Nombre_certificado"].DataPropertyName = "Nombre_certificado";
@@ -96,7 +113,7 @@ namespace Capa_de_Presentación.Formularios_Diego
                     dataGridView1.Columns["Nombre_Parroquia"].Visible = true;
                 }
 
-                // 4. Ocultar el resto de columnas que traiga el DataTable (ID, etc.)
+                // 4. Ocultar el resto de columnas retornadas por el DataTable
                 foreach (DataGridViewColumn col in dataGridView1.Columns)
                 {
                     if (col.Name != "Nombre_certificado" &&
@@ -107,10 +124,10 @@ namespace Capa_de_Presentación.Formularios_Diego
                     }
                 }
 
-                // 5. Ajustes finales
+                // 5. Ajustes finales de comportamiento del grid
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dataGridView1.ReadOnly = true;
-                dataGridView1.AllowUserToAddRows = false; // Evita la fila vacía al final si no la necesitas
+                dataGridView1.AllowUserToAddRows = false; // Evita fila vacía al final
             }
             catch (Exception ex)
             {
@@ -119,27 +136,16 @@ namespace Capa_de_Presentación.Formularios_Diego
         }
 
         /// <summary>
-        /// Handles the 1 event of the dataGridView1_CellContentClick control.
+        /// Evento Load del formulario: centra la ventana en pantalla.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the Load event of the FRM_PG103 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG103_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
         }
 
         /// <summary>
-        /// Handles the CellClick event of the dataGridView1 control.
+        /// Controlador de CellClick: delega en la clase de lógica (ClsCD) para bloquear/desbloquear fila.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             ClsCD clsCD = new();
@@ -147,10 +153,8 @@ namespace Capa_de_Presentación.Formularios_Diego
         }
 
         /// <summary>
-        /// Handles the Click event of the button1 control.
+        /// Añade una nueva fila al DataTable y actualiza el DataGridView usando la lógica de ClsCD.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
             ClsCD objCd = new();
@@ -159,50 +163,18 @@ namespace Capa_de_Presentación.Formularios_Diego
         }
 
         /// <summary>
-        /// Handles the 1 event of the textBox3_TextChanged control.
+        /// Controlador sobre click en textBox3 (reserva para acciones futuras). Actualmente sin implementación.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the Click event of the pictureBox6 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-        /// <summary>
-        /// The datos guardados
-        /// </summary>
-        private bool datosGuardados = false;
-        /// <summary>
-        /// The predicted identifier
-        /// </summary>
-
-
-        /// <summary>
-        /// Handles the Click event of the textBox3 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox3_Click(object sender, EventArgs e)
         {
+            // Reserva: guardar o procesar datos al requerirlo
             //ClsCD objCD = new();
             //objCD.GuardarCD(dtDatosCertificados, dataGridView1, datosGuardados);
         }
 
         /// <summary>
-        /// Handles the Click event of the pictureBox8 control.
+        /// Aplica cambios de edición (guardado rápido) delegando en la clase de lógica ClsCD.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the Click event of the pictureBox7 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox7_Click(object sender, EventArgs e)
         {
             ClsCD objCD = new ClsCD();
@@ -211,10 +183,8 @@ namespace Capa_de_Presentación.Formularios_Diego
         }
 
         /// <summary>
-        /// Handles the Click event of the textBox2 control.
+        /// Reserva para renovaciones. Actualmente comentado; delegaría en ClsCD. Mantener referencia a modoEdicionActivo.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_Click(object sender, EventArgs e)
         {
             //ClsCD objCD = new();
@@ -222,17 +192,8 @@ namespace Capa_de_Presentación.Formularios_Diego
         }
 
         /// <summary>
-        /// Handles the TextChanged event of the textBox1 control.
+        /// Controlador de click en textBox1 (acción reservada). Actualmente sin implementación activa.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the Click event of the textBox1 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox1_Click(object sender, EventArgs e)
         {
             /*ClsCD objCD = new ClsCD();
@@ -241,13 +202,9 @@ namespace Capa_de_Presentación.Formularios_Diego
         }
 
         /// <summary>
-        /// Handles the CellBeginEdit event of the dataGridView1 control.
+        /// Carga la lista de parroquias desde la base de datos y la almacena en la colección de autocompletado.
+        /// Esta colección se utiliza en el evento EditingControlShowing para sugerencias al editar celdas.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellCancelEventArgs"/> instance containing the event data.</param>
-
-
-
         private void CargarDatosAutocompletadoParroquias()
         {
             Parroquia.Clear();
@@ -267,44 +224,23 @@ namespace Capa_de_Presentación.Formularios_Diego
             }
 
 
-
         }
-        /// <summary>
-        /// Handles the Paint event of the panel2 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
-
 
         /// <summary>
-        /// Handles the Click event of the pictureBox9 control.
+        /// Cierra el formulario. Asociado al control de cierre (pictureBox9).
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox9_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
         /// <summary>
-        /// Handles the Click event of the pictureBox3 control.
+        /// Doble clic en celda: desbloquea fila para edición o inicia edición en la celda seleccionada.
+        /// Si existe la columna "Nombre_Parroquia", posiciona el cursor allí y activa autocompletado.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the TextChanged event of the textBox4 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-
-
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            //No se hagan clicks en los encabezados
+            // No procesar clicks en encabezados
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
             {
                 return;
@@ -329,25 +265,29 @@ namespace Capa_de_Presentación.Formularios_Diego
                 }
                 else
                 {
-                    // Si la columna de Parroquia no existe, solo iniciamos la edición normal en la celda del clic
+                    // Si la columna de Parroquia no existe, iniciar edición normal
                     dataGridView1.CurrentCell = celdaActual;
                     dataGridView1.BeginEdit(true);
                 }
             }
             else
             {
-                //  Si la fila ya estaba desbloqueada, solo inicia la edición
+                // Si ya estaba editable, iniciar edición directamente
                 dataGridView1.CurrentCell = celdaActual;
                 dataGridView1.BeginEdit(true);
             }
         }
 
+        /// <summary>
+        /// Evento que configura el control de edición para columnas específicas (autocompletado para parroquias).
+        /// Se ejecuta cuando se muestra el control de edición en el DataGridView.
+        /// </summary>
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             if (dataGridView1.CurrentCell == null)
                 return;
 
-            // Verifica por nombre de columna, no por índice
+            // Activar autocompletado sólo para la columna Nombre_Parroquia
             if (dataGridView1.CurrentCell.OwningColumn.Name == "Nombre_Parroquia")
             {
                 TextBox auto_text = e.Control as TextBox;
@@ -356,7 +296,7 @@ namespace Capa_de_Presentación.Formularios_Diego
                     auto_text.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                     auto_text.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
-                    // Usa la colección ya cargada desde CargarDatosAutocompletadoGastos()
+                    // Usa la colección cargada por CargarDatosAutocompletadoParroquias()
                     auto_text.AutoCompleteCustomSource = Parroquia;
                 }
             }
@@ -372,17 +312,26 @@ namespace Capa_de_Presentación.Formularios_Diego
             }
         }
 
+        /// <summary>
+        /// Controlador para cambios en el textBox3. Reservado.
+        /// </summary>
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Guarda los cambios usando la lógica de ClsCD.
+        /// </summary>
         private void pictureBox6_Click(object sender, EventArgs e)
         {
             ClsCD objCD = new();
             objCD.GuardarCD(dtDatosCertificados, dataGridView1, datosGuardados);
         }
 
+        /// <summary>
+        /// Cancela el certificado seleccionado delegando en ClsCD y recarga los datos.
+        /// </summary>
         private void pictureBox5_Click(object sender, EventArgs e)
         {
             ClsCD objCD = new ClsCD();
@@ -390,6 +339,9 @@ namespace Capa_de_Presentación.Formularios_Diego
             CargarDatos();
         }
 
+        /// <summary>
+        /// Renovación de certificado: delega en ClsCD y mantiene el estado de modoEdicionActivo.
+        /// </summary>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             ClsCD objCD = new();

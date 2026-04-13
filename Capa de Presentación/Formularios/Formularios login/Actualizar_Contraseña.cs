@@ -5,24 +5,32 @@ namespace Capa_de_Presentación.Formularios_Ewin
 {
     /// <summary>
     /// Formulario para actualizar la contraseña del usuario.
+    /// Contiene validaciones de formato y delega la actualización a <see cref="ClsAccionesDB"/>.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Actualizar_Contraseña : Form
     {
         /// <summary>
-        /// The correo usuario
+        /// Nombre del usuario cuyo password se actualizará.
         /// </summary>
         private string nombreUsuario;
+
+        /// <summary>
+        /// Correo del usuario, usado para identificar/confirmar la cuenta en la actualización.
+        /// </summary>
         private string correoUsuario;
+
+        /// <summary>
+        /// Identificador interno del usuario (si aplica) para navegación o referencia.
+        /// </summary>
         private int usuarioId;
 
         /// <summary>
-        /// The cerrar
+        /// Utilidad para el cierre/control de la aplicación (instancia local).
         /// </summary>
         ClsCerrar cerrar = new ClsCerrar();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Actualizar_Contraseña"/> class.
+        /// Constructor que inicializa el formulario con datos de usuario para la actualización.
         /// </summary>
         /// <param name="id">ID del usuario.</param>
         /// <param name="correo">Correo electrónico del usuario.</param>
@@ -39,7 +47,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Actualizar_Contraseña"/> class.
+        /// Constructor por defecto. Inicializa los componentes del formulario.
         /// </summary>
         public Actualizar_Contraseña()
         {
@@ -47,19 +55,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         /// <summary>
-        /// Handles the Load event of the Actualizar_Contraseña control.
+        /// Evento Load del formulario. Actualmente sin lógica adicional; reservado para inicializaciones futuras.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Actualizar_Contraseña_Load(object sender, EventArgs e)
         {
         }
 
         /// <summary>
-        /// Handles the Click event of the label4 control (volver atrás).
+        /// Maneja el clic en el control de volver atrás (label4): abre el formulario anterior pasando datos de usuario.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label4_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -72,10 +76,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         /// <summary>
-        /// Handles the Click event of the button1 control.
+        /// Maneja el clic en el botón principal (button1): vuelve a la pantalla de inicio de sesión (FRM_PG1).
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -88,10 +90,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         /// <summary>
-        /// Handles the Click event of the btnConfirmar control.
+        /// Confirma y aplica el cambio de contraseña:
+        /// - Valida formato mediante <see cref="ClsValidaciones"/>.
+        /// - Verifica igualdad de campos mediante <see cref="Validacion"/>.
+        /// - Si es válido, delega la actualización a <see cref="ClsAccionesDB.CambiarContraseña"/>.
+        /// Nota de sincronización: este método interactúa con controles de UI y realiza llamadas a la capa de datos;
+        /// si se traslada la operación a un hilo en background, asegurar que las actualizaciones de UI se realicen en el hilo correcto.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnConfirmar_Click(object sender, EventArgs e)
         {
             string nueva_contraseña = txt_nueva_contrasena.Text.Trim();

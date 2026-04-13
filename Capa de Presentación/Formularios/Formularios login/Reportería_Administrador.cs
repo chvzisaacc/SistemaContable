@@ -7,16 +7,31 @@ using System.Data;
 
 namespace Capa_de_Presentación.Formularios_Ewin
 {
+    /// <summary>
+    /// Formulario para generar y descargar reportes administrativos.
+    /// Permite seleccionar parroquia, tipo de reporte y rango de fechas, generar el informe y descargarlo en varios formatos.
+    /// </summary>
     public partial class Reportería_Administrador : Form
     {
+        /// <summary>Servicio de gastos y utilidades relacionadas a reportes de gastos.</summary>
         private readonly GastosService _gastosService = new GastosService();
+        /// <summary>Servicio para generar estado de resultados.</summary>
         private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
+        /// <summary>Servicio para generar reportes de ingresos.</summary>
         private readonly IngresosService _ingresosService = new IngresosService();
+        /// <summary>Utilidad para validar UI (combos, fechas, listas).</summary>
         private ClsValidaciones Validaciones;
+        /// <summary>Servicio para generar reportes de curia.</summary>
         private readonly CuriaService _curiaService = new CuriaService();
+        /// <summary>Acceso a reportes combinados y utilidades para obtener DataTables.</summary>
         private readonly ClsReportes _repo = new ClsReportes();
+        /// <summary>Servicio para generar el libro mayor.</summary>
         private readonly LibroMayorService _libroMayorService = new LibroMayorService();
 
+        /// <summary>
+        /// Construye un nombre legible para el reporte según el rango de fechas.
+        /// Si el rango está dentro del mismo mes, muestra mes-año; en caso contrario muestra desde-hasta.
+        /// </summary>
         private string ConstruirNombreReporteVisible(string tipoTexto, DateTime desde, DateTime hasta)
         {
             if (desde.Month == hasta.Month && desde.Year == hasta.Year)
@@ -24,6 +39,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             return $"{tipoTexto} - {desde:dd/MM/yyyy} a {hasta:dd/MM/yyyy}";
         }
 
+        /// <summary>
+        /// Constructor: inicializa componentes y utilidades de validación.
+        /// </summary>
         public Reportería_Administrador()
         {
             InitializeComponent();
@@ -32,6 +50,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             Validaciones = new ClsValidaciones();
         }
 
+        /// <summary>
+        /// Evento Load del formulario: configura controles, llena combos y límites de fecha.
+        /// </summary>
         private void FRM_PG10_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
@@ -53,13 +74,22 @@ namespace Capa_de_Presentación.Formularios_Ewin
             dtp_hasta.MaxDate = DateTime.Now;
         }
 
+        /// <summary>
+        /// Cierra el formulario.
+        /// </summary>
         private void label4_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Controlador Paint reservado para el panel principal (sin lógica actual).
+        /// </summary>
         private void panel1_Paint(object sender, PaintEventArgs e) { }
 
+        /// <summary>
+        /// Carga la lista de parroquias desde el servicio de gastos y la enlaza al combo.
+        /// </summary>
         private void CargarParroquias()
         {
             DataTable dt = _gastosService.ObtenerParroquias();
@@ -71,6 +101,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmb_parroquia.SelectedIndex = -1;
         }
 
+        /// <summary>
+        /// Carga la lista de tipos de reporte usando la capa de acceso a datos.
+        /// </summary>
         private void CargarReportes()
         {
             try
@@ -86,6 +119,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Genera el reporte seleccionado según tipo, parroquia y rango de fechas.
+        /// Agrega el reporte generado a la lista de UI y lo abre con la aplicación asociada.
+        /// </summary>
         private void button2_Click(object sender, EventArgs e)
         {
             int tipo_reporte_id = Convert.ToInt32(cmb_tipo_reporte.SelectedValue);
@@ -171,6 +208,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             });
         }
 
+        /// <summary>
+        /// Gestiona la descarga del reporte en el formato seleccionado por el usuario (PDF, DOCX, JPG, XLSX).
+        /// Para XLSX construye una hoja de cálculo a partir de un DataTable obtenido mediante <see cref="ObtenerDatosReporte"/>.
+        /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
             if (!Validaciones.ListBoxSeleccionado(lst_reportes))
@@ -283,6 +324,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
         }
 
+        /// <summary>
+        /// Obtiene el DataTable apropiado para exportar según el tipo de reporte.
+        /// Realiza limpieza de columnas no deseadas antes de retornar los datos.
+        /// </summary>
         private DataTable ObtenerDatosReporte(ReporteUIItem item)
         {
             switch (item.tipo_reporte_id)

@@ -5,17 +5,18 @@ using Capa_de_Presentación.CLASES;
 namespace Capa_de_Presentación.Formularios_Ewin
 {
     /// <summary>
-    /// 
+    /// Formulario que gestiona la recuperación de contraseña: valida usuario/correo,
+    /// genera y envía un código de verificación y redirige al formulario de ingreso del código.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Olvidaste_tu_contraseña : Form
     {
         /// <summary>
-        /// The cerrar
+        /// Utilidad para el manejo del cierre de la aplicación (reservada para uso en FormClosing si se requiere).
         /// </summary>
         ClsCerrar cerrar = new ClsCerrar();
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Olvidaste_tu_contraseña"/> class.
+        /// Constructor: inicializa componentes y propiedades visuales del formulario.
         /// </summary>
         public Olvidaste_tu_contraseña()
         {
@@ -26,38 +27,37 @@ namespace Capa_de_Presentación.Formularios_Ewin
         }
 
         /// <summary>
-        /// Handles the Click event of the pictureBox2 control.
+        /// Controlador reservado (sin implementación actual). Puede usarse para acciones adicionales del botón si se requiere.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the 1 event of the button1_Click control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click_1(object sender, EventArgs e)
         {
-
 
         }
 
         /// <summary>
-        /// Handles the Click event of the label4 control.
+        /// Cierra el formulario cuando se pulsa el control de regresar (label4).
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label4_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Evento Load del formulario. Reservado para inicializaciones adicionales futuras.
+        /// </summary>
         private void Olvidaste_tu_contraseña_Load(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Valida usuario y correo, genera un código de recuperación, lo guarda en BD y lo envía por correo.
+        /// - Valida formato de correo.
+        /// - Verifica existencia del usuario mediante <see cref="ClsAccionesDB"/>.
+        /// - Genera código usando la capa de correo y lo persiste antes de enviarlo.
+        /// Nota de sincronización: aquí se realizan llamadas a la capa de datos y envío de correo;
+        /// si se traslada el envío a segundo plano, asegurar que cualquier actualización de UI se haga en el hilo de interfaz.
+        /// </summary>
         private void btn_restablecer_contrasena_Click(object sender, EventArgs e)
         {
             ClsValidaciones validar = new ClsValidaciones();
@@ -95,9 +95,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
             using (var frm = new FRM_PG3(usuario_id, correo, usuario))
             {
                 frm.StartPosition = FormStartPosition.CenterScreen;
-                frm.ShowDialog(this); 
+                frm.ShowDialog(this);
             }
-            this.Close(); 
+            this.Close();
         }
     }
 }

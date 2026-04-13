@@ -8,7 +8,7 @@ using System.Data;
 namespace Capa_de_Presentación.Formularios_Ewin
 {
     /// <summary>
-    /// 
+    /// Ventana principal del administrador. Contiene gestión de usuarios, catálogo de cuentas y bitácora.
     /// </summary>
     /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Ventana_Principal_Administrador : Form
@@ -1588,9 +1588,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 {
                     bindingSourceCatalogo.Filter = string.Format(
                         "[Código] LIKE '%{0}%' OR " +
-                        "[Nombre] LIKE '%{0}%'",
-                        //+ "[Nombre Padre] LIKE '%{0}%' OR " +
-                        //"[Detalle] LIKE '%{0}%'",
+                        "[Nombre] LIKE '%{0}%/",
                         textoBusqueda
                     );
                 }

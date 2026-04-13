@@ -1,18 +1,19 @@
 ﻿namespace Capa_de_Presentación.Formularios_Diego
 {
     /// <summary>
-    /// 
+    /// Clase de formulario utilizada para cancelar certificados desde la interfaz.
+    /// Contiene validación de motivo y comunicación con el formulario llamador mediante <see cref="DialogResult"/>.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Cancelar_Certificados : Form
     {
         /// <summary>
-        /// The identifier certificado
+        /// Referencia a la columna del DataGridView que contiene el identificador del certificado.
+        /// Se usa para sincronizar la selección entre el formulario de lista y este diálogo.
         /// </summary>
         private DataGridViewTextBoxColumn id_Certificado;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Cancelar_Certificados"/> class.
+        /// Constructor por defecto. Inicializa componentes y configura propiedades visuales del formulario.
         /// </summary>
         public Cancelar_Certificados()
         {
@@ -22,17 +23,19 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Cancelar_Certificados"/> class.
+        /// Constructor que recibe la columna de certificado para mantener referencia/sincronización con el grid externo.
         /// </summary>
-        /// <param name="id_Certificado">The identifier certificado.</param>
+        /// <param name="id_Certificado">Columna del DataGridView que contiene el identificador del certificado.</param>
         public Cancelar_Certificados(DataGridViewTextBoxColumn id_Certificado)
         {
             this.id_Certificado = id_Certificado;
         }
+
         /// <summary>
-        /// Obteners the motivo.
+        /// Devuelve el motivo de cancelación ingresado por el usuario.
+        /// Retorna cadena vacía si el control no está disponible.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Motivo de cancelación (trimmed) o cadena vacía.</returns>
         public string ObtenerMotivo()
         {
             if (textBox1 != null)
@@ -41,40 +44,29 @@
             }
             return string.Empty;
         }
+
         /// <summary>
-        /// Handles the Load event of the FRM_PG108 control.
+        /// Evento Load del formulario: centra la ventana en pantalla.
+        /// Asegúrese de ejecutar acciones de UI en el hilo de interfaz cuando sincronice datos.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG108_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
         }
 
         /// <summary>
-        /// Handles the Click event of the label1 control.
+        /// Controlador de click para el control 'textBox2'. Actualmente sin implementación.
+        /// Se deja reservado para comportamiento futuro si se requiere interacción directa.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the TextChanged event of the textBox2 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the Click event of the textBox2 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_Click(object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Controlador del clic en el botón/imagen de confirmar (pictureBox2).
+        /// Valida que exista un motivo, asigna <see cref="DialogResult.OK"/> y cierra el diálogo para devolver control al formulario llamador.
+        /// </summary>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(this.textBox1.Text))
@@ -84,16 +76,7 @@
             }
 
             this.DialogResult = DialogResult.OK;
-
-
             this.Close();
         }
-
-        /// <summary>
-        /// Handles the Click event of the pictureBox2 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
     }
 }
