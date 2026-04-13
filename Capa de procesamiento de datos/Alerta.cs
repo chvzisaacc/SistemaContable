@@ -1,19 +1,13 @@
 ﻿using Capa_de_acceso_de_datos;
 using Microsoft.Data.SqlClient;
 using System.Data;
+
 namespace Capa_de_procesamiento_de_datos
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <seealso cref="Capa_de_acceso_de_datos.Clsconexion" />
+    // Gestión de alertas de tareas; hereda la conexión a BD desde Clsconexion
     public class Alerta : Clsconexion
     {
-        /// <summary>
-        /// Cargars the alerta.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al cargar la alerta: " + ex.Message</exception>
+        /// <summary>Obtiene todas las tareas para evaluar alertas.</summary>
         public DataTable CargarAlerta()
         {
             DataTable dt = new DataTable();
@@ -40,12 +34,7 @@ namespace Capa_de_procesamiento_de_datos
             }
         }
 
-        /// <summary>
-        /// Modificars the configuracion alerta.
-        /// </summary>
-        /// <param name="diasLimite">The dias limite.</param>
-        /// <param name="alarmaActiva">if set to <c>true</c> [alarma activa].</param>
-        /// <exception cref="System.Exception">Error al modificar la configuración de la alerta: " + ex.Message</exception>
+        /// <summary>Actualiza los días límite y si la alarma está activa.</summary>
         public void ModificarConfiguracionAlerta(int diasLimite, bool alarmaActiva)
         {
             try
@@ -56,7 +45,7 @@ namespace Capa_de_procesamiento_de_datos
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@DiasLimite", diasLimite);
                     command.Parameters.AddWithValue("@AlarmaActiva", alarmaActiva);
-                    // Ejecutamos el comando sin esperar un valor de retorno
+                    // sincronizar: true propaga el cambio a otros contextos activos
                     EjecutarYEnviar(command, sincronizar: true);
                 }
             }
@@ -70,11 +59,7 @@ namespace Capa_de_procesamiento_de_datos
             }
         }
 
-        /// <summary>
-        /// Mensajes the alerta.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al verificar la alerta: " + ex.Message</exception>
+        /// <summary>Retorna el mensaje de la alerta activa, si existe.</summary>
         public DataTable MensajeAlerta()
         {
             DataTable dtResultado = new DataTable();
@@ -96,7 +81,7 @@ namespace Capa_de_procesamiento_de_datos
             }
             finally
             {
-                Cerrar(); // Cierra la conexión
+                Cerrar();
             }
             return dtResultado;
         }

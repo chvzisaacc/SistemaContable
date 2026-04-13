@@ -5,11 +5,13 @@ using System.Data;
 
 namespace Capa_de_procesamiento_de_datos
 {
+    // Genera el informe PDF de remesas hacia la Curia Arzobispal usando QuestPDF
     public class CuriaService
     {
         private readonly ClsReportes _repo = new ClsReportes();
         private readonly string _carpetaReportes;
 
+        // Crea la carpeta de destino en Mis Documentos si no existe
         public CuriaService()
         {
             string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -18,10 +20,12 @@ namespace Capa_de_procesamiento_de_datos
             Directory.CreateDirectory(_carpetaReportes);
         }
 
+        /// <summary>Genera el PDF del informe Curia y devuelve la ruta donde fue guardado.</summary>
         public string GenerarInformeCuria(int usuarioId, DateTime desde, DateTime hasta)
         {
             DataSet ds = _repo.ObtenerDatosCuriaPorUsuario(usuarioId, desde, hasta);
 
+            // El SP devuelve 4 tablas en orden: info general, entradas, salidas, totales
             DataTable dtInfo = ds.Tables[0];
             DataTable dtEntradas = ds.Tables[1];
             DataTable dtSalidas = ds.Tables[2];
@@ -47,6 +51,7 @@ namespace Capa_de_procesamiento_de_datos
                 nombreSacerdote
             );
 
+            // Nombre único por parroquia y mes para evitar sobreescrituras accidentales
             string nombreArchivo = $"Curia_{nombreParroquia}_{desde:yyyyMM}.pdf";
             string rutaCompleta = Path.Combine(_carpetaReportes, nombreArchivo);
 
@@ -54,26 +59,20 @@ namespace Capa_de_procesamiento_de_datos
             return rutaCompleta;
         }
 
+        /// <summary>Construye el documento PDF con QuestPDF y retorna sus bytes.</summary>
         private byte[] GenerarPdfCuria(
-            DataTable dtEntradas,
-            DataTable dtSalidas,
-            decimal totalEntradas,
-            decimal totalSalidas,
-            decimal gananciaMes,
-            decimal docePorciento,
-            decimal subtotalCuria,
-            decimal totalALaCuria,
-            string parroquia,
-            DateTime desde,
-            DateTime hasta,
+            DataTable dtEntradas, DataTable dtSalidas,
+            decimal totalEntradas, decimal totalSalidas,
+            decimal gananciaMes, decimal docePorciento,
+            decimal subtotalCuria, decimal totalALaCuria,
+            string parroquia, DateTime desde, DateTime hasta,
             string nombreSacerdote)
         {
+            // Formato numérico con separador de miles en inglés (1,234.56)
             var formatoHnd = new System.Globalization.CultureInfo("en-US");
 
             string logoPath = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "Resources",
-                "logo_arqui.png"
+                AppDomain.CurrentDomain.BaseDirectory, "Resources", "logo_arqui.png"
             );
 
             var todasEntradas = dtEntradas.AsEnumerable()
@@ -88,6 +87,7 @@ namespace Capa_de_procesamiento_de_datos
                     Monto = Convert.ToDecimal(r["Monto"])
                 }).ToList();
 
+            // Entradas normales van en la tabla principal; las especiales van debajo del subtotal
             var entradasNormales = todasEntradas.Where(e =>
                 !e.Nombre.StartsWith("COLECTA", StringComparison.OrdinalIgnoreCase) &&
                 !e.Nombre.StartsWith("DONATIVO", StringComparison.OrdinalIgnoreCase) &&
@@ -104,6 +104,7 @@ namespace Capa_de_procesamiento_de_datos
                 e.Nombre.Contains("CONFIRMA", StringComparison.OrdinalIgnoreCase)
             ).ToList();
 
+            // Las columnas de entradas y salidas deben tener el mismo número de filas
             int maxFilas = Math.Max(entradasNormales.Count, salidas.Count);
 
             var document = Document.Create(container =>
@@ -112,47 +113,31 @@ namespace Capa_de_procesamiento_de_datos
                 {
                     page.Margin(20);
 
-                    // ==========================================================
-                    // ENCABEZADO con logo integrado en el row
-                    // ==========================================================
                     page.Header().Column(col =>
                     {
                         col.Item().Row(row =>
                         {
-                            // IZQUIERDA — texto
                             row.RelativeItem().Column(left =>
                             {
                                 left.Item().Text("Arquidiocesis de Tegucigalpa")
                                     .FontSize(16).Bold().FontColor("#003399");
-
                                 left.Item().Text($"Parroquia {parroquia}, Tegucigalpa")
                                     .FontSize(11).FontColor("#444444");
-
                                 left.Item().Text($"Año: {desde:yyyy}")
                                     .FontSize(10).FontColor("#666666");
                             });
 
-                            // DERECHA — logo
                             if (File.Exists(logoPath))
                             {
-                                row.ConstantItem(70)
-                                   .Height(60)
-                                   .AlignRight()
-                                   .AlignTop()
+                                row.ConstantItem(70).Height(60)
+                                   .AlignRight().AlignTop()
                                    .Image(logoPath, ImageScaling.FitArea);
                             }
                         });
 
-                        // Línea dorada debajo del encabezado
-                        col.Item()
-                            .PaddingTop(4)
-                            .LineHorizontal(1)
-                            .LineColor("#D4AF37");
+                        col.Item().PaddingTop(4).LineHorizontal(1).LineColor("#D4AF37");
                     });
 
-                    // ==========================================================
-                    // CONTENIDO
-                    // ==========================================================
                     page.Content().Column(col =>
                     {
                         col.Item().PaddingTop(8).Table(table =>
@@ -165,17 +150,13 @@ namespace Capa_de_procesamiento_de_datos
                                 columns.ConstantColumn(90);
                             });
 
+                            // Helper local para no repetir el estilo de cada celda
                             void Celda(string texto, bool negrita = false, string colorFondo = "#FFFFFF", bool alinearDerecha = false)
                             {
-                                var cell = table.Cell()
-                                    .Border(0.5f)
-                                    .Padding(2)
-                                    .Background(colorFondo);
-
+                                var cell = table.Cell().Border(0.5f).Padding(2).Background(colorFondo);
                                 var t = alinearDerecha
                                     ? cell.AlignRight().Text(texto ?? string.Empty).FontSize(9)
                                     : cell.Text(texto ?? string.Empty).FontSize(9);
-
                                 if (negrita) t.Bold();
                             }
 
@@ -184,6 +165,7 @@ namespace Capa_de_procesamiento_de_datos
                             Celda("SALIDAS", true, "#D4AF37");
                             Celda("", true, "#D4AF37");
 
+                            // Filas de entradas y salidas en paralelo; celdas vacías si una lista es más corta
                             for (int i = 0; i < maxFilas; i++)
                             {
                                 string eNombre = i < entradasNormales.Count ? entradasNormales[i].Nombre : "";
@@ -202,6 +184,7 @@ namespace Capa_de_procesamiento_de_datos
                             Celda("X 12%", true, "#D4AF37");
                             Celda($"L.{docePorciento.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
 
+                            // Colectas, donativos y similares aparecen después del subtotal
                             foreach (var entrada in entradasDebajo)
                             {
                                 Celda(entrada.Nombre);
@@ -215,17 +198,16 @@ namespace Capa_de_procesamiento_de_datos
                             Celda("TOTAL SALIDAS DEL MES", true, "#D4AF37");
                             Celda($"L.{totalSalidas.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
 
-                            Celda("", false);
-                            Celda("", false);
+                            Celda(""); Celda("");
                             Celda("TOTAL CURIA", true, "#D4AF37");
                             Celda($"L.{totalALaCuria.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
 
-                            Celda("", false);
-                            Celda("", false);
+                            Celda(""); Celda("");
                             Celda("A LA CURIA ARZOBISPAL", true, "#D4AF37");
                             Celda($"L.{totalALaCuria.ToString("N2", formatoHnd)}", true, "#D4AF37", true);
                         });
 
+                        // Resumen de ganancias/pérdidas del mes
                         col.Item().PaddingVertical(8).Table(table =>
                         {
                             table.ColumnsDefinition(columns =>
@@ -240,6 +222,7 @@ namespace Capa_de_procesamiento_de_datos
                                 table.Cell().Border(0.5f).Padding(2).AlignRight().Text(valor).FontSize(9);
                             }
 
+                            // Si el total es 0 se deja en blanco para no mostrar "L.0.00"
                             Celda2("Total entradas del mes",
                                 totalEntradas == 0 ? "" : $"L.{totalEntradas.ToString("N2", formatoHnd)}");
                             Celda2("Total salidas del mes",
@@ -260,25 +243,19 @@ namespace Capa_de_procesamiento_de_datos
                         ).FontSize(8).FontColor("#444444");
                     });
 
-                    // ==========================================================
-                    // PIE DE PÁGINA
-                    // ==========================================================
-                    page.Footer()
-                        .Height(30)
-                        .AlignCenter()
-                        .Column(col =>
+                    page.Footer().Height(30).AlignCenter().Column(col =>
+                    {
+                        col.Item().LineHorizontal(1).LineColor("#D4AF37");
+                        col.Item().Text(text =>
                         {
-                            col.Item().LineHorizontal(1).LineColor("#D4AF37");
-                            col.Item().Text(text =>
-                            {
-                                text.Span("Generado el ").FontSize(9).FontColor("#666666");
-                                text.Span($"{DateTime.Now:dd/MM/yyyy HH:mm}").FontSize(9).FontColor("#666666");
-                                text.Span("  |  Página ").FontSize(9).FontColor("#666666");
-                                text.CurrentPageNumber().FontSize(9).FontColor("#666666");
-                                text.Span(" de ").FontSize(9).FontColor("#666666");
-                                text.TotalPages().FontSize(9).FontColor("#666666");
-                            });
+                            text.Span("Generado el ").FontSize(9).FontColor("#666666");
+                            text.Span($"{DateTime.Now:dd/MM/yyyy HH:mm}").FontSize(9).FontColor("#666666");
+                            text.Span("  |  Página ").FontSize(9).FontColor("#666666");
+                            text.CurrentPageNumber().FontSize(9).FontColor("#666666");
+                            text.Span(" de ").FontSize(9).FontColor("#666666");
+                            text.TotalPages().FontSize(9).FontColor("#666666");
                         });
+                    });
                 });
             });
 
