@@ -5,22 +5,22 @@ using System.Data;
 namespace Capa_de_Presentación.CLASES
 {
     /// <summary>
-    /// 
+    /// Utilidades para operaciones sobre Certificados (CD) y su sincronización
+    /// entre el origen de datos (DataTable) y la vista (DataGridView).
     /// </summary>
     public class ClsCD
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClsCD"/> class.
+        /// Constructor. No realiza inicializaciones adicionales.
         /// </summary>
         public ClsCD()
         {
         }
 
         /// <summary>
-        /// Agregarfilas the specified dt datos certificados.
+        /// Agrega una fila vacía al DataTable y sitúa el foco en la nueva fila del DataGridView.
+        /// Sincroniza temporalmente el modo de edición de la vista para permitir la entrada del usuario.
         /// </summary>
-        /// <param name="dtDatosCertificados">The dt datos certificados.</param>
-        /// <param name="dataGridView1">The data grid view1.</param>
         public void Agregarfila(DataTable dtDatosCertificados, DataGridView dataGridView1)
         {
             if (dtDatosCertificados != null)
@@ -28,10 +28,10 @@ namespace Capa_de_Presentación.CLASES
                 // 1. Desbloquear el DataGridView para permitir la entrada
                 dataGridView1.ReadOnly = false;
 
-                // 2. Crear la nueva fila
+                // 2. Crear la nueva fila en el origen de datos antes de enlazarla a la UI
                 DataRow newRow = dtDatosCertificados.NewRow();
 
-                // Asignamos un string vacío o un valor por defecto antes de agregarla al DataTable
+                // Inicializar columnas editables para evitar errores de esquema al agregar la fila
                 if (dtDatosCertificados.Columns.Contains("Nombre_certificado"))
                 {
                     newRow["Nombre_certificado"] = string.Empty;
@@ -41,16 +41,14 @@ namespace Capa_de_Presentación.CLASES
                 {
                     newRow["Nombre_Parroquia"] = string.Empty;
                 }
-                // ----------------------------------------------------------
 
-                // 3. Ahora sí podemos agregarla sin que lance la excepción
+                // 3. Agregar la fila al DataTable (origen de datos)
                 dtDatosCertificados.Rows.Add(newRow);
 
-                // 4. Lógica de enfoque en la UI
+                // 4. Enfocar la nueva fila en la UI y comenzar edición para sincronizar la entrada
                 int lastIndex = dataGridView1.Rows.Count - 1;
                 if (lastIndex >= 0)
                 {
-                    // Buscamos la primera columna visible para poner el cursor ahí
                     DataGridViewColumn firstVisibleColumn = dataGridView1.Columns
                         .Cast<DataGridViewColumn>()
                         .FirstOrDefault(c => c.Visible);
@@ -58,7 +56,6 @@ namespace Capa_de_Presentación.CLASES
                     if (firstVisibleColumn != null)
                     {
                         dataGridView1.CurrentCell = dataGridView1.Rows[lastIndex].Cells[firstVisibleColumn.Index];
-                        // Iniciamos la edición automáticamente para mejorar la experiencia del usuario
                         dataGridView1.BeginEdit(true);
                     }
                 }
@@ -71,27 +68,22 @@ namespace Capa_de_Presentación.CLASES
         }
 
         /// <summary>
-        /// Bloquears the desbloquear data.
+        /// Gestiona bloqueos de edición entre el DataTable y el DataGridView.
+        /// Desbloquea columnas específicas en la última fila si existen campos vacíos para permitir edición.
         /// </summary>
-        /// <param name="dtDatosCertificados">The dt datos certificados.</param>
-        /// <param name="dataGridView1">The data grid view1.</param>
-        /// <param name="RowIndex">Index of the row.</param>
         public void BloquearDesbloquearData(DataTable dtDatosCertificados, DataGridView dataGridView1, int RowIndex)
         {
-            // 1. Validación inicial
             if (RowIndex < 0 || dtDatosCertificados == null) return;
 
-            // 2. Quitamos el bloqueo de "Solo Lectura" del DataTable (Origen de datos)
-            // Sin esto, el DataGridView lanzará la excepción que viste.
+            // Asegurar que el DataTable permita escritura antes de modificar el DGV
             foreach (DataColumn dc in dtDatosCertificados.Columns)
             {
                 dc.ReadOnly = false;
             }
 
-            // 3. Bloqueo Inicial del DGV (seguridad)
+            // Por defecto dejamos el DGV en solo lectura y solo habilitamos edición si corresponde
             dataGridView1.ReadOnly = true;
 
-            // 4. Lógica para Desbloquear la ÚLTIMA fila
             int lastDataRowIndex = dtDatosCertificados.Rows.Count - 1;
 
             if (RowIndex == lastDataRowIndex)
@@ -114,16 +106,13 @@ namespace Capa_de_Presentación.CLASES
                     }
                 }
 
-                // 5. Si hay campos vacíos, desbloqueamos con cuidado
                 if (algunCampoVacio)
                 {
-                    // Primero el control general
+                    // Habilitar edición solo para las columnas permitidas, manteniendo IDs bloqueadas
                     dataGridView1.ReadOnly = false;
 
-                    // Luego las columnas individuales
                     foreach (DataGridViewColumn column in dataGridView1.Columns)
                     {
-                        // Mantenemos bloqueado el ID o columnas que NO deben editarse nunca
                         if (column.Name == "Id_certificado" || column.Name == "Id_Parroquia")
                         {
                             column.ReadOnly = true;
@@ -138,34 +127,21 @@ namespace Capa_de_Presentación.CLASES
         }
 
         /// <summary>
-        /// Guardars the cd.
+        /// Guarda la última fila válida del DataGridView en la base de datos.
+        /// Realiza validaciones sobre campos obligatorios y convierte el nombre de parroquia a su ID.
+        /// Tras guardar, actualiza y bloquea la fila para mantener la sincronización con el origen persistente.
         /// </summary>
-        /// <param name="dtDatosCertificados">The dt datos certificados.</param>
-        /// <param name="dataGridView1">The data grid view1.</param>
-        /// <param name="datos_guardados">if set to <c>true</c> [datos guardados].</param>
-        /// <exception cref="System.FormatException">
-        /// El Depósito Inicial no es un número válido.
-        /// or
-        /// El Plazo no es un número entero válido.
-        /// or
-        /// La Tasa no es un número válido.
-        /// </exception>
         public void GuardarCD(DataTable dtDatosCertificados, DataGridView dataGridView1, bool datos_guardados)
         {
-            // NO se usa la ID de Parroquia de la sesión, se capturará del DataGridView.
-            // int id_parroquia = Capa_de_acceso_de_datos.Sesion1.id_parroquia; 
-
             if (dataGridView1.Rows.Count == 0 || (dataGridView1.Rows.Count == 1 && dataGridView1.Rows[0].IsNewRow))
             {
                 MessageBox.Show("No hay filas con datos válidos para guardar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Identifica la última fila de datos (justo antes de la fila nueva, si existe)
             DataGridViewRow fila = dataGridView1.Rows.Count > 1 && dataGridView1.Rows[dataGridView1.Rows.Count - 1].IsNewRow
                 ? dataGridView1.Rows[dataGridView1.Rows.Count - 2]
                 : dataGridView1.Rows[dataGridView1.Rows.Count - 1];
-
 
             string[] columnas_obligatorias = new string[] { "Nombre_certificado", "Nombre_Parroquia" };
 
@@ -183,14 +159,12 @@ namespace Capa_de_Presentación.CLASES
             try
             {
                 string nombre_certificado = fila.Cells["Nombre_certificado"].Value.ToString();
-                string nombre_parroquia_escrito = fila.Cells["Nombre_Parroquia"].Value.ToString(); // Capturamos el nombre
+                string nombre_parroquia_escrito = fila.Cells["Nombre_Parroquia"].Value.ToString();
 
                 DateTime fecha_transaccion_actual = DateTime.Now;
 
-                // 3. OBTENER EL ID DE LA PARROQUIA (Conversión de Nombre a ID)
+                // Conversión Nombre -> ID y persistencia
                 ClsAccionesDB acciones = new ClsAccionesDB();
-
-                // Llamar a la función que busca el ID en la base de datos
                 int id_parroquia = acciones.ObtenerIdParroquiaPorNombre(nombre_parroquia_escrito);
 
                 if (id_parroquia <= 0)
@@ -200,19 +174,14 @@ namespace Capa_de_Presentación.CLASES
                     return;
                 }
 
-                // 4. GUARDAR EL CERTIFICADO 
-                // Se pasan: nombre_certificado, id_parroquia, y la fecha
                 int idCertificadoGenerado = acciones.GuardarCertificado(nombre_certificado, id_parroquia, fecha_transaccion_actual);
 
-                // 5. Actualizar la Fila
+                // Actualizar UI con valores persistentes y bloquear la fila
                 fila.Cells["Id_Certificado"].Value = idCertificadoGenerado;
                 fila.Cells["FechaTransaccion"].Value = fecha_transaccion_actual;
 
-
-
                 MessageBox.Show("Última fila guardada con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Bloquear la fila después de guardar
                 foreach (DataGridViewCell cell in fila.Cells)
                 {
                     cell.ReadOnly = true;
@@ -225,44 +194,47 @@ namespace Capa_de_Presentación.CLASES
             }
         }
 
+        /// <summary>
+        /// Desbloquea las celdas de una fila para edición salvo las columnas clave (ID y Fecha).
+        /// Asegura además que el DataGridView asociado no esté en modo ReadOnly global.
+        /// </summary>
         public static void DesbloquearFila(DataGridViewRow fila)
         {
-            // Verificación de nulidad
             if (fila == null)
             {
                 return;
             }
 
-            // 1. Asegurar que el DataGridView asociado NO esté bloqueado globalmente
             if (fila.DataGridView != null && fila.DataGridView.ReadOnly == true)
             {
                 fila.DataGridView.ReadOnly = false;
             }
 
-            // 2. Iterar y modificar el ReadOnly de CADA celda
             foreach (DataGridViewCell cell in fila.Cells)
             {
-                // Usamos StringComparison.OrdinalIgnoreCase para una coincidencia segura de nombres.
                 bool esCampoClave = cell.OwningColumn.Name.Equals("Id_Certificado", StringComparison.OrdinalIgnoreCase) ||
                                     cell.OwningColumn.Name.Equals("FechaTransaccion", StringComparison.OrdinalIgnoreCase);
 
                 if (esCampoClave)
                 {
-                    // Mantiene los campos clave SIEMPRE como de solo lectura (Bloqueo)
+                    //Mantener campos clave como solo lectura para evitar modificaciones que rompan la integridad de los datos
                     cell.ReadOnly = true;
                 }
                 else
                 {
-                    // Desbloquea todos los demás campos (como Nombre_certificado y Nombre_Parroquia)
+                    // Permitir edición en campos no clave
                     cell.ReadOnly = false;
+                    cell.ReadOnly = esCampoClave;
                 }
+               
+                
             }
         }
+
         /// <summary>
-        /// Editars the cd.
+        /// Activa la edición de la fila seleccionada y coloca el foco en la primera columna visible.
+        /// Mantiene sincronía entre la UI (modo edición) y el origen de datos mientras el usuario modifica valores.
         /// </summary>
-        /// <param name="dtDatosCertificados">The dt datos certificados.</param>
-        /// <param name="dataGridView1">The data grid view1.</param>
         public void editarCD(DataTable dtDatosCertificados, DataGridView dataGridView1)
         {
             if (dataGridView1.SelectedRows.Count > 0)
@@ -273,7 +245,6 @@ namespace Capa_de_Presentación.CLASES
 
                 foreach (DataGridViewCell cell in selectedRow.Cells)
                 {
-
                     cell.ReadOnly = false;
                 }
 
@@ -285,7 +256,6 @@ namespace Capa_de_Presentación.CLASES
                     dataGridView1.BeginEdit(true);
                 }
 
-
                 MessageBox.Show("Fila habilitada para edición", "Modo Edición Activado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
@@ -295,14 +265,11 @@ namespace Capa_de_Presentación.CLASES
         }
 
         /// <summary>
-        /// Guardaredics the specified dt datos certificados.
+        /// Guarda cambios de una fila en modo edición. Realiza validaciones, conversión de parroquia y llama
+        /// al método de actualización en la capa de acceso a datos.
         /// </summary>
-        /// <param name="dtDatosCertificados">The dt datos certificados.</param>
-        /// <param name="dataGridView1">The data grid view1.</param>
-        /// <param name="modo_edicion_activo">if set to <c>true</c> [modo edicion activo].</param>
         public void guardaredic(DataTable dtDatosCertificados, DataGridView dataGridView1, ref bool modo_edicion_activo)
         {
-            // Verificar si hay una fila seleccionada
             if (dataGridView1.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Por favor, seleccione una fila.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -313,7 +280,6 @@ namespace Capa_de_Presentación.CLASES
             {
                 try
                 {
-                    // Forzar la validación de la celda actual para asegurar que el valor se capture
                     if (dataGridView1.IsCurrentCellDirty)
                     {
                         dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
@@ -322,7 +288,6 @@ namespace Capa_de_Presentación.CLASES
                     DataGridViewRow fila = dataGridView1.SelectedRows[0];
                     int codigo_certificado = 0;
 
-                    // --- 1. Obtener y validar el ID del Certificado ---
                     DataGridViewCell pkCell = fila.Cells["Id_Certificado"];
                     if (pkCell == null || pkCell.Value == DBNull.Value || pkCell.Value == null ||
                         !int.TryParse(pkCell.Value.ToString(), out codigo_certificado))
@@ -331,19 +296,15 @@ namespace Capa_de_Presentación.CLASES
                         return;
                     }
 
-                    // --- 2. Capturar los valores necesarios ---
                     string nombre_certificado = fila.Cells["Nombre_certificado"].Value?.ToString() ?? string.Empty;
                     string nombre_parroquia_escrito = fila.Cells["Nombre_Parroquia"].Value?.ToString() ?? string.Empty;
 
-
-                    // Validación de campos obligatorios (opcionalmente)
                     if (string.IsNullOrWhiteSpace(nombre_certificado) || string.IsNullOrWhiteSpace(nombre_parroquia_escrito))
                     {
                         MessageBox.Show("El Nombre del Certificado y la Parroquia no pueden estar vacíos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    // --- 3. Convertir Nombre de Parroquia a ID ---
                     ClsAccionesDB accionesDB = new ClsAccionesDB();
                     int id_parroquia = accionesDB.ObtenerIdParroquiaPorNombre(nombre_parroquia_escrito);
 
@@ -353,15 +314,10 @@ namespace Capa_de_Presentación.CLASES
                         return;
                     }
 
-                    // --- 4. Llamada al método de edición simplificado ---
-                    // La nueva firma es: (int codigo_certificado, string nombre_certificado, int id_parroquia)
                     accionesDB.editarcertificado(codigo_certificado, nombre_certificado, id_parroquia);
 
-                    // --- 5. Finalizar edición y actualizar UI ---
-                    dataGridView1.ReadOnly = true; // Hace el DGV de sólo lectura (o debes recorrer las celdas de la fila)
-                    modo_edicion_activo = false; // Desactiva el modo de edición
-
-                    // Opcional: Recargar la fila o la tabla para mostrar el Nombre_Parroquia actualizado si aplica
+                    dataGridView1.ReadOnly = true;
+                    modo_edicion_activo = false;
 
                     MessageBox.Show("Cambios guardados exitosamente.", "Guardado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -372,18 +328,15 @@ namespace Capa_de_Presentación.CLASES
             }
             else
             {
-                // Si no está en modo de edición, llama al método para activar la edición
                 editarCD(dtDatosCertificados, dataGridView1);
                 modo_edicion_activo = true;
             }
         }
 
         /// <summary>
-        /// Renovars the cd.
+        /// Maneja el flujo de renovación: confirma la acción y llama al método que marca el certificado como renovado.
+        /// Mantiene la UI sincronizada bloqueando la fila y desactivando el modo de edición al completar.
         /// </summary>
-        /// <param name="dtDatosCertificados">The dt datos certificados.</param>
-        /// <param name="dataGridView1">The data grid view1.</param>
-        /// <param name="modo_edicion_activo">if set to <c>true</c> [modo edicion activo].</param>
         public void renovarCD(DataTable dtDatosCertificados, DataGridView dataGridView1, ref bool modo_edicion_activo)
         {
             if (dataGridView1.SelectedRows.Count == 0)
@@ -392,12 +345,10 @@ namespace Capa_de_Presentación.CLASES
                 return;
             }
 
-            // --- Lógica del Botón: GUARDAR RENOVACIÓN (Si modo_edicion_activo es TRUE) ---
             if (modo_edicion_activo)
             {
                 try
                 {
-                    // Forzamos la captura del valor de la celda en edición
                     if (dataGridView1.IsCurrentCellDirty)
                     {
                         dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
@@ -405,19 +356,11 @@ namespace Capa_de_Presentación.CLASES
                     dataGridView1.EndEdit();
 
                     DataGridViewRow fila = dataGridView1.SelectedRows[0];
-
-                    // 1. Obtener solo el ID del certificado
                     int codigo_certificado = Convert.ToInt32(fila.Cells["Id_certificado"].Value);
 
-
                     ClsAccionesDB accionesDB = new ClsAccionesDB();
-
-                    // 2. Llamada a la función renovarCertificado simplificada (solo ID)
-                    // Esta función llama al SP que actualiza el estado y la fecha.
                     accionesDB.renovarCertificado(codigo_certificado);
 
-                    // 3. Finalizar edición y actualizar UI
-                    // Recorre las celdas de la fila para hacerlas de solo lectura
                     foreach (DataGridViewCell cell in fila.Cells)
                     {
                         cell.ReadOnly = true;
@@ -425,13 +368,10 @@ namespace Capa_de_Presentación.CLASES
 
                     modo_edicion_activo = false;
 
-
-
                     MessageBox.Show("¡El certificado ha sido marcado como renovado y los cambios guardados!", "Renovación Completada", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    // Aseguramos que el modo edición se desactive en caso de fallo
                     dataGridView1.ReadOnly = true;
                     modo_edicion_activo = false;
                     MessageBox.Show("Error al guardar la renovación: " + ex.Message, "Error al guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -439,9 +379,6 @@ namespace Capa_de_Presentación.CLASES
             }
             else
             {
-                // En el esquema simplificado, la renovación NO requiere edición de datos en el DGV.
-                // La renovación es una ACCIÓN de cambiar el estado, no una edición de campos.
-
                 MessageBox.Show("Presione el botón nuevamente para confirmar y registrar la renovación del certificado.",
                                 "Confirmar Renovación", MessageBoxButtons.OK, MessageBoxIcon.Question);
 
@@ -450,9 +387,8 @@ namespace Capa_de_Presentación.CLASES
         }
 
         /// <summary>
-        /// Cancelars the certificado.
+        /// Cancela el certificado seleccionado solicitando motivo y eliminando la fila de la vista tras persistir el cambio.
         /// </summary>
-        /// <param name="dataGridView1">The data grid view1.</param>
         public void cancelarCertificado(DataGridView dataGridView1)
         {
             if (dataGridView1.SelectedRows.Count == 0)
@@ -465,17 +401,14 @@ namespace Capa_de_Presentación.CLASES
             int codigo_certificado = Convert.ToInt32(fila_seleccionada.Cells["Id_Certificado"].Value);
             string motivo_cancelacion = string.Empty;
 
-
             using (Cancelar_Certificados frmCancel = new Cancelar_Certificados())
             {
                 if (frmCancel.ShowDialog() == DialogResult.OK)
                 {
-
                     motivo_cancelacion = frmCancel.ObtenerMotivo();
                 }
                 else
                 {
-
                     return;
                 }
             }
@@ -489,9 +422,7 @@ namespace Capa_de_Presentación.CLASES
             try
             {
                 ClsAccionesDB objAcciones = new ClsAccionesDB();
-
                 objAcciones.cancelarCertificado(codigo_certificado, motivo_cancelacion);
-
 
                 dataGridView1.Rows.Remove(fila_seleccionada);
 
@@ -504,20 +435,17 @@ namespace Capa_de_Presentación.CLASES
         }
 
         /// <summary>
-        /// Cancelars the certificado.
+        /// Sobrecarga no implementada; mantiene compatibilidad de firma si es requerida en otro lugar.
         /// </summary>
-        /// <param name="dataGridView1">The data grid view1.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
         public void cancelarCertificado(object dataGridView1)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Cargars the certificados intereses.
+        /// Carga certificados y calcula intereses/total acumulado para presentación en la vista.
+        /// Formatea columnas y oculta campos internos para mantener la sincronía presentación-datos.
         /// </summary>
-        /// <param name="dgv">The DGV.</param>
-        /// <exception cref="System.Exception">Error en la carga y cálculo de certificados: " + ex.Message</exception>
         public void CargarCertificadosIntereses(DataGridView dgv)
         {
             try
@@ -533,7 +461,6 @@ namespace Capa_de_Presentación.CLASES
                     decimal deposito = Convert.ToDecimal(row["deposito_inicial"]);
                     decimal tasa = Convert.ToDecimal(row["tasa"]);
                     int plazo = Convert.ToInt32(row["plazo"]);
-                    //dtDatosCertificados.Columns.Add("FechaTransaccion", typeof(DateTime));
 
                     decimal ganancia_sin_redondear = deposito * (tasa / 100) * plazo;
                     decimal total_sin_redondear = deposito + ganancia_sin_redondear;
@@ -569,7 +496,6 @@ namespace Capa_de_Presentación.CLASES
                     dgv.Columns["Fecha"].Visible = false;
                 }
 
-
                 if (dgv.Columns.Contains("Ganancia_Generado"))
                 {
                     dgv.Columns["Ganancia_Generado"].DefaultCellStyle.Format = "N2";
@@ -589,9 +515,8 @@ namespace Capa_de_Presentación.CLASES
         }
 
         /// <summary>
-        /// Cargars the cuentas bancarias.
+        /// Carga cuentas bancarias, calcula ganancia y total acumulado y prepara la vista para presentación.
         /// </summary>
-        /// <param name="dgv">The DGV.</param>
         public void CargarCuentasBancarias(DataGridView dgv)
         {
             ClsAccionesDB acciones = new ClsAccionesDB();
@@ -606,7 +531,6 @@ namespace Capa_de_Presentación.CLASES
 
                 decimal ganancia_sin_redondear = saldo * (tasa / 100);
                 decimal total_acumulado_sin_redondear = ganancia_sin_redondear + saldo;
-
 
                 decimal ganancia = Math.Round(ganancia_sin_redondear, 2);
                 decimal total = Math.Round(total_acumulado_sin_redondear, 2);
@@ -625,13 +549,9 @@ namespace Capa_de_Presentación.CLASES
                 dgv.Columns["Id_cuentaBanco"].Visible = false;
             }
 
-
             dgv.DataSource = dtDatosCertificados;
-
-
         }
     }
-
 
 }
 

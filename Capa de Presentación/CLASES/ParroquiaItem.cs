@@ -1,31 +1,27 @@
 ﻿namespace Capa_de_Presentación.CLASES
 {
     /// <summary>
-    /// 
+    /// Representa un elemento de parroquia para su uso en controles de UI (por ejemplo ComboBox).
+    /// Contiene el identificador y el nombre legible que se mostrará en la interfaz.
     /// </summary>
     public class ParroquiaItem
     {
         /// <summary>
-        /// Gets or sets the identifier.
+        /// Identificador único de la parroquia.
+        /// Se usa para operaciones internas y para mapear en la base de datos.
         /// </summary>
-        /// <value>
-        /// The identifier.
-        /// </value>
         public int id { get; set; }
+
         /// <summary>
-        /// Gets or sets the nombre.
+        /// Nombre de la parroquia que se mostrará en la UI.
         /// </summary>
-        /// <value>
-        /// The nombre.
-        /// </value>
         public string nombre { get; set; }
 
         /// <summary>
-        /// Converts to string.
+        /// Devuelve la representación en texto del elemento.
+        /// Se sobreescribe para que controles como ComboBox muestren directamente el nombre.
         /// </summary>
-        /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
-        /// </returns>
+        /// <returns>El <see cref="string"/> con el nombre de la parroquia.</returns>
         public override string ToString()
         {
             return nombre; // esto hace que el combo muestre solo el nombre

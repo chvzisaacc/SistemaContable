@@ -6,16 +6,21 @@ using System.Data;
 namespace Capa_de_Presentación.CLASES
 {
     /// <summary>
-    /// 
+    /// Funciones auxiliares para gestionar la edición y guardado de ingresos
+    /// desde la capa de presentación. Mantiene sincronía entre la UI (DataGridView)
+    /// y la capa de procesamiento de datos.
     /// </summary>
     /// <seealso cref="Capa_de_acceso_de_datos.Clsconexion" />
     public class IngresosIn : Clsconexion
     {
         /// <summary>
-        /// Editars the ingreso.
+        /// Habilita el modo edición del DataGridView para permitir que el usuario
+        /// modifique los registros de ingresos directamente en la vista.
+        /// - Desbloquea el control y sus celdas.
+        /// - Ajusta el modo de edición y enfoque en la primera celda editable.
         /// </summary>
-        /// <param name="dtIngresos">The dt ingresos.</param>
-        /// <param name="dataGridView1">The data grid view1.</param>
+        /// <param name="dtIngresos">DataTable origen de datos (no se modifica directamente aquí).</param>
+        /// <param name="dataGridView1">Control DataGridView que mostrará los ingresos.</param>
         public void editarIngreso(DataTable dtIngresos, DataGridView dataGridView1)
         {
             if (dataGridView1.Rows.Count == 0)
@@ -25,25 +30,25 @@ namespace Capa_de_Presentación.CLASES
                 return;
             }
 
-            //Desbloquear todo el DataGridView
+            // Desbloquear todo el DataGridView para permitir edición
             dataGridView1.ReadOnly = false;
 
-            //Permitir editar con clic y teclado
+            // Permitir editar con clic y teclado; sincronizar comportamiento de selección
             dataGridView1.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dataGridView1.MultiSelect = false;
 
-            //Hacer todas las celdas editables y visualmente activas
+            // Hacer todas las celdas editables y marcar visualmente para el usuario
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 foreach (DataGridViewCell cell in row.Cells)
                 {
                     cell.ReadOnly = false;
-                    cell.Style.BackColor = Color.White; // opcional: color editable
+                    cell.Style.BackColor = Color.White; // opcional: indicar visualmente que es editable
                 }
             }
 
-            //Enfocar la primera celda visible editable
+            // Enfocar la primera celda visible y editable para comenzar la edición
             DataGridViewColumn firstVisibleColumn = dataGridView1.Columns
                 .Cast<DataGridViewColumn>()
                 .FirstOrDefault(c => c.Visible && !c.ReadOnly);
@@ -59,20 +64,23 @@ namespace Capa_de_Presentación.CLASES
         }
 
         /// <summary>
-        /// Guardars the edicion.
+        /// Guarda la edición realizada en la fila seleccionada del DataGridView.
+        /// - Valida la selección y el identificador de la transacción.
+        /// - Llama a la capa de procesamiento para persistir los cambios.
+        /// - Actualiza la UI (limpia controles y restablece el DGV a modo solo lectura) para mantener la sincronía.
         /// </summary>
-        /// <param name="dtIngresos">The dt ingresos.</param>
-        /// <param name="nombre_cuenta">The nombre cuenta.</param>
-        /// <param name="detalle">The detalle.</param>
-        /// <param name="saldo">The saldo.</param>
-        /// <param name="fecha_transaccion">The fecha transaccion.</param>
-        /// <param name="referencia">The referencia.</param>
-        /// <param name="id_origen">The identifier origen.</param>
-        /// <param name="txtNoReferencia">The text no referencia.</param>
-        /// <param name="cmbOrigen">The CMB origen.</param>
-        /// <param name="dataGridView1">The data grid view1.</param>
-        /// <param name="dtpFecha">The DTP fecha.</param>
-        /// <returns></returns>
+        /// <param name="dtIngresos">Origen de datos (DataTable) asociado al DGV.</param>
+        /// <param name="nombre_cuenta">Nombre de la cuenta para la transacción.</param>
+        /// <param name="detalle">Detalle de la transacción.</param>
+        /// <param name="saldo">Monto de la transacción.</param>
+        /// <param name="fecha_transaccion">Fecha de la transacción.</param>
+        /// <param name="referencia">Referencia asociada (convertible a entero).</param>
+        /// <param name="id_origen">Identificador del origen de la transacción.</param>
+        /// <param name="txtNoReferencia">TextBox con la referencia (opcional, se limpiará si procede).</param>
+        /// <param name="cmbOrigen">ComboBox del origen (opcional, se restablecerá si procede).</param>
+        /// <param name="dataGridView1">DataGridView que contiene la fila editada (opcional).</param>
+        /// <param name="dtpFecha">DateTimePicker del formulario (opcional, se restablecerá si procede).</param>
+        /// <returns>True si la actualización se realizó correctamente; de lo contrario false.</returns>
         public bool GuardarEdicion(DataTable dtIngresos, string nombre_cuenta, string detalle, decimal saldo,
         DateTime fecha_transaccion, string referencia, int id_origen,
         TextBox txtNoReferencia = null, ComboBox cmbOrigen = null,
@@ -88,7 +96,7 @@ namespace Capa_de_Presentación.CLASES
                     return false;
                 }
 
-                // Si no hay CurrentRow pero hay filas seleccionadas
+                // Si no hay CurrentRow pero hay filas seleccionadas, establecer la actual
                 if (dataGridView1.CurrentRow == null && dataGridView1.SelectedRows.Count > 0)
                 {
                     dataGridView1.CurrentCell = dataGridView1.SelectedRows[0].Cells[0];
@@ -96,7 +104,7 @@ namespace Capa_de_Presentación.CLASES
 
                 DataGridViewRow fila = dataGridView1.CurrentRow;
 
-                // Validar ID
+                // Validar ID antes de persistir en la capa de datos
                 if (fila.Cells["Id_transaccion"].Value == null || fila.Cells["Id_transaccion"].Value == DBNull.Value)
                 {
                     dataGridView1?.EndEdit();
@@ -119,14 +127,13 @@ namespace Capa_de_Presentación.CLASES
                     MessageBox.Show("Registro modificado con éxito.", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // Limpiar controles
+                    // Limpiar controles del formulario para reflejar el nuevo estado
                     txtNoReferencia?.Clear();
                     cmbOrigen?.ResetText();
                     if (cmbOrigen != null) cmbOrigen.SelectedIndex = -1;
                     if (dtpFecha != null) dtpFecha.Value = DateTime.Now;
 
-                    // Dejar el DataGridView bloqueado para edición,
-                    // pero habilitado para selección y navegación.
+                    // Restablecer el DataGridView a modo solo lectura para evitar ediciones accidentales
                     if (dataGridView1 != null)
                     {
                         foreach (DataGridViewColumn col in dataGridView1.Columns)

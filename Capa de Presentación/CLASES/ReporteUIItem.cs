@@ -1,7 +1,10 @@
 ﻿namespace Capa_de_Presentación.CLASES
 {
     /// <summary>
-    /// 
+    /// Representa un elemento de lista para la interfaz de reportes.
+    /// Contiene metadatos (identificadores, nombres y rango de fechas)
+    /// utilizados por la UI para mostrar opciones y sincronizar la selección
+    /// con la generación o visualización del reporte correspondiente.
     /// </summary>
     public class ReporteUIItem
     {
@@ -33,6 +36,11 @@
         /// The parroquia identifier.
         /// </value>
         public int parroquia_id { get; set; }
+        /// <summary>
+        /// Nombre legible de la parroquia asociado a este reporte.
+        /// Se utiliza únicamente para mostrar en la UI; el identificador
+        /// <see cref="parroquia_id"/> se usa para operaciones internas.
+        /// </summary>
         public string parroquia_nombre { get; set; }
         /// <summary>
         /// Gets or sets the desde.

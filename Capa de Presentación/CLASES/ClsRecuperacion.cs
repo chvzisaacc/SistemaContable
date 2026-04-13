@@ -4,26 +4,31 @@ using Capa_de_Presentación.Formularios_Ewin;
 namespace Capa_de_Presentación.CAPAS
 {
     /// <summary>
-    /// 
+    /// Clase de ayuda para procesos de recuperación y control de sesión relacionados
+    /// con la autenticación y validación de códigos de recuperación.
     /// </summary>
     public class ClsRecuperacion
     {
-
         /// <summary>
-        /// Iniciars the sesion.
+        /// Inicia sesión mediante la capa de métodos y actualiza la UI con el resultado.
+        /// - Llama a <see cref="ClsMetodos.IniciarSesion(string,string,int)"/> para validar credenciales.
+        /// - Modifica el <paramref name="lblMensaje"/> para reflejar el estado de la autenticación.
+        /// Devuelve el identificador de rol (-1 o 0 indican credenciales inválidas según la lógica actual).
         /// </summary>
-        /// <param name="usuario">The usuario.</param>
-        /// <param name="contraseña">The contraseña.</param>
-        /// <param name="id_parroquia">The identifier parroquia.</param>
-        /// <param name="fRM_PG1">The f rm p g1.</param>
-        /// <param name="lblMensaje">The label mensaje.</param>
-        /// <returns></returns>
+        /// <param name="usuario">Nombre de usuario proporcionado.</param>
+        /// <param name="contraseña">Contraseña proporcionada.</param>
+        /// <param name="id_parroquia">Identificador de la parroquia asociado al intento de inicio.</param>
+        /// <param name="fRM_PG1">Formulario principal que puede necesitar acciones adicionales (no usado aquí).</param>
+        /// <param name="lblMensaje">Etiqueta de la UI que se actualiza con mensajes de estado.</param>
+        /// <returns>Identificador de rol obtenido de la validación de sesión.</returns>
         public int IniciarSesion(string usuario, string contraseña, int id_parroquia, FRM_PG1 fRM_PG1, Label lblMensaje)
         {
             ClsMetodos metodos = new ClsMetodos();
             var sesion = metodos.IniciarSesion(usuario, contraseña, id_parroquia);
             int rol = sesion.rol_id;
             var ids = metodos.ObtenerUsuarioIdPorNombreUsuario(usuario);
+
+            // Actualizar la UI de forma sincronizada para informar al usuario
             if (rol == -1)
             {
                 lblMensaje.ForeColor = Color.White;
@@ -43,11 +48,12 @@ namespace Capa_de_Presentación.CAPAS
 
 
         /// <summary>
-        /// Procesars the codigo recuperacion.
+        /// Procesa el código de recuperación: valida el código mediante la capa de datos
+        /// y actúa según el resultado (abrir formulario de actualización, informar errores, o cerrar la app si procede).
         /// </summary>
-        /// <param name="usuario_id">The usuario identifier.</param>
-        /// <param name="codigo">The codigo.</param>
-        /// <param name="formulario_actual">The formulario actual.</param>
+        /// <param name="usuario_id">Identificador del usuario que solicita la recuperación.</param>
+        /// <param name="codigo">Código de recuperación introducido.</param>
+        /// <param name="formulario_actual">Formulario desde el que se invoca la verificación (se oculta al validar correctamente).</param>
         public void ProcesarCodigoRecuperacion(int usuario_id, string codigo, Form formulario_actual)
         {
             try
@@ -58,6 +64,7 @@ namespace Capa_de_Presentación.CAPAS
                 switch (resultado)
                 {
                     case "CODIGO_VALIDO":
+                        // Código válido: abrir formulario de actualización de contraseña y ocultar el actual
                         MessageBox.Show("Código verificado correctamente.");
                         Actualizar_Contraseña frm = new Actualizar_Contraseña();
                         frm.Show();
@@ -65,14 +72,17 @@ namespace Capa_de_Presentación.CAPAS
                         break;
 
                     case "CODIGO_INCORRECTO":
+                        // Permitir reintento
                         MessageBox.Show("Código incorrecto. Intente nuevamente.");
                         break;
 
                     case "CODIGO_EXPIRADO":
+                        // Informar y solicitar nuevo código
                         MessageBox.Show("El código ha expirado. Solicite uno nuevo.");
                         break;
 
                     case "CUENTA_INHABILITADA":
+                        // Cuenta bloqueada: informar y cerrar aplicación
                         MessageBox.Show("Su cuenta ha sido bloqueada por seguridad.");
                         Application.Exit();
                         break;
@@ -88,21 +98,17 @@ namespace Capa_de_Presentación.CAPAS
             }
             catch (Exception ex)
             {
+                // Mostrar mensaje de error sin exponer detalles internos
                 MessageBox.Show(ex.Message);
             }
         }
 
         /// <summary>
-        /// Iniciars the sesion.
+        /// Firma reservada: método no implementado actualmente.
+        /// Se mantiene para compatibilidad de firmas si es necesario implementarlo luego.
         /// </summary>
-        /// <param name="text1">The text1.</param>
-        /// <param name="text2">The text2.</param>
-        /// <param name="v">The v.</param>
-        /// <param name="rECONOCER">The r econocer.</param>
-        /// <param name="label1">The label1.</param>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
-        
+        /// <exception cref="System.NotImplementedException">Siempre lanzada hasta su implementación.</exception>
+
     }
 
 }
