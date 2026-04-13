@@ -4,23 +4,21 @@ using System.Data;
 namespace Capa_de_acceso_de_datos
 {
     /// <summary>
-    /// 
+    /// Gestiona generación de reportes financieros y contables para parroquias.
+    /// Proporciona acceso a reportes: estado de resultados, libro mayor, ingresos, gastos y datos de curia.
+    /// Todos los métodos son de lectura únicamente, sin sincronización remota.
     /// </summary>
     public class ClsReportes
     {
-        /// <summary>
-        /// The cn
-        /// </summary>
         private readonly Clsconexion _cn = new Clsconexion();
 
-
         /// <summary>
-        /// Obteners the estado resultados.
+        /// Obtiene estado de resultados de una parroquia en rango de fechas ejecutando procedimiento SP_EstadoResultados.
+        /// Parámetros: parroquia_id (identifica parroquia), desde/hasta (rango de fechas inclusive).
+        /// Retorna DataSet con: ingresos totales, gastos totales, diferencia neta, variaciones por origen.
+        /// Se utiliza para análisis financiero y presentación de balances periódicos.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <param name="parroquia_id">The parroquia identifier.</param>
-        /// <param name="desde">The desde.</param>
-        /// <param name="hasta">The hasta.</param>
-        /// <returns></returns>
         public DataSet ObtenerEstadoResultados(int parroquia_id, DateTime desde, DateTime hasta)
         {
             DataSet ds = new DataSet();
@@ -50,6 +48,14 @@ namespace Capa_de_acceso_de_datos
 
             return ds;
         }
+
+        /// <summary>
+        /// Obtiene libro mayor (detalle de todas las transacciones contables) ejecutando procedimiento sp_LibroMayor.
+        /// Parámetros: parroquia_id (identifica parroquia), desde/hasta (rango de fechas inclusive).
+        /// Retorna DataSet con: fecha, cuenta, descripción, débito, crédito, saldo acumulado para cada transacción.
+        /// Se utiliza para auditoría completa, validación de asientos contables y análisis de cuentas.
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public DataSet ObtenerLibroMayor(int parroquia_id, DateTime desde, DateTime hasta)
         {
             DataSet ds = new DataSet();
@@ -84,14 +90,13 @@ namespace Capa_de_acceso_de_datos
             return ds;
         }
 
-
         /// <summary>
-        /// Obteners the ingresos por parroquia.
+        /// Obtiene detalle de ingresos por parroquia en rango de fechas ejecutando procedimiento sp_ReporteIngresos.
+        /// Parámetros: parroquia_id (identifica parroquia), desde/hasta (rango de fechas inclusive).
+        /// Retorna DataTable con: fecha, origen (fuente ingreso), monto, concepto, usuario, estado.
+        /// Se utiliza para análisis de ingresos, composición de fondos y presupuestos.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <param name="parroquia_id">The parroquia identifier.</param>
-        /// <param name="desde">The desde.</param>
-        /// <param name="hasta">The hasta.</param>
-        /// <returns></returns>
         public DataTable ObtenerIngresosPorParroquia(int parroquia_id, DateTime desde, DateTime hasta)
         {
             DataTable dt = new DataTable();
@@ -113,7 +118,6 @@ namespace Capa_de_acceso_de_datos
                     }
                 }
             }
-
             finally
             {
                 _cn.Cerrar();
@@ -122,16 +126,13 @@ namespace Capa_de_acceso_de_datos
             return dt;
         }
 
-
-
-
         /// <summary>
-        /// Obteners the gastos por parroquia.
+        /// Obtiene detalle de gastos por parroquia en rango de fechas ejecutando procedimiento sp_ReporteGastos.
+        /// Parámetros: parroquia_id (identifica parroquia), desde/hasta (rango de fechas inclusive).
+        /// Retorna DataTable con: fecha, cuenta gasto, monto, descripción, usuario, departamento.
+        /// Se utiliza para control de gastos, análisis de presupuesto y auditoría de erogaciones.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <param name="parroquia_id">The parroquia identifier.</param>
-        /// <param name="desde">The desde.</param>
-        /// <param name="hasta">The hasta.</param>
-        /// <returns></returns>
         public DataTable ObtenerGastosPorParroquia(int parroquia_id, DateTime desde, DateTime hasta)
         {
             DataTable dt = new DataTable();
@@ -162,9 +163,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Obteners the parroquias.
+        /// Obtiene lista de todas las parroquias del sistema ejecutando procedimiento sp_ObtenerParroquias.
+        /// Retorna DataTable con: parroquia_id, nombre, correo, estado, ciudad, responsable.
+        /// Se utiliza para poblar ComboBox/filtros en formularios de reportes.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
         public DataTable ObtenerParroquias()
         {
             DataTable dt = new DataTable();
@@ -192,10 +195,12 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Obteners the nombre parroquia.
+        /// Obtiene nombre de una parroquia específica ejecutando procedimiento sp_ObtenerNombreParroquia.
+        /// Parámetro parroquia_id: identifica la parroquia.
+        /// Retorna string con nombre de la parroquia, null si no existe.
+        /// Se utiliza para mostrar nombre en encabezados de reportes y validación.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <param name="parroquia_id">The parroquia identifier.</param>
-        /// <returns></returns>
         public string ObtenerNombreParroquia(int parroquia_id)
         {
             string nombre = null;
@@ -223,9 +228,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Obteners the tipos reporte.
+        /// Obtiene lista de tipos de reportes disponibles en el sistema ejecutando procedimiento sp_ObtenerTiposReporte.
+        /// Retorna DataTable con: tipo_id, nombre_tipo (Estado Resultados, Libro Mayor, Ingresos, etc), descripcion.
+        /// Se utiliza para poblar menú/ComboBox de selección de tipo de reporte.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
         public DataTable ObtenerTiposReporte()
         {
             DataTable dt = new DataTable();
@@ -253,12 +260,12 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Obteners the datos curia.
+        /// Obtiene datos de actividades sacramentales (curia) filtradas por usuario/sacerdote ejecutando procedimiento sp_ReporteCuria.
+        /// Parámetros: usuarioId (sacerdote que realizó), desde/hasta (rango de fechas inclusive).
+        /// Retorna DataSet con: fecha, tipo servicio (bautismo, matrimonio, misa), persona, detalles, observaciones.
+        /// Se utiliza para reportes de actividades pastorales y estadísticas de servicios religiosos.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <param name="parroquiaId">The parroquia identifier.</param>
-        /// <param name="desde">The desde.</param>
-        /// <param name="hasta">The hasta.</param>
-        /// <returns></returns>
         public DataSet ObtenerDatosCuriaPorUsuario(int usuarioId, DateTime desde, DateTime hasta)
         {
             DataSet ds = new DataSet();
@@ -286,12 +293,13 @@ namespace Capa_de_acceso_de_datos
             return ds;
         }
 
-
         /// <summary>
-        /// Obteners the nombre sacerdote.
+        /// Obtiene nombre completo de un sacerdote ejecutando procedimiento sp_ObtenerNombreSacerdote.
+        /// Parámetro usuarioId: identifica el sacerdote/usuario.
+        /// Retorna string con nombre completo (nombre + apellido), vacío si no existe.
+        /// Se utiliza para mostrar nombre en reportes y encabezados de documentos.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <param name="usuarioId">The usuario identifier.</param>
-        /// <returns></returns>
         public string ObtenerNombreSacerdote(int usuarioId)
         {
             string nombreCompleto = "";
@@ -319,6 +327,3 @@ namespace Capa_de_acceso_de_datos
         }
     }
 }
-
-
-

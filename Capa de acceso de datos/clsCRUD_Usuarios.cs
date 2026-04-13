@@ -4,36 +4,27 @@ using System.Data;
 namespace Capa_de_acceso_de_datos
 {
     /// <summary>
-    /// 
+    /// Gestiona operaciones CRUD de usuarios del sistema: creación, modificación, consulta, habilitación y validación.
+    /// Todos los métodos que modifican datos disparan sincronización remota automática.
+    /// Los usuarios están asociados a roles y parroquias específicas.
     /// </summary>
     public class clsCRUD_Usuarios
     {
-
-        /// <summary>
-        /// The conexion
-        /// </summary>
         private Clsconexion conexion;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="clsCRUD_Usuarios"/> class.
-        /// </summary>
         public clsCRUD_Usuarios()
         {
             conexion = new Clsconexion();
         }
+
         /// <summary>
-        /// Agregars the usuario.
+        /// Crea nuevo usuario ejecutando procedimiento sp_AgregarUsuario.
+        /// Parámetros: nombre, apellido, correo (nullable), usuario (login), password (encriptada en BD),
+        /// idrol (2=Administrador, 3=Empleado, 4=Sacerdote, etc), id_parroquia (asignación), id_estado (1=activo).
+        /// Retorna ID autogenerado del usuario utilizando parámetro OUTPUT @nuevoId.
+        /// Maneja NULL en correo si está vacío.
+        /// Dispara NotificarSP automáticamente para sincronizar nueva cuenta con servidor remoto.
         /// </summary>
-        /// <param name="nombre">The nombre.</param>
-        /// <param name="apellido">The apellido.</param>
-        /// <param name="correo">The correo.</param>
-        /// <param name="usuario">The usuario.</param>
-        /// <param name="password">The password.</param>
-        /// <param name="idrol">The idrol.</param>
-        /// <param name="id_parroquia">The identifier parroquia.</param>
-        /// <param name="id_estado">The identifier estado.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al agregar usuario: " + ex.Message</exception>
         public int AgregarUsuario(string nombre, string apellido, string correo, string usuario,
                                    string password, int idrol, int id_parroquia, int id_estado)
         {
@@ -44,7 +35,6 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_AgregarUsuario", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                // Parámetros de entrada
                 cmd.Parameters.AddWithValue("@nombre", nombre);
                 cmd.Parameters.AddWithValue("@apellido", apellido);
                 cmd.Parameters.AddWithValue("@correo", string.IsNullOrEmpty(correo) ? (object)DBNull.Value : correo);
@@ -54,7 +44,6 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@idParroquia", id_parroquia);
                 cmd.Parameters.AddWithValue("@idEstado", id_estado);
 
-                // Parámetro de salida para obtener el ID generado
                 SqlParameter nuevo_id = new SqlParameter("@nuevoId", SqlDbType.Int);
                 nuevo_id.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(nuevo_id);
@@ -73,12 +62,12 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // OBTENER todos los usuarios
         /// <summary>
-        /// Obteners the usuarios.
+        /// Obtiene lista de todos los usuarios del sistema ejecutando procedimiento sp_ObtenerUsuarios.
+        /// Retorna DataTable con: usuario_id, nombre, apellido, correo, usuario, rol, parroquia, estado, fecha creación.
+        /// Se utiliza para poblar grillas de administración y listados generales de usuarios.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener usuarios: " + ex.Message</exception>
         public DataTable ObtenerUsuarios()
         {
             try
@@ -106,13 +95,14 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // BUSCAR usuario por ID
         /// <summary>
-        /// Buscars the usuario por identifier.
+        /// Busca información completa de un usuario específico ejecutando procedimiento sp_BuscarUsuarioPorId.
+        /// Parámetro id: usuario_id a buscar.
+        /// Retorna DataRow con: usuario_id, nombre, apellido, correo, usuario, rol, parroquia, estado, etc.
+        /// Retorna null si usuario no existe.
+        /// Se utiliza para cargar datos en formularios de edición y perfiles.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al buscar usuario: " + ex.Message</exception>
         public DataRow BuscarUsuarioPorId(int id)
         {
             try
@@ -144,21 +134,14 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // MODIFICAR usuario
         /// <summary>
-        /// Modificars the usuario.
+        /// Modifica usuario existente ejecutando procedimiento sp_ModificarUsuario.
+        /// Parámetros: id (identifica registro), nombre, apellido, correo (nullable), usuario (login),
+        /// password (encriptada en BD), id_rol (rol nuevo), id_parroquia (parroquia nueva), id_estado (estado nuevo).
+        /// Retorna true si modificación fue exitosa, false si ocurre error.
+        /// Maneja NULL en correo si está vacío.
+        /// Dispara NotificarSP automáticamente para sincronizar cambios con servidor remoto.
         /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="nombre">The nombre.</param>
-        /// <param name="apellido">The apellido.</param>
-        /// <param name="correo">The correo.</param>
-        /// <param name="usuario">The usuario.</param>
-        /// <param name="password">The password.</param>
-        /// <param name="id_rol">The identifier rol.</param>
-        /// <param name="id_parroquia">The identifier parroquia.</param>
-        /// <param name="id_estado">The identifier estado.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al modificar usuario: " + ex.Message</exception>
         public bool ModificarUsuario(int id, string nombre, string apellido, string correo,
                                     string usuario, string password, int id_rol, int id_parroquia, int id_estado)
         {
@@ -192,14 +175,13 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // INHABILITAR usuario (soft delete)
         /// <summary>
-        /// Inhabilitars the usuario.
+        /// Inhabilita usuario (soft delete) ejecutando procedimiento sp_InhabilitarUsuario.
+        /// Parámetros: id (usuario a inhabilitar), nuevo_estado (0=inactivo, u otro estado desactivado).
+        /// Retorna true si inhabilitación fue exitosa, false si ocurre error.
+        /// No elimina el registro, solo marca el estado como inactivo para auditoría.
+        /// Dispara NotificarSP automáticamente para sincronizar cambio de estado con servidor remoto.
         /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="nuevo_estado">The nuevo estado.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al inhabilitar usuario: " + ex.Message</exception>
         public bool InhabilitarUsuario(int id, int nuevo_estado)
         {
             try
@@ -224,14 +206,13 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-
         /// <summary>
-        /// Habilitars the usuario.
+        /// Habilita usuario ejecutando procedimiento sp_InhabilitarUsuario (mismo SP que inhabilitar).
+        /// Parámetros: id (usuario a habilitar), nuevo_estado (1=activo, u otro estado activado).
+        /// Retorna true si habilitación fue exitosa, false si ocurre error.
+        /// Restaura el estado activo de un usuario previamente inhabilitado.
+        /// Dispara NotificarSP automáticamente para sincronizar cambio de estado con servidor remoto.
         /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="nuevo_estado">The nuevo estado.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al inhabilitar usuario: " + ex.Message</exception>
         public bool HabilitarUsuario(int id, int nuevo_estado)
         {
             try
@@ -256,13 +237,14 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // VALIDAR si usuario existe
         /// <summary>
-        /// Usuarioes the existe.
+        /// Valida si nombre de usuario ya existe en el sistema ejecutando procedimiento sp_UsuarioExiste.
+        /// Parámetro usuario: nombre de usuario (login) a validar.
+        /// Utiliza parámetro OUTPUT @existe (bit) para retornar resultado.
+        /// Retorna true si usuario existe, false si no existe o disponible.
+        /// Se utiliza en validación de formularios para evitar duplicados antes de crear cuenta.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <param name="usuario">The usuario.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al validar usuario: " + ex.Message</exception>
         public bool UsuarioExiste(string usuario)
         {
             try
@@ -292,10 +274,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Obteners the proximo identifier.
+        /// Obtiene siguiente ID secuencial disponible para nuevo usuario ejecutando procedimiento sp_ObtenerProximoId.
+        /// Retorna número entero del próximo ID a asignar.
+        /// Se utiliza para mostrar ID provisional antes de crear usuario (en formularios).
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener próximo ID: " + ex.Message</exception>
         public int ObtenerProximoId()
         {
             try
@@ -318,12 +301,12 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // OBTENER roles para ComboBox
         /// <summary>
-        /// Obteners the roles.
+        /// Obtiene lista de roles disponibles ejecutando procedimiento sp_ObtenerRoles.
+        /// Retorna DataTable con: rol_id (2=Administrador, 3=Empleado, 4=Sacerdote, etc), nombre_rol, descripcion.
+        /// Se utiliza para poblar ComboBox en formularios de creación/edición de usuarios.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener roles: " + ex.Message</exception>
         public DataTable ObtenerRoles()
         {
             try
@@ -351,12 +334,12 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-        // OBTENER parroquias para ComboBox
         /// <summary>
-        /// Obteners the parroquias.
+        /// Obtiene lista de parroquias disponibles ejecutando procedimiento sp_ObtenerParroquias.
+        /// Retorna DataTable con: parroquia_id, nombre_parroquia, correo, estado, etc.
+        /// Se utiliza para poblar ComboBox en formularios de creación/edición de usuarios para asignar parroquia.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener parroquias: " + ex.Message</exception>
         public DataTable ObtenerParroquias()
         {
             try
@@ -385,10 +368,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Obteners the estados.
+        /// Obtiene lista de estados disponibles para usuarios ejecutando procedimiento sp_ObtenerEstados.
+        /// Retorna DataTable con: estado_id (1=activo, 0=inactivo, etc), nombre_estado, descripcion.
+        /// Se utiliza para poblar ComboBox en formularios de creación/edición de usuarios para asignar estado.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener estados: " + ex.Message</exception>
         public DataTable ObtenerEstados()
         {
             try
@@ -416,12 +400,13 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-
         /// <summary>
-        /// Obteners the correo por usuario.
+        /// Obtiene correo electrónico de un usuario ejecutando procedimiento usp_GetCorreoUsuario.
+        /// Parámetro usuario_id: identifica el usuario.
+        /// Retorna string con correo del usuario, vacío si no existe o es NULL.
+        /// Se utiliza para envío de notificaciones, recuperación de contraseña y comunicaciones.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <param name="usuario_id">The usuario identifier.</param>
-        /// <returns></returns>
         public string ObtenerCorreoPorUsuario(int usuario_id)
         {
             try
@@ -439,6 +424,13 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Obtiene nombre completo de un usuario ejecutando procedimiento usp_GetNombreUsuario.
+        /// Parámetro usuario_id: identifica el usuario.
+        /// Retorna string con nombre del usuario, vacío si no existe o es NULL.
+        /// Se utiliza para mostrar información de usuario en interfaces, logs y reportes.
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public string ObtenerNombrePorUsuario(int usuario_id)
         {
             try
@@ -455,8 +447,5 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
-
-
-
     }
 }

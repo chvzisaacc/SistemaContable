@@ -4,22 +4,21 @@ using System.Data;
 namespace Capa_de_acceso_de_datos
 {
     /// <summary>
-    /// 
+    /// Gestiona operaciones de transferencia de dinero desde cuentas bancarias a la caja chica.
+    /// Obtiene información disponible, saldos y ejecuta transferencias con sincronización automática.
+    /// La caja chica es el fondo de efectivo para gastos menores de la parroquia.
     /// </summary>
     public class clsEnviarACajaChica
     {
-
-
-        /// <summary>
-        /// The conexion
-        /// </summary>
         private Clsconexion conexion = new Clsconexion();
 
         /// <summary>
-        /// Obteners the cuentas disponibles.
+        /// Obtiene cuentas bancarias disponibles para realizar transferencias a caja chica ejecutando procedimiento sp_ObtenerCuentasDisponiblesCajaChica.
+        /// Parámetro parroquiaId: filtra cuentas pertenecientes a la parroquia especificada.
+        /// Retorna DataTable con: cuenta_id, nombre_cuenta, saldo_disponible, tipo_cuenta, estado.
+        /// Se utiliza para poblar ComboBox en formularios de transferencia a caja chica.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener cuentas disponibles: " + ex.Message</exception>
         public DataTable ObtenerCuentasDisponibles(int parroquiaId)
         {
             try
@@ -46,10 +45,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Obteners the saldo caja chica.
+        /// Obtiene saldo actual de la caja chica ejecutando procedimiento sp_ObtenerSaldoCajaChica.
+        /// Retorna valor decimal del saldo disponible en la caja chica.
+        /// Se utiliza para mostrar saldo actual en interfaces y validar límites de transferencia.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener saldo de caja chica: " + ex.Message</exception>
         public decimal ObtenerSaldoCajaChica()
         {
             try
@@ -73,14 +73,18 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Enviars the dinero caja chica.
+        /// Transfiere dinero desde una cuenta bancaria a la caja chica ejecutando procedimiento sp_EnviarDineroCajaChica.
+        /// Parámetros: id_origen (cuenta de origen), monto (cantidad a transferir), parroquiaId (identificación),
+        /// usuarioId (quién realiza la transferencia para auditoría).
+        /// Retorna true si transferencia fue exitosa, false/excepción si falla.
+        /// Utiliza parámetros OUTPUT (@Exitoso bit, @Mensaje varchar) para validación del procedimiento.
+        /// Dispara NotificarSP automáticamente para sincronizar transferencia con servidor remoto.
+        /// 
+        /// Operación crítica:
+        /// - Decrementa saldo de cuenta origen
+        /// - Incrementa saldo de caja chica
+        /// - Registra transacción para auditoría
         /// </summary>
-        /// <param name="id_origen">The identifier origen.</param>
-        /// <param name="monto">The monto.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">
-        /// Error al enviar dinero a caja chica: " + ex.Message
-        /// </exception>
         public bool EnviarDineroCajaChica(int id_origen, decimal monto, int parroquiaId, int usuarioId)
         {
             try
@@ -89,13 +93,13 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_EnviarDineroCajaChica", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                // ESTOS 4 SON LOS PARÁMETROS DE ENTRADA (Input)
+                // Parámetros de entrada (Input)
                 cmd.Parameters.AddWithValue("@IdOrigen", id_origen);
                 cmd.Parameters.AddWithValue("@Monto", monto);
                 cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
                 cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
 
-                // ESTOS 2 SON LOS PARÁMETROS DE SALIDA (Output)
+                // Parámetros de salida (Output) para validación y mensajes del procedimiento
                 SqlParameter paramExitoso = new SqlParameter("@Exitoso", SqlDbType.Bit) { Direction = ParameterDirection.Output };
                 SqlParameter paramMensaje = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500) { Direction = ParameterDirection.Output };
 
@@ -104,7 +108,7 @@ namespace Capa_de_acceso_de_datos
 
                 conexion.EjecutarYEnviar(cmd, sincronizar: true);
 
-                // Leemos los resultados del SP
+                // Valida resultado del procedimiento
                 bool exitoso = Convert.ToBoolean(paramExitoso.Value);
 
                 if (!exitoso)
@@ -117,7 +121,6 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                // Esto lanzará el error exacto que venga de SQL
                 throw new Exception("Error al procesar: " + ex.Message, ex);
             }
             finally
@@ -126,6 +129,12 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Obtiene lista de tipos de cuenta disponibles ejecutando procedimiento sp_cargatipcuenta.
+        /// Retorna DataTable con: tipo_cuenta_id, nombre_tipo (Ahorro, Cheque, etc), descripcion.
+        /// Se utiliza para poblar ComboBox en formularios de selección de tipo de cuenta.
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public DataTable ObtenerTiposCuenta()
         {
             DataTable dt = new DataTable();

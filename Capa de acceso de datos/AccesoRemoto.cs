@@ -7,18 +7,31 @@ using Newtonsoft.Json;
 
 namespace Capa_de_acceso_de_datos
 {
+    /// <summary>
+    /// Clase encargada de gestionar la comunicación remota con la Web API a través del túnel ngrok.
+    /// Proporciona métodos para ejecutar procedimientos almacenados de forma asincrónica y verificar la conectividad.
+    /// </summary>
     public class AccesoRemoto
     {
-        // Instancia única de HttpClient para mejorar el rendimiento
+        /// <summary>
+        /// Instancia única de <see cref="HttpClient"/> reutilizada para todas las solicitudes HTTP.
+        /// Se utiliza una instancia estática para mejorar el rendimiento y evitar el agotamiento de puertos.
+        /// </summary>
         private static readonly HttpClient _httpClient = new HttpClient();
 
-        // 1. URL base de ngrok (Actualízala cuando reinicies el túnel)
+        /// <summary>
+        /// URL base del túnel ngrok que actúa como intermediario hacia la API remota.
+        /// Nota: Esta URL cambia cada vez que se reinicia el túnel. Debe actualizarse manualmente.
+        /// Formato: https://[random-id].ngrok-free.dev
+        /// </summary>
         private static readonly string urlNgrok = "https://rozella-exanthematic-jeffrey.ngrok-free.dev";
 
-        // Constructor estático correcto: el modificador 'static' debe ir antes del tipo y nombre del miembro
+        /// <summary>
+        /// Constructor estático que inicializa la configuración global de <see cref="HttpClient"/>.
+        /// Ejecuta una única vez al cargar la clase y establece parámetros de conexión.
+        /// </summary>
         static AccesoRemoto()
         {
-            // Configuración global para evitar la página de advertencia de ngrok
             if (!_httpClient.DefaultRequestHeaders.Contains("ngrok-skip-browser-warning"))
             {
                 _httpClient.DefaultRequestHeaders.Add("ngrok-skip-browser-warning", "true");
@@ -27,13 +40,17 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Envía una petición a la Web API para ejecutar un Stored Procedure de forma remota.
+        /// Ejecuta un procedimiento almacenado de forma remota en la Web API.
+        /// Serializa los parámetros a JSON, envía la solicitud POST al servidor remoto y retorna el estado.
+        /// Este método es el puente para sincronizar operaciones locales con la base de datos remota.
         /// </summary>
+        /// <param name="nombreSp">Nombre del procedimiento almacenado a ejecutar en SQL Server remoto.</param>
+        /// <param name="parametros">Diccionario con parámetros que deben coincidir con los del procedimiento almacenado.</param>
+        /// <returns><c>true</c> si la ejecución fue exitosa (status 2xx), <c>false</c> en caso de error o problemas de conectividad.</returns>
         public static async Task<bool> EjecutarSpRemoto(string nombreSp, Dictionary<string, object> parametros)
         {
             string endpoint = $"{urlNgrok}/api/Data/ejecutar-sp";
 
-            // Los nombres de las propiedades deben coincidir con SpRequest.cs de tu API (PascalCase)
             var body = new
             {
                 SpName = nombreSp,
@@ -67,22 +84,22 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Verifica si el túnel de ngrok y la API están respondiendo.
+        /// Verifica la disponibilidad del servidor remoto realizando una solicitud de prueba (PING).
+        /// Valida que la API remota esté respondiendo correctamente antes de operaciones críticas.
         /// </summary>
+        /// <returns><c>true</c> si el servidor responde (status &lt; 500), <c>false</c> si está offline o hay error de conectividad.</returns>
         public static async Task<bool> VerificarConexion()
         {
             string endpoint = $"{urlNgrok}/api/Data/ejecutar-sp";
 
             try
             {
-                // Enviamos una petición vacía para probar el túnel
                 var testBody = new { SpName = "PING", Parametros = new Dictionary<string, object>() };
                 string json = JsonConvert.SerializeObject(testBody);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync(endpoint, content);
 
-                // Si responde 200 (OK) o 400 (BadRequest), significa que la API está viva
                 return (int)response.StatusCode < 500;
             }
             catch

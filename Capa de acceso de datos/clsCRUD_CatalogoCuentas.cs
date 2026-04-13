@@ -4,23 +4,25 @@ using System.Data;
 namespace Capa_de_acceso_de_datos
 {
     /// <summary>
-    /// 
+    /// Gestiona operaciones CRUD del catálogo de cuentas contables: niveles jerárquicos, búsquedas, creación, edición y cambios de estado.
+    /// Todos los métodos que modifican datos disparan sincronización remota automática.
+    /// La estructura es jerárquica: nivel 1 (raíz) → hijos → detalles.
     /// </summary>
     public class clsCRUD_CatalogoCuentas
     {
-        /// <summary>
-        /// The conexion
-        /// </summary>
         private Clsconexion conexion;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="clsCRUD_CatalogoCuentas"/> class.
-        /// </summary>
         public clsCRUD_CatalogoCuentas()
         {
             conexion = new Clsconexion();
         }
 
+        /// <summary>
+        /// Obtiene cuentas de nivel 1 (raíz) del catálogo ejecutando procedimiento sp_ObtenerNivel1.
+        /// Retorna DataTable con todas las cuentas padre que no tienen padre superior.
+        /// Se utiliza para poblar estructura jerárquica principal en controles de árbol.
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public DataTable ObtenerNivel1()
         {
             try
@@ -42,6 +44,13 @@ namespace Capa_de_acceso_de_datos
             finally { conexion.Cerrar(); }
         }
 
+        /// <summary>
+        /// Obtiene cuentas hijo de una cuenta padre ejecutando procedimiento sp_ObtenerHijosPorPadre.
+        /// Parámetro id_padre: identifica la cuenta padre para traer sus subcuentas.
+        /// Retorna DataTable con todas las cuentas que dependen del padre especificado.
+        /// Se utiliza para expandir nodos en estructura jerárquica del catálogo.
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public DataTable ObtenerHijosPorPadre(int id_padre)
         {
             try
@@ -64,6 +73,12 @@ namespace Capa_de_acceso_de_datos
             finally { conexion.Cerrar(); }
         }
 
+        /// <summary>
+        /// Obtiene todas las cuentas del catálogo ejecutando procedimiento sp_ObtenerCatalogoCuentas.
+        /// Retorna DataTable con estructura completa: código, nombre, jerarquía, estado, etc.
+        /// Se utiliza para listados, reportes y exportaciones de catálogo completo.
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public DataTable ObtenerCatalogoCuentas()
         {
             try
@@ -85,6 +100,14 @@ namespace Capa_de_acceso_de_datos
             finally { conexion.Cerrar(); }
         }
 
+        /// <summary>
+        /// Busca una cuenta específica por ID ejecutando procedimiento sp_BuscarCatalogoCuentaPorId.
+        /// Parámetro id_cuenta: identifica la cuenta a recuperar.
+        /// Retorna DataRow con información completa de la cuenta (código, nombre, padre, estado, etc).
+        /// Retorna null si la cuenta no existe.
+        /// Se utiliza para cargar datos en formularios de edición y visualización.
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public DataRow BuscarCatalogoCuentaPorId(int id_cuenta)
         {
             try
@@ -107,6 +130,14 @@ namespace Capa_de_acceso_de_datos
             finally { conexion.Cerrar(); }
         }
 
+        /// <summary>
+        /// Crea nueva cuenta en el catálogo ejecutando procedimiento sp_AgregarCatalogoCuenta.
+        /// Parámetros: codigo (único), nombre, id_padre (jerarquía), detalle (descripción opcional),
+        /// es_detalle (indica si es cuenta de detalle para transacciones), id_estado (activo/inactivo).
+        /// Retorna true si se creó exitosamente, false si ocurre error.
+        /// Maneja NULL en detalle si está vacío. Convierte bool es_detalle a bit (1/0).
+        /// Dispara NotificarSP automáticamente para sincronizar con servidor remoto.
+        /// </summary>
         public bool AgregarCatalogoCuenta(string codigo, string nombre, int id_padre,
                                    string detalle, bool es_detalle = true,
                                    int id_estado = 1)
@@ -117,16 +148,13 @@ namespace Capa_de_acceso_de_datos
                 SqlCommand cmd = new SqlCommand("sp_AgregarCatalogoCuenta", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                // Parámetros básicos
                 cmd.Parameters.AddWithValue("@codigo", codigo);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
                 cmd.Parameters.AddWithValue("@id_padre", id_padre);
 
-                // Manejo de nulos para detalle
                 cmd.Parameters.AddWithValue("@detalle", string.IsNullOrWhiteSpace(detalle)
                                                          ? (object)DBNull.Value : detalle);
 
-                // Conversión de bool a bit (1/0)
                 cmd.Parameters.AddWithValue("@es_detalle", es_detalle ? 1 : 0);
                 cmd.Parameters.AddWithValue("@Id_estado_cuenta", id_estado);
 
@@ -135,12 +163,19 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                // El mensaje de error ahora será más limpio después de corregir el SP
                 throw new Exception("Error al agregar cuenta: " + ex.Message, ex);
             }
             finally { conexion.Cerrar(); }
         }
 
+        /// <summary>
+        /// Modifica una cuenta existente ejecutando procedimiento sp_ModificarCatalogoCuenta.
+        /// Parámetros: id_cuenta (identifica registro), codigo (nuevo), nombre (nuevo),
+        /// id_padre (nueva jerarquía), detalle (nueva descripción opcional).
+        /// Retorna true si modificación fue exitosa, false si ocurre error.
+        /// Maneja NULL en detalle si está vacío.
+        /// Dispara NotificarSP automáticamente para sincronizar cambio con servidor remoto.
+        /// </summary>
         public bool ModificarCatalogoCuenta(int id_cuenta, string codigo, string nombre,
                                     int id_padre, string detalle)
         {
@@ -167,6 +202,13 @@ namespace Capa_de_acceso_de_datos
             finally { conexion.Cerrar(); }
         }
 
+        /// <summary>
+        /// Cambia estado de una cuenta ejecutando procedimiento sp_CambiarEstadoCuenta.
+        /// Parámetros: id_cuenta (identifica registro), id_estado (1=activo, 0=inactivo u otro).
+        /// Retorna true si cambio fue exitoso, false si ocurre error.
+        /// Se utiliza para activar/desactivar cuentas sin eliminarlas (auditoría).
+        /// Dispara NotificarSP automáticamente para sincronizar cambio con servidor remoto.
+        /// </summary>
         public bool CambiarEstadoCuenta(int id_cuenta, int id_estado)
         {
             try
@@ -186,13 +228,18 @@ namespace Capa_de_acceso_de_datos
             finally { conexion.Cerrar(); }
         }
 
+        /// <summary>
+        /// Obtiene lista de estados disponibles para cuentas ejecutando procedimiento sp_ObtenerEstadosCuenta.
+        /// Retorna DataTable con: id_estado, nombre_estado (ejemplo: "Activo", "Inactivo").
+        /// Se utiliza para poblar ComboBox en formularios de creación/edición de cuentas.
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public DataTable ObtenerEstados()
         {
             try
             {
                 conexion.Abrir();
-                SqlCommand cmd = new SqlCommand(
-                    "sp_ObtenerEstadosCuenta", conexion.sc);
+                SqlCommand cmd = new SqlCommand("sp_ObtenerEstadosCuenta", conexion.sc);
                 DataTable dt = new DataTable();
                 using (SqlDataReader dr = conexion.EjecutarReaderYEnviar(cmd))
                 {
@@ -207,7 +254,14 @@ namespace Capa_de_acceso_de_datos
             finally { conexion.Cerrar(); }
         }
 
-
+        /// <summary>
+        /// Valida si una cuenta con nombre especificado ya existe ejecutando procedimiento sp_CatalogoCuentaExiste.
+        /// Parámetro nombre: nombre de la cuenta a validar.
+        /// Utiliza parámetro OUTPUT @existe (bit) para retornar resultado.
+        /// Retorna true si cuenta existe, false si no existe.
+        /// Se utiliza para validar unicidad antes de crear nuevas cuentas.
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public bool CatalogoCuentaExiste(string nombre)
         {
             try
@@ -231,6 +285,13 @@ namespace Capa_de_acceso_de_datos
             finally { conexion.Cerrar(); }
         }
 
+        /// <summary>
+        /// Obtiene siguiente código secuencial disponible para una cuenta padre ejecutando procedimiento sp_ObtenerProximoCodigoCatalogo.
+        /// Parámetro id_padre: cuenta padre para generar código hijo basado en su patrón.
+        /// Retorna string con código generado (ejemplo: "1.1.1"), vacío si error.
+        /// Se utiliza para asignar código automáticamente al crear nuevas cuentas (mantiene coherencia jerárquica).
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public string ObtenerProximoCodigo(int id_padre)
         {
             try
@@ -249,6 +310,13 @@ namespace Capa_de_acceso_de_datos
             finally { conexion.Cerrar(); }
         }
 
+        /// <summary>
+        /// Busca ID de una cuenta por su nombre ejecutando procedimiento sp_BuscarIdCuentaPorNombre.
+        /// Parámetro nombre: nombre de la cuenta a buscar.
+        /// Retorna ID numérico de la cuenta si existe, 0 si no existe.
+        /// Se utiliza para resolver referencias de nombre a ID en operaciones contables.
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public int BuscarIdCuentaPorNombre(string nombre)
         {
             try
@@ -263,7 +331,5 @@ namespace Capa_de_acceso_de_datos
             catch { return 0; }
             finally { conexion.Cerrar(); }
         }
-
-
     }
 }

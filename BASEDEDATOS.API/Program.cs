@@ -3,15 +3,18 @@ using Microsoft.AspNetCore.Http.Features;
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
 
-
-// Esto le dice al servidor que escuche en el puerto 5145 de cualquier IP de la PC (0.0.0.0)
+/// <summary>
+/// Configura el servidor Kestrel para escuchar en el puerto 5145 de cualquier interfaz de red (0.0.0.0).
+/// </summary>
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     serverOptions.ListenAnyIP(5145);
 });
 // -------------------------------------
 
-// 1. Configurar límites de Kestrel y FormOptions para manejar hashes largos
+/// <summary>
+/// Configura los límites de Kestrel y FormOptions para manejar valores y hashes largos sin restricciones.
+/// </summary>
 builder.Services.Configure<FormOptions>(options =>
 {
     options.ValueLengthLimit = int.MaxValue;
@@ -19,7 +22,10 @@ builder.Services.Configure<FormOptions>(options =>
     options.MemoryBufferThreshold = int.MaxValue;
 });
 
-// 2. Configurar JSON para que ignore mayúsculas/minúsculas (evita errores de mapeo)
+/// <summary>
+/// Configura los controladores y las opciones de serialización JSON para ignorar mayúsculas/minúsculas
+/// y evitar errores en el mapeo de propiedades.
+/// </summary>
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -32,7 +38,9 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+/// <summary>
+/// Configura el pipeline de solicitudes HTTP. En modo desarrollo, habilita Swagger y la interfaz de usuario Swagger.
+/// </summary>
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -41,6 +49,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 
+/// <summary>
+/// Mapea una ruta GET raíz que retorna un mensaje de estado del servidor en formato JSON.
+/// </summary>
 app.MapGet("/", () => Results.Ok(new
 {
     mensaje = "Aún no se han enviado datos",

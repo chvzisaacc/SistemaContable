@@ -217,6 +217,7 @@
             MaximizeBox = false;
             Name = "FRM_ServiciosAdministrador";
             Text = "FRM_ServiciosAdministrador";
+            Load += FRM_ServiciosAdministrador_Load;
             ((System.ComponentModel.ISupportInitialize)pibBitacora).EndInit();
             ((System.ComponentModel.ISupportInitialize)pibGenerarReportes).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

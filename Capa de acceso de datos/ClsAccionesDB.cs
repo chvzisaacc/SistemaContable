@@ -5,80 +5,32 @@ using System.Text;
 
 namespace Capa_de_acceso_de_datos
 {
-
-    /// <summary>
-    /// 
-    /// </summary>
     public class Parroquia
     {
-        /// <summary>
-        /// Gets or sets the nombre.
-        /// </summary>
-        /// <value>
-        /// The nombre.
-        /// </value>
         public string nombre { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Parroquia"/> class.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="nombre">The nombre.</param>
         public Parroquia(int id, string nombre)
         {
-
             this.nombre = nombre;
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class Reporte
     {
-        /// <summary>
-        /// Gets or sets the nombre.
-        /// </summary>
-        /// <value>
-        /// The nombre.
-        /// </value>
         public string nombre { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Reporte"/> class.
-        /// </summary>
-        /// <param name="nombre">The nombre.</param>
         public Reporte(string nombre)
         {
             this.nombre = nombre;
         }
     }
-    /// <summary>
-    /// 
-    /// </summary>
+
     public class Origen
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>
-        /// The identifier.
-        /// </value>
         public int id { get; set; }
-        /// <summary>
-        /// Gets or sets the nombre.
-        /// </summary>
-        /// <value>
-        /// The nombre.
-        /// </value>
         public string nombre { get; set; }
         public decimal Saldo { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Origen"/> class.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="nombre">The nombre.</param>
         public Origen(int id, string nombre, decimal saldo = 0)
         {
             this.id = id;
@@ -87,51 +39,22 @@ namespace Capa_de_acceso_de_datos
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class ResultadoLogin
     {
-        /// <summary>
-        /// Gets or sets the usuario identifier.
-        /// </summary>
-        /// <value>
-        /// The usuario identifier.
-        /// </value>
         public int usuario_id { get; set; } = 0;
-        /// <summary>
-        /// Gets or sets the rol identifier.
-        /// </summary>
-        /// <value>
-        /// The rol identifier.
-        /// </value>
         public int rol_id { get; set; } = 0;
-        /// <summary>
-        /// Gets the identifier parroquia.
-        /// </summary>
-        /// <value>
-        /// The identifier parroquia.
-        /// </value>
         public int id_parroquia { get; internal set; } = 0;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <seealso cref="Capa_de_acceso_de_datos.Clsconexion" />
     public class ClsAccionesDB : Clsconexion
     {
         /// <summary>
-        /// Validars the credenciales.
+        /// Autentica usuario ejecutando procedimiento IngresoLogin.
+        /// Retorna objeto ResultadoLogin con usuario_id, rol_id e id_parroquia.
+        /// Dispara NotificarSP para sincronización remota automática.
         /// </summary>
-        /// <param name="usuario">The usuario.</param>
-        /// <param name="contraseña">The contraseña.</param>
-        /// <param name="parroquia_id">The parroquia identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al validar usuario: " + ex.Message</exception>
         public ResultadoLogin ValidarCredenciales(string usuario, string contraseña, int parroquia_id)
         {
-            // Inicialización simplificada
             ResultadoLogin resultado = new ResultadoLogin();
             try
             {
@@ -146,7 +69,6 @@ namespace Capa_de_acceso_de_datos
                     {
                         if (dr.Read())
                         {
-                            // Asegúrate que el SP devuelva estas columnas.
                             resultado.usuario_id = dr.GetInt32(dr.GetOrdinal("UsuarioID"));
                             resultado.rol_id = dr.GetInt32(dr.GetOrdinal("RolID"));
 
@@ -158,7 +80,6 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-
                 throw new Exception("Error en ValidarCredenciales: " + ex.Message);
             }
             finally
@@ -168,13 +89,12 @@ namespace Capa_de_acceso_de_datos
 
             return resultado;
         }
+
         /// <summary>
-        /// Cambiars the contraseña.
+        /// Ejecuta procedimiento CambiarContrasena para actualizar contraseña de usuario.
+        /// Parámetros: usuario (nombre), correo (validación), nuevaa_contraseña (nueva clave).
+        /// Dispara NotificarSP automáticamente para sincronizar cambio con servidor remoto.
         /// </summary>
-        /// <param name="correo">The correo.</param>
-        /// <param name="nuevaa_contraseña">The nuevaa contraseña.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al cambiar la contraseña: " + ex.Message</exception>
         public bool CambiarContraseña(string usuario, string correo, string nuevaa_contraseña)
         {
             try
@@ -186,9 +106,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@Correo", correo);
                     cmd.Parameters.AddWithValue("@NuevaContrasena", nuevaa_contraseña);
 
-
                     EjecutarYEnviar(cmd, sincronizar: true);
-
                     return true;
                 }
             }
@@ -199,11 +117,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Obteners the usuario identifier por correo.
+        /// Busca usuario por nombre y correo mediante procedimiento ObtenerUsuarioIdPorCorreo.
+        /// Retorna ID del usuario o 0 si no existe.
+        /// Se usa en flujo de recuperación de contraseña.
+        /// Dispara NotificarSP para sincronización remota.
         /// </summary>
-        /// <param name="correo">The correo.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener ID de usuario por correo: " + ex.Message</exception>
         public int ObtenerUsuarioIdPorCorreo(string usuario, string correo)
         {
             try
@@ -214,8 +132,6 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@UsuarioNombre", usuario);
                     cmd.Parameters.AddWithValue("@CorreoParroquia", correo);
 
-                    // Usamos el método que retorna el valor único (ID)
-                    // y dispara la sincronización en segundo plano.
                     return EjecutarScalarYEnviar(cmd);
                 }
             }
@@ -226,11 +142,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Guardars the codigo recuperacion.
+        /// Guarda código temporal de recuperación mediante procedimiento GuardarCodigoRecuperacion.
+        /// Código debe ser generado previamente (ej: 6 dígitos aleatorios).
+        /// Base de datos gestiona expiración automática del código.
+        /// Dispara NotificarSP para sincronización con servidor remoto.
         /// </summary>
-        /// <param name="usuario_id">The usuario identifier.</param>
-        /// <param name="codigo">The codigo.</param>
-        /// <exception cref="System.Exception">Error al guardar código de recuperación: " + ex.Message</exception>
         public void GuardarCodigoRecuperacion(int usuario_id, string codigo)
         {
             try
@@ -244,7 +160,6 @@ namespace Capa_de_acceso_de_datos
                     EjecutarYEnviar(cmd, sincronizar: true);
                 }
             }
-
             catch (Exception ex)
             {
                 throw new Exception("Error al guardar código de recuperación: " + ex.Message, ex);
@@ -256,12 +171,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Validars the codigo recuperacion.
+        /// Valida código ingresado contra código almacenado mediante procedimiento ValidarCodigoRecuperacion.
+        /// Retorna estado: "VALIDO" (código correcto y no expirado), "EXPIRADO" (correcto pero vencido),
+        /// "INVALIDO" (código incorrecto), o "SIN_RESULTADO" (error inesperado).
+        /// No dispara sincronización (solo lectura).
         /// </summary>
-        /// <param name="usuario_id">The usuario identifier.</param>
-        /// <param name="codigo">The codigo.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al validar el código: " + ex.Message</exception>
         public string ValidarCodigoRecuperacion(int usuario_id, string codigo)
         {
             string resultado = string.Empty;
@@ -294,16 +208,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Guardars the certificado.
+        /// Crea nuevo certificado de depósito ejecutando procedimiento sp_guardar_certificado.
+        /// Parámetros: nombre_certificado (descripción), id_parroquia (propietario), fecha (fecha creación).
+        /// Retorna ID autogenerado por la base de datos del nuevo certificado, o 0 si falla.
+        /// Dispara NotificarSP para sincronizar creación con servidor remoto.
         /// </summary>
-        /// <param name="nombre_certificado">The nombre certificado.</param>
-        /// <param name="deposito_inicial">The deposito inicial.</param>
-        /// <param name="plazo">The plazo.</param>
-        /// <param name="tasa">The tasa.</param>
-        /// <param name="id_parroquia">The identifier parroquia.</param>
-        /// <param name="fecha">The fecha.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al guardar certificado de depósito: " + ex.Message</exception>
         public int GuardarCertificado(string nombre_certificado, int id_parroquia, DateTime fecha)
         {
             int idgenerado = 0;
@@ -316,6 +225,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@Nombre_certificado", nombre_certificado);
                     cmd.Parameters.AddWithValue("@IdParroquia", id_parroquia);
                     cmd.Parameters.AddWithValue("@Fecha", fecha);
+
                     object result = EjecutarScalarYEnviar(cmd, sincronizar: true);
                     if (result != null && result != DBNull.Value)
                     {
@@ -335,10 +245,10 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Cargars the certificados.
+        /// Carga todos los certificados de depósito del sistema mediante procedimiento sp_Mostrarcertificados.
+        /// Retorna DataTable con columnas del resultado del procedimiento.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al cargar los certificados: " + ex.Message</exception>
         public DataTable CargarCertificados()
         {
             DataTable dt = new DataTable();
@@ -360,6 +270,12 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Carga certificados de depósito filtrados por parroquia mediante procedimiento sp_Mostrarcertificados_Usuario.
+        /// Retorna DataTable con certificados pertenecientes a la parroquia especificada.
+        /// Utilizado en vista de usuario para mostrar solo sus propios certificados.
+        /// No dispara sincronización (solo lectura).
+        /// </summary>
         public DataTable MostrarCertificadosUsuario(int idParroquia)
         {
             DataTable dtCertificados = new DataTable();
@@ -383,10 +299,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Cargars the cuentas bancarias.
+        /// Carga todas las cuentas bancarias del sistema mediante procedimiento sp_mostrarCuentas.
+        /// Retorna DataTable con información de cuentas: ID, número, banco, tipo, saldo, etc.
+        /// Se utiliza para poblar ComboBox y DataGridView en formularios.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al cargar las cuentas bancarias: " + ex.Message</exception>
         public DataTable CargarCuentasBancarias()
         {
             DataTable dt = new DataTable();
@@ -409,15 +326,11 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Editarcertificadoes the specified codigo certificado.
+        /// Modifica certificado existente ejecutando procedimiento sp_editar_certificado.
+        /// Permite cambiar: nombre_certificado y id_parroquia (propietario).
+        /// Parámetro codigo_certificado identifica qué certificado editar.
+        /// Dispara NotificarSP para sincronizar edición con servidor remoto.
         /// </summary>
-        /// <param name="codigo_certificado">The codigo certificado.</param>
-        /// <param name="nombre_certificado">The nombre certificado.</param>
-        /// <param name="deposito_inicial">The deposito inicial.</param>
-        /// <param name="plazo">The plazo.</param>
-        /// <param name="tasa">The tasa.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al editar certificado de depósito: " + ex.Message</exception>
         public bool editarcertificado(int codigo_certificado, string nombre_certificado, int id_parroquia)
         {
             try
@@ -426,8 +339,6 @@ namespace Capa_de_acceso_de_datos
                 using (SqlCommand cmd = new SqlCommand("sp_editar_certificado", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    // Parámetros de edición
                     cmd.Parameters.AddWithValue("@Id_Certificado", codigo_certificado);
                     cmd.Parameters.AddWithValue("@Nombre_certificado", nombre_certificado);
                     cmd.Parameters.AddWithValue("@IdParroquia", id_parroquia);
@@ -447,25 +358,19 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Renovars the certificado.
+        /// Renueva certificado vencido ejecutando procedimiento sp_renovar_Certificado.
+        /// Reinicia período de vigencia manteniendo condiciones originales del certificado.
+        /// Parámetro codigo_certificado identifica qué certificado renovar.
+        /// Dispara NotificarSP para sincronizar renovación con servidor remoto.
         /// </summary>
-        /// <param name="codigo_certificado">The codigo certificado.</param>
-        /// <param name="deposito_inicial">The deposito inicial.</param>
-        /// <param name="plazo">The plazo.</param>
-        /// <param name="tasa">The tasa.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al renovar el certificado de depósito: " + ex.Message</exception>
         public bool renovarCertificado(int codigo_certificado)
         {
             try
             {
-                // Abrir la conexión
                 Abrir();
                 using (SqlCommand cmd = new SqlCommand("sp_renovar_Certificado", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    // Parámetros obligatorios
                     cmd.Parameters.AddWithValue("@Id_Certificado", codigo_certificado);
 
                     EjecutarYEnviar(cmd, sincronizar: true);
@@ -478,17 +383,16 @@ namespace Capa_de_acceso_de_datos
             }
             finally
             {
-                // Cerrar la conexión
                 Cerrar();
             }
         }
 
         /// <summary>
-        /// Cancelars the certificado.
+        /// Cancela certificado de depósito ejecutando procedimiento sp_cancelar_Certificado.
+        /// Parámetro detalle contiene motivo de cancelación (se almacena para auditoría).
+        /// Operación es irreversible: certificado se marca como cancelado en base de datos.
+        /// Dispara NotificarSP para sincronizar cancelación con servidor remoto.
         /// </summary>
-        /// <param name="codigo_certificado">The codigo certificado.</param>
-        /// <param name="detalle">The detalle.</param>
-        /// <exception cref="System.Exception">Error al cancelar el certificado de depósito: " + ex.Message</exception>
         public void cancelarCertificado(int codigo_certificado, string detalle)
         {
             try
@@ -512,63 +416,55 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Busca ID de parroquia por nombre exacto ejecutando procedimiento sp_ObtenerIdParroquiaPorNombre.
+        /// Retorna ID numérico de la parroquia o 0 si no se encuentra.
+        /// Búsqueda es sensible a mayúsculas/minúsculas según configuración SQL Server.
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public int ObtenerIdParroquiaPorNombre(string nombreParroquia)
         {
-            // Usamos 0 como valor de retorno si no se encuentra la parroquia.
             int idParroquia = 0;
-
             try
             {
                 Abrir();
-
-                // 2. Crear el comando y asignarle el SP
                 using (SqlCommand cmd = new SqlCommand("sp_ObtenerIdParroquiaPorNombre", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    // Añadir el parámetro de entrada del nombre
-                    // Se usa el nombre de columna de tu tabla: Parroquia_nombre (aunque el SP lo espera como @NombreParroquia)
                     cmd.Parameters.AddWithValue("@NombreParroquia", nombreParroquia);
 
-                    // Ejecutar ExecuteScalar para obtener el IdParroquia (un solo valor)
                     idParroquia = EjecutarScalarYEnviar(cmd);
                 }
             }
             catch (SqlException ex)
             {
-                // Manejo de errores específicos de SQL (ej. timeout, problemas de conexión)
-                // Aquí puedes logear el error para el administrador del sistema
                 Console.WriteLine("Error SQL al obtener ID de parroquia: " + ex.Message);
-                // Opcional: Relanzar una excepción
                 throw new Exception("Error en la base de datos al buscar la parroquia: " + ex.Message, ex);
             }
             catch (Exception ex)
             {
-                // Manejo de otros errores (ej. problemas de conversión)
                 Console.WriteLine("Error general al obtener ID de parroquia: " + ex.Message);
-                throw; // Relanzar la excepción
+                throw;
             }
             finally
             {
                 Cerrar();
             }
-
             return idParroquia;
         }
 
         /// <summary>
-        /// Obteners the lista origenes.
+        /// Obtiene lista de fuentes de fondos (orígenes) para parroquia específica ejecutando SP_ObtenerFuentesDeFondos.
+        /// Retorna List{Origen} con: ID, nombre descriptivo y saldo actual de cada fuente.
+        /// Se utiliza para poblar controles que muestran opciones de fondos disponibles.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al cargar origen de fondos: " + ex.Message</exception>
         public List<Origen> ObtenerListaOrigenes(int parroquiaId)
         {
             List<Origen> listaorigenes = new List<Origen>();
-
             try
             {
                 Abrir();
-
                 using (SqlCommand cmd = new SqlCommand("SP_ObtenerFuentesDeFondos", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -578,7 +474,6 @@ namespace Capa_de_acceso_de_datos
                     {
                         while (reader.Read())
                         {
-                            // Uso de GetInt32 y GetString para robustez
                             int id = reader.GetInt32(reader.GetOrdinal("ID"));
                             string nombre = reader.GetString(reader.GetOrdinal("NombreOrigen"));
                             decimal saldoReal = reader.GetDecimal(reader.GetOrdinal("saldo"));
@@ -596,24 +491,21 @@ namespace Capa_de_acceso_de_datos
             {
                 Cerrar();
             }
-
             return listaorigenes;
         }
 
-
         /// <summary>
-        /// Obteners the lista parroquias.
+        /// Obtiene lista de nombres de todas las parroquias del sistema ejecutando procedimiento nom_parroquia.
+        /// Retorna List{string} con nombres únicamente (sin IDs).
+        /// Se utiliza para poblar ComboBox y listas desplegables de selección de parroquias.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al cargar parroquias: " + ex.Message</exception>
         public List<string> ObtenerListaParroquias()
         {
             List<string> listaparroquias = new List<string>();
-
             try
             {
                 Abrir();
-
                 using (SqlCommand cmd = new SqlCommand("nom_parroquia", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -636,14 +528,18 @@ namespace Capa_de_acceso_de_datos
             {
                 Cerrar();
             }
-
             return listaparroquias;
         }
 
+        /// <summary>
+        /// Obtiene DataTable de parroquias ejecutando procedimiento SP_autocompletar_parroquias.
+        /// Retorna tabla con datos: ID, nombre y otras columnas para autocompletado en controles.
+        /// Se utiliza en controles de búsqueda y autocompletado que necesitan más datos que solo nombre.
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public DataTable ObtenerParroquias()
         {
             DataTable dtParroquia = new DataTable();
-
             try
             {
                 Abrir();
@@ -669,18 +565,17 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Obteners the tipo reporte.
+        /// Obtiene lista de tipos de reportes disponibles ejecutando procedimiento tipo_reporte.
+        /// Retorna List{string} con descripciones: "Estado de Resultados", "Libro Mayor", "Balance General", etc.
+        /// Se utiliza para poblar menú de selección de reportes en formularios.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al cargar los reportes: " + ex.Message</exception>
         public List<string> ObtenerTipoReporte()
         {
             List<string> reportes = new List<string>();
-
             try
             {
                 Abrir();
-
                 using (SqlCommand cmd = new SqlCommand("tipo_reporte", sc))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -703,19 +598,18 @@ namespace Capa_de_acceso_de_datos
             {
                 Cerrar();
             }
-
             return reportes;
         }
 
         /// <summary>
-        /// Obteners the cuentas ingreso.
+        /// Carga cuentas contables de ingresos ejecutando procedimiento SP_mostrar_cuentasingresos.
+        /// Retorna DataTable con: código, nombre, descripción, estado y otras propiedades de cuentas de ingresos.
+        /// Se utiliza para poblar ComboBox en formularios de registro de ingresos.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener las cuentas de ingresos: " + ex.Message</exception>
         public DataTable ObtenerCuentasIngreso()
         {
             DataTable dtcuentas = new DataTable();
-
             try
             {
                 Abrir();
@@ -740,17 +634,15 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-
-
         /// <summary>
-        /// Obteners the cuentas gastos.
+        /// Carga cuentas contables de gastos ejecutando procedimiento SP_mostrar_cuentasgastos.
+        /// Retorna DataTable con: código, nombre, descripción, límite presupuesto y otras propiedades.
+        /// Se utiliza para poblar ComboBox en formularios de registro de gastos y control presupuestario.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener las cuentas de gastos: " + ex.Message</exception>
         public DataTable ObtenerCuentasGastos()
         {
             DataTable dtcuentas = new DataTable();
-
             try
             {
                 Abrir();
@@ -767,7 +659,6 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                // Mensaje corregido
                 throw new Exception("Error al obtener las cuentas de gastos: " + ex.Message, ex);
             }
             finally
@@ -776,13 +667,12 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
-
         /// <summary>
-        /// Obteners the usuario identifier por nombre usuario.
+        /// Obtiene tupla (Item1, Item2) ejecutando procedimiento SP_ObtenerUsuarioId.
+        /// Item1: ID usuario (0 si no existe) | Item2: ID parroquia (0 si no asignado).
+        /// Se utiliza después de autenticación para obtener información contextual del usuario.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <param name="nombre_usuario">The nombre usuario.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener ID de usuario por nombre de usuario: " + ex.Message</exception>
         public Tuple<int, int> ObtenerUsuarioIdPorNombreUsuario(string nombre_usuario)
         {
             int id_usuario = 0;
@@ -795,10 +685,9 @@ namespace Capa_de_acceso_de_datos
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@NombreUsuario", nombre_usuario);
 
-                    // Usamos ExecuteReader para obtener ambas columnas
                     using (SqlDataReader reader = EjecutarReaderYEnviar(cmd))
                     {
-                        if (reader.Read()) // Si encuentra al menos una fila
+                        if (reader.Read())
                         {
                             id_usuario = reader.GetInt32(reader.GetOrdinal("Usuario_id"));
                             parroquia_id = reader.IsDBNull(reader.GetOrdinal("Parroquia_id")) ? 0 : reader.GetInt32(reader.GetOrdinal("Parroquia_id"));
@@ -814,9 +703,15 @@ namespace Capa_de_acceso_de_datos
             {
                 Cerrar();
             }
-
-            return Tuple.Create(id_usuario, parroquia_id); 
+            return Tuple.Create(id_usuario, parroquia_id);
         }
+
+        /// <summary>
+        /// Crea nueva parroquia ejecutando procedimiento sp_AgregarParroquia.
+        /// Parámetros: nombre (oficial), correo (para comunicaciones).
+        /// Retorna ID autogenerado de la parroquia creada, o 0 si falla.
+        /// Dispara NotificarSP para sincronizar creación con servidor remoto.
+        /// </summary>
         public int AgregarParroquia(string nombre, string correo)
         {
             int idGenerado = 0;
@@ -828,8 +723,7 @@ namespace Capa_de_acceso_de_datos
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Nombre", nombre);
                     cmd.Parameters.AddWithValue("@Correo", correo);
-                
-                    // Tu método personalizado que maneja la sincronización
+
                     object result = EjecutarScalarYEnviar(cmd, sincronizar: true);
 
                     if (result != null && result != DBNull.Value)
@@ -848,6 +742,13 @@ namespace Capa_de_acceso_de_datos
             }
             return idGenerado;
         }
+
+        /// <summary>
+        /// Modifica parroquia existente ejecutando procedimiento sp_EditarParroquia.
+        /// Parámetros: idParroquia (identifica registro), nombre (nuevo), correo (nuevo).
+        /// Cambios se aplican en base de datos local e inmediatamente se sincronizan.
+        /// Dispara NotificarSP para sincronizar edición con servidor remoto automáticamente.
+        /// </summary>
         public bool EditarParroquia(int idParroquia, string nombre, string correo)
         {
             try
@@ -860,7 +761,6 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@Nombre", nombre);
                     cmd.Parameters.AddWithValue("@Correo", correo);
 
-                    // EjecutarYEnviar asegura que el cambio se envíe a la cola de sincronización
                     EjecutarYEnviar(cmd, sincronizar: true);
                     return true;
                 }
@@ -874,6 +774,5 @@ namespace Capa_de_acceso_de_datos
                 Cerrar();
             }
         }
-
     }
 }

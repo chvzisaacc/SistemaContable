@@ -5,31 +5,26 @@ using System.Data.Common;
 namespace Capa_de_acceso_de_datos
 {
     /// <summary>
-    /// 
+    /// Gestiona operaciones CRUD de cuentas bancarias: creación, modificación, consulta y gestión de saldos.
+    /// Todos los métodos que modifican datos disparan sincronización remota automática.
+    /// Las cuentas bancarias son fuentes de fondos donde se registran ingresos y egresos.
     /// </summary>
     public class ClsCRUD_CuentasBancarias
     {
-        /// <summary>
-        /// The conexion
-        /// </summary>
         private Clsconexion conexion;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ClsCRUD_CuentasBancarias"/> class.
-        /// </summary>
         public ClsCRUD_CuentasBancarias()
         {
             conexion = new Clsconexion();
         }
 
         /// <summary>
-        /// Agregars the cuenta bancaria.
+        /// Agrega nueva cuenta bancaria ejecutando procedimiento sp_AgregarCuentaBanco.
+        /// Parámetros: cuenta_bancaria_id (ID origen), nombre (identificación), saldo (inicial nullable).
+        /// Retorna ID autogenerado de la nueva cuenta para referencias futuras.
+        /// Utiliza parámetro OUTPUT @nuevoId para obtener ID generado automáticamente.
+        /// Dispara NotificarSP automáticamente para sincronizar con servidor remoto.
         /// </summary>
-        /// <param name="cuenta_bancaria_id">The cuenta bancaria identifier.</param>
-        /// <param name="nombre">The nombre.</param>
-        /// <param name="saldo">The saldo.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al agregar cuenta bancaria: " + ex.Message</exception>
         public int AgregarCuentaBancaria(int cuenta_bancaria_id, string nombre, decimal? saldo)
         {
             try
@@ -41,7 +36,6 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@id_Origen", cuenta_bancaria_id);
                 cmd.Parameters.AddWithValue("@Nombre", nombre);
                 cmd.Parameters.AddWithValue("@saldo", saldo);
-                ;
 
                 SqlParameter nuevoid = new SqlParameter("@nuevoId", SqlDbType.Int);
                 nuevoid.Direction = ParameterDirection.Output;
@@ -59,17 +53,15 @@ namespace Capa_de_acceso_de_datos
             {
                 conexion.Cerrar();
             }
-
         }
 
-
-
-
         /// <summary>
-        /// Obteners the cuentas bancarias.
+        /// Obtiene todas las cuentas bancarias de una parroquia ejecutando procedimiento sp_ObtenerCuentasBancarias.
+        /// Parámetro parroquiaId: filtra cuentas pertenecientes a la parroquia especificada.
+        /// Retorna DataTable con: ID, nombre, saldo, tipo de cuenta, estado, etc.
+        /// Se utiliza para poblar controles de selección en formularios de transacciones.
+        /// No dispara sincronización (operación de lectura únicamente).
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al obtener Cuentas Bancarias: " + ex.Message</exception>
         public DataTable ObtenerCuentasBancarias(int parroquiaId)
         {
             try
@@ -99,12 +91,12 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Modificars the saldo.
+        /// Modifica el saldo de una cuenta bancaria ejecutando procedimiento sp_ModificarSaldo.
+        /// Parámetros: id_origen (identifica cuenta), saldo (nuevo valor con precisión 18.2).
+        /// Retorna true si modificación fue exitosa, false si ocurre error.
+        /// Utiliza parámetro con precisión y escala específicas (18.2) para exactitud financiera.
+        /// Dispara NotificarSP automáticamente para sincronizar cambio con servidor remoto.
         /// </summary>
-        /// <param name="id_origen">The identifier origen.</param>
-        /// <param name="saldo">The saldo.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al modificar saldo: " + ex.Message</exception>
         public bool ModificarSaldo(int id_origen, decimal saldo)
         {
             try
@@ -120,7 +112,7 @@ namespace Capa_de_acceso_de_datos
                 psaldo.Scale = 2;
                 psaldo.Value = saldo;
 
-                conexion.EjecutarYEnviar(cmd, sincronizar: true); // esperado: 1 si actualiza una fila
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
                 return true;
             }
             catch (Exception ex)
@@ -134,12 +126,13 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Agregars the saldo.
+        /// Incrementa el saldo de una cuenta bancaria ejecutando procedimiento sp_AgregarSaldo.
+        /// Parámetros: id_origen (identifica cuenta), monto (cantidad a sumar con precisión 18.2), usuarioId (auditoría).
+        /// Retorna true si incremento fue exitoso, false si ocurre error.
+        /// Utiliza parámetro con precisión y escala específicas (18.2) para exactitud financiera.
+        /// Se utiliza para registrar ingresos, depósitos y transferencias entrantes.
+        /// Dispara NotificarSP automáticamente para sincronizar cambio con servidor remoto.
         /// </summary>
-        /// <param name="id_origen">The identifier origen.</param>
-        /// <param name="monto">The monto.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al agregar saldo: " + ex.Message</exception>
         public bool AgregarSaldo(int id_origen, decimal monto, int usuarioId)
         {
             try
@@ -157,7 +150,7 @@ namespace Capa_de_acceso_de_datos
 
                 cmd.Parameters.Add("@Usuario_id", SqlDbType.Int).Value = usuarioId;
 
-                conexion.EjecutarYEnviar(cmd, sincronizar: true);   // esperado: 1 si actualiza una fila
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
                 return true;
             }
             catch (Exception ex)
@@ -171,13 +164,14 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
-        /// Crears the cuenta banco.
+        /// Crea nueva cuenta bancaria completa ejecutando procedimiento sp_AgregarCuentaBanco.
+        /// Parámetros: nombre (identificación), saldo (inicial con precisión 18.2), idTipo (2=Ahorro, 3=Cheque, etc),
+        /// parroquiaId (propietaria), out nuevo_id (ID autogenerado por procedimiento).
+        /// Retorna true si creación fue exitosa y nuevo_id > 0, false si ocurre error.
+        /// Valida que saldo sea ingresado como string.Empty si está vacío.
+        /// Utiliza parámetro OUTPUT @nuevo_Id para retornar ID generado automáticamente.
+        /// Dispara NotificarSP automáticamente para sincronizar con servidor remoto.
         /// </summary>
-        /// <param name="nombre">The nombre.</param>
-        /// <param name="saldo">The saldo.</param>
-        /// <param name="nuevo_id">The nuevo identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al crear cuenta bancaria: " + ex.Message</exception>
         public bool CrearCuentaBanco(string nombre, decimal saldo, int idTipo, int parroquiaId, out int nuevo_id)
         {
             nuevo_id = 0;
@@ -187,7 +181,6 @@ namespace Capa_de_acceso_de_datos
                 using var cmd = new SqlCommand("dbo.sp_AgregarCuentaBanco", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                // Parámetros existentes
                 cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar, 40).Value = nombre ?? string.Empty;
 
                 var pSaldo = cmd.Parameters.Add("@saldo", SqlDbType.Decimal);
@@ -195,13 +188,9 @@ namespace Capa_de_acceso_de_datos
                 pSaldo.Scale = 2;
                 pSaldo.Value = saldo;
 
-                // Parámetro para el tipo de cuenta (2 = Ahorro, 3 = Cheque, etc.)
                 cmd.Parameters.Add("@IdOrigenTipo", SqlDbType.Int).Value = idTipo;
-
-                // Parámetro para la Parroquia actual
                 cmd.Parameters.Add("@Parroquia_ID", SqlDbType.Int).Value = parroquiaId;
 
-                // Parámetro de salida
                 var pOut = cmd.Parameters.Add("@nuevo_Id", SqlDbType.Int);
                 pOut.Direction = ParameterDirection.Output;
 
@@ -224,6 +213,16 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
+
+        /// <summary>
+        /// Modifica cuenta bancaria existente ejecutando procedimiento sp_ModificarOrigenFuente.
+        /// Parámetros: id_origen (identifica registro), nombre (nuevo), saldo (nuevo con precisión 18.2),
+        /// idTipo (tipo nuevo: 2=Ahorro, 3=Cheque, etc), parroquiaId (propietaria).
+        /// Retorna true si modificación fue exitosa, false si ocurre error.
+        /// Utiliza parámetros con precisión y escala específicas (18.2) para exactitud financiera.
+        /// Valida que nombre sea ingresado como string.Empty si está vacío.
+        /// Dispara NotificarSP automáticamente para sincronizar cambios con servidor remoto.
+        /// </summary>
         public bool ModificarCuentaBanco(int id_origen, string nombre, decimal saldo, int idTipo, int parroquiaId)
         {
             try
@@ -256,6 +255,13 @@ namespace Capa_de_acceso_de_datos
             }
         }
 
+        /// <summary>
+        /// Obtiene fecha del último ingreso registrado en una cuenta ejecutando procedimiento sp_ObtenerFechaUltimoIngreso.
+        /// Parámetros: parroquiaId (filtra por parroquia), nombreCuenta (identifica cuenta específica).
+        /// Retorna DateTime con fecha del último movimiento entrante, o DateTime.MinValue si no hay registros.
+        /// Se utiliza para validar periodicidad de ingresos y controles de reconciliación.
+        /// No dispara sincronización (operación de lectura únicamente).
+        /// </summary>
         public DateTime ObtenerFechaUltimoIngreso(int parroquiaId, string nombreCuenta)
         {
             try

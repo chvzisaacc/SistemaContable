@@ -1,19 +1,26 @@
 ﻿namespace Capa_de_acceso_de_datos
 {
     /// <summary>
-    /// 
+    /// Clase de utilidad que encapsula métodos de autenticación y sesión.
+    /// Hereda de <see cref="ClsAccionesDB"/> para reutilizar operaciones de base de datos.
+    /// Proporciona punto de entrada centralizado para validación y gestión de sesiones de usuario.
     /// </summary>
-    /// <seealso cref="Capa_de_acceso_de_datos.ClsAccionesDB" />
     public class ClsMetodos : ClsAccionesDB
     {
         /// <summary>
-        /// Iniciars the sesion.
+        /// Inicia sesión de usuario validando credenciales e inicializando contexto de sesión.
+        /// Parámetros: usuario (nombre login), contraseña (credencial), id_parroquia (contexto de parroquia).
+        /// Retorna tupla (rol_id, id_parroquia): rol_id del usuario y su parroquia asociada.
+        /// Retorna (0, 0) si credenciales son inválidas.
+        /// 
+        /// Flujo:
+        /// 1. Valida credenciales llamando a ValidarCredenciales() de clase base
+        /// 2. Si usuario_id > 0: inicializa sesión global llamando a Sesion1.IniciarSesion()
+        /// 3. Retorna tupla con rol e id_parroquia para contexto de aplicación
+        /// 4. Si falla: retorna (0, 0) indicando fallo de autenticación
+        /// 
+        /// Sincronización: ValidarCredenciales dispara sincronización remota automática.
         /// </summary>
-        /// <param name="usuario">The usuario.</param>
-        /// <param name="contraseña">The contraseña.</param>
-        /// <param name="id_parroquia">The identifier parroquia.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">Error al iniciar sesión: " + ex.Message</exception>
         public (int rol_id, int id_parroquia) IniciarSesion(string usuario, string contraseña, int id_parroquia)
         {
             ResultadoLogin resultado = null;

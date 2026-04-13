@@ -123,7 +123,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         /// <summary>
@@ -235,6 +235,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         }
 
+
+        /// <summary>
+        /// Maneja el evento Click del control textBox3.
+        /// Abre de forma modal el formulario de Bitácora del Administrador, ocultando
+        /// temporalmente el formulario principal y el actual durante la visualización del diálogo.
+        /// </summary>
+        /// <param name="sender">El origen del evento.</param>
+        /// <param name="e">Instancia de <see cref="EventArgs"/> que contiene los datos del evento.</param>
         private void textBox3_Click(object sender, EventArgs e)
         {
             var main = this.Owner as Form;
@@ -258,6 +266,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 this.Close();
                 main?.Show();
             }
+        }
+
+        private void FRM_ServiciosAdministrador_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
