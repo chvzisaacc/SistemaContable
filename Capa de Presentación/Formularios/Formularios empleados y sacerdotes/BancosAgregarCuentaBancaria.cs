@@ -1,4 +1,5 @@
-﻿using Capa_de_acceso_de_datos;
+﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\BancosAgregarCuentaBancaria.cs
+using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
 using System.Data;
 
@@ -10,14 +11,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private ClsCRUD_CuentasBancarias crud;
         private ClsValidaciones Validaciones;
 
-        // ✅ Campos para modo edición
+
         private bool _modoEdicion = false;
         private int _idOrigenEdicion = 0;
         private string _nombreInicial = "";
         private decimal _saldoInicial = 0;
-        private int _idTipoInicial = 0; // ✅ int, no string
+        private int _idTipoInicial = 0;
 
-        // ✅ Constructor original — modo AGREGAR
+        /// <summary>
+        /// Constructor para crear el formulario en modo "Agregar".
+        /// Inicializa componentes visuales y dependencias locales (CRUD, validaciones).
+        /// </summary>
+        /// <param name="parroquiaId">Identificador de la parroquia asociada a la cuenta.</param>
         public BancosAgregarCuentaBancaria(int parroquiaId)
         {
             InitializeComponent();
@@ -28,7 +33,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
             Validaciones = new ClsValidaciones();
         }
 
-        // ✅ Constructor nuevo — modo EDICIÓN
+        /// <summary>
+        /// Constructor para crear el formulario en modo "Edición".
+        /// Precarga valores iniciales y marca el formulario para comportamiento de edición.
+        /// </summary>
+        /// <param name="parroquiaId">Identificador de la parroquia asociada a la cuenta.</param>
+        /// <param name="idOrigen">Id de la cuenta que será editada.</param>
+        /// <param name="nombre">Nombre inicial de la cuenta (para precarga).</param>
+        /// <param name="saldo">Saldo inicial de la cuenta (para precarga).</param>
+        /// <param name="idTipoCuenta">Tipo de cuenta (Id) para preseleccionar en el combo.</param>
         public BancosAgregarCuentaBancaria(int parroquiaId, int idOrigen, string nombre,
                                            decimal saldo, int idTipoCuenta)
         {
@@ -48,6 +61,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this.Text = "Edición de Cuenta Bancaria";
         }
 
+        /// <summary>
+        /// Manejador del evento Load del formulario.
+        /// Centra la ventana, llena el combo de tipos y, si está en modo edición,
+        /// precarga los valores de nombre, saldo y tipo en los controles correspondientes.
+        /// Nota de sincronización: las asignaciones a controles se realizan en el hilo de UI;
+        /// si este método fuera invocado desde otro hilo, usar Invoke/BeginInvoke.
+        /// </summary>
         private void FRM_BancosAgregarCuentaBancaria_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
@@ -55,23 +75,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             if (_modoEdicion)
             {
-                // ✅ Cambiar el label del título (label6 confirmado)
                 label6.Text = "Edición de cuenta bancaria";
 
-                // ✅ Precargar nombre
                 txtCuenta.Text = _nombreInicial;
                 txtCuenta.ForeColor = Color.Black;
 
-                // ✅ Precargar saldo
                 txtMonto.Text = _saldoInicial.ToString("0.00");
                 txtMonto.ForeColor = Color.Black;
 
-                // ✅ Preseleccionar tipo de cuenta por ID
                 cmbCuenta.SelectedValue = _idTipoInicial;
             }
         }
 
-        // ✅ Botón Guardar y cerrar
+        /// <summary>
+        /// Manejador del evento click del botón Guardar (pictureBox2).
+        /// Valida campos, parsea monto y determina si debe crear o modificar la cuenta.
+        /// Llama a los métodos CRUD apropiados y cierra el formulario con DialogResult.OK si tiene éxito.
+        /// </summary>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             if (!ValidarCampos())
@@ -97,7 +117,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             if (_modoEdicion)
             {
-                // ✅ MODO EDICIÓN — llama al SP de modificar
                 try
                 {
                     bool ok = crud.ModificarCuentaBanco(_idOrigenEdicion, nombre, saldo,
@@ -123,7 +142,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             else
             {
-                // ✅ MODO AGREGAR — lógica original
                 bool ok = crud.CrearCuentaBanco(nombre, saldo, idTipoCuenta,
                                                 _parroquiaId, out int nuevo_Id);
                 if (ok)
@@ -141,6 +159,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Valida los campos del formulario antes de guardar.
+        /// Usa la clase ClsValidaciones para reglas de negocio (texto válido, monto positivo y rango).
+        /// Devuelve true si todos los campos cumplen las reglas; en caso contrario muestra mensajes y establece el foco.
+        /// </summary>
+        /// <returns>True si los campos son válidos; false en caso contrario.</returns>
         private bool ValidarCampos()
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
@@ -175,6 +199,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             return true;
         }
 
+        /// <summary>
+        /// Carga el combo de tipos de cuenta desde la capa de datos.
+        /// Asigna DataSource, DisplayMember y ValueMember.
+        /// </summary>
         private void LlenarComboTipos()
         {
             clsEnviarACajaChica db = new clsEnviarACajaChica();
@@ -184,8 +212,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
             cmbCuenta.ValueMember = "IdOrigenTipo";
         }
 
+        /// <summary>
+        /// Paint vacío del panel (se deja como placeholder).
+        /// </summary>
         private void panel2_Paint(object sender, PaintEventArgs e) { }
 
+        /// <summary>
+        /// Manejador Click del textbox de cuenta.
+        /// Limpia el placeholder visual si corresponde.
+        /// </summary>
         private void txtCuenta_Click(object sender, EventArgs e)
         {
             if (txtCuenta.Text == "Ingrese una cuenta")
@@ -195,6 +230,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Manejador Leave del textbox de cuenta.
+        /// Restaura el placeholder visual si el texto queda vacío.
+        /// </summary>
         private void txtUsuario_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtCuenta.Text))
@@ -204,6 +243,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Manejador Click del textbox de monto.
+        /// Limpia el placeholder visual si corresponde.
+        /// </summary>
         private void txtMonto_Click_1(object sender, EventArgs e)
         {
             if (txtMonto.Text == "Ingrese un Monto")
@@ -213,6 +256,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Manejador Leave del textbox de monto.
+        /// Restaura el placeholder visual si el texto queda vacío.
+        /// </summary>
         private void txtMonto_Leave_1(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtMonto.Text))

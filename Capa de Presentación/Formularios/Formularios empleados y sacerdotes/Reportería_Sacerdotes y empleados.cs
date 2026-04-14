@@ -1,4 +1,5 @@
-﻿using Capa_de_acceso_de_datos;
+﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\Reportería_Sacerdotes y empleados.cs
+using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
 using Capa_de_procesamiento_de_datos;
 using Spire.Pdf;
@@ -8,59 +9,68 @@ using ClosedXML.Excel;
 namespace Capa_de_Presentación.Formularios_Luiss
 {
     /// <summary>
-    /// 
+    /// Formulario de reportería que permite generar, listar y exportar informes (PDF, DOCX, JPG, XLSX).
+    /// Contiene llamadas a servicios de generación de reportes y utilidades de exportación.
+    /// Notas de sincronización: las operaciones que actualizan UI deben ejecutarse en el hilo UI;
+    /// las operaciones costosas (generación o guardado de archivos) pueden ejecutarse en background y luego sincronizar resultados.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FRM_PG49 : Form
     {
         /// <summary>
-        /// The libro mayor service
+        /// Servicio para generar libro mayor.
         /// </summary>
         private readonly LibroMayorService _libroMayorService = new LibroMayorService();
+
         /// <summary>
-        /// The gastos service
+        /// Servicio para generar gastos.
         /// </summary>
         private readonly GastosService _gastosService = new GastosService();
+
         /// <summary>
-        /// The estado resultados service
+        /// Servicio para estado de resultados.
         /// </summary>
         private readonly EstadoResultadosService _estadoResultadosService = new EstadoResultadosService();
+
         /// <summary>
-        /// The ingresos service
+        /// Servicio para ingresos.
         /// </summary>
         private readonly IngresosService _ingresosService = new IngresosService();
 
         /// <summary>
-        /// The curia service
+        /// Servicio para datos de Curia.
         /// </summary>
         private readonly CuriaService _curiaService = new CuriaService();
+
         /// <summary>
-        /// The repo
+        /// Repositorio de reportes para consultas de tablas/datos.
         /// </summary>
         private readonly ClsReportes _repo = new ClsReportes();
 
         /// <summary>
-        /// The validaciones
+        /// Utilidades de validación para controles del formulario.
         /// </summary>
         private ClsValidaciones Validaciones;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="FRM_PG49"/> class.
+        /// Constructor: inicializa componentes y utilidades.
+        /// Las inicializaciones afectan controles UI y se asumen en el hilo de interfaz (UI thread).
         /// </summary>
         public FRM_PG49()
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
-
             Validaciones = new ClsValidaciones();
         }
+
         /// <summary>
-        /// Construirnombres the reporte visible.
+        /// Construye un nombre visible para el reporte según el rango de fechas.
+        /// Devuelve un formato por mes/año o por rango de fechas.
         /// </summary>
-        /// <param name="tipo_texto">The tipo texto.</param>
-        /// <param name="desde">The desde.</param>
-        /// <param name="hasta">The hasta.</param>
-        /// <returns></returns>
+        /// <param name="tipo_texto">Texto descriptivo del tipo de reporte.</param>
+        /// <param name="desde">Fecha de inicio.</param>
+        /// <param name="hasta">Fecha de fin.</param>
+        /// <returns>Nombre legible del reporte para mostrar al usuario.</returns>
         private string Construirnombre_reporteVisible(string tipo_texto, DateTime desde, DateTime hasta)
         {
             if (desde.Month == hasta.Month && desde.Year == hasta.Year)
@@ -70,21 +80,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Handles the Click event of the label4 control.
+        /// Cierra el formulario al hacer click en la etiqueta correspondiente.
+        /// Acción realizada en el hilo UI.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void label4_Click(object sender, EventArgs e)
         {
             this.Close();
-
         }
 
         /// <summary>
-        /// Handles the Load event of the FRM_PG49 control.
+        /// Load del formulario: inicializa combos y límites de fecha.
+        /// Nota de sincronización: las asignaciones a controles se realizan en el hilo UI.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG49_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
@@ -105,20 +112,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             dtpDesde.MaxDate = DateTime.Now;
             dtpHasta.MaxDate = DateTime.Now;
-
         }
 
-
+        /// <summary>
+        /// Genera el reporte seleccionado (según tipo) y lo agrega a la lista de reportes generados.
+        /// Valida controles y muestra el PDF resultante usando el proceso del sistema.
+        /// Consideración: la generación puede ser costosa; si se ejecuta en background, sincronizar la adición a la lista con Invoke.
+        /// </summary>
         private void button2_Click(object sender, EventArgs e)
         {
-
             int tipo_reporte_id = Convert.ToInt32(cmbTipoReporte.SelectedValue);
             int parroquia_id = Sesion1.id_parroquia;
             string parroquia_nombre = _gastosService.ObtenerNombreParroquia(parroquia_id);
 
             DateTime desde = dtpDesde.Value.Date;
             DateTime hasta = dtpHasta.Value.Date;
-
 
             if (!Validaciones.ComboSeleccionado(cmbTipoReporte))
             {
@@ -128,7 +136,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-
             if (!Validaciones.FechaRangoValido(desde, hasta))
             {
                 MessageBox.Show("La fecha 'Desde' no puede ser mayor que la fecha 'Hasta'.",
@@ -136,10 +143,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 dtpDesde.Focus();
                 return;
             }
-
-
-
-
 
             string ruta_pdf = string.Empty;
             string nombre_reporte = string.Empty;
@@ -199,12 +202,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     nombre_reporte = "Libro mayor";
                     break;
 
-
                 default:
                     MessageBox.Show("Tipo de reporte no válido.");
                     return;
             }
-
 
             string nombre_visible = Construirnombre_reporteVisible(
                 nombre_reporte,
@@ -225,20 +226,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             lstReportes.Items.Add(item);
 
-            // Abrir el pdf de un solo
+            // Abrir el PDF generado con la aplicación por defecto del sistema
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
             {
                 FileName = ruta_pdf,
                 UseShellExecute = true
             });
-
         }
 
         /// <summary>
-        /// Handles the Click event of the button1 control.
+        /// Exporta o guarda el reporte seleccionado en el formato elegido (PDF, DOCX, JPG, XLSX).
+        /// Valida selección y realiza operaciones de I/O; las operaciones de guardado bloquean el hilo actual,
+        /// por lo que si se desea evitar bloquear la UI ejecutar la exportación en un hilo background.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
             if (lstReportes.SelectedItem == null)
@@ -355,8 +355,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     }
                 }
             }
-
         }
+
+        /// <summary>
+        /// Obtiene un DataTable listo para exportación según el tipo de reporte.
+        /// Realiza limpieza de columnas no deseadas antes de devolver los datos.
+        /// Nota: las consultas a la capa de datos deben ejecutarse en background si son costosas y luego devolver el DataTable al UI.
+        /// </summary>
+        /// <param name="item">Elemento UI con metadatos del reporte.</param>
+        /// <returns>DataTable con los datos a exportar.</returns>
         private DataTable ObtenerDatosReporte(ReporteUIItem item)
         {
             switch (item.tipo_reporte_id)
@@ -402,5 +409,4 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
     }
-    
 }

@@ -1,32 +1,47 @@
-﻿using Capa_de_acceso_de_datos;
+﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\BancosRetirarDinero.cs
+using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
 using System.Data;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosRetirarDinero : Form
     {
+        /// <summary>
+        /// Identificador del usuario que realiza la operación (usado para auditoría en la capa de datos).
+        /// </summary>
         private int _usuarioId;
 
+        /// <summary>
+        /// Identificador de la parroquia cuyas cuentas se manipulan.
+        /// </summary>
         private int _parroquiaId;
+
+        /// <summary>
+        /// Evento utilizado para notificar a los suscriptores que el saldo fue actualizado.
+        /// Nota de sincronización: el evento se invoca en el hilo que ejecuta el llamador (normalmente UI).
+        /// Los suscriptores que manipulen controles deben sincronizar (Invoke/BeginInvoke) si escuchan desde otro hilo.
+        /// </summary>
         public delegate void ActualizarSaldoDelegate();
         public event ActualizarSaldoDelegate SaldoActualizado;
+
         /// <summary>
-        /// The crud caja chica
+        /// Instancia de acceso a datos para operaciones relacionadas con caja chica y tipos de cuenta.
         /// </summary>
         private clsEnviarACajaChica crudCajaChica = new clsEnviarACajaChica();
+
         /// <summary>
-        /// The validaciones
+        /// Utilidades de validación para campos de formulario (números, montos, etc.).
         /// </summary>
         private ClsValidaciones Validaciones;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BancosRetirarDinero"/> class.
+        /// Constructor del formulario.
+        /// Inicializa componentes visuales, utilidades y carga las cuentas disponibles.
+        /// Las inicializaciones de UI deben ejecutarse en el hilo de la interfaz (UI thread).
         /// </summary>
+        /// <param name="parroquiaId">Id de la parroquia para filtrar cuentas.</param>
+        /// <param name="usuarioId">Id del usuario que realiza la operación.</param>
         public BancosRetirarDinero(int parroquiaId, int usuarioId)
         {
             InitializeComponent();
@@ -36,14 +51,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
             this._parroquiaId = parroquiaId;
             this._usuarioId = usuarioId;
             CargarCuentas();
-
         }
 
         /// <summary>
-        /// Handles the Click event of the pictureBox2 control.
+        /// Manejador del click en el control de confirmar envío.
+        /// Valida campos, solicita confirmación y en caso afirmativo delega la operación a <see cref="RealizarTransferencia"/>.
+        /// Nota: los diálogos y el cierre del formulario ocurren en el hilo UI.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             ValidarCampos();
@@ -75,23 +89,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 RealizarTransferencia();
             }
-
-
         }
 
         /// <summary>
-        /// Handles the Load event of the FRM_BancosRetirarDinero control.
+        /// Manejador del evento Load del formulario.
+        /// Centra la ventana en pantalla. Si la carga de datos se realiza fuera del hilo UI,
+        /// las actualizaciones de controles deben aplicarse con Invoke/BeginInvoke.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_BancosRetirarDinero_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
         }
+
         /// <summary>
-        /// Validars the campos.
+        /// Valida los campos relevantes del formulario antes de procesar la transferencia.
+        /// Usa <see cref="ClsValidaciones"/> para comprobar formatos numéricos.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True si los campos son válidos; False en caso contrario.</returns>
         private bool ValidarCampos()
         {
             if (!string.IsNullOrWhiteSpace(txtMonto.Text) && !Validaciones.EsNumeroDecimal(txtMonto.Text))
@@ -104,12 +118,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             return true;
         }
 
-
         /// <summary>
-        /// Handles the Click event of the txtMonto control.
+        /// Click en el textbox de monto: limpia el placeholder visual si corresponde.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtMonto_Click(object sender, EventArgs e)
         {
             if (txtMonto.Text == "Ingrese un monto")
@@ -120,10 +131,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Handles the Leave event of the txtMonto control.
+        /// Leave del textbox de monto: restaura el placeholder visual si el campo quedó vacío.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtMonto_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtMonto.Text))
@@ -134,7 +143,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Cargars the cuentas.
+        /// Carga las cuentas disponibles en el combo.
+        /// Obtiene los datos desde la capa de acceso y asigna DataSource, DisplayMember y ValueMember.
+        /// Si esta llamada se ejecuta desde un hilo background, aplicar el resultado al UI con Invoke.
         /// </summary>
         private void CargarCuentas()
         {
@@ -154,7 +165,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Realizars the transferencia.
+        /// Ejecuta la transferencia hacia caja chica usando la capa de datos.
+        /// Al completarse correctamente invoca el evento <see cref="SaldoActualizado"/> para sincronizar otras vistas.
+        /// Nota de sincronización: el evento se dispara en el hilo actual (UI); los suscriptores deben sincronizar si actualizan controles.
         /// </summary>
         private void RealizarTransferencia()
         {
@@ -182,15 +195,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Handles the Paint event of the panel2 control.
+        /// Paint del panel (placeholder para personalización visual).
+        /// Mantener vacío si no se requiere dibujo personalizado.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
             //otorga color  
         }
 
+        /// <summary>
+        /// Maneja cambios en el textbox auxiliar (actualmente sin implementación).
+        /// </summary>
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 

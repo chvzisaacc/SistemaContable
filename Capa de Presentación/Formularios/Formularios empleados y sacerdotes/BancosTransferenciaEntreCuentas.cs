@@ -1,39 +1,60 @@
-﻿using Capa_de_acceso_de_datos;
+﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\BancosTransferenciaEntreCuentas.cs
+using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
 using System.Data;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
     /// <summary>
-    /// 
+    /// Formulario para transferencias entre cuentas de la parroquia.
+    /// Contiene lógica de carga de cuentas, validación de campos y ejecución de la transferencia.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class BancosTransferenciaEntreCuentas : Form
     {
+        /// <summary>
+        /// Texto de saldo opcional (no usado directamente en la lógica).
+        /// </summary>
         public string SaldoTexto { get; set; }
+
+        /// <summary>
+        /// Identificador del usuario que realiza la operación (usado para auditoría en la capa de datos).
+        /// </summary>
         private int _usuarioId;
 
-        private int _parroquiaId;
         /// <summary>
-        /// The crud transferencia
+        /// Identificador de la parroquia cuyo conjunto de cuentas se manipula.
+        /// </summary>
+        private int _parroquiaId;
+
+        /// <summary>
+        /// Instancia que encapsula las operaciones de transferencia entre cuentas.
         /// </summary>
         private clsTransferenciaEntreCuentas crudTransferencia = new clsTransferenciaEntreCuentas();
+
         /// <summary>
-        /// The validaciones
+        /// Utilidades de validación para formatos y reglas de negocio (montos, etc.).
         /// </summary>
         private ClsValidaciones Validaciones;
 
+        /// <summary>
+        /// Si es mayor que 0, fuerza un origen fijo (ej. caja chica) y deshabilita selección de origen.
+        /// </summary>
         private int _idOrigenFijo = 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BancosTransferenciaEntreCuentas"/> class.
+        /// Constructor del formulario.
+        /// Inicializa componentes, guarda identificadores, carga cuentas y prepara validaciones.
+        /// Nota de sincronización: las inicializaciones de UI deben ejecutarse en el hilo de UI.
         /// </summary>
+        /// <param name="parroquiaId">Id de la parroquia cuyos registros se mostrarán.</param>
+        /// <param name="idOrigenFijo">Id de origen fijo opcional (0 = no fijo).</param>
+        /// <param name="usuarioId">Id del usuario que realiza la operación (opcional).</param>
         public BancosTransferenciaEntreCuentas(int parroquiaId, int idOrigenFijo = 0, int usuarioId = 0)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this._usuarioId = usuarioId;   // ← NUEVO
+            this._usuarioId = usuarioId;
             this._parroquiaId = parroquiaId;
             this._idOrigenFijo = idOrigenFijo;
             CargarCuentas();
@@ -41,7 +62,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Cargars the cuentas.
+        /// Carga las listas de cuentas para origen y destino desde la capa de datos.
+        /// Configura DisplayMember/ValueMember y el estado del control origen cuando existe un origen fijo.
+        /// Nota: si la llamada se hiciera desde un hilo background, aplicar los resultados al UI usando Invoke/BeginInvoke.
         /// </summary>
         private void CargarCuentas()
         {
@@ -79,7 +102,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Realizars the transferencia.
+        /// Ejecuta la transferencia entre cuentas llamando a la capa de datos.
+        /// Cierra el formulario con DialogResult.OK si la transferencia fue exitosa.
+        /// Nota de sincronización: las llamadas a la capa de datos pueden bloquear; si se ejecutan en hilos background,
+        /// los mensajes y el cierre del formulario deben invocarse en el hilo UI.
         /// </summary>
         private void RealizarTransferencia()
         {
@@ -90,7 +116,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 decimal monto = Convert.ToDecimal(txtMonto.Text);
 
                 bool exito = crudTransferencia.TransferirEntreCuentas(
-                            cuenta_origen, cuenta_destino, monto, _parroquiaId, _usuarioId);  // ← NUEVO
+                            cuenta_origen, cuenta_destino, monto, _parroquiaId, _usuarioId);
                 if (exito)
                 {
                     MessageBox.Show("Transferencia realizada exitosamente",
@@ -107,10 +133,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Handles the KeyPress event of the txtMonto control.
+        /// Controla la entrada de teclas en el campo de monto para permitir solo dígitos y un punto decimal.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
         private void txtMonto_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
@@ -125,17 +149,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Validars the campos.
+        /// Valida los campos requeridos antes de realizar cualquier operación.
+        /// Usa <see cref="ClsValidaciones"/> para comprobar formato numérico del monto.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True si los campos son válidos; false en caso contrario.</returns>
         private bool ValidarCampos()
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
 
-
             string monto = txtMonto.Text.Trim();
-
-
 
             if (cmbDestino.SelectedValue == null)
             {
@@ -161,16 +183,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             return true;
         }
+
         /// <summary>
-        /// Handles the Click event of the pictureBox2 control.
+        /// Manejador del evento click del botón confirmar transferencia.
+        /// Valida campos, verifica que origen y destino sean diferentes,
+        /// solicita confirmación al usuario y llama a <see cref="RealizarTransferencia"/> si confirma.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             if (!ValidarCampos())
                 return;
-
 
             if (cmbOrigen.SelectedValue.ToString() == cmbDestino.SelectedValue.ToString())
             {
@@ -193,7 +215,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 "Confirmar transferencia",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
-            //this.DialogResult = DialogResult.OK;
 
             if (result == DialogResult.Yes)
             {
@@ -202,20 +223,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Handles the Load event of the FRM_BancosTransferenciaEntreCuentas control.
+        /// Manejador Load del formulario; centra la ventana.
+        /// Si en el futuro se cargan datos en hilos background, aplicar cambios a controles con Invoke.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_BancosTransferenciaEntreCuentas_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
             //cmbOrigen.Text = this.SaldoTexto;
         }
+
         /// <summary>
-        /// Handles the Click event of the txtMonto control.
+        /// Click en el textbox de monto: limpia placeholder visual si corresponde.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtMonto_Click(object sender, EventArgs e)
         {
             if (txtMonto.Text == "Usuario")
@@ -226,10 +245,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Handles the Leave event of the txtMonto control.
+        /// Leave del textbox de monto: restaura placeholder visual si el campo queda vacío.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void txtMonto_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtMonto.Text))
@@ -240,15 +257,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Handles the Paint event of the panel2 control.
+        /// Paint del panel (placeholder para personalización visual).
+        /// Mantener vacío si no se requiere dibujo personalizado.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Evento TextChanged del textbox de monto (actualmente sin implementación).
+        /// </summary>
         private void txtMonto_TextChanged(object sender, EventArgs e)
         {
 

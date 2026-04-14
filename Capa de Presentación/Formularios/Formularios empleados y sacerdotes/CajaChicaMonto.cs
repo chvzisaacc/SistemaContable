@@ -1,4 +1,5 @@
-﻿using Capa_de_acceso_de_datos;
+﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\CajaChicaMonto.cs
+using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -7,19 +8,45 @@ using System.Globalization;
 namespace Capa_de_Presentación.Formularios_Luiss
 {
     /// <summary>
-    /// Formulario para agregar monto a la Caja Chica
+    /// Formulario para insertar o modificar montos en la Caja Chica.
+    /// Contiene validaciones, llamadas a procedimientos almacenados y eventos para sincronizar vistas externas.
     /// </summary>
     public partial class CajaChicaMonto : Form
     {
+        /// <summary>
+        /// Evento que notifica a suscriptores que el saldo fue actualizado.
+        /// Se invoca en el hilo que ejecuta la operación (normalmente UI); los suscriptores que actualicen controles deben sincronizarse si es necesario.
+        /// </summary>
         public delegate void ActualizarSaldoDelegate();
         public event ActualizarSaldoDelegate SaldoActualizado;
+
+        /// <summary>
+        /// Evento adicional que notifica que se ingresó capital (uso libre para otros subsistemas).
+        /// </summary>
         public event Action CapitalIngresado;
 
-
+        /// <summary>
+        /// Identificador de la parroquia asociado a la operación.
+        /// </summary>
         private int _parroquiaId;
+
+        /// <summary>
+        /// Identificador del usuario que realiza la operación (auditoría).
+        /// </summary>
         private int _usuarioId;
+
+        /// <summary>
+        /// Indica si el formulario está en modo modificación (true) o inserción (false).
+        /// </summary>
         public bool EsModificacion { get; set; } = false;
 
+        /// <summary>
+        /// Constructor.
+        /// Inicializa componentes y asigna identificadores; también adapta el título y layout en el evento Load.
+        /// Notas de sincronización: las modificaciones al UI se realizan en el hilo de interfaz (UI thread).
+        /// </summary>
+        /// <param name="parroquiaId">Id de la parroquia donde se aplicará el monto.</param>
+        /// <param name="usuarioId">Id del usuario que realiza la acción.</param>
         public CajaChicaMonto(int parroquiaId, int usuarioId)
         {
             InitializeComponent();
@@ -28,20 +55,24 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             // Cambiar el título del formulario o label según el modo
             this.Load += (s, e) => {
-                lblTitulo.AutoSize = false; 
-                lblTitulo.Width = this.ClientSize.Width; 
-                lblTitulo.TextAlign = ContentAlignment.MiddleCenter; 
-                lblTitulo.Location = new Point(0, lblTitulo.Location.Y); 
+                lblTitulo.AutoSize = false;
+                lblTitulo.Width = this.ClientSize.Width;
+                lblTitulo.TextAlign = ContentAlignment.MiddleCenter;
+                lblTitulo.Location = new Point(0, lblTitulo.Location.Y);
                 if (EsModificacion)
                 {
-                    // Suponiendo que el label de arriba se llama lblTitulo
-                    // Si no tienes el nombre, búscalo en el diseñador
                     lblTitulo.Text = "MODIFICAR SALDO DE CAJA CHICA";
                     this.Text = "Modificar Saldo";
                 }
             };
         }
 
+        /// <summary>
+        /// Manejador del botón principal: valida, parsea el monto y llama al procedimiento almacenado correspondiente.
+        /// Invoca eventos de sincronización (<see cref="SaldoActualizado"/> y <see cref="CapitalIngresado"/>) después del éxito.
+        /// Observación: las llamadas a la base de datos se realizan de forma síncrona; si se desea evitar bloqueo del UI,
+        /// ejecutar la operación en un hilo de fondo y aplicar los resultados al UI con Invoke/BeginInvoke.
+        /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
             // 1. Validar campos
@@ -59,7 +90,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 comando.Connection = objcone.sc;
                 comando.CommandType = CommandType.StoredProcedure;
-                comando.Parameters.Clear(); 
+                comando.Parameters.Clear();
 
                 // 3. Configuración dinámica según el modo
                 if (EsModificacion)
@@ -85,13 +116,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     string mensajeExito = EsModificacion ? "Saldo modificado correctamente" : "Monto insertado correctamente";
                     MessageBox.Show(mensajeExito, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                    // Notificar a los suscriptores para que sincronicen sus vistas (invocado en hilo UI).
                     SaldoActualizado?.Invoke();
                     CapitalIngresado?.Invoke();
                     this.Close();
                 }
                 catch (Exception ex)
                 {
-                    // Captura errores de SQL (como los RAISERROR que definimos)
+                    // Captura errores de SQL (como RAISERROR definidos en los SP).
                     MessageBox.Show(ex.Message, "Error de Sistema", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
                 finally
@@ -101,6 +133,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Valida el campo monto: verifica vacío, formato numérico y que sea mayor a cero.
+        /// Devuelve true si la validación pasa; false y enfoca el control en caso contrario.
+        /// </summary>
+        /// <returns>True si el monto es válido; false en caso contrario.</returns>
         private bool ValidarCampos()
         {
             // Limpieza total para que decimal.TryParse no falle
@@ -133,6 +170,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             return true;
         }
 
+        /// <summary>
+        /// Manejador Load del formulario: centra la ventana y ajusta el título si está en modo modificación.
+        /// Si la inicialización carga datos de forma asíncrona, las asignaciones al UI deben hacerse con Invoke/BeginInvoke.
+        /// </summary>
         private void FRM_CajaChicaMonto_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
@@ -142,6 +183,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Manejador Click del textbox de monto: limpia el placeholder visual si corresponde.
+        /// </summary>
         private void txtMonto_Click(object sender, EventArgs e)
         {
             if (txtMonto.Text == "Ingrese monto")
@@ -151,6 +195,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
+        /// <summary>
+        /// Manejador Leave del textbox de monto: si el campo está vacío restaura el placeholder;
+        /// si contiene un número válido lo formatea para mostrarlo con moneda local.
+        /// Las operaciones de formato se realizan en el hilo UI.
+        /// </summary>
         private void txtMonto_Leave(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtMonto.Text) || txtMonto.Text == "Ingrese monto")
@@ -160,7 +209,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             else
             {
-                
                 string soloNumeros = txtMonto.Text.Replace("L.", "").Replace(",", "").Trim();
 
                 if (decimal.TryParse(soloNumeros, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal valor))
@@ -172,7 +220,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-        // Métodos vacíos si no se utilizan, se pueden dejar o borrar según el diseñador
+        /// <summary>
+        /// Controladores vacíos generados por el diseñador.
+        /// Se mantienen por compatibilidad con el diseñador; pueden eliminarse si no se usan.
+        /// </summary>
         private void textBox4_TextChanged(object sender, EventArgs e) { }
         private void textBox2_TextChanged(object sender, EventArgs e) { }
         private void panel1_Paint(object sender, PaintEventArgs e) { }

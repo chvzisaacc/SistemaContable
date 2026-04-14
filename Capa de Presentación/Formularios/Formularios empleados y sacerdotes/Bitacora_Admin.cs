@@ -1,37 +1,53 @@
-﻿using Capa_de_acceso_de_datos;
+﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\Bitacora_Admin.cs
+using Capa_de_acceso_de_datos;
 using System.Data;
 
 namespace Capa_de_Presentación
 {
     /// <summary>
-    /// 
+    /// Formulario que muestra el historial (bitácora) filtrable por parroquia, usuario y rango de fechas.
+    /// Contiene paginación y enlaces a la capa de acceso a datos para obtener registros.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Bitacora_Admin : Form
     {
         /// <summary>
-        /// The crud historial
+        /// Acceso a operaciones CRUD sobre historial.
         /// </summary>
         private clsCRUD_Historial crudHistorial;
+
         /// <summary>
-        /// The crud usuarios
+        /// Acceso a operaciones CRUD sobre usuarios / parroquias.
         /// </summary>
         private clsCRUD_Usuarios crudUsuarios;
+
         /// <summary>
-        /// The binding source
+        /// Fuente de datos vinculada al DataGridView para facilitar paginado y refresco.
         /// </summary>
         private BindingSource bindingSource;
+
         /// <summary>
-        /// The is loading
+        /// Indicador temporal usado para evitar recargas mientras se inicializan controles.
         /// </summary>
         private bool isLoading = false;
 
+        /// <summary>
+        /// Página actual usada por la paginación.
+        /// </summary>
         private int _paginaActual = 1;
+
+        /// <summary>
+        /// Tamaño de página (registros por página).
+        /// </summary>
         private int _tamanoPagina = 50;
+
+        /// <summary>
+        /// Total de páginas calculado tras la consulta.
+        /// </summary>
         private int _totalPaginas = 1;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Bitacora_Admin"/> class.
+        /// Constructor: inicializa componentes, dependencias y la BindingSource.
+        /// Las inicializaciones tocan el UI y se asumen en el hilo de interfaz (UI thread).
         /// </summary>
         public Bitacora_Admin()
         {
@@ -44,20 +60,19 @@ namespace Capa_de_Presentación
         }
 
         /// <summary>
-        /// Handles the Paint event of the panel1 control.
+        /// Paint vacío del panel (placeholder para personalización visual).
+        /// Mantener vacío si no se requiere dibujo personalizado.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="PaintEventArgs"/> instance containing the event data.</param>
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
         /// <summary>
-        /// Handles the SelectedIndexChanged event of the cmbParroquia control.
+        /// Manejador que responde al cambio de parroquia seleccionada.
+        /// Actualiza la lista de usuarios y recarga el historial.
+        /// Se protege con <see cref="isLoading"/> para evitar recargas durante la inicialización.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbParroquia_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (isLoading) return;
@@ -75,20 +90,18 @@ namespace Capa_de_Presentación
         }
 
         /// <summary>
-        /// Handles the CellContentClick event of the dataGridView1 control.
+        /// Placeholder para eventos de celda del DataGridView.
+        /// Se deja vacío porque no requiere lógica adicional actualmente.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
 
         /// <summary>
-        /// Handles the SelectedIndexChanged event of the cmbUsuario control.
+        /// Manejador que responde al cambio de usuario seleccionado.
+        /// Reinicia la paginación y recarga el historial.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cmbUsuario_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (isLoading) return;
@@ -97,10 +110,10 @@ namespace Capa_de_Presentación
         }
 
         /// <summary>
-        /// Handles the Load event of the FRM_PG38 control.
+        /// Manejador Load del formulario.
+        /// Centra el formulario, carga parroquias y usuarios y configura límites de fecha.
+        /// Se utiliza <see cref="isLoading"/> para evitar recargas intermedias.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG38_Load(object sender, EventArgs e)
         {
             isLoading = true;
@@ -116,7 +129,8 @@ namespace Capa_de_Presentación
         }
 
         /// <summary>
-        /// Cargars the parroquias.
+        /// Carga la lista de parroquias en el combo con una opción para "Todas las Parroquias".
+        /// Actualiza el control en el hilo UI; si se invoca desde background, aplicar cambios con Invoke.
         /// </summary>
         private void CargarParroquias()
         {
@@ -144,9 +158,10 @@ namespace Capa_de_Presentación
         }
 
         /// <summary>
-        /// Cargars the usuarios.
+        /// Carga usuarios filtrados por parroquia (o todos si el parámetro es nulo).
+        /// Usa <see cref="isLoading"/> para evitar disparar eventos de cambio mientras se configura el combo.
         /// </summary>
-        /// <param name="parroquia_id">The parroquia identifier.</param>
+        /// <param name="parroquia_id">Id de parroquia o null para todas.</param>
         private void CargarUsuarios(int? parroquia_id = null)
         {
             try
@@ -179,7 +194,9 @@ namespace Capa_de_Presentación
         }
 
         /// <summary>
-        /// Cargars the historial.
+        /// Consulta y muestra el historial en la página actual aplicando filtros de parroquia, usuario y fechas.
+        /// Actualiza la BindingSource y el DataGridView. Si la consulta se realiza en un hilo background,
+        /// las asignaciones a controles deben realizarse mediante Invoke/BeginInvoke para sincronizar con la UI.
         /// </summary>
         private void CargarHistorial()
         {
@@ -234,7 +251,8 @@ namespace Capa_de_Presentación
         }
 
         /// <summary>
-        /// Cargars the las parroquias.
+        /// Alternativa de carga de parroquias que asigna directamente el DataSource.
+        /// Conservado para usos puntuales del diseñador o flujo existente.
         /// </summary>
         private void CargarLasParroquias()
         {
@@ -244,15 +262,16 @@ namespace Capa_de_Presentación
         }
 
         /// <summary>
-        /// Handles the Click event of the btnVolver control.
+        /// Botón Volver: cierra el formulario.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Botón de página anterior: decrementa la página y recarga el historial.
+        /// </summary>
         private void btnAnterior_Click(object sender, EventArgs e)
         {
             if (_paginaActual > 1)
@@ -262,6 +281,9 @@ namespace Capa_de_Presentación
             }
         }
 
+        /// <summary>
+        /// Botón de página siguiente: incrementa la página y recarga el historial.
+        /// </summary>
         private void btnSiguiente_Click(object sender, EventArgs e)
         {
             if (_paginaActual < _totalPaginas)
@@ -271,6 +293,10 @@ namespace Capa_de_Presentación
             }
         }
 
+        /// <summary>
+        /// Maneja el cambio del checkbox de filtro por fecha.
+        /// Habilita/deshabilita los DateTimePickers, reinicia la paginación y recarga.
+        /// </summary>
         private void chkFiltrarFecha_CheckedChanged(object sender, EventArgs e)
         {
             if (isLoading) return;
@@ -280,6 +306,9 @@ namespace Capa_de_Presentación
             CargarHistorial();
         }
 
+        /// <summary>
+        /// Controla cambios en la fecha 'Desde': mantiene la consistencia con 'Hasta' y recarga historial.
+        /// </summary>
         private void dtpFechaDesde_ValueChanged(object sender, EventArgs e)
         {
             if (isLoading) return;
@@ -289,6 +318,9 @@ namespace Capa_de_Presentación
             CargarHistorial();
         }
 
+        /// <summary>
+        /// Controla cambios en la fecha 'Hasta': mantiene la consistencia con 'Desde' y recarga historial.
+        /// </summary>
         private void dtpFechaHasta_ValueChanged(object sender, EventArgs e)
         {
             if (isLoading) return;

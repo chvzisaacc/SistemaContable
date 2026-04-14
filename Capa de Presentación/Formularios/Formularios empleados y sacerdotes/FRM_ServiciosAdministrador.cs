@@ -1,17 +1,19 @@
-﻿
+﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\FRM_ServiciosAdministrador.cs
 using Capa_de_Presentación.Formularios_Diego;
 using Capa_de_Presentación.Formularios_Ewin;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
     /// <summary>
-    /// 
+    /// Ventana de servicios para el administrador que actúa como menú/portal a módulos:
+    /// reportería, bitácora, alertas y certificados. Contiene handlers que abren formularios
+    /// modales y escenarios de navegación entre ventanas.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class FRM_ServiciosAdministrador : Form
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FRM_ServiciosAdministrador"/> class.
+        /// Constructor: inicializa componentes y configura estilo de ventana.
+        /// Las inicializaciones afectan al UI y deben ejecutarse en el hilo de interfaz (UI thread).
         /// </summary>
         public FRM_ServiciosAdministrador()
         {
@@ -20,34 +22,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Handles the TextChanged event of the textBox2 control.
+        /// Manejador MouseClick para abrir el módulo de reportes del administrador.
+        /// Oculta el formulario propietario, muestra el modal centrado y restaura el propietario al cerrar.
+        /// Nota de sincronización: todas las llamadas a Hide/Show/ShowDialog se realizan en el hilo UI.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the TextChanged event of the textBox1 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-
-        /// <summary>
-        /// Handles the MouseClick event of the textBox1 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void textBox1_MouseClick(object sender, MouseEventArgs e)
         {
             var main = this.Owner as Form; // este es el FRM_42
 
             try
             {
-
                 main?.Hide();
-
 
                 this.Hide();
                 using (var frm = new Reportería_Administrador())
@@ -58,33 +43,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             finally
             {
-
                 this.Close();
                 main?.Show();
             }
         }
 
         /// <summary>
-        /// Handles the TextChanged event of the textBox3 control.
+        /// Manejador MouseClick para abrir la bitácora del administrador.
+        /// Comportamiento: ocultar propietario, mostrar modal centrado y restaurar propietario al cerrar.
+        /// Ejecutarse en el hilo UI; si se carga información pesada en el modal, hacerlo en background y sincronizar UI.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the MouseClick event of the textBox3 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void textBox3_MouseClick(object sender, MouseEventArgs e)
         {
             var main = this.Owner as Form;
 
             try
             {
-
                 main?.Hide();
-
 
                 this.Hide();
                 using (var frm = new Bitacora_Admin())
@@ -95,121 +70,51 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             finally
             {
-
                 this.Close();
                 main?.Show();
             }
-
         }
 
         /// <summary>
-        /// Handles the Click event of the pictureBox1 control.
+        /// Controlador de Click vacío generado por el diseñador.
+        /// Mantener o eliminar según el diseñador; no realiza acciones.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the Click event of the pibBitacora control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the Click event of the textBox2 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void textBox2_Click(object sender, EventArgs e)
         {
-
         }
 
         /// <summary>
-        /// Handles the Click event of the pictureBox3 control.
+        /// Manejador MouseClick que muestra una alerta del sistema como diálogo modal.
+        /// Oculta el formulario actual mientras se muestra la alerta y cierra al finalizar.
+        /// Nota: ShowDialog se ejecuta en el hilo UI; si la alerta requiere datos externos, cargarlos en background.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the Click event of the pibGenerarReportes control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-
-        /// <summary>
-        /// Handles the TextChanged event of the textBox5 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the MouseClick event of the textBox5 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void textBox5_MouseClick(object sender, MouseEventArgs e)
         {
-
             this.Hide();
-
 
             using (var alerta = new Capa_de_Presentación.ALERTA.ALERTA_SISTEMA())
             {
-
                 alerta.ShowDialog(this);
             }
-
 
             this.Close();
         }
 
         /// <summary>
-        /// Handles the TextChanged event of the textBox4 control.
+        /// Manejador MouseClick para abrir el formulario de Certificados de Depósito en modal.
+        /// Oculta el propietario, muestra el modal y restaura el propietario al cerrar.
+        /// Sincronización: llamadas a ShowDialog/Hide/Show en hilo UI.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the Click event of the pictureBox5 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the Click event of the pictureBox4 control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
-        /// <summary>
-        /// Handles the Load event of the FRM_ServiciosAdministrador control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-
-
         private void textBox4_MouseClick(object sender, MouseEventArgs e)
         {
-
             var main = this.Owner as Form;
 
             try
             {
-                // Oculta el formulario principal (main) y el formulario actual (this)
                 main?.Hide();
                 this.Hide();
 
-                // Abre el formulario Certificados_De_Depósito de forma modal.
-                using (var frm = new Certificados_De_Depósito()) //
+                using (var frm = new Certificados_De_Depósito())
                 {
                     frm.StartPosition = FormStartPosition.CenterParent;
                     frm.ShowDialog(this);
@@ -217,41 +122,38 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             finally
             {
-                // Cierra el formulario actual.
                 this.Close();
-
-                // Muestra el formulario principal que se había ocultado.
                 main?.Show();
             }
         }
 
+        /// <summary>
+        /// Handler vacío para eventos generados por el diseñador (placeholder).
+        /// Mantener si el diseñador lo requiere; no ejecuta lógica.
+        /// </summary>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-
         }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
 
         /// <summary>
-        /// Maneja el evento Click del control textBox3.
-        /// Abre de forma modal el formulario de Bitácora del Administrador, ocultando
-        /// temporalmente el formulario principal y el actual durante la visualización del diálogo.
+        /// Handler vacío para cambios de texto (placeholder).
+        /// Mantener si el diseñador lo requiere; no ejecuta lógica.
         /// </summary>
-        /// <param name="sender">El origen del evento.</param>
-        /// <param name="e">Instancia de <see cref="EventArgs"/> que contiene los datos del evento.</param>
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Manejador Click alterno para abrir la bitácora (similar a textBox3_MouseClick).
+        /// Mantiene el mismo patrón: ocultar propietario, abrir modal y restaurar.
+        /// </summary>
         private void textBox3_Click(object sender, EventArgs e)
         {
             var main = this.Owner as Form;
 
             try
             {
-
                 main?.Hide();
-
 
                 this.Hide();
                 using (var frm = new Bitacora_Admin())
@@ -262,15 +164,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             finally
             {
-
                 this.Close();
                 main?.Show();
             }
         }
 
+        /// <summary>
+        /// Manejador Load del formulario de servicios del administrador.
+        /// Actualmente no contiene lógica adicional; se ejecuta en el hilo UI.
+        /// </summary>
         private void FRM_ServiciosAdministrador_Load(object sender, EventArgs e)
         {
-
         }
     }
 }

@@ -1,44 +1,48 @@
-﻿using Capa_de_acceso_de_datos;
+﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\Partidas_Dobles.cs
+using Capa_de_acceso_de_datos;
 using Capa_de_procesamiento_de_datos;
 using System.Data;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
     /// <summary>
-    /// 
+    /// Ventana que muestra las partidas dobles asociadas a una transacción.
+    /// Presenta los registros en un DataGridView y aplica formato monetario en tiempo de render.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
     public partial class Partidas_Dobles : Form
     {
-       
+        /// <summary>
+        /// Identificador de la transacción cuyas partidas se mostrarán.
+        /// </summary>
         private int id_transaccion;
 
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="Partidas_Dobles"/> class.
+        /// Constructor que recibe el id de transacción y prepara la ventana.
+        /// Las inicializaciones afectan controles UI y se ejecutan en el hilo de interfaz (UI thread).
         /// </summary>
-        /// <param name="id_transaccion">The identifier transaccion.</param>
+        /// <param name="id_transaccion">Id de la transacción a visualizar.</param>
         public Partidas_Dobles(int id_transaccion)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.id_transaccion = id_transaccion;
-
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Partidas_Dobles"/> class.
+        /// Constructor por defecto (sin id). Mantener para compatibilidad con diseñador si procede.
         /// </summary>
         public Partidas_Dobles()
         {
         }
 
         /// <summary>
-        /// Handles the Load event of the FRM_PG69 control.
+        /// Evento Load del formulario.
+        /// - Carga las partidas mediante <see cref="CargarPartidas"/>.
+        /// - Registra el manejador de formateo de celdas para mostrar valores monetarios.
+        /// - Configura el ajuste de texto y modo de autoajuste del DataGridView.
+        /// Nota de sincronización: si la carga de datos se realizara en un hilo background, las asignaciones a <see cref="dgvPartidas"/> deben marshalearse al hilo UI con Invoke/BeginInvoke.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void FRM_PG69_Load(object sender, EventArgs e)
         {
             CargarPartidas();
@@ -51,9 +55,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dgvPartidas.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvPartidas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             this.CenterToScreen();
-
         }
 
+        /// <summary>
+        /// Manejador de CellFormatting del DataGridView.
+        /// Aplica formato currency (por ejemplo "L. 1,650.00") a las columnas "Debe" y "Haber".
+        /// Ejecutado en el hilo UI durante el pintado de celdas.
+        /// </summary>
         private void dgvPartidas_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             var columnasMoneto = new[] { "Debe", "Haber" };
@@ -71,7 +79,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Cargars the partidas.
+        /// Consulta la capa de procesamiento para obtener las partidas de la transacción y asigna el DataSource del grid.
+        /// Si la obtención se hace en background, devolver el DataTable al hilo UI antes de asignarlo a <see cref="dgvPartidas"/>.
         /// </summary>
         private void CargarPartidas()
         {
@@ -80,19 +89,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dgvPartidas.DataSource = dt;
         }
 
-
         /// <summary>
-        /// Handles the TextChanged event of the textBox2 control.
+        /// Cierra la ventana al pulsar el botón cerrar.
+        /// Acción realizada en el hilo UI.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        
-
-        /// <summary>
-        /// Handles the Click event of the Btncerrar control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void Btncerrar_Click(object sender, EventArgs e)
         {
             this.Close();
