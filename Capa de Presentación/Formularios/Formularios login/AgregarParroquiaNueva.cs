@@ -3,23 +3,34 @@ using System.Data;
 
 namespace Capa_de_Presentación.Formularios.Formularios_inicio_de_sesion_y_ventana_administrador
 {
+    /// <summary>
+    /// Formulario para agregar o editar parroquias.
+    /// Permite seleccionar una parroquia existente para editarla o crear una nueva.
+    /// </summary>
     public partial class AgregarParroquiaNueva : Form
     {
+        /// <summary>Acceso a operaciones relacionadas con usuarios y parroquias.</summary>
         private clsCRUD_Usuarios _crud = new clsCRUD_Usuarios();
-        private ClsAccionesDB _acciones = new ClsAccionesDB();
-        private int _parroquiaSeleccionadaId = 0;
-        
 
+        /// <summary>Acciones de base de datos auxiliares (insert/update) para parroquias.</summary>
+        private ClsAccionesDB _acciones = new ClsAccionesDB();
+
+        /// <summary>ID de la parroquia actualmente seleccionada; 0 indica nueva parroquia.</summary>
+        private int _parroquiaSeleccionadaId = 0;
+
+        /// <summary>Constructor del formulario.</summary>
         public AgregarParroquiaNueva()
         {
             InitializeComponent();
         }
 
+        /// <summary>Evento Load: carga la lista de parroquias al abrir el formulario.</summary>
         private void AgregarParroquiaNueva_Load(object sender, EventArgs e)
         {
             CargarParroquias();
         }
 
+        /// <summary>Carga las parroquias desde la capa de datos y las enlaza al combo.</summary>
         private void CargarParroquias()
         {
             try
@@ -36,6 +47,10 @@ namespace Capa_de_Presentación.Formularios.Formularios_inicio_de_sesion_y_venta
             }
         }
 
+        /// <summary>
+        /// Prepara el formulario para la creación de una nueva parroquia.
+        /// Limpia campos y habilita los controles correspondientes.
+        /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
@@ -46,6 +61,9 @@ namespace Capa_de_Presentación.Formularios.Formularios_inicio_de_sesion_y_venta
             _parroquiaSeleccionadaId = 0; // Indica que es un registro nuevo
         }
 
+        /// <summary>
+        /// Carga los datos de la parroquia seleccionada en los campos para edición.
+        /// </summary>
         private void button3_Click(object sender, EventArgs e)
         {
             if (comboBox1.SelectedIndex != -1)
@@ -66,11 +84,14 @@ namespace Capa_de_Presentación.Formularios.Formularios_inicio_de_sesion_y_venta
             }
         }
 
+        /// <summary>
+        /// Guarda los cambios: agrega una parroquia nueva o actualiza la existente.
+        /// Actualiza el combo y cierra el diálogo con DialogResult.OK en caso de éxito.
+        /// </summary>
         private void button2_Click(object sender, EventArgs e)
         {
             try
             {
-
                 string nombre = textBox1.Text.Trim();
                 string correo = textBox2.Text.Trim();
 
@@ -101,6 +122,7 @@ namespace Capa_de_Presentación.Formularios.Formularios_inicio_de_sesion_y_venta
             }
         }
 
+        /// <summary>Restablece la UI después de una operación (limpia campos y recarga el combo).</summary>
         private void FinalizarOperacion()
         {
             LimpiarCampos();
@@ -111,6 +133,7 @@ namespace Capa_de_Presentación.Formularios.Formularios_inicio_de_sesion_y_venta
             _parroquiaSeleccionadaId = 0;
         }
 
+        /// <summary>Limpia los campos de entrada del formulario.</summary>
         private void LimpiarCampos()
         {
             textBox1.Clear();
