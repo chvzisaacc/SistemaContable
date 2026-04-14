@@ -1,5 +1,4 @@
-﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\Reportería_Sacerdotes y empleados.cs
-using Capa_de_acceso_de_datos;
+﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
 using Capa_de_procesamiento_de_datos;
 using Spire.Pdf;

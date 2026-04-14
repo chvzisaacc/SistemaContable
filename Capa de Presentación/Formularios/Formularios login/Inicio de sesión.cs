@@ -49,16 +49,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return;
             }
 
-<<<<<<< HEAD:Capa de Presentación/Formularios/Formularios login/Inicio de sesión.cs
-            
-=======
-            // Validaciones de usuario (rango/caracteres) están comentadas para mantener comportamiento actual
-            /*if (!validaciones.EsUsuarioValidoRango(txt_usuario.Text))
-            {
-                MessageBox.Show("El usuario debe tener entre 3 y 20 caracteres y usar solo letras, números, punto o guion bajo.");
-                return;
-            }*/
->>>>>>> comentariso edwin:Capa de Presentación/Formularios/Formularios inicio de sesion y ventana administrador/Inicio de sesión.cs
 
             if (string.IsNullOrWhiteSpace(txt_contraseña.Text) || txt_contraseña.Text == "Contraseña")
             {
@@ -66,16 +56,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 return;
             }
 
-<<<<<<< HEAD:Capa de Presentación/Formularios/Formularios login/Inicio de sesión.cs
-            
-=======
-            // Validación de formato de contraseña está comentada (mantener comportamiento actual)
-            /*if (!validaciones.EsContraseñaValida(txt_contraseña.Text))
-            {
-                MessageBox.Show("La contraseña debe tener entre 6 y 30 caracteres.");
-                return;
-            }*/
->>>>>>> comentariso edwin:Capa de Presentación/Formularios/Formularios inicio de sesion y ventana administrador/Inicio de sesión.cs
+
 
             if (txt_contraseña.Text.Contains(" "))
             {

@@ -1,5 +1,4 @@
-﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\Catálogo_Sacerdote y Empleado.cs
-using Capa_de_acceso_de_datos;
+﻿using Capa_de_acceso_de_datos;
 namespace Capa_de_Presentación.Formularios_Luiss
 {
     /// <summary>

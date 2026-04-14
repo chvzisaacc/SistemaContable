@@ -1,5 +1,4 @@
-﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\Bítacora_Sacerdotes y empleados.cs
-using Capa_de_acceso_de_datos;
+﻿using Capa_de_acceso_de_datos;
 using System;
 using System.Drawing;
 using System.Windows.Forms;

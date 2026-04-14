@@ -1,5 +1,4 @@
-﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\BancosTransferenciaEntreCuentas.cs
-using Capa_de_acceso_de_datos;
+﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
 using System.Data;
 

@@ -1,4 +1,4 @@
-﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\Bitacora_Admin.cs
+﻿
 using Capa_de_acceso_de_datos;
 using System.Data;
 

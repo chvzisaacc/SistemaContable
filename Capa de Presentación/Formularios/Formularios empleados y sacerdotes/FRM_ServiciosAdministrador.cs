@@ -1,5 +1,4 @@
-﻿csharp DESARROLLO DE SOFTWARE - PROYECTO PARROQUIAS2\Capa de Presentación\Formularios\Formularios empleados y sacerdotes\FRM_ServiciosAdministrador.cs
-using Capa_de_Presentación.Formularios_Diego;
+﻿using Capa_de_Presentación.Formularios_Diego;
 using Capa_de_Presentación.Formularios_Ewin;
 
 namespace Capa_de_Presentación.Formularios_Luiss
@@ -175,6 +174,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private void FRM_ServiciosAdministrador_Load(object sender, EventArgs e)
         {
+
         }
     }
 }
