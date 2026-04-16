@@ -1,6 +1,8 @@
-﻿using System.Configuration;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using System.Configuration;
 using System.Data;
+using System.Security.Cryptography;
+using System.Text.Json;
 
 namespace Capa_de_acceso_de_datos
 {
@@ -72,7 +74,6 @@ namespace Capa_de_acceso_de_datos
             finally
             {
                 // Solo notificar si la ejecución fue exitosa y se solicita sincronización
-                // Nota: Para reader, se notifica después de obtener el reader pero antes de usarlo
                 if (sincronizar && ejecucionExitosa)
                     NotificarSP(cmd);
 
@@ -145,11 +146,22 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
+        /// Genera un hash SHA256 único para asegurar la integridad de los datos enviados.
+        /// Incluye el nombre del SP, el ID de parroquia y los parámetros serializados.
+        /// </summary>
+        private string GenerarHash(string spName, Dictionary<string, object> parametros, int parroquiaId)
+        {
+            string datos = $"{spName}|{parroquiaId}|{JsonSerializer.Serialize(parametros)}";
+            using var sha = SHA256.Create();
+            byte[] bytes = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(datos));
+            return Convert.ToHexString(bytes).ToLower();
+        }
+
+        /// <summary>
         /// Método privado que construye evento de sincronización con datos del procedimiento.
-        /// Extrae nombre del SP y parámetros del comando, serializa a JSON.
+        /// Extrae nombre del SP y parámetros del comando, serializa a JSON e incluye el Hash de seguridad.
         /// Incluye nombre del SP, diccionario de parámetros e ID de parroquia del usuario actual.
         /// Dispara evento OnSpEjecutado de forma asincrónica (sin esperar respuesta).
-        /// La capa de presentación suscrita captura evento y envía datos a servidor remoto vía AccesoRemoto.
         /// </summary>
         private void NotificarSP(SqlCommand cmd)
         {
@@ -167,6 +179,12 @@ namespace Capa_de_acceso_de_datos
                     parametros[key] = valor;
                 }
 
+                // Generar el hash ANTES de armar el JSON
+                string hash = GenerarHash(nombreSp, parametros, Sesion1.id_parroquia);
+
+                //Hash va DENTRO de Parametros, no al mismo nivel
+                parametros["Hash"] = hash;
+
                 var root = new System.Text.Json.Nodes.JsonObject
                 {
                     ["SpName"] = nombreSp,
@@ -179,7 +197,6 @@ namespace Capa_de_acceso_de_datos
             }
             catch (Exception ex)
             {
-                // Capturar error en la notificación para no afectar la operación principal
                 System.Diagnostics.Debug.WriteLine($"Error en NotificarSP: {ex.Message}");
             }
         }

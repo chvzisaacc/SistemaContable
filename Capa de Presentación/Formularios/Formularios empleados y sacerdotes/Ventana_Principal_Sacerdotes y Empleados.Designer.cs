@@ -182,10 +182,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // panelContenedor
             // 
-            panelContenedor.Controls.Add(panelBancos2);
-            panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Controls.Add(panelGastos2);
             panelContenedor.Controls.Add(panelIngresos);
+            panelContenedor.Controls.Add(panelBancos2);
+            panelContenedor.Controls.Add(panelCajaChica2);
             panelContenedor.Location = new Point(4, 302);
             panelContenedor.Margin = new Padding(4, 5, 4, 5);
             panelContenedor.Name = "panelContenedor";
@@ -288,8 +288,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
             // 
             // panelCajaChica2
             // 
-            panelCajaChica2.Controls.Add(panel2);
             panelCajaChica2.Controls.Add(label7);
+            panelCajaChica2.Controls.Add(panel2);
             panelCajaChica2.Dock = DockStyle.Fill;
             panelCajaChica2.Location = new Point(0, 0);
             panelCajaChica2.Margin = new Padding(4, 2, 4, 2);
@@ -735,6 +735,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dgvGastos.TabIndex = 27;
             dgvGastos.CellClick += dgvGastos_CellClick;
             dgvGastos.CellDoubleClick += dgvGastos_CellDoubleClick;
+            dgvGastos.CellValidating += dgvGastos_CellValidating;
             dgvGastos.EditingControlShowing += dgvGastos_EditingControlShowing;
             // 
             // Id_Transaccion1

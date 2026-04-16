@@ -1,3 +1,4 @@
+using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.Formularios_Ewin;
 using Capa_de_Presentación.Formularios_Luiss;
 using Capa_de_procesamiento_de_datos;
@@ -40,13 +41,13 @@ namespace Capa_de_Presentación
                         var motor = new Capa_de_procesamiento_de_datos.LocalDbOff();
                         bool hayServidor = await Capa_de_procesamiento_de_datos.LocalDbOff.ServidorDisponibleAsync();
 
+                        bool enviadoExitosamente = false;
+
                         if (hayServidor)
                         {
-                            bool ok = await motor.EnviarAlServidorAsync(nombreSp, json);
-                            if (!ok)
-                                motor.RegistrarProcesoLocal(nombreSp, json);
+                            enviadoExitosamente = await motor.EnviarAlServidorAsync(nombreSp, json);
                         }
-                        else
+                        if (!enviadoExitosamente)
                         {
                             motor.RegistrarProcesoLocal(nombreSp, json);
                         }
@@ -147,7 +148,12 @@ namespace Capa_de_Presentación
                 if (!hayServidor) return;
 
                 LocalDbOff motor = new LocalDbOff();
+
+                // Push: enviar pendientes locales al servidor
                 await motor.ProcesarColaSincronizacion();
+
+                // Pull: recibir cambios del servidor (nuevo)
+                await motor.PullDesdeServidorAsync(Sesion1.id_parroquia);
             }
             catch (Exception ex)
             {

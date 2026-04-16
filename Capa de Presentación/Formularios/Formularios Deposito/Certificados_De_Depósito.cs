@@ -91,6 +91,11 @@ namespace Capa_de_Presentación.Formularios_Diego
                 // 2. Asignar el origen de datos
                 dataGridView1.DataSource = dtDatosCertificados;
 
+                if (dtDatosCertificados.Columns.Contains("Id_certificado"))
+                {
+                    dtDatosCertificados.Columns["Id_certificado"].ReadOnly = false;
+                }
+
                 // 3. Mapear columnas visibles y sus cabeceras
                 if (dataGridView1.Columns.Contains("Nombre_certificado"))
                 {
