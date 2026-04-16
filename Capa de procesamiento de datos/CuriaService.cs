@@ -241,6 +241,12 @@ namespace Capa_de_procesamiento_de_datos
                             "Recordamos que DEBEN ENTREGAR A LA CURIA, EL DOCE PORCIENTO (12%) sobre todas las entradas " +
                             "de la Parroquias, Iglesias o Capillas, y es de carácter obligatorio y nadie queda exento de esta obligacion."
                         ).FontSize(8).FontColor("#444444");
+
+                        col.Item().PaddingTop(50).Column(c =>
+                        {
+                            c.Item().AlignCenter().Text("__________________________________________").FontSize(10);
+                            c.Item().AlignCenter().Text("FIRMA O SELLO DEL SACERDOTE").FontSize(10).Bold();
+                        });
                     });
 
                     page.Footer().Height(30).AlignCenter().Column(col =>

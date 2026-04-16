@@ -68,7 +68,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            if (!ValidarCampos()) return;  // Usar el resultado de ValidarCampos
+            if (!ValidarCampos()) return;
 
             if (cmbCuentas.SelectedValue == null)
             {
@@ -77,11 +77,15 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            if (!decimal.TryParse(txtMonto.Text.Trim(), out var monto) || monto <= 0m)
+            // --- Lógica de limpieza para el monto formateado ---
+            string montoLimpio = txtMonto.Text.Replace("L.", "").Replace(",", "").Trim();
+
+            if (!decimal.TryParse(montoLimpio, System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.GetCultureInfo("en-US"), out var monto) || monto <= 0m)
             {
-                MessageBox.Show("Ingrese un monto válido mayor a 0.");
+                MessageBox.Show("El monto ingresado no es válido.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtMonto.Focus();
-                txtMonto.SelectAll();
                 return;
             }
 
@@ -97,7 +101,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Disparar evento para que formularios suscritos actualicen su vista.
-                    // El invocador está en el hilo de UI; los suscriptores deben sincronizar si manipulan controles.
                     SaldoActualizado?.Invoke();
 
                     this.DialogResult = DialogResult.OK;
@@ -116,18 +119,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
         }
 
-
         /// <summary>
         /// Manejador del evento Load del formulario.
         /// Centra la ventana y carga los datos necesarios y los combo boxes.
-        /// Si se llamara desde un hilo distinto al UI se debe usar Invoke/BeginInvoke.
         /// </summary>
         private void FRM_BancosAgregarSaldo_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
             CargarDatos();
             CargarComboBoxes();
-
+            txtMonto.Text = "L.0.00";
         }
 
         /// <summary>
@@ -139,8 +140,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
 
-            string monto = txtMonto.Text.Trim();
-
             if (cmbCuentas.SelectedValue == null)
             {
                 MessageBox.Show("Debe seleccionar una cuenta.",
@@ -149,7 +148,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(monto) || !val.EsMontoPositivo(monto))
+            // Validación ajustada para ignorar el formato L.0.00 inicial
+            if (string.IsNullOrWhiteSpace(txtMonto.Text) || txtMonto.Text == "L.0.00")
             {
                 MessageBox.Show("El monto es requerido, solo puede contener números y debe ser mayor a 0.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -162,8 +162,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         /// <summary>
         /// Carga datos básicos para el formulario (fuente inicial del combo).
-        /// Realiza la llamada a la capa de datos; si se ejecuta desde un hilo background
-        /// los resultados deben aplicarse al UI usando Invoke.
         /// </summary>
         private void CargarDatos()
         {
@@ -206,27 +204,46 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Click sobre el textbox de monto: limpia el placeholder si corresponde.
+        /// Click sobre el textbox de monto: selecciona el texto para facilitar edición.
         /// </summary>
         private void txtMonto_Click(object sender, EventArgs e)
         {
-            if (txtMonto.Text == "Ingrese un monto")
+            if (txtMonto.Text == "L.0.00")
             {
-                txtMonto.Text = "";
-                txtMonto.ForeColor = Color.Black;
+                txtMonto.SelectAll();
             }
         }
 
         /// <summary>
-        /// Leave del textbox de monto: restaura placeholder si queda vacío.
+        /// Manejador del evento TextChanged del campo de monto.
+        /// Formatea automáticamente el valor ingresado a formato monetario con símbolo "L." y 2 decimales.
         /// </summary>
-        private void txtMonto_Leave(object sender, EventArgs e)
+        private void txtMonto_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtMonto.Text))
+            txtMonto.TextChanged -= txtMonto_TextChanged;
+
+            try
             {
-                txtMonto.Text = "Ingrese un monto";
-                txtMonto.ForeColor = Color.Gray;
+                string numeros = new string(txtMonto.Text.Where(char.IsDigit).ToArray());
+
+                if (string.IsNullOrEmpty(numeros))
+                {
+                    txtMonto.Text = "L.0.00";
+                }
+                else
+                {
+                    if (ulong.TryParse(numeros, out ulong valorNumerico))
+                    {
+                        decimal resultado = valorNumerico / 100m;
+                        txtMonto.Text = "L." + resultado.ToString("N2",
+                            System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                    }
+                }
             }
+            catch { }
+
+            txtMonto.SelectionStart = txtMonto.Text.Length;
+            txtMonto.TextChanged += txtMonto_TextChanged;
         }
 
         /// <summary>
@@ -234,15 +251,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
-            //otorgar color al panel
-        }
-
-        /// <summary>
-        /// Evento TextChanged del textbox de monto (actualmente sin implementación).
-        /// </summary>
-        private void txtMonto_TextChanged(object sender, EventArgs e)
-        {
-
+            // otorgar color al panel
         }
     }
 }

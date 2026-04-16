@@ -98,13 +98,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             var nombre = txtCuenta.Text.Trim();
 
-            if (!decimal.TryParse(txtMonto.Text.Trim(), out decimal saldo))
+            string montoLimpio = txtMonto.Text.Replace("L.", "").Replace(",", "").Trim();
+
+            if (!decimal.TryParse(montoLimpio, System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.GetCultureInfo("en-US"), out decimal saldo))
             {
                 MessageBox.Show("El monto ingresado no es válido.", "Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
+  
             if (cmbCuenta.SelectedValue == null)
             {
                 MessageBox.Show("Seleccione un tipo de cuenta válido.", "Error",
@@ -169,9 +172,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
             ClsValidaciones val = Validaciones ?? new ClsValidaciones();
 
             string cuenta = txtCuenta.Text.Trim();
-            string monto = txtMonto.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(cuenta) || !val.EsTextoValido(cuenta))
+            string montoParaValidar = txtMonto.Text.Replace("L.", "").Replace(",", "").Trim();
+
+            if (string.IsNullOrWhiteSpace(cuenta) || !val.EsTextoValidoCuentas(cuenta))
             {
                 MessageBox.Show("El nombre de la cuenta es requerido y solo puede contener letras y espacios.",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -179,7 +183,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(monto) || !val.EsMontoPositivo(monto))
+            // Usamos la variable limpia 'montoParaValidar'
+            if (string.IsNullOrWhiteSpace(montoParaValidar) || !val.EsMontoPositivo(montoParaValidar))
             {
                 MessageBox.Show("El monto es requerido, solo puede contener números y debe ser mayor a 0.",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -187,7 +192,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return false;
             }
 
-            if (!val.EsMontoDentroDelRango(monto))
+            if (!val.EsMontoDentroDelRango(montoParaValidar))
             {
                 MessageBox.Show("El monto está fuera del rango permitido.",
                                 "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -266,6 +271,40 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 txtMonto.Text = "Ingrese un monto";
                 txtMonto.ForeColor = Color.Gray;
             }
+        }
+
+        /// <summary>
+        /// Manejador del evento TextChanged del campo de monto.
+        /// Formatea automáticamente el valor ingresado a formato monetario con símbolo "L." y 2 decimales.
+        /// 
+        /// </summary>
+        private void txtMonto_TextChanged(object sender, EventArgs e)
+        {
+            txtMonto.TextChanged -= txtMonto_TextChanged;
+
+            try
+            {
+               
+                string numeros = new string(txtMonto.Text.Where(char.IsDigit).ToArray());
+
+                if (string.IsNullOrEmpty(numeros))
+                {
+                    txtMonto.Text = "L.0.00";
+                }
+                else
+                {
+                    if (ulong.TryParse(numeros, out ulong valorNumerico))
+                    {
+                        decimal resultado = valorNumerico / 100m;
+
+                       
+                        txtMonto.Text = "L." + resultado.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                    }
+                }
+            }
+            catch { }
+            txtMonto.SelectionStart = txtMonto.Text.Length;
+            txtMonto.TextChanged += txtMonto_TextChanged;
         }
     }
 }

@@ -79,10 +79,11 @@
             txtMonto.ForeColor = Color.Black;
             txtMonto.Location = new Point(196, 163);
             txtMonto.Margin = new Padding(4, 2, 4, 2);
-            txtMonto.MaxLength = 8;
+            txtMonto.MaxLength = 16;
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(286, 37);
             txtMonto.TabIndex = 18;
+            txtMonto.TextChanged += txtMonto_TextChanged;
             // 
             // textBox2
             // 
@@ -96,7 +97,6 @@
             textBox2.Size = new Size(154, 27);
             textBox2.TabIndex = 14;
             textBox2.Text = " Enviar y cerrar";
-            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // pictureBox2
             // 

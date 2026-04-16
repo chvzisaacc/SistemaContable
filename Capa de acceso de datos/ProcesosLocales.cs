@@ -48,5 +48,14 @@ namespace Capa_de_acceso_de_datos
         /// Importante: mantiene el orden de ejecución para garantizar integridad de datos.
         /// </summary>
         public DateTime Fecha { get; set; } = DateTime.Now;
+
+        public DbSet<HashAplicado> HashesAplicados { get; set; }
+
+        public class HashAplicado
+        {
+            public int Id { get; set; }
+            public string Hash { get; set; }
+            public DateTime Fecha { get; set; } = DateTime.Now;
+        }
     }
 }

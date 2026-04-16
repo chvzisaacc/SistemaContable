@@ -47,6 +47,19 @@ namespace Capa_de_Presentación.CLASES
             return Regex.IsMatch(texto, @"^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]+$");
         }
 
+
+        /// <summary>
+        /// Valida que el texto contenga solo letras con soporte para caracteres españoles.
+        /// Parámetro texto: cadena a validar.
+        /// Retorna true si contiene solo letras (a-z, A-Z), acentos y espacios, false si está vacío o contiene caracteres especiales.
+        /// Patrón: letras, ñ, acentos y espacios permitidos.
+        /// </summary>
+        public bool EsTextoValidoCuentas(string texto)
+        {
+            if (string.IsNullOrEmpty(texto)) return false;
+            return Regex.IsMatch(texto, @"^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ\s]+$");
+        }
+
         /// <summary>
         /// Valida que el correo tenga formato correcto de dirección de email.
         /// Parámetro correo: dirección de correo a validar.

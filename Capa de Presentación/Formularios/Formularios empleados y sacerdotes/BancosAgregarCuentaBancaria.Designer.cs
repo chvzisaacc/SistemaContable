@@ -94,12 +94,13 @@
             txtMonto.ForeColor = Color.Black;
             txtMonto.Location = new Point(244, 148);
             txtMonto.Margin = new Padding(4, 3, 4, 3);
-            txtMonto.MaxLength = 8;
+            txtMonto.MaxLength = 16;
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(270, 37);
             txtMonto.TabIndex = 18;
             txtMonto.Text = "Ingrese un Monto";
             txtMonto.Click += txtMonto_Click_1;
+            txtMonto.TextChanged += txtMonto_TextChanged;
             txtMonto.Leave += txtMonto_Leave_1;
             // 
             // txtCuenta

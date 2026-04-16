@@ -106,13 +106,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// Nota de sincronización: las llamadas a la capa de datos pueden bloquear; si se ejecutan en hilos background,
         /// los mensajes y el cierre del formulario deben invocarse en el hilo UI.
         /// </summary>
-        private void RealizarTransferencia()
+        /// <param name="monto">El monto decimal ya validado y limpio.</param>
+        private void RealizarTransferencia(decimal monto)
         {
             try
             {
                 int cuenta_origen = Convert.ToInt32(cmbOrigen.SelectedValue);
                 int cuenta_destino = Convert.ToInt32(cmbDestino.SelectedValue);
-                decimal monto = Convert.ToDecimal(txtMonto.Text);
 
                 bool exito = crudTransferencia.TransferirEntreCuentas(
                             cuenta_origen, cuenta_destino, monto, _parroquiaId, _usuarioId);
@@ -132,32 +132,12 @@ namespace Capa_de_Presentación.Formularios_Luiss
         }
 
         /// <summary>
-        /// Controla la entrada de teclas en el campo de monto para permitir solo dígitos y un punto decimal.
-        /// </summary>
-        private void txtMonto_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
-            {
-                e.Handled = true;
-            }
-
-            if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
-            {
-                e.Handled = true;
-            }
-        }
-
-        /// <summary>
         /// Valida los campos requeridos antes de realizar cualquier operación.
         /// Usa <see cref="ClsValidaciones"/> para comprobar formato numérico del monto.
         /// </summary>
         /// <returns>True si los campos son válidos; false en caso contrario.</returns>
         private bool ValidarCampos()
         {
-            ClsValidaciones val = Validaciones ?? new ClsValidaciones();
-
-            string monto = txtMonto.Text.Trim();
-
             if (cmbDestino.SelectedValue == null)
             {
                 MessageBox.Show("Debe seleccionar un Destino.",
@@ -173,7 +153,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(monto) || !val.EsNumeroDecimal(monto))
+            if (string.IsNullOrWhiteSpace(txtMonto.Text) || txtMonto.Text == "L.0.00")
             {
                 MessageBox.Show("El monto de la cuenta es requerido, solo puede contener numeros y debe ser mayor a 0.",
                                 "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -200,47 +180,40 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            decimal monto;
-            if (!decimal.TryParse(txtMonto.Text, out monto) || monto <= 0)
+            // CORRECCIÓN: Limpieza profunda de formato visual para obtener el decimal puro
+            string soloDigitos = new string(txtMonto.Text.Where(char.IsDigit).ToArray());
+            if (ulong.TryParse(soloDigitos, out ulong valorNumerico))
             {
-                MessageBox.Show("Debe ingresar un monto válido mayor a cero",
-                    "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtMonto.Focus();
-                return;
-            }
+                decimal monto = valorNumerico / 100m;
 
-            DialogResult result = MessageBox.Show(
-                $"¿Está seguro de transferir ${monto:N2} de la cuenta {cmbOrigen.Text} a la cuenta {cmbDestino.Text}?",
-                "Confirmar transferencia",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show(
+                    $"¿Está seguro de transferir L.{monto:N2} de la cuenta {cmbOrigen.Text} a la cuenta {cmbDestino.Text}?",
+                    "Confirmar transferencia",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
 
-            if (result == DialogResult.Yes)
-            {
-                RealizarTransferencia();
+                if (result == DialogResult.Yes)
+                {
+                    RealizarTransferencia(monto);
+                }
             }
         }
 
         /// <summary>
         /// Manejador Load del formulario; centra la ventana.
-        /// Si en el futuro se cargan datos en hilos background, aplicar cambios a controles con Invoke.
         /// </summary>
         private void FRM_BancosTransferenciaEntreCuentas_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
-            //cmbOrigen.Text = this.SaldoTexto;
+            txtMonto.Text = "L.0.00";
         }
 
         /// <summary>
-        /// Click en el textbox de monto: limpia placeholder visual si corresponde.
+        /// Click en el textbox de monto: posiciona el cursor al final para facilitar edición.
         /// </summary>
         private void txtMonto_Click(object sender, EventArgs e)
         {
-            if (txtMonto.Text == "Usuario")
-            {
-                txtMonto.Text = "";
-                txtMonto.ForeColor = Color.Black;
-            }
+            txtMonto.SelectionStart = txtMonto.Text.Length;
         }
 
         /// <summary>
@@ -250,26 +223,48 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             if (string.IsNullOrWhiteSpace(txtMonto.Text))
             {
-                txtMonto.Text = "Usuario";
-                txtMonto.ForeColor = Color.Gray;
+                txtMonto.Text = "L.0.00";
             }
         }
 
         /// <summary>
         /// Paint del panel (placeholder para personalización visual).
-        /// Mantener vacío si no se requiere dibujo personalizado.
         /// </summary>
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
-
+            //otorga color  
         }
 
         /// <summary>
-        /// Evento TextChanged del textbox de monto (actualmente sin implementación).
+        /// Manejador del evento TextChanged del campo de monto.
+        /// Formatea automáticamente el valor ingresado a formato monetario con símbolo "L." y 2 decimales.
         /// </summary>
         private void txtMonto_TextChanged(object sender, EventArgs e)
         {
+            txtMonto.TextChanged -= txtMonto_TextChanged;
 
+            try
+            {
+                string numeros = new string(txtMonto.Text.Where(char.IsDigit).ToArray());
+
+                if (string.IsNullOrEmpty(numeros))
+                {
+                    txtMonto.Text = "L.0.00";
+                }
+                else
+                {
+                    if (ulong.TryParse(numeros, out ulong valorNumerico))
+                    {
+                        decimal resultado = valorNumerico / 100m;
+                        txtMonto.Text = "L." + resultado.ToString("N2",
+                            System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                    }
+                }
+            }
+            catch { }
+
+            txtMonto.SelectionStart = txtMonto.Text.Length;
+            txtMonto.TextChanged += txtMonto_TextChanged;
         }
     }
 }

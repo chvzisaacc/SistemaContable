@@ -94,7 +94,7 @@
             txtMonto.ForeColor = Color.Black;
             txtMonto.Location = new Point(230, 190);
             txtMonto.Margin = new Padding(4, 3, 4, 3);
-            txtMonto.MaxLength = 8;
+            txtMonto.MaxLength = 16;
             txtMonto.Multiline = true;
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(309, 33);

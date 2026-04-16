@@ -38,5 +38,12 @@ namespace Capa_de_acceso_de_datos
             );
             options.UseSqlite($"Data Source={ruta}");
         }
+        public DbSet<HashAplicado> HashesAplicados { get; set; }
+        public class HashAplicado
+        {
+            public int Id { get; set; }
+            public string Hash { get; set; }
+            public DateTime Fecha { get; set; } = DateTime.Now;
+        }
     }
 }
