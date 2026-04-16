@@ -28,17 +28,25 @@ namespace Capa_de_acceso_de_datos
         /// Parámetro cmd: comando con procedimiento y parámetros ya configurados.
         /// Parámetro sincronizar: true dispara NotificarSP para replicar cambio en servidor remoto.
         /// Abre conexión antes de ejecutar, cierra después en bloque finally.
+        /// SOLO notifica al servidor remoto si la ejecución fue exitosa.
         /// </summary>
         public void EjecutarYEnviar(SqlCommand cmd, bool sincronizar = false)
         {
+            bool ejecucionExitosa = false;
             try
             {
                 Abrir();
                 cmd.Connection = sc;
                 cmd.ExecuteNonQuery();
-                if (sincronizar) NotificarSP(cmd);
+                ejecucionExitosa = true;
             }
-            finally { Cerrar(); }
+            finally
+            {
+                Cerrar();
+                // Solo notificar si la ejecución fue exitosa y se solicita sincronización
+                if (sincronizar && ejecucionExitosa)
+                    NotificarSP(cmd);
+            }
         }
 
         /// <summary>
@@ -46,15 +54,32 @@ namespace Capa_de_acceso_de_datos
         /// Parámetro cmd: comando con procedimiento y parámetros ya configurados.
         /// Parámetro sincronizar: true dispara NotificarSP para sincronizar con servidor remoto.
         /// Retorna SqlDataReader con CommandBehavior.CloseConnection para cerrar conexión automáticamente.
-        /// No cierra conexión explícitamente: SqlDataReader la cierra al cerrarse el reader.
+        /// SOLO notifica al servidor remoto si la ejecución fue exitosa.
         /// </summary>
         public SqlDataReader EjecutarReaderYEnviar(SqlCommand cmd, bool sincronizar = false)
         {
-            Abrir();
-            cmd.Connection = sc;
-            SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-            if (sincronizar) NotificarSP(cmd);
-            return reader;
+            bool ejecucionExitosa = false;
+            SqlDataReader reader = null;
+
+            try
+            {
+                Abrir();
+                cmd.Connection = sc;
+                reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                ejecucionExitosa = true;
+                return reader;
+            }
+            finally
+            {
+                // Solo notificar si la ejecución fue exitosa y se solicita sincronización
+                // Nota: Para reader, se notifica después de obtener el reader pero antes de usarlo
+                if (sincronizar && ejecucionExitosa)
+                    NotificarSP(cmd);
+
+                // Si hubo error, aseguramos cerrar la conexión
+                if (!ejecucionExitosa && sc.State == ConnectionState.Open)
+                    Cerrar();
+            }
         }
 
         /// <summary>
@@ -63,19 +88,29 @@ namespace Capa_de_acceso_de_datos
         /// Parámetro sincronizar: true dispara NotificarSP para replicar cambio en servidor remoto.
         /// Retorna valor int: convierte resultado a entero, o 0 si resultado es NULL o DBNull.
         /// Se usa para obtener IDs autogenerados de inserciones.
-        /// Abre conexión antes de ejecutar, cierra después en bloque finally.
+        /// SOLO notifica al servidor remoto si la ejecución fue exitosa.
         /// </summary>
         public int EjecutarScalarYEnviar(SqlCommand cmd, bool sincronizar = false)
         {
+            bool ejecucionExitosa = false;
+            int resultado = 0;
+
             try
             {
                 Abrir();
                 cmd.Connection = sc;
                 object res = cmd.ExecuteScalar();
-                if (sincronizar) NotificarSP(cmd);
-                return (res != null && res != DBNull.Value) ? Convert.ToInt32(res) : 0;
+                resultado = (res != null && res != DBNull.Value) ? Convert.ToInt32(res) : 0;
+                ejecucionExitosa = true;
+                return resultado;
             }
-            finally { Cerrar(); }
+            finally
+            {
+                Cerrar();
+                // Solo notificar si la ejecución fue exitosa y se solicita sincronización
+                if (sincronizar && ejecucionExitosa)
+                    NotificarSP(cmd);
+            }
         }
 
         /// <summary>
@@ -84,21 +119,29 @@ namespace Capa_de_acceso_de_datos
         /// Parámetro sincronizar: true dispara NotificarSP para sincronizar con servidor remoto.
         /// Retorna DataTable poblado con todos los registros del resultado.
         /// Se usa cuando procedimiento retorna múltiples filas (listados, reportes).
-        /// Abre conexión antes de ejecutar, cierra después en bloque finally.
+        /// SOLO notifica al servidor remoto si la ejecución fue exitosa.
         /// </summary>
         public DataTable EjecutarAdapterYEnviar(SqlCommand cmd, bool sincronizar = false)
         {
+            bool ejecucionExitosa = false;
+            DataTable dt = new DataTable();
+
             try
             {
                 Abrir();
                 cmd.Connection = sc;
-                DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
-                if (sincronizar) NotificarSP(cmd);
+                ejecucionExitosa = true;
                 return dt;
             }
-            finally { Cerrar(); }
+            finally
+            {
+                Cerrar();
+                // Solo notificar si la ejecución fue exitosa y se solicita sincronización
+                if (sincronizar && ejecucionExitosa)
+                    NotificarSP(cmd);
+            }
         }
 
         /// <summary>
@@ -111,25 +154,34 @@ namespace Capa_de_acceso_de_datos
         private void NotificarSP(SqlCommand cmd)
         {
             if (OnSpEjecutado == null) return;
-            string nombreSp = cmd.CommandText;
 
-            var parametros = new Dictionary<string, object>();
-            foreach (SqlParameter p in cmd.Parameters)
+            try
             {
-                string key = p.ParameterName.Replace("@", "");
-                object valor = (p.Value == null || p.Value == DBNull.Value) ? null : p.Value;
-                parametros[key] = valor;
+                string nombreSp = cmd.CommandText;
+
+                var parametros = new Dictionary<string, object>();
+                foreach (SqlParameter p in cmd.Parameters)
+                {
+                    string key = p.ParameterName.Replace("@", "");
+                    object valor = (p.Value == null || p.Value == DBNull.Value) ? null : p.Value;
+                    parametros[key] = valor;
+                }
+
+                var root = new System.Text.Json.Nodes.JsonObject
+                {
+                    ["SpName"] = nombreSp,
+                    ["Parametros"] = System.Text.Json.JsonSerializer.SerializeToNode(parametros),
+                    ["_ParroquiaId"] = Sesion1.id_parroquia
+                };
+
+                string json = root.ToJsonString();
+                _ = Task.Run(() => OnSpEjecutado?.Invoke(nombreSp, json));
             }
-
-            var root = new System.Text.Json.Nodes.JsonObject
+            catch (Exception ex)
             {
-                ["SpName"] = nombreSp,
-                ["Parametros"] = System.Text.Json.JsonSerializer.SerializeToNode(parametros),
-                ["_ParroquiaId"] = Sesion1.id_parroquia
-            };
-
-            string json = root.ToJsonString();
-            _ = Task.Run(() => OnSpEjecutado?.Invoke(nombreSp, json));
+                // Capturar error en la notificación para no afectar la operación principal
+                System.Diagnostics.Debug.WriteLine($"Error en NotificarSP: {ex.Message}");
+            }
         }
 
         /// <summary>

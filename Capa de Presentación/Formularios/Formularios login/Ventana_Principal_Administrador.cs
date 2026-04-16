@@ -1675,13 +1675,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
             else if (pendientes > 0)
             {
-                lblConexion.Text = $"● {pendientes} registro(s) pendiente(s) en todas las parroquias";
+                lblConexion.Text = $"● {pendientes} registro(s) pendiente localmente";
                 lblConexion.ForeColor = Color.FromArgb(113, 63, 18);
                 lblConexion.BackColor = Color.FromArgb(254, 249, 195);
             }
             else
             {
-                lblConexion.Text = "● Todas las parroquias sincronizadas";
+                lblConexion.Text = "● Servidor en linea";
                 lblConexion.ForeColor = Color.FromArgb(22, 101, 52);
                 lblConexion.BackColor = Color.FromArgb(220, 252, 231);
             }
