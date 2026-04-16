@@ -1578,7 +1578,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             try
             {
-                string textoBusqueda = txtBuscarCuenta.Text.Trim().Replace("'", "''");
+                string textoBusqueda = txtBuscarCuenta.Text.Trim();
 
                 if (string.IsNullOrEmpty(textoBusqueda))
                 {
@@ -1587,9 +1587,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 else
                 {
                     bindingSourceCatalogo.Filter = string.Format(
-                        "[Código] LIKE '%{0}%' OR " +
-                        "[Nombre] LIKE '%{0}%/",
-                        textoBusqueda
+                       "[Codigo] LIKE '%{0}%' OR [Nombre] LIKE '%{0}%'",
+                        textoBusqueda.Replace("'","''")
                     );
                 }
             }

@@ -38,6 +38,27 @@
             cmbNivel3 = new ComboBox();
             btn_usuario = new Button();
             panelContenedor = new Panel();
+            panelCatalogoCuentas = new Panel();
+            txtBuscarCuenta = new TextBox();
+            label17 = new Label();
+            dgvCatalogoCuentas = new DataGridView();
+            btnModificarCuenta = new Button();
+            cmbEstadoCuenta = new ComboBox();
+            label14 = new Label();
+            btnInhabilitarCuenta = new Button();
+            btnHabilitarCuenta = new Button();
+            btnGuardarCuenta = new Button();
+            btnNuevaCuenta = new Button();
+            button1 = new Button();
+            cmbNivel1 = new ComboBox();
+            panel10 = new Panel();
+            label19 = new Label();
+            txtDetalle = new TextBox();
+            txtIdCuenta = new TextBox();
+            label18 = new Label();
+            label15 = new Label();
+            txtNombreCuenta = new TextBox();
+            label16 = new Label();
             panelUsuario = new Panel();
             button4 = new Button();
             label20 = new Label();
@@ -73,27 +94,6 @@
             label5 = new Label();
             label4 = new Label();
             panel9 = new Panel();
-            panelCatalogoCuentas = new Panel();
-            txtBuscarCuenta = new TextBox();
-            label17 = new Label();
-            dgvCatalogoCuentas = new DataGridView();
-            btnModificarCuenta = new Button();
-            cmbEstadoCuenta = new ComboBox();
-            label14 = new Label();
-            btnInhabilitarCuenta = new Button();
-            btnHabilitarCuenta = new Button();
-            btnGuardarCuenta = new Button();
-            btnNuevaCuenta = new Button();
-            button1 = new Button();
-            cmbNivel1 = new ComboBox();
-            panel10 = new Panel();
-            label19 = new Label();
-            txtDetalle = new TextBox();
-            txtIdCuenta = new TextBox();
-            label18 = new Label();
-            label15 = new Label();
-            txtNombreCuenta = new TextBox();
-            label16 = new Label();
             pictureBox3 = new PictureBox();
             label8 = new Label();
             pictureBox4 = new PictureBox();
@@ -105,10 +105,10 @@
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panelContenedor.SuspendLayout();
-            panelUsuario.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_usuarios).BeginInit();
             panelCatalogoCuentas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCatalogoCuentas).BeginInit();
+            panelUsuario.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_usuarios).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             SuspendLayout();
@@ -209,13 +209,315 @@
             // 
             // panelContenedor
             // 
-            panelContenedor.Controls.Add(panelUsuario);
             panelContenedor.Controls.Add(panelCatalogoCuentas);
+            panelContenedor.Controls.Add(panelUsuario);
             panelContenedor.Location = new Point(-1, 185);
             panelContenedor.Margin = new Padding(4, 5, 4, 5);
             panelContenedor.Name = "panelContenedor";
             panelContenedor.Size = new Size(1575, 679);
             panelContenedor.TabIndex = 17;
+            // 
+            // panelCatalogoCuentas
+            // 
+            panelCatalogoCuentas.BackColor = Color.White;
+            panelCatalogoCuentas.Controls.Add(txtBuscarCuenta);
+            panelCatalogoCuentas.Controls.Add(label17);
+            panelCatalogoCuentas.Controls.Add(dgvCatalogoCuentas);
+            panelCatalogoCuentas.Controls.Add(btnModificarCuenta);
+            panelCatalogoCuentas.Controls.Add(cmbEstadoCuenta);
+            panelCatalogoCuentas.Controls.Add(label14);
+            panelCatalogoCuentas.Controls.Add(btnInhabilitarCuenta);
+            panelCatalogoCuentas.Controls.Add(btnHabilitarCuenta);
+            panelCatalogoCuentas.Controls.Add(btnGuardarCuenta);
+            panelCatalogoCuentas.Controls.Add(btnNuevaCuenta);
+            panelCatalogoCuentas.Controls.Add(button1);
+            panelCatalogoCuentas.Controls.Add(cmbNivel1);
+            panelCatalogoCuentas.Controls.Add(panel10);
+            panelCatalogoCuentas.Controls.Add(label19);
+            panelCatalogoCuentas.Controls.Add(txtDetalle);
+            panelCatalogoCuentas.Controls.Add(txtIdCuenta);
+            panelCatalogoCuentas.Controls.Add(label18);
+            panelCatalogoCuentas.Controls.Add(label15);
+            panelCatalogoCuentas.Controls.Add(txtNombreCuenta);
+            panelCatalogoCuentas.Controls.Add(label16);
+            panelCatalogoCuentas.Dock = DockStyle.Fill;
+            panelCatalogoCuentas.Location = new Point(0, 0);
+            panelCatalogoCuentas.Margin = new Padding(4);
+            panelCatalogoCuentas.Name = "panelCatalogoCuentas";
+            panelCatalogoCuentas.Size = new Size(1575, 679);
+            panelCatalogoCuentas.TabIndex = 20;
+            panelCatalogoCuentas.Paint += panelCatalogoCuentas_Paint;
+            // 
+            // txtBuscarCuenta
+            // 
+            txtBuscarCuenta.Location = new Point(590, 115);
+            txtBuscarCuenta.Margin = new Padding(4);
+            txtBuscarCuenta.Name = "txtBuscarCuenta";
+            txtBuscarCuenta.Size = new Size(335, 31);
+            txtBuscarCuenta.TabIndex = 54;
+            txtBuscarCuenta.TextChanged += txtBuscarCuenta_TextChanged;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(498, 115);
+            label17.Margin = new Padding(4, 0, 4, 0);
+            label17.Name = "label17";
+            label17.Size = new Size(72, 25);
+            label17.TabIndex = 53;
+            label17.Text = "Buscar: ";
+            // 
+            // dgvCatalogoCuentas
+            // 
+            dgvCatalogoCuentas.AllowUserToAddRows = false;
+            dgvCatalogoCuentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvCatalogoCuentas.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgvCatalogoCuentas.BackgroundColor = SystemColors.Window;
+            dgvCatalogoCuentas.BorderStyle = BorderStyle.None;
+            dgvCatalogoCuentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Window;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvCatalogoCuentas.DefaultCellStyle = dataGridViewCellStyle3;
+            dgvCatalogoCuentas.Location = new Point(9, 156);
+            dgvCatalogoCuentas.Margin = new Padding(4);
+            dgvCatalogoCuentas.Name = "dgvCatalogoCuentas";
+            dgvCatalogoCuentas.ReadOnly = true;
+            dgvCatalogoCuentas.RowHeadersWidth = 51;
+            dgvCatalogoCuentas.RowTemplate.Height = 50;
+            dgvCatalogoCuentas.ScrollBars = ScrollBars.Vertical;
+            dgvCatalogoCuentas.Size = new Size(1546, 465);
+            dgvCatalogoCuentas.TabIndex = 37;
+            // 
+            // btnModificarCuenta
+            // 
+            btnModificarCuenta.BackColor = Color.FromArgb(43, 56, 143);
+            btnModificarCuenta.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnModificarCuenta.ForeColor = Color.White;
+            btnModificarCuenta.ImageAlign = ContentAlignment.TopCenter;
+            btnModificarCuenta.Location = new Point(630, 629);
+            btnModificarCuenta.Margin = new Padding(4);
+            btnModificarCuenta.Name = "btnModificarCuenta";
+            btnModificarCuenta.Size = new Size(199, 46);
+            btnModificarCuenta.TabIndex = 52;
+            btnModificarCuenta.Text = "Modificar";
+            btnModificarCuenta.UseVisualStyleBackColor = false;
+            btnModificarCuenta.UseWaitCursor = true;
+            btnModificarCuenta.Click += btnModificarCuenta_Click;
+            // 
+            // cmbEstadoCuenta
+            // 
+            cmbEstadoCuenta.BackColor = Color.FromArgb(251, 203, 51);
+            cmbEstadoCuenta.FlatStyle = FlatStyle.Flat;
+            cmbEstadoCuenta.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbEstadoCuenta.FormattingEnabled = true;
+            cmbEstadoCuenta.Items.AddRange(new object[] { "Ingresos", "Egresos" });
+            cmbEstadoCuenta.Location = new Point(1214, 11);
+            cmbEstadoCuenta.Margin = new Padding(4);
+            cmbEstadoCuenta.Name = "cmbEstadoCuenta";
+            cmbEstadoCuenta.Size = new Size(335, 29);
+            cmbEstadoCuenta.TabIndex = 37;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            label14.Location = new Point(1146, 19);
+            label14.Margin = new Padding(4, 0, 4, 0);
+            label14.Name = "label14";
+            label14.Size = new Size(61, 21);
+            label14.TabIndex = 50;
+            label14.Text = "Estado";
+            // 
+            // btnInhabilitarCuenta
+            // 
+            btnInhabilitarCuenta.BackColor = Color.FromArgb(43, 56, 143);
+            btnInhabilitarCuenta.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnInhabilitarCuenta.ForeColor = Color.White;
+            btnInhabilitarCuenta.ImageAlign = ContentAlignment.TopCenter;
+            btnInhabilitarCuenta.Location = new Point(421, 629);
+            btnInhabilitarCuenta.Margin = new Padding(4);
+            btnInhabilitarCuenta.Name = "btnInhabilitarCuenta";
+            btnInhabilitarCuenta.Size = new Size(199, 46);
+            btnInhabilitarCuenta.TabIndex = 49;
+            btnInhabilitarCuenta.Text = "Inhabilitar";
+            btnInhabilitarCuenta.UseVisualStyleBackColor = false;
+            btnInhabilitarCuenta.UseWaitCursor = true;
+            btnInhabilitarCuenta.Click += btnInhabilitarCuenta_Click;
+            // 
+            // btnHabilitarCuenta
+            // 
+            btnHabilitarCuenta.BackColor = Color.FromArgb(43, 56, 143);
+            btnHabilitarCuenta.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnHabilitarCuenta.ForeColor = Color.White;
+            btnHabilitarCuenta.ImageAlign = ContentAlignment.TopCenter;
+            btnHabilitarCuenta.Location = new Point(214, 629);
+            btnHabilitarCuenta.Margin = new Padding(4);
+            btnHabilitarCuenta.Name = "btnHabilitarCuenta";
+            btnHabilitarCuenta.Size = new Size(199, 46);
+            btnHabilitarCuenta.TabIndex = 48;
+            btnHabilitarCuenta.Text = "Habilitar";
+            btnHabilitarCuenta.UseVisualStyleBackColor = false;
+            btnHabilitarCuenta.UseWaitCursor = true;
+            btnHabilitarCuenta.Click += btnHabilitarCuenta_Click;
+            // 
+            // btnGuardarCuenta
+            // 
+            btnGuardarCuenta.BackColor = Color.FromArgb(43, 56, 143);
+            btnGuardarCuenta.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnGuardarCuenta.ForeColor = Color.White;
+            btnGuardarCuenta.ImageAlign = ContentAlignment.TopCenter;
+            btnGuardarCuenta.Location = new Point(9, 629);
+            btnGuardarCuenta.Margin = new Padding(4);
+            btnGuardarCuenta.Name = "btnGuardarCuenta";
+            btnGuardarCuenta.Size = new Size(199, 46);
+            btnGuardarCuenta.TabIndex = 46;
+            btnGuardarCuenta.Text = "Guardar";
+            btnGuardarCuenta.UseVisualStyleBackColor = false;
+            btnGuardarCuenta.UseWaitCursor = true;
+            btnGuardarCuenta.Click += button6_Click;
+            // 
+            // btnNuevaCuenta
+            // 
+            btnNuevaCuenta.BackColor = Color.FromArgb(43, 56, 143);
+            btnNuevaCuenta.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnNuevaCuenta.ForeColor = Color.White;
+            btnNuevaCuenta.ImageAlign = ContentAlignment.TopCenter;
+            btnNuevaCuenta.Location = new Point(9, 6);
+            btnNuevaCuenta.Margin = new Padding(4);
+            btnNuevaCuenta.Name = "btnNuevaCuenta";
+            btnNuevaCuenta.Size = new Size(161, 46);
+            btnNuevaCuenta.TabIndex = 42;
+            btnNuevaCuenta.Text = "Nueva cuenta";
+            btnNuevaCuenta.UseVisualStyleBackColor = false;
+            btnNuevaCuenta.UseWaitCursor = true;
+            btnNuevaCuenta.Click += btnNuevaCuenta_Click_1;
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(43, 56, 143);
+            button1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button1.ForeColor = Color.White;
+            button1.ImageAlign = ContentAlignment.TopCenter;
+            button1.Location = new Point(1259, 683);
+            button1.Margin = new Padding(4);
+            button1.Name = "button1";
+            button1.Size = new Size(199, 33);
+            button1.TabIndex = 41;
+            button1.Text = "Guardar";
+            button1.UseVisualStyleBackColor = false;
+            button1.UseWaitCursor = true;
+            // 
+            // cmbNivel1
+            // 
+            cmbNivel1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbNivel1.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbNivel1.BackColor = Color.FromArgb(251, 203, 51);
+            cmbNivel1.FlatStyle = FlatStyle.Flat;
+            cmbNivel1.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cmbNivel1.FormattingEnabled = true;
+            cmbNivel1.IntegralHeight = false;
+            cmbNivel1.Items.AddRange(new object[] { "Ingresos", "Egresos" });
+            cmbNivel1.Location = new Point(759, 15);
+            cmbNivel1.Margin = new Padding(4);
+            cmbNivel1.MaxDropDownItems = 6;
+            cmbNivel1.Name = "cmbNivel1";
+            cmbNivel1.Size = new Size(335, 29);
+            cmbNivel1.TabIndex = 33;
+            cmbNivel1.SelectedIndexChanged += cmbCuenta_SelectedIndexChanged;
+            // 
+            // panel10
+            // 
+            panel10.Location = new Point(229, 6);
+            panel10.Margin = new Padding(4);
+            panel10.Name = "panel10";
+            panel10.Size = new Size(0, 0);
+            panel10.TabIndex = 7;
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            label19.Location = new Point(229, 19);
+            label19.Margin = new Padding(4, 0, 4, 0);
+            label19.Name = "label19";
+            label19.Size = new Size(65, 21);
+            label19.TabIndex = 16;
+            label19.Text = "Código";
+            // 
+            // txtDetalle
+            // 
+            txtDetalle.BackColor = Color.FromArgb(251, 203, 51);
+            txtDetalle.BorderStyle = BorderStyle.None;
+            txtDetalle.Font = new Font("Segoe UI", 8F);
+            txtDetalle.Location = new Point(759, 74);
+            txtDetalle.Margin = new Padding(4);
+            txtDetalle.Name = "txtDetalle";
+            txtDetalle.Size = new Size(791, 22);
+            txtDetalle.TabIndex = 36;
+            txtDetalle.KeyPress += txtDetalle_KeyPress;
+            // 
+            // txtIdCuenta
+            // 
+            txtIdCuenta.BackColor = Color.FromArgb(251, 203, 51);
+            txtIdCuenta.BorderStyle = BorderStyle.None;
+            txtIdCuenta.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtIdCuenta.Location = new Point(309, 19);
+            txtIdCuenta.Margin = new Padding(4);
+            txtIdCuenta.MaxLength = 5;
+            txtIdCuenta.Name = "txtIdCuenta";
+            txtIdCuenta.Size = new Size(271, 22);
+            txtIdCuenta.TabIndex = 31;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            label18.Location = new Point(668, 76);
+            label18.Margin = new Padding(4, 0, 4, 0);
+            label18.Name = "label18";
+            label18.Size = new Size(65, 21);
+            label18.TabIndex = 17;
+            label18.Text = "Detalle";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            label15.Location = new Point(229, 74);
+            label15.Margin = new Padding(4, 0, 4, 0);
+            label15.Name = "label15";
+            label15.Size = new Size(73, 21);
+            label15.TabIndex = 20;
+            label15.Text = "Nombre";
+            // 
+            // txtNombreCuenta
+            // 
+            txtNombreCuenta.BackColor = Color.FromArgb(251, 203, 51);
+            txtNombreCuenta.BorderStyle = BorderStyle.None;
+            txtNombreCuenta.Font = new Font("Segoe UI", 8F);
+            txtNombreCuenta.Location = new Point(310, 75);
+            txtNombreCuenta.Margin = new Padding(4);
+            txtNombreCuenta.MaxLength = 25;
+            txtNombreCuenta.Name = "txtNombreCuenta";
+            txtNombreCuenta.Size = new Size(271, 22);
+            txtNombreCuenta.TabIndex = 32;
+            txtNombreCuenta.KeyPress += txtNombreCuenta_KeyPress;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            label16.Location = new Point(630, 16);
+            label16.Margin = new Padding(4, 0, 4, 0);
+            label16.Name = "label16";
+            label16.Size = new Size(102, 21);
+            label16.TabIndex = 19;
+            label16.Text = "Típo Cuenta";
             // 
             // panelUsuario
             // 
@@ -469,14 +771,14 @@
             dgv_usuarios.BackgroundColor = SystemColors.Window;
             dgv_usuarios.BorderStyle = BorderStyle.None;
             dgv_usuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Window;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgv_usuarios.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Window;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dgv_usuarios.DefaultCellStyle = dataGridViewCellStyle4;
             dgv_usuarios.Location = new Point(6, 199);
             dgv_usuarios.Margin = new Padding(4);
             dgv_usuarios.Name = "dgv_usuarios";
@@ -712,308 +1014,6 @@
             panel9.Size = new Size(0, 0);
             panel9.TabIndex = 7;
             // 
-            // panelCatalogoCuentas
-            // 
-            panelCatalogoCuentas.BackColor = Color.White;
-            panelCatalogoCuentas.Controls.Add(txtBuscarCuenta);
-            panelCatalogoCuentas.Controls.Add(label17);
-            panelCatalogoCuentas.Controls.Add(dgvCatalogoCuentas);
-            panelCatalogoCuentas.Controls.Add(btnModificarCuenta);
-            panelCatalogoCuentas.Controls.Add(cmbEstadoCuenta);
-            panelCatalogoCuentas.Controls.Add(label14);
-            panelCatalogoCuentas.Controls.Add(btnInhabilitarCuenta);
-            panelCatalogoCuentas.Controls.Add(btnHabilitarCuenta);
-            panelCatalogoCuentas.Controls.Add(btnGuardarCuenta);
-            panelCatalogoCuentas.Controls.Add(btnNuevaCuenta);
-            panelCatalogoCuentas.Controls.Add(button1);
-            panelCatalogoCuentas.Controls.Add(cmbNivel1);
-            panelCatalogoCuentas.Controls.Add(panel10);
-            panelCatalogoCuentas.Controls.Add(label19);
-            panelCatalogoCuentas.Controls.Add(txtDetalle);
-            panelCatalogoCuentas.Controls.Add(txtIdCuenta);
-            panelCatalogoCuentas.Controls.Add(label18);
-            panelCatalogoCuentas.Controls.Add(label15);
-            panelCatalogoCuentas.Controls.Add(txtNombreCuenta);
-            panelCatalogoCuentas.Controls.Add(label16);
-            panelCatalogoCuentas.Dock = DockStyle.Fill;
-            panelCatalogoCuentas.Location = new Point(0, 0);
-            panelCatalogoCuentas.Margin = new Padding(4);
-            panelCatalogoCuentas.Name = "panelCatalogoCuentas";
-            panelCatalogoCuentas.Size = new Size(1575, 679);
-            panelCatalogoCuentas.TabIndex = 20;
-            panelCatalogoCuentas.Paint += panelCatalogoCuentas_Paint;
-            // 
-            // txtBuscarCuenta
-            // 
-            txtBuscarCuenta.Location = new Point(590, 115);
-            txtBuscarCuenta.Margin = new Padding(4);
-            txtBuscarCuenta.Name = "txtBuscarCuenta";
-            txtBuscarCuenta.Size = new Size(335, 31);
-            txtBuscarCuenta.TabIndex = 54;
-            txtBuscarCuenta.TextChanged += txtBuscarCuenta_TextChanged;
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.Location = new Point(498, 115);
-            label17.Margin = new Padding(4, 0, 4, 0);
-            label17.Name = "label17";
-            label17.Size = new Size(72, 25);
-            label17.TabIndex = 53;
-            label17.Text = "Buscar: ";
-            // 
-            // dgvCatalogoCuentas
-            // 
-            dgvCatalogoCuentas.AllowUserToAddRows = false;
-            dgvCatalogoCuentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvCatalogoCuentas.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dgvCatalogoCuentas.BackgroundColor = SystemColors.Window;
-            dgvCatalogoCuentas.BorderStyle = BorderStyle.None;
-            dgvCatalogoCuentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = SystemColors.Window;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dgvCatalogoCuentas.DefaultCellStyle = dataGridViewCellStyle4;
-            dgvCatalogoCuentas.Location = new Point(9, 156);
-            dgvCatalogoCuentas.Margin = new Padding(4);
-            dgvCatalogoCuentas.Name = "dgvCatalogoCuentas";
-            dgvCatalogoCuentas.ReadOnly = true;
-            dgvCatalogoCuentas.RowHeadersWidth = 51;
-            dgvCatalogoCuentas.RowTemplate.Height = 50;
-            dgvCatalogoCuentas.ScrollBars = ScrollBars.Vertical;
-            dgvCatalogoCuentas.Size = new Size(1546, 465);
-            dgvCatalogoCuentas.TabIndex = 37;
-            // 
-            // btnModificarCuenta
-            // 
-            btnModificarCuenta.BackColor = Color.FromArgb(43, 56, 143);
-            btnModificarCuenta.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnModificarCuenta.ForeColor = Color.White;
-            btnModificarCuenta.ImageAlign = ContentAlignment.TopCenter;
-            btnModificarCuenta.Location = new Point(630, 629);
-            btnModificarCuenta.Margin = new Padding(4);
-            btnModificarCuenta.Name = "btnModificarCuenta";
-            btnModificarCuenta.Size = new Size(199, 46);
-            btnModificarCuenta.TabIndex = 52;
-            btnModificarCuenta.Text = "Modificar";
-            btnModificarCuenta.UseVisualStyleBackColor = false;
-            btnModificarCuenta.UseWaitCursor = true;
-            btnModificarCuenta.Click += btnModificarCuenta_Click;
-            // 
-            // cmbEstadoCuenta
-            // 
-            cmbEstadoCuenta.BackColor = Color.FromArgb(251, 203, 51);
-            cmbEstadoCuenta.FlatStyle = FlatStyle.Flat;
-            cmbEstadoCuenta.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbEstadoCuenta.FormattingEnabled = true;
-            cmbEstadoCuenta.Items.AddRange(new object[] { "Ingresos", "Egresos" });
-            cmbEstadoCuenta.Location = new Point(1214, 11);
-            cmbEstadoCuenta.Margin = new Padding(4);
-            cmbEstadoCuenta.Name = "cmbEstadoCuenta";
-            cmbEstadoCuenta.Size = new Size(335, 29);
-            cmbEstadoCuenta.TabIndex = 37;
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
-            label14.Location = new Point(1146, 19);
-            label14.Margin = new Padding(4, 0, 4, 0);
-            label14.Name = "label14";
-            label14.Size = new Size(61, 21);
-            label14.TabIndex = 50;
-            label14.Text = "Estado";
-            // 
-            // btnInhabilitarCuenta
-            // 
-            btnInhabilitarCuenta.BackColor = Color.FromArgb(43, 56, 143);
-            btnInhabilitarCuenta.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnInhabilitarCuenta.ForeColor = Color.White;
-            btnInhabilitarCuenta.ImageAlign = ContentAlignment.TopCenter;
-            btnInhabilitarCuenta.Location = new Point(421, 629);
-            btnInhabilitarCuenta.Margin = new Padding(4);
-            btnInhabilitarCuenta.Name = "btnInhabilitarCuenta";
-            btnInhabilitarCuenta.Size = new Size(199, 46);
-            btnInhabilitarCuenta.TabIndex = 49;
-            btnInhabilitarCuenta.Text = "Inhabilitar";
-            btnInhabilitarCuenta.UseVisualStyleBackColor = false;
-            btnInhabilitarCuenta.UseWaitCursor = true;
-            btnInhabilitarCuenta.Click += btnInhabilitarCuenta_Click;
-            // 
-            // btnHabilitarCuenta
-            // 
-            btnHabilitarCuenta.BackColor = Color.FromArgb(43, 56, 143);
-            btnHabilitarCuenta.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnHabilitarCuenta.ForeColor = Color.White;
-            btnHabilitarCuenta.ImageAlign = ContentAlignment.TopCenter;
-            btnHabilitarCuenta.Location = new Point(214, 629);
-            btnHabilitarCuenta.Margin = new Padding(4);
-            btnHabilitarCuenta.Name = "btnHabilitarCuenta";
-            btnHabilitarCuenta.Size = new Size(199, 46);
-            btnHabilitarCuenta.TabIndex = 48;
-            btnHabilitarCuenta.Text = "Habilitar";
-            btnHabilitarCuenta.UseVisualStyleBackColor = false;
-            btnHabilitarCuenta.UseWaitCursor = true;
-            btnHabilitarCuenta.Click += btnHabilitarCuenta_Click;
-            // 
-            // btnGuardarCuenta
-            // 
-            btnGuardarCuenta.BackColor = Color.FromArgb(43, 56, 143);
-            btnGuardarCuenta.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnGuardarCuenta.ForeColor = Color.White;
-            btnGuardarCuenta.ImageAlign = ContentAlignment.TopCenter;
-            btnGuardarCuenta.Location = new Point(9, 629);
-            btnGuardarCuenta.Margin = new Padding(4);
-            btnGuardarCuenta.Name = "btnGuardarCuenta";
-            btnGuardarCuenta.Size = new Size(199, 46);
-            btnGuardarCuenta.TabIndex = 46;
-            btnGuardarCuenta.Text = "Guardar";
-            btnGuardarCuenta.UseVisualStyleBackColor = false;
-            btnGuardarCuenta.UseWaitCursor = true;
-            btnGuardarCuenta.Click += button6_Click;
-            // 
-            // btnNuevaCuenta
-            // 
-            btnNuevaCuenta.BackColor = Color.FromArgb(43, 56, 143);
-            btnNuevaCuenta.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnNuevaCuenta.ForeColor = Color.White;
-            btnNuevaCuenta.ImageAlign = ContentAlignment.TopCenter;
-            btnNuevaCuenta.Location = new Point(9, 6);
-            btnNuevaCuenta.Margin = new Padding(4);
-            btnNuevaCuenta.Name = "btnNuevaCuenta";
-            btnNuevaCuenta.Size = new Size(161, 46);
-            btnNuevaCuenta.TabIndex = 42;
-            btnNuevaCuenta.Text = "Nueva cuenta";
-            btnNuevaCuenta.UseVisualStyleBackColor = false;
-            btnNuevaCuenta.UseWaitCursor = true;
-            btnNuevaCuenta.Click += btnNuevaCuenta_Click_1;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.FromArgb(43, 56, 143);
-            button1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.White;
-            button1.ImageAlign = ContentAlignment.TopCenter;
-            button1.Location = new Point(1259, 683);
-            button1.Margin = new Padding(4);
-            button1.Name = "button1";
-            button1.Size = new Size(199, 33);
-            button1.TabIndex = 41;
-            button1.Text = "Guardar";
-            button1.UseVisualStyleBackColor = false;
-            button1.UseWaitCursor = true;
-            // 
-            // cmbNivel1
-            // 
-            cmbNivel1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cmbNivel1.AutoCompleteSource = AutoCompleteSource.ListItems;
-            cmbNivel1.BackColor = Color.FromArgb(251, 203, 51);
-            cmbNivel1.FlatStyle = FlatStyle.Flat;
-            cmbNivel1.Font = new Font("Segoe UI", 8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cmbNivel1.FormattingEnabled = true;
-            cmbNivel1.IntegralHeight = false;
-            cmbNivel1.Items.AddRange(new object[] { "Ingresos", "Egresos" });
-            cmbNivel1.Location = new Point(759, 15);
-            cmbNivel1.Margin = new Padding(4);
-            cmbNivel1.MaxDropDownItems = 6;
-            cmbNivel1.Name = "cmbNivel1";
-            cmbNivel1.Size = new Size(335, 29);
-            cmbNivel1.TabIndex = 33;
-            cmbNivel1.SelectedIndexChanged += cmbCuenta_SelectedIndexChanged;
-            // 
-            // panel10
-            // 
-            panel10.Location = new Point(229, 6);
-            panel10.Margin = new Padding(4);
-            panel10.Name = "panel10";
-            panel10.Size = new Size(0, 0);
-            panel10.TabIndex = 7;
-            // 
-            // label19
-            // 
-            label19.AutoSize = true;
-            label19.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
-            label19.Location = new Point(229, 19);
-            label19.Margin = new Padding(4, 0, 4, 0);
-            label19.Name = "label19";
-            label19.Size = new Size(65, 21);
-            label19.TabIndex = 16;
-            label19.Text = "Código";
-            // 
-            // txtDetalle
-            // 
-            txtDetalle.BackColor = Color.FromArgb(251, 203, 51);
-            txtDetalle.BorderStyle = BorderStyle.None;
-            txtDetalle.Font = new Font("Segoe UI", 8F);
-            txtDetalle.Location = new Point(759, 74);
-            txtDetalle.Margin = new Padding(4);
-            txtDetalle.Name = "txtDetalle";
-            txtDetalle.Size = new Size(791, 22);
-            txtDetalle.TabIndex = 36;
-            txtDetalle.KeyPress += txtDetalle_KeyPress;
-            // 
-            // txtIdCuenta
-            // 
-            txtIdCuenta.BackColor = Color.FromArgb(251, 203, 51);
-            txtIdCuenta.BorderStyle = BorderStyle.None;
-            txtIdCuenta.Font = new Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtIdCuenta.Location = new Point(309, 19);
-            txtIdCuenta.Margin = new Padding(4);
-            txtIdCuenta.MaxLength = 5;
-            txtIdCuenta.Name = "txtIdCuenta";
-            txtIdCuenta.Size = new Size(271, 22);
-            txtIdCuenta.TabIndex = 31;
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
-            label18.Location = new Point(668, 76);
-            label18.Margin = new Padding(4, 0, 4, 0);
-            label18.Name = "label18";
-            label18.Size = new Size(65, 21);
-            label18.TabIndex = 17;
-            label18.Text = "Detalle";
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
-            label15.Location = new Point(229, 74);
-            label15.Margin = new Padding(4, 0, 4, 0);
-            label15.Name = "label15";
-            label15.Size = new Size(73, 21);
-            label15.TabIndex = 20;
-            label15.Text = "Nombre";
-            // 
-            // txtNombreCuenta
-            // 
-            txtNombreCuenta.BackColor = Color.FromArgb(251, 203, 51);
-            txtNombreCuenta.BorderStyle = BorderStyle.None;
-            txtNombreCuenta.Font = new Font("Segoe UI", 8F);
-            txtNombreCuenta.Location = new Point(310, 75);
-            txtNombreCuenta.Margin = new Padding(4);
-            txtNombreCuenta.MaxLength = 25;
-            txtNombreCuenta.Name = "txtNombreCuenta";
-            txtNombreCuenta.Size = new Size(271, 22);
-            txtNombreCuenta.TabIndex = 32;
-            txtNombreCuenta.KeyPress += txtNombreCuenta_KeyPress;
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
-            label16.Location = new Point(630, 16);
-            label16.Margin = new Padding(4, 0, 4, 0);
-            label16.Name = "label16";
-            label16.Size = new Size(102, 21);
-            label16.TabIndex = 19;
-            label16.Text = "Típo Cuenta";
-            // 
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
@@ -1119,12 +1119,12 @@
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panelContenedor.ResumeLayout(false);
-            panelUsuario.ResumeLayout(false);
-            panelUsuario.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_usuarios).EndInit();
             panelCatalogoCuentas.ResumeLayout(false);
             panelCatalogoCuentas.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCatalogoCuentas).EndInit();
+            panelUsuario.ResumeLayout(false);
+            panelUsuario.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_usuarios).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ResumeLayout(false);

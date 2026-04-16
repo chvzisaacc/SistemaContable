@@ -210,7 +210,22 @@ namespace Capa_de_procesamiento_de_datos
                     AppDomain.CurrentDomain.BaseDirectory, "ngrok_url.txt");
 
                 if (File.Exists(ruta))
-                    return File.ReadAllText(ruta).Trim();
+                {
+                    string url = File.ReadAllText(ruta).Trim();
+                    if (!string.IsNullOrEmpty(url))
+                        return url;
+                }
+
+                // Si no existe o está vacío, crear el archivo y avisar
+                File.WriteAllText(ruta, "");
+                MessageBox.Show(
+                    "No se encontró la URL del servidor.\n\n" +
+                    "Por favor solicita la URL ngrok al administrador\n" +
+                    "y pégala en el archivo 'ngrok_url.txt'\n" +
+                    "ubicado en la carpeta del programa.",
+                    "Configuración requerida",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
             }
             catch { }
             return string.Empty;
