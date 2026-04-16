@@ -219,10 +219,11 @@ namespace Capa_de_procesamiento_de_datos
                 // Si no existe o está vacío, crear el archivo y avisar
                 File.WriteAllText(ruta, "");
                 MessageBox.Show(
-                    "No se encontró la URL del servidor",
-                    "Configuración requerida",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                $"Buscando en: {ruta}\n" +
+                $"¿Existe el archivo?: {File.Exists(ruta)}",
+                "Diagnóstico de Ruta",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
             }
             catch { }
             return string.Empty;
