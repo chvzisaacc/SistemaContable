@@ -14,7 +14,7 @@ namespace BASEDEDATOS.API.Controllers
         private readonly string conexion = @"Data Source=.\SQLEXPRESS;Initial Catalog=""BASE DE SISTEMA - LOCAL"";Integrated Security=True;TrustServerCertificate=True;";
 
         /// <summary>
-        /// Ejecuta un procedimiento almacenado en la base de datos con parámetros dinámicos.
+        /// Ejecuta un procedimiento almacenado en la base de datos con parametros dinamicos.
         /// </summary>
         [HttpPost("ejecutar-sp")]
         public IActionResult EjecutarSP([FromBody] SpRequest request)
@@ -37,7 +37,7 @@ namespace BASEDEDATOS.API.Controllers
                 }
             }
 
-            // ========== LOG 1: PETICIÓN RECIBIDA ==========
+            // ========== LOG 1: PETICION RECIBIDA ==========
             Console.WriteLine("========================================");
             Console.WriteLine($"[API] EjecutarSP llamado a las {DateTime.Now:HH:mm:ss}");
             Console.WriteLine($"[API] SpName: {request.SpName}");
@@ -49,19 +49,19 @@ namespace BASEDEDATOS.API.Controllers
                 Console.WriteLine($"[API] Valor del Hash: {request.Parametros["Hash"]}");
             }
 
-            // Verificar conexión a BD
+            // Verificar conexion a BD
             try
             {
                 using (var testConn = new SqlConnection(conexion))
                 {
                     testConn.Open();
-                    Console.WriteLine("[API] Conexión a BD exitosa");
+                    Console.WriteLine("[API] Conexion a BD exitosa");
                     testConn.Close();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[API] ERROR de conexión a BD: {ex.Message}");
+                Console.WriteLine($"[API] ERROR de conexion a BD: {ex.Message}");
             }
 
             try
@@ -69,21 +69,21 @@ namespace BASEDEDATOS.API.Controllers
                 using (SqlConnection conn = new SqlConnection(conexion))
                 {
                     conn.Open();
-                    Console.WriteLine("[API] Conexión abierta correctamente");
+                    Console.WriteLine("[API] Conexion abierta correctamente");
 
                     SqlCommand cmd = new SqlCommand(request.SpName, conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Mapeo de parámetros
+                    // Mapeo de parametros
                     if (request.Parametros != null)
                     {
-                        Console.WriteLine($"[API] Mapeando {request.Parametros.Count} parámetros...");
+                        Console.WriteLine($"[API] Mapeando {request.Parametros.Count} parametros...");
                         foreach (var param in request.Parametros)
                         {
-                            // ✅ CORRECCIÓN: excluir Hash además de los parámetros internos con "_"
+                            // Se excluyen parametros internos y el hash del mapeo directo
                             if (param.Key.StartsWith("_") || param.Key == "Hash")
                             {
-                                Console.WriteLine($"[API] Parámetro ignorado: {param.Key}");
+                                Console.WriteLine($"[API] Parametro ignorado: {param.Key}");
                                 continue;
                             }
 
@@ -104,7 +104,7 @@ namespace BASEDEDATOS.API.Controllers
 
                             string nombreParam = param.Key.StartsWith("@") ? param.Key : "@" + param.Key;
                             cmd.Parameters.AddWithValue(nombreParam, valorFinal ?? DBNull.Value);
-                            Console.WriteLine($"[API] Parámetro agregado: {nombreParam} = {valorFinal}");
+                            Console.WriteLine($"[API] Parametro agregado: {nombreParam} = {valorFinal}");
                         }
                     }
 
@@ -116,7 +116,7 @@ namespace BASEDEDATOS.API.Controllers
                     // Registrar el cambio si tiene Hash
                     if (request.Parametros != null && request.Parametros.ContainsKey("Hash"))
                     {
-                        Console.WriteLine("[API] 🔴 Detectado Hash - Registrando cambio...");
+                        Console.WriteLine("[API] Detectado Hash - Registrando cambio...");
 
                         using (SqlCommand cmdReg = new SqlCommand("sp_RegistrarCambio", conn))
                         {
@@ -147,17 +147,17 @@ namespace BASEDEDATOS.API.Controllers
                             Console.WriteLine($"[API]   @OrigenParroquiaId = {request._ParroquiaId}");
 
                             int filasAfectadas = cmdReg.ExecuteNonQuery();
-                            Console.WriteLine($"[API] 🔴 sp_RegistrarCambio ejecutado. Filas afectadas: {filasAfectadas}");
+                            Console.WriteLine($"[API] sp_RegistrarCambio ejecutado. Filas afectadas: {filasAfectadas}");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("[API] No se detectó Hash - No se registra cambio");
+                        Console.WriteLine("[API] No se detecto Hash - No se registra cambio");
                     }
 
                     return Ok(new
                     {
-                        mensaje = "Operación exitosa",
+                        mensaje = "Operacion exitosa",
                         procedimiento = request.SpName,
                         timestamp = DateTime.Now
                     });
@@ -165,19 +165,23 @@ namespace BASEDEDATOS.API.Controllers
             }
             catch (SqlException sqlEx)
             {
-                Console.WriteLine($"[API] ❌ SQL Error: {sqlEx.Message}");
+                Console.WriteLine($"[API] SQL Error: {sqlEx.Message}");
                 Console.WriteLine($"[API] Procedimiento: {sqlEx.Procedure}");
-                Console.WriteLine($"[API] Línea: {sqlEx.LineNumber}");
+                Console.WriteLine($"[API] Linea: {sqlEx.LineNumber}");
                 return StatusCode(500, new { error = "Error en Base de Datos", detalle = sqlEx.Message });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[API] ❌ Error general: {ex.Message}");
+                Console.WriteLine($"[API] Error general: {ex.Message}");
                 Console.WriteLine($"[API] StackTrace: {ex.StackTrace}");
                 return BadRequest(new { error = ex.Message });
             }
         }
 
+        /// <summary>
+        /// Obtiene la lista de cambios pendientes de sincronizar para una parroquia especifica.
+        /// </summary>
+        /// <param name="parroquiaId">Identificador de la parroquia destino</param>
         [HttpGet("cambios-pendientes/{parroquiaId}")]
         public IActionResult ObtenerCambiosPendientes(int parroquiaId)
         {
@@ -209,11 +213,52 @@ namespace BASEDEDATOS.API.Controllers
             }
             catch (SqlException sqlEx)
             {
-                Console.WriteLine($"[API] ❌ SQL Error en ObtenerCambiosPendientes: {sqlEx.Message}");
+                Console.WriteLine($"[API] SQL Error en ObtenerCambiosPendientes: {sqlEx.Message}");
                 return StatusCode(500, new { error = sqlEx.Message });
             }
         }
 
+        /// <summary>
+        /// Obtiene TODOS los cambios pendientes sin filtrar por parroquia
+        /// </summary>
+        [HttpGet("cambios-pendientes-todos")]
+        public IActionResult ObtenerCambiosPendientesTodos()
+        {
+            Console.WriteLine($"[API] ObtenerCambiosPendientesTodos - Todos los cambios");
+
+            try
+            {
+                using var conn = new SqlConnection(conexion);
+                SqlCommand cmd = new SqlCommand("sp_ObtenerCambiosPendientesTodos", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                conn.Open();
+                var adapter = new SqlDataAdapter(cmd);
+                var dt = new DataTable();
+                adapter.Fill(dt);
+
+                var cambios = dt.AsEnumerable().Select(row => new
+                {
+                    Id = row.Field<int>("Id"),
+                    SpName = row.Field<string>("SpName"),
+                    ParametrosJson = row.Field<string>("ParametrosJson"),
+                    Hash = row.Field<string>("Hash"),
+                    OrigenParroquiaId = row.Field<int>("OrigenParroquiaId")
+                }).ToList();
+
+                Console.WriteLine($"[API] Se encontraron {cambios.Count} cambios pendientes en total");
+                return Ok(cambios);
+            }
+            catch (SqlException sqlEx)
+            {
+                Console.WriteLine($"[API] SQL Error en ObtenerCambiosPendientesTodos: {sqlEx.Message}");
+                return StatusCode(500, new { error = sqlEx.Message });
+            }
+        }
+
+        /// <summary>
+        /// Marca un cambio especifico como entregado a una parroquia destino.
+        /// </summary>
         [HttpPost("marcar-entregado")]
         public IActionResult MarcarEntregado([FromBody] EntregaRequest request)
         {
@@ -234,13 +279,13 @@ namespace BASEDEDATOS.API.Controllers
             }
             catch (SqlException sqlEx)
             {
-                Console.WriteLine($"[API] ❌ SQL Error en MarcarEntregado: {sqlEx.Message}");
+                Console.WriteLine($"[API] SQL Error en MarcarEntregado: {sqlEx.Message}");
                 return StatusCode(500, new { error = sqlEx.Message });
             }
         }
 
         /// <summary>
-        /// Aplica un cambio recibido desde el servidor central en la base de datos local.
+        /// Aplica un cambio recibido desde un servidor remoto en la base de datos local.
         /// </summary>
         [HttpPost("aplicar-cambio-recibido")]
         public IActionResult AplicarCambioRecibido([FromBody] AplicarCambioRequest request)
@@ -268,19 +313,213 @@ namespace BASEDEDATOS.API.Controllers
             }
             catch (SqlException sqlEx)
             {
-                Console.WriteLine($"[API] ❌ SQL Error en AplicarCambioRecibido: {sqlEx.Message}");
+                Console.WriteLine($"[API] SQL Error en AplicarCambioRecibido: {sqlEx.Message}");
                 return StatusCode(500, new { error = "Error en Base de Datos", detalle = sqlEx.Message });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[API] ❌ Error general en AplicarCambioRecibido: {ex.Message}");
+                Console.WriteLine($"[API] Error general en AplicarCambioRecibido: {ex.Message}");
                 return BadRequest(new { error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Realiza una sincronizacion pull desde una API remota, obteniendo y aplicando cambios pendientes.
+        /// Si ParroquiaDestinoId es null o 0, trae TODOS los cambios.
+        /// Si ParroquiaDestinoId tiene un valor valido, trae solo los cambios de esa parroquia.
+        /// </summary>
+        [HttpPost("jalar-cambios")]
+        public async Task<IActionResult> JalarCambios([FromBody] JalarCambiosRequest request)
+        {
+            Console.WriteLine("========================================");
+            Console.WriteLine($"[API] Iniciando sincronizacion pull desde: {request.UrlRemota}");
+
+            // Determinar si se filtra por parroquia o es global
+            bool filtrarPorParroquia = request.ParroquiaDestinoId.HasValue && request.ParroquiaDestinoId.Value > 0;
+            int parroquiaId = filtrarPorParroquia ? request.ParroquiaDestinoId.Value : 0;
+
+            Console.WriteLine($"[API] Tipo de sincronizacion: {(filtrarPorParroquia ? $"Filtrada por parroquia {parroquiaId}" : "Global (todas las parroquias)")}");
+            Console.WriteLine($"[API] Hora: {DateTime.Now:HH:mm:ss}");
+
+            if (string.IsNullOrEmpty(request.UrlRemota))
+            {
+                return BadRequest(new { error = "La URL remota es requerida" });
+            }
+
+            using var httpClient = new HttpClient();
+            httpClient.Timeout = TimeSpan.FromMinutes(2);
+
+            int cambiosAplicados = 0;
+            int errores = 0;
+
+            try
+            {
+                // Construir la URL segun el tipo de sincronizacion
+                string urlCambios;
+                if (filtrarPorParroquia)
+                {
+                    urlCambios = $"{request.UrlRemota.TrimEnd('/')}/api/Data/cambios-pendientes/{parroquiaId}";
+                    Console.WriteLine($"[API] Consultando cambios filtrados por parroquia {parroquiaId} en: {urlCambios}");
+                }
+                else
+                {
+                    urlCambios = $"{request.UrlRemota.TrimEnd('/')}/api/Data/cambios-pendientes-todos";
+                    Console.WriteLine($"[API] Consultando TODOS los cambios en: {urlCambios}");
+                }
+
+                HttpResponseMessage response = await httpClient.GetAsync(urlCambios);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"[API] Error al obtener cambios: {response.StatusCode} - {errorContent}");
+                    return BadRequest(new
+                    {
+                        error = $"No se pudo conectar a {request.UrlRemota}",
+                        detalle = errorContent,
+                        statusCode = response.StatusCode
+                    });
+                }
+
+                var cambios = await response.Content.ReadFromJsonAsync<List<CambioPendienteDto>>();
+
+                if (cambios == null || cambios.Count == 0)
+                {
+                    Console.WriteLine("[API] No hay cambios pendientes");
+                    return Ok(new
+                    {
+                        mensaje = "No hay cambios pendientes",
+                        cambiosAplicados = 0,
+                        timestamp = DateTime.Now
+                    });
+                }
+
+                Console.WriteLine($"[API] Se encontraron {cambios.Count} cambios pendientes");
+
+                // Procesa cada cambio encontrado
+                foreach (var cambio in cambios)
+                {
+                    try
+                    {
+                        Console.WriteLine($"[API] Aplicando cambio ID: {cambio.Id}, SP: {cambio.SpName}");
+
+                        var aplicarRequest = new AplicarCambioRequest
+                        {
+                            Hash = cambio.Hash,
+                            SpName = cambio.SpName,
+                            ParametrosJson = cambio.ParametrosJson,
+                            OrigenParroquiaId = cambio.OrigenParroquiaId
+                        };
+
+                        var aplicarResultado = await AplicarCambioRecibidoInternal(aplicarRequest);
+
+                        if (aplicarResultado.Exitoso)
+                        {
+                            cambiosAplicados++;
+                            Console.WriteLine($"[API] Cambio {cambio.Id} aplicado correctamente");
+                        }
+                        else
+                        {
+                            errores++;
+                            Console.WriteLine($"[API] Error aplicando cambio {cambio.Id}: {aplicarResultado.Error}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        errores++;
+                        Console.WriteLine($"[API] Excepcion en cambio {cambio.Id}: {ex.Message}");
+                    }
+                }
+
+                Console.WriteLine($"[API] Sincronizacion completada - Aplicados: {cambiosAplicados}, Errores: {errores}");
+
+                return Ok(new
+                {
+                    mensaje = "Sincronizacion completada",
+                    cambiosEncontrados = cambios.Count,
+                    cambiosAplicados = cambiosAplicados,
+                    errores = errores,
+                    timestamp = DateTime.Now
+                });
+            }
+            catch (TaskCanceledException)
+            {
+                Console.WriteLine("[API] Timeout al conectar con la API remota");
+                return StatusCode(408, new { error = "Timeout: La API remota no respondio" });
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"[API] Error de conexion HTTP: {ex.Message}");
+                return StatusCode(502, new { error = $"Error de conexion: {ex.Message}" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[API] Error general: {ex.Message}");
+                Console.WriteLine($"[API] StackTrace: {ex.StackTrace}");
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Metodo interno que aplica un cambio recibido sin exponer un endpoint HTTP.
+        /// </summary>
+        private async Task<(bool Exitoso, string Error)> AplicarCambioRecibidoInternal(AplicarCambioRequest request)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(conexion))
+                {
+                    await conn.OpenAsync();
+                    using (SqlCommand cmd = new SqlCommand("sp_AplicarCambioRecibido", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Hash", request.Hash ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@SpName", request.SpName);
+                        cmd.Parameters.AddWithValue("@ParametrosJson", request.ParametrosJson);
+                        cmd.Parameters.AddWithValue("@OrigenParroquiaId", request.OrigenParroquiaId);
+
+                        object resultadoObj = await cmd.ExecuteScalarAsync();
+                        string resultado = resultadoObj?.ToString() ?? "APLICADO";
+
+                        return (resultado == "APLICADO", resultado);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Marca un cambio como entregado en una API remota.
+        /// </summary>
+        private async Task MarcarEntregadoRemoto(HttpClient httpClient, string urlRemota, int cambioId, int destinoParroquiaId)
+        {
+            string url = $"{urlRemota.TrimEnd('/')}/api/Data/marcar-entregado";
+            var request = new { CambioId = cambioId, DestinoParroquiaId = destinoParroquiaId };
+
+            try
+            {
+                HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, request);
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"[API] Cambio {cambioId} marcado como entregado en API remota");
+                }
+                else
+                {
+                    Console.WriteLine($"[API] No se pudo marcar cambio {cambioId} como entregado: {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[API] Error al marcar entregado remoto: {ex.Message}");
             }
         }
     }
 
     /// <summary>
-    /// Modelo de solicitud para ejecutar procedimientos almacenados de forma dinámica.
+    /// Modelo de solicitud para ejecutar procedimientos almacenados de forma dinamica.
     /// </summary>
     public class SpRequest
     {
@@ -289,23 +528,53 @@ namespace BASEDEDATOS.API.Controllers
 
         /// <summary>
         /// Identificador interno de la parroquia asociada a la solicitud.
-        /// Parámetro de contexto que inicia con "_" y es ignorado en el mapeo de parámetros SQL.
+        /// Parametro de contexto que inicia con "_" y es ignorado en el mapeo de parametros SQL.
         /// </summary>
         [JsonPropertyName("_ParroquiaId")]
         public int? _ParroquiaId { get; set; }
     }
 
+    /// <summary>
+    /// Modelo para marcar un cambio como entregado.
+    /// </summary>
     public class EntregaRequest
     {
         public int CambioId { get; set; }
         public int DestinoParroquiaId { get; set; }
     }
 
+    /// <summary>
+    /// Modelo para aplicar un cambio recibido desde un servidor remoto.
+    /// </summary>
     public class AplicarCambioRequest
     {
         public string Hash { get; set; }
         public string SpName { get; set; }
         public string ParametrosJson { get; set; }
+        public int OrigenParroquiaId { get; set; }
+    }
+
+    /// <summary>
+    /// Solicitud para realizar sincronizacion pull desde una API remota.
+    /// </summary>
+    public class JalarCambiosRequest
+    {
+        /// <summary>
+        /// URL de la API remota
+        /// </summary>
+        public string UrlRemota { get; set; }
+        public int? ParroquiaDestinoId { get; set; }
+    }
+
+    /// <summary>
+    /// DTO que representa un cambio pendiente de sincronizar.
+    /// </summary>
+    public class CambioPendienteDto
+    {
+        public int Id { get; set; }
+        public string SpName { get; set; }
+        public string ParametrosJson { get; set; }
+        public string Hash { get; set; }
         public int OrigenParroquiaId { get; set; }
     }
 }

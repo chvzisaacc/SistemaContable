@@ -36,6 +36,7 @@
             label1 = new Label();
             pbOcultar = new PictureBox();
             pbMostrar = new PictureBox();
+            btnSincronizar = new Button();
             ((System.ComponentModel.ISupportInitialize)pbOcultar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbMostrar).BeginInit();
             SuspendLayout();
@@ -132,6 +133,19 @@
             pbMostrar.TabStop = false;
             pbMostrar.Click += pbMostrar_Click;
             // 
+            // btnSincronizar
+            // 
+            btnSincronizar.BackColor = Color.FromArgb(43, 56, 143);
+            btnSincronizar.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSincronizar.ForeColor = Color.White;
+            btnSincronizar.Location = new Point(3, 841);
+            btnSincronizar.Name = "btnSincronizar";
+            btnSincronizar.Size = new Size(195, 45);
+            btnSincronizar.TabIndex = 10;
+            btnSincronizar.Text = "Sincronización";
+            btnSincronizar.UseVisualStyleBackColor = false;
+            btnSincronizar.Click += btnSincronizar_Click;
+            // 
             // FRM_PG1
             // 
             AcceptButton = btn_iniciar_sesion;
@@ -140,6 +154,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1601, 898);
+            Controls.Add(btnSincronizar);
             Controls.Add(pbMostrar);
             Controls.Add(pbOcultar);
             Controls.Add(txt_contraseña);
@@ -169,5 +184,6 @@
         private Label label1;
         private PictureBox pbOcultar;
         private PictureBox pbMostrar;
+        private Button btnSincronizar;
     }
 }

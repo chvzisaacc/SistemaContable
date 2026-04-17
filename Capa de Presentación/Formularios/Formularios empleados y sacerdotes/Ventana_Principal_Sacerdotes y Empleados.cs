@@ -6,6 +6,7 @@ using Capa_de_procesamiento_de_datos;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Media;
+using System.Text.Json;
 
 namespace Capa_de_Presentación.Formularios_Luiss
 {
@@ -2525,6 +2526,113 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 lblConexion.Text = "● Conectado — sincronizado";
                 lblConexion.ForeColor = Color.FromArgb(22, 101, 52);
                 lblConexion.BackColor = Color.FromArgb(220, 252, 231);
+            }
+        }
+
+        /// <summary>
+        /// Boton de sincronizacion que obtiene los cambios pendientes desde el servidor central
+        /// y los aplica en la base de datos local, filtrados por la parroquia del usuario logueado.
+        /// </summary>
+        private async void btnSincronizar_Click(object sender, EventArgs e)
+        {
+            // Deshabilitar el boton durante la sincronizacion
+            btnSincronizar.Enabled = false;
+            btnSincronizar.Text = "Sincronizando...";
+
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.Timeout = TimeSpan.FromSeconds(30);
+
+                    // URL de la API remota (servidor central)
+                    string urlApiRemota = "https://rozella-exanthematic-jeffrey.ngrok-free.dev";
+
+                    // Obtener el ID de la parroquia del usuario logueado
+                    int parroquiaId = this.ParroquiaId;
+
+                    var request = new
+                    {
+                        UrlRemota = urlApiRemota,
+                        ParroquiaDestinoId = parroquiaId
+                    };
+
+                    string apiLocal = "http://localhost:5145";
+                    var jsonContent = new StringContent(
+                        JsonSerializer.Serialize(request),
+                        System.Text.Encoding.UTF8,
+                        "application/json");
+
+                    HttpResponseMessage response = await httpClient.PostAsync(
+                        $"{apiLocal}/api/Data/jalar-cambios",
+                        jsonContent);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string jsonResultado = await response.Content.ReadAsStringAsync();
+                        var resultado = JsonSerializer.Deserialize<JsonElement>(jsonResultado);
+                        int cambiosAplicados = resultado.GetProperty("cambiosAplicados").GetInt32();
+
+                        if (cambiosAplicados > 0)
+                        {
+                            MessageBox.Show($"Sincronizacion completada exitosamente.\n\nCambios aplicados: {cambiosAplicados}",
+                                "Sincronizacion Exitosa",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+
+                            // Actualizar datos locales despues de la sincronizacion
+                            ActualizarSaldo();
+                            _controladorAlerta.ForzarVerificacionInmediata();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No hay cambios pendientes para esta parroquia.\n\nLa base de datos se encuentra actualizada.",
+                                "Sincronizacion",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No fue posible completar la sincronizacion.\n\nPor favor, verifique su conexion a internet e intente nuevamente.",
+                            "Error de Sincronizacion",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("No es posible establecer comunicación con el servidor central.\n\n" +
+                               "El administrador no ha activado el servicio de sincronizacion.\n\n" +
+                               "Por favor, comuníquese con el administrador para reportar esta situación.",
+                               "Servidor No Disponible",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Error);
+            }
+            catch (TaskCanceledException)
+            {
+                MessageBox.Show("La solicitud de sincronizacion ha excedido el tiempo de espera.\n\n" +
+                               "El servidor central no responde. Verifique que el administrador haya activado el servicio.\n\n" +
+                               "Si el problema persiste, contacte al administrador.",
+                               "Tiempo de Espera Agotado",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error inesperado durante la sincronizacion.\n\n" +
+                               $"Detalle técnico: {ex.Message}\n\n" +
+                               $"Por favor, comuníquese con el administrador para asistencia técnica.",
+                               "Error Inesperado",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // Restaurar el boton
+                btnSincronizar.Enabled = true;
+                btnSincronizar.Text = "Sincronizar";
             }
         }
     }
