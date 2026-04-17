@@ -11,8 +11,11 @@ namespace BASEDEDATOS.API.Controllers
     [ApiController]
     public class DataController : ControllerBase
     {
-        private readonly string conexion = @"Data Source=.\SQLEXPRESS;Initial Catalog=""BASE DE SISTEMA - LOCAL"";Integrated Security=True;TrustServerCertificate=True;";
-
+        private readonly string conexion;
+        public DataController(IConfiguration configuration)
+        {
+            conexion = configuration.GetConnectionString("DefaultConnection");
+        }
         /// <summary>
         /// Ejecuta un procedimiento almacenado en la base de datos con parametros dinamicos.
         /// </summary>
