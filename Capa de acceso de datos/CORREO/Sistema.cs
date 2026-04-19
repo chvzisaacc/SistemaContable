@@ -1,4 +1,5 @@
-﻿namespace Capa_de_acceso_de_datos.CORREO
+﻿using System.Configuration;
+namespace Capa_de_acceso_de_datos.CORREO
 {
     /// <summary>
     /// 
@@ -73,13 +74,13 @@
         /// Initializes a new instance of the <see cref="Sistema"/> class.
         /// </summary>
         public Sistema()
-            : base(
-                "ic7014508@gmail.com",
-                "jcjwzarwwtnjoyyp",
-                "smtp.gmail.com",
-                587,
-                true
-            )
+        : base(
+            ConfigurationManager.AppSettings["Correo.Remitente"],
+            ConfigurationManager.AppSettings["Correo.Contrasena"],
+            ConfigurationManager.AppSettings["Correo.Smtp"],
+            int.Parse(ConfigurationManager.AppSettings["Correo.Puerto"]),
+            true
+        )
         {
         }
 

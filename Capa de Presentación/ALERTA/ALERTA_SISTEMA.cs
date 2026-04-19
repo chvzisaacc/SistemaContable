@@ -43,10 +43,10 @@ namespace Capa_de_Presentación.ALERTA
                 this.dataGridView1.DataSource = datosalerta;
 
                 // AJUSTE DE COLUMNAS SEGÚN EL TEXTO
-                this.dataGridView1.Columns["Tarea"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                this.dataGridView1.Columns["Estado"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                this.dataGridView1.Columns["Limite(Días)"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                this.dataGridView1.Columns["Descripción"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                this.dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells; // Tarea
+                this.dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells; // Estado
+                this.dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells; // Limite(Días)
+                this.dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
                 // CENTRAR ENCABEZADOS
                 foreach (DataGridViewColumn col in dataGridView1.Columns)

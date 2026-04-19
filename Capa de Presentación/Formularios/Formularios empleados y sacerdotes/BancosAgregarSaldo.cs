@@ -93,23 +93,30 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             try
             {
+                var dt = (DataTable)cmbCuentas.DataSource;
+                DataRow cuentaSeleccionada = dt.AsEnumerable()
+                    .FirstOrDefault(r => Convert.ToInt32(r["Id_Origen"]) == id_origen);
+
+                if (cuentaSeleccionada != null)
+                {
+                    decimal saldoActual = Convert.ToDecimal(cuentaSeleccionada["Saldo"]);
+                    if (saldoActual > 0)
+                    {
+                        MessageBox.Show("Esta cuenta ya tiene un saldo cargado. No se puede agregar un saldo inicial nuevamente.",
+                            "Saldo Ya Existente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+
                 bool exito = crudCuentasBancarias.AgregarSaldo(id_origen, monto, _usuarioId);
 
                 if (exito)
                 {
-                    MessageBox.Show("Saldo agregado correctamente.", "Éxito",
+                    MessageBox.Show("Saldo inicial agregado correctamente.", "Éxito",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // Disparar evento para que formularios suscritos actualicen su vista.
                     SaldoActualizado?.Invoke();
-
                     this.DialogResult = DialogResult.OK;
                     this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("No se actualizó ninguna fila. Verifique la cuenta.", "Aviso",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)

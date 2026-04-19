@@ -180,7 +180,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            // CORRECCIÓN: Limpieza profunda de formato visual para obtener el decimal puro
+            //Limpieza profunda de formato visual para obtener el decimal puro
             string soloDigitos = new string(txtMonto.Text.Where(char.IsDigit).ToArray());
             if (ulong.TryParse(soloDigitos, out ulong valorNumerico))
             {

@@ -37,18 +37,23 @@ namespace Capa_de_Presentación
                 {
                     try
                     {
-                       
                         var motor = new Capa_de_procesamiento_de_datos.LocalDbOff();
                         bool hayServidor = await Capa_de_procesamiento_de_datos.LocalDbOff.ServidorDisponibleAsync();
 
-                        bool enviadoExitosamente = false;
-
                         if (hayServidor)
                         {
-                            enviadoExitosamente = await motor.EnviarAlServidorAsync(nombreSp, json);
+                            var (exitoso, esErrorNegocio) = await motor.EnviarAlServidorAsync(nombreSp, json);
+
+                            if (!exitoso && !esErrorNegocio)
+                            {
+                                // Solo guardar pendiente si fue error de RED (timeout, sin conexión)
+                                motor.RegistrarProcesoLocal(nombreSp, json);
+                            }
+                            // Si fue 500/400 = error de negocio, se descarta silenciosamente
                         }
-                        if (!enviadoExitosamente)
+                        else
                         {
+                            // Sin servidor = guardar para después
                             motor.RegistrarProcesoLocal(nombreSp, json);
                         }
                     }

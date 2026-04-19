@@ -74,6 +74,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private Label lblConexion;
         private System.Windows.Forms.Timer timerConexion;
 
+        private DataTable _dtParroquiasAdmin;
+        private bool _filtrandoAdmin = false;
+        private bool _cargandoAdmin = false;
+
 
 
         /// <summary>
@@ -405,9 +409,14 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 cmb_rol.DisplayMember = "Rol_descripcion";
                 cmb_rol.ValueMember = "Rol_Id";
 
-                cmb_parroquia.DataSource = crud_usuarios.ObtenerParroquias();
+                _cargandoAdmin = true;
+                _dtParroquiasAdmin = crud_usuarios.ObtenerParroquias();
+                cmb_parroquia.DataSource = _dtParroquiasAdmin.DefaultView;
                 cmb_parroquia.DisplayMember = "Parroquia_nombre";
                 cmb_parroquia.ValueMember = "Parroquia_id";
+                _cargandoAdmin = false;
+                cmb_parroquia.TextChanged -= cmb_parroquia_TextChanged;
+                cmb_parroquia.TextChanged += cmb_parroquia_TextChanged;
 
                 cmb_estado.DataSource = crud_usuarios.ObtenerEstados();
                 cmb_estado.DisplayMember = "descripcion";
@@ -419,6 +428,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         /// <summary>
         /// Cargars the datos usuario.
@@ -1588,7 +1598,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 {
                     bindingSourceCatalogo.Filter = string.Format(
                        "[Codigo] LIKE '%{0}%' OR [Nombre] LIKE '%{0}%'",
-                        textoBusqueda.Replace("'","''")
+                        textoBusqueda.Replace("'", "''")
                     );
                 }
             }
@@ -1621,9 +1631,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 }
             }
         }
-    
 
-    private void InicializarIndicadorConexion()
+
+        private void InicializarIndicadorConexion()
         {
             lblConexion = new Label
             {
@@ -1667,25 +1677,55 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
         private void MostrarEstadoAdmin(bool conectado, int pendientes)
         {
-            if (!conectado)
+            if (!conectado && pendientes > 0)
+            {
+                lblConexion.Text = $"● Sin servidor — {pendientes} pendiente(s)";
+                lblConexion.ForeColor = Color.FromArgb(113, 63, 18);
+                lblConexion.BackColor = Color.FromArgb(254, 249, 195); // amarillo
+            }
+            else if (!conectado)
             {
                 lblConexion.Text = "● Sin conexión al servidor";
                 lblConexion.ForeColor = Color.FromArgb(127, 29, 29);
-                lblConexion.BackColor = Color.FromArgb(254, 226, 226);
+                lblConexion.BackColor = Color.FromArgb(254, 226, 226); // rojo
             }
             else if (pendientes > 0)
             {
-                lblConexion.Text = $"● {pendientes} registro(s) pendiente localmente";
+                lblConexion.Text = $"● {pendientes} registro(s) pendiente(s)";
                 lblConexion.ForeColor = Color.FromArgb(113, 63, 18);
-                lblConexion.BackColor = Color.FromArgb(254, 249, 195);
+                lblConexion.BackColor = Color.FromArgb(254, 249, 195); // amarillo
             }
             else
             {
                 lblConexion.Text = "● Servidor en linea";
                 lblConexion.ForeColor = Color.FromArgb(22, 101, 52);
-                lblConexion.BackColor = Color.FromArgb(220, 252, 231);
+                lblConexion.BackColor = Color.FromArgb(220, 252, 231); // verde
             }
         }
 
+        private void cmb_parroquia_TextChanged(object sender, EventArgs e)
+        {
+            if (_filtrandoAdmin || _cargandoAdmin) return;
+            _filtrandoAdmin = true;
+            try
+            {
+                string busqueda = cmb_parroquia.Text;
+                if (_dtParroquiasAdmin == null) return;
+
+                if (string.IsNullOrWhiteSpace(busqueda))
+                    _dtParroquiasAdmin.DefaultView.RowFilter = "";
+                else
+                    _dtParroquiasAdmin.DefaultView.RowFilter = "Parroquia_nombre LIKE '%"
+                        + busqueda.Replace("'", "''") + "%'";
+
+                cmb_parroquia.Text = busqueda;
+                cmb_parroquia.SelectionStart = busqueda.Length;
+                cmb_parroquia.DroppedDown = true; // Volver al original sin BeginInvoke
+            }
+            finally
+            {
+                _filtrandoAdmin = false;
+            }
+        }
     }
 }

@@ -92,11 +92,14 @@ namespace Capa_de_procesamiento_de_datos
 
             try
             {
-                var req = new HttpRequestMessage(HttpMethod.Get, _urlBase.TrimEnd('/'));
-                // Header requerido por ngrok para evitar la página de advertencia del navegador
+                var url = $"{_urlBase.TrimEnd('/')}/api/Data/health";
+                var req = new HttpRequestMessage(HttpMethod.Get, url);
                 req.Headers.Add("ngrok-skip-browser-warning", "true");
-                await _http.SendAsync(req);
-                return true;
+
+                var resp = await _http.SendAsync(req);
+
+                // ← CLAVE: verificar que la respuesta sea exitosa, no solo que llegue algo
+                return resp.IsSuccessStatusCode;
             }
             catch
             {
@@ -108,36 +111,28 @@ namespace Capa_de_procesamiento_de_datos
         // Llamado tanto por SincronizarConNube (Clsconexion) como por ProcesarColaSincronizacion
 
         /// <summary>Envía una operación al servidor remoto y retorna si fue aceptada.</summary>
-        public async Task<bool> EnviarAlServidorAsync(string spName, string json)
+        public async Task<(bool exitoso, bool esErrorNegocio)> EnviarAlServidorAsync(string spName, string json)
         {
             try
             {
-                //Reconstruir correctamente el objeto SpRequest
                 string jsonFinal = json;
                 try
                 {
                     using var doc = JsonDocument.Parse(json);
                     var root = doc.RootElement;
 
-                    // Extraer Parametros tal como están (ya incluyen el Hash)
                     var parametros = new Dictionary<string, object>();
                     if (root.TryGetProperty("Parametros", out var parametrosEl))
                     {
                         foreach (var prop in parametrosEl.EnumerateObject())
-                        {
                             parametros[prop.Name] = prop.Value.Clone();
-                        }
                     }
 
-                    // Extraer _ParroquiaId
                     int? parroquiaId = null;
                     if (root.TryGetProperty("_ParroquiaId", out var pidEl) &&
                         pidEl.ValueKind == JsonValueKind.Number)
-                    {
                         parroquiaId = pidEl.GetInt32();
-                    }
 
-                    //Armar el objeto exacto que espera SpRequest en el controlador
                     var spRequest = new
                     {
                         SpName = spName,
@@ -147,7 +142,7 @@ namespace Capa_de_procesamiento_de_datos
 
                     jsonFinal = JsonSerializer.Serialize(spRequest);
                 }
-                catch { } // Si falla el parseo, enviar json original
+                catch { }
 
                 var url = $"{_urlBase.TrimEnd('/')}/api/Data/ejecutar-sp";
                 var req = new HttpRequestMessage(HttpMethod.Post, url)
@@ -158,20 +153,23 @@ namespace Capa_de_procesamiento_de_datos
 
                 var resp = await _http.SendAsync(req);
 
-                if (!resp.IsSuccessStatusCode)
-                {
-                    string body = await resp.Content.ReadAsStringAsync();
-                    File.AppendAllText("sync_errors.log",
-                        $"{DateTime.Now} - Servidor rechazó [{resp.StatusCode}]: {body}\n");
-                }
+                if (resp.IsSuccessStatusCode)
+                    return (true, false);
 
-                return resp.IsSuccessStatusCode;
+                string body = await resp.Content.ReadAsStringAsync();
+                File.AppendAllText("sync_errors.log",
+                    $"{DateTime.Now} - Servidor rechazó [{resp.StatusCode}]: {body}\n");
+
+                // 4xx o 5xx = error de negocio/datos, no reintentar
+                bool esErrorNegocio = (int)resp.StatusCode >= 400;
+                return (false, esErrorNegocio);
             }
             catch (Exception ex)
             {
+                // Excepción = error de red, sí reintentar
                 File.AppendAllText("sync_errors.log",
                     $"{DateTime.Now} - HTTP Error: {ex.Message}\n");
-                return false;
+                return (false, false);
             }
         }
 
@@ -182,28 +180,28 @@ namespace Capa_de_procesamiento_de_datos
         public async Task ProcesarColaSincronizacion()
         {
             bool disponible = await ServidorDisponibleAsync();
-            if (!disponible)
-            {
-                Console.WriteLine("[Sync] Sin servidor. Reintentando en el próximo ciclo.");
-                return;
-            }
+            if (!disponible) return;
 
             var pendientes = ObtenerPendientes();
             if (pendientes.Count == 0) return;
-
-            Console.WriteLine($"[Sync] {pendientes.Count} registros pendientes...");
 
             foreach (var registro in pendientes)
             {
                 try
                 {
-                    bool ok = await EnviarAlServidorAsync(registro.TipoObjeto, registro.DatosJson);
+                    var (ok, esErrorNegocio) = await EnviarAlServidorAsync(registro.TipoObjeto, registro.DatosJson);
 
                     if (ok)
                     {
                         MarcarComoSincronizado(registro.Id);
-                        Console.WriteLine($"[Sync] ✓ Id={registro.Id} sincronizado.");
                     }
+                    else if (esErrorNegocio)
+                    {
+                        // El servidor rechazó los datos — marcar como sincronizado para no reintentar
+                        MarcarComoSincronizado(registro.Id);
+                        Console.WriteLine($"[Sync] ✗ Id={registro.Id} descartado (error de negocio).");
+                    }
+                    // Si fue error de red, se deja pendiente para el próximo ciclo
                 }
                 catch (Exception ex)
                 {

@@ -2509,23 +2509,29 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private void MostrarEstado(bool conectado, int pendientes)
         {
-            if (!conectado)
+            if (!conectado && pendientes > 0)
+            {
+                lblConexion.Text = $"● Sin servidor — {pendientes} pendiente(s)";
+                lblConexion.ForeColor = Color.FromArgb(113, 63, 18);
+                lblConexion.BackColor = Color.FromArgb(254, 249, 195); // amarillo
+            }
+            else if (!conectado)
             {
                 lblConexion.Text = "● Sin conexión — guardando local";
                 lblConexion.ForeColor = Color.FromArgb(127, 29, 29);
-                lblConexion.BackColor = Color.FromArgb(254, 226, 226);
+                lblConexion.BackColor = Color.FromArgb(254, 226, 226); // rojo
             }
             else if (pendientes > 0)
             {
                 lblConexion.Text = $"● {pendientes} registro(s) pendiente(s) — esperando servidor";
                 lblConexion.ForeColor = Color.FromArgb(113, 63, 18);
-                lblConexion.BackColor = Color.FromArgb(254, 249, 195);
+                lblConexion.BackColor = Color.FromArgb(254, 249, 195); // amarillo
             }
             else
             {
                 lblConexion.Text = "● Conectado — sincronizado";
                 lblConexion.ForeColor = Color.FromArgb(22, 101, 52);
-                lblConexion.BackColor = Color.FromArgb(220, 252, 231);
+                lblConexion.BackColor = Color.FromArgb(220, 252, 231); // verde
             }
         }
 
@@ -2535,20 +2541,29 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private async void btnSincronizar_Click(object sender, EventArgs e)
         {
-            // Deshabilitar el boton durante la sincronizacion
             btnSincronizar.Enabled = false;
-            btnSincronizar.Text = "Sincronizando...";
+            btnSincronizar.Text = "Verificando...";
 
             try
             {
+                // Verificar servidor ANTES de intentar
+                bool hayServidor = await Capa_de_procesamiento_de_datos.LocalDbOff.ServidorDisponibleAsync();
+                if (!hayServidor)
+                {
+                    MessageBox.Show("El servidor central no está disponible en este momento.",
+                                   "Servidor No Disponible",
+                                   MessageBoxButtons.OK,
+                                   MessageBoxIcon.Information);
+                    return;
+                }
+
+                btnSincronizar.Text = "Sincronizando...";
+
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.Timeout = TimeSpan.FromSeconds(30);
 
-                    // URL de la API remota (servidor central)
-                    string urlApiRemota = "https://rozella-exanthematic-jeffrey.ngrok-free.dev";
-
-                    // Obtener el ID de la parroquia del usuario logueado
+                    string urlApiRemota = Capa_de_procesamiento_de_datos.LocalDbOff.ObtenerUrlActual();
                     int parroquiaId = this.ParroquiaId;
 
                     var request = new
@@ -2575,27 +2590,26 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                         if (cambiosAplicados > 0)
                         {
-                            MessageBox.Show($"Sincronizacion completada exitosamente.\n\nCambios aplicados: {cambiosAplicados}",
-                                "Sincronizacion Exitosa",
+                            MessageBox.Show($"Sincronización completada.\n\nCambios aplicados: {cambiosAplicados}",
+                                "Sincronización Exitosa",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
 
-                            // Actualizar datos locales despues de la sincronizacion
                             ActualizarSaldo();
                             _controladorAlerta.ForzarVerificacionInmediata();
                         }
                         else
                         {
-                            MessageBox.Show("No hay cambios pendientes para esta parroquia.\n\nLa base de datos se encuentra actualizada.",
-                                "Sincronizacion",
+                            MessageBox.Show("No hay cambios pendientes.\n\nLa base de datos está actualizada.",
+                                "Sincronización",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("No fue posible completar la sincronizacion.\n\nPor favor, verifique su conexion a internet e intente nuevamente.",
-                            "Error de Sincronizacion",
+                        MessageBox.Show("El servidor respondió con un error.\n\nIntente nuevamente en unos momentos.",
+                            "Error de Sincronización",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
                     }
@@ -2603,36 +2617,30 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             catch (HttpRequestException)
             {
-                MessageBox.Show("No es posible establecer comunicación con el servidor central.\n\n" +
-                               "El administrador no ha activado el servicio de sincronizacion.\n\n" +
-                               "Por favor, comuníquese con el administrador para reportar esta situación.",
-                               "Servidor No Disponible",
+                MessageBox.Show("No se pudo conectar con el servidor local.\n\nVerifique que la API local esté ejecutándose.",
+                               "Error de Conexión",
                                MessageBoxButtons.OK,
-                               MessageBoxIcon.Error);
+                               MessageBoxIcon.Warning);
             }
             catch (TaskCanceledException)
             {
-                MessageBox.Show("La solicitud de sincronizacion ha excedido el tiempo de espera.\n\n" +
-                               "El servidor central no responde. Verifique que el administrador haya activado el servicio.\n\n" +
-                               "Si el problema persiste, contacte al administrador.",
-                               "Tiempo de Espera Agotado",
+                MessageBox.Show("La sincronización tardó demasiado.\n\nEl servidor no respondió a tiempo.",
+                               "Tiempo Agotado",
                                MessageBoxButtons.OK,
-                               MessageBoxIcon.Error);
+                               MessageBoxIcon.Warning);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error inesperado durante la sincronizacion.\n\n" +
-                               $"Detalle técnico: {ex.Message}\n\n" +
-                               $"Por favor, comuníquese con el administrador para asistencia técnica.",
-                               "Error Inesperado",
+                MessageBox.Show($"Error inesperado: {ex.Message}",
+                               "Error",
                                MessageBoxButtons.OK,
-                               MessageBoxIcon.Error);
+                               MessageBoxIcon.Warning);
             }
             finally
             {
-                // Restaurar el boton
                 btnSincronizar.Enabled = true;
                 btnSincronizar.Text = "Sincronizar";
+                await ActualizarEstadoConexion();
             }
         }
     }

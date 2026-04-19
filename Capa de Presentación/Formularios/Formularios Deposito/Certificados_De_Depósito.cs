@@ -9,7 +9,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System;
-using System.Data;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -69,7 +68,6 @@ namespace Capa_de_Presentación.Formularios_Diego
             InitializeComponent();
             Text = text;
             CargarDatos();
-
         }
 
         /// <summary>
@@ -81,14 +79,10 @@ namespace Capa_de_Presentación.Formularios_Diego
             try
             {
                 ClsAccionesDB acciones = new ClsAccionesDB();
-                // Carga en background para no bloquear la UI
                 dtDatosCertificados = await Task.Run(() => acciones.CargarCertificados());
 
-                // 1. Limpiar columnas previas para evitar duplicados o artefactos visuales
                 dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();
-
-                // 2. Asignar el origen de datos
                 dataGridView1.DataSource = dtDatosCertificados;
 
                 if (dtDatosCertificados.Columns.Contains("Id_certificado"))
@@ -96,29 +90,30 @@ namespace Capa_de_Presentación.Formularios_Diego
                     dtDatosCertificados.Columns["Id_certificado"].ReadOnly = false;
                 }
 
-                // 3. Mapear columnas visibles y sus cabeceras
+                // Ajustes de tamaño para las columnas de la BD
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
                 if (dataGridView1.Columns.Contains("Nombre_certificado"))
                 {
-                    dataGridView1.Columns["Nombre_certificado"].DataPropertyName = "Nombre_certificado";
                     dataGridView1.Columns["Nombre_certificado"].HeaderText = "Certificado";
+                    dataGridView1.Columns["Nombre_certificado"].Width = 200;
                     dataGridView1.Columns["Nombre_certificado"].Visible = true;
                 }
 
                 if (dataGridView1.Columns.Contains("FechaTransaccion"))
                 {
-                    dataGridView1.Columns["FechaTransaccion"].DataPropertyName = "FechaTransaccion";
                     dataGridView1.Columns["FechaTransaccion"].HeaderText = "Fecha";
+                    dataGridView1.Columns["FechaTransaccion"].Width = 200;
                     dataGridView1.Columns["FechaTransaccion"].Visible = true;
                 }
 
                 if (dataGridView1.Columns.Contains("Nombre_Parroquia"))
                 {
-                    dataGridView1.Columns["Nombre_Parroquia"].DataPropertyName = "Nombre_Parroquia";
                     dataGridView1.Columns["Nombre_Parroquia"].HeaderText = "Parroquia";
+                    dataGridView1.Columns["Nombre_Parroquia"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     dataGridView1.Columns["Nombre_Parroquia"].Visible = true;
                 }
 
-                // 4. Ocultar el resto de columnas retornadas por el DataTable
                 foreach (DataGridViewColumn col in dataGridView1.Columns)
                 {
                     if (col.Name != "Nombre_certificado" &&
@@ -129,10 +124,8 @@ namespace Capa_de_Presentación.Formularios_Diego
                     }
                 }
 
-                // 5. Ajustes finales de comportamiento del grid
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dataGridView1.ReadOnly = true;
-                dataGridView1.AllowUserToAddRows = false; // Evita fila vacía al final
+                dataGridView1.AllowUserToAddRows = false;
             }
             catch (Exception ex)
             {
@@ -153,6 +146,8 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (modoEdicionActivo) return; // ← Esta es la línea clave
+
             ClsCD clsCD = new();
             clsCD.BloquearDesbloquearData(dtDatosCertificados, dataGridView1, e.RowIndex);
         }
@@ -164,7 +159,6 @@ namespace Capa_de_Presentación.Formularios_Diego
         {
             ClsCD objCd = new();
             objCd.Agregarfila(dtDatosCertificados, dataGridView1);
-
         }
 
         /// <summary>
@@ -172,9 +166,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         private void textBox3_Click(object sender, EventArgs e)
         {
-            // Reserva: guardar o procesar datos al requerirlo
-            //ClsCD objCD = new();
-            //objCD.GuardarCD(dtDatosCertificados, dataGridView1, datosGuardados);
+            // Metodo vacio para evitar errores de referencia
         }
 
         /// <summary>
@@ -184,7 +176,6 @@ namespace Capa_de_Presentación.Formularios_Diego
         {
             ClsCD objCD = new ClsCD();
             objCD.guardaredic(dtDatosCertificados, dataGridView1, ref modoEdicionActivo);
-
         }
 
         /// <summary>
@@ -192,8 +183,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         private void textBox2_Click(object sender, EventArgs e)
         {
-            //ClsCD objCD = new();
-            //objCD.renovarCD(dtDatosCertificados, dataGridView1, ref modoEdicionActivo);
+            // Metodo vacio para evitar errores de referencia
         }
 
         /// <summary>
@@ -201,9 +191,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         private void textBox1_Click(object sender, EventArgs e)
         {
-            /*ClsCD objCD = new ClsCD();
-            objCD.cancelarCertificado(dataGridView1);
-            CargarDatos();*/
+            // Metodo vacio para evitar errores de referencia
         }
 
         /// <summary>
@@ -212,12 +200,10 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         private void CargarDatosAutocompletadoParroquias()
         {
-            Parroquia.Clear();
-
             try
             {
                 DataTable dt = objParroquias.ObtenerParroquias();
-
+                Parroquia.Clear();
                 foreach (DataRow row in dt.Rows)
                 {
                     Parroquia.Add(row["Nombre_Parroquia"].ToString());
@@ -227,8 +213,6 @@ namespace Capa_de_Presentación.Formularios_Diego
             {
                 MessageBox.Show(ex.Message, "Error de Carga", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
         }
 
         /// <summary>
@@ -245,11 +229,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            // No procesar clicks en encabezados
-            if (e.RowIndex < 0 || e.ColumnIndex < 0)
-            {
-                return;
-            }
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
             DataGridViewRow fila = dataGridView1.Rows[e.RowIndex];
             DataGridViewCell celdaActual = fila.Cells[e.ColumnIndex];
@@ -257,28 +237,14 @@ namespace Capa_de_Presentación.Formularios_Diego
             if (celdaActual.ReadOnly == true)
             {
                 ClsCD.DesbloquearFila(fila);
-
-
                 if (dataGridView1.Columns.Contains("Nombre_Parroquia"))
                 {
-                    DataGridViewCell celdaParroquia = fila.Cells["Nombre_Parroquia"];
-                    dataGridView1.CurrentCell = celdaParroquia;
-                    dataGridView1.BeginEdit(true);
-
-                    MessageBox.Show("Fila desbloqueada. El cursor está listo para corregir el Nombre de la Parroquia.",
-                                    "Edición Rápida", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    // Si la columna de Parroquia no existe, iniciar edición normal
-                    dataGridView1.CurrentCell = celdaActual;
+                    dataGridView1.CurrentCell = fila.Cells["Nombre_Parroquia"];
                     dataGridView1.BeginEdit(true);
                 }
             }
             else
             {
-                // Si ya estaba editable, iniciar edición directamente
-                dataGridView1.CurrentCell = celdaActual;
                 dataGridView1.BeginEdit(true);
             }
         }
@@ -289,31 +255,21 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (dataGridView1.CurrentCell == null)
-                return;
+            if (dataGridView1.CurrentCell == null) return;
+            TextBox auto_text = e.Control as TextBox;
+            if (auto_text == null) return;
 
-            // Activar autocompletado sólo para la columna Nombre_Parroquia
             if (dataGridView1.CurrentCell.OwningColumn.Name == "Nombre_Parroquia")
             {
-                TextBox auto_text = e.Control as TextBox;
-                if (auto_text != null)
-                {
-                    auto_text.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                    auto_text.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-                    // Usa la colección cargada por CargarDatosAutocompletadoParroquias()
-                    auto_text.AutoCompleteCustomSource = Parroquia;
-                }
+                auto_text.AutoCompleteMode = AutoCompleteMode.Suggest;
+                auto_text.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                auto_text.AutoCompleteCustomSource = Parroquia;
             }
             else
             {
-                TextBox auto_text = e.Control as TextBox;
-                if (auto_text != null)
-                {
-                    auto_text.AutoCompleteMode = AutoCompleteMode.None;
-                    auto_text.AutoCompleteSource = AutoCompleteSource.None;
-                    auto_text.AutoCompleteCustomSource = null;
-                }
+                auto_text.AutoCompleteMode = AutoCompleteMode.None;
+                auto_text.AutoCompleteSource = AutoCompleteSource.None;
+                auto_text.AutoCompleteCustomSource = null;
             }
         }
 
@@ -322,7 +278,7 @@ namespace Capa_de_Presentación.Formularios_Diego
         /// </summary>
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-
+            // Metodo vacio para evitar errores de referencia
         }
 
         /// <summary>
@@ -355,8 +311,55 @@ namespace Capa_de_Presentación.Formularios_Diego
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            // Metodo vacio para evitar errores de referencia
+        }
 
+
+        /// <summary>
+        /// Valida si la parroquia escrita existe en la lista oficial de la BD.
+        /// </summary>
+        private bool ParroquiaExisteEnBD(string nombreIngresado)
+        {
+            DataTable dt = objParroquias.ObtenerParroquias();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string valorBD = row["Nombre_Parroquia"].ToString();
+                // Usamos OrdinalIgnoreCase por si hay diferencias de minúsculas/mayúsculas accidentales
+                if (string.Equals(valorBD, nombreIngresado, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Evento que impide salir de la celda si el nombre de la parroquia es inválido.
+        /// </summary>
+        private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            if (dataGridView1.Rows[e.RowIndex].IsNewRow) return;
+
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "Nombre_Parroquia")
+            {
+                string valorIngresado = e.FormattedValue?.ToString() ?? "";
+
+                // Si está vacío, no validamos (o podrías obligar a que no sea vacío)
+                if (string.IsNullOrWhiteSpace(valorIngresado)) return;
+
+                if (!ParroquiaExisteEnBD(valorIngresado))
+                {
+                    MessageBox.Show(
+                        $"La parroquia \"{valorIngresado}\" no existe en el catálogo oficial.\n" +
+                        "Debe seleccionar un valor exacto de la lista de sugerencias.",
+                        "Parroquia No Válida",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+
+                    e.Cancel = true; // Bloquea el foco en la celda hasta que se corrija
+                }
+            }
         }
     }
-
 }

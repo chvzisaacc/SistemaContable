@@ -75,13 +75,16 @@ namespace Capa_de_Presentación.CLASES
         {
             if (RowIndex < 0 || dtDatosCertificados == null) return;
 
-            // Asegurar que el DataTable permita escritura antes de modificar el DGV
+            if (dataGridView1.IsCurrentCellInEditMode)
+            {
+                dataGridView1.EndEdit();
+            }
+
             foreach (DataColumn dc in dtDatosCertificados.Columns)
             {
                 dc.ReadOnly = false;
             }
 
-            // Por defecto dejamos el DGV en solo lectura y solo habilitamos edición si corresponde
             dataGridView1.ReadOnly = true;
 
             int lastDataRowIndex = dtDatosCertificados.Rows.Count - 1;
@@ -89,38 +92,25 @@ namespace Capa_de_Presentación.CLASES
             if (RowIndex == lastDataRowIndex)
             {
                 DataGridViewRow currentRow = dataGridView1.Rows[RowIndex];
-                bool algunCampoVacio = false;
 
-                string[] columnasAComprobar = new string[] { "Nombre_certificado", "Nombre_Parroquia" };
+                object fechaValue = currentRow.Cells
+                    .Cast<DataGridViewCell>()
+                    .FirstOrDefault(c => c.OwningColumn.Name == "FechaTransaccion")?.Value;
 
-                foreach (string nombreColumna in columnasAComprobar)
+                bool filaNoGuardada = fechaValue == null
+                                      || fechaValue == DBNull.Value
+                                      || string.IsNullOrWhiteSpace(fechaValue.ToString());
+
+                if (filaNoGuardada)
                 {
-                    if (dataGridView1.Columns.Contains(nombreColumna))
-                    {
-                        object cellValue = currentRow.Cells[nombreColumna].Value;
-                        if (cellValue == null || string.IsNullOrWhiteSpace(cellValue.ToString()))
-                        {
-                            algunCampoVacio = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (algunCampoVacio)
-                {
-                    // Habilitar edición solo para las columnas permitidas, manteniendo IDs bloqueadas
                     dataGridView1.ReadOnly = false;
 
                     foreach (DataGridViewColumn column in dataGridView1.Columns)
                     {
                         if (column.Name == "Id_certificado" || column.Name == "Id_Parroquia")
-                        {
                             column.ReadOnly = true;
-                        }
                         else
-                        {
                             column.ReadOnly = false;
-                        }
                     }
                 }
             }

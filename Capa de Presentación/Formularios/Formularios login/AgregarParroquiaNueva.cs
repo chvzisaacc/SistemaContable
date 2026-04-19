@@ -18,6 +18,15 @@ namespace Capa_de_Presentación.Formularios.Formularios_inicio_de_sesion_y_venta
         /// <summary>ID de la parroquia actualmente seleccionada; 0 indica nueva parroquia.</summary>
         private int _parroquiaSeleccionadaId = 0;
 
+        /// <summary>DataTable con todas las parroquias cargadas desde BD.</summary>
+        private DataTable _dtParroquias;
+
+        /// <summary>Bandera para evitar recursividad en el evento TextChanged.</summary>
+        private bool _filtrando = false;
+
+        /// <summary>Bandera para bloquear el evento TextChanged durante la carga inicial.</summary>
+        private bool _cargando = false;
+
         /// <summary>Constructor del formulario.</summary>
         public AgregarParroquiaNueva()
         {
@@ -25,25 +34,37 @@ namespace Capa_de_Presentación.Formularios.Formularios_inicio_de_sesion_y_venta
         }
 
         /// <summary>Evento Load: carga la lista de parroquias al abrir el formulario.</summary>
-        private void AgregarParroquiaNueva_Load(object sender, EventArgs e)
+        private async void AgregarParroquiaNueva_Load(object sender, EventArgs e)
         {
-            CargarParroquias();
+            await CargarParroquiasAsync();
         }
 
-        /// <summary>Carga las parroquias desde la capa de datos y las enlaza al combo.</summary>
-        private void CargarParroquias()
+        /// <summary>Carga las parroquias desde la capa de datos de forma asíncrona y las enlaza al combo.</summary>
+        private async Task CargarParroquiasAsync()
         {
             try
             {
-                comboBox1.DataSource = _crud.ObtenerParroquias();
+                _cargando = true;
+
+                _dtParroquias = await Task.Run(() => _crud.ObtenerParroquias());
+
+                comboBox1.MaxDropDownItems = 5;
+                comboBox1.DropDownHeight = 21 * 5;
+                comboBox1.DropDownWidth = 600;
+
+                comboBox1.DataSource = _dtParroquias;
                 comboBox1.DisplayMember = "Parroquia_nombre";
                 comboBox1.ValueMember = "Parroquia_id";
-                comboBox1.SelectedIndex = -1; // sin selección por defecto
+                comboBox1.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar parroquias: " + ex.Message,
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                _cargando = false;
             }
         }
 
@@ -66,10 +87,8 @@ namespace Capa_de_Presentación.Formularios.Formularios_inicio_de_sesion_y_venta
         /// </summary>
         private void button3_Click(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex != -1)
+            if (comboBox1.SelectedIndex != -1 && comboBox1.SelectedItem is DataRowView row)
             {
-                DataRowView row = (DataRowView)comboBox1.SelectedItem;
-
                 _parroquiaSeleccionadaId = Convert.ToInt32(row["Parroquia_id"]);
                 textBox1.Text = row["Parroquia_nombre"].ToString();
                 textBox2.Text = row["Parroquia_correo"].ToString();
@@ -99,22 +118,15 @@ namespace Capa_de_Presentación.Formularios.Formularios_inicio_de_sesion_y_venta
                 {
                     int nuevoId = _acciones.AgregarParroquia(nombre, correo);
                     MessageBox.Show($"Parroquia agregada exitosamente. ID: {nuevoId}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    comboBox1.DataSource = _crud.ObtenerParroquias();
-
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
                 }
                 else
                 {
                     _acciones.EditarParroquia(_parroquiaSeleccionadaId, nombre, correo);
                     MessageBox.Show("Parroquia actualizada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    comboBox1.DataSource = _crud.ObtenerParroquias();
-
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
                 }
 
-                FinalizarOperacion();
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -126,7 +138,7 @@ namespace Capa_de_Presentación.Formularios.Formularios_inicio_de_sesion_y_venta
         private void FinalizarOperacion()
         {
             LimpiarCampos();
-            CargarParroquias();
+            _ = CargarParroquiasAsync();
             comboBox1.Enabled = true;
             textBox1.Enabled = false;
             textBox2.Enabled = false;
@@ -138,6 +150,42 @@ namespace Capa_de_Presentación.Formularios.Formularios_inicio_de_sesion_y_venta
         {
             textBox1.Clear();
             textBox2.Clear();
+        }
+
+        /// <summary>Filtra el combo de parroquias según el texto escrito, buscando en cualquier parte del nombre.</summary>
+        private void comboBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (_filtrando || _cargando) return;
+            _filtrando = true;
+
+            try
+            {
+                string busqueda = comboBox1.Text;
+                if (_dtParroquias == null) return;
+
+                // Desconectar datasource para evitar que el combo pise el texto
+                comboBox1.DataSource = null;
+
+                if (string.IsNullOrWhiteSpace(busqueda))
+                    _dtParroquias.DefaultView.RowFilter = "";
+                else
+                    _dtParroquias.DefaultView.RowFilter = "Parroquia_nombre LIKE '%"
+                        + busqueda.Replace("'", "''") + "%'";
+
+                // Reconectar con el filtro aplicado
+                comboBox1.DataSource = _dtParroquias.DefaultView;
+                comboBox1.DisplayMember = "Parroquia_nombre";
+                comboBox1.ValueMember = "Parroquia_id";
+
+                // Restaurar el texto escrito
+                comboBox1.Text = busqueda;
+                comboBox1.SelectionStart = busqueda.Length;
+                comboBox1.DroppedDown = true;
+            }
+            finally
+            {
+                _filtrando = false;
+            }
         }
     }
 }

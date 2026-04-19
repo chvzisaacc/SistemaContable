@@ -74,7 +74,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             panel1.Location = new Point(36, 27);
             panel1.Margin = new Padding(4, 3, 4, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1056, 620);
+            panel1.Size = new Size(1519, 620);
             panel1.TabIndex = 3;
             // 
             // label1
@@ -107,7 +107,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             panel2.Location = new Point(32, 130);
             panel2.Margin = new Padding(4, 3, 4, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(995, 461);
+            panel2.Size = new Size(1447, 461);
             panel2.TabIndex = 8;
             // 
             // button1
@@ -128,7 +128,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCells;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.BackgroundColor = SystemColors.Window;
             dataGridView1.BorderStyle = BorderStyle.None;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -137,10 +137,11 @@ namespace Capa_de_Presentación.Formularios_Diego
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(828, 254);
+            dataGridView1.Size = new Size(1277, 254);
             dataGridView1.TabIndex = 30;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            dataGridView1.CellValidating += dataGridView1_CellValidating;
             dataGridView1.EditingControlShowing += dataGridView1_EditingControlShowing;
             // 
             // Id_Certificado
@@ -202,7 +203,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             // pictureBox7
             // 
             pictureBox7.Image = (Image)resources.GetObject("pictureBox7.Image");
-            pictureBox7.Location = new Point(898, 194);
+            pictureBox7.Location = new Point(1360, 184);
             pictureBox7.Margin = new Padding(4, 3, 4, 3);
             pictureBox7.Name = "pictureBox7";
             pictureBox7.Size = new Size(59, 60);
@@ -217,7 +218,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             textBox3.BorderStyle = BorderStyle.None;
             textBox3.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox3.ForeColor = Color.White;
-            textBox3.Location = new Point(706, 398);
+            textBox3.Location = new Point(914, 387);
             textBox3.Margin = new Padding(4, 3, 4, 3);
             textBox3.Multiline = true;
             textBox3.Name = "textBox3";
@@ -229,7 +230,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             // pictureBox6
             // 
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(626, 369);
+            pictureBox6.Location = new Point(834, 358);
             pictureBox6.Margin = new Padding(4, 3, 4, 3);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Size = new Size(240, 89);
@@ -244,7 +245,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox1.ForeColor = Color.White;
-            textBox1.Location = new Point(459, 398);
+            textBox1.Location = new Point(667, 387);
             textBox1.Margin = new Padding(4, 3, 4, 3);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
@@ -257,7 +258,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             // pictureBox5
             // 
             pictureBox5.Image = (Image)resources.GetObject("pictureBox5.Image");
-            pictureBox5.Location = new Point(378, 368);
+            pictureBox5.Location = new Point(586, 357);
             pictureBox5.Margin = new Padding(4, 3, 4, 3);
             pictureBox5.Name = "pictureBox5";
             pictureBox5.Size = new Size(240, 90);
@@ -272,7 +273,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             textBox2.BorderStyle = BorderStyle.None;
             textBox2.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(212, 398);
+            textBox2.Location = new Point(420, 387);
             textBox2.Margin = new Padding(4, 3, 4, 3);
             textBox2.Multiline = true;
             textBox2.Name = "textBox2";
@@ -284,7 +285,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(130, 369);
+            pictureBox2.Location = new Point(338, 358);
             pictureBox2.Margin = new Padding(4, 3, 4, 3);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(240, 89);
@@ -331,7 +332,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             panel5.Location = new Point(30, 127);
             panel5.Margin = new Padding(4, 3, 4, 3);
             panel5.Name = "panel5";
-            panel5.Size = new Size(1003, 468);
+            panel5.Size = new Size(1453, 468);
             panel5.TabIndex = 9;
             // 
             // Certificados_De_Depósito
@@ -339,7 +340,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(43, 56, 143);
-            ClientSize = new Size(1134, 685);
+            ClientSize = new Size(1586, 685);
             Controls.Add(panel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);

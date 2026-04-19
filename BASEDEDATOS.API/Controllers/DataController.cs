@@ -16,13 +16,13 @@ namespace BASEDEDATOS.API.Controllers
         {
             conexion = configuration.GetConnectionString("DefaultConnection");
         }
+
         /// <summary>
         /// Ejecuta un procedimiento almacenado en la base de datos con parametros dinamicos.
         /// </summary>
         [HttpPost("ejecutar-sp")]
         public IActionResult EjecutarSP([FromBody] SpRequest request)
         {
-
             if (request._ParroquiaId == null || request._ParroquiaId == 0)
             {
                 if (request.Parametros != null && request.Parametros.ContainsKey("_ParroquiaId"))
@@ -40,7 +40,6 @@ namespace BASEDEDATOS.API.Controllers
                 }
             }
 
-            // ========== LOG 1: PETICION RECIBIDA ==========
             Console.WriteLine("========================================");
             Console.WriteLine($"[API] EjecutarSP llamado a las {DateTime.Now:HH:mm:ss}");
             Console.WriteLine($"[API] SpName: {request.SpName}");
@@ -52,7 +51,6 @@ namespace BASEDEDATOS.API.Controllers
                 Console.WriteLine($"[API] Valor del Hash: {request.Parametros["Hash"]}");
             }
 
-            // Verificar conexion a BD
             try
             {
                 using (var testConn = new SqlConnection(conexion))
@@ -77,13 +75,11 @@ namespace BASEDEDATOS.API.Controllers
                     SqlCommand cmd = new SqlCommand(request.SpName, conn);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Mapeo de parametros
                     if (request.Parametros != null)
                     {
                         Console.WriteLine($"[API] Mapeando {request.Parametros.Count} parametros...");
                         foreach (var param in request.Parametros)
                         {
-                            // Se excluyen parametros internos y el hash del mapeo directo
                             if (param.Key.StartsWith("_") || param.Key == "Hash")
                             {
                                 Console.WriteLine($"[API] Parametro ignorado: {param.Key}");
@@ -111,12 +107,10 @@ namespace BASEDEDATOS.API.Controllers
                         }
                     }
 
-                    // Ejecutar el SP principal
                     Console.WriteLine($"[API] Ejecutando SP principal: {request.SpName}");
                     cmd.ExecuteNonQuery();
                     Console.WriteLine($"[API] SP principal ejecutado correctamente");
 
-                    // Registrar el cambio si tiene Hash
                     if (request.Parametros != null && request.Parametros.ContainsKey("Hash"))
                     {
                         Console.WriteLine("[API] Detectado Hash - Registrando cambio...");
@@ -184,7 +178,6 @@ namespace BASEDEDATOS.API.Controllers
         /// <summary>
         /// Obtiene la lista de cambios pendientes de sincronizar para una parroquia especifica.
         /// </summary>
-        /// <param name="parroquiaId">Identificador de la parroquia destino</param>
         [HttpGet("cambios-pendientes/{parroquiaId}")]
         public IActionResult ObtenerCambiosPendientes(int parroquiaId)
         {
@@ -222,7 +215,7 @@ namespace BASEDEDATOS.API.Controllers
         }
 
         /// <summary>
-        /// Obtiene TODOS los cambios pendientes sin filtrar por parroquia
+        /// Obtiene TODOS los cambios pendientes sin filtrar por parroquia.
         /// </summary>
         [HttpGet("cambios-pendientes-todos")]
         public IActionResult ObtenerCambiosPendientesTodos()
@@ -337,7 +330,6 @@ namespace BASEDEDATOS.API.Controllers
             Console.WriteLine("========================================");
             Console.WriteLine($"[API] Iniciando sincronizacion pull desde: {request.UrlRemota}");
 
-            // Determinar si se filtra por parroquia o es global
             bool filtrarPorParroquia = request.ParroquiaDestinoId.HasValue && request.ParroquiaDestinoId.Value > 0;
             int parroquiaId = filtrarPorParroquia ? request.ParroquiaDestinoId.Value : 0;
 
@@ -345,9 +337,7 @@ namespace BASEDEDATOS.API.Controllers
             Console.WriteLine($"[API] Hora: {DateTime.Now:HH:mm:ss}");
 
             if (string.IsNullOrEmpty(request.UrlRemota))
-            {
                 return BadRequest(new { error = "La URL remota es requerida" });
-            }
 
             using var httpClient = new HttpClient();
             httpClient.Timeout = TimeSpan.FromMinutes(2);
@@ -357,7 +347,6 @@ namespace BASEDEDATOS.API.Controllers
 
             try
             {
-                // Construir la URL segun el tipo de sincronizacion
                 string urlCambios;
                 if (filtrarPorParroquia)
                 {
@@ -399,7 +388,6 @@ namespace BASEDEDATOS.API.Controllers
 
                 Console.WriteLine($"[API] Se encontraron {cambios.Count} cambios pendientes");
 
-                // Procesa cada cambio encontrado
                 foreach (var cambio in cambios)
                 {
                     try
@@ -411,7 +399,8 @@ namespace BASEDEDATOS.API.Controllers
                             Hash = cambio.Hash,
                             SpName = cambio.SpName,
                             ParametrosJson = cambio.ParametrosJson,
-                            OrigenParroquiaId = cambio.OrigenParroquiaId
+                            OrigenParroquiaId = cambio.OrigenParroquiaId,
+                            ParroquiaDestinoId = parroquiaId
                         };
 
                         var aplicarResultado = await AplicarCambioRecibidoInternal(aplicarRequest);
@@ -420,6 +409,8 @@ namespace BASEDEDATOS.API.Controllers
                         {
                             cambiosAplicados++;
                             Console.WriteLine($"[API] Cambio {cambio.Id} aplicado correctamente");
+
+                            await MarcarEntregadoRemoto(httpClient, request.UrlRemota, cambio.Id, parroquiaId);
                         }
                         else
                         {
@@ -463,6 +454,21 @@ namespace BASEDEDATOS.API.Controllers
             }
         }
 
+        [HttpGet("health")]
+        public IActionResult Health()
+        {
+            try
+            {
+                using var conn = new SqlConnection(conexion);
+                conn.Open();
+                return Ok(new { status = "ok" });
+            }
+            catch
+            {
+                return StatusCode(503, new { status = "db_unavailable" });
+            }
+        }
+
         /// <summary>
         /// Metodo interno que aplica un cambio recibido sin exponer un endpoint HTTP.
         /// </summary>
@@ -480,10 +486,10 @@ namespace BASEDEDATOS.API.Controllers
                         cmd.Parameters.AddWithValue("@SpName", request.SpName);
                         cmd.Parameters.AddWithValue("@ParametrosJson", request.ParametrosJson);
                         cmd.Parameters.AddWithValue("@OrigenParroquiaId", request.OrigenParroquiaId);
+                        cmd.Parameters.AddWithValue("@ParroquiaDestinoId", request.ParroquiaDestinoId);
 
                         object resultadoObj = await cmd.ExecuteScalarAsync();
                         string resultado = resultadoObj?.ToString() ?? "APLICADO";
-
                         return (resultado == "APLICADO", resultado);
                     }
                 }
@@ -521,57 +527,36 @@ namespace BASEDEDATOS.API.Controllers
         }
     }
 
-    /// <summary>
-    /// Modelo de solicitud para ejecutar procedimientos almacenados de forma dinamica.
-    /// </summary>
     public class SpRequest
     {
         public string SpName { get; set; }
         public Dictionary<string, object> Parametros { get; set; }
 
-        /// <summary>
-        /// Identificador interno de la parroquia asociada a la solicitud.
-        /// Parametro de contexto que inicia con "_" y es ignorado en el mapeo de parametros SQL.
-        /// </summary>
         [JsonPropertyName("_ParroquiaId")]
         public int? _ParroquiaId { get; set; }
     }
 
-    /// <summary>
-    /// Modelo para marcar un cambio como entregado.
-    /// </summary>
     public class EntregaRequest
     {
         public int CambioId { get; set; }
         public int DestinoParroquiaId { get; set; }
     }
 
-    /// <summary>
-    /// Modelo para aplicar un cambio recibido desde un servidor remoto.
-    /// </summary>
     public class AplicarCambioRequest
     {
         public string Hash { get; set; }
         public string SpName { get; set; }
         public string ParametrosJson { get; set; }
         public int OrigenParroquiaId { get; set; }
+        public int ParroquiaDestinoId { get; set; }
     }
 
-    /// <summary>
-    /// Solicitud para realizar sincronizacion pull desde una API remota.
-    /// </summary>
     public class JalarCambiosRequest
     {
-        /// <summary>
-        /// URL de la API remota
-        /// </summary>
         public string UrlRemota { get; set; }
         public int? ParroquiaDestinoId { get; set; }
     }
 
-    /// <summary>
-    /// DTO que representa un cambio pendiente de sincronizar.
-    /// </summary>
     public class CambioPendienteDto
     {
         public int Id { get; set; }
