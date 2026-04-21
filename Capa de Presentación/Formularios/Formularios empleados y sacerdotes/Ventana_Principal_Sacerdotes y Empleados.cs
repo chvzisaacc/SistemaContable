@@ -2546,7 +2546,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             try
             {
-                // Verificar servidor ANTES de intentar
                 bool hayServidor = await Capa_de_procesamiento_de_datos.LocalDbOff.ServidorDisponibleAsync();
                 if (!hayServidor)
                 {
@@ -2572,14 +2571,13 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         ParroquiaDestinoId = parroquiaId
                     };
 
-                    string apiLocal = "http://localhost:5145";
                     var jsonContent = new StringContent(
                         JsonSerializer.Serialize(request),
                         System.Text.Encoding.UTF8,
                         "application/json");
 
                     HttpResponseMessage response = await httpClient.PostAsync(
-                        $"{apiLocal}/api/Data/jalar-cambios",
+                        $"{urlApiRemota}/api/Data/jalar-cambios",
                         jsonContent);
 
                     if (response.IsSuccessStatusCode)
@@ -2617,7 +2615,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             catch (HttpRequestException)
             {
-                MessageBox.Show("No se pudo conectar con el servidor local.\n\nVerifique que la API local esté ejecutándose.",
+                MessageBox.Show("No se pudo conectar con el servidor central.\n\nVerifique que la API esté ejecutándose.",
                                "Error de Conexión",
                                MessageBoxButtons.OK,
                                MessageBoxIcon.Warning);

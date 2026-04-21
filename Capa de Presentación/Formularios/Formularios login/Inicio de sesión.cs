@@ -129,11 +129,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
             try
             {
-                // Verificar servidor ANTES de intentar
                 bool hayServidor = await Capa_de_procesamiento_de_datos.LocalDbOff.ServidorDisponibleAsync();
                 if (!hayServidor)
                 {
-                    MessageBox.Show("El servidor central no está disponible en este momento",
+                    MessageBox.Show("El servidor central no está disponible en este momento.",
                                    "Servidor No Disponible",
                                    MessageBoxButtons.OK,
                                    MessageBoxIcon.Information);
@@ -144,11 +143,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                 using (var httpClient = new HttpClient())
                 {
-                    httpClient.Timeout = TimeSpan.FromSeconds(10);
+                    httpClient.Timeout = TimeSpan.FromSeconds(30);
 
                     string urlApiRemota = Capa_de_procesamiento_de_datos.LocalDbOff.ObtenerUrlActual();
-                    var request = new { UrlRemota = urlApiRemota };
-                    string apiLocal = "http://localhost:5145";
+
+                    // Sin ParroquiaDestinoId porque en el login aún no sabemos qué parroquia es
+                    // Se envía null para que jale TODOS los cambios pendientes
+                    var request = new
+                    {
+                        UrlRemota = urlApiRemota,
+                        ParroquiaDestinoId = (int?)null
+                    };
 
                     var jsonContent = new StringContent(
                         JsonSerializer.Serialize(request),
@@ -156,7 +161,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         "application/json");
 
                     HttpResponseMessage response = await httpClient.PostAsync(
-                        $"{apiLocal}/api/Data/jalar-cambios",
+                        $"{urlApiRemota}/api/Data/jalar-cambios",
                         jsonContent);
 
                     if (response.IsSuccessStatusCode)
@@ -191,7 +196,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
             catch (HttpRequestException)
             {
-                MessageBox.Show("No se pudo conectar con el servidor local.\n\nVerifique que la API local esté ejecutándose.",
+                MessageBox.Show("No se pudo conectar con el servidor central.\n\nVerifique que la API esté ejecutándose.",
                                "Error de Conexión",
                                MessageBoxButtons.OK,
                                MessageBoxIcon.Warning);
