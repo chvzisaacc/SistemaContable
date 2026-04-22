@@ -2577,8 +2577,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         "application/json");
 
                     HttpResponseMessage response = await httpClient.PostAsync(
-                        $"{urlApiRemota}/api/Data/jalar-cambios",
-                        jsonContent);
+                    "http://localhost:5145/api/Data/jalar-cambios",
+                    jsonContent);
 
                     if (response.IsSuccessStatusCode)
                     {

@@ -126,7 +126,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             btnSincronizar.Enabled = false;
             btnSincronizar.Text = "Verificando...";
-
             try
             {
                 bool hayServidor = await Capa_de_procesamiento_de_datos.LocalDbOff.ServidorDisponibleAsync();
@@ -138,21 +137,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
                                    MessageBoxIcon.Information);
                     return;
                 }
-
                 btnSincronizar.Text = "Sincronizando...";
-
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.Timeout = TimeSpan.FromSeconds(30);
 
                     string urlApiRemota = Capa_de_procesamiento_de_datos.LocalDbOff.ObtenerUrlActual();
 
-                    // Sin ParroquiaDestinoId porque en el login aún no sabemos qué parroquia es
-                    // Se envía null para que jale TODOS los cambios pendientes
                     var request = new
                     {
-                        UrlRemota = urlApiRemota,
-                        ParroquiaDestinoId = (int?)null
+                        UrlRemota = urlApiRemota,        // ← ngrok del admin (de dónde jalar)
+                        ParroquiaDestinoId = (int?)null  // ← null = todos los cambios
                     };
 
                     var jsonContent = new StringContent(
@@ -160,8 +155,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         System.Text.Encoding.UTF8,
                         "application/json");
 
+                    // ← API LOCAL de la parroquia (quien inserta en su BD)
                     HttpResponseMessage response = await httpClient.PostAsync(
-                        $"{urlApiRemota}/api/Data/jalar-cambios",
+                        "http://localhost:5145/api/Data/jalar-cambios",
                         jsonContent);
 
                     if (response.IsSuccessStatusCode)
@@ -169,7 +165,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
                         string jsonResultado = await response.Content.ReadAsStringAsync();
                         var resultado = JsonSerializer.Deserialize<JsonElement>(jsonResultado);
                         int cambiosAplicados = resultado.GetProperty("cambiosAplicados").GetInt32();
-
                         if (cambiosAplicados > 0)
                         {
                             MessageBox.Show($"Sincronización completada.\n\nCambios aplicados: {cambiosAplicados}",
@@ -196,7 +191,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             }
             catch (HttpRequestException)
             {
-                MessageBox.Show("No se pudo conectar con el servidor central.\n\nVerifique que la API esté ejecutándose.",
+                MessageBox.Show("No se pudo conectar con la API local.\n\nVerifique que la API esté ejecutándose.",
                                "Error de Conexión",
                                MessageBoxButtons.OK,
                                MessageBoxIcon.Warning);
