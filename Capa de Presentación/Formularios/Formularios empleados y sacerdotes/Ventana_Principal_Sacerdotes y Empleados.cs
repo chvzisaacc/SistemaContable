@@ -2588,7 +2588,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                         if (cambiosAplicados > 0)
                         {
-                            MessageBox.Show($"Sincronización completada.\n\nCambios aplicados: {cambiosAplicados}",
+                            MessageBox.Show($"Sincronización completada.\n\n{cambiosAplicados} cambio(s) recibidos del servidor.",
                                 "Sincronización Exitosa",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
@@ -2598,7 +2598,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         }
                         else
                         {
-                            MessageBox.Show("No hay cambios pendientes.\n\nLa base de datos está actualizada.",
+                            MessageBox.Show("Sincronización completada.\n\nNo se recibieron cambios nuevos del servidor.",
                                 "Sincronización",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
