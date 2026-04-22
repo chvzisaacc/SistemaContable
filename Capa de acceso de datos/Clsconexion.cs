@@ -172,8 +172,21 @@ namespace Capa_de_acceso_de_datos
                 string nombreSp = cmd.CommandText;
 
                 var parametros = new Dictionary<string, object>();
+                /*foreach (SqlParameter p in cmd.Parameters)
+                {
+                    string key = p.ParameterName.Replace("@", "");
+                    object valor = (p.Value == null || p.Value == DBNull.Value) ? null : p.Value;
+                    parametros[key] = valor;
+                }*/
+
                 foreach (SqlParameter p in cmd.Parameters)
                 {
+                    // Ignorar parámetros de salida y retorno
+                    if (p.Direction == ParameterDirection.Output ||
+                        p.Direction == ParameterDirection.ReturnValue ||
+                        p.Direction == ParameterDirection.InputOutput)
+                        continue;
+
                     string key = p.ParameterName.Replace("@", "");
                     object valor = (p.Value == null || p.Value == DBNull.Value) ? null : p.Value;
                     parametros[key] = valor;

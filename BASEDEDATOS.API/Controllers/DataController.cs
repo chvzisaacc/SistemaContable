@@ -410,7 +410,11 @@ namespace BASEDEDATOS.API.Controllers
                             cambiosAplicados++;
                             Console.WriteLine($"[API] Cambio {cambio.Id} aplicado correctamente");
 
-                            await MarcarEntregadoRemoto(httpClient, request.UrlRemota, cambio.Id, parroquiaId);
+                            // Solo marcar entregado si NO es sincronizacion inicial
+                            if (!request.EsSincronizacionInicial)
+                            {
+                                await MarcarEntregadoRemoto(httpClient, request.UrlRemota, cambio.Id, parroquiaId);
+                            }
                         }
                         else
                         {
@@ -555,6 +559,8 @@ namespace BASEDEDATOS.API.Controllers
     {
         public string UrlRemota { get; set; }
         public int? ParroquiaDestinoId { get; set; }
+
+        public bool EsSincronizacionInicial { get; set; } = false;
     }
 
     public class CambioPendienteDto

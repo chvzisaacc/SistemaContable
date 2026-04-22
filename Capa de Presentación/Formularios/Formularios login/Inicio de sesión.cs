@@ -146,8 +146,9 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                     var request = new
                     {
-                        UrlRemota = urlApiRemota,        // ← ngrok del admin (de dónde jalar)
-                        ParroquiaDestinoId = (int?)null  // ← null = todos los cambios
+                        UrlRemota = urlApiRemota, 
+                        ParroquiaDestinoId = (int?)null,
+                        EsSincronizacionInicial = true
                     };
 
                     var jsonContent = new StringContent(
