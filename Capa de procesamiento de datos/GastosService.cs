@@ -29,7 +29,8 @@ namespace Capa_de_procesamiento_de_datos
             DataTable datos = _repo.ObtenerGastosPorParroquia(parroquia_id, desde, hasta);
             byte[] pdfBytes = GenerarPdf(datos, nombre_parroquia, desde, hasta);
 
-            string nombre_archivo = $"Gastos_{nombre_parroquia}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
+            string nombreLimpio = string.Concat(nombre_parroquia.Split(Path.GetInvalidFileNameChars())).Trim();
+            string nombre_archivo = $"Gastos_{nombreLimpio}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
             string ruta_completa = Path.Combine(_carpetaReportes, nombre_archivo);
 
             File.WriteAllBytes(ruta_completa, pdfBytes);

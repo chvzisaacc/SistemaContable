@@ -52,8 +52,10 @@ namespace Capa_de_procesamiento_de_datos
             );
 
             // Nombre único por parroquia y mes para evitar sobreescrituras accidentales
-            string nombreArchivo = $"Curia_{nombreParroquia}_{desde:yyyyMM}.pdf";
-            string rutaCompleta = Path.Combine(_carpetaReportes, nombreArchivo);
+
+            string nombreLimpio = string.Concat(nombreParroquia.Split(Path.GetInvalidFileNameChars())).Trim();
+            string nombre_archivo = $"Curia_{nombreLimpio}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
+            string rutaCompleta = Path.Combine(_carpetaReportes, nombre_archivo);
 
             File.WriteAllBytes(rutaCompleta, pdfBytes);
             return rutaCompleta;

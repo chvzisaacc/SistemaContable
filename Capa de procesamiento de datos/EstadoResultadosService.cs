@@ -38,7 +38,9 @@ namespace Capa_de_procesamiento_de_datos
 
             byte[] pdfBytes = GenerarPdf(totales, detalle, nombre_parroquia, desde, hasta);
 
-            string nombreArchivo = $"EstadoResultados_{nombre_parroquia}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
+           
+            string nombreLimpio = string.Concat(nombre_parroquia.Split(Path.GetInvalidFileNameChars())).Trim();
+            string nombreArchivo = $"EstadoResultados_{nombreLimpio}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
             string rutaCompleta = Path.Combine(_carpetaReportes, nombreArchivo);
 
             File.WriteAllBytes(rutaCompleta, pdfBytes);

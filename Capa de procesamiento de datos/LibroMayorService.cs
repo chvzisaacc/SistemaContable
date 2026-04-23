@@ -28,8 +28,10 @@ namespace Capa_de_procesamiento_de_datos
             DataTable datos = _repo.ObtenerLibroMayor(parroquia_id, desde, hasta);
             byte[] pdfBytes = GenerarPdf(datos, nombre_parroquia, desde, hasta);
 
-            string nombreArchivo = $"LibroMayor_{nombre_parroquia}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
-            string rutaCompleta = Path.Combine(_carpetaReportes, nombreArchivo);
+
+            string nombreLimpio = string.Concat(nombre_parroquia.Split(Path.GetInvalidFileNameChars())).Trim();
+            string nombre_archivo = $"LibroMayor_{nombreLimpio}_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf";
+            string rutaCompleta = Path.Combine(_carpetaReportes, nombre_archivo);
 
             File.WriteAllBytes(rutaCompleta, pdfBytes);
             return rutaCompleta;
