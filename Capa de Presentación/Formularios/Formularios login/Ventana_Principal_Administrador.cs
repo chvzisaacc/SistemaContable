@@ -49,7 +49,11 @@ namespace Capa_de_Presentación.Formularios_Ewin
         /// </summary>
         private bool modo_edicion_catalogo = false;
 
+        private int _idPadreOriginal = 0;
+
         private int id_cuenta_seleccionada = 0;
+
+        private string _codigoOriginal = "";
 
         private BindingSource bindingSourceCatalogo;
         private readonly clsCRUD_Usuarios _repo = new clsCRUD_Usuarios();
@@ -218,11 +222,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                 if (dt.Rows.Count == 0)
                 {
-                    // El nivel 1 seleccionado no tiene hijos agrupadoras
-                    // → el padre de la nueva cuenta es el nivel 1
-                    SugerirCodigo(id_padre);
+                    if (!modo_edicion_catalogo)
+                        SugerirCodigo(id_padre);
+                    else if (id_padre != _idPadreOriginal)
+                        SugerirCodigo(id_padre);
                     return;
                 }
+
+                // Permitir nulos antes de insertar la fila vacía
+                dt.Columns["id_cuenta"].AllowDBNull = true;
 
                 DataRow fila = dt.NewRow();
                 fila["id_cuenta"] = DBNull.Value;
@@ -253,10 +261,15 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                 if (dt.Rows.Count == 0)
                 {
-                    // No hay más niveles → el padre es el nivel 2
-                    SugerirCodigo(id_padre);
+                    if (!modo_edicion_catalogo)
+                        SugerirCodigo(id_padre);
+                    else if (id_padre != _idPadreOriginal)
+                        SugerirCodigo(id_padre);
                     return;
                 }
+
+                // Permitir nulos antes de insertar la fila vacía
+                dt.Columns["id_cuenta"].AllowDBNull = true;
 
                 DataRow fila = dt.NewRow();
                 fila["id_cuenta"] = DBNull.Value;
@@ -1503,39 +1516,41 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             if (dgvCatalogoCuentas.CurrentRow == null) return;
 
-            // 1. Bloqueo total de la lógica de "Sugerir Código"
             modo_edicion_catalogo = true;
             HabilitarControlesCatalogo(true);
             txtIdCuenta.ReadOnly = true;
 
             try
             {
-                // 2. Captura de datos desde la fila del Grid
-                string codigoOriginal = dgvCatalogoCuentas.CurrentRow.Cells[0].Value.ToString();
-                string nombrePadre = dgvCatalogoCuentas.CurrentRow.Cells["Nombre Padre"].Value.ToString();
                 id_cuenta_seleccionada = Convert.ToInt32(dgvCatalogoCuentas.CurrentRow.Cells["id_cuenta"].Value);
+                _codigoOriginal = dgvCatalogoCuentas.CurrentRow.Cells["Código"].Value?.ToString() ?? "";
+                string nombrePadre = dgvCatalogoCuentas.CurrentRow.Cells["Nombre Padre"].Value?.ToString() ?? "";
 
-                // 3. Cargar la data desde la BD (Esto recupera los IDs de la jerarquía)
+                // Obtener el padre ANTES de cargar, consultando la BD directamente
+                var cuenta = crud_catalogo_cuentas.BuscarCatalogoCuentaPorId(id_cuenta_seleccionada);
+                if (cuenta != null)
+                {
+                    int idPadreDirecto = cuenta["id_padre"] != DBNull.Value ? Convert.ToInt32(cuenta["id_padre"]) : 0;
+                    _idPadreOriginal = idPadreDirecto; // Guardarlo ANTES de cargar cascada
+                }
+
+                // Ahora cargar sin que SugerirCodigo afecte
                 CargarDatosCatalogoCuenta();
 
-                // 4. Lógica de recuperación para el ComboBox (Nivel 1)
-                // Buscamos el nombre del padre que está en el Grid
+                // Restaurar código siempre
+                txtIdCuenta.Text = _codigoOriginal;
+                txtIdCuenta.ReadOnly = true;
+                txtIdCuenta.BackColor = Color.LightGray;
+
                 if (cmbNivel1.Items.Count > 0)
                 {
                     int index = cmbNivel1.FindStringExact(nombrePadre);
                     if (index != -1)
-                    {
                         cmbNivel1.SelectedIndex = index;
-                    }
-                    else
-                    {
-                        // Si no está en el Nivel 1, intentamos forzar por el SelectedValue 
-                        // que cargó previamente 'CargarDatosCatalogoCuenta'
-                    }
-                }
 
-                // 5. Forzamos el código original para que no se mueva
-                txtIdCuenta.Text = codigoOriginal;
+                    // Restaurar código de nuevo por si el SelectedIndex lo cambió
+                    txtIdCuenta.Text = _codigoOriginal;
+                }
             }
             catch (Exception ex)
             {
@@ -1552,6 +1567,23 @@ namespace Capa_de_Presentación.Formularios_Ewin
             if (id <= 0) return;
 
             CargarNivel2(id);
+
+            if (modo_edicion_catalogo)
+            {
+                int padreActual = ObtenerIdPadreSeleccionado();
+                if (padreActual == _idPadreOriginal)
+                {
+                    txtIdCuenta.Text = _codigoOriginal;
+                    txtIdCuenta.ReadOnly = true;
+                    txtIdCuenta.BackColor = Color.LightGray;
+                }
+                else if (padreActual > 0)
+                {
+                    SugerirCodigo(padreActual);
+                    txtIdCuenta.ReadOnly = true;
+                    txtIdCuenta.BackColor = Color.LightGray;
+                }
+            }
         }
 
         private void cmbTipoCuenta_SelectedIndexChanged(object sender, EventArgs e)
@@ -1561,18 +1593,48 @@ namespace Capa_de_Presentación.Formularios_Ewin
             if (id <= 0) return;
 
             CargarNivel3(id);
+
+            if (modo_edicion_catalogo)
+            {
+                int padreActual = ObtenerIdPadreSeleccionado();
+                if (padreActual == _idPadreOriginal)
+                {
+                    txtIdCuenta.Text = _codigoOriginal;
+                    txtIdCuenta.ReadOnly = true;
+                    txtIdCuenta.BackColor = Color.LightGray;
+                }
+                else if (padreActual > 0)
+                {
+                    SugerirCodigo(padreActual);
+                    txtIdCuenta.ReadOnly = true;
+                    txtIdCuenta.BackColor = Color.LightGray;
+                }
+            }
         }
 
         private void cmbNivel3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Si estamos editando, SALIR del método sin sugerir nada
-            if (modo_edicion_catalogo) return;
+            if (!int.TryParse(cmbNivel3.SelectedValue?.ToString(), out int idSeleccionado)) return;
+            if (idSeleccionado <= 0) return;
 
-            // Solo si es una cuenta nueva, sugerimos código
-            if (int.TryParse(cmbNivel3.SelectedValue?.ToString(), out int id))
+            if (modo_edicion_catalogo)
             {
-                SugerirCodigo(id);
+                if (idSeleccionado == _idPadreOriginal)
+                {
+                    txtIdCuenta.Text = _codigoOriginal;
+                    txtIdCuenta.ReadOnly = true;
+                    txtIdCuenta.BackColor = Color.LightGray;
+                }
+                else
+                {
+                    SugerirCodigo(idSeleccionado);
+                    txtIdCuenta.ReadOnly = true;
+                    txtIdCuenta.BackColor = Color.LightGray;
+                }
+                return;
             }
+
+            SugerirCodigo(idSeleccionado);
         }
 
         private void btnNuevaCuenta_Click_1(object sender, EventArgs e)
