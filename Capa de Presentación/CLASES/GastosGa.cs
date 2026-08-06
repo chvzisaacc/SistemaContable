@@ -144,6 +144,82 @@ namespace Capa_de_Presentación.CLASES
                 return false;
             }
         }
+        /// <summary>
+        /// Guarda edición especial de gasto (sin restricción de tiempo).
+        /// Solo se invoca tras validación exitosa del código enviado por correo.
+        /// </summary>
+        public bool GuardarEdicionEspecial2(DataTable dtGasto, string nombre_cuenta, string detalle, decimal saldo,
+            DateTime fecha_transaccion, string referencia, int id_origen,
+            TextBox txtNoReferencia = null, ComboBox cmbOrigen = null,
+            DataGridView dgvGastos = null, DateTimePicker dtpFecha = null)
+        {
+            try
+            {
+                if (dgvGastos == null || dgvGastos.CurrentRow == null)
+                {
+                    MessageBox.Show("No se seleccionó ninguna fila válida.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                DataGridViewRow fila = dgvGastos.CurrentRow;
+
+                if (fila.Cells["Id_transaccion"].Value == null || fila.Cells["Id_transaccion"].Value == DBNull.Value)
+                {
+                    MessageBox.Show("La fila seleccionada no tiene un ID válido.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                int transaccion_id = Convert.ToInt32(fila.Cells["Id_transaccion"].Value);
+
+                Capa_de_procesamiento_de_datos.Gastos gastos = new Capa_de_procesamiento_de_datos.Gastos();
+
+                // Única diferencia: llama a ModificarGastosEspecial
+                int rowsAffected = gastos.ModificarGastosEspecial(
+                    transaccion_id, fecha_transaccion, detalle, saldo,
+                    Convert.ToInt32(referencia), Sesion1.usuario_id, id_origen, nombre_cuenta
+                );
+
+                if (rowsAffected > 0)
+                {
+                    MessageBox.Show("Registro modificado con éxito (Edición Especial).", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    txtNoReferencia?.Clear();
+                    cmbOrigen?.ResetText();
+                    if (cmbOrigen != null) cmbOrigen.SelectedIndex = -1;
+                    if (dtpFecha != null) dtpFecha.Value = DateTime.Now;
+
+                    if (dgvGastos != null)
+                    {
+                        foreach (DataGridViewColumn col in dgvGastos.Columns)
+                            col.ReadOnly = true;
+
+                        dgvGastos.ReadOnly = true;
+                        dgvGastos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                        dgvGastos.MultiSelect = false;
+                        dgvGastos.Enabled = true;
+                        dgvGastos.ClearSelection();
+
+                        if (dgvGastos.Rows.Count > 0)
+                            dgvGastos.Rows[0].Selected = true;
+                    }
+
+                    return true;
+                }
+
+                MessageBox.Show("No se pudo actualizar la transacción.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar la edición especial: " + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
 
     }
 }

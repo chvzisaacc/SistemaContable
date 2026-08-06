@@ -82,7 +82,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             label1.AutoSize = true;
             label1.FlatStyle = FlatStyle.Popup;
             label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(191, 48);
+            label1.Location = new Point(421, 28);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.RightToLeft = RightToLeft.No;
@@ -180,7 +180,7 @@ namespace Capa_de_Presentación.Formularios_Diego
             textBox4.BorderStyle = BorderStyle.None;
             textBox4.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox4.ForeColor = Color.White;
-            textBox4.Location = new Point(87, 23);
+            textBox4.Location = new Point(74, 23);
             textBox4.Margin = new Padding(4, 3, 4, 3);
             textBox4.Multiline = true;
             textBox4.Name = "textBox4";
@@ -298,12 +298,12 @@ namespace Capa_de_Presentación.Formularios_Diego
             // 
             label6.AutoSize = true;
             label6.FlatStyle = FlatStyle.Popup;
-            label6.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(284, 23);
+            label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.Location = new Point(571, 23);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.RightToLeft = RightToLeft.No;
-            label6.Size = new Size(382, 45);
+            label6.Size = new Size(282, 32);
             label6.TabIndex = 10;
             label6.Text = "Certificado de depósito\r\n";
             // 
@@ -337,8 +337,8 @@ namespace Capa_de_Presentación.Formularios_Diego
             // 
             // Certificados_De_Depósito
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(144F, 144F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(1586, 685);
             Controls.Add(panel1);

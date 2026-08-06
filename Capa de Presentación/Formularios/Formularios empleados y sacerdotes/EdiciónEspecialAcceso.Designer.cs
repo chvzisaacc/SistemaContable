@@ -1,6 +1,6 @@
-﻿namespace Capa_de_Presentación.Formularios_Ewin
+﻿namespace Capa_de_Presentación.Formularios.Formularios_empleados_y_sacerdotes
 {
-    partial class Olvidaste_tu_contraseña
+    partial class EdiciónEspecialAcceso
     {
         /// <summary>
         /// Required designer variable.
@@ -28,18 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Olvidaste_tu_contraseña));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EdiciónEspecialAcceso));
             panel1 = new Panel();
             panel2 = new Panel();
             txtUsuario = new TextBox();
             label5 = new Label();
             label4 = new Label();
             txt_correo_electronico = new TextBox();
-            btn_restablecer_contrasena = new Button();
+            btn_solicitarcorreo = new Button();
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
-            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -49,11 +48,11 @@
             panel1.BackColor = Color.Yellow;
             panel1.BorderStyle = BorderStyle.Fixed3D;
             panel1.Controls.Add(panel2);
-            panel1.Location = new Point(497, 143);
+            panel1.Location = new Point(3, 2);
             panel1.Margin = new Padding(4, 3, 4, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(631, 561);
-            panel1.TabIndex = 0;
+            panel1.Size = new Size(683, 561);
+            panel1.TabIndex = 1;
             // 
             // panel2
             // 
@@ -63,7 +62,7 @@
             panel2.Controls.Add(label5);
             panel2.Controls.Add(label4);
             panel2.Controls.Add(txt_correo_electronico);
-            panel2.Controls.Add(btn_restablecer_contrasena);
+            panel2.Controls.Add(btn_solicitarcorreo);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(label2);
             panel2.Controls.Add(label1);
@@ -71,7 +70,7 @@
             panel2.Margin = new Padding(4, 3, 4, 3);
             panel2.Name = "panel2";
             panel2.RightToLeft = RightToLeft.No;
-            panel2.Size = new Size(619, 549);
+            panel2.Size = new Size(671, 549);
             panel2.TabIndex = 0;
             // 
             // txtUsuario
@@ -112,31 +111,31 @@
             txt_correo_electronico.Size = new Size(495, 31);
             txt_correo_electronico.TabIndex = 2;
             // 
-            // btn_restablecer_contrasena
+            // btn_solicitarcorreo
             // 
-            btn_restablecer_contrasena.BackColor = Color.FromArgb(43, 56, 143);
-            btn_restablecer_contrasena.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_restablecer_contrasena.ForeColor = Color.White;
-            btn_restablecer_contrasena.ImageAlign = ContentAlignment.TopCenter;
-            btn_restablecer_contrasena.Location = new Point(81, 377);
-            btn_restablecer_contrasena.Margin = new Padding(4, 3, 4, 3);
-            btn_restablecer_contrasena.Name = "btn_restablecer_contrasena";
-            btn_restablecer_contrasena.Size = new Size(447, 73);
-            btn_restablecer_contrasena.TabIndex = 4;
-            btn_restablecer_contrasena.Text = "Restablecer Contraseña";
-            btn_restablecer_contrasena.UseVisualStyleBackColor = false;
-            btn_restablecer_contrasena.UseWaitCursor = true;
-            btn_restablecer_contrasena.Click += btn_restablecer_contrasena_Click;
+            btn_solicitarcorreo.BackColor = Color.FromArgb(43, 56, 143);
+            btn_solicitarcorreo.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_solicitarcorreo.ForeColor = Color.White;
+            btn_solicitarcorreo.ImageAlign = ContentAlignment.TopCenter;
+            btn_solicitarcorreo.Location = new Point(81, 377);
+            btn_solicitarcorreo.Margin = new Padding(4, 3, 4, 3);
+            btn_solicitarcorreo.Name = "btn_solicitarcorreo";
+            btn_solicitarcorreo.Size = new Size(447, 73);
+            btn_solicitarcorreo.TabIndex = 4;
+            btn_solicitarcorreo.Text = "Solicitar Código";
+            btn_solicitarcorreo.UseVisualStyleBackColor = false;
+            btn_solicitarcorreo.UseWaitCursor = true;
+            btn_solicitarcorreo.Click += btn_restablecer_contrasena_Click;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(70, 283);
+            label3.Location = new Point(106, 292);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(473, 50);
+            label3.Size = new Size(416, 50);
             label3.TabIndex = 3;
-            label3.Text = "Al presionar “Restablecer Contraseña” se enviará un correo\r\ncon el código para restablecer la contraseña.";
+            label3.Text = "Al presionar “Solicitar Código” se enviará un correo\r\ncon el código para acceder a la edición especial.";
             label3.TextAlign = ContentAlignment.TopCenter;
             // 
             // label2
@@ -153,30 +152,24 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(141, 37);
+            label1.Location = new Point(106, 37);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(342, 45);
+            label1.Size = new Size(459, 45);
             label1.TabIndex = 0;
-            label1.Text = "Contraseña Olvidada";
+            label1.Text = "Acceso para edición especial";
             label1.TextAlign = ContentAlignment.TopCenter;
             // 
-            // Olvidaste_tu_contraseña
+            // EdiciónEspecialAcceso
             // 
-            AcceptButton = btn_restablecer_contrasena;
-            AutoScaleDimensions = new SizeF(144F, 144F);
-            AutoScaleMode = AutoScaleMode.Dpi;
-            BackgroundImage = Properties.Resources.Imagen_de_WhatsApp_2025_10_22_a_las_17_39_32_e87a041a;
-            BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(1601, 898);
+            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(686, 564);
             Controls.Add(panel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(4, 3, 4, 3);
-            MaximizeBox = false;
-            Name = "Olvidaste_tu_contraseña";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Olvisdaste tu contraseña";
-            Load += Olvidaste_tu_contraseña_Load;
+            Name = "EdiciónEspecialAcceso";
+            Text = "EdiciónEspecialAcceso";
+            Load += EdiciónEspecialAcceso_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
@@ -187,14 +180,13 @@
 
         private Panel panel1;
         private Panel panel2;
-        private TextBox txt_correo_electronico;
-        private Label label2;
-        private Label label1;
-        private Label label3;
-        private Button btn_restablecer_contrasena;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private Label label4;
         private TextBox txtUsuario;
         private Label label5;
+        private Label label4;
+        private TextBox txt_correo_electronico;
+        private Button btn_solicitarcorreo;
+        private Label label3;
+        private Label label2;
+        private Label label1;
     }
 }

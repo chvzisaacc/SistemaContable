@@ -115,7 +115,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 int cuenta_destino = Convert.ToInt32(cmbDestino.SelectedValue);
 
                 bool exito = crudTransferencia.TransferirEntreCuentas(
-                            cuenta_origen, cuenta_destino, monto, _parroquiaId, _usuarioId);
+                    cuenta_origen, cuenta_destino, monto, _parroquiaId, _usuarioId);
+
                 if (exito)
                 {
                     MessageBox.Show("Transferencia realizada exitosamente",
@@ -126,8 +127,20 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al realizar la transferencia: " + ex.Message,
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string mensaje = ex.Message
+                    .Replace("Error al realizar la transferencia: ", "")
+                    .Replace("Error al procesar: ", "");
+
+                if (mensaje.Contains("ya fue procesada previamente"))
+                {
+                    MessageBox.Show(mensaje, "Transacción Duplicada",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show(mensaje, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

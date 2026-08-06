@@ -85,6 +85,31 @@ namespace Capa_de_acceso_de_datos
         }
 
         /// <summary>
+        /// Modifica capital inicial sin restricción de 15 minutos (Edición Especial).
+        /// Ejecuta sp_ModificarCapitalInicialEspecial.
+        /// </summary>
+        public bool ModificarCapitalInicialEspecial(decimal monto, int parroquiaId, int usuarioId)
+        {
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("sp_ModificarCapitalInicialEspecial", _cn.sc))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@monto_nuevo", monto);
+                    cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
+                    cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
+
+                    _cn.EjecutarYEnviar(cmd, sincronizar: true);
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Verifica si parroquia tiene capital inicial registrado ejecutando procedimiento sp_TieneCapitalInicial.
         /// Parámetro: parroquiaId (identificación a validar).
         /// Retorna true si existe capital inicial, false si no existe o parroquia no está registrada.
@@ -169,5 +194,7 @@ namespace Capa_de_acceso_de_datos
                 _cn.Cerrar();
             }
         }
+
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 using Capa_de_acceso_de_datos;
+using Capa_de_Presentación.Formularios.Formularios_empleados_y_sacerdotes;
 using System.Data;
 
 namespace Capa_de_Presentación.Formularios_Luiss
@@ -204,24 +205,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            object fechaValor = fila.Cells["Fecha de Creación"].Value;
-
-            if (fechaValor != null && fechaValor != DBNull.Value)
-            {
-                DateTime fechaCreacion = Convert.ToDateTime(fechaValor);
-                double minutosTranscurridos = (DateTime.Now - fechaCreacion).TotalMinutes;
-
-                if (minutosTranscurridos > 15)
-                {
-                    MessageBox.Show(
-                        "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.",
-                        "Edición no permitida",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-
             string nombre = fila.Cells["Nombre"].Value?.ToString() ?? string.Empty;
             decimal saldo = Convert.ToDecimal(fila.Cells["Saldo"].Value);
 
@@ -232,13 +215,51 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
+            object fechaValor = fila.Cells["Fecha de Creación"].Value;
+
+            if (fechaValor != null && fechaValor != DBNull.Value)
+            {
+                DateTime fechaCreacion = Convert.ToDateTime(fechaValor);
+                double minutosTranscurridos = (DateTime.Now - fechaCreacion).TotalMinutes;
+
+                if (minutosTranscurridos > 15)
+                {
+                    DialogResult respuesta = MessageBox.Show(
+                        "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.\n\n" +
+                        "¿Desea solicitar una Edición Especial?\n(Recuerde: solo dispone de 3 intentos diarios)",
+                        "Edición no permitida",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (respuesta == DialogResult.Yes)
+                    {
+                        using (var frmEspecial = new EdiciónEspecialAcceso(5))
+                        {
+                            frmEspecial.StartPosition = FormStartPosition.CenterParent;
+
+                            //Si el código fue válido abre edición especial sin restricción
+                            if (frmEspecial.ShowDialog(this) == DialogResult.OK)
+                            {
+                                using (var frmEditar = new BancosAgregarCuentaBancaria(
+                                    _parroquiaId, idOrigen, nombre, saldo, idTipoCuenta,
+                                    esEdicionEspecial: true))
+                                {
+                                    if (frmEditar.ShowDialog() == DialogResult.OK)
+                                        CargarCuentasDataGridView();
+                                }
+                            }
+                        }
+                    }
+                    return;
+                }
+            }
+
+            //Edición normal — dentro de los 15 minutos
             using (BancosAgregarCuentaBancaria frmEditar = new BancosAgregarCuentaBancaria(
-                        _parroquiaId, idOrigen, nombre, saldo, idTipoCuenta))
+                _parroquiaId, idOrigen, nombre, saldo, idTipoCuenta))
             {
                 if (frmEditar.ShowDialog() == DialogResult.OK)
-                {
                     CargarCuentasDataGridView();
-                }
             }
         }
     }

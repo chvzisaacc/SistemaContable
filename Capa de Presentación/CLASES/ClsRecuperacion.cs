@@ -28,20 +28,26 @@ namespace Capa_de_Presentación.CAPAS
             int rol = sesion.rol_id;
             var ids = metodos.ObtenerUsuarioIdPorNombreUsuario(usuario);
 
-            // Actualizar la UI de forma sincronizada para informar al usuario
-            if (rol == -1)
+            if (rol == 0)
             {
                 lblMensaje.ForeColor = Color.White;
                 lblMensaje.BackColor = Color.Transparent;
                 lblMensaje.Text = "⚠ Credenciales incorrectas";
                 lblMensaje.Font = new Font(lblMensaje.Font, FontStyle.Bold);
             }
-            else if (rol == 0)
+
+            else if (rol == -1)
             {
                 lblMensaje.ForeColor = Color.White;
                 lblMensaje.BackColor = Color.Transparent;
-                lblMensaje.Text = "⚠ Credenciales incorrectas";
+                lblMensaje.Text = "⚠ Cuenta deshabilitada";
                 lblMensaje.Font = new Font(lblMensaje.Font, FontStyle.Bold);
+
+                // Se muestra el MessageBox solo cuando el rol es -1
+                MessageBox.Show("Esta cuenta se encuentra deshabilitada o suspendida.\nPor favor, contacte al administrador del sistema.",
+                                "Acceso Denegado",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Stop);
             }
             return rol;
         }

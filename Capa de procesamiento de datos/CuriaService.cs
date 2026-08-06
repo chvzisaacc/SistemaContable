@@ -125,8 +125,8 @@ namespace Capa_de_procesamiento_de_datos
                                     .FontSize(16).Bold().FontColor("#003399");
                                 left.Item().Text($"Parroquia {parroquia}, Tegucigalpa")
                                     .FontSize(11).FontColor("#444444");
-                                left.Item().Text($"Año: {desde:yyyy}")
-                                    .FontSize(10).FontColor("#666666");
+                                left.Item().Text($"Período: {desde:dd/MM/yyyy} - {hasta:dd/MM/yyyy}")
+                                .FontSize(10).FontColor("#666666");
                             });
 
                             if (File.Exists(logoPath))

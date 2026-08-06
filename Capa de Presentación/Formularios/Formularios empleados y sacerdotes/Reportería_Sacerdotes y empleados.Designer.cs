@@ -281,8 +281,8 @@
             // 
             // FRM_PG49
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(144F, 144F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             ClientSize = new Size(1601, 670);
             Controls.Add(label10);
             Controls.Add(label8);

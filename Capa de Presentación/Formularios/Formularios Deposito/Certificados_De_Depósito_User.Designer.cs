@@ -57,6 +57,7 @@
             dataGridView2.RowHeadersWidth = 62;
             dataGridView2.Size = new Size(1133, 570);
             dataGridView2.TabIndex = 0;
+            dataGridView2.CellContentClick += dataGridView2_CellContentClick;
             // 
             // label1
             // 
@@ -82,8 +83,8 @@
             // 
             // Certificados_De_Depósito_User
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(144F, 144F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             ClientSize = new Size(1178, 724);
             Controls.Add(pictureBox1);
             Controls.Add(label1);

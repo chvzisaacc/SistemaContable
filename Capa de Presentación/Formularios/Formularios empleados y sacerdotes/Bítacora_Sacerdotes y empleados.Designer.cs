@@ -63,6 +63,8 @@
             dgvBitacora.AllowUserToAddRows = false;
             dgvBitacora.AllowUserToDeleteRows = false;
             dgvBitacora.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvBitacora.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvBitacora.BackgroundColor = SystemColors.Control;
             dgvBitacora.BorderStyle = BorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -80,7 +82,7 @@
             dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dgvBitacora.DefaultCellStyle = dataGridViewCellStyle2;
             dgvBitacora.GridColor = SystemColors.WindowText;
             dgvBitacora.Location = new Point(66, 220);
@@ -214,8 +216,8 @@
             // 
             // FRM_PG51
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(144F, 144F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             ClientSize = new Size(1601, 897);
             Controls.Add(btnLimpiarFiltro);
             Controls.Add(btnFiltrar);

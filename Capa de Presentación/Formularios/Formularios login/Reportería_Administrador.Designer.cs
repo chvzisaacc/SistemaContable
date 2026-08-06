@@ -31,6 +31,8 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Reportería_Administrador));
             panel1 = new Panel();
+            label10 = new Label();
+            label1 = new Label();
             btn_descargar = new Button();
             cmb_formato_descarga = new ComboBox();
             label9 = new Label();
@@ -51,8 +53,6 @@ namespace Capa_de_Presentación.Formularios_Ewin
             label4 = new Label();
             panel4 = new Panel();
             pictureBox1 = new PictureBox();
-            label1 = new Label();
-            label10 = new Label();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
@@ -78,6 +78,28 @@ namespace Capa_de_Presentación.Formularios_Ewin
             panel1.Size = new Size(1571, 693);
             panel1.TabIndex = 12;
             panel1.Paint += panel1_Paint;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            label10.Location = new Point(466, 134);
+            label10.Margin = new Padding(4, 0, 4, 0);
+            label10.Name = "label10";
+            label10.Size = new Size(725, 45);
+            label10.TabIndex = 30;
+            label10.Text = "Genere los reportes que necesite en el instante.";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            label1.Location = new Point(313, 50);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(1014, 45);
+            label1.TabIndex = 29;
+            label1.Text = " REPORTES DE INGRESOS, GASTOS, ESTADO DE RESULTADOS ETC.";
             // 
             // btn_descargar
             // 
@@ -163,10 +185,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             panel2.Controls.Add(dtp_desde);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(label6);
-            panel2.Location = new Point(110, 240);
+            panel2.Location = new Point(26, 240);
             panel2.Margin = new Padding(4, 3, 4, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(751, 405);
+            panel2.Size = new Size(835, 405);
             panel2.TabIndex = 17;
             // 
             // btn_generar
@@ -192,12 +214,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmb_tipo_reporte.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmb_tipo_reporte.FormattingEnabled = true;
             cmb_tipo_reporte.IntegralHeight = false;
-            cmb_tipo_reporte.Location = new Point(503, 153);
+            cmb_tipo_reporte.Location = new Point(523, 129);
             cmb_tipo_reporte.Margin = new Padding(4, 3, 4, 3);
             cmb_tipo_reporte.MaxDropDownItems = 6;
             cmb_tipo_reporte.Name = "cmb_tipo_reporte";
-            cmb_tipo_reporte.Size = new Size(235, 33);
+            cmb_tipo_reporte.Size = new Size(294, 33);
             cmb_tipo_reporte.TabIndex = 9;
+            cmb_tipo_reporte.SelectedIndexChanged += cmb_tipo_reporte_SelectedIndexChanged;
             // 
             // cmb_parroquia
             // 
@@ -205,17 +228,18 @@ namespace Capa_de_Presentación.Formularios_Ewin
             cmb_parroquia.AutoCompleteSource = AutoCompleteSource.ListItems;
             cmb_parroquia.FormattingEnabled = true;
             cmb_parroquia.IntegralHeight = false;
-            cmb_parroquia.Location = new Point(503, 103);
+            cmb_parroquia.Location = new Point(109, 214);
             cmb_parroquia.Margin = new Padding(4, 3, 4, 3);
             cmb_parroquia.MaxDropDownItems = 6;
             cmb_parroquia.Name = "cmb_parroquia";
-            cmb_parroquia.Size = new Size(235, 33);
+            cmb_parroquia.Size = new Size(708, 33);
             cmb_parroquia.TabIndex = 8;
+            cmb_parroquia.SelectedIndexChanged += cmb_parroquia_SelectedIndexChanged;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(356, 162);
+            label7.Location = new Point(376, 132);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
             label7.Size = new Size(139, 25);
@@ -225,7 +249,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(404, 112);
+            label8.Location = new Point(10, 217);
             label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
             label8.Size = new Size(91, 25);
@@ -234,7 +258,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // 
             // dtp_hasta
             // 
-            dtp_hasta.Location = new Point(89, 157);
+            dtp_hasta.Location = new Point(109, 156);
             dtp_hasta.Margin = new Padding(4, 3, 4, 3);
             dtp_hasta.Name = "dtp_hasta";
             dtp_hasta.Size = new Size(235, 31);
@@ -243,7 +267,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(19, 163);
+            label5.Location = new Point(39, 162);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
             label5.Size = new Size(61, 25);
@@ -252,7 +276,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // 
             // dtp_desde
             // 
-            dtp_desde.Location = new Point(89, 103);
+            dtp_desde.Location = new Point(109, 102);
             dtp_desde.Margin = new Padding(4, 3, 4, 3);
             dtp_desde.Name = "dtp_desde";
             dtp_desde.Size = new Size(237, 31);
@@ -261,7 +285,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(19, 110);
+            label3.Location = new Point(39, 109);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new Size(66, 25);
@@ -311,32 +335,10 @@ namespace Capa_de_Presentación.Formularios_Ewin
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            label1.Location = new Point(313, 50);
-            label1.Margin = new Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(1014, 45);
-            label1.TabIndex = 29;
-            label1.Text = " REPORTES DE INGRESOS, GASTOS, ESTADO DE RESULTADOS ETC.";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            label10.Location = new Point(466, 134);
-            label10.Margin = new Padding(4, 0, 4, 0);
-            label10.Name = "label10";
-            label10.Size = new Size(725, 45);
-            label10.TabIndex = 30;
-            label10.Text = "Genere los reportes que necesite en el instante.";
-            // 
             // Reportería_Administrador
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(144F, 144F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(1601, 723);
             Controls.Add(panel1);

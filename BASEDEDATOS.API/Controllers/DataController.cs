@@ -467,9 +467,10 @@ namespace BASEDEDATOS.API.Controllers
                 conn.Open();
                 return Ok(new { status = "ok" });
             }
-            catch
+            catch(Exception ex)
             {
-                return StatusCode(503, new { status = "db_unavailable" });
+                Console.WriteLine($"[HEALTH] ERROR: {ex.Message}");
+                return StatusCode(503, new { status = "db_unavailable", error = ex.Message });
             }
         }
 

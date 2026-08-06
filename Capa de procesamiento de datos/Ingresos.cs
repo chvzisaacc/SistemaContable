@@ -101,5 +101,70 @@ namespace Capa_de_procesamiento_de_datos
             }
             return filas_afectadas;
         }
+
+        /// <summary>
+        /// Actualiza un ingreso existente sin restricción de tiempo y retorna las filas afectadas.
+        /// Usado exclusivamente tras validación de código de edición especial por correo.
+        /// </summary>
+        public int ModificarIngresoEspecial(int id_transaccion, DateTime fecha, string descripcion,
+            decimal monto, int referencia, int usuario_id, int id_origen, string nombre)
+        {
+            int filas_afectadas = 0;
+            try
+            {
+                DateTime fechaValidada = (fecha < new DateTime(1753, 1, 1) || fecha == DateTime.MinValue)
+                                         ? DateTime.Now : fecha;
+                Abrir();
+                using (SqlCommand command = new SqlCommand("sp_ModificarIngresosEspecial", sc))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@id_transaccion", id_transaccion);
+                    command.Parameters.AddWithValue("@fecha_transaccion", fechaValidada);
+                    command.Parameters.AddWithValue("@descripcion", descripcion ?? "");
+                    command.Parameters.AddWithValue("@monto_nuevo", monto);
+                    command.Parameters.AddWithValue("@Numero_de_Referencia", referencia);
+                    command.Parameters.AddWithValue("@Usuario_id", usuario_id);
+                    command.Parameters.AddWithValue("@Id_Origen", id_origen);
+                    command.Parameters.AddWithValue("@Nombre", nombre ?? "");
+                    filas_afectadas = EjecutarScalarYEnviar(command, sincronizar: true);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al modificar el ingreso (edición especial): " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+            return filas_afectadas;
+        }
+
+        /// <summary>Obtiene las últimas 50 transacciones de ingresos de la parroquia.</summary>
+        public DataTable ObtenerUltimosIngresos(int parroquiaId)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                Abrir();
+                using (SqlCommand command = new SqlCommand("sp_ObtenerUltimosIngresos", sc))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@Parroquia_ID", SqlDbType.Int).Value = parroquiaId;
+
+                    SqlDataAdapter da = new SqlDataAdapter(command);
+                    da.Fill(dt);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener ingresos: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+            return dt;
+        }
     }
 }

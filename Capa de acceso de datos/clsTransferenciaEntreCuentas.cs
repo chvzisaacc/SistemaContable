@@ -65,7 +65,7 @@ namespace Capa_de_acceso_de_datos
         /// - Dispara NotificarSP automáticamente para sincronizar con servidor remoto
         /// </summary>
         public bool TransferirEntreCuentas(int cuenta_origen, int cuenta_destino, decimal monto,
-                                   int parroquiaId, int usuarioId, string descripcion = null)
+                             int parroquiaId, int usuarioId, string descripcion = null)
         {
             try
             {
@@ -77,17 +77,28 @@ namespace Capa_de_acceso_de_datos
                 cmd.Parameters.AddWithValue("@CuentaDestino", cuenta_destino);
                 cmd.Parameters.AddWithValue("@Monto", monto);
                 cmd.Parameters.AddWithValue("@Usuario_id", usuarioId);
-
-                string desc = string.IsNullOrWhiteSpace(descripcion) ? "Transferencia" : descripcion;
-                cmd.Parameters.AddWithValue("@descripcion", desc);
-
+                cmd.Parameters.AddWithValue("@descripcion", string.IsNullOrWhiteSpace(descripcion) ? "Transferencia" : descripcion);
                 cmd.Parameters.AddWithValue("@Parroquia_ID", parroquiaId);
 
+                SqlParameter paramExitoso = new SqlParameter("@Exitoso", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                SqlParameter paramMensaje = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500) { Direction = ParameterDirection.Output };
+                cmd.Parameters.Add(paramExitoso);
+                cmd.Parameters.Add(paramMensaje);
+
                 conexion.EjecutarYEnviar(cmd, sincronizar: true);
+
+                bool exitoso = Convert.ToBoolean(paramExitoso.Value);
+                if (!exitoso)
+                {
+                    string mensajeSP = paramMensaje.Value?.ToString() ?? "Error desconocido";
+                    throw new Exception(mensajeSP);
+                }
+
                 return true;
             }
             catch (SqlException ex)
             {
+                // Errores con número específico del SP (THROW 500xx)
                 string mensaje = ex.Number switch
                 {
                     50001 => "Saldo insuficiente en la cuenta de origen.",

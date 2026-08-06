@@ -92,5 +92,66 @@ namespace Capa_de_procesamiento_de_datos
             }
             return filas_afectadas;
         }
+
+        /// <summary>Obtiene las últimas 50 transacciones de gastos de la parroquia.</summary>
+        public DataTable ObtenerUltimosGastos(int parroquiaId)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                Abrir();
+                using (SqlCommand command = new SqlCommand("sp_ObtenerUltimosGastos", sc))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@Parroquia_ID", SqlDbType.Int).Value = parroquiaId;
+
+                    SqlDataAdapter da = new SqlDataAdapter(command);
+                    da.Fill(dt);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener gastos: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+            return dt;
+        }
+
+        /// <summary>Actualiza un gasto sin restricción de tiempo (edición especial).</summary>
+        public int ModificarGastosEspecial(int id_transaccion, DateTime fecha, string descripcion,
+            decimal monto, int referencia, int usuario_id, int id_origen, string nombre)
+        {
+            int filas_afectadas = 0;
+            try
+            {
+                Abrir();
+                using (SqlCommand command = new SqlCommand("sp_ModificarGastosEspecial", sc))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@id_transaccion", id_transaccion);
+                    command.Parameters.AddWithValue("@fecha_transaccion", fecha);
+                    command.Parameters.AddWithValue("@descripcion", descripcion);
+                    command.Parameters.AddWithValue("@monto_nuevo", monto);
+                    command.Parameters.AddWithValue("@Numero_de_Referencia", referencia);
+                    command.Parameters.AddWithValue("@Usuario_id", usuario_id);
+                    command.Parameters.AddWithValue("@Id_Origen", id_origen);
+                    command.Parameters.AddWithValue("@Nombre", nombre);
+
+                    filas_afectadas = EjecutarScalarYEnviar(command, sincronizar: true);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al modificar el gasto (edición especial): " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+            return filas_afectadas;
+        }
     }
 }

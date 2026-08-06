@@ -44,10 +44,11 @@ namespace Capa_de_acceso_de_datos
             }
             finally
             {
-                Cerrar();
+                //Cerrar();
                 // Solo notificar si la ejecución fue exitosa y se solicita sincronización
                 if (sincronizar && ejecucionExitosa)
                     NotificarSP(cmd);
+                Cerrar();
             }
         }
 

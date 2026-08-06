@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Logging.ClearProviders();
+//builder.Logging.ClearProviders();
 
 /// <summary>
 /// Configura el servidor Kestrel para escuchar en el puerto 5145 de cualquier interfaz de red (0.0.0.0).
@@ -63,4 +63,6 @@ app.MapGet("/", () => Results.Ok(new
 
 app.MapControllers();
 
+var connStr = app.Configuration.GetConnectionString("DefaultConnection");
+Console.WriteLine($"[STARTUP] Connection string: {connStr}");
 app.Run("http://0.0.0.0:5145");

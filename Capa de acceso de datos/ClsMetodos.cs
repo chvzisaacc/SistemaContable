@@ -27,10 +27,21 @@
             try
             {
                 resultado = ValidarCredenciales(usuario, contraseña, id_parroquia);
-                if (resultado != null && resultado.usuario_id > 0)
+
+                if (resultado != null)
                 {
-                    Sesion1.IniciarSesion(resultado.usuario_id, resultado.rol_id, resultado.id_parroquia);
-                    return (resultado.rol_id, resultado.id_parroquia);
+
+                    if (resultado.rol_id == -1)
+                    {
+                        return (-1, 0);
+                    }
+                    // ----------------------------------------------
+
+                    if (resultado.usuario_id > 0)
+                    {
+                        Sesion1.IniciarSesion(resultado.usuario_id, resultado.rol_id, resultado.id_parroquia);
+                        return (resultado.rol_id, resultado.id_parroquia);
+                    }
                 }
                 return (0, 0);
             }

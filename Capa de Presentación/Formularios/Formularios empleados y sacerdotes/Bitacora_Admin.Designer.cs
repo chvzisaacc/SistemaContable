@@ -169,7 +169,7 @@
             // chkFiltrarFecha
             // 
             chkFiltrarFecha.AutoSize = true;
-            chkFiltrarFecha.Location = new Point(1333, 174);
+            chkFiltrarFecha.Location = new Point(1366, 174);
             chkFiltrarFecha.Margin = new Padding(4, 3, 4, 3);
             chkFiltrarFecha.Name = "chkFiltrarFecha";
             chkFiltrarFecha.Size = new Size(206, 29);
@@ -214,11 +214,11 @@
             cmbUsuario.FormattingEnabled = true;
             cmbUsuario.IntegralHeight = false;
             cmbUsuario.Items.AddRange(new object[] { "", "Isaac Chavez", "Diego Muñoz" });
-            cmbUsuario.Location = new Point(1060, 167);
+            cmbUsuario.Location = new Point(1072, 171);
             cmbUsuario.Margin = new Padding(4, 5, 4, 5);
             cmbUsuario.MaxDropDownItems = 6;
             cmbUsuario.Name = "cmbUsuario";
-            cmbUsuario.Size = new Size(224, 29);
+            cmbUsuario.Size = new Size(267, 29);
             cmbUsuario.TabIndex = 6;
             cmbUsuario.Text = "Seleccionar";
             // 
@@ -226,7 +226,7 @@
             // 
             lblRealizadopor.AutoSize = true;
             lblRealizadopor.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblRealizadopor.Location = new Point(854, 167);
+            lblRealizadopor.Location = new Point(885, 167);
             lblRealizadopor.Margin = new Padding(4, 0, 4, 0);
             lblRealizadopor.Name = "lblRealizadopor";
             lblRealizadopor.Size = new Size(179, 32);
@@ -239,6 +239,7 @@
             dgvBitacora.AllowUserToAddRows = false;
             dgvBitacora.AllowUserToDeleteRows = false;
             dgvBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvBitacora.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvBitacora.BackgroundColor = SystemColors.Window;
             dgvBitacora.BorderStyle = BorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -282,7 +283,7 @@
             // 
             lblParroquia.AutoSize = true;
             lblParroquia.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblParroquia.Location = new Point(278, 164);
+            lblParroquia.Location = new Point(25, 170);
             lblParroquia.Margin = new Padding(4, 0, 4, 0);
             lblParroquia.Name = "lblParroquia";
             lblParroquia.Size = new Size(133, 32);
@@ -299,11 +300,11 @@
             cmbParroquia.FormattingEnabled = true;
             cmbParroquia.IntegralHeight = false;
             cmbParroquia.Items.AddRange(new object[] { "", "SCJ", "El Calvario" });
-            cmbParroquia.Location = new Point(419, 170);
+            cmbParroquia.Location = new Point(172, 173);
             cmbParroquia.Margin = new Padding(4, 5, 4, 5);
             cmbParroquia.MaxDropDownItems = 6;
             cmbParroquia.Name = "cmbParroquia";
-            cmbParroquia.Size = new Size(225, 29);
+            cmbParroquia.Size = new Size(705, 29);
             cmbParroquia.TabIndex = 2;
             cmbParroquia.Text = "Seleccionar";
             cmbParroquia.SelectedIndexChanged += cmbParroquia_SelectedIndexChanged;
@@ -332,8 +333,8 @@
             // 
             // Bitacora_Admin
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(144F, 144F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(1601, 897);
             Controls.Add(panel1);

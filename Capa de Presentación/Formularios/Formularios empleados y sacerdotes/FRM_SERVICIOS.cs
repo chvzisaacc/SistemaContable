@@ -181,7 +181,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     Sesion1.usuario_id,
                     modulo,
                     "Navegación",
-                    null,
                     $"Ingresó al módulo de {modulo}"
                 );
             }

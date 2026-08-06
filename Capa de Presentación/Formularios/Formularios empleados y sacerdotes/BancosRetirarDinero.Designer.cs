@@ -162,8 +162,8 @@
             // 
             // BancosRetirarDinero
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(144F, 144F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(626, 330);
             Controls.Add(panel2);

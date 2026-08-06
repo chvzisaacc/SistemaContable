@@ -1,5 +1,6 @@
 ﻿using Capa_de_acceso_de_datos;
 using Capa_de_Presentación.CLASES;
+using Capa_de_Presentación.Formularios.Formularios_empleados_y_sacerdotes;
 using Capa_de_Presentación.Formularios_Diego;
 using Capa_de_Presentación.Formularios_Ewin;
 using Capa_de_procesamiento_de_datos;
@@ -95,6 +96,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private bool _isOpening = false;
 
+
         /// <summary>
         /// Id previsto / usuario actual.
         /// </summary>
@@ -104,6 +106,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
         private readonly clsCRUD_Usuarios _repo = new clsCRUD_Usuarios();
         bool EsModificacionCapital;
+        private bool _esEdicionEspecial = false;
 
         ClsCerrar cerrar = new ClsCerrar();
 
@@ -114,7 +117,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         /// <param name="predicted_id">Identificador de usuario.</param>
         /// <param name="parroquia_id">Identificador de parroquia.</param>
-        public FRM_42(int predicted_id, int parroquia_id)
+        public FRM_42(int predicted_id, int parroquia_id, bool esEdicionEspecial)
         {
             InitializeComponent();
             this.Shown += (_, __) => CargarNombre();
@@ -160,6 +163,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
             pnlAlertaDeslizante.Visible = true;
 
             InicializarIndicadorConexion();
+            _esEdicionEspecial = esEdicionEspecial;
         }
 
         /// <summary>
@@ -228,6 +232,9 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 var culturaEEUU = new System.Globalization.CultureInfo("en-US");
                 lblCapitalInicial.Text = capital.ToString("'L. ' #,##0.00", culturaEEUU);
             }
+            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
+            dgvGastos.SelectionChanged += dgvGastos_SelectionChanged;
+
         }
 
         /// <summary>
@@ -366,6 +373,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             MostrarSoloEstePanel(panelGastos2);
             RegistrarNavegacion("Gastos");
+            CargarCuentasEnComboBox();
+
+            Transacciones obj_transa = new Transacciones();
+            obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
+            CargarUltimosGastos();
         }
 
         /// <summary>
@@ -389,6 +401,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             MostrarSoloEstePanel(panelIngresos);
             RegistrarNavegacion("Ingresos");
+            CargarCuentasEnComboBox();
+
+            Transacciones obj_transa = new Transacciones();
+            obj_transa.CargarComboBoxOrigen(cmbOrigen, cmbOrigen2, ParroquiaId);
+            CargarUltimosIngresos();
+        }
+
+        private DataTable ObtenerOrigenesParroquia(int parroquiaId)
+        {
+            ClsCRUD_CuentasBancarias crud = new ClsCRUD_CuentasBancarias();
+            return crud.ObtenerCuentasBancarias(parroquiaId);
         }
 
         /// <summary>
@@ -933,24 +956,105 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
+            TextBox tb = e.Control as TextBox;
+            if (tb == null) return;
+
+            // Siempre desuscribir antes de cualquier cosa
+            tb.TextChanged -= tb_SaldoIngresos_TextChanged;
+
             if (dataGridView1.CurrentCell?.OwningColumn.Name == "NombreCuenta")
             {
-                TextBox auto_text = e.Control as TextBox;
-                if (auto_text != null)
-                {
-                    auto_text.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                    auto_text.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                    auto_text.AutoCompleteCustomSource = SubcuentasIngresos;
-                }
+                // Si quedó "L." de la celda Saldo anterior, limpiar
+                if (tb.Text.StartsWith("L."))
+                    tb.Text = "";
+
+                tb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                tb.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                tb.AutoCompleteCustomSource = SubcuentasIngresos;
+            }
+            else if (dataGridView1.CurrentCell?.OwningColumn.Name == "Saldo")
+            {
+                tb.MaxLength = 20;
+                tb.AutoCompleteMode = AutoCompleteMode.None;
+                tb.AutoCompleteSource = AutoCompleteSource.None;
+                tb.TextChanged += tb_SaldoIngresos_TextChanged;
             }
             else
             {
-                TextBox auto_text = e.Control as TextBox;
-                if (auto_text != null)
+                tb.AutoCompleteMode = AutoCompleteMode.None;
+                tb.AutoCompleteSource = AutoCompleteSource.None;
+            }
+        }
+
+        private bool _formateandoIngresos = false;
+
+        private void tb_SaldoIngresos_TextChanged(object sender, EventArgs e)
+        {
+            if (_formateandoIngresos) return;
+            TextBox tb = sender as TextBox;
+            if (tb == null) return;
+
+            _formateandoIngresos = true;
+
+            try
+            {
+                // Limpiar TODO: quitar L. y comas, dejar solo dígitos y punto
+                string limpio = tb.Text
+                    .Replace("L.", "")
+                    .Replace(",", "");
+
+                // Solo dígitos y un punto decimal
+                limpio = new string(limpio.Where(c => char.IsDigit(c) || c == '.').ToArray());
+
+                // Separar entero y decimal
+                string parteEntera;
+                string parteDecimal = "";
+
+                int puntoIdx = limpio.IndexOf('.');
+                if (puntoIdx >= 0)
                 {
-                    auto_text.AutoCompleteMode = AutoCompleteMode.None;
-                    auto_text.AutoCompleteSource = AutoCompleteSource.None;
+                    parteEntera = limpio.Substring(0, puntoIdx);
+                    string decimales = limpio.Substring(puntoIdx + 1);
+                    if (decimales.Length > 2) decimales = decimales.Substring(0, 2);
+                    parteDecimal = "." + decimales;
                 }
+                else
+                {
+                    parteEntera = limpio;
+                }
+
+                if (string.IsNullOrEmpty(parteEntera)) parteEntera = "";
+
+                // Formatear con comas
+                string enteroFormateado = "";
+                if (!string.IsNullOrEmpty(parteEntera))
+                {
+                    // Quitar ceros a la izquierda
+                    if (decimal.TryParse(parteEntera,
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out decimal num))
+                    {
+                        enteroFormateado = num.ToString("N0",
+                            System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                    }
+                    else
+                    {
+                        enteroFormateado = parteEntera;
+                    }
+                }
+
+                string resultado = "L." + enteroFormateado + parteDecimal;
+
+                if (tb.Text != resultado)
+                {
+                    tb.Text = resultado;
+                    tb.SelectionStart = resultado.Length;
+                }
+            }
+            finally
+            {
+                _formateandoIngresos = false;
             }
         }
 
@@ -998,25 +1102,96 @@ namespace Capa_de_Presentación.Formularios_Luiss
         {
             if (dgvGastos.CurrentCell == null) return;
 
+            TextBox tb = e.Control as TextBox;
+            if (tb == null) return;
+
+            // Siempre desuscribir primero
+            tb.TextChanged -= tb_SaldoGastos_TextChanged;
+
             if (dgvGastos.CurrentCell.OwningColumn.Name == "NombreCuenta")
             {
-                TextBox auto_text = e.Control as TextBox;
-                if (auto_text != null)
-                {
-                    auto_text.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                    auto_text.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                    auto_text.AutoCompleteCustomSource = SubcuentasGastos;
-                }
+                // Limpiar si quedó formato L. de celda Saldo anterior
+                if (tb.Text.StartsWith("L."))
+                    tb.Text = "";
+
+                tb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                tb.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                tb.AutoCompleteCustomSource = SubcuentasGastos;
+            }
+            else if (dgvGastos.CurrentCell.OwningColumn.Name == "Saldo")
+            {
+                tb.MaxLength = 20;
+                tb.AutoCompleteMode = AutoCompleteMode.None;
+                tb.AutoCompleteSource = AutoCompleteSource.None;
+                tb.TextChanged += tb_SaldoGastos_TextChanged;
             }
             else
             {
-                TextBox auto_text = e.Control as TextBox;
-                if (auto_text != null)
+                tb.AutoCompleteMode = AutoCompleteMode.None;
+                tb.AutoCompleteSource = AutoCompleteSource.None;
+                tb.AutoCompleteCustomSource = null;
+            }
+        }
+
+        private bool _formateandoGastos = false;
+
+        private void tb_SaldoGastos_TextChanged(object sender, EventArgs e)
+        {
+            if (_formateandoGastos) return;
+            TextBox tb = sender as TextBox;
+            if (tb == null) return;
+
+            _formateandoGastos = true;
+            try
+            {
+                string limpio = tb.Text.Replace("L.", "").Replace(",", "");
+                limpio = new string(limpio.Where(c => char.IsDigit(c) || c == '.').ToArray());
+
+                string parteEntera;
+                string parteDecimal = "";
+
+                int puntoIdx = limpio.IndexOf('.');
+                if (puntoIdx >= 0)
                 {
-                    auto_text.AutoCompleteMode = AutoCompleteMode.None;
-                    auto_text.AutoCompleteSource = AutoCompleteSource.None;
-                    auto_text.AutoCompleteCustomSource = null;
+                    parteEntera = limpio.Substring(0, puntoIdx);
+                    string decimales = limpio.Substring(puntoIdx + 1);
+                    if (decimales.Length > 2) decimales = decimales.Substring(0, 2);
+                    parteDecimal = "." + decimales;
                 }
+                else
+                {
+                    parteEntera = limpio;
+                }
+
+                if (string.IsNullOrEmpty(parteEntera)) parteEntera = "";
+
+                string enteroFormateado = "";
+                if (!string.IsNullOrEmpty(parteEntera))
+                {
+                    if (decimal.TryParse(parteEntera,
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out decimal num))
+                    {
+                        enteroFormateado = num.ToString("N0",
+                            System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                    }
+                    else
+                    {
+                        enteroFormateado = parteEntera;
+                    }
+                }
+
+                string resultado = "L." + enteroFormateado + parteDecimal;
+                if (tb.Text != resultado)
+                {
+                    tb.Text = resultado;
+                    tb.SelectionStart = resultado.Length;
+                }
+            }
+            finally
+            {
+                _formateandoGastos = false;
             }
         }
 
@@ -1097,8 +1272,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     return false;
                 }
 
+                string textoMontoLimpio = textoMonto?.Replace("L.", "").Replace(",", "").Trim() ?? "";
+
                 decimal monto = 0;
-                if (!decimal.TryParse(textoMonto, out monto))
+                if (!decimal.TryParse(textoMontoLimpio, System.Globalization.NumberStyles.Any,
+                    System.Globalization.CultureInfo.InvariantCulture, out monto))
                 {
                     MessageBox.Show("Debe ingresar un monto válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     dgvGastos.CurrentCell = filaActual.Cells["Saldo"];
@@ -1170,8 +1348,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         return false;
                     }
 
-                    if (dataGridView1.Rows[i].Cells["Saldo"].Value == null ||
-                        string.IsNullOrWhiteSpace(dataGridView1.Rows[i].Cells["Saldo"].Value.ToString()))
+                    string valorSaldo = dataGridView1.Rows[i].Cells["Saldo"].Value?.ToString() ?? "";
+                    string valorSaldoLimpio = valorSaldo.Replace("L.", "").Replace(",", "").Trim();
+
+                    if (string.IsNullOrWhiteSpace(valorSaldoLimpio))
                     {
                         MessageBox.Show($"El monto es requerido, solo puede contener numeros y debe ser mayor a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["Saldo"];
@@ -1180,9 +1360,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     }
 
                     decimal monto = 0;
-                    if (!decimal.TryParse(dataGridView1.Rows[i].Cells["Saldo"].Value.ToString(), out monto))
+                    if (!decimal.TryParse(valorSaldoLimpio, System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.InvariantCulture, out monto))
                     {
-                        MessageBox.Show($"El monto  es requerido, solo puede contener numeros y debe ser mayor a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show($"El monto es requerido, solo puede contener numeros y debe ser mayor a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells["Saldo"];
                         dataGridView1.BeginEdit(true);
                         return false;
@@ -1247,15 +1428,23 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     string nombre_cuenta = fila.Cells["NombreCuenta"].Value?.ToString() ?? "";
                     string detalle = fila.Cells["Detalle"].Value?.ToString() ?? "";
 
+                    string saldoRaw = fila.Cells["Saldo"].Value?.ToString() ?? "0";
+                    string cleanSaldo = saldoRaw.Replace("L.", "").Replace(",", "").Trim();
+
                     decimal saldo = 0;
-                    if (!decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out saldo) || saldo <= 0)
+                    bool isValid = decimal.TryParse(cleanSaldo,
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out saldo);
+
+                    if (!isValid || saldo <= 0)
                     {
                         MessageBox.Show("El monto debe ser mayor que cero.", "Advertencia",
-                                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    DateTime fecha_tr = dtpFecha.Value;
+                    DateTime fecha_tr = dtpFecha.Value.Date.Add(DateTime.Now.TimeOfDay);
                     string referencia_texto = txtNoReferencia.Text.Trim();
                     int referencia = 0;
                     int.TryParse(referencia_texto, out referencia);
@@ -1269,12 +1458,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     }
 
                     IngresosIn editar = new IngresosIn();
-                    bool actualizado = editar.GuardarEdicion(dtDatosIngresos, nombre_cuenta, detalle, saldo, fecha_tr, referencia_texto, id_origen,
-                                                             txtNoReferencia, cmbOrigen, dataGridView1, dtpFecha);
+                    bool actualizado = _esEdicionEspecial
+                    ? editar.GuardarEdicionEspecial(dtDatosIngresos, nombre_cuenta, detalle, saldo,
+                        fecha_tr, referencia_texto, id_origen,
+                        txtNoReferencia, cmbOrigen, dataGridView1, dtpFecha)
+                    : editar.GuardarEdicion(dtDatosIngresos, nombre_cuenta, detalle, saldo,
+                        fecha_tr, referencia_texto, id_origen,
+                        txtNoReferencia, cmbOrigen, dataGridView1, dtpFecha);
 
                     if (actualizado)
                     {
                         modoEdicion = false;
+                        _esEdicionEspecial = false;
 
                         dataGridView1.ReadOnly = false;
                         foreach (DataGridViewColumn col in dataGridView1.Columns)
@@ -1338,7 +1533,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     try
                     {
                         ClsValidaciones validar = new();
-                        DateTime fecha_transaccion = dtpFecha.Value;
+                        DateTime fecha_transaccion = dtpFecha.Value.Date.Add(DateTime.Now.TimeOfDay);
                         string referencia_texto = txtNoReferencia.Text.Trim();
                         int referencia = 0;
 
@@ -1348,32 +1543,33 @@ namespace Capa_de_Presentación.Formularios_Luiss
                         decimal saldo = 0;
                         int.TryParse(referencia_texto, out referencia);
 
-                        string montoParaConversion = saldo_texto.Replace(',', '.');
-                        decimal.TryParse(montoParaConversion,
-                         System.Globalization.NumberStyles.Any,
-                         System.Globalization.CultureInfo.InvariantCulture,
-                         out saldo);
+                        string montoParaConversion = saldo_texto
+                        .Replace("L.", "")
+                        .Replace(",", "")
+                        .Trim();
 
-                        if (!validar.EsMontoPositivo(saldo_texto))
+                        decimal.TryParse(montoParaConversion,
+                            System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            out saldo);
+
+                        if (!validar.EsMontoPositivo(montoParaConversion))
                         {
                             MessageBox.Show("El monto debe ser mayor que cero.", "Advertencia",
                                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
                             dataGridView1.CancelEdit();
                             return;
                         }
 
-                        if (!validar.EsMontoDentroDelRango(saldo_texto))
+                        if (!validar.EsMontoDentroDelRango(montoParaConversion))
                         {
                             MessageBox.Show("El saldo no puede ser mayor a 100,000,000.", "Advertencia",
                                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
                             dataGridView1.ReadOnly = false;
                             foreach (DataGridViewColumn col in dataGridView1.Columns)
                             {
                                 col.ReadOnly = false;
                             }
-
                             dataGridView1.CancelEdit();
                             return;
                         }
@@ -1391,6 +1587,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                         int nuevo_id = ingresos.IngresarIngresos(fecha_transaccion, descripcion, saldo, referencia,
                                                                  Sesion1.usuario_id, id_origenNuevo, nombre_cuenta);
+
+                        if (nuevo_id == -1)
+                        {
+                            MessageBox.Show(
+                                "Ya existe una transacción similar registrada en el último minuto.\n\n" +
+                                "Por favor espere un momento antes de intentar registrar de nuevo.",
+                                "Transacción Duplicada",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                            return;
+                        }
 
                         if (nuevo_id <= 0)
                         {
@@ -1507,62 +1714,105 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
             }
 
-            object fechaValor = dataGridView1.CurrentRow.Cells["fecha_transaccion"].Value;
-            if (fechaValor != null && fechaValor != DBNull.Value)
-            {
-                DateTime fechaCreacion = System.Convert.ToDateTime(fechaValor);
-                double minutosTranscurridos = (DateTime.Now - fechaCreacion).TotalMinutes;
+            // Siempre resetear el flag al iniciar un nuevo intento de edición
+            _esEdicionEspecial = false;
 
-                if (minutosTranscurridos > 15)
-                {
-                    MessageBox.Show(
-                        "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.",
-                        "Edición no permitida",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                    return;
-                }
+            object fechaValor = dataGridView1.CurrentRow.Cells["fecha_transaccion"].Value;
+
+            // Si NO tiene fecha guardada, no permitir edición
+            if (fechaValor == null || fechaValor == DBNull.Value)
+            {
+                MessageBox.Show("Esta fila no tiene una fecha de creación registrada. No se puede editar.",
+                                "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
+            DateTime fechaCreacion = System.Convert.ToDateTime(fechaValor);
+            double minutosTranscurridos = (DateTime.Now - fechaCreacion).TotalMinutes;
+
+            if (minutosTranscurridos > 15)
+            {
+                DialogResult respuesta = MessageBox.Show(
+                    "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.\n\n" +
+                    "¿Desea solicitar una Edición Especial?\n(Recuerde: solo dispone de 3 intentos diarios)",
+                    "Edición no permitida",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (respuesta == DialogResult.Yes)
+                {
+                    using (var frmEspecial = new EdiciónEspecialAcceso(2))
+                    {
+                        frmEspecial.StartPosition = FormStartPosition.CenterParent;
+                        if (frmEspecial.ShowDialog(this) == DialogResult.OK)
+                        {
+                            _esEdicionEspecial = true;
+                            modoEdicion = true;
+
+                            dataGridView1.ReadOnly = false;
+                            foreach (DataGridViewColumn col in dataGridView1.Columns)
+                            {
+                                col.ReadOnly = false;
+                                if (col.Name == "Id_transaccion" || col.Name == "Id_Origen")
+                                    col.ReadOnly = true;
+                            }
+                            dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                            dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;
+                            dataGridView1.MultiSelect = false;
+
+                            DataGridViewRow fila = dataGridView1.CurrentRow;
+                            txtNoReferencia.Text = fila.Cells["NoReferencia"].Value?.ToString() ?? "";
+
+                            var primeraCelda = fila.Cells.Cast<DataGridViewCell>()
+                                                         .FirstOrDefault(c => c.Visible && !c.ReadOnly);
+                            if (primeraCelda != null)
+                            {
+                                dataGridView1.CurrentCell = primeraCelda;
+                                dataGridView1.BeginEdit(true);
+                            }
+
+                            MessageBox.Show("Edición especial autorizada. Puedes modificar el registro.",
+                                "Autorizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+
+                return; 
+            }
             try
             {
                 DataGridViewRow fila = dataGridView1.CurrentRow;
-
                 txtNoReferencia.Text = fila.Cells["NoReferencia"].Value?.ToString() ?? "";
 
                 dataGridView1.ReadOnly = false;
-
                 foreach (DataGridViewColumn col in dataGridView1.Columns)
                 {
                     col.ReadOnly = false;
                     if (col.Name == "Id_transaccion" || col.Name == "Id_Origen")
-                    {
                         col.ReadOnly = true;
-                    }
                 }
 
                 dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
                 dataGridView1.EditMode = DataGridViewEditMode.EditOnEnter;
                 dataGridView1.MultiSelect = false;
-
                 modoEdicion = true;
-
                 dataGridView1.Focus();
 
                 var primeraCelda = fila.Cells.Cast<DataGridViewCell>()
                                              .FirstOrDefault(c => c.Visible && !c.ReadOnly);
-
                 if (primeraCelda != null)
                 {
                     dataGridView1.CurrentCell = primeraCelda;
                     dataGridView1.BeginEdit(true);
                 }
 
-                MessageBox.Show("Modo edición activado en Ingresos.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Modo edición activado en Ingresos.", "Éxito",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error en Ingresos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error en Ingresos: " + ex.Message, "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1610,9 +1860,16 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                     string nombre_cuenta = fila.Cells["NombreCuenta"].Value?.ToString() ?? "";
                     string detalle = fila.Cells["Detalle"].Value?.ToString() ?? "";
+                    string saldoRaw = fila.Cells["Saldo"].Value?.ToString() ?? "0";
+                    string cleanSaldo = saldoRaw.Replace("L.", "").Replace(",", "").Trim();
+
                     decimal saldo = 0;
-                    decimal.TryParse(fila.Cells["Saldo"].Value?.ToString(), out saldo);
-                    DateTime fecha_tr = dateTimePicker2.Value;
+                    decimal.TryParse(cleanSaldo,
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out saldo);
+
+                    DateTime fecha_tr = dateTimePicker2.Value.Date.Add(DateTime.Now.TimeOfDay);
                     string referencia_texto = txtNoReferencia2.Text.Trim();
                     int referencia = 0;
                     int.TryParse(referencia_texto, out referencia);
@@ -1633,12 +1890,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     }
 
                     GastosGa editar = new();
-                    bool actualizado = editar.GuardarEdicion2(dtDatosGastos, nombre_cuenta, detalle, saldo, fecha_tr, referencia_texto, id_origen,
-                                        txtNoReferencia2, cmbOrigen2, dgvGastos, dateTimePicker2);
+                    bool actualizado = _esEdicionEspecial
+                        ? editar.GuardarEdicionEspecial2(dtDatosGastos, nombre_cuenta, detalle, saldo,
+                            fecha_tr, referencia_texto, id_origen,
+                            txtNoReferencia2, cmbOrigen2, dgvGastos, dateTimePicker2)
+                        : editar.GuardarEdicion2(dtDatosGastos, nombre_cuenta, detalle, saldo,
+                            fecha_tr, referencia_texto, id_origen,
+                            txtNoReferencia2, cmbOrigen2, dgvGastos, dateTimePicker2);
 
                     if (actualizado)
                     {
                         modoEdicion = false;
+                        _esEdicionEspecial = false;
                         BloquearFilasGuardadas(fila);
                         foreach (DataGridViewColumn col in dgvGastos.Columns)
                             col.ReadOnly = true;
@@ -1717,18 +1980,22 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 try
                 {
                     ClsValidaciones validar = new();
-                    DateTime fecha_transaccion = dtpFecha.Value;
+                    DateTime fecha_transaccion = dateTimePicker2.Value.Date.Add(DateTime.Now.TimeOfDay);
                     string referencia_texto = txtNoReferencia.Text.Trim();
                     int referencia = 0;
                     string saldo_texto = fila_nueva.Cells["Saldo"].Value?.ToString() ?? "";
                     decimal saldo = 0;
                     int.TryParse(referencia_texto, out referencia);
 
-                    string montoParaConversion = saldo_texto.Replace(',', '.');
+                    string montoParaConversion = saldo_texto
+                    .Replace("L.", "")
+                    .Replace(",", "")
+                    .Trim();
+
                     decimal.TryParse(montoParaConversion,
-                     System.Globalization.NumberStyles.Any,
-                     System.Globalization.CultureInfo.InvariantCulture,
-                     out saldo);
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out saldo);
 
                     int.TryParse(referencia_texto, out referencia);
 
@@ -1737,14 +2004,14 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     string nombre_cuenta = fila_nueva.Cells["NombreCuenta"].Value?.ToString() ?? string.Empty;
                     string descripcion = fila_nueva.Cells["Detalle"].Value?.ToString() ?? string.Empty;
 
-                    if (!validar.EsMontoPositivo(saldo_texto))
+                    if (!validar.EsMontoPositivo(montoParaConversion))
                     {
                         MessageBox.Show("El monto debe ser mayor que cero.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dgvGastos.CancelEdit();
                         return;
                     }
 
-                    if (!validar.EsMontoDentroDelRango(saldo_texto))
+                    if (!validar.EsMontoDentroDelRango(montoParaConversion))
                     {
                         MessageBox.Show("El saldo no puede ser mayor a 100,000,000.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dgvGastos.CancelEdit();
@@ -1762,6 +2029,18 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     int nuevo_id = gasto.IngresarGastos(fecha_transaccion, descripcion, saldo, referencia,
                                                         id_usuario, id_origenNuevo, nombre_cuenta, parroquia_id
                                                         );
+
+                    if (nuevo_id == -1)
+                    {
+                        MessageBox.Show(
+                            "Ya existe una transacción similar registrada en el último minuto.\n\n" +
+                            "Por favor espere un momento antes de intentar registrar de nuevo.",
+                            "Transacción Duplicada",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        return;
+                    }
+
                     if (nuevo_id <= 0)
                     {
                         MessageBox.Show("No se recibió un ID válido desde la base de datos. Verifique el SP.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1852,6 +2131,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private void pictureBox7_Click(object sender, EventArgs e)
         {
+            _esEdicionEspecial = false;
+
             if (modoEdicion)
             {
                 MessageBox.Show("Ya estás en modo edición. Realiza los cambios y presiona GUARDAR.",
@@ -1875,22 +2156,71 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
 
             object fechaValor = fila_seleccionada.Cells["fecha_transaccion"].Value;
-            if (fechaValor != null && fechaValor != DBNull.Value)
-            {
-                DateTime fechaCreacion = System.Convert.ToDateTime(fechaValor);
-                double minutosTranscurridos = (DateTime.Now - fechaCreacion).TotalMinutes;
 
-                if (minutosTranscurridos > 15)
-                {
-                    MessageBox.Show(
-                        "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.",
-                        "Edición no permitida",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                    return;
-                }
+            // Si NO tiene fecha, bloquear
+            if (fechaValor == null || fechaValor == DBNull.Value)
+            {
+                MessageBox.Show("Esta fila no tiene una fecha de creación registrada. No se puede editar.",
+                                "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
+            DateTime fechaCreacion = System.Convert.ToDateTime(fechaValor);
+            double minutosTranscurridos = (DateTime.Now - fechaCreacion).TotalMinutes;
+
+            if (minutosTranscurridos > 15)
+            {
+                DialogResult respuesta = MessageBox.Show(
+                    "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.\n\n" +
+                    "¿Desea solicitar una Edición Especial?\n(Recuerde: solo dispone de 3 intentos diarios)",
+                    "Edición no permitida",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (respuesta == DialogResult.Yes)
+                {
+                    using (var frmEspecial = new EdiciónEspecialAcceso(3))
+                    {
+                        frmEspecial.StartPosition = FormStartPosition.CenterParent;
+                        if (frmEspecial.ShowDialog(this) == DialogResult.OK)
+                        {
+                            _esEdicionEspecial = true;
+                            modoEdicion = true;
+
+                            object id_origenEsp = fila_seleccionada.Cells["Id_Origen"]?.Value;
+                            object referenciaEsp = fila_seleccionada.Cells["NoReferencia"]?.Value;
+                            object fechaEsp = fila_seleccionada.Cells["fecha_transaccion"]?.Value;
+
+                            if (id_origenEsp != null && id_origenEsp != DBNull.Value)
+                                cmbOrigen2.SelectedValue = System.Convert.ToInt32(id_origenEsp);
+                            else
+                                cmbOrigen2.SelectedIndex = -1;
+
+                            txtNoReferencia2.Text = referenciaEsp?.ToString() ?? "";
+                            dateTimePicker2.Value = fechaEsp != null && DateTime.TryParse(fechaEsp.ToString(), out DateTime fEsp)
+                                ? fEsp : DateTime.Now;
+
+                            dgvGastos.ReadOnly = false;
+                            foreach (DataGridViewColumn col in dgvGastos.Columns)
+                            {
+                                col.ReadOnly = false;
+                                if (col.Name == "Id_transaccion" || col.Name == "Id_Origen")
+                                    col.ReadOnly = true;
+                            }
+                            dgvGastos.EditMode = DataGridViewEditMode.EditOnEnter;
+                            dgvGastos.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                            dgvGastos.MultiSelect = false;
+
+                            MessageBox.Show("Edición especial autorizada. Puedes modificar el registro.",
+                                "Autorizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+
+                return;
+            }
+
+            // Edición normal 
             object id_origenValue = fila_seleccionada.Cells["Id_Origen"]?.Value;
             object referencia_value = fila_seleccionada.Cells["NoReferencia"]?.Value;
             object fecha_value = fila_seleccionada.Cells["fecha_transaccion"]?.Value;
@@ -1911,7 +2241,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
             dgvGastos.EditMode = DataGridViewEditMode.EditOnEnter;
             dgvGastos.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dgvGastos.MultiSelect = false;
-
             modoEdicion = true;
 
             MessageBox.Show("Modo edición activado. Puedes editar libremente las celdas.",
@@ -1968,7 +2297,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     Sesion1.usuario_id,
                     modulo,
                     "Navegación",
-                    null,
                     $"Ingresó al módulo de {modulo}"
                 );
             }
@@ -2096,7 +2424,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// </summary>
         private bool ValidarCapitalInicial()
         {
-            if (string.IsNullOrWhiteSpace(txtCapitalInicial.Text))
+            if (string.IsNullOrWhiteSpace(txtCapitalInicial.Text) ||
+             txtCapitalInicial.Text == "L.0.00")
             {
                 MessageBox.Show("Debe ingresar un monto.",
                     "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -2104,15 +2433,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return false;
             }
 
-            decimal monto;
-            if (!decimal.TryParse(txtCapitalInicial.Text, out monto) || monto <= 0)
+            string textoLimpio = txtCapitalInicial.Text.Trim();
+            if (textoLimpio.StartsWith("L."))
+                textoLimpio = textoLimpio.Substring(2);
+            textoLimpio = textoLimpio.Replace(",", "").Trim();
+
+            if (!decimal.TryParse(textoLimpio,
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out decimal monto) || monto <= 0)
             {
                 MessageBox.Show("El monto debe ser un número válido mayor a cero.",
                     "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCapitalInicial.Focus();
                 return false;
             }
-
             return true;
         }
 
@@ -2149,11 +2484,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
             try
             {
-                string textoLimpio = txtCapitalInicial.Text
-                    .Replace("L.", "")
-                    .Replace("L", "")
-                    .Replace(",", "")
-                    .Trim();
+                string textoLimpio = txtCapitalInicial.Text.Trim();
+                if (textoLimpio.StartsWith("L."))
+                    textoLimpio = textoLimpio.Substring(2);
+                textoLimpio = textoLimpio.Replace(",", "").Trim();
 
                 if (!decimal.TryParse(textoLimpio,
                     System.Globalization.NumberStyles.Any,
@@ -2168,9 +2502,17 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 bool exito = false;
 
                 if (EsModificacionCapital)
-                    exito = _crudCapital.ModificarCapitalInicial(monto, ParroquiaId, PredictedId);
+                {
+                    //Si es edición especial usar SP sin restricción de 15 minutos
+                    if (_esEdicionEspecial)
+                        exito = _crudCapital.ModificarCapitalInicialEspecial(monto, ParroquiaId, PredictedId);
+                    else
+                        exito = _crudCapital.ModificarCapitalInicial(monto, ParroquiaId, PredictedId);
+                }
                 else
+                {
                     exito = _crudCapital.IngresarCapitalInicial(PredictedId, ParroquiaId, monto);
+                }
 
                 if (exito)
                 {
@@ -2185,10 +2527,10 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     txtCapitalInicial.Clear();
 
                     EsModificacionCapital = false;
+                    _esEdicionEspecial = false;
 
                     MostrarCapitalInicial();
                     lblCapitalInicial.Visible = true;
-
                     ActualizarSaldo();
                 }
                 else
@@ -2315,31 +2657,51 @@ namespace Capa_de_Presentación.Formularios_Luiss
             try
             {
                 ClsCRUD_CuentasBancarias objetoCuentas = new ClsCRUD_CuentasBancarias();
-
                 DateTime fechaIngreso = objetoCuentas.ObtenerFechaUltimoIngreso(ParroquiaId, "Caja Chica");
 
-                if (fechaIngreso != DateTime.MinValue)
+                if (fechaIngreso == DateTime.MinValue)
                 {
-                    TimeSpan diferencia = DateTime.Now - fechaIngreso;
+                    MessageBox.Show("No existe registro previo de Caja Chica en esta parroquia.", "Validación");
+                    return;
+                }
 
-                    if (diferencia.TotalMinutes > 16)
+                TimeSpan diferencia = DateTime.Now - fechaIngreso;
+
+                if (diferencia.TotalMinutes > 15)
+                {
+                    DialogResult respuesta = MessageBox.Show(
+                        "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.\n\n" +
+                        "¿Desea solicitar una Edición Especial?\n(Recuerde: solo dispone de 3 intentos diarios)",
+                        "Edición no permitida",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (respuesta == DialogResult.Yes)
                     {
-                        MessageBox.Show(
-                            "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.",
-                            "Edición no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    else
-                    {
-                        CajaChicaMonto frm = new CajaChicaMonto(ParroquiaId, UsuarioId);
-                        frm.EsModificacion = true;
-                        frm.SaldoActualizado += this.ActualizarSaldo;
-                        frm.SaldoActualizado += () => MostrarCapitalInicial();
-                        frm.ShowDialog();
+                        using (var frmEspecial = new EdiciónEspecialAcceso(4))
+                        {
+                            frmEspecial.StartPosition = FormStartPosition.CenterParent;
+                            if (frmEspecial.ShowDialog(this) == DialogResult.OK)
+                            {
+                                // Código válido → abrir CajaChicaMonto en modo especial
+                                CajaChicaMonto frm = new CajaChicaMonto(ParroquiaId, UsuarioId);
+                                frm.EsModificacion = true;
+                                frm.EsEdicionEspecial = true;  // ← flag especial
+                                frm.SaldoActualizado += this.ActualizarSaldo;
+                                frm.SaldoActualizado += () => MostrarCapitalInicial();
+                                frm.ShowDialog();
+                            }
+                        }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("No existe registro previo de Caja Chica en esta parroquia.", "Validación");
+                    CajaChicaMonto frm = new CajaChicaMonto(ParroquiaId, UsuarioId);
+                    frm.EsModificacion = true;
+                    frm.EsEdicionEspecial = false;
+                    frm.SaldoActualizado += this.ActualizarSaldo;
+                    frm.SaldoActualizado += () => MostrarCapitalInicial();
+                    frm.ShowDialog();
                 }
             }
             catch (Exception ex)
@@ -2381,12 +2743,50 @@ namespace Capa_de_Presentación.Formularios_Luiss
 
                 if (minutosPasados > 15)
                 {
-                    MessageBox.Show(
-                        "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.",
-                        "Edición no permitida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    DialogResult respuesta = MessageBox.Show(
+                        "No se puede editar este registro.\nHan pasado más de 15 minutos desde su creación.\n\n" +
+                        "¿Desea solicitar una Edición Especial?\n(Recuerde: solo dispone de 3 intentos diarios)",
+                        "Edición no permitida",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (respuesta == DialogResult.Yes)
+                    {
+                        using (var frmEspecial = new EdiciónEspecialAcceso(9))
+                        {
+                            frmEspecial.StartPosition = FormStartPosition.CenterParent;
+
+                            // Verificar DialogResult.OK igual que Caja Chica, Ingresos y Gastos
+                            if (frmEspecial.ShowDialog(this) == DialogResult.OK)
+                            {
+                                decimal capitalActualEsp = _crudCapital.ObtenerCapitalInicial(PredictedId, ParroquiaId);
+
+                                if (capitalActualEsp <= 0)
+                                {
+                                    MessageBox.Show("No hay capital inicial registrado para modificar.",
+                                                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    return;
+                                }
+
+                                //Marcar como edición especial para usar SP sin restricción de 15 min
+                                EsModificacionCapital = true;
+                                _esEdicionEspecial = true;
+                                panel4.Visible = true;
+                                panelIngresarCapital.Visible = true;
+
+                                var culturaEsp = new System.Globalization.CultureInfo("en-US");
+                                txtCapitalInicial.Text = capitalActualEsp.ToString("'L. ' #,##0.00", culturaEsp);
+                                txtCapitalInicial.Focus();
+
+                                MessageBox.Show("Edición especial autorizada. Puede modificar el Capital Inicial.",
+                                    "Autorizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+                    }
+                    return; // Siempre retornar si pasaron más de 15 minutos
                 }
 
+                //Edición normal — dentro de los 15 minutos
                 decimal capitalActual = _crudCapital.ObtenerCapitalInicial(PredictedId, ParroquiaId);
 
                 if (capitalActual <= 0)
@@ -2397,6 +2797,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 }
 
                 EsModificacionCapital = true;
+                _esEdicionEspecial = false; //Asegurar que no es especial
                 panel4.Visible = true;
                 panelIngresarCapital.Visible = true;
 
@@ -2640,6 +3041,188 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 btnSincronizar.Text = "Sincronizar";
                 await ActualizarEstadoConexion();
             }
+        }
+
+        private void txtCapitalInicial_TextChanged(object sender, EventArgs e)
+        {
+            txtCapitalInicial.TextChanged -= txtCapitalInicial_TextChanged;
+            try
+            {
+                string numeros = new string(txtCapitalInicial.Text.Where(char.IsDigit).ToArray());
+                if (string.IsNullOrEmpty(numeros))
+                {
+                    txtCapitalInicial.Text = "L.0.00";
+                }
+                else
+                {
+                    if (ulong.TryParse(numeros, out ulong valorNumerico))
+                    {
+                        decimal resultado = valorNumerico / 100m;
+                        txtCapitalInicial.Text = "L." + resultado.ToString("N2",
+                            System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                    }
+                }
+            }
+            catch { }
+            txtCapitalInicial.SelectionStart = txtCapitalInicial.Text.Length;
+            txtCapitalInicial.TextChanged += txtCapitalInicial_TextChanged;
+        }
+
+        /// <summary>Carga las últimas 50 transacciones de ingresos en dataGridView1.</summary>
+        private void CargarUltimosIngresos()
+        {
+            try
+            {
+                Ingresos obj = new Ingresos();
+                DataTable dt = obj.ObtenerUltimosIngresos(ParroquiaId);
+
+                dtDatosIngresos.Clear();
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow nueva = dtDatosIngresos.NewRow();
+                    nueva["Id_transaccion"] = row["Id_transaccion"];
+                    nueva["Id_Origen"] = row["Id_Origen"];
+                    nueva["NombreCuenta"] = row["NombreCuenta"] != DBNull.Value ? row["NombreCuenta"] : DBNull.Value;
+                    nueva["Detalle"] = row["Detalle"] != DBNull.Value ? row["Detalle"] : DBNull.Value;
+                    nueva["Saldo"] = row["Saldo"] != DBNull.Value
+                                                    ? ((decimal)row["Saldo"]).ToString("'L.'#,##0.00",
+                                                        System.Globalization.CultureInfo.GetCultureInfo("en-US"))
+                                                    : "L.0.00";
+                    nueva["fecha_transaccion"] = row["fecha_transaccion"];
+                    nueva["NoReferencia"] = row["NoReferencia"] != DBNull.Value ? row["NoReferencia"] : DBNull.Value;
+                    nueva["id_cuenta_destino"] = DBNull.Value;
+                    dtDatosIngresos.Rows.Add(nueva);
+                }
+
+                foreach (DataGridViewRow fila in dataGridView1.Rows)
+                {
+                    if (!fila.IsNewRow)
+                        fila.Cells["Saldo"].Style.ForeColor = Color.Green;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar ingresos: " + ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>Carga las últimas 50 transacciones de gastos en dgvGastos.</summary>
+        private void CargarUltimosGastos()
+        {
+            try
+            {
+                Gastos obj = new Gastos();
+                DataTable dt = obj.ObtenerUltimosGastos(ParroquiaId);
+
+                dtDatosGastos.Clear();
+                foreach (DataRow row in dt.Rows)
+                {
+                    DataRow nueva = dtDatosGastos.NewRow();
+                    nueva["Id_transaccion"] = row["Id_transaccion"];
+                    nueva["Id_Origen"] = row["Id_Origen"];
+                    nueva["NombreCuenta"] = row["NombreCuenta"] != DBNull.Value ? row["NombreCuenta"] : DBNull.Value;
+                    nueva["Detalle"] = row["Detalle"] != DBNull.Value ? row["Detalle"] : DBNull.Value;
+                    nueva["Saldo"] = row["Saldo"] != DBNull.Value
+                                                    ? ((decimal)row["Saldo"]).ToString("'L.'#,##0.00",
+                                                        System.Globalization.CultureInfo.GetCultureInfo("en-US"))
+                                                    : "L.0.00";
+                    nueva["fecha_transaccion"] = row["fecha_transaccion"];
+                    nueva["NoReferencia"] = row["NoReferencia"] != DBNull.Value ? row["NoReferencia"] : DBNull.Value;
+                    nueva["id_cuenta_destino"] = DBNull.Value;
+                    dtDatosGastos.Rows.Add(nueva);
+                }
+
+                foreach (DataGridViewRow fila in dgvGastos.Rows)
+                {
+                    if (!fila.IsNewRow)
+                    {
+                        fila.Cells["Saldo"].Style.ForeColor = Color.Green;
+                        foreach (DataGridViewCell celda in fila.Cells)
+                            celda.ReadOnly = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar gastos: " + ex.Message,
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dtpFecha_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0) return;
+            DataGridViewRow fila = dataGridView1.SelectedRows[0];
+            if (fila.IsNewRow) return;
+
+            //Origen con BeginInvoke para esperar que el combo esté listo
+            object idOrigen = fila.Cells["Id_Origen"].Value;
+            if (idOrigen != null && idOrigen != DBNull.Value)
+            {
+                int idOrigenInt = System.Convert.ToInt32(idOrigen);
+                this.BeginInvoke(new Action(() =>
+                {
+                    cmbOrigen.SelectedValue = idOrigenInt;
+                }));
+            }
+
+            object fecha = fila.Cells["fecha_transaccion"].Value;
+            if (fecha != null && fecha != DBNull.Value)
+            {
+                DateTime fechaRegistro = System.Convert.ToDateTime(fecha).Date;
+                if (fechaRegistro > DateTimePicker.MinimumDateTime
+                    && fechaRegistro < DateTimePicker.MaximumDateTime)
+                {
+                    dtpFecha.MinDate = DateTimePicker.MinimumDateTime;
+                    dtpFecha.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
+                    dtpFecha.Value = fechaRegistro;
+                }
+            }
+
+            object referencia = fila.Cells["NoReferencia"].Value;
+            txtNoReferencia.Text = referencia != null && referencia != DBNull.Value
+                                   ? referencia.ToString() : string.Empty;
+        }
+
+        private void dgvGastos_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvGastos.SelectedRows.Count == 0) return;
+            DataGridViewRow fila = dgvGastos.SelectedRows[0];
+            if (fila.IsNewRow) return;
+
+            // Origen con BeginInvoke para esperar que el combo esté listo
+            object idOrigen = fila.Cells["Id_Origen"].Value;
+            if (idOrigen != null && idOrigen != DBNull.Value)
+            {
+                int idOrigenInt = System.Convert.ToInt32(idOrigen);
+                this.BeginInvoke(new Action(() =>
+                {
+                    cmbOrigen2.SelectedValue = idOrigenInt;
+                }));
+            }
+
+            object fecha = fila.Cells["fecha_transaccion"].Value;
+            if (fecha != null && fecha != DBNull.Value)
+            {
+                DateTime fechaRegistro = System.Convert.ToDateTime(fecha).Date;
+                if (fechaRegistro > DateTimePicker.MinimumDateTime
+                    && fechaRegistro < DateTimePicker.MaximumDateTime)
+                {
+                    dateTimePicker2.MinDate = DateTimePicker.MinimumDateTime;
+                    dateTimePicker2.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
+                    dateTimePicker2.Value = fechaRegistro;
+                }
+            }
+
+            object referencia = fila.Cells["NoReferencia"].Value;
+            txtNoReferencia2.Text = referencia != null && referencia != DBNull.Value
+                                    ? referencia.ToString() : string.Empty;
         }
     }
 }

@@ -774,5 +774,80 @@ namespace Capa_de_acceso_de_datos
                 Cerrar();
             }
         }
+
+        /// <summary>
+        /// Guarda código de edición especial con límite de 3 diarios por módulo.
+        /// Módulos: 2=Ingresos, 3=Gastos, 4=Caja Chica, 5=Bancos, 9=Capital.
+        /// Lanza excepción con mensaje del SP si se alcanzó el límite diario.
+        /// </summary>
+        public bool GuardarCodigoEdicionEspecial(int usuario_id, string codigo, int modulo)
+        {
+            try
+            {
+                Abrir();
+                SqlCommand cmd = new SqlCommand("GuardarCodigoEdicionEspecial", sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@UsuarioId", usuario_id);
+                cmd.Parameters.AddWithValue("@Codigo", codigo);
+                cmd.Parameters.AddWithValue("@Modulo", modulo);
+
+                SqlParameter paramExitoso = new SqlParameter("@Exitoso", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                SqlParameter paramMensaje = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500) { Direction = ParameterDirection.Output };
+                cmd.Parameters.Add(paramExitoso);
+                cmd.Parameters.Add(paramMensaje);
+
+                EjecutarYEnviar(cmd, sincronizar: true);
+
+                bool exitoso = Convert.ToBoolean(paramExitoso.Value);
+                if (!exitoso)
+                    throw new Exception(paramMensaje.Value?.ToString() ?? "Error desconocido");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+        }
+
+        /// <summary>
+        /// Valida código de edición especial para el módulo indicado.
+        /// Retorna: CODIGO_VALIDO, CODIGO_INCORRECTO, CODIGO_EXPIRADO, CODIGO_AGOTADO, SIN_CODIGO.
+        /// A diferencia de recuperación de contraseña, NO bloquea la cuenta al agotar intentos.
+        /// </summary>
+        public string ValidarCodigoEdicionEspecial(int usuario_id, string codigo, int modulo)
+        {
+            string resultado = string.Empty;
+            try
+            {
+                Abrir();
+                SqlCommand cmd = new SqlCommand("ValidarCodigoEdicionEspecial", sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@UsuarioId", usuario_id);
+                cmd.Parameters.AddWithValue("@Codigo", codigo);
+                cmd.Parameters.AddWithValue("@Modulo", modulo);
+
+                using (SqlDataReader dr = EjecutarReaderYEnviar(cmd))
+                {
+                    if (dr.Read())
+                        resultado = dr["Resultado"]?.ToString() ?? "SIN_RESULTADO";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al validar código de edición especial: " + ex.Message, ex);
+            }
+            finally
+            {
+                Cerrar();
+            }
+            return resultado;
+        }
     }
 }

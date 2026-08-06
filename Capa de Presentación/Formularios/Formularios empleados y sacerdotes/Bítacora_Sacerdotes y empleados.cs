@@ -76,10 +76,6 @@ namespace Capa_de_Presentación.Formularios_Luiss
                     dtpFechaHasta.Value.Date
                 );
 
-                // Ocultar columnas no deseadas
-                if (dgvBitacora.Columns["Monto"] != null)
-                    dgvBitacora.Columns["Monto"].Visible = false;
-
                 // Configuración de anchos y formatos
                 if (dgvBitacora.Columns["Fecha Y Hora"] != null)
                 {

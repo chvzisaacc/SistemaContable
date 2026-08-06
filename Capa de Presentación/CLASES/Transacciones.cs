@@ -148,10 +148,23 @@ namespace Capa_de_Presentación.CLASES
         /// <param name="RowIndex">Índice de la fila a comprobar.</param>
         public void BloquearDesbloquearDataIngresos(DataTable dtDatosIngresos, DataGridView dataGridView1, int RowIndex)
         {
+            try
+            {
+                if (dataGridView1.IsCurrentCellInEditMode)
+                {
+                    dataGridView1.CancelEdit(); // cancelar en lugar de confirmar
+                }
+            }
+            catch { return; }
+
             // 1. Resetear siempre a editable por defecto
-            dataGridView1.ReadOnly = false;
-            foreach (DataGridViewColumn column in dataGridView1.Columns)
-                column.ReadOnly = false;
+            try
+            {
+                dataGridView1.ReadOnly = false;
+                foreach (DataGridViewColumn column in dataGridView1.Columns)
+                    column.ReadOnly = false;
+            }
+            catch { return; }
 
             // 2. Validaciones iniciales
             if (RowIndex < 0 || dtDatosIngresos == null) return;

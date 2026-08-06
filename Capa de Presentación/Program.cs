@@ -14,13 +14,13 @@ namespace Capa_de_Presentación
         [STAThread]
         static void Main()
         {
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             using (var db = new Capa_de_acceso_de_datos.LocalDbContext())
                 db.Database.EnsureCreated();
 
             QuestPDF.Settings.License = LicenseType.Community;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
 
             Application.ApplicationExit += (s, e) =>
             {
@@ -75,7 +75,7 @@ namespace Capa_de_Presentación
                     if (login.Rol == 1)
                         principal = new Ventana_Principal_Administrador(login.UsuarioId, login.ParroquiaId);
                     else
-                        principal = new FRM_42(login.UsuarioId, login.ParroquiaId);
+                        principal = new FRM_42(login.UsuarioId, login.ParroquiaId, false);
                     Application.Run(principal);
                 }
             }

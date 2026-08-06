@@ -39,6 +39,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// Indica si el formulario está en modo modificación (true) o inserción (false).
         /// </summary>
         public bool EsModificacion { get; set; } = false;
+        public bool EsEdicionEspecial { get; set; } = false;
 
         /// <summary>
         /// Constructor.
@@ -52,9 +53,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             InitializeComponent();
             _parroquiaId = parroquiaId;
             _usuarioId = usuarioId;
+            txtMonto.TextChanged += txtMonto_TextChanged;
 
             // Cambiar el título del formulario o label según el modo
-            this.Load += (s, e) => {
+            this.Load += (s, e) =>
+            {
                 lblTitulo.AutoSize = false;
                 lblTitulo.Width = this.ClientSize.Width;
                 lblTitulo.TextAlign = ContentAlignment.MiddleCenter;
@@ -80,9 +83,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 return;
 
             // 2. Extraer el valor limpio
-            string textoLimpio = txtMonto.Text.Replace("L.", "").Replace(",", "").Trim();
+            string textoLimpio = txtMonto.Text.Trim();
+            if (textoLimpio.StartsWith("L."))
+                textoLimpio = textoLimpio.Substring(2);
+            textoLimpio = textoLimpio.Replace(",", "").Trim();
             decimal saldo = decimal.Parse(textoLimpio, CultureInfo.InvariantCulture);
-
             Clsconexion objcone = new Clsconexion();
 
             // Creamos el comando indicando que usaremos un Store Procedure
@@ -95,7 +100,8 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 // 3. Configuración dinámica según el modo
                 if (EsModificacion)
                 {
-                    comando.CommandText = "sp_Modificarsaldo";
+                    // Usa el SP especial o el normal según el flag
+                    comando.CommandText = EsEdicionEspecial ? "sp_ModificarSaldoEspecial" : "sp_Modificarsaldo";
                     comando.Parameters.AddWithValue("@monto_nuevo", saldo);
                 }
                 else
@@ -140,18 +146,21 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <returns>True si el monto es válido; false en caso contrario.</returns>
         private bool ValidarCampos()
         {
-            // Limpieza total para que decimal.TryParse no falle
-            string textoLimpio = txtMonto.Text.Replace("L.", "").Replace(",", "").Trim();
+            // Limpieza correcta sin eliminar el punto decimal
+            string textoLimpio = txtMonto.Text.Trim();
+            if (textoLimpio.StartsWith("L."))
+                textoLimpio = textoLimpio.Substring(2);
+            textoLimpio = textoLimpio.Replace(",", "").Trim();
 
             // 1. Validar vacío o placeholder
-            if (string.IsNullOrWhiteSpace(textoLimpio) || txtMonto.Text == "Ingrese monto")
+            if (string.IsNullOrWhiteSpace(textoLimpio) || textoLimpio == "0.00")
             {
                 MessageBox.Show("El campo monto es requerido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMonto.Focus();
                 return false;
             }
 
-            // 2. Validar numéricamente aquí directamente para evitar errores en ClsValidaciones
+            // 2. Validar numéricamente
             if (decimal.TryParse(textoLimpio, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal valor))
             {
                 if (valor <= 0)
@@ -219,13 +228,32 @@ namespace Capa_de_Presentación.Formularios_Luiss
                 }
             }
         }
-
-        /// <summary>
-        /// Controladores vacíos generados por el diseñador.
-        /// Se mantienen por compatibilidad con el diseñador; pueden eliminarse si no se usan.
-        /// </summary>
-        private void textBox4_TextChanged(object sender, EventArgs e) { }
         private void textBox2_TextChanged(object sender, EventArgs e) { }
         private void panel1_Paint(object sender, PaintEventArgs e) { }
+
+        private void txtMonto_TextChanged(object sender, EventArgs e)
+        {
+            txtMonto.TextChanged -= txtMonto_TextChanged;
+            try
+            {
+                string numeros = new string(txtMonto.Text.Where(char.IsDigit).ToArray());
+                if (string.IsNullOrEmpty(numeros))
+                {
+                    txtMonto.Text = "L.0.00";
+                }
+                else
+                {
+                    if (ulong.TryParse(numeros, out ulong valorNumerico))
+                    {
+                        decimal resultado = valorNumerico / 100m;
+                        txtMonto.Text = "L." + resultado.ToString("N2",
+                            System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                    }
+                }
+            }
+            catch { }
+            txtMonto.SelectionStart = txtMonto.Text.Length;
+            txtMonto.TextChanged += txtMonto_TextChanged;
+        }
     }
 }

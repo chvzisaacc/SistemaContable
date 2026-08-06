@@ -145,8 +145,8 @@
             // 
             // AgregarParroquiaNueva
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(144F, 144F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             ClientSize = new Size(917, 370);
             Controls.Add(textBox2);
             Controls.Add(textBox1);

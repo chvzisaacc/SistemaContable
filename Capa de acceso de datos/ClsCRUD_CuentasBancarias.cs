@@ -177,7 +177,7 @@ namespace Capa_de_acceso_de_datos
             nuevo_id = 0;
             try
             {
-                conexion.Abrir();
+                //conexion.Abrir();
                 using var cmd = new SqlCommand("dbo.sp_AgregarCuentaBanco", conexion.sc);
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -196,21 +196,21 @@ namespace Capa_de_acceso_de_datos
 
                 conexion.EjecutarYEnviar(cmd, sincronizar: true);
 
-                if (pOut.Value != DBNull.Value && (int)pOut.Value > 0)
+                if (pOut.Value != DBNull.Value)
                 {
-                    nuevo_id = (int)pOut.Value;
-                    return true;
-                }
+                    nuevo_id = (int)pOut.Value; // Asignamos el valor real de SQL a la variable de salida
 
+                    // Si es -1 (Duplicado según tu lógica anterior) o mayor a 0 (Nuevo ID), es un éxito de proceso
+                    if (nuevo_id == -1 || nuevo_id > 0)
+                    {
+                        return true;
+                    }
+                }
                 return false;
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al crear cuenta bancaria: " + ex.Message, ex);
-            }
-            finally
-            {
-                conexion.Cerrar();
             }
         }
 
@@ -254,6 +254,46 @@ namespace Capa_de_acceso_de_datos
                 conexion.Cerrar();
             }
         }
+
+        /// <summary>
+        /// Modifica cuenta bancaria existente sin restricción de tiempo ejecutando procedimiento sp_ModificarOrigenFuenteEspecial.
+        /// Usado exclusivamente tras validación de código de edición especial por correo.
+        /// Parámetros: id_origen (identifica registro), nombre (nuevo), saldo (nuevo con precisión 18.2),
+        /// idTipo (tipo nuevo: 2=Ahorro, 3=Cheque, etc), parroquiaId (propietaria).
+        /// Retorna true si modificación fue exitosa, false si ocurre error.
+        /// Utiliza parámetros con precisión y escala específicas (18.2) para exactitud financiera.
+        /// Valida que nombre sea ingresado como string.Empty si está vacío.
+        /// Dispara NotificarSP automáticamente para sincronizar cambios con servidor remoto.
+        /// </summary>
+        public bool ModificarCuentaBancoEspecial(int id_origen, string nombre, decimal saldo, int idTipo, int parroquiaId)
+        {
+            try
+            {
+                conexion.Abrir();
+                using var cmd = new SqlCommand("dbo.sp_ModificarOrigenFuenteEspecial", conexion.sc);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@Id_Origen", SqlDbType.Int).Value = id_origen;
+                cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar, 40).Value = nombre ?? string.Empty;
+                var pSaldo = cmd.Parameters.Add("@saldo", SqlDbType.Decimal);
+                pSaldo.Precision = 18;
+                pSaldo.Scale = 2;
+                pSaldo.Value = saldo;
+                cmd.Parameters.Add("@IdOrigenTipo", SqlDbType.Int).Value = idTipo;
+                cmd.Parameters.Add("@Parroquia_ID", SqlDbType.Int).Value = parroquiaId;
+                conexion.EjecutarYEnviar(cmd, sincronizar: true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al modificar cuenta bancaria (edición especial): " + ex.Message, ex);
+            }
+            finally
+            {
+                conexion.Cerrar();
+            }
+        }
+
+
 
         /// <summary>
         /// Obtiene fecha del último ingreso registrado en una cuenta ejecutando procedimiento sp_ObtenerFechaUltimoIngreso.

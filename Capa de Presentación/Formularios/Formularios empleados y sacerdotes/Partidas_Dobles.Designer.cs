@@ -108,8 +108,8 @@
             // 
             // Partidas_Dobles
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(144F, 144F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             ClientSize = new Size(1109, 375);
             Controls.Add(Btncerrar);
             Controls.Add(dgvPartidas);

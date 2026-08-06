@@ -93,6 +93,13 @@ namespace Capa_de_Presentación.Formularios_Ewin
         private void CargarParroquias()
         {
             DataTable dt = _gastosService.ObtenerParroquias();
+
+            //Todas las parroquias al inicio
+            DataRow filaTodas = dt.NewRow();
+            filaTodas["Parroquia_ID"] = 0;
+            filaTodas["Parroquia_nombre"] = "-- Todas las parroquias --";
+            dt.Rows.InsertAt(filaTodas, 0);
+
             cmb_parroquia.DataSource = null;
             cmb_parroquia.Items.Clear();
             cmb_parroquia.DisplayMember = "Parroquia_nombre";
@@ -127,18 +134,17 @@ namespace Capa_de_Presentación.Formularios_Ewin
         {
             int tipo_reporte_id = Convert.ToInt32(cmb_tipo_reporte.SelectedValue);
             int parroquia_id = Convert.ToInt32(cmb_parroquia.SelectedValue);
-            string parroquia_nombre = cmb_parroquia.Text;
+
+            // Si parroquia_id == 0 => "Todas las parroquias"
+            string parroquia_nombre = parroquia_id == 0
+                ? "Todas las Parroquias"
+                : cmb_parroquia.Text;
 
             DateTime desde = dtp_desde.Value.Date;
             DateTime hasta = dtp_hasta.Value.Date;
 
-            if (!Validaciones.ComboSeleccionado(cmb_parroquia))
-            {
-                MessageBox.Show("Seleccione una parroquia.", "Validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
+            // YA NO se valida que la parroquia sea obligatoria
+            // Solo se valida tipo de reporte y rango de fechas
             if (!Validaciones.ComboSeleccionado(cmb_tipo_reporte))
             {
                 MessageBox.Show("Seleccione un tipo de reporte.", "Validación",
@@ -174,6 +180,12 @@ namespace Capa_de_Presentación.Formularios_Ewin
                     nombre_reporte = "Gastos";
                     break;
                 case 4:
+                    if (parroquia_id == 0)
+                    {
+                        MessageBox.Show("El reporte de Curia requiere seleccionar una parroquia específica.",
+                            "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
                     ruta_pdf = _curiaService.GenerarInformeCuria(parroquia_id, desde, hasta);
                     nombre_reporte = "Informe de Curia";
                     break;
@@ -370,6 +382,38 @@ namespace Capa_de_Presentación.Formularios_Ewin
 
                 default:
                     return new DataTable();
+            }
+        }
+
+        private void cmb_tipo_reporte_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string tipo = cmb_tipo_reporte.SelectedItem?.ToString()?.ToLower() ?? "";
+
+            if (tipo.Contains("curia"))
+            {
+                if (cmb_parroquia.SelectedValue != null &&
+                    Convert.ToInt32(cmb_parroquia.SelectedValue) == 0)
+                {
+                    MessageBox.Show("El reporte de Curia requiere seleccionar una parroquia específica.",
+                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cmb_parroquia.SelectedIndex = -1;
+                }
+            }
+        }
+
+        private void cmb_parroquia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_parroquia.SelectedValue == null) return;
+
+            int parroquia_id = Convert.ToInt32(cmb_parroquia.SelectedValue);
+            string tipo = cmb_tipo_reporte.SelectedItem?.ToString()?.ToLower() ?? "";
+
+            // Detecta "Informe de Curia" sin importar mayúsculas
+            if (parroquia_id == 0 && tipo.Contains("curia"))
+            {
+                MessageBox.Show("El reporte de Curia requiere seleccionar una parroquia específica.",
+                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cmb_parroquia.SelectedIndex = -1;
             }
         }
     }

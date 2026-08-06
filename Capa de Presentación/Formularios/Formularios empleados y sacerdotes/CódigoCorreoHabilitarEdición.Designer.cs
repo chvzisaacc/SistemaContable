@@ -1,6 +1,6 @@
-﻿namespace Capa_de_Presentación.Formularios_Ewin
+﻿namespace Capa_de_Presentación.Formularios.Formularios_empleados_y_sacerdotes
 {
-    partial class FRM_PG3
+    partial class CódigoCorreoHabilitarEdición
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FRM_PG3));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CódigoCorreoHabilitarEdición));
             panel1 = new Panel();
             panel2 = new Panel();
             label2 = new Label();
@@ -41,7 +41,7 @@
             txt_5 = new TextBox();
             txt_1 = new TextBox();
             label1 = new Label();
-            btn_restablecer_contrasena = new Button();
+            btn_habilitaredicion = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -51,11 +51,11 @@
             panel1.BackColor = Color.Yellow;
             panel1.BorderStyle = BorderStyle.Fixed3D;
             panel1.Controls.Add(panel2);
-            panel1.Location = new Point(176, 217);
+            panel1.Location = new Point(1, 0);
             panel1.Margin = new Padding(4, 3, 4, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1267, 431);
-            panel1.TabIndex = 1;
+            panel1.Size = new Size(920, 431);
+            panel1.TabIndex = 2;
             // 
             // panel2
             // 
@@ -71,14 +71,13 @@
             panel2.Controls.Add(txt_5);
             panel2.Controls.Add(txt_1);
             panel2.Controls.Add(label1);
-            panel2.Controls.Add(btn_restablecer_contrasena);
+            panel2.Controls.Add(btn_habilitaredicion);
             panel2.Location = new Point(4, 3);
             panel2.Margin = new Padding(4, 3, 4, 3);
             panel2.Name = "panel2";
             panel2.RightToLeft = RightToLeft.No;
-            panel2.Size = new Size(1255, 417);
+            panel2.Size = new Size(906, 417);
             panel2.TabIndex = 0;
-            panel2.Paint += panel2_Paint;
             // 
             // label2
             // 
@@ -88,13 +87,12 @@
             label2.Size = new Size(61, 25);
             label2.TabIndex = 15;
             label2.Text = "Volver";
-            label2.Click += label2_Click;
             // 
             // txt_6
             // 
             txt_6.BorderStyle = BorderStyle.FixedSingle;
             txt_6.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_6.Location = new Point(774, 132);
+            txt_6.Location = new Point(580, 132);
             txt_6.Margin = new Padding(4, 3, 4, 3);
             txt_6.MaxLength = 1;
             txt_6.Name = "txt_6";
@@ -108,7 +106,7 @@
             // 
             txt_7.BorderStyle = BorderStyle.FixedSingle;
             txt_7.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_7.Location = new Point(914, 132);
+            txt_7.Location = new Point(690, 132);
             txt_7.Margin = new Padding(4, 3, 4, 3);
             txt_7.MaxLength = 1;
             txt_7.Name = "txt_7";
@@ -117,13 +115,12 @@
             txt_7.TextAlign = HorizontalAlignment.Center;
             txt_7.TextChanged += txt7_TextChanged;
             txt_7.KeyPress += txt7_KeyPress;
-            txt_7.KeyUp += txt7_KeyUp;
             // 
             // txt_8
             // 
             txt_8.BorderStyle = BorderStyle.FixedSingle;
             txt_8.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_8.Location = new Point(1057, 132);
+            txt_8.Location = new Point(805, 132);
             txt_8.Margin = new Padding(4, 3, 4, 3);
             txt_8.MaxLength = 1;
             txt_8.Name = "txt_8";
@@ -137,7 +134,7 @@
             // 
             txt_2.BorderStyle = BorderStyle.FixedSingle;
             txt_2.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_2.Location = new Point(266, 132);
+            txt_2.Location = new Point(134, 132);
             txt_2.Margin = new Padding(4, 3, 4, 3);
             txt_2.MaxLength = 1;
             txt_2.Name = "txt_2";
@@ -151,7 +148,7 @@
             // 
             txt_3.BorderStyle = BorderStyle.FixedSingle;
             txt_3.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_3.Location = new Point(396, 132);
+            txt_3.Location = new Point(247, 132);
             txt_3.Margin = new Padding(4, 3, 4, 3);
             txt_3.MaxLength = 1;
             txt_3.Name = "txt_3";
@@ -165,7 +162,7 @@
             // 
             txt_4.BorderStyle = BorderStyle.FixedSingle;
             txt_4.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_4.Location = new Point(527, 132);
+            txt_4.Location = new Point(361, 132);
             txt_4.Margin = new Padding(4, 3, 4, 3);
             txt_4.MaxLength = 1;
             txt_4.Name = "txt_4";
@@ -179,7 +176,7 @@
             // 
             txt_5.BorderStyle = BorderStyle.FixedSingle;
             txt_5.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_5.Location = new Point(651, 132);
+            txt_5.Location = new Point(474, 132);
             txt_5.Margin = new Padding(4, 3, 4, 3);
             txt_5.MaxLength = 1;
             txt_5.Name = "txt_5";
@@ -193,7 +190,7 @@
             // 
             txt_1.BorderStyle = BorderStyle.FixedSingle;
             txt_1.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txt_1.Location = new Point(134, 132);
+            txt_1.Location = new Point(19, 132);
             txt_1.Margin = new Padding(4, 3, 4, 3);
             txt_1.MaxLength = 1;
             txt_1.Name = "txt_1";
@@ -206,47 +203,41 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(134, 12);
+            label1.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(40, 37);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(976, 45);
+            label1.Size = new Size(828, 38);
             label1.TabIndex = 6;
             label1.Text = " Ingrese el código de 8 dígitos enviado a su correo electrónico";
             label1.TextAlign = ContentAlignment.TopCenter;
             // 
-            // btn_restablecer_contrasena
+            // btn_habilitaredicion
             // 
-            btn_restablecer_contrasena.BackColor = Color.FromArgb(43, 56, 143);
-            btn_restablecer_contrasena.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_restablecer_contrasena.ForeColor = Color.White;
-            btn_restablecer_contrasena.ImageAlign = ContentAlignment.TopCenter;
-            btn_restablecer_contrasena.Location = new Point(434, 313);
-            btn_restablecer_contrasena.Margin = new Padding(4, 3, 4, 3);
-            btn_restablecer_contrasena.Name = "btn_restablecer_contrasena";
-            btn_restablecer_contrasena.Size = new Size(447, 73);
-            btn_restablecer_contrasena.TabIndex = 10;
-            btn_restablecer_contrasena.Text = "Restablecer Contraseña";
-            btn_restablecer_contrasena.UseVisualStyleBackColor = false;
-            btn_restablecer_contrasena.UseWaitCursor = true;
-            btn_restablecer_contrasena.Click += button1_Click;
+            btn_habilitaredicion.BackColor = Color.FromArgb(43, 56, 143);
+            btn_habilitaredicion.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_habilitaredicion.ForeColor = Color.White;
+            btn_habilitaredicion.ImageAlign = ContentAlignment.TopCenter;
+            btn_habilitaredicion.Location = new Point(247, 284);
+            btn_habilitaredicion.Margin = new Padding(4, 3, 4, 3);
+            btn_habilitaredicion.Name = "btn_habilitaredicion";
+            btn_habilitaredicion.Size = new Size(447, 73);
+            btn_habilitaredicion.TabIndex = 10;
+            btn_habilitaredicion.Text = "Habilitar Edición";
+            btn_habilitaredicion.UseVisualStyleBackColor = false;
+            btn_habilitaredicion.UseWaitCursor = true;
+            btn_habilitaredicion.Click += btn_habilitaredicion_Click;
             // 
-            // FRM_PG3
+            // CódigoCorreoHabilitarEdición
             // 
-            AcceptButton = btn_restablecer_contrasena;
-            AutoScaleDimensions = new SizeF(144F, 144F);
-            AutoScaleMode = AutoScaleMode.Dpi;
-            BackgroundImage = Properties.Resources.Imagen_de_WhatsApp_2025_10_22_a_las_17_39_32_e87a041a;
-            BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(1601, 898);
+            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(919, 432);
             Controls.Add(panel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(4, 3, 4, 3);
-            MaximizeBox = false;
-            Name = "FRM_PG3";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Ingresar_Código_De_Verificación";
-            Load += FRM_PG3_Load;
+            Name = "CódigoCorreoHabilitarEdición";
+            Text = "CódigoCorreoHabilitarEdición";
+            Load += Form1_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
@@ -257,8 +248,7 @@
 
         private Panel panel1;
         private Panel panel2;
-        private Button btn_restablecer_contrasena;
-        private Label label1;
+        private Label label2;
         private TextBox txt_6;
         private TextBox txt_7;
         private TextBox txt_8;
@@ -267,6 +257,7 @@
         private TextBox txt_4;
         private TextBox txt_5;
         private TextBox txt_1;
-        private Label label2;
+        private Label label1;
+        private Button btn_habilitaredicion;
     }
 }

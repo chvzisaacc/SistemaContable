@@ -1659,7 +1659,7 @@ namespace Capa_de_Presentación.Formularios_Ewin
                 else
                 {
                     bindingSourceCatalogo.Filter = string.Format(
-                       "[Codigo] LIKE '%{0}%' OR [Nombre] LIKE '%{0}%'",
+                       "[Código] LIKE '%{0}%' OR [Nombre] LIKE '%{0}%'",
                         textoBusqueda.Replace("'", "''")
                     );
                 }

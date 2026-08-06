@@ -46,13 +46,13 @@
             txtMonto.ForeColor = Color.Black;
             txtMonto.Location = new Point(230, 80);
             txtMonto.Margin = new Padding(4, 3, 4, 3);
-            txtMonto.MaxLength = 8;
+            txtMonto.MaxLength = 16;
             txtMonto.Name = "txtMonto";
             txtMonto.Size = new Size(256, 37);
             txtMonto.TabIndex = 26;
             txtMonto.Text = "Ingrese monto";
             txtMonto.Click += txtMonto_Click;
-            txtMonto.TextChanged += textBox4_TextChanged;
+            txtMonto.TextChanged += txtMonto_TextChanged;
             txtMonto.Leave += txtMonto_Leave;
             // 
             // textBox1
@@ -119,8 +119,8 @@
             // 
             // CajaChicaMonto
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(144F, 144F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(43, 56, 143);
             ClientSize = new Size(626, 330);
             Controls.Add(panel1);

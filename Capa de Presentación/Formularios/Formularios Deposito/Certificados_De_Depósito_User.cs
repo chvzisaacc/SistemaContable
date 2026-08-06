@@ -66,5 +66,9 @@ namespace Capa_de_Presentación.Formularios_Diego
             }
         }
 
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

@@ -33,6 +33,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="11.0.0-preview.2.26159.112" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Data.SqlClient.Extensions.Abstractions" Version="1.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.24" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="NBomber" Version="6.3.0" />
@@ -42,7 +43,7 @@
 		<PackageReference Include="OpenTK.GLControl" Version="4.0.2" />
 		<PackageReference Include="QuestPDF" Version="2025.7.4" />
 		<PackageReference Include="Spire.PDF" Version="11.11.1" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="11.0.0-preview.2.26159.112" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -16,6 +16,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         private string _nombreInicial = "";
         private decimal _saldoInicial = 0;
         private int _idTipoInicial = 0;
+        private bool _esEdicionEspecial = false;
 
         /// <summary>
         /// Constructor para crear el formulario en modo "Agregar".
@@ -42,7 +43,7 @@ namespace Capa_de_Presentación.Formularios_Luiss
         /// <param name="saldo">Saldo inicial de la cuenta (para precarga).</param>
         /// <param name="idTipoCuenta">Tipo de cuenta (Id) para preseleccionar en el combo.</param>
         public BancosAgregarCuentaBancaria(int parroquiaId, int idOrigen, string nombre,
-                                           decimal saldo, int idTipoCuenta)
+                                           decimal saldo, int idTipoCuenta, bool esEdicionEspecial = false)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -56,8 +57,11 @@ namespace Capa_de_Presentación.Formularios_Luiss
             _nombreInicial = nombre;
             _saldoInicial = saldo;
             _idTipoInicial = idTipoCuenta;
+            _esEdicionEspecial = esEdicionEspecial;
 
-            this.Text = "Edición de Cuenta Bancaria";
+            this.Text = esEdicionEspecial
+            ? "Edición Especial de Cuenta Bancaria"
+            : "Edición de Cuenta Bancaria";
         }
 
         /// <summary>
@@ -121,31 +125,54 @@ namespace Capa_de_Presentación.Formularios_Luiss
             {
                 try
                 {
-                    bool ok = crud.ModificarCuentaBanco(_idOrigenEdicion, nombre, saldo,
-                                                        idTipoCuenta, _parroquiaId);
+                    bool ok;
+
+                    if (_esEdicionEspecial)
+                    {
+                        ok = crud.ModificarCuentaBancoEspecial(
+                            _idOrigenEdicion, nombre, saldo, idTipoCuenta, _parroquiaId);
+                    }
+                    else
+                    {
+                        ok = crud.ModificarCuentaBanco(
+                            _idOrigenEdicion, nombre, saldo, idTipoCuenta, _parroquiaId);
+                    }
+
                     if (ok)
                     {
                         MessageBox.Show(this, $"Cuenta actualizada: {nombre}",
-                                        "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                     }
                     else
                     {
                         MessageBox.Show(this, "No se pudo actualizar la cuenta.", "Error",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al editar: " + ex.Message, "Error",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Aviso",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             else
             {
                 bool ok = crud.CrearCuentaBanco(nombre, saldo, idTipoCuenta,
                                                 _parroquiaId, out int nuevo_Id);
+
+                if (nuevo_Id == -1)
+                {
+                    MessageBox.Show(
+                        $"Ya existe una cuenta con el nombre '{nombre}' en esta parroquia.\n\n" +
+                        "No se puede registrar una cuenta duplicada.",
+                        "Cuenta Duplicada",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
                 if (ok)
                 {
                     MessageBox.Show(this, $"Cuenta creada: {nombre}\nTipo: {cmbCuenta.Text}",

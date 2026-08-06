@@ -217,7 +217,7 @@ namespace Capa_de_acceso_de_datos
         /// Se utiliza para auditoría con contexto financiero (ingresos, egresos, transferencias).
         /// No dispara sincronización por defecto (sin parámetro sincronizar).
         /// </summary>
-        public void RegistrarAccionUsuario(int usuario_id, string modulo, string accion, decimal? monto, string descripcion)
+        public void RegistrarAccionUsuario(int usuario_id, string modulo, string accion, string descripcion)
         {
             try
             {
@@ -228,7 +228,6 @@ namespace Capa_de_acceso_de_datos
                     cmd.Parameters.AddWithValue("@UsuarioID", usuario_id);
                     cmd.Parameters.AddWithValue("@Modulo", modulo);
                     cmd.Parameters.AddWithValue("@Accion", accion);
-                    cmd.Parameters.AddWithValue("@Monto", (object)monto ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@Descripcion", descripcion);
                     conexion.EjecutarYEnviar(cmd);
                 }

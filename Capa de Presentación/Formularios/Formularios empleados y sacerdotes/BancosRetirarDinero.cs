@@ -189,8 +189,19 @@ namespace Capa_de_Presentación.Formularios_Luiss
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al enviar dinero a caja chica: " + ex.Message,
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string mensaje = ex.Message.Replace("Error al procesar: ", "")
+                                   .Replace("Error al enviar dinero a caja chica: ", "");
+
+                if (mensaje.Contains("ya fue procesada previamente"))
+                {
+                    MessageBox.Show(mensaje, "Transacción Duplicada",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning); 
+                }
+                else
+                {
+                    MessageBox.Show(mensaje, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error); 
+                }
             }
         }
 

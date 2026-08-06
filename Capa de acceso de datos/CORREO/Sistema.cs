@@ -70,6 +70,49 @@ namespace Capa_de_acceso_de_datos.CORREO
                 CodigosVerificacion.Add(correoDestino, codigo);
         }
 
+        public void EnviarCodigoVerificacion2(string correoDestino, string codigo)
+        {
+            string asunto = "Código de Autorización - Edición Especial de Transacciones";
+
+            string cuerpo = $@"
+            <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 8px; padding: 20px;'>
+                <h2 style='color: #2c3e50; text-align: center;'>Edición Especial de Transacciones</h2>
+                <p style='color: #555; font-size: 16px;'>Hola,</p>
+                <p style='color: #555; font-size: 16px;'>
+                    Se ha solicitado una <b>edición especial</b> debido a que el tiempo de edición ordinaria (15 min) ha expirado. 
+                    Utilice el siguiente código para habilitar el formulario de edición:
+                </p>
+
+                <div style='background-color: #f8f9fa; border: 1px dashed #2c3e50; padding: 20px; text-align: center; margin: 20px 0;'>
+                    <span style='font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #0046ad;'>{codigo}</span>
+                </div>
+
+                <div style='background-color: #fffdf3; border-left: 4px solid #f0ad4e; padding: 10px; margin-bottom: 20px;'>
+                    <p style='color: #8a6d3b; font-size: 14px; margin: 0;'>
+                        <strong>⚠️ Información importante:</strong>
+                    </p>
+                    <ul style='color: #8a6d3b; font-size: 13px; margin: 5px 0;'>
+                        <li>Este código tiene una validez de <strong>15 minutos</strong>.</li>
+                        <li>Usted puede generar un máximo de <strong>3 códigos diarios</strong> para esta función.</li>
+                        <li>Si alcanza el límite, podrá solicitar un nuevo código hasta el día de mañana.</li>
+                    </ul>
+                </div>
+
+                <p style='color: #888; font-size: 13px;'>Este código es confidencial y para uso exclusivo del sistema de la Parroquia. Si no solicitó este acceso, ignore este mensaje.</p>
+                <hr style='border: 0; border-top: 1px solid #eee; margin-top: 30px;'>
+                <p style='text-align: center; color: #aaa; font-size: 12px;'>Este es un mensaje automático, por favor no responda a este correo.</p>
+            </div>";
+
+            List<string> destinatarios = new List<string> { correoDestino };
+            sendMail(asunto, cuerpo, destinatarios);
+
+            // Lógica de almacenamiento del código (Diccionario/Memoria)
+            if (CodigosVerificacion.ContainsKey(correoDestino))
+                CodigosVerificacion[correoDestino] = codigo;
+            else
+                CodigosVerificacion.Add(correoDestino, codigo);
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Sistema"/> class.
         /// </summary>
